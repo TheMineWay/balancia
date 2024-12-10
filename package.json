@@ -27,7 +27,7 @@
     "concurrently": "^9.1.0"
   },
   "workspaces": [
-    "nestflux-client",
-    "nestflux-server"
+    "apps/*",
+    "packages/*"
   ]
 }
