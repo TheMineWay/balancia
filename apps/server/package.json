@@ -1,0 +1,34 @@
+{
+  "name": "nestflux-server",
+  "version": "1.0.0.alpha-1",
+  "description": "",
+  "main": "dist/src/main",
+  "scripts": {
+    "build": "nest build",
+    "start:dev": "nest start --watch",
+    "start:prod": "node ."
+  },
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheMineWay/NestFlux",
+    "directory": "apps/server"
+  },
+  "author": {
+    "name": "TheMineWay",
+    "url": "https://github.com/TheMineWay"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@nestjs/common": "^10.4.15",
+    "@nestjs/core": "^10.4.15",
+    "@nestjs/platform-express": "^10.4.15",
+    "reflect-metadata": "0.2"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.4.9",
+    "@nestjs/schematics": "^10.2.3",
+    "@types/node": "^22.10.1",
+    "typescript": "^5"
+  }
+}

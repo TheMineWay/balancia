@@ -12,7 +12,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/TheMineWay/NestFlux",
-    "directory": "client"
+    "directory": "apps/client"
   },
   "author": {
     "name": "TheMineWay",
