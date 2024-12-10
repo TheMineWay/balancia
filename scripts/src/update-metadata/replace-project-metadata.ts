@@ -1,8 +1,6 @@
 import * as fs from "fs";
 import path from "path";
 
-const BASE_PATH = "..";
-
 type Metadata = {
   name?: string;
 };
