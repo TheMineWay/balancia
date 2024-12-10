@@ -6,7 +6,7 @@
     "dev:client": "pnpm --filter nestflux-client dev",
     "dev:server": "pnpm --filter nestflux-server start:dev",
     "dev": "tmux new-session -d -s nestflux 'pnpm dev:client' \\; split-window -h 'pnpm dev:server' \\; attach-session -d",
-    "prod:client": "pnpm --filter nestflux-client build && pnpm --filter nestflux-client start",
+    "prod:client": "pnpm --filter nestflux-client start && pnpm --filter nestflux-client start",
     "prod:server": "pnpm --filter nestflux-server start:prod",
     "prod": "tmux new-session -d -s nestflux 'pnpm prod:client' \\; split-window -h 'pnpm prod:server' \\; attach-session -d"
   },
