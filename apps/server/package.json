@@ -1,6 +1,6 @@
 {
   "name": "nestflux-server",
-  "version": "1.0.0.alpha-1",
+  "version": "workspace:*",
   "description": "",
   "main": "dist/src/main",
   "scripts": {
