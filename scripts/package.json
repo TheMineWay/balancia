@@ -4,7 +4,7 @@
   "description": "Scripts project",
   "main": "dist/index.js",
   "scripts": {
-    "setup-project": "pnpm build && node dist/setup",
+    "update-metadata": "pnpm build && node dist/update-metadata",
     "build": "tsc"
   },
   "license": "MIT",
@@ -13,6 +13,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "@inquirer/prompts": "^7.2.0"
+    "@inquirer/prompts": "^7.2.0",
+    "fs": "0.0.1-security"
   }
 }

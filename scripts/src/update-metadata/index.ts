@@ -1,5 +1,5 @@
 import { input } from "@inquirer/prompts";
-import { replaceProjectName } from "./replace-project-name";
+import { replaceProjectMetadata } from "./replace-project-metadata";
 
 (async () => {
   const projectName = await input({
@@ -7,7 +7,9 @@ import { replaceProjectName } from "./replace-project-name";
     default: "project-name",
   });
 
-  replaceProjectName(projectName);
+  replaceProjectMetadata({
+    name: projectName,
+  });
 
   console.log(`Project "${projectName}" initialized`);
 })();

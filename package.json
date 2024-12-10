@@ -12,7 +12,8 @@
     "prod": "tmux new-session -d -s nestflux 'pnpm prod:client' \\; split-window -h 'pnpm prod:server' \\; attach-session -d",
     "build:client": "pnpm --filter nestflux-client build",
     "build:server": "pnpm --filter nestflux-server build",
-    "build": "pnpm build:client && pnpm build:server"
+    "build": "pnpm build:client && pnpm build:server",
+    "update-metadata": "pnpm --filter scripts update-metadata"
   },
   "keywords": [
     "scaffold",
