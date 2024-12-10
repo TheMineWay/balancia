@@ -6,7 +6,9 @@ settings:
 
 importers:
 
-  .:
+  .: {}
+
+  apps/client:
     dependencies:
       react:
         specifier: ^18.3.1
