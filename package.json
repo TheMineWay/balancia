@@ -1,15 +1,22 @@
 {
   "name": "nestflux",
   "version": "1.0.0.alpha-1",
-  "description": "",
-  "main": "index.js",
+  "description": "Scaffold app for ReactJS + NestJS projects (fully written in TS)",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:client": "pnpm --filter nestflux-client dev",
+    "dev:server": "pnpm --filter nestflux-server start:dev",
+    "dev": "concurrently --names \"CLIENT, SERVER\" --prefix \"[{name}]\" \"pnpm dev:client\" \"pnpm dev:server\"",
+    "prod:client": "pnpm --filter nestflux-client build && pnpm --filter nestflux-client start",
+    "prod:server": "pnpm --filter nestflux-server start:prod",
+    "prod": "concurrently --names \"CLIENT, SERVER\" --prefix \"[{name}]\" \"pnpm prod:client\" \"pnpm prod:server\""
   },
   "keywords": [],
   "author": {
     "name": "TheMineWay",
     "url": "https://github.com/TheMineWay"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
 }
