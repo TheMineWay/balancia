@@ -1,0 +1,9 @@
+themineway:
+  name: Joel Campos
+  title: NestFlux founder & developer
+  image_url: https://github.com/themineway.png
+  page:
+    permalink: "/themineway"
+  socials:
+    linkedin: joelcamposoliva
+    github: TheMineWay

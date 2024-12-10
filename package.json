@@ -2,6 +2,7 @@
   "name": "nestflux",
   "version": "1.0.0.alpha-1",
   "description": "Scaffold app for ReactJS + NestJS projects (fully written in TS)",
+  "private": true,
   "scripts": {
     "dev:client": "pnpm --filter nestflux-client dev",
     "dev:server": "pnpm --filter nestflux-server start:dev",
@@ -28,6 +29,7 @@
   },
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "docs"
   ]
 }
