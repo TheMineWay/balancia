@@ -4,8 +4,8 @@
   "description": "Scripts project",
   "main": "dist/index.js",
   "scripts": {
-    "update-metadata": "pnpm build && node dist/update-metadata",
-    "build": "tsc"
+    "build": "tsc",
+    "launch": "pnpm build && node dist/index.js"
   },
   "license": "MIT",
   "devDependencies": {
