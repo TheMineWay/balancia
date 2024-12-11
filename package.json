@@ -15,7 +15,9 @@
     "build:server": "pnpm --filter nestflux-server build",
     "build:packages": "pnpm --filter @shared/* build",
     "build": "pnpm build:packages && pnpm build:client && pnpm build:server",
-    "update-metadata": "pnpm --filter scripts update-metadata"
+    "update-metadata": "pnpm --filter scripts update-metadata",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
   },
   "keywords": [
     "scaffold",
@@ -28,7 +30,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "concurrently": "^9.1.0"
+    "concurrently": "^9.1.0",
+    "vitest": "^2.1.8"
   },
   "workspaces": [
     "apps/*",
