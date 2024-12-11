@@ -21,12 +21,17 @@
   },
   "dependencies": {
     "@shared/utils": "workspace:*",
+    "@tanstack/react-query": "^5.62.7",
+    "antd": "^5.22.4",
     "clsx": "^2.1.1",
+    "luxon": "^3.5.0",
+    "rc-picker": "^4.8.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
+    "@types/luxon": "^3.4.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react-swc": "^3.5.0",

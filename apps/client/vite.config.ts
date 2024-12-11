@@ -16,6 +16,7 @@ export default defineConfig({
       "@providers": path.resolve(__dirname, "src/providers"),
       "@constants": path.resolve(__dirname, "src/constants"),
       "@i18n": path.resolve(__dirname, "src/i18n"),
+      "@ts-types": path.resolve(__dirname, "src/types"),
     },
   },
 });
