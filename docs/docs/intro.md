@@ -4,44 +4,40 @@ sidebar_position: 1
 
 # Tutorial Intro
 
-Let's discover **Docusaurus in less than 5 minutes**.
-
 ## Getting Started
 
-Get started by **creating a new site**.
-
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+Get started by **instantiating a new site**.
 
 ### What you'll need
 
 - [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
   - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+- Tmux (used to display client and backend in the same terminal).
+- [pnpm](https://pnpm.io/).
+- [VSCode](https://code.visualstudio.com/): recommended editor. The project has some prebuilt configs.
 
 ## Generate a new site
 
-Generate a new Docusaurus site using the **classic template**.
+You can use [this repository](https://github.com/TheMineWay/NestFlux) as a template. This will create a new repository with this template files. Now, clone your new repository, and you are ready to go!
 
-The classic template will automatically be added to your project after you run the command:
+## Install dependencies
+
+In order to install all dependencies, in the project's root folder, run:
 
 ```bash
-npm init docusaurus@latest my-website classic
+pnpm i
 ```
-
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
 
 ## Start your site
 
-Run the development server:
+Start your app in development mode:
 
 ```bash
-cd my-website
-npm run start
+pnpm dev
 ```
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+If you want to start is as production mode, run:
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+```bash
+pnpm prod
+```
