@@ -22,6 +22,7 @@
   "dependencies": {
     "@shared/utils": "workspace:*",
     "@tanstack/react-query": "^5.62.7",
+    "@tanstack/react-router": "^1.87.9",
     "antd": "^5.22.4",
     "clsx": "^2.1.1",
     "luxon": "^3.5.0",
@@ -31,6 +32,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
+    "@tanstack/router-devtools": "^1.87.9",
+    "@tanstack/router-plugin": "^1.87.11",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.5.2",
