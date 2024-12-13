@@ -1,4 +1,4 @@
-import { Language } from "@i18n/language.enum.ts";
+import { Language } from "@ts-types/base/i18n/language.enum";
 import { expect, it } from "vitest";
 
 function isValidLanguageCode(name: string): boolean {

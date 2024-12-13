@@ -1,3 +1,6 @@
 {
-  "Test": "Hello world!"
+  "Test": "Hello world!",
+  "sub": {
+    "2": "ddd"
+  }
 }
