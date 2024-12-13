@@ -15,6 +15,7 @@
     "baseUrl": "./",
     "skipLibCheck": true,
     "incremental": true,
+    "resolveJsonModule": true,
 
     "paths": {
       "@pkg": ["./package.json"],
