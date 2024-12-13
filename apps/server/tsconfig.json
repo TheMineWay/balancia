@@ -14,6 +14,14 @@
     "rootDir": "./",
     "baseUrl": "./",
     "skipLibCheck": true,
-    "incremental": true
+    "incremental": true,
+
+    "paths": {
+      "@pkg": ["./package.json"],
+      "@utils/*": ["src/utils/*"],
+      "@constants/*": ["src/constants/*"],
+      "@dto/*": ["src/dto/*"],
+      "@api/*": ["src/api/*"],
+    }
   }
 }
