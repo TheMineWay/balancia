@@ -23,6 +23,8 @@
       "@constants/*": ["src/constants/*"],
       "@dto/*": ["src/dto/*"],
       "@api/*": ["src/api/*"],
+      "@database/*": ["src/database/*"],
+      "@schemas/*": ["src/database/schemas/*"],
     }
   }
 }

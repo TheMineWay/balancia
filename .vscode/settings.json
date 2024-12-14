@@ -5,5 +5,5 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "editor.codeActionsOnSave": {
     "source.organizeImports": "always"
-  }
+  },
 }
