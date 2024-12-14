@@ -1,20 +1,20 @@
-import { select } from "@inquirer/prompts";
-import { updateMetadata } from "./update-metadata/index.js";
-
-const options: Array<{ run: () => Promise<void>; label: string }> = [
-  {
-    run: updateMetadata,
-    label: "Update project metadata",
-  },
-];
+import { generate } from "./generate/index";
+import { updateMetadata } from "./update-metadata/index";
+import { selectRunner } from "./utils/select-runner.util.js";
 
 (async () => {
   console.log("NestFlux tools");
-
-  const option: string = await select({
-    message: "🛠️ Select tool to run",
-    choices: options.map((op) => op.label),
-  });
-
-  await options.find((op) => op.label === option)?.run();
+  await selectRunner(
+    [
+      {
+        run: updateMetadata,
+        label: "Update project metadata",
+      },
+      {
+        run: generate,
+        label: "Generate",
+      },
+    ],
+    "🛠️ Select tool to run"
+  );
 })();
