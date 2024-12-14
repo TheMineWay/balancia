@@ -1,6 +1,5 @@
 import { ENV } from "@constants/conf/env.constant";
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { APP_GUARD } from "@nestjs/core";
 import { JwtModule } from "@nestjs/jwt";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
@@ -10,10 +9,6 @@ import { AuthGuard } from "src/guards/auth/auth.guard";
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [() => ENV],
-    }),
     ThrottlerModule.forRoot([
       {
         ttl: 60 * 1000,
