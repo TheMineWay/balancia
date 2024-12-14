@@ -1,3 +1,4 @@
+import { ENV } from "@constants/conf/env.constant.js";
 import { LoginDTO } from "@dto/core/auth/login.dto";
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
@@ -8,7 +9,9 @@ import { AuthService } from "./auth.service";
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Throttle({ default: { limit: 8, ttl: 60000 } })
+  @Throttle({
+    default: { limit: ENV.rateLimit.maxLoginRequestsPerMinute, ttl: 60 * 1000 },
+  })
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post("login")
