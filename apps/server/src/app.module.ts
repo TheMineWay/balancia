@@ -5,6 +5,7 @@ import { JwtModule } from "@nestjs/jwt";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { AuthModule } from "src/core/auth/auth.module";
 import { UserModule } from "src/core/user/user.module";
+import { DatabaseModule } from "src/database/database.module";
 import { AuthGuard } from "src/guards/auth/auth.guard";
 
 @Module({
@@ -20,6 +21,7 @@ import { AuthGuard } from "src/guards/auth/auth.guard";
       secret: ENV.jwtSecret,
       signOptions: { expiresIn: ENV.jwtDuration },
     }),
+    DatabaseModule,
     UserModule,
     AuthModule,
   ],

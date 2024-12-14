@@ -1,4 +1,4 @@
-import { ENV } from "@constants/conf/env.constant.js";
+import { ENV } from "@constants/conf/env.constant";
 import { LoginDTO } from "@dto/core/auth/login.dto";
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
