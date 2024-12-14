@@ -10,11 +10,14 @@ import { AuthGuard } from "src/guards/auth/auth.guard";
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [() => ENV],
+    }),
     ThrottlerModule.forRoot([
       {
         ttl: 60 * 1000,
-        limit: 120,
+        limit: ENV.rateLimit.maxRequestsPerMinute,
       },
     ]),
     JwtModule.register({
