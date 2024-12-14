@@ -12,6 +12,8 @@ const ENV_SCHEMA = Zod.object({
   MAX_REQUESTS_PER_MINUTE: Zod.number().min(1).optional().default(120),
   MAX_LOGIN_REQUESTS_PER_MINUTE: Zod.number().min(1).optional().default(8),
 
+  DATABASE_URL: Zod.string(),
+
   // NODE ENV
   NODE_ENV: Zod.string().default("production"),
 
@@ -36,6 +38,9 @@ export const ENV = (() => {
     rateLimit: {
       maxRequestsPerMinute: values.MAX_REQUESTS_PER_MINUTE,
       maxLoginRequestsPerMinute: values.MAX_LOGIN_REQUESTS_PER_MINUTE,
+    },
+    database: {
+      url: values.DATABASE_URL,
     },
   };
 })();

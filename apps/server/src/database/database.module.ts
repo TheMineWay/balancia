@@ -1,4 +1,6 @@
+import { ENV } from "@constants/conf/env.constant";
 import { Global, Module } from "@nestjs/common";
+import { drizzle } from "drizzle-orm/mysql2";
 import { DatabaseService } from "src/database/services/database.service";
 
 export const DATABASE_PROVIDERS = {
@@ -10,8 +12,9 @@ export const DATABASE_PROVIDERS = {
   providers: [
     {
       provide: DATABASE_PROVIDERS.main,
-      useFactory: async () => {
-        return new DatabaseService();
+      useFactory: () => {
+        const db = drizzle(ENV.database.url);
+        return new DatabaseService(db);
       },
     },
   ],
