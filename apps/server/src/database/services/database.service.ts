@@ -1,17 +1,12 @@
+import * as schema from "@database/schemas/main.schema";
 import { Injectable } from "@nestjs/common";
 import { MySql2Database } from "drizzle-orm/mysql2/driver";
 
-type QueryOptions = {
-  transition?: string;
-};
-
-// Build for Drizzle ORM
+// Built for Drizzle ORM
 
 @Injectable()
 export class DatabaseService<
-  TSchema extends Record<string, unknown> = Record<string, never>,
+  TSchema extends Record<string, unknown> = typeof schema,
 > {
-  constructor(private readonly db: MySql2Database<TSchema>) {}
-
-  query(options: QueryOptions) {}
+  constructor(public readonly db: MySql2Database<TSchema>) {}
 }
