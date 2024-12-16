@@ -2,6 +2,11 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "otpauth",
+    name: "otpauth",
+    url: "https://www.npmjs.com/package/otpauth",
+  },
+  {
     code: "@tanstack/react-query",
     name: "Tanstack React Query",
     url: "https://www.npmjs.com/package/react-query",

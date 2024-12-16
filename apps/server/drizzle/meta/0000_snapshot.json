@@ -1,9 +1,63 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "04b6a70d-0d06-44c9-8613-45302e377b06",
+  "id": "819ab287-81f9-409c-a0ef-4fff11305458",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "totp-recovery-codes": {
+      "name": "totp-recovery-codes",
+      "columns": {
+        "userId": {
+          "name": "userId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "code": {
+          "name": "code",
+          "type": "varchar(12)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(CURRENT_TIMESTAMP)"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "totp-recovery-codes_userId_user_id_fk": {
+          "name": "totp-recovery-codes_userId_user_id_fk",
+          "tableFrom": "totp-recovery-codes",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "totp-recovery-codes_userId_code_unique": {
+          "name": "totp-recovery-codes_userId_code_unique",
+          "columns": [
+            "userId",
+            "code"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
     "user": {
       "name": "user",
       "columns": {
@@ -40,6 +94,13 @@
           "type": "varchar(512)",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "totpSecret": {
+          "name": "totpSecret",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "createdAt": {

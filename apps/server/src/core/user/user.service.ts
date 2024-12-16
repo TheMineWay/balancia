@@ -5,7 +5,7 @@ import { Injectable } from "@nestjs/common";
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async findOne(username: string) {
+  async findByUsername(username: string) {
     return await this.userRepository.findByUsername(username);
   }
 }

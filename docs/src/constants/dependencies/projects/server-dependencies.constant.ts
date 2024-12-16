@@ -4,6 +4,37 @@ import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   {
+    dep: "@nestjs/jwt",
+  },
+  {
+    dep: "@nestjs/swagger",
+  },
+  {
+    dep: "@nestjs/throttler",
+  },
+  {
+    dep: "class-transformer",
+  },
+  {
+    dep: "class-validator",
+  },
+  {
+    dep: "drizzle-orm",
+  },
+  {
+    dep: "helmet",
+  },
+  {
+    dep: "mysql2",
+  },
+  {
+    dep: "otpauth",
+  },
+  {
+    dep: "drizzle-kit",
+    isDevelopment: true,
+  },
+  {
     dep: "@nestjs/common",
   },
   {
@@ -35,6 +66,12 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
     dep: "vitest",
     isDevelopment: true,
   },
+  {
+    dep: "dotenv",
+    isDevelopment: true,
+  },
+  { dep: "zod", isDevelopment: true },
+  { dep: "@types/express", isDevelopment: true },
 ];
 
 export const SERVER_DEPENDENCIES: Array<ProjectDependency> = DEPENDENCIES.map(
