@@ -1,9 +1,12 @@
 {
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.preferences.importModuleSpecifierEnding": "js",
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "typescript.updateImportsOnFileMove.enabled": "always",
+  
   "editor.codeActionsOnSave": {
     "source.organizeImports": "always"
+  },
+  "files.exclude": {
+    "dist": true
   },
 }
