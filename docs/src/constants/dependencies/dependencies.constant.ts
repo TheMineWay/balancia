@@ -255,4 +255,102 @@ export const DEPENDENCIES = [
     name: "Inquirer Prompts",
     url: "https://www.npmjs.com/package/@inquirer/prompts",
   },
+  {
+    code: "@nestjs/jwt",
+    name: "@nestjs jwt",
+    url: "https://www.npmjs.com/package/@nestjs/jwt",
+  },
+  {
+    code: "@nestjs/swagger",
+    name: "@nestjs swagger",
+    url: "https://www.npmjs.com/package/@nestjs/swagger",
+  },
+  {
+    code: "@nestjs/throttler",
+    name: "@nestjs throttler",
+    url: "https://www.npmjs.com/package/@nestjs/throttler",
+  },
+  {
+    code: "class-transformer",
+    name: "class-transformer",
+    url: "https://www.npmjs.com/package/class-transformer",
+  },
+  {
+    code: "class-validator",
+    name: "class-validator",
+    url: "https://www.npmjs.com/package/class-validator",
+  },
+  {
+    code: "drizzle-orm",
+    name: "drizzle-orm",
+    url: "https://www.npmjs.com/package/drizzle-orm",
+  },
+  {
+    code: "helmet",
+    name: "helmet",
+    url: "https://www.npmjs.com/package/helmet",
+  },
+  {
+    code: "mysql2",
+    name: "mysql2",
+    url: "https://www.npmjs.com/package/mysql2",
+  },
+  {
+    code: "@docusaurus/core",
+    name: "@docusaurus core",
+    url: "https://www.npmjs.com/package/@docusaurus/core",
+  },
+  {
+    code: "@docusaurus/preset-classic",
+    name: "@docusaurus preset-classic",
+    url: "https://www.npmjs.com/package/@docusaurus/preset-classic",
+  },
+  {
+    code: "@mdx-js/react",
+    name: "@mdx-js react",
+    url: "https://www.npmjs.com/package/@mdx-js/react",
+  },
+  {
+    code: "prism-react-renderer",
+    name: "prism-react-renderer",
+    url: "https://www.npmjs.com/package/prism-react-renderer",
+  },
+  {
+    code: "@types/express",
+    name: "@types express",
+    url: "https://www.npmjs.com/package/@types/express",
+  },
+  {
+    code: "dotenv",
+    name: "dotenv",
+    url: "https://www.npmjs.com/package/dotenv",
+  },
+  {
+    code: "drizzle-kit",
+    name: "drizzle-kit",
+    url: "https://www.npmjs.com/package/drizzle-kit",
+  },
+  { code: "tsx", name: "tsx", url: "https://www.npmjs.com/package/tsx" },
+  { code: "zod", name: "zod", url: "https://www.npmjs.com/package/zod" },
+  {
+    code: "@docusaurus/module-type-aliases",
+    name: "@docusaurus module-type-aliases",
+    url: "https://www.npmjs.com/package/@docusaurus/module-type-aliases",
+  },
+  {
+    code: "@docusaurus/tsconfig",
+    name: "@docusaurus tsconfig",
+    url: "https://www.npmjs.com/package/@docusaurus/tsconfig",
+  },
+  {
+    code: "@docusaurus/types",
+    name: "@docusaurus types",
+    url: "https://www.npmjs.com/package/@docusaurus/types",
+  },
+  {
+    code: "concurrently",
+    name: "concurrently",
+    url: "https://www.npmjs.com/package/concurrently",
+  },
+  { code: "tsup", name: "tsup", url: "https://www.npmjs.com/package/tsup" },
 ] as const satisfies Array<Dependency>;

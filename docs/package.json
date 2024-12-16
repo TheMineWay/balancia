@@ -31,7 +31,8 @@
     "@docusaurus/types": "3.6.3",
     "@types/node": "^22.10.1",
     "@types/react": "^18.3.12",
-    "typescript": "~5.6.3"
+    "typescript": "~5.6.3",
+    "vitest": "^2.1.8"
   },
   "browserslist": {
     "production": [

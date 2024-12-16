@@ -5,4 +5,5 @@ export default defineWorkspace([
   // matches every folder and file inside the `packages` folder
   "packages/*",
   "apps/*",
+  "docs/",
 ]);

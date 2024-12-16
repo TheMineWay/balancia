@@ -1,5 +1,5 @@
 import { DEPENDENCIES } from "@site/src/constants/dependencies/dependencies.constant";
-import { Dependency } from "@site/src/types/dependencies/dependency.type";
+import { ProjectDependency } from "@site/src/types/dependencies/dependency.type";
 import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
@@ -36,12 +36,13 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   { dep: "vitest", isDevelopment: true },
 ];
 
-export const CLIENT_DEPENDENCIES: Array<Dependency & DevProp> =
-  DEPENDENCIES.map((dep) => {
+export const CLIENT_DEPENDENCIES: Array<ProjectDependency> = DEPENDENCIES.map(
+  (dep) => {
     const code = codes.find((c) => c.dep === dep.code);
     if (!code) return null;
     return {
       ...dep,
       isDevelopment: code.isDevelopment,
     };
-  }).filter(Boolean);
+  }
+).filter(Boolean);
