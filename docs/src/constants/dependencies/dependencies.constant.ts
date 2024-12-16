@@ -335,7 +335,6 @@ export const DEPENDENCIES = [
     name: "drizzle-kit",
     url: "https://www.npmjs.com/package/drizzle-kit",
   },
-  { code: "tsx", name: "tsx", url: "https://www.npmjs.com/package/tsx" },
   { code: "zod", name: "zod", url: "https://www.npmjs.com/package/zod" },
   {
     code: "@docusaurus/module-type-aliases",
