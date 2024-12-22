@@ -29,14 +29,26 @@ describe("Auth service", () => {
           })
       ).rejects.toThrowError(UnauthorizedException);
     });
+
+    it("password is correct but TOTP code is required and not provided", () => {
+      expect(
+        async () =>
+          await authService.signIn({
+            username: USERS_MOCK["alice.smith"].username,
+            password: "1234",
+          })
+      ).rejects.toThrowError(UnauthorizedException);
+    });
   });
 
-  /*it("be defined", async () => {
-    const { token } = await authService.signIn({
-      username: "john.doe",
-      password: "1234",
-    });
+  describe("should return a valid token when", () => {
+    it("the valid password and username are provided", async () => {
+      const { token } = await authService.signIn({
+        username: "john.doe",
+        password: "1234",
+      });
 
-    expect(token).toEqual("VALID TOKEN");
-  });*/
+      expect(token).toEqual("VALID TOKEN");
+    });
+  });
 });
