@@ -37,8 +37,19 @@ const ENV_SCHEMA = Zod.object({
     .default("false"),
 });
 
+const TEST_VALUES: Partial<Zod.infer<typeof ENV_SCHEMA>> = {
+  DATABASE_URL: "",
+  JWT_SECRET: "",
+};
+
 export const ENV = (() => {
-  const values = ENV_SCHEMA.parse(process.env);
+  let env = process.env as unknown as Zod.infer<typeof ENV_SCHEMA>;
+
+  if (process.env.TEST === "true") {
+    env = { ...env, ...TEST_VALUES };
+  }
+
+  const values = ENV_SCHEMA.parse(env);
 
   if (values.LOG_ENV_VALUES) Logger.log("ENV", values);
 

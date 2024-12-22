@@ -16,6 +16,7 @@
     "skipLibCheck": true,
     "incremental": true,
     "resolveJsonModule": true,
+    "types": ["vitest"],
 
     "paths": {
       "@pkg": ["./package.json"],
@@ -25,6 +26,8 @@
       "@api/*": ["src/api/*"],
       "@database/*": ["src/database/*"],
       "@schemas/*": ["src/database/schemas/*"],
+      "@core/*": ["src/core/*"],
+      "@mocks/*": ["src/mocks/*"]
     }
   }
 }

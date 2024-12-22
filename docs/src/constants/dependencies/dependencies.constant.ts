@@ -2,6 +2,11 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "@nestjs/testing",
+    name: "@nestjs testing",
+    url: "https://www.npmjs.com/package/@nestjs/testing",
+  },
+  {
     code: "otpauth",
     name: "otpauth",
     url: "https://www.npmjs.com/package/otpauth",
