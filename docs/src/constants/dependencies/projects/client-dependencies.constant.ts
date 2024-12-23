@@ -3,6 +3,9 @@ import { ProjectDependency } from "@site/src/types/dependencies/dependency.type"
 import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
+  { dep: "@hookform/resolvers" },
+  { dep: "zod" },
+  { dep: "react-hook-form" },
   { dep: "@tanstack/react-query" },
   { dep: "@tanstack/react-router" },
   { dep: "antd" },

@@ -29,6 +29,7 @@
     "@nestjs/swagger": "^8.1.0",
     "@nestjs/throttler": "^6.3.0",
     "@shared/utils": "workspace:*",
+    "@shared/models": "workspace:*",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "drizzle-orm": "^0.38.2",

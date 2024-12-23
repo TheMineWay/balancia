@@ -1,4 +1,4 @@
 export type ProviderSetter<T> = {
-  setProvider: (data: T) => void;
-  provider: T;
+  setContext: (data: T) => void;
+  context: T;
 };

@@ -1,17 +1,11 @@
-import LanguageProvider from "@providers/language/language.provider.tsx";
-import NetworkProvider from "@providers/network/network.provider.tsx";
-import ThemeProvider from "@providers/theme/theme.provider.tsx";
-import UIProviders from "@providers/ui/ui.providers.tsx";
+import CoreProviders from "@providers/core/core.providers";
+import NetworkProvider from "@providers/core/network/network.provider";
 import { WithChildren } from "@ts-types/common/component.types";
 
 export default function Providers({ children }: Readonly<WithChildren>) {
   return (
-    <LanguageProvider>
-      <ThemeProvider>
-        <UIProviders>
-          <NetworkProvider>{children}</NetworkProvider>
-        </UIProviders>
-      </ThemeProvider>
-    </LanguageProvider>
+    <CoreProviders>
+      <NetworkProvider>{children}</NetworkProvider>
+    </CoreProviders>
   );
 }

@@ -2,6 +2,16 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "@hookform/resolvers",
+    name: "@hookform resolvers",
+    url: "https://www.npmjs.com/package/@hookform/resolvers",
+  },
+  {
+    code: "react-hook-form",
+    name: "react-hook-form",
+    url: "https://www.npmjs.com/package/react-hook-form",
+  },
+  {
     code: "@nestjs/testing",
     name: "@nestjs testing",
     url: "https://www.npmjs.com/package/@nestjs/testing",

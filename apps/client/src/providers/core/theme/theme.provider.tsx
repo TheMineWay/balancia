@@ -4,30 +4,30 @@ import { ThemeInfo } from "@ts-types/base/theme/theme-info.type.ts";
 import { WithChildren } from "@ts-types/common/component.types.ts";
 import { createContext, useContext, useState } from "react";
 
-const CONTEXT = createContext<ProviderSetter<ThemeInfo>>(null!);
+const Context = createContext<ProviderSetter<ThemeInfo>>(null!);
 
 export default function ThemeProvider({ children }: Readonly<WithChildren>) {
   const [theme, setTheme] = useState<ThemeInfo>(DEFAULT_THEME);
 
   return (
-    <CONTEXT.Provider
+    <Context.Provider
       value={{
-        setProvider: setTheme,
-        provider: theme,
+        setContext: setTheme,
+        context: theme,
       }}
     >
       {children}
-    </CONTEXT.Provider>
+    </Context.Provider>
   );
 }
 
 export const useTheme = () => {
-  const context = useContext(CONTEXT);
+  const context = useContext(Context);
 
   if (!context) throw new Error("Theme context used outside ThemeProvider");
 
   return {
-    setTheme: context.setProvider,
-    theme: context.provider,
+    setTheme: context.setContext,
+    theme: context.context,
   };
 };

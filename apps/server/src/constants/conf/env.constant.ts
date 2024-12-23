@@ -55,7 +55,7 @@ export const ENV = (() => {
 
   return {
     jwtSecret: values.JWT_SECRET,
-    jwtDuration: values.JWT_SECRET,
+    jwtDuration: values.JWT_DURATION,
     totp: {
       digits: values.TOTP_DIGITS,
       period: values.TOTP_PERIOD,
