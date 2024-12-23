@@ -17,9 +17,7 @@ export function compareHash(
   originalPassword: string,
   strangePassword: string
 ): boolean {
-  return (
-    this.hashPassword(originalPassword) === this.hashPassword(strangePassword)
-  );
+  return hash(originalPassword) === hash(strangePassword);
 }
 
 export function compareHashWithSalt(

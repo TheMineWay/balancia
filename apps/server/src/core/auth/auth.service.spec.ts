@@ -1,15 +1,15 @@
 import { AuthService } from "@core/auth/auth.service";
-import { JWT_SERVICE_MOCK } from "@mocks/core/auth/jwt-service.mock";
-import { USER_SERVICE_MOCK } from "@mocks/core/user/user-service.mock";
+import { AUTH_SERVICE_MOCK } from "@mocks/core/auth/auth.service.mock";
 import { USERS_MOCK } from "@mocks/core/user/users.mock";
 import { UnauthorizedException } from "@nestjs/common";
+import { TOTP } from "otpauth";
 import { beforeEach, describe, expect, it } from "vitest";
 
 describe("Auth service", () => {
   let authService: AuthService;
 
   beforeEach(async () => {
-    authService = new AuthService(USER_SERVICE_MOCK, JWT_SERVICE_MOCK);
+    authService = AUTH_SERVICE_MOCK;
   });
 
   describe("should throw an exception when", () => {
@@ -20,32 +20,75 @@ describe("Auth service", () => {
       ).rejects.toThrowError(UnauthorizedException);
     });
 
-    it("password is incorrect", () => {
-      expect(
-        async () =>
-          await authService.signIn({
-            username: USERS_MOCK["john.doe"].username,
-            password: "wrong",
-          })
-      ).rejects.toThrowError(UnauthorizedException);
+    describe("TOTP is not required and", () => {
+      it("password is incorrect", () => {
+        expect(
+          async () =>
+            await authService.signIn({
+              username: USERS_MOCK["john.doe"].username,
+              password: "wrong",
+            })
+        ).rejects.toThrowError(UnauthorizedException);
+      });
     });
 
-    it("password is correct but TOTP code is required and not provided", () => {
-      expect(
-        async () =>
-          await authService.signIn({
-            username: USERS_MOCK["alice.smith"].username,
-            password: "1234",
-          })
-      ).rejects.toThrowError(UnauthorizedException);
+    describe("TOTP is required and", () => {
+      it("password is incorrect", () => {
+        expect(
+          async () =>
+            await authService.signIn({
+              username: USERS_MOCK["alice.smith"].username,
+              password: "wrong",
+            })
+        ).rejects.toThrowError(UnauthorizedException);
+      });
+
+      it("password is correct but TOTP code is not provided", () => {
+        expect(
+          async () =>
+            await authService.signIn({
+              username: USERS_MOCK["alice.smith"].username,
+              password: "1234",
+            })
+        ).rejects.toThrowError(UnauthorizedException);
+      });
+
+      it("TOTP is correct but password is not correct", () => {
+        const totp = new TOTP({
+          secret: USERS_MOCK["alice.smith"].totpSecret,
+        });
+
+        expect(
+          async () =>
+            await authService.signIn({
+              username: USERS_MOCK["alice.smith"].username,
+              password: "wrong",
+              totp: totp.generate(),
+            })
+        ).rejects.toThrowError(UnauthorizedException);
+      });
     });
   });
 
   describe("should return a valid token when", () => {
-    it("the valid password and username are provided", async () => {
+    it("valid password and username are provided", async () => {
       const { token } = await authService.signIn({
-        username: "john.doe",
+        username: USERS_MOCK["john.doe"].username,
         password: "1234",
+      });
+
+      expect(token).toEqual("VALID TOKEN");
+    });
+
+    it("TOTP is required and valid credentials are provided", async () => {
+      const totp = new TOTP({
+        secret: USERS_MOCK["alice.smith"].totpSecret,
+      });
+
+      const { token } = await authService.signIn({
+        username: USERS_MOCK["alice.smith"].username,
+        password: "1234",
+        totp: totp.generate(),
       });
 
       expect(token).toEqual("VALID TOKEN");
