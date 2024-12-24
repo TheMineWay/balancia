@@ -1,4 +1,4 @@
-import { DEFAULT_THEME } from "@constants/base/theme/default-theme.constant.ts";
+import { DEFAULT_THEME } from "@constants/core/base/theme/default-theme.constant";
 import { ProviderSetter } from "@providers/provider-setter.type.ts";
 import { ThemeInfo } from "@ts-types/base/theme/theme-info.type.ts";
 import { WithChildren } from "@ts-types/common/component.types.ts";
