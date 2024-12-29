@@ -23,6 +23,7 @@
     "@hookform/resolvers": "^3.9.1",
     "@shared/utils": "workspace:*",
     "@shared/models": "workspace:*",
+    "@shared/api-definition": "workspace:*",
     "@tanstack/react-query": "^5.62.7",
     "@tanstack/react-router": "^1.87.9",
     "antd": "^5.22.4",

@@ -30,6 +30,7 @@
     "@nestjs/throttler": "^6.3.0",
     "@shared/utils": "workspace:*",
     "@shared/models": "workspace:*",
+    "@shared/api-definition": "workspace:*",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "drizzle-orm": "^0.38.2",
