@@ -1,6 +1,7 @@
 import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
+  { code: "axios", name: "axios", url: "https://www.npmjs.com/package/axios" },
   {
     code: "@hookform/resolvers",
     name: "@hookform resolvers",
