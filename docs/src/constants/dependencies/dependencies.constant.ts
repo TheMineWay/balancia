@@ -1,16 +1,29 @@
 import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
-  { code: "axios", name: "axios", url: "https://www.npmjs.com/package/axios" },
+  {
+    code: "react-icons",
+    name: "react-icons",
+    url: "https://www.npmjs.com/package/react-icons",
+    docsUrl: "https://react-icons.github.io/react-icons/",
+  },
+  {
+    code: "axios",
+    name: "axios",
+    url: "https://www.npmjs.com/package/axios",
+    docsUrl: "https://axios-http.com/",
+  },
   {
     code: "@hookform/resolvers",
     name: "@hookform resolvers",
     url: "https://www.npmjs.com/package/@hookform/resolvers",
+    docsUrl: "https://react-hook-form.com",
   },
   {
     code: "react-hook-form",
     name: "react-hook-form",
     url: "https://www.npmjs.com/package/react-hook-form",
+    docsUrl: "https://react-hook-form.com",
   },
   {
     code: "@nestjs/testing",
