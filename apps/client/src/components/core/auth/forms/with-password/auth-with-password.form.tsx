@@ -7,6 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { FaUserCircle } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
 import Zod, { string } from "zod";
+import styles from "./auth-with-password.form.module.pcss";
 
 type Props = {
   onSuccess: (info: AuthContextInfo) => void;
@@ -29,13 +30,10 @@ export default function AuthWithPasswordForm({ onSuccess }: Readonly<Props>) {
 
   return (
     <form
-      className="flex flex-col gap-2"
-      onSubmit={handleSubmit((data) => {
-        console.log("paco");
-        mutate(data, { onSuccess });
-      })}
+      className={styles.form}
+      onSubmit={handleSubmit((data) => mutate(data, { onSuccess }))}
     >
-      <div className="flex flex-col gap-1">
+      <div className={styles["form-item"]}>
         <label>{t().forms["login-with-password"].fields.username.Label}</label>
         <Controller
           name="username"
@@ -43,7 +41,7 @@ export default function AuthWithPasswordForm({ onSuccess }: Readonly<Props>) {
           render={({ field }) => <Input prefix={<FaUserCircle />} {...field} />}
         />
       </div>
-      <div className="flex flex-col gap-1">
+      <div className={styles["form-item"]}>
         <label>{t().forms["login-with-password"].fields.password.Label}</label>
         <Controller
           name="password"
@@ -54,7 +52,7 @@ export default function AuthWithPasswordForm({ onSuccess }: Readonly<Props>) {
         />
       </div>
 
-      <Button type="primary" disabled={isPending} htmlType="submit">
+      <Button block type="primary" disabled={isPending} htmlType="submit">
         {t().forms["login-with-password"].Submit}
       </Button>
     </form>
