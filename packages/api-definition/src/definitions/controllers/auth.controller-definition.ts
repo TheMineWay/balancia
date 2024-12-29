@@ -1,7 +1,7 @@
 import { ControllerDefinition } from "../../types";
 
 export const AUTH_CONTROLLER_DEFINITION = {
-  getName: (params: { name: string }) => `auth/${params.name}`,
+  getName: () => "auth",
   endpoints: {
     login: {
       method: "POST",
