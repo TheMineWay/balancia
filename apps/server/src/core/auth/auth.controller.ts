@@ -1,5 +1,6 @@
 import { ENV } from "@constants/conf/env.constant";
 import { LoginDTO } from "@dto/core/auth/login.dto";
+import { Public } from "@guards/auth/public.guard";
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
 import {
@@ -7,7 +8,6 @@ import {
   getController,
   getEndpoint,
 } from "@shared/api-definition";
-import { Public } from "src/guards/auth/public.guard";
 import { AuthService } from "./auth.service";
 
 const CONTROLLER = CONTROLLERS.auth;

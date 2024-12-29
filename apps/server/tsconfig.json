@@ -25,9 +25,12 @@
       "@dto/*": ["src/dto/*"],
       "@api/*": ["src/api/*"],
       "@database/*": ["src/database/*"],
+      "@repository/*": ["src/database/repository/*"],
       "@schemas/*": ["src/database/schemas/*"],
       "@core/*": ["src/core/*"],
-      "@mocks/*": ["src/mocks/*"]
+      "@mocks/*": ["src/mocks/*"],
+      "@guards/*": ["src/guards/*"],
+      "@ts-types/*": ["src/types/*"],
     }
   }
 }
