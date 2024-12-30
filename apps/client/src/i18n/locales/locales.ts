@@ -13,6 +13,7 @@ export const getLocale = async (language: Language) => {
 export type LocaleKey = keyof Awaited<
   ReturnType<(typeof LOCALES)[Language]>
 >["default"];
+
 export type LocaleContent<K extends LocaleKey> = Awaited<
   Awaited<ReturnType<(typeof LOCALES)[Language]>>["default"][K]
 >;

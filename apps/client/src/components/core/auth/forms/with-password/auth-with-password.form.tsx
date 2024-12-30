@@ -1,8 +1,12 @@
+import TotpForm from "@components/core/auth/forms/with-password/totp.form";
+import ScopedAlertError from "@components/error/scoped/scoped-alert-error";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLogin } from "@hooks/core/auth/use-login.mutation";
 import { useTranslation } from "@i18n/use-translation";
 import { AuthContextInfo } from "@providers/core/auth/auth.provider";
 import { Button, Input } from "antd";
+import { AxiosError } from "axios";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FaUserCircle } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
@@ -22,39 +26,75 @@ type FormData = Zod.infer<typeof SCHEMA>;
 
 export default function AuthWithPasswordForm({ onSuccess }: Readonly<Props>) {
   const { t } = useTranslation("auth");
-  const { mutate, isPending } = useLogin();
 
-  const { handleSubmit, control } = useForm<FormData>({
+  const { mutate, isPending, error } = useLogin();
+  const [totpAuthData, setTotpAuthData] = useState<FormData | null>(null);
+
+  const { handleSubmit, control, formState } = useForm<FormData>({
     resolver: zodResolver(SCHEMA),
+    mode: "onChange",
   });
+
+  const onError = (error: Error, data: FormData) => {
+    if (
+      (error as AxiosError<{ message: string }>).response?.data.message ===
+      "TOTP"
+    ) {
+      // If it is TOTP required error
+      setTotpAuthData(data);
+    }
+  };
+
+  if (totpAuthData)
+    return (
+      <TotpForm
+        passwordCredentials={totpAuthData}
+        onSuccess={onSuccess}
+        onExit={() => setTotpAuthData(null)}
+      />
+    );
 
   return (
     <form
       className={styles.form}
-      onSubmit={handleSubmit((data) => mutate(data, { onSuccess }))}
+      onSubmit={handleSubmit((data) => mutate(data, { onSuccess, onError }))}
     >
       <div className={styles["form-item"]}>
-        <label>{t().forms["login-with-password"].fields.username.Label}</label>
+        <label htmlFor="username">
+          {t().forms["login-with-password"].fields.username.Label}
+        </label>
         <Controller
           name="username"
           control={control}
-          render={({ field }) => <Input prefix={<FaUserCircle />} {...field} />}
+          render={({ field }) => (
+            <Input id="username" prefix={<FaUserCircle />} {...field} />
+          )}
         />
       </div>
       <div className={styles["form-item"]}>
-        <label>{t().forms["login-with-password"].fields.password.Label}</label>
+        <label htmlFor="password">
+          {t().forms["login-with-password"].fields.password.Label}
+        </label>
         <Controller
           name="password"
           control={control}
           render={({ field }) => (
-            <Input.Password prefix={<MdPassword />} {...field} />
+            <Input.Password id="password" prefix={<MdPassword />} {...field} />
           )}
         />
       </div>
 
-      <Button block type="primary" disabled={isPending} htmlType="submit">
+      <Button
+        block
+        type="primary"
+        disabled={!formState.isValid}
+        loading={isPending}
+        htmlType="submit"
+      >
         {t().forms["login-with-password"].Submit}
       </Button>
+
+      <ScopedAlertError scope="auth" error={error} />
     </form>
   );
 }

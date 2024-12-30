@@ -6,6 +6,7 @@ import axios from "axios";
 interface Data {
   username: string;
   password: string;
+  totp?: string;
 }
 
 export const useLogin = () =>
