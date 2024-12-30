@@ -1,4 +1,5 @@
 import AuthProvider from "@providers/core/auth/auth.provider";
+import StoredAccountsProvider from "@providers/core/auth/stored-accounts.provider";
 import LanguageProvider from "@providers/core/language/language.provider";
 import NetworkProvider from "@providers/core/network/network.provider";
 import ThemeProvider from "@providers/core/theme/theme.provider";
@@ -11,7 +12,9 @@ export default function CoreProviders({ children }: Readonly<WithChildren>) {
       <ThemeProvider>
         <UIProviders>
           <NetworkProvider>
-            <AuthProvider>{children}</AuthProvider>
+            <StoredAccountsProvider>
+              <AuthProvider>{children}</AuthProvider>
+            </StoredAccountsProvider>
           </NetworkProvider>
         </UIProviders>
       </ThemeProvider>

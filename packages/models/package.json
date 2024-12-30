@@ -25,5 +25,8 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
   }
 }

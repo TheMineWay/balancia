@@ -1,5 +1,6 @@
 import AuthWithPasswordForm from "@components/core/auth/forms/with-password/auth-with-password.form";
 import { AuthContextInfo } from "@providers/core/auth/auth.provider";
+import { useStoredAccounts } from "@providers/core/auth/stored-accounts.provider";
 import { Card } from "antd";
 import clsx from "clsx";
 import styles from "./auth.module.pcss";
@@ -9,8 +10,10 @@ type Props = {
 };
 
 export default function Auth({ setAuthContext }: Readonly<Props>) {
+  const { accounts } = useStoredAccounts();
+
   // TODO: implement accounts storage
-  const hasLoginProfiles = false;
+  const hasLoginProfiles = Object.keys(accounts).length > 0;
 
   return (
     <div className="w-full h-full flex items-center justify-center">
