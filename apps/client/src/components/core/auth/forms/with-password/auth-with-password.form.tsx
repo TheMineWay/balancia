@@ -1,4 +1,4 @@
-import TotpForm from "@components/core/auth/forms/with-password/totp.form";
+import AuthWithPasswordTotpForm from "@components/core/auth/forms/with-password/auth-with-password-totp.form";
 import ScopedAlertError from "@components/error/scoped/scoped-alert-error";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLogin } from "@hooks/core/auth/use-login.mutation";
@@ -47,7 +47,7 @@ export default function AuthWithPasswordForm({ onSuccess }: Readonly<Props>) {
 
   if (totpAuthData)
     return (
-      <TotpForm
+      <AuthWithPasswordTotpForm
         passwordCredentials={totpAuthData}
         onSuccess={onSuccess}
         onExit={() => setTotpAuthData(null)}

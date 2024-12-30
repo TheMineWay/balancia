@@ -19,7 +19,7 @@ const SCHEMA = Zod.object({
 
 type FormData = Zod.infer<typeof SCHEMA>;
 
-export default function TotpForm({
+export default function AuthWithPasswordTotpForm({
   passwordCredentials,
   onSuccess,
 }: Readonly<Props>) {
