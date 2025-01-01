@@ -2,6 +2,16 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "@types/crypto-js",
+    name: "@types crypto-js",
+    url: "https://www.npmjs.com/package/@types/crypto-js",
+  },
+  {
+    code: "crypto-js",
+    name: "crypto-js",
+    url: "https://www.npmjs.com/package/crypto-js",
+  },
+  {
     code: "react-icons",
     name: "react-icons",
     url: "https://www.npmjs.com/package/react-icons",
