@@ -1,4 +1,4 @@
-import { metadata } from "@constants/metadata.constant.ts";
+import { metadata } from "@core/constants/metadata.constant.ts";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/")({
