@@ -1,6 +1,6 @@
 import { ENV } from "@constants/conf/env.constant";
-import { LoginDTO } from "@dto/core/auth/login.dto";
-import { Public } from "@guards/auth/public.guard";
+import { LoginDTO } from "@core/dto/auth/login.dto";
+import { Public } from "@core/guards/auth/public.guard";
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
 import {

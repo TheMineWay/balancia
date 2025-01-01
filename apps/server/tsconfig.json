@@ -22,7 +22,7 @@
       "@pkg": ["./package.json"],
       "@utils/*": ["src/utils/*"],
       "@constants/*": ["src/constants/*"],
-      "@dto/*": ["src/dto/*"],
+      "@dto/*": ["src/core/dto/*"],
       "@api/*": ["src/api/*"],
       "@database/*": ["src/database/*"],
       "@repository/*": ["src/database/repository/*"],

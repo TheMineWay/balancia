@@ -1,6 +1,6 @@
-import { AuthService } from "@core/auth/auth.service";
-import { AUTH_SERVICE_MOCK } from "@mocks/core/auth/auth.service.mock";
-import { USERS_MOCK } from "@mocks/core/user/users.mock";
+import { AuthService } from "@core/api/auth/auth.service";
+import { AUTH_SERVICE_MOCK } from "@core/mocks/auth/auth.service.mock";
+import { USERS_MOCK } from "@core/mocks/user/users.mock";
 import { UnauthorizedException } from "@nestjs/common";
 import { TOTP } from "otpauth";
 import { beforeEach, describe, expect, it } from "vitest";

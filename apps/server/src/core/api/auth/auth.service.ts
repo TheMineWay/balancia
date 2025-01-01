@@ -1,4 +1,4 @@
-import { LoginDTO } from "@dto/core/auth/login.dto";
+import { LoginDTO } from "@core/dto/auth/login.dto";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { compareHashWithSalt } from "@utils/cryptography/password-hashing.util";

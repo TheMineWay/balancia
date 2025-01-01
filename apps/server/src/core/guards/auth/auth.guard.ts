@@ -1,4 +1,5 @@
 import { ENV } from "@constants/conf/env.constant";
+import { IS_PUBLIC_KEY } from "@core/guards/auth/public.guard";
 import {
   CanActivate,
   ExecutionContext,
@@ -8,7 +9,6 @@ import {
 import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
-import { IS_PUBLIC_KEY } from "src/guards/auth/public.guard";
 
 @Injectable()
 export class AuthGuard implements CanActivate {

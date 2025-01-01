@@ -1,12 +1,11 @@
 import { ENV } from "@constants/conf/env.constant";
+import { CoreModule } from "@core/core.module";
+import { AuthGuard } from "@core/guards/auth/auth.guard";
+import { DatabaseModule } from "@database/database.module";
 import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
 import { JwtModule } from "@nestjs/jwt";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
-import { AuthModule } from "src/core/auth/auth.module";
-import { UserModule } from "src/core/user/user.module";
-import { DatabaseModule } from "src/database/database.module";
-import { AuthGuard } from "src/guards/auth/auth.guard";
 
 @Module({
   imports: [
@@ -22,8 +21,7 @@ import { AuthGuard } from "src/guards/auth/auth.guard";
       signOptions: { expiresIn: ENV.jwtDuration },
     }),
     DatabaseModule,
-    UserModule,
-    AuthModule,
+    CoreModule,
   ],
   providers: [
     {
