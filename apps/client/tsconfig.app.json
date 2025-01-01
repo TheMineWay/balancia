@@ -25,15 +25,16 @@
 
     "paths": {
       "@pkg": ["./package.json"],
-      "@components/*": ["src/components/*"],
+      "@components/*": ["src/core/components/*"],
       "@utils/*": ["src/utils/*"],
       "@assets/*": ["src/assets/*"],
       "@public/*": ["./public/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@providers/*": ["src/providers/*"],
+      "@hooks/*": ["src/core/hooks/*"],
+      "@providers/*": ["src/core/providers/*"],
       "@constants/*": ["src/constants/*"],
       "@i18n/*": ["src/i18n/*"],
-      "@ts-types/*": ["src/types/*"],
+      "@ts-types/*": ["src/core/types/*"],
+      "@core/*": ["src/core/*"]
     }
   },
   "include": ["src"]
