@@ -1,7 +1,7 @@
 import { Language } from "@core/types/base/i18n/language.enum.ts";
 
 const LOCALES = {
-  [Language.EN_US]: () => import("./en-us/en-us.locale.ts"),
+  [Language.EN_US]: () => import("./en-us/locale.ts"),
 } as const satisfies Record<string, () => Promise<object>>;
 
 export const getLocale = async (language: Language) => {

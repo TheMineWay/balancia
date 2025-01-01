@@ -1,5 +1,5 @@
-import { LocaleContent } from "@core/i18n/locales/locales";
 import { useTranslation } from "@core/i18n/use-translation";
+import { LocaleContent } from "@i18n/locales/locales";
 import { AxiosError } from "axios";
 
 export type ScopedErrorProps<S extends keyof LocaleContent<"errors">> = {

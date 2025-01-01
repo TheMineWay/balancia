@@ -1,7 +1,7 @@
-import { getLocale } from "@core/i18n/locales/locales";
 import { Language } from "@core/types/base/i18n/language.enum";
 import { TranslationStore } from "@core/types/base/i18n/translation/translation-store.type";
 import { WithChildren } from "@core/types/common/component.types";
+import { getLocale } from "@i18n/locales/locales";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const CONTEXT = createContext<LanguageContext>(null!);

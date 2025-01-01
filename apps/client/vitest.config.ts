@@ -28,6 +28,7 @@ export default mergeConfig(
         "@constants": path.resolve(__dirname, "src/constants"),
         "@i18n": path.resolve(__dirname, "src/i18n"),
         "@ts-types": path.resolve(__dirname, "src/types"),
+        "@core": path.resolve(__dirname, "src/core"),
       },
     },
   })
