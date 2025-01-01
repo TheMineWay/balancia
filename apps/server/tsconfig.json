@@ -20,7 +20,7 @@
 
     "paths": {
       "@pkg": ["./package.json"],
-      "@utils/*": ["src/utils/*"],
+      "@utils/*": ["src/core/utils/*"],
       "@constants/*": ["src/constants/*"],
       "@dto/*": ["src/core/dto/*"],
       "@api/*": ["src/api/*"],
