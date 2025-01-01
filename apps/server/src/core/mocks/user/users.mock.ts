@@ -6,6 +6,7 @@ export const USERS_MOCK = {
     name: "John",
     lastName: "Doe",
     username: "john.doe",
+    email: "john.doe@testmail.com",
     password:
       "UrHrMPD7b3d4F5pO9iqNyQ==:BZPLVcmAy4EGfXZr9LW6YRcXEgEFHvVrrwIvqQlhgKidzlvRrRCugSvrwaRnI26OjcMs/8pZOrSVqOsj/m5qMg==",
     totpSecret: null,
@@ -17,6 +18,7 @@ export const USERS_MOCK = {
     name: "Alice",
     lastName: "Smith",
     username: "alice.smith",
+    email: "alice.smith@testmail.com",
     password:
       "UrHrMPD7b3d4F5pO9iqNyQ==:BZPLVcmAy4EGfXZr9LW6YRcXEgEFHvVrrwIvqQlhgKidzlvRrRCugSvrwaRnI26OjcMs/8pZOrSVqOsj/m5qMg==",
     totpSecret: "supersecrettotp",

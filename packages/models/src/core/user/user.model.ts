@@ -4,6 +4,7 @@ import { TIMESTAMPS_SCHEMA } from "../utils";
 export const USER_SCHEMA = object({
   id: number(),
   username: string(),
+  email: string().email().optional(),
   name: string(),
   lastName: string().optional(),
 }).merge(TIMESTAMPS_SCHEMA);

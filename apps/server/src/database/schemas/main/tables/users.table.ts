@@ -15,6 +15,7 @@ export const usersTable = mysqlTable("user", {
   name: varchar({ length: 64 }).notNull(),
   lastName: varchar({ length: 64 }).notNull(),
   username: varchar({ length: 32 }).unique().notNull(),
+  email: varchar({ length: 128 }).unique(),
   password: varchar({ length: 512 }).notNull(),
   totpSecret: varchar({ length: 128 }),
 
