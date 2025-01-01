@@ -13,7 +13,7 @@ const ACCOUNT_SCHEMA = object({
 
 const ACCOUNTS_SCHEMA = z.record(ACCOUNT_SCHEMA);
 
-type Account = z.infer<typeof ACCOUNT_SCHEMA>;
+export type Account = z.infer<typeof ACCOUNT_SCHEMA>;
 type ContextType = {
   accounts: Record<number, Account>;
   addAccount: (account: Omit<Account, "grantedAt">) => void;

@@ -25,12 +25,12 @@
 
     "paths": {
       "@pkg": ["./package.json"],
-      "@components/*": ["src/core/components/*"],
+      "@components/*": ["src/components/*"],
       "@utils/*": ["src/utils/*"],
       "@assets/*": ["src/assets/*"],
       "@public/*": ["./public/*"],
-      "@hooks/*": ["src/core/hooks/*"],
-      "@providers/*": ["src/core/providers/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@providers/*": ["src/providers/*"],
       "@constants/*": ["src/constants/*"],
       "@i18n/*": ["src/i18n/*"],
       "@ts-types/*": ["src/core/types/*"],

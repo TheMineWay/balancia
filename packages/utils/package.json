@@ -26,5 +26,9 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
+  },
+  "dependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "crypto-js": "^4.2.0"
   }
 }

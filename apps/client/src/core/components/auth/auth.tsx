@@ -1,4 +1,5 @@
 import AuthWithPasswordForm from "@core/components/auth/forms/with-password/auth-with-password.form";
+import StoredAccountsDisplay from "@core/components/auth/stored-accounts-display";
 import { AuthContextInfo } from "@core/providers/auth/auth.provider";
 import { useStoredAccounts } from "@core/providers/auth/stored-accounts.provider";
 import { Card } from "antd";
@@ -12,7 +13,6 @@ type Props = {
 export default function Auth({ setAuthContext }: Readonly<Props>) {
   const { accounts } = useStoredAccounts();
 
-  // TODO: implement accounts storage
   const hasLoginProfiles = Object.keys(accounts).length > 0;
 
   return (
@@ -25,7 +25,7 @@ export default function Auth({ setAuthContext }: Readonly<Props>) {
       >
         {hasLoginProfiles && (
           <div className="w-full lg:w-1/2 flex items-center justify-center mb-4 lg:mb-0">
-            {/* Content when hasLoginProfiles is true */}
+            <StoredAccountsDisplay />
           </div>
         )}
         <div
