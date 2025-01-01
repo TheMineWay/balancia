@@ -3,6 +3,7 @@ import {
   useStoredAccounts,
 } from "@core/providers/auth/stored-accounts.provider";
 import { getGravatarUrl } from "@shared/utils";
+import { Card } from "antd";
 
 export default function StoredAccountsDisplay() {
   const { accounts } = useStoredAccounts();
@@ -22,9 +23,15 @@ const Account = ({ account }: { account: Account }) => {
     : "https://http.cat/images/102.jpg";
 
   return (
-    <div>
-      <img className="h-36 w-36" alt="avatar" src={avatarUrl} />
-      <p className="text-center pt-2">{account.user.name}</p>
-    </div>
+    <Card
+      styles={{
+        body: {
+          padding: 0,
+        },
+      }}
+    >
+      <img className="h-36 w-36 rounded-t-lg" alt="avatar" src={avatarUrl} />
+      <p className="text-center py-2">{account.user.name}</p>
+    </Card>
   );
 };
