@@ -1,6 +1,5 @@
-import StoredAccountsProvider, {
-  useStoredAccounts,
-} from "@core/providers/auth/stored-accounts.provider";
+import { useStoredAccounts } from "@core/providers/auth/stored-account.context";
+import StoredAccountsProvider from "@core/providers/auth/stored-accounts.provider";
 import { render } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 

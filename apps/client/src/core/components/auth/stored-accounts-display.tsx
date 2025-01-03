@@ -1,8 +1,8 @@
-import { AuthContextInfo } from "@core/providers/auth/auth.provider";
+import { AuthContextInfo } from "@core/providers/auth/auth.context";
 import {
-  type Account,
+  type StoredAccount,
   useStoredAccounts,
-} from "@core/providers/auth/stored-accounts.provider";
+} from "@core/providers/auth/stored-account.context";
 import { getGravatarUrl, getUserName } from "@shared/utils";
 import { Card } from "antd";
 import styles from "./stored-accounts-display.module.pcss";
@@ -31,7 +31,7 @@ const Account = ({
   account,
   onPick,
 }: {
-  account: Account;
+  account: StoredAccount;
   onPick: () => void;
 }) => {
   const avatarUrl = account.user.email

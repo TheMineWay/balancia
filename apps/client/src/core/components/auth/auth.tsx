@@ -1,7 +1,7 @@
 import AuthWithPasswordForm from "@core/components/auth/forms/with-password/auth-with-password.form";
 import StoredAccountsDisplay from "@core/components/auth/stored-accounts-display";
-import { AuthContextInfo } from "@core/providers/auth/auth.provider";
-import { useStoredAccounts } from "@core/providers/auth/stored-accounts.provider";
+import type { AuthContextInfo } from "@core/providers/auth/auth.context";
+import { useStoredAccounts } from "@core/providers/auth/stored-account.context";
 import { Card } from "antd";
 import clsx from "clsx";
 import styles from "./auth.module.pcss";

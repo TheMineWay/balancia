@@ -1,11 +1,11 @@
 import Auth from "@core/components/auth/auth";
-import { useStoredAccounts } from "@core/providers/auth/stored-accounts.provider";
-import { ProviderSetter } from "@core/providers/provider-setter.type";
+import {
+  AUTH_CONTEXT,
+  AuthContextInfo,
+} from "@core/providers/auth/auth.context";
+import { useStoredAccounts } from "@core/providers/auth/stored-account.context";
 import { WithChildren } from "@core/types/common/component.types";
-import { UserModel } from "@shared/models";
-import { createContext, useState } from "react";
-
-const Context = createContext<ProviderSetter<AuthContextInfo>>(null!);
+import { useState } from "react";
 
 export default function AuthProvider({ children }: Readonly<WithChildren>) {
   const [context, setContextState] = useState<AuthContextInfo>();
@@ -19,13 +19,8 @@ export default function AuthProvider({ children }: Readonly<WithChildren>) {
   if (!context) return <Auth setAuthContext={setContext} />;
 
   return (
-    <Context.Provider value={{ context, setContext }}>
+    <AUTH_CONTEXT.Provider value={{ context, setContext }}>
       {children}
-    </Context.Provider>
+    </AUTH_CONTEXT.Provider>
   );
-}
-
-export interface AuthContextInfo {
-  token: string;
-  user: UserModel;
 }
