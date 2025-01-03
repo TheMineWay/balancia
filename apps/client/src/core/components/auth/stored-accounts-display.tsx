@@ -15,7 +15,7 @@ export default function StoredAccountsDisplay({ onSuccess }: Readonly<Props>) {
   const { accounts } = useStoredAccounts();
 
   return (
-    <div className="flex gap-4">
+    <div className="grid grid-cols-2 gap-4">
       {Object.values(accounts).map((account) => (
         <Account
           account={account}
@@ -46,7 +46,11 @@ const Account = ({
       }}
       onClick={onPick}
     >
-      <img className="h-36 w-36 rounded-t-lg" alt="avatar" src={avatarUrl} />
+      <img
+        className="h-36 w-36 rounded-t-lg object-cover"
+        alt="avatar"
+        src={avatarUrl}
+      />
       <p className="text-center py-2">{getUserName(account.user)}</p>
     </Card>
   );
