@@ -5,6 +5,7 @@ import {
 } from "@core/providers/auth/stored-accounts.provider";
 import { getGravatarUrl, getUserName } from "@shared/utils";
 import { Card } from "antd";
+import styles from "./stored-accounts-display.module.pcss";
 
 type Props = {
   onSuccess: (authContext: AuthContextInfo) => void;
@@ -39,10 +40,9 @@ const Account = ({
 
   return (
     <Card
-      styles={{
-        body: {
-          padding: 0,
-        },
+      className={styles.card}
+      classNames={{
+        body: styles["card-body"],
       }}
       onClick={onPick}
     >
