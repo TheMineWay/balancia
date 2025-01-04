@@ -40,6 +40,7 @@ const Account = ({
 
   return (
     <Card
+      hoverable
       className={styles.card}
       classNames={{
         body: styles["card-body"],

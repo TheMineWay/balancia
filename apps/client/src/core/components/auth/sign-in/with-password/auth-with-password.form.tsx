@@ -1,8 +1,8 @@
-import AuthWithPasswordTotpForm from "@core/components/auth/forms/with-password/auth-with-password-totp.form";
+import AuthWithPasswordTotpForm from "@core/components/auth/sign-in/with-password/auth-with-password-totp.form";
 import ScopedAlertError from "@core/components/error/scoped/scoped-alert-error";
 import { useLogin } from "@core/hooks/auth/use-login.mutation";
 import { useTranslation } from "@core/i18n/use-translation";
-import { AuthContextInfo } from "@core/providers/auth/auth.provider";
+import { AuthContextInfo } from "@core/providers/auth/auth.context";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input } from "antd";
 import { AxiosError } from "axios";

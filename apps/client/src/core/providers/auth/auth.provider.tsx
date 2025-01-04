@@ -1,4 +1,4 @@
-import Auth from "@core/components/auth/auth";
+import Auth from "@core/components/auth/sign-in/auth";
 import {
   AUTH_CONTEXT,
   AUTH_CONTEXT_INFO_SCHEMA,
