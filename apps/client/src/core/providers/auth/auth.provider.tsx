@@ -16,9 +16,9 @@ export default function AuthProvider({ children }: Readonly<WithChildren>) {
   );
   const { addAccount } = useStoredAccounts();
 
-  const setContext = (info: AuthContextInfo) => {
+  const setContext = (info: AuthContextInfo | null) => {
     setCurrentAuthData(info);
-    addAccount(info);
+    if (info) addAccount(info);
     setContextState(info);
   };
 
@@ -44,6 +44,7 @@ const readCurrentAuthData = (): AuthContextInfo | null => {
   }
 };
 
-const setCurrentAuthData = (data: AuthContextInfo) => {
-  sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(data));
+const setCurrentAuthData = (data: AuthContextInfo | null) => {
+  if (data) sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(data));
+  else sessionStorage.removeItem(SESSION_STORAGE_KEY);
 };

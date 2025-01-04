@@ -1,4 +1,4 @@
-import { AuthContextInfo } from "@providers/auth/auth.provider";
+import { AuthContextInfo } from "@core/providers/auth/auth.context";
 import { CONTROLLERS, getEndpointRequest } from "@shared/api-definition";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
