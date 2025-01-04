@@ -5,7 +5,7 @@ import {
   type StoredAccount,
   useStoredAccounts,
 } from "@core/providers/auth/stored-account.context";
-import { getGravatarUrl, getUserName, interpolate } from "@shared/utils/core";
+import { getGravatarUrl, getUserName } from "@shared/utils/core";
 import { Button } from "antd";
 import clsx from "clsx";
 import { AiOutlineClose } from "react-icons/ai";
@@ -41,7 +41,7 @@ const Account = ({
   onPick: () => void;
   onRemove: () => void;
 }) => {
-  const { t } = useTranslation("auth");
+  const { interpolated } = useTranslation("auth");
 
   const avatarUrl = account.user.email
     ? getGravatarUrl(account.user.email)
@@ -51,8 +51,8 @@ const Account = ({
     <div
       className={styles.card}
       onClick={onPick}
-      aria-description={interpolate(
-        t()["stored-accounts"].display.account["Pick-aria-description"],
+      aria-description={interpolated(
+        (t) => t["stored-accounts"].display.account["Pick-aria-description"],
         { name: getUserName(account.user) }
       )}
     >

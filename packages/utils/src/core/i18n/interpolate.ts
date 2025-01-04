@@ -1,6 +1,6 @@
 export const interpolate = (
   text: string,
-  variables?: Record<string, string>
+  variables?: Record<string, string> | undefined
 ) => {
   // Escape the '{{' and '}}' by replacing them with temporary placeholders
   text = text.replace(/{{/g, "{ESCAPED_OPEN_BRACE}");
