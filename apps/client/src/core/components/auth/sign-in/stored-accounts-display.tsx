@@ -1,10 +1,14 @@
-import { AuthContextInfo } from "@core/providers/auth/auth.context";
+import defaultAvatar from "@core/assets/auth/default-avatar.jpg";
+import { useTranslation } from "@core/i18n/use-translation";
+import type { AuthContextInfo } from "@core/providers/auth/auth.context";
 import {
   type StoredAccount,
   useStoredAccounts,
 } from "@core/providers/auth/stored-account.context";
-import { getGravatarUrl, getUserName } from "@shared/utils";
-import { Card } from "antd";
+import { getGravatarUrl, getUserName, interpolate } from "@shared/utils";
+import { Button } from "antd";
+import clsx from "clsx";
+import { AiOutlineClose } from "react-icons/ai";
 import styles from "./stored-accounts-display.module.pcss";
 
 type Props = {
@@ -15,7 +19,7 @@ export default function StoredAccountsDisplay({ onSuccess }: Readonly<Props>) {
   const { accounts } = useStoredAccounts();
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 place-items-center">
       {Object.values(accounts).map((account) => (
         <Account
           account={account}
@@ -34,25 +38,35 @@ const Account = ({
   account: StoredAccount;
   onPick: () => void;
 }) => {
+  const { t } = useTranslation("auth");
+
   const avatarUrl = account.user.email
     ? getGravatarUrl(account.user.email)
-    : "https://http.cat/images/102.jpg";
+    : defaultAvatar;
 
   return (
-    <Card
-      hoverable
+    <div
       className={styles.card}
-      classNames={{
-        body: styles["card-body"],
-      }}
       onClick={onPick}
+      aria-description={interpolate(
+        t()["stored-accounts"].display.account["Pick-aria-description"],
+        {}
+      )}
     >
-      <img
-        className="h-36 w-36 rounded-t-lg object-cover"
-        alt="avatar"
-        src={avatarUrl}
-      />
-      <p className="text-center py-2">{getUserName(account.user)}</p>
-    </Card>
+      <div className={clsx(styles.avatar, "h-36 w-36")}>
+        <Button
+          icon={<AiOutlineClose />}
+          className="absolute top-1 left-1 text-white"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          type="link"
+        />
+        <img className={"object-cover"} alt="avatar" src={avatarUrl} />
+      </div>
+      <div className={styles.body}>
+        <p className="text-center py-2">{getUserName(account.user)}</p>
+      </div>
+    </div>
   );
 };

@@ -20,7 +20,7 @@ export default function Auth({ setAuthContext }: Readonly<Props>) {
       <div
         className={clsx(
           styles.container,
-          "flex flex-col lg:flex-row items-center lg:justify-between"
+          "flex flex-col lg:flex-row items-center lg:justify-between gap-2"
         )}
       >
         {hasLoginProfiles && (

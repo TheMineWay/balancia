@@ -1,2 +1,2 @@
-export * from "./gravatar.util";
+export * from "./gravatar";
 export * from "./info/info";
