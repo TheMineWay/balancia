@@ -7,8 +7,8 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts",
-    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "build": "tsup src/**/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/**/index.ts --format esm,cjs --dts --watch",
     "prepublishOnly": "pnpm run build",
     "test": "vitest"
   },
@@ -25,6 +25,10 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./core": {
+      "import": "./dist/core/index.js",
+      "require": "./dist/core/index.cjs"
     }
   },
   "dependencies": {

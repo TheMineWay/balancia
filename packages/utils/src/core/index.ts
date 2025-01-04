@@ -1,2 +1,3 @@
-export * from "./gravatar";
-export * from "./info/info";
+export * from "./avatar/index";
+export * from "./i18n/index";
+export * from "./info/index";
