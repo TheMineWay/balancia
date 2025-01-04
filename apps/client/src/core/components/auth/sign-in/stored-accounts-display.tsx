@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default function StoredAccountsDisplay({ onSuccess }: Readonly<Props>) {
-  const { accounts } = useStoredAccounts();
+  const { accounts, removeAccount } = useStoredAccounts();
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 place-items-center">
@@ -25,6 +25,7 @@ export default function StoredAccountsDisplay({ onSuccess }: Readonly<Props>) {
           account={account}
           key={account.user.id}
           onPick={() => onSuccess(account)}
+          onRemove={() => removeAccount(account.user.id)}
         />
       ))}
     </div>
@@ -34,9 +35,11 @@ export default function StoredAccountsDisplay({ onSuccess }: Readonly<Props>) {
 const Account = ({
   account,
   onPick,
+  onRemove,
 }: {
   account: StoredAccount;
   onPick: () => void;
+  onRemove: () => void;
 }) => {
   const { t } = useTranslation("auth");
 
@@ -59,6 +62,7 @@ const Account = ({
           className="absolute top-1 left-1 text-white"
           onClick={(e) => {
             e.stopPropagation();
+            onRemove();
           }}
           type="link"
         />
