@@ -53,7 +53,7 @@ const Account = ({
       onClick={onPick}
       aria-description={interpolate(
         t()["stored-accounts"].display.account["Pick-aria-description"],
-        {}
+        { name: getUserName(account.user) }
       )}
     >
       <div className={clsx(styles.avatar, "h-36 w-36")}>
