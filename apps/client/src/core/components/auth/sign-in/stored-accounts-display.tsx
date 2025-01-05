@@ -19,7 +19,7 @@ export default function StoredAccountsDisplay({ onSuccess }: Readonly<Props>) {
   const { accounts, removeAccount } = useStoredAccounts();
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 place-items-center">
+    <div className="w-full flex gap-4 md:justify-center flex-nowrap md:flex-wrap overflow-x-auto md:overflow-x-hidden pb-6 lg:pb-0">
       {Object.values(accounts).map((account) => (
         <Account
           account={account}

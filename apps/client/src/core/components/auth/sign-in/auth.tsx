@@ -24,7 +24,7 @@ export default function Auth({ setAuthContext }: Readonly<Props>) {
         )}
       >
         {hasLoginProfiles && (
-          <div className="w-full lg:w-1/2 flex items-center justify-center mb-4 lg:mb-0">
+          <div className="w-full lg:w-1/2 flex items-center justify-center lg:mb-0">
             <StoredAccountsDisplay onSuccess={setAuthContext} />
           </div>
         )}
