@@ -1,6 +1,6 @@
-import { UserSelect } from "@database/schemas/main/tables/users.table";
+import type { DbUserModel } from "@shared/models";
 
-export const USERS_MOCK = {
+export const DB_USERS_MOCK = {
   "john.doe": {
     id: 1,
     name: "John",
@@ -25,4 +25,4 @@ export const USERS_MOCK = {
     createdAt: new Date("2024-02-01T12:30:00Z"),
     updatedAt: new Date("2024-02-01T12:30:00Z"),
   },
-} satisfies Record<string, UserSelect>;
+} satisfies Record<string, DbUserModel>;

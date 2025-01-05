@@ -1,19 +1,17 @@
 {
-  "name": "@shared/utils",
+  "name": "@shared/mocks",
   "version": "1.0.0",
-  "description": "Shared utilities",
+  "description": "Shared mocks",
   "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/**/index.ts --format esm,cjs --dts",
-    "dev": "tsup src/**/index.ts --format esm,cjs --dts --watch",
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
     "prepublishOnly": "pnpm run build",
     "test": "vitest"
   },
   "license": "MIT",
   "devDependencies": {
+    "@shared/models": "workspace:*",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
@@ -26,10 +24,5 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
-  },
-  "dependencies": {
-    "@types/crypto-js": "^4.2.2",
-    "crypto-js": "^4.2.0",
-    "@shared/models": "workspace:*"
   }
 }

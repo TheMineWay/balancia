@@ -5,7 +5,7 @@ import {
   type StoredAccount,
   useStoredAccounts,
 } from "@core/providers/auth/stored-account.context";
-import { getGravatarUrl, getUserName } from "@shared/utils/core";
+import { getGravatarUrl, getUserName } from "@shared/utils";
 import { Button } from "antd";
 import clsx from "clsx";
 import { AiOutlineClose } from "react-icons/ai";

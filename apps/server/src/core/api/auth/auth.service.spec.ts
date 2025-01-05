@@ -1,7 +1,7 @@
 import { AuthService } from "@core/api/auth/auth.service";
 import { AUTH_SERVICE_MOCK } from "@core/mocks/auth/auth.service.mock";
-import { USERS_MOCK } from "@core/mocks/user/users.mock";
 import { UnauthorizedException } from "@nestjs/common";
+import { DB_USERS_MOCK } from "@shared/mocks";
 import { TOTP } from "otpauth";
 import { beforeEach, describe, expect, it } from "vitest";
 
@@ -25,7 +25,7 @@ describe("Auth service", () => {
         expect(
           async () =>
             await authService.signIn({
-              username: USERS_MOCK["john.doe"].username,
+              username: DB_USERS_MOCK["john.doe"].username,
               password: "wrong",
             })
         ).rejects.toThrowError(UnauthorizedException);
@@ -37,7 +37,7 @@ describe("Auth service", () => {
         expect(
           async () =>
             await authService.signIn({
-              username: USERS_MOCK["alice.smith"].username,
+              username: DB_USERS_MOCK["alice.smith"].username,
               password: "wrong",
             })
         ).rejects.toThrowError(UnauthorizedException);
@@ -47,7 +47,7 @@ describe("Auth service", () => {
         expect(
           async () =>
             await authService.signIn({
-              username: USERS_MOCK["alice.smith"].username,
+              username: DB_USERS_MOCK["alice.smith"].username,
               password: "1234",
             })
         ).rejects.toThrowError(UnauthorizedException);
@@ -55,13 +55,13 @@ describe("Auth service", () => {
 
       it("TOTP is correct but password is not correct", () => {
         const totp = new TOTP({
-          secret: USERS_MOCK["alice.smith"].totpSecret,
+          secret: DB_USERS_MOCK["alice.smith"].totpSecret,
         });
 
         expect(
           async () =>
             await authService.signIn({
-              username: USERS_MOCK["alice.smith"].username,
+              username: DB_USERS_MOCK["alice.smith"].username,
               password: "wrong",
               totp: totp.generate(),
             })
@@ -73,7 +73,7 @@ describe("Auth service", () => {
   describe("should return a valid token when", () => {
     it("valid password and username are provided", async () => {
       const { token } = await authService.signIn({
-        username: USERS_MOCK["john.doe"].username,
+        username: DB_USERS_MOCK["john.doe"].username,
         password: "1234",
       });
 
@@ -82,11 +82,11 @@ describe("Auth service", () => {
 
     it("TOTP is required and valid credentials are provided", async () => {
       const totp = new TOTP({
-        secret: USERS_MOCK["alice.smith"].totpSecret,
+        secret: DB_USERS_MOCK["alice.smith"].totpSecret,
       });
 
       const { token } = await authService.signIn({
-        username: USERS_MOCK["alice.smith"].username,
+        username: DB_USERS_MOCK["alice.smith"].username,
         password: "1234",
         totp: totp.generate(),
       });

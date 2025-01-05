@@ -43,6 +43,7 @@
     "@nestjs/cli": "^10.4.9",
     "@nestjs/schematics": "^10.2.3",
     "@nestjs/testing": "^10.4.15",
+    "@shared/mocks": "workspace:*",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.5",
     "dotenv": "^16.4.7",
