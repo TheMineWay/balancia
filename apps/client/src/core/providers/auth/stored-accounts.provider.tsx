@@ -67,7 +67,6 @@ const addStoredAccount = (account: StoredAccount) => {
 };
 
 const removeStoredAccount = (id: number) => {
-  console.log("remove");
   const storedAccounts = readStoredAccounts();
   const account = storedAccounts[id];
 

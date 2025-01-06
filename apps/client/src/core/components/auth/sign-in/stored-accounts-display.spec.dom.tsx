@@ -1,7 +1,6 @@
 import StoredAccountsDisplay from "@core/components/auth/sign-in/stored-accounts-display";
 import { AuthContextInfo } from "@core/providers/auth/auth.context";
-import StoredAccountsProvider from "@core/providers/auth/stored-accounts.provider";
-import LanguageProvider from "@core/providers/language/language.provider";
+import TestProviders from "@core/providers/test/test.providers";
 import { USERS_MOCK } from "@shared/mocks";
 import { UserModel } from "@shared/models";
 import { render, screen, waitFor } from "@testing-library/react";
@@ -9,6 +8,20 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 
 const LOCAL_STORAGE_KEY = "accounts";
+const SESSION_STORAGE_KEY = "active-auth-info";
+
+const ACCOUNTS_MOCK = {
+  [USERS_MOCK.john.id]: {
+    token: "...",
+    grantedAt: new Date(),
+    user: USERS_MOCK.john,
+  },
+  [USERS_MOCK.alice.id]: {
+    token: "...",
+    grantedAt: new Date(),
+    user: USERS_MOCK.alice,
+  },
+};
 
 type Options = {
   onSuccess?: (info: AuthContextInfo) => void;
@@ -16,11 +29,9 @@ type Options = {
 
 const renderComponent = ({ onSuccess = () => {} }: Options = {}) => {
   return render(
-    <LanguageProvider>
-      <StoredAccountsProvider>
-        <StoredAccountsDisplay onSuccess={onSuccess} />
-      </StoredAccountsProvider>
-    </LanguageProvider>
+    <TestProviders>
+      <StoredAccountsDisplay onSuccess={onSuccess} />
+    </TestProviders>
   );
 };
 
@@ -29,26 +40,12 @@ const findByUser = (user: UserModel) =>
 
 describe("<StoredAccountsDisplay/>", () => {
   beforeEach(() => {
-    localStorage.setItem(
-      LOCAL_STORAGE_KEY,
-      JSON.stringify({
-        [USERS_MOCK.john.id]: {
-          token: "...",
-          grantedAt: new Date(),
-          user: USERS_MOCK.john,
-        },
-        [USERS_MOCK.alice.id]: {
-          token: "...",
-          grantedAt: new Date(),
-          user: USERS_MOCK.alice,
-        },
-      })
-    );
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(ACCOUNTS_MOCK));
+
+    renderComponent();
   });
 
   it("should display accounts stored in the browser", async () => {
-    renderComponent();
-
     for (const user of [USERS_MOCK.alice, USERS_MOCK.john]) {
       const nameElement = await findByUser(user);
       expect(nameElement).toBeDefined();
@@ -56,9 +53,7 @@ describe("<StoredAccountsDisplay/>", () => {
   });
 
   it("should be able to remove accounts from the browser", async () => {
-    renderComponent();
     const user = USERS_MOCK.john;
-
     const nameElement = await findByUser(user);
 
     const card = nameElement?.parentNode?.parentNode;
@@ -76,6 +71,29 @@ describe("<StoredAccountsDisplay/>", () => {
 
       expect(Object.keys(data)).toContain(USERS_MOCK.alice.id.toString());
       expect(Object.keys(data)).not.toContain(USERS_MOCK.john.id.toString());
+    });
+  });
+
+  it("should be able to use an account when clicked", async () => {
+    const user = USERS_MOCK.john;
+    const nameElement = await findByUser(user);
+
+    await userEvent.click(nameElement);
+
+    const rawSession = sessionStorage.getItem(SESSION_STORAGE_KEY);
+    expect(rawSession).toBeDefined();
+
+    const parsedSession = JSON.parse(rawSession!) as object;
+
+    const account = ACCOUNTS_MOCK[USERS_MOCK.john.id];
+    expect(parsedSession).toEqual({
+      ...account,
+      grantedAt: account.grantedAt.toISOString(),
+      user: {
+        ...account.user,
+        createdAt: account.user.createdAt.toISOString(),
+        updatedAt: account.user.updatedAt.toISOString(),
+      },
     });
   });
 });
