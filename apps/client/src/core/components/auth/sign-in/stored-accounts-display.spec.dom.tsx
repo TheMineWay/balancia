@@ -41,6 +41,7 @@ const findByUser = (user: UserModel) =>
 describe("<StoredAccountsDisplay/>", () => {
   beforeEach(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(ACCOUNTS_MOCK));
+    sessionStorage.removeItem(SESSION_STORAGE_KEY);
 
     renderComponent();
   });
