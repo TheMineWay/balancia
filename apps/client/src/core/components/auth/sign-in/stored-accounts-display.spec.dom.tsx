@@ -75,6 +75,8 @@ describe("<StoredAccountsDisplay/>", () => {
   });
 
   it("should be able to use an account when clicked", async () => {
+    expect(sessionStorage.getItem(SESSION_STORAGE_KEY)).toEqual(null);
+
     const user = USERS_MOCK.john;
     const nameElement = await findByUser(user);
 
