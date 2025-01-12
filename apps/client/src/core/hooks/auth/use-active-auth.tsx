@@ -17,13 +17,14 @@ import { useStoredAccounts } from "@core/providers/auth/stored-account.context";
  */
 export const useActiveAuth = () => {
   const storedAccountsContext = useStoredAccounts();
-  const { context: activeUser, setContext: setActiveUser } = useAuthContext();
+  const { context: activeAccount, setContext: setActiveAccount } =
+    useAuthContext();
 
-  if (!activeUser)
+  if (!activeAccount)
     throw new Error("useActiveAuth must be used when user is logged in");
 
   const signOut = () => {
-    setActiveUser(null);
+    setActiveAccount(null);
   };
 
   const switchTo = (id: number) => {
@@ -32,14 +33,15 @@ export const useActiveAuth = () => {
 
     const { grantedAt: _, ...accountData } = account!;
 
-    setActiveUser(accountData);
+    setActiveAccount(accountData);
   };
 
   return {
     storedAccounts: Object.values(storedAccountsContext.accounts),
-    activeUser,
-    setActiveUser,
-    token: activeUser.token,
+    activeUser: activeAccount,
+    setActiveUser: setActiveAccount,
+    user: activeAccount.user,
+    token: activeAccount.token,
     signOut,
     switchTo,
 
