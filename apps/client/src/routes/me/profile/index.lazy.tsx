@@ -1,3 +1,4 @@
+import ProfileTemplate from "@core/templates/user/profile/profile.template";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/me/profile/")({
@@ -5,5 +6,9 @@ export const Route = createLazyFileRoute("/me/profile/")({
 });
 
 function RouteComponent() {
-  return <div>Hello "/me/profile/"!</div>;
+  return (
+    <div>
+      <ProfileTemplate />
+    </div>
+  );
 }
