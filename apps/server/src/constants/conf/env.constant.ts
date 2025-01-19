@@ -2,13 +2,17 @@ import { Logger } from "@nestjs/common";
 import "dotenv/config";
 import Zod from "zod";
 
+const DURATION_REGEXP = /^([0-9]+)([smhdw])$/;
+
 const ENV_SCHEMA = Zod.object({
   // JWT
   JWT_SECRET: Zod.string(),
-  JWT_DURATION: Zod.string()
-    .regex(/^([0-9]+)([smhdw])$/)
+  JWT_DURATION: Zod.string().regex(DURATION_REGEXP).optional().default("15m"),
+  JWT_REFRESH_SECRET: Zod.string(),
+  JWT_REFRESH_DURATION: Zod.string()
+    .regex(DURATION_REGEXP)
     .optional()
-    .default("30d"),
+    .default("7d"),
 
   // TOTP
   TOTP_DIGITS: Zod.string()
@@ -54,8 +58,12 @@ export const ENV = (() => {
   if (values.LOG_ENV_VALUES) Logger.log("ENV", values);
 
   return {
-    jwtSecret: values.JWT_SECRET,
-    jwtDuration: values.JWT_DURATION,
+    jwt: {
+      secret: values.JWT_SECRET,
+      duration: values.JWT_DURATION,
+      refreshSecret: values.JWT_REFRESH_SECRET,
+      refreshDuration: values.JWT_REFRESH_DURATION,
+    },
     totp: {
       digits: values.TOTP_DIGITS,
       period: values.TOTP_PERIOD,

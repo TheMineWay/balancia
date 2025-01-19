@@ -17,8 +17,8 @@ import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
     ]),
     JwtModule.register({
       global: true,
-      secret: ENV.jwtSecret,
-      signOptions: { expiresIn: ENV.jwtDuration },
+      secret: ENV.jwt.secret,
+      signOptions: { expiresIn: ENV.jwt.duration },
     }),
     DatabaseModule,
     CoreModule,
