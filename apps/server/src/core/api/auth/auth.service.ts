@@ -26,8 +26,12 @@ export class AuthService {
     };
 
     const { password: _, totpSecret: __, ...restUser } = user;
+    const token = await this.jwtService.signAsync(payload);
 
-    return { token: await this.jwtService.signAsync(payload), user: restUser };
+    return {
+      token,
+      user: restUser,
+    };
   }
 
   async validateTotp(providedCode: string | null, totpSecret: string | null) {

@@ -3,29 +3,28 @@ import "dotenv/config";
 import Zod from "zod";
 
 const DURATION_REGEXP = /^([0-9]+)([smhdw])$/;
+const toNum = (value) => Number(value);
+const refinedMin = (min: number) => (val: number) => val >= min;
 
 const ENV_SCHEMA = Zod.object({
   // JWT
   JWT_SECRET: Zod.string(),
-  JWT_DURATION: Zod.string().regex(DURATION_REGEXP).optional().default("15m"),
-  JWT_REFRESH_SECRET: Zod.string(),
-  JWT_REFRESH_DURATION: Zod.string()
-    .regex(DURATION_REGEXP)
-    .optional()
-    .default("7d"),
+  JWT_DURATION: Zod.string().regex(DURATION_REGEXP).optional().default("30d"),
 
   // TOTP
-  TOTP_DIGITS: Zod.string()
-    .transform((value) => Number(value))
-    .optional()
-    .default("6"),
-  TOTP_PERIOD: Zod.string()
-    .transform((value) => Number(value))
-    .optional()
-    .default("30"),
+  TOTP_DIGITS: Zod.string().transform(toNum).optional().default("6"),
+  TOTP_PERIOD: Zod.string().transform(toNum).optional().default("30"),
 
-  MAX_REQUESTS_PER_MINUTE: Zod.number().min(1).optional().default(120),
-  MAX_LOGIN_REQUESTS_PER_MINUTE: Zod.number().min(1).optional().default(8),
+  MAX_REQUESTS_PER_MINUTE: Zod.string()
+    .optional()
+    .default("120")
+    .transform(toNum)
+    .refine(refinedMin(1)),
+  MAX_LOGIN_REQUESTS_PER_MINUTE: Zod.string()
+    .optional()
+    .default("8")
+    .transform(toNum)
+    .refine(refinedMin(1)),
 
   DATABASE_URL: Zod.string(),
 
@@ -61,8 +60,6 @@ export const ENV = (() => {
     jwt: {
       secret: values.JWT_SECRET,
       duration: values.JWT_DURATION,
-      refreshSecret: values.JWT_REFRESH_SECRET,
-      refreshDuration: values.JWT_REFRESH_DURATION,
     },
     totp: {
       digits: values.TOTP_DIGITS,
