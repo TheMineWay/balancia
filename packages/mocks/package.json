@@ -1,7 +1,7 @@
 {
   "name": "@shared/mocks",
   "version": "1.0.0",
-  "description": "Shared API definition",
+  "description": "Shared mocks",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
