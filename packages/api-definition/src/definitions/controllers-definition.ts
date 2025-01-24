@@ -1,6 +1,9 @@
-import { ControllerDefinition } from "../types";
 import { AUTH_CONTROLLER_DEFINITION } from "./controllers/auth.controller-definition";
+import { USER_PROFILE_CONTROLLER_DEFINITION } from "./controllers/user-profile.controller-definition";
 
 export const CONTROLLERS = {
+  // Core endpoints
   auth: AUTH_CONTROLLER_DEFINITION,
-} as const satisfies Record<string, ControllerDefinition>;
+  userProfile: USER_PROFILE_CONTROLLER_DEFINITION,
+  // End core endpoints
+} as const;

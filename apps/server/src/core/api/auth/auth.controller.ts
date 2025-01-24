@@ -11,8 +11,6 @@ import {
 import { AuthService } from "./auth.service";
 
 const CONTROLLER = CONTROLLERS.auth;
-
-type A = keyof typeof CONTROLLER.endpoints;
 @Controller(getController(CONTROLLER))
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

@@ -1,5 +1,6 @@
 import { ENV } from "@constants/conf/env.constant";
 import { ApiProperty } from "@nestjs/swagger";
+import { USER_MODEL_VALUES } from "@shared/models";
 import {
   IsNotEmpty,
   IsNumberString,
@@ -11,13 +12,13 @@ import {
 
 export class LoginDTO {
   @ApiProperty()
-  @MaxLength(32)
+  @MaxLength(USER_MODEL_VALUES.username.maxLength)
   @IsNotEmpty()
   @IsString()
   username: string;
 
   @ApiProperty()
-  @MaxLength(128)
+  @MaxLength(USER_MODEL_VALUES.username.maxLength)
   @IsNotEmpty()
   @IsString()
   password: string;
