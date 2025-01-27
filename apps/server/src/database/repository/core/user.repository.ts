@@ -2,8 +2,10 @@ import { QueryOptions, Repository } from "@database/repository/core/repository";
 import {
   UserInsert,
   usersTable,
+  UserUpdate,
 } from "@database/schemas/main/tables/users.table";
 import { Injectable } from "@nestjs/common";
+import { DbUserModel } from "@shared/models";
 import { eq } from "drizzle-orm";
 
 @Injectable()
@@ -30,4 +32,14 @@ export class UserRepository extends Repository {
     (
       await this.query(options).insert(usersTable).values([user]).$returningId()
     )?.[0];
+
+  updateById = (
+    id: DbUserModel["id"],
+    data: UserUpdate,
+    options?: QueryOptions
+  ) =>
+    this.query(options)
+      .update(usersTable)
+      .set(data)
+      .where(eq(usersTable.id, id));
 }

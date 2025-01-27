@@ -7,5 +7,9 @@ export const USER_PROFILE_CONTROLLER_DEFINITION = {
       getPath: () => "update",
       method: "PUT",
     },
+    updatePassword: {
+      getPath: () => "update-password",
+      method: "PATCH",
+    },
   },
 } as const satisfies ControllerDefinition;

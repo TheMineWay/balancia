@@ -1,3 +1,4 @@
+import { UserTokenData } from "@core/decorators/user/user.decorator";
 import { LoginDTO } from "@core/dto/auth/login.dto";
 import { compareHashWithSalt } from "@core/utils/cryptography/password-hashing.util";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
@@ -20,7 +21,7 @@ export class AuthService {
     if (!(await this.validateTotp(totp ?? null, user.totpSecret)))
       throw new UnauthorizedException("TOTP");
 
-    const payload = {
+    const payload: UserTokenData = {
       id: user.id,
       username: user.username,
     };

@@ -27,3 +27,4 @@ export const usersTable = mysqlTable("user", {
 
 export type UserInsert = InferInsertModel<typeof usersTable>;
 export type UserSelect = InferSelectModel<typeof usersTable>;
+export type UserUpdate = Partial<UserInsert>;
