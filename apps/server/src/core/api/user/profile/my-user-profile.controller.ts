@@ -1,4 +1,4 @@
-import { UserProfileService } from "@core/api/user/profile/user-profile.service";
+import { MyUserProfileService } from "@core/api/user/profile/my-user-profile.service";
 import { UserId } from "@core/decorators/user/user-id.decorator";
 import { UserPasswordUpdateDTO } from "@dto/user/user-password-update.dto";
 import { UserProfileUpdateDTO } from "@dto/user/user-profile-update.dto";
@@ -13,15 +13,15 @@ import { UserModel } from "@shared/models";
 const CONTROLLER = CONTROLLERS.userProfile;
 
 @Controller(getController(CONTROLLER))
-export class UserProfileController {
-  constructor(private readonly userProfileService: UserProfileService) {}
+export class MyUserProfileController {
+  constructor(private readonly myUserProfileService: MyUserProfileService) {}
 
   @Put(getEndpoint(CONTROLLER, "update"))
   update(
     @Body() userData: UserProfileUpdateDTO,
     @UserId() userId: UserModel["id"]
   ) {
-    return this.userProfileService.updateById(userId, userData);
+    return this.myUserProfileService.updateById(userId, userData);
   }
 
   // Details
@@ -31,6 +31,6 @@ export class UserProfileController {
     @Body() { password }: UserPasswordUpdateDTO,
     @UserId() userId: UserModel["id"]
   ) {
-    return this.userProfileService.updateUserPassword(userId, password);
+    return this.myUserProfileService.updateUserPassword(userId, password);
   }
 }
