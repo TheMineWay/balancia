@@ -3,7 +3,7 @@ import { useActiveAuth } from "@core/hooks/auth/use-active-auth";
 import { useTranslation } from "@core/i18n/use-translation";
 import { getUserName } from "@shared/utils";
 import { Tabs } from "antd";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 type Tab = {
   label: string;
@@ -19,7 +19,19 @@ export default function ProfileTemplate() {
       label: t()["my-profile"].tabs.info.Label,
       children: <div>a</div>,
     },
+    {
+      key: "info2",
+      label: t()["my-profile"].tabs.info.Label,
+      children: <div>b</div>,
+    },
+    {
+      key: "info3",
+      label: t()["my-profile"].tabs.info.Label,
+      children: <div>c</div>,
+    },
   ];
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const { user } = useActiveAuth();
 
