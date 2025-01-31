@@ -1,8 +1,39 @@
 {
     "my-profile": {
         "tabs": {
+            "home": {
+                "Label": "Home"
+            },
             "info": {
                 "Label": "Information"
+            },
+            "security": {
+                "Label": "Security"
+            }
+        }
+    },
+    "my-home": {
+        "Title": "Welcome, {name}",
+        "Description": "Manage your information so the platform adapts the best to you"
+    },
+    "my-info": {
+        "Title": "Your personal information",
+        "Description": "Manage the data related to you within the application.",
+        "sections": {
+            "basic": {
+                "Title": "About you",
+                "Description": "Information that is available for other users to see.",
+                "infos": {
+                    "picture": {
+                        "Label": "Profile picture",
+                        "Description": "Your profile picture is picked from Gravatar.",
+                        "UpdateLink": "Change it"
+                    }
+                }
+            },
+            "contact": {
+                "Title": "Contact info",
+                "Description": "information used to reach you. It is only visible to you."
             }
         }
     }

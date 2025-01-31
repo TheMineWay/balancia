@@ -1,4 +1,4 @@
-import ProfileTemplate from "@core/templates/user/profile/profile.template";
+import ProfilePageTemplate from "@core/templates/user/profile/profile.page-template";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/me/profile/")({
@@ -6,9 +6,6 @@ export const Route = createLazyFileRoute("/me/profile/")({
 });
 
 function RouteComponent() {
-  return (
-    <div>
-      <ProfileTemplate />
-    </div>
-  );
+  // No <PageContainer/> is used as it is a direct link to a page
+  return <ProfilePageTemplate />;
 }
