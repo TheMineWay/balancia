@@ -14,7 +14,7 @@ const CONTROLLER = CONTROLLERS.userProfile;
 
 @Controller(getController(CONTROLLER))
 export class MyUserProfileController {
-  constructor(private readonly myUserProfileService: MyUserProfileService) {}
+  constructor(private readonly myUserProfileService: MyUserProfileService) { }
 
   @Put(getEndpoint(CONTROLLER, "update"))
   update(

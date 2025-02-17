@@ -74,7 +74,7 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
     dep: "dotenv",
     isDevelopment: true,
   },
-  { dep: "zod", isDevelopment: true },
+  { dep: "zod" },
   { dep: "@types/express", isDevelopment: true },
 ];
 

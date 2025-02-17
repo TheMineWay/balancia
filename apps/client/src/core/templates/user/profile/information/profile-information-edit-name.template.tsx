@@ -17,11 +17,11 @@ type Props = { user: UserModel }
 
 export default function ProfileInformationEditName({ user }: Readonly<Props>) {
     const { control, handleSubmit } = useForm<FormData>({ defaultValues: user, resolver: zodResolver(SCHEMA), });
-    const { mutateAsync } = useEditMyProfileNameMutation();
+    const { mutateAsync, isPending } = useEditMyProfileNameMutation();
 
     return <form onSubmit={handleSubmit((data) => mutateAsync(data))} className="flex flex-col md:flex-row gap-2">
         <Controller name="name" control={control} render={({ field: { value, onChange } }) => <Input value={value} onChange={onChange} />} />
         <Controller name="lastName" control={control} render={({ field: { value, onChange } }) => <Input value={value} onChange={onChange} />} />
-        <Button htmlType="submit" icon={<AiOutlineSave />} type="primary" block>Save</Button>
+        <Button loading={isPending} htmlType="submit" icon={<AiOutlineSave />} type="primary" block>Save</Button>
     </form>;
 };

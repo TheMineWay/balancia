@@ -22,6 +22,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@shared/api-definition": "workspace:*",
+    "@shared/dtos": "workspace:*",
     "@shared/models": "workspace:*",
     "@shared/utils": "workspace:*",
     "@tanstack/react-query": "^5.62.12",
