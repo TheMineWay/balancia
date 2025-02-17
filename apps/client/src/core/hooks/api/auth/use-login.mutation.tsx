@@ -1,3 +1,4 @@
+import { ENV } from "@core/constants/env/env.constant";
 import { AuthContextInfo } from "@core/providers/auth/auth.context";
 import { CONTROLLERS, getEndpointRequest } from "@shared/api-definition";
 import { useMutation } from "@tanstack/react-query";
@@ -15,7 +16,7 @@ export const useLoginMutation = () =>
       (
         await axios.request<AuthContextInfo>(
           getEndpointRequest(
-            "http://localhost:3000",
+            ENV.api.host,
             CONTROLLERS.auth,
             "login",
             {

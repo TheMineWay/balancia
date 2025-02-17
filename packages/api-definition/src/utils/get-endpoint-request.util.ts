@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from "axios";
+import type { AxiosRequestConfig } from "axios";
 import { ControllerDefinition } from "../types";
 import { getEndpointPath } from "./get-endpoint-path.util";
 
@@ -15,7 +15,7 @@ export const getEndpointRequest = <
   controller: C,
   endpoint: E,
   options?: Options<Parameters<typeof getEndpointPath>[3]>
-): AxiosRequestConfig => {
+): AxiosRequestConfig & { url: string } => {
   return {
     url: getEndpointPath(host, controller, endpoint, options?.params),
     method: controller.endpoints[endpoint as string].method,
