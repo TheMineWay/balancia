@@ -1,4 +1,4 @@
-import { useLogin } from "@core/hooks/auth/use-login.mutation";
+import { useLoginMutation } from "@core/hooks/api/auth/use-login.mutation";
 import { AuthContextInfo } from "@core/providers/auth/auth.context";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input } from "antd";
@@ -23,7 +23,7 @@ export default function AuthWithPasswordTotpForm({
   passwordCredentials,
   onSuccess,
 }: Readonly<Props>) {
-  const { mutate, isPending, isError } = useLogin();
+  const { mutate, isPending, isError } = useLoginMutation();
 
   const { handleSubmit, control, formState, setValue, setFocus } =
     useForm<FormData>({

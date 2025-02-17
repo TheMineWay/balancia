@@ -9,7 +9,7 @@ interface Data {
   totp?: string;
 }
 
-export const useLogin = () =>
+export const useLoginMutation = () =>
   useMutation({
     mutationFn: async (data: Data) =>
       (

@@ -1,6 +1,6 @@
 import AuthWithPasswordTotpForm from "@core/components/auth/sign-in/with-password/auth-with-password-totp.form";
 import ScopedAlertError from "@core/components/error/scoped/scoped-alert-error";
-import { useLogin } from "@core/hooks/auth/use-login.mutation";
+import { useLoginMutation } from "@core/hooks/api/auth/use-login.mutation";
 import { useTranslation } from "@core/i18n/use-translation";
 import { AuthContextInfo } from "@core/providers/auth/auth.context";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,7 +27,7 @@ type FormData = Zod.infer<typeof SCHEMA>;
 export default function AuthWithPasswordForm({ onSuccess }: Readonly<Props>) {
   const { t } = useTranslation("auth");
 
-  const { mutate, isPending, error } = useLogin();
+  const { mutate, isPending, error } = useLoginMutation();
   const [totpAuthData, setTotpAuthData] = useState<FormData | null>(null);
 
   const { handleSubmit, control, formState } = useForm<FormData>({

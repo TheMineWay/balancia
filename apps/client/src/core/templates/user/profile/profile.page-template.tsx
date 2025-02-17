@@ -2,7 +2,7 @@ import Avatar from "@core/components/ui/avatar/avatar";
 import PageContainer from "@core/components/ui/container/page-container";
 import { useActiveAuth } from "@core/hooks/auth/use-active-auth";
 import { useTranslation } from "@core/i18n/use-translation";
-import ProfileInformationTemplate from "@core/templates/user/profile/profile-information.template";
+import ProfileInformationTemplate from "@core/templates/user/profile/information/profile-information.template";
 import { getUserName, interpolate } from "@shared/utils";
 import { Tabs } from "antd";
 import { ReactNode } from "react";
