@@ -1,12 +1,14 @@
 import { MyUserProfileService } from "@core/api/user/profile/my-user-profile.service";
 import { UserId } from "@core/decorators/user/user-id.decorator";
+import { ValidatedBody } from "@core/decorators/validation/validated-body.decorator";
 import { UserPasswordUpdateDTO } from "@dto/user/user-password-update.dto";
-import { UserProfileUpdateDTO } from "@dto/user/user-profile-update.dto";
 import { Body, Controller, Patch, Put } from "@nestjs/common";
 import {
   CONTROLLERS,
   getController,
   getEndpoint,
+  getEndpointDTO,
+  InferEndpointDTO,
 } from "@shared/api-definition";
 import { UserModel } from "@shared/models";
 
@@ -18,7 +20,7 @@ export class MyUserProfileController {
 
   @Put(getEndpoint(CONTROLLER, "update"))
   update(
-    @Body() userData: UserProfileUpdateDTO,
+    @ValidatedBody(getEndpointDTO(CONTROLLER, 'update')) userData: InferEndpointDTO<typeof CONTROLLER, 'update'>,
     @UserId() userId: UserModel["id"]
   ) {
     return this.myUserProfileService.updateById(userId, userData);
