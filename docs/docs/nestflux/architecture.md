@@ -6,30 +6,28 @@ sidebar_position: 3
 
 This template offers a defined structure that should be followed and maintained.
 
-## Projects
+## Project hierarchy
 
-Projects are stored inside the apps folder.
+```text
+NestFlux/
+├── apps/               # Contains application-related code
+│   ├── client          # Frontend code for the client application (React + Vite)
+│   └── server          # Backend code for the server application (NestJS)
+├── docs/               # Documentation project (Docusaurus)
+├── packages/           # Libraries available for projects & libraries inside this monorepo
+│   ├── api-definition  # Defines API contracts and endpoints
+│   ├── constants       # Shared constants
+│   ├── models          # Shared models & Zod schemas
+│   ├── mocks           # Data mocks
+│   ├── types           # Common types
+│   └── utils           # Shared logics
+└── scripts/            # CLI utilities
+```
 
-### Client
+## Configuration hierarchy
 
-A ReactJS project made with Vite and Antd as the design system.
-
-### Server
-
-A NestJS project. Connected to a MySQL database.
-
-## Tests
-
-This project uses [Vitest](https://vitest.dev). A single vitest workspace is present in the root folder, it is configured to detect all vitest projects inside this template.
-
-Notice you can modify global test settings by updating the `vitest.shared.ts` file.
-
-## Settings
-
-### Editor configuration files
-
-There is a `.vscode` folder that contains some Visual Studio Code settings specifically designed for this project.
-
-### Git settings
-
-You can find a `.githooks` folder. This contains precommit scripts that ensure that commits follow the Conventional Commit naming strategy. Also, it checks no file names contain capital letters (to ensure compatibility with Windows and Unix).
+```text
+NestFlux/
+├── .githooks/          # Contains git commit settings
+└── .vscode/            # Contains specific configurations for VSCode
+```

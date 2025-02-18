@@ -1,0 +1,10 @@
+{
+    "label": "Constants",
+    "link": {
+        "type": "generated-index",
+        "title": "constants"
+    },
+    "customProps": {
+        "description": "Constants package"
+    }
+}

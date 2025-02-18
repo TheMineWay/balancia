@@ -1,0 +1,10 @@
+{
+    "label": "Models",
+    "link": {
+        "type": "generated-index",
+        "title": "models"
+    },
+    "customProps": {
+        "description": "Models package"
+    }
+}
