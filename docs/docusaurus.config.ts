@@ -6,7 +6,7 @@ import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
   title: "NestFlux",
-  tagline: "ReactJs + NestJS made easy",
+  tagline: "ReactJS + NestJS made easy",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
@@ -41,29 +41,31 @@ const config: Config = {
           // Remove this to remove the "edit this page" links.
           editUrl: "https://github.com/TheMineWay/NestFlux/tree/main/docs",
         },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ["rss", "atom"],
-            xslt: true,
-          },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
-          // Useful options to enforce blogging best practices
-          onInlineTags: "warn",
-          onInlineAuthors: "warn",
-          onUntruncatedBlogPosts: "warn",
-        },
         theme: {
           customCss: "./src/css/custom.css",
+        },
+        sitemap: {
+          lastmod: "date",
+          changefreq: "weekly",
+          priority: 0.5,
+          ignorePatterns: ["/tags/**"],
+          filename: "sitemap.xml",
+          createSitemapItems: async (params) => {
+            const { defaultCreateSitemapItems, ...rest } = params;
+            const items = await defaultCreateSitemapItems(rest);
+            return items.filter((item) => !item.url.includes("/page/"));
+          },
         },
       } satisfies Preset.Options,
     ],
   ],
 
   themeConfig: {
+    metadata: [
+      { name: "keywords", content: "nestJS, reactJS, monorepo" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+
     // Replace with your project's social card
     image: "img/docusaurus-social-card.jpg",
     navbar: {
@@ -108,7 +110,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `MIT Licensed ${new Date().getFullYear()} NestFlux. Built with Docusaurus and love.`,
     },
     prism: {
       theme: prismThemes.github,
