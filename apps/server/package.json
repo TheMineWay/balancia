@@ -29,6 +29,7 @@
     "@nestjs/swagger": "^11.0.3",
     "@nestjs/throttler": "^6.4.0",
     "@shared/api-definition": "workspace:*",
+    "@shared/constants": "workspace:*",
     "@shared/models": "workspace:*",
     "@shared/utils": "workspace:*",
     "class-transformer": "^0.5.1",

@@ -1,13 +1,12 @@
-import { ENV } from '@core/constants/env/env.constant';
-import { useAuthenticatedRequest } from '@core/hooks/utils/api/use-authenticated-request.util';
-import { CONTROLLERS, getEndpointRequest } from '@shared/api-definition';
-import { UpdateMyProfileNameDTO } from '@shared/dtos';
+import { useAuthenticatedRequest } from "@core/hooks/utils/api/use-authenticated-request.util";
+import { endpointMutation } from "@core/utils/request/endpoint-mutation.util";
+import { CONTROLLERS } from "@shared/api-definition";
 import { useMutation } from "@tanstack/react-query";
 
 export const useEditMyProfileNameMutation = () => {
-    const { request } = useAuthenticatedRequest();
+  const { request } = useAuthenticatedRequest();
 
-    return useMutation({
-        mutationFn: async (data: UpdateMyProfileNameDTO) => (await request({ data, ...getEndpointRequest(ENV.api.host, CONTROLLERS.userProfile, 'update') })).data,
-    })
+  return useMutation({
+    mutationFn: endpointMutation(CONTROLLERS.userProfile, "update", request),
+  });
 };

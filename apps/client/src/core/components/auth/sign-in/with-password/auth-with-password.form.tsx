@@ -57,7 +57,12 @@ export default function AuthWithPasswordForm({ onSuccess }: Readonly<Props>) {
   return (
     <form
       className={styles.form}
-      onSubmit={handleSubmit((data) => mutate(data, { onSuccess, onError }))}
+      onSubmit={handleSubmit((data) =>
+        mutate(data, {
+          onSuccess,
+          onError,
+        })
+      )}
     >
       <div className={styles["form-item"]}>
         <label htmlFor="username">
