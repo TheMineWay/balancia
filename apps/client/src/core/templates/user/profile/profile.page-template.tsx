@@ -2,9 +2,11 @@ import Avatar from "@core/components/ui/avatar/avatar";
 import PageContainer from "@core/components/ui/container/page-container";
 import { useActiveAuth } from "@core/hooks/auth/use-active-auth";
 import { useTranslation } from "@core/i18n/use-translation";
+import { useDeviceInfo } from "@core/providers/device/device-info.context";
 import ProfileInformationTemplate from "@core/templates/user/profile/information/profile-information.template";
 import { getUserName, interpolate } from "@shared/utils";
 import { Tabs } from "antd";
+import clsx from "clsx";
 import { ReactNode } from "react";
 
 type Tab = {
@@ -15,6 +17,8 @@ type Tab = {
 
 export default function ProfilePageTemplate() {
   const { t } = useTranslation("userProfile");
+  const { isMobile } = useDeviceInfo();
+
   const PROFILE_TABS: Tab[] = [
     {
       key: "home",
@@ -39,7 +43,11 @@ export default function ProfilePageTemplate() {
   return (
     <div>
       {/* Tabs */}
-      <Tabs className="w-full mt-4" tabPosition="left" items={PROFILE_TABS} />
+      <Tabs
+        className={clsx("w-full mt-4", { "px-4": isMobile })}
+        tabPosition={isMobile ? "top" : "left"}
+        items={PROFILE_TABS}
+      />
     </div>
   );
 }
