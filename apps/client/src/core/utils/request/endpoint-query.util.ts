@@ -19,5 +19,5 @@ export const endpointQuery = <
   options?: Parameters<typeof getClientEndpointRequest>[2]
 ) => {
   // This method derives its behaviour from the endpointMutation.
-  return () => endpointMutation(controller, endpoint, requestFn, options);
+  return () => endpointMutation(controller, endpoint, requestFn, options)(null as never);
 };

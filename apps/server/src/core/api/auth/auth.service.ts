@@ -1,8 +1,8 @@
 import { UserTokenData } from "@core/decorators/user/user.decorator";
-import { LoginDTO } from "@core/dto/auth/login.dto";
 import { compareHashWithSalt } from "@core/utils/cryptography/password-hashing.util";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { CONTROLLERS, InferEndpointDTO } from "@shared/api-definition";
 import { TOTP } from "otpauth";
 import { UserService } from "../user/user.service";
 
@@ -13,7 +13,7 @@ export class AuthService {
     private readonly jwtService: JwtService
   ) {}
 
-  async signIn({ username, password, totp }: LoginDTO) {
+  async signIn({ username, password, totp }: InferEndpointDTO<typeof CONTROLLERS.auth, 'login'>) {
     const user = await this.usersService.findByUsername(username);
     if (!user?.password || !compareHashWithSalt(user.password, password))
       throw new UnauthorizedException();

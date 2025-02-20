@@ -19,12 +19,12 @@ export class UserRepository extends Repository {
         .limit(1)
     )?.[0];
 
-  findById = async (options?: QueryOptions) =>
+  findById = async (userId: DbUserModel['id'], options?: QueryOptions) =>
     (
       await this.query(options)
         .select()
         .from(usersTable)
-        .where(eq(usersTable.id, 1))
+        .where(eq(usersTable.id, userId))
         .limit(1)
     )?.[0];
 
