@@ -1,12 +1,10 @@
-import { sql } from "drizzle-orm";
-import { datetime } from "drizzle-orm/mysql-core";
+import { timestamp } from "drizzle-orm/mysql-core";
 
 export const timestamps = {
-  createdAt: datetime()
-    .default(sql`(CURRENT_TIMESTAMP)`)
+  createdAt: timestamp().defaultNow()
     .notNull(),
-  updatedAt: datetime()
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
+  updatedAt: timestamp()
+    .defaultNow()
+    .$onUpdateFn(() => new Date(Date.now()))
     .notNull(),
 };

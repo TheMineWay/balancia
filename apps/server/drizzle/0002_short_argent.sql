@@ -1,1 +1,0 @@
-ALTER TABLE `user` MODIFY COLUMN `lastName` varchar(128) NOT NULL;
