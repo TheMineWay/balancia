@@ -2,6 +2,16 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "@docusaurus/plugin-sitemap",
+    name: "@docusaurus/plugin-sitemap",
+    url: "https://www.npmjs.com/package/@docusaurus/plugin-sitemap",
+  },
+  {
+    code: "@playwright/test",
+    name: "@playwright/test",
+    url: "https://www.npmjs.com/package/@playwright/test",
+  },
+  {
     code: "@types/crypto-js",
     name: "@types crypto-js",
     url: "https://www.npmjs.com/package/@types/crypto-js",

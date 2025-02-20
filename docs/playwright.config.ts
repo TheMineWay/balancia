@@ -32,6 +32,8 @@ export default defineConfig({
     trace: "on-first-retry",
   },
 
+  testMatch: "*.e2e.ts",
+
   /* Configure projects for major browsers */
   projects: [
     {
