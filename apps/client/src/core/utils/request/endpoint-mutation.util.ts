@@ -9,7 +9,12 @@ import {
 import { AxiosResponse } from "axios";
 
 /**
- * Perform a request into the API
+ * NOTE:
+ * - The 'endpointQuery' derives its behaviour from this method.
+ */
+
+/**
+ * Perform a request to the API
  */
 export const endpointMutation = <
   C extends ControllerDefinition,

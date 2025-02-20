@@ -1,5 +1,5 @@
-import { AUTH_CONTROLLER_DEFINITION } from "./controllers/auth.controller-definition";
-import { USER_PROFILE_CONTROLLER_DEFINITION } from "./controllers/user-profile.controller-definition";
+import { AUTH_CONTROLLER_DEFINITION } from "./controllers/user/auth.controller-definition";
+import { USER_PROFILE_CONTROLLER_DEFINITION } from "./controllers/user/user-profile.controller-definition";
 
 export const CONTROLLERS = {
   // Core endpoints

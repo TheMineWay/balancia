@@ -1,4 +1,4 @@
-import { useEditMyProfileNameMutation } from "@core/hooks/api/profile/my-profile/use-edit-my-profile-name.mutation";
+import { useEditMyProfileNameMutation } from "@core/hooks/api/user/my-profile/use-edit-my-profile-name.mutation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { USER_SCHEMA, UserModel } from "@shared/models";
 import { Button, Input } from "antd";

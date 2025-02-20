@@ -1,4 +1,4 @@
-import { useLoginMutation } from "@core/hooks/api/auth/use-login.mutation";
+import { useLoginMutation } from "@core/hooks/api/user/auth/use-login.mutation";
 import { AuthContextInfo } from "@core/providers/auth/auth.context";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input } from "antd";
