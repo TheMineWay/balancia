@@ -3,6 +3,7 @@ import { useActiveAuth } from "@core/hooks/auth/use-active-auth";
 import { useTranslation } from "@core/i18n/use-translation";
 import ProfileInformationEditName from "@core/templates/user/profile/information/profile-information-edit-name.template";
 import { UserModel } from "@shared/models";
+import { getUserName } from "@shared/utils";
 import { Card, Divider, Typography } from "antd";
 
 const { Title, Text } = Typography;
@@ -13,6 +14,9 @@ export default function ProfileInformationTemplate() {
 
   return (
     <div className="flex flex-col gap-4">
+      <h1 className="text-3xl text-center font-bold p-4">
+        {getUserName(user)}
+      </h1>
       <div className="text-center mb-6">
         <Title level={2}>{t()["my-info"].Title}</Title>
         <Text>{t()["my-info"].Description}</Text>

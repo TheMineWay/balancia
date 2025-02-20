@@ -2,6 +2,16 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "@types/lodash",
+    name: "@types lodash",
+    url: "https://www.npmjs.com/package/@types/lodash",
+  },
+  {
+    code: "lodash",
+    name: "lodash",
+    url: "https://www.npmjs.com/package/lodash",
+  },
+  {
     code: "@docusaurus/plugin-sitemap",
     name: "@docusaurus/plugin-sitemap",
     url: "https://www.npmjs.com/package/@docusaurus/plugin-sitemap",
@@ -323,16 +333,6 @@ export const DEPENDENCIES = [
     code: "@nestjs/throttler",
     name: "@nestjs throttler",
     url: "https://www.npmjs.com/package/@nestjs/throttler",
-  },
-  {
-    code: "class-transformer",
-    name: "class-transformer",
-    url: "https://www.npmjs.com/package/class-transformer",
-  },
-  {
-    code: "class-validator",
-    name: "class-validator",
-    url: "https://www.npmjs.com/package/class-validator",
   },
   {
     code: "drizzle-orm",

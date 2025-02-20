@@ -12,7 +12,9 @@ export const useEditMyProfileNameMutation = () => {
     mutationFn: endpointMutation(CONTROLLERS.userProfile, "update", request),
     onSuccess: () => {
       // As user profile info has been updated, invalidate user account info query
-      queryClient.invalidateQueries({ queryKey: USER_ACCOUNT_INFO_QUERY_KEYS });
+      queryClient.invalidateQueries({
+        queryKey: USER_ACCOUNT_INFO_QUERY_KEYS(),
+      });
     },
   });
 };

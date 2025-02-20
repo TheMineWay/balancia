@@ -14,7 +14,7 @@ import { useEffect, useTransition } from "react";
  */
 export const useSyncAccountInfo = () => {
   const { context: authContext, setContext: setAuthContext } = useAuthContext();
-  const { accounts: storedAccounts, updateAccount } = useStoredAccounts();
+  const { updateAccount } = useStoredAccounts();
   const { data: updatedAccountInfo } = useUserAccountInfoQuery();
 
   const [, startTransition] = useTransition();

@@ -17,12 +17,6 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
     dep: "@nestjs/throttler",
   },
   {
-    dep: "class-transformer",
-  },
-  {
-    dep: "class-validator",
-  },
-  {
     dep: "drizzle-orm",
   },
   {

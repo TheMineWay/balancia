@@ -10,6 +10,10 @@ describe("getUserName()", () => {
     it("should capitalize name and lastname", () => {
       expect(getUserName({ name: "john", lastName: "doe" })).toBe("John Doe");
     });
+
+    it("should capitalize name and two part lastname", () => {
+      expect(getUserName({ name: "john", lastName: "doe oliver" })).toBe("John Doe Oliver");
+    });
   });
 
   describe("without capitalize option", () => {
