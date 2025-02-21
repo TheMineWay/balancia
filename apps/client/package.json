@@ -8,6 +8,7 @@
     "start": "pnpm build && pnpm preview",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "lint:fix": "eslint --fix",
     "preview": "vite preview"
   },
   "repository": {
