@@ -20,7 +20,7 @@ jobs:
       - name: 📦 Install dependencies
         run: |
           npm install -g pnpm
-          && pnpm install
+          pnpm install
 
       - name: 💄 Run lint
         run: pnpm lint
