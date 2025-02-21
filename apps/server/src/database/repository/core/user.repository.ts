@@ -19,7 +19,7 @@ export class UserRepository extends Repository {
         .limit(1)
     )?.[0];
 
-  findById = async (userId: DbUserModel['id'], options?: QueryOptions) =>
+  findById = async (userId: DbUserModel["id"], options?: QueryOptions) =>
     (
       await this.query(options)
         .select()
@@ -36,7 +36,7 @@ export class UserRepository extends Repository {
   updateById = (
     id: DbUserModel["id"],
     data: UserUpdate,
-    options?: QueryOptions
+    options?: QueryOptions,
   ) =>
     this.query(options)
       .update(usersTable)

@@ -17,7 +17,7 @@ export const totpRecoveryCodesTable = mysqlTable(
   },
   (t) => ({
     uniqueUserCode: unique().on(t.userId, t.code),
-  })
+  }),
 );
 
 export type TotpRecoveryCodesInsert = InferInsertModel<

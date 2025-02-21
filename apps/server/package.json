@@ -9,8 +9,8 @@
     "start:prod": "node .",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint": "eslint '{src,apps,libs,test}/**/*.ts'",
+    "lint:fix": "eslint '{src,apps,libs,test}/**/*.ts' --fix"
   },
   "keywords": [],
   "repository": {

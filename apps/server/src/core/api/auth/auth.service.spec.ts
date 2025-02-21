@@ -16,7 +16,10 @@ describe("Auth service", () => {
     it("the user does not exist", () => {
       expect(
         async () =>
-          await authService.signIn({ username: "unexisting", password: "1234" })
+          await authService.signIn({
+            username: "unexisting",
+            password: "1234",
+          }),
       ).rejects.toThrowError(UnauthorizedException);
     });
 
@@ -27,7 +30,7 @@ describe("Auth service", () => {
             await authService.signIn({
               username: DB_USERS_MOCK["john.doe"].username,
               password: "wrong",
-            })
+            }),
         ).rejects.toThrowError(UnauthorizedException);
       });
     });
@@ -39,7 +42,7 @@ describe("Auth service", () => {
             await authService.signIn({
               username: DB_USERS_MOCK["alice.smith"].username,
               password: "wrong",
-            })
+            }),
         ).rejects.toThrowError(UnauthorizedException);
       });
 
@@ -49,7 +52,7 @@ describe("Auth service", () => {
             await authService.signIn({
               username: DB_USERS_MOCK["alice.smith"].username,
               password: "1234",
-            })
+            }),
         ).rejects.toThrowError(UnauthorizedException);
       });
 
@@ -64,7 +67,7 @@ describe("Auth service", () => {
               username: DB_USERS_MOCK["alice.smith"].username,
               password: "wrong",
               totp: totp.generate(),
-            })
+            }),
         ).rejects.toThrowError(UnauthorizedException);
       });
     });

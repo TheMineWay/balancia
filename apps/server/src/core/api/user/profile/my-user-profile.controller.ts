@@ -16,17 +16,20 @@ const CONTROLLER = CONTROLLERS.userProfile;
 
 @Controller(getController(CONTROLLER))
 export class MyUserProfileController {
-  constructor(private readonly myUserProfileService: MyUserProfileService) { }
+  constructor(private readonly myUserProfileService: MyUserProfileService) {}
 
   @Get(getEndpoint(CONTROLLER, "get"))
-  get(@UserId() userId: UserModel["id"]): Promise<InferEndpointResponseDTO<typeof CONTROLLER, 'get'>> {
+  get(
+    @UserId() userId: UserModel["id"],
+  ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "get">> {
     return this.myUserProfileService.getById(userId);
   }
 
   @Put(getEndpoint(CONTROLLER, "update"))
   update(
-    @ValidatedBody(getEndpointDTO(CONTROLLER, 'update')) userData: InferEndpointDTO<typeof CONTROLLER, 'update'>,
-    @UserId() userId: UserModel["id"]
+    @ValidatedBody(getEndpointDTO(CONTROLLER, "update"))
+    userData: InferEndpointDTO<typeof CONTROLLER, "update">,
+    @UserId() userId: UserModel["id"],
   ) {
     return this.myUserProfileService.updateById(userId, userData);
   }
@@ -36,7 +39,7 @@ export class MyUserProfileController {
   @Patch(getEndpoint(CONTROLLER, "updatePassword"))
   updatePassword(
     @Body() { password }: { password: string }, // TODO: validate
-    @UserId() userId: UserModel["id"]
+    @UserId() userId: UserModel["id"],
   ) {
     return this.myUserProfileService.updateUserPassword(userId, password);
   }

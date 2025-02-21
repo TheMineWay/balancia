@@ -6,5 +6,5 @@ export const UserId = createParamDecorator(
     const request = ctx.switchToHttp().getRequest();
     const user = request.user as UserTokenData;
     return user.id;
-  }
+  },
 );

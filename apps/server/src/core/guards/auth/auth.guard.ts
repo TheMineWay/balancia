@@ -14,7 +14,7 @@ import { Request } from "express";
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly reflector: Reflector
+    private readonly reflector: Reflector,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {

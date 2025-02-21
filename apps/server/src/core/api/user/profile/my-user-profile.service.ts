@@ -12,23 +12,23 @@ export class MyUserProfileService {
   getById = async (userId: UserModel["id"]) => {
     const user = await this.userRepository.findById(userId);
     return this.getProfileFromDbUser(user);
-  }
+  };
 
   updateById = (
     userId: UserModel["id"],
     userData: UserUpdate,
-    options?: QueryOptions
+    options?: QueryOptions,
   ) => this.userRepository.updateById(userId, userData, options);
 
   updateUserPassword = async (userId: DbUserModel["id"], password: string) => {
     if (evaluatePassword(password).score < 60) throw new BadRequestException();
     await this.updateById(userId, { password });
   };
-  
+
   // Utils
 
   getProfileFromDbUser = (user: DbUserModel) => {
-    const {password: _, totpSecret: __, ...profile} = user;
+    const { password: _, totpSecret: __, ...profile } = user;
     return profile;
-  }
+  };
 }

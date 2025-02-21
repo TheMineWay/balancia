@@ -10,10 +10,14 @@ import { UserService } from "../user/user.service";
 export class AuthService {
   constructor(
     private readonly usersService: UserService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
   ) {}
 
-  async signIn({ username, password, totp }: InferEndpointDTO<typeof CONTROLLERS.auth, 'login'>) {
+  async signIn({
+    username,
+    password,
+    totp,
+  }: InferEndpointDTO<typeof CONTROLLERS.auth, "login">) {
     const user = await this.usersService.findByUsername(username);
     if (!user?.password || !compareHashWithSalt(user.password, password))
       throw new UnauthorizedException();
