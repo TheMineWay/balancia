@@ -19,7 +19,9 @@ jobs:
           node-version: lts/*
 
       - name: 📦 Install dependencies
-        run: pnpm install
+        run: |
+          npm install -g pnpm
+          pnpm install
 
       - name: 🔨 Build packages
         run: pnpm build:packages
