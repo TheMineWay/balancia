@@ -2,6 +2,11 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "@vitest/ui",
+    name: "Vitest UI",
+    url: "https://www.npmjs.com/package/@vitest/ui",
+  },
+  {
     code: "@types/lodash",
     name: "@types lodash",
     url: "https://www.npmjs.com/package/@types/lodash",
@@ -219,6 +224,11 @@ export const DEPENDENCIES = [
     url: "https://www.npmjs.com/package/eslint-plugin-react-hooks",
     docsUrl:
       "https://github.com/facebook/react/tree/main/packages/eslint-plugin-react-hooks",
+  },
+  {
+    code: "eslint-plugin-prettier",
+    name: "ESLint Plugin Prettier",
+    url: "https://www.npmjs.com/package/eslint-plugin-prettier",
   },
   {
     code: "eslint-plugin-react-refresh",

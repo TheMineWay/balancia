@@ -4,6 +4,26 @@ import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   {
+    dep: "@eslint/js",
+    isDevelopment: true,
+  },
+  {
+    dep: "eslint",
+    isDevelopment: true,
+  },
+  {
+    dep: "eslint-plugin-prettier",
+    isDevelopment: true,
+  },
+  {
+    dep: "globals",
+    isDevelopment: true,
+  },
+  {
+    dep: "typescript-eslint",
+    isDevelopment: true,
+  },
+  {
     dep: "@nestjs/testing",
     isDevelopment: true,
   },

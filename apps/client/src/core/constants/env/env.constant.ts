@@ -4,10 +4,12 @@ const ENV_SCHEMA = Zod.object({
   VITE_API_HOST: Zod.string().url(),
   VITE_TEST: Zod.union([z.literal("true"), z.literal("false"), z.undefined()])
     .default("false")
-    .transform((val) => val === "true")
+    .transform((val) => val === "true"),
 }).required();
 
-const TEST_VALUES: Partial<Zod.infer<typeof ENV_SCHEMA>> = {};
+const TEST_VALUES: Partial<Zod.infer<typeof ENV_SCHEMA>> = {
+  VITE_API_HOST: "http://localhost:3000",
+};
 
 export const ENV = (() => {
   let env = import.meta.env as unknown as Zod.infer<typeof ENV_SCHEMA>;
