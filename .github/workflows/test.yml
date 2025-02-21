@@ -29,4 +29,4 @@ jobs:
       - name: 📋 Run tests
         run: pnpm test
         env:
-          NODE_ENV: development
+          NODE_ENV: test
