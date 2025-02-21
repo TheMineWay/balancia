@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "819ab287-81f9-409c-a0ef-4fff11305458",
+  "id": "5d724c0a-27ad-4fb4-b729-6fb31bbc0c86",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "totp-recovery-codes": {
@@ -23,11 +23,11 @@
         },
         "createdAt": {
           "name": "createdAt",
-          "type": "datetime",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(CURRENT_TIMESTAMP)"
+          "default": "(now())"
         }
       },
       "indexes": {},
@@ -77,7 +77,7 @@
         },
         "lastName": {
           "name": "lastName",
-          "type": "varchar(64)",
+          "type": "varchar(128)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -87,6 +87,13 @@
           "type": "varchar(32)",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "password": {
@@ -105,19 +112,19 @@
         },
         "createdAt": {
           "name": "createdAt",
-          "type": "datetime",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(CURRENT_TIMESTAMP)"
+          "default": "(now())"
         },
         "updatedAt": {
           "name": "updatedAt",
-          "type": "datetime",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(CURRENT_TIMESTAMP)"
+          "default": "(now())"
         }
       },
       "indexes": {},
@@ -135,6 +142,12 @@
           "name": "user_username_unique",
           "columns": [
             "username"
+          ]
+        },
+        "user_email_unique": {
+          "name": "user_email_unique",
+          "columns": [
+            "email"
           ]
         }
       },

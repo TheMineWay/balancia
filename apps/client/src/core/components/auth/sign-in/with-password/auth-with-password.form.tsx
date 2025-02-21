@@ -1,6 +1,6 @@
 import AuthWithPasswordTotpForm from "@core/components/auth/sign-in/with-password/auth-with-password-totp.form";
 import ScopedAlertError from "@core/components/error/scoped/scoped-alert-error";
-import { useLoginMutation } from "@core/hooks/api/auth/use-login.mutation";
+import { useLoginMutation } from "@core/hooks/api/user/auth/use-login.mutation";
 import { useTranslation } from "@core/i18n/use-translation";
 import { AuthContextInfo } from "@core/providers/auth/auth.context";
 import { zodResolver } from "@hookform/resolvers/zod";

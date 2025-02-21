@@ -10,7 +10,7 @@ export const getUserName = (
 ) => {
   const { capitalize: shouldCapitalize } = options;
 
-  return [name, lastName]
+  return [name, ...(lastName?.split(" ") ?? [])]
     .filter(Boolean)
     .map((text) => (shouldCapitalize ? capitalize(text!) : text))
     .join(" ");

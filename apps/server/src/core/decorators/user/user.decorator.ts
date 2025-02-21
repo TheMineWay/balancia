@@ -5,7 +5,9 @@ export type UserTokenData = Pick<UserModel, "id" | "username">;
 
 export const User = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
-    const request = ctx.switchToHttp().getRequest();
+    const request: Request & { user: UserTokenData } = ctx
+      .switchToHttp()
+      .getRequest();
     return request.user;
-  }
+  },
 );

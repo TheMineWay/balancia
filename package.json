@@ -22,7 +22,9 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "tools": "pnpm --filter scripts launch",
-    "db:init": "pnpm --filter nestflux-server \"db:generate\" && pnpm --filter nestflux-server \"db:migrate\""
+    "db:init": "pnpm --filter nestflux-server \"db:generate\" && pnpm --filter nestflux-server \"db:migrate\"",
+    "lint": "pnpm -r run lint",
+    "lint:fix": "pnpm -r run lint:fix"
   },
   "keywords": [
     "scaffold",
@@ -35,8 +37,9 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@vitest/ui": "2.1.9",
     "concurrently": "^9.1.2",
-    "vitest": "^2.1.8"
+    "vitest": "^2.1.9"
   },
   "workspaces": [
     "apps/*",

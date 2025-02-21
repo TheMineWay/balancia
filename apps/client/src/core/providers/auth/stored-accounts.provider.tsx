@@ -6,13 +6,20 @@ import {
 import { WithChildren } from "@core/types/common/component.types";
 import { useState } from "react";
 
+/**
+ * Stores in LOCAL STORAGE persistent user accounts.
+ * Each stored account includes:
+ * - Auth token.
+ * - User info (USER_SCHEMA).
+ */
 const LOCAL_STORAGE_KEY = "accounts";
 
 type Props = WithChildren;
 
 export default function StoredAccountsProvider({ children }: Readonly<Props>) {
-  const [accounts, setAccounts] =
-    useState<Record<number, StoredAccount>>(readStoredAccounts());
+  const [accounts, setAccounts] = useState<Record<number, StoredAccount>>(
+    readStoredAccounts()
+  );
 
   const addAccount = (account: Omit<StoredAccount, "grantedAt">) => {
     const accountData = { ...account, grantedAt: new Date() };
@@ -37,9 +44,23 @@ export default function StoredAccountsProvider({ children }: Readonly<Props>) {
     return accounts[id];
   };
 
+  const updateAccount = (id: number, account: Partial<StoredAccount>) => {
+    const currentAccount = findAccount(id);
+    if (!currentAccount) return;
+
+    const updatedAccount = { ...currentAccount, ...account };
+    setAccounts({ ...accounts, [id]: updatedAccount });
+  };
+
   return (
     <STORED_ACCOUNTS_CONTEXT.Provider
-      value={{ accounts, addAccount, removeAccount, findAccount }}
+      value={{
+        accounts,
+        addAccount,
+        removeAccount,
+        findAccount,
+        updateAccount,
+      }}
     >
       {children}
     </STORED_ACCOUNTS_CONTEXT.Provider>

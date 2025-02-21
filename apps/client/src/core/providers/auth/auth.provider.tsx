@@ -8,6 +8,12 @@ import { useStoredAccounts } from "@core/providers/auth/stored-account.context";
 import { WithChildren } from "@core/types/common/component.types";
 import { useState } from "react";
 
+/**
+ * Stores in SESSION STORAGE the current auth info.
+ * It includes:
+ * - Auth token.
+ * - User info (USER_SCHEMA).
+ */
 const SESSION_STORAGE_KEY = "active-auth-info";
 
 export default function AuthProvider({ children }: Readonly<WithChildren>) {

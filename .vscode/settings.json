@@ -25,5 +25,6 @@
     "titleBar.activeForeground": "#FFFFFF", // White text for the active title bar
     "titleBar.inactiveBackground": "#5B7FA6", // Lighter blue for inactive title bar
     "titleBar.inactiveForeground": "#D1D9E6" // Lighter text color for inactive title bar
-  }
+  },
+  "editor.formatOnSave": true
 }

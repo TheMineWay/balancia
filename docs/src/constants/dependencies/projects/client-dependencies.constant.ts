@@ -3,6 +3,13 @@ import { ProjectDependency } from "@site/src/types/dependencies/dependency.type"
 import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
+  {
+    dep: "lodash",
+  },
+  {
+    dep: "@types/lodash",
+    isDevelopment: true,
+  },
   { dep: "react-icons" },
   { dep: "axios" },
   { dep: "@hookform/resolvers" },

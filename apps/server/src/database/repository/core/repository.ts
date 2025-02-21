@@ -13,7 +13,7 @@ export type QueryOptions = {
 export abstract class Repository {
   constructor(
     @Inject(DATABASE_PROVIDERS.main)
-    protected readonly dbService: DatabaseService
+    protected readonly dbService: DatabaseService,
   ) {}
 
   protected query = (options?: QueryOptions) =>

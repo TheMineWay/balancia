@@ -16,6 +16,7 @@ type ContextType = {
   addAccount: (account: Omit<StoredAccount, "grantedAt">) => void;
   removeAccount: (id: number) => void;
   findAccount: (id: number) => StoredAccount | undefined;
+  updateAccount: (id: number, account: Partial<StoredAccount>) => void;
 };
 
 export const STORED_ACCOUNTS_CONTEXT = createContext<ContextType>(null!);

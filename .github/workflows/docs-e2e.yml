@@ -28,6 +28,13 @@ jobs:
           cd docs
           pnpm exec playwright install --with-deps
 
+      - name: 🔄️ Start Docusaurus server
+        run: |
+          cd docs
+          npm run serve &
+        env:
+          NODE_ENV: development
+
       - name: 📋 Run Playwright tests
         run: |
           cd docs

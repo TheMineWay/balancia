@@ -26,7 +26,7 @@ export class AuthController {
   @Post(getEndpoint(CONTROLLER, "login"))
   login(
     @ValidatedBody(getEndpointDTO(CONTROLLER, "login"))
-    loginDto: InferEndpointDTO<typeof CONTROLLER, "login">
+    loginDto: InferEndpointDTO<typeof CONTROLLER, "login">,
   ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "login">> {
     return this.authService.signIn(loginDto);
   }

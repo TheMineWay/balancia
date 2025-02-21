@@ -2,6 +2,31 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "@vitest/ui",
+    name: "Vitest UI",
+    url: "https://www.npmjs.com/package/@vitest/ui",
+  },
+  {
+    code: "@types/lodash",
+    name: "@types lodash",
+    url: "https://www.npmjs.com/package/@types/lodash",
+  },
+  {
+    code: "lodash",
+    name: "lodash",
+    url: "https://www.npmjs.com/package/lodash",
+  },
+  {
+    code: "@docusaurus/plugin-sitemap",
+    name: "@docusaurus/plugin-sitemap",
+    url: "https://www.npmjs.com/package/@docusaurus/plugin-sitemap",
+  },
+  {
+    code: "@playwright/test",
+    name: "@playwright/test",
+    url: "https://www.npmjs.com/package/@playwright/test",
+  },
+  {
     code: "@types/crypto-js",
     name: "@types crypto-js",
     url: "https://www.npmjs.com/package/@types/crypto-js",
@@ -201,6 +226,11 @@ export const DEPENDENCIES = [
       "https://github.com/facebook/react/tree/main/packages/eslint-plugin-react-hooks",
   },
   {
+    code: "eslint-plugin-prettier",
+    name: "ESLint Plugin Prettier",
+    url: "https://www.npmjs.com/package/eslint-plugin-prettier",
+  },
+  {
     code: "eslint-plugin-react-refresh",
     name: "ESLint Plugin React Refresh",
     url: "https://www.npmjs.com/package/eslint-plugin-react-refresh",
@@ -313,16 +343,6 @@ export const DEPENDENCIES = [
     code: "@nestjs/throttler",
     name: "@nestjs throttler",
     url: "https://www.npmjs.com/package/@nestjs/throttler",
-  },
-  {
-    code: "class-transformer",
-    name: "class-transformer",
-    url: "https://www.npmjs.com/package/class-transformer",
-  },
-  {
-    code: "class-validator",
-    name: "class-validator",
-    url: "https://www.npmjs.com/package/class-validator",
   },
   {
     code: "drizzle-orm",

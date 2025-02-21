@@ -1,7 +1,7 @@
 import { CONFIG } from "@shared/constants";
 import { USER_MODEL_VALUES, USER_SCHEMA } from "@shared/models";
 import { object, string } from "zod";
-import { ControllerDefinition } from "../../types";
+import { ControllerDefinition } from "../../../types";
 
 const LOGIN_DTO = USER_SCHEMA.pick({
   username: true,

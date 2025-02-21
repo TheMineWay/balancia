@@ -6,5 +6,6 @@ import { Module } from "@nestjs/common";
 @Module({
   providers: [MyUserProfileService, UserRepository],
   controllers: [MyUserProfileController],
+  exports: [MyUserProfileService],
 })
 export class MyUserProfileModule {}
