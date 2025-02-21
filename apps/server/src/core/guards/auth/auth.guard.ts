@@ -1,4 +1,5 @@
 import { ENV } from "@constants/conf/env.constant";
+import { UserTokenData } from "@core/decorators/user/user.decorator";
 import { IS_PUBLIC_KEY } from "@core/guards/auth/public.guard";
 import {
   CanActivate,
@@ -27,13 +28,13 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    const request = context.switchToHttp().getRequest();
+    const request: Request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
       throw new UnauthorizedException();
     }
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
+      const payload: UserTokenData = await this.jwtService.verifyAsync(token, {
         secret: ENV.jwt.secret,
       });
       // 💡 We're assigning the payload to the request object here

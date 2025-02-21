@@ -22,7 +22,7 @@ export class AuthService {
     if (!user?.password || !compareHashWithSalt(user.password, password))
       throw new UnauthorizedException();
 
-    if (!(await this.validateTotp(totp ?? null, user.totpSecret)))
+    if (!this.validateTotp(totp ?? null, user.totpSecret))
       throw new UnauthorizedException("TOTP");
 
     const payload: UserTokenData = {
@@ -39,7 +39,7 @@ export class AuthService {
     };
   }
 
-  async validateTotp(providedCode: string | null, totpSecret: string | null) {
+  validateTotp(providedCode: string | null, totpSecret: string | null) {
     if (!totpSecret) return true; // The user does not have 2FA enabled
     if (!providedCode) return false;
 

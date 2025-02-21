@@ -7,7 +7,7 @@ import { ZodSchema } from "zod";
 
 export const ValidatedBody = (schema: ZodSchema) =>
   createParamDecorator((_, ctx: ExecutionContext) => {
-    const request = ctx.switchToHttp().getRequest();
+    const request: Request = ctx.switchToHttp().getRequest();
     const result = schema.safeParse(request.body);
 
     if (!result.success) {

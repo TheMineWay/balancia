@@ -8,7 +8,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 describe("Auth service", () => {
   let authService: AuthService;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     authService = AUTH_SERVICE_MOCK;
   });
 
