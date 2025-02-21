@@ -1,4 +1,4 @@
-import { useTheme } from "@core/providers/theme/theme.provider";
+import { useTheme } from "@core/providers/theme/theme.context";
 import { Theme } from "@core/types/base/theme/theme.enum";
 import { WithChildren } from "@core/types/common/component.types";
 import { ConfigProvider, theme as antdTheme } from "antd";

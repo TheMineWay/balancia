@@ -1,4 +1,4 @@
-import { useLanguageContext } from "@core/providers/language/language.provider";
+import { useLanguageContext } from "@core/providers/language/language.context";
 import { LocaleContent, LocaleKey } from "@i18n/locales/locales";
 import { interpolate } from "@shared/utils";
 
