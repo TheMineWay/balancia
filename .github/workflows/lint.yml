@@ -23,7 +23,7 @@ jobs:
           pnpm install
 
       - name: 🔨 Build packages
-        run: pnpm packages:build
+        run: pnpm build:packages
 
       - name: 💄 Run lint
         run: pnpm lint
