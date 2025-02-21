@@ -2,8 +2,7 @@ name: Lint code
 
 on:
   pull_request:
-    paths:
-      - "**/*.{js,mjs,cjs,ts}"
+    branches: [main]
 
 jobs:
   lint:
