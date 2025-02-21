@@ -15,10 +15,12 @@ jobs:
       - name: 💚 Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "22" # NODE VERSION
+          node-version: lts/*
 
-      - name: Install dependencies
-        run: 📦 pnpm install
+      - name: 📦 Install dependencies
+        run: |
+          npm install -g pnpm
+          && pnpm install
 
       - name: 💄 Run lint
         run: pnpm lint
