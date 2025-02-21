@@ -23,7 +23,8 @@
     "test:ui": "vitest --ui",
     "tools": "pnpm --filter scripts launch",
     "db:init": "pnpm --filter nestflux-server \"db:generate\" && pnpm --filter nestflux-server \"db:migrate\"",
-    "lint": "pnpm -r run lint"
+    "lint": "pnpm -r run lint",
+    "lint:fix": "pnpm -r run lint:fix"
   },
   "keywords": [
     "scaffold",

@@ -1,0 +1,25 @@
+name: Lint code
+
+on:
+  pull_request:
+    paths:
+      - "**/*.{js,mjs,cjs,ts}"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 💚 Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22" # NODE VERSION
+
+      - name: Install dependencies
+        run: 📦 pnpm install
+
+      - name: 💄 Run lint
+        run: pnpm lint
