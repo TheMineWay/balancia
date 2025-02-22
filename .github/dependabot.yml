@@ -1,0 +1,47 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "pnpm" # See documentation for possible values
+    directory: "/" # Location of root package manifest
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pnpm" # For React app
+    directory: "apps/client" # Location of client package manifest
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pnpm" # For NestJS app
+    directory: "apps/server" # Location of server package manifest
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pnpm" # For docs directory (if applicable)
+    directory: "docs" # Location of docs package manifest
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pnpm" # For packages/api-definition
+    directory: "packages/api-definition" # Location of api-definition package manifest
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pnpm" # For packages/constants
+    directory: "packages/constants" # Location of constants package manifest
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pnpm" # For packages/mocks
+    directory: "packages/mocks" # Location of mocks package manifest
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pnpm" # For packages/models
+    directory: "packages/models" # Location of models package manifest
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pnpm" # For packages/types
+    directory: "packages/types" # Location of types package manifest
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pnpm" # For packages/utils
+    directory: "packages/utils" # Location of utils package manifest
+    schedule:
+      interval: "weekly"
