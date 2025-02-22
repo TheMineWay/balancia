@@ -38,9 +38,9 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@vitest/ui": "2.1.9",
+    "@vitest/ui": "3.0.6",
     "concurrently": "^9.1.2",
-    "vitest": "^2.1.9"
+    "vitest": "^3.0.6"
   },
   "workspaces": [
     "apps/*",
