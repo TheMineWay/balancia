@@ -25,18 +25,18 @@
     "@mdx-js/react": "^3.1.0",
     "clsx": "^2.1.1",
     "prism-react-renderer": "^2.4.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.7.0",
     "@docusaurus/tsconfig": "3.7.0",
-    "@docusaurus/types": "3.6.3",
+    "@docusaurus/types": "3.7.0",
     "@playwright/test": "^1.50.1",
-    "@types/node": "^22.13.4",
-    "@types/react": "^18.3.18",
-    "typescript": "~5.6.3",
-    "vitest": "^2.1.9"
+    "@types/node": "^22.13.5",
+    "@types/react": "^19.0.10",
+    "typescript": "~5.7.3",
+    "vitest": "^3.0.6"
   },
   "browserslist": {
     "production": [

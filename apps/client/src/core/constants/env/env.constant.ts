@@ -10,7 +10,7 @@ const ENV_SCHEMA = Zod.object({
 }).required();
 
 const TEST_VALUES: Partial<Zod.infer<typeof ENV_SCHEMA>> = {
-  VITE_API_HOST: "http://localhost:3000",
+  VITE_API_HOST: "http://localhost:3001",
 };
 
 export const ENV = (() => {

@@ -1,7 +1,7 @@
 import { resolve } from "path";
-import { defineProject } from "vitest/config";
+import { defineConfig } from "vitest/config";
 
-export default defineProject({
+export default defineConfig({
   test: {
     globals: true,
     environment: "node",
@@ -18,6 +18,8 @@ export default defineProject({
       "@schemas": resolve(__dirname, "src/database/schemas"),
       "@core": resolve(__dirname, "src/core"),
       "@mocks": resolve(__dirname, "src/mocks"),
+      "@ts-types": resolve(__dirname, "src/types"),
+      "@guards": resolve(__dirname, "src/guards"),
     },
   },
 });

@@ -2,6 +2,11 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "@tailwindcss/postcss",
+    name: "Tailwind CSS PostCSS",
+    url: "https://www.npmjs.com/package/@tailwindcss/postcss",
+  },
+  {
     code: "@vitest/ui",
     name: "Vitest UI",
     url: "https://www.npmjs.com/package/@vitest/ui",

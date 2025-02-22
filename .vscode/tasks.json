@@ -1,0 +1,55 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Start development environment (all)",
+        "type": "shell",
+        "command": "echo 'Opening dev environments...'",
+        "problemMatcher": [],
+        "dependsOn": ["dev:client", "dev:server", "dev:packages"]
+      },
+      {
+        "label": "dev:client",
+        "type": "shell",
+        "command": "pnpm dev:client",
+        "problemMatcher": [],
+        "presentation": {
+          "group": "terminal",
+          "panel": "new",
+          "reveal": "always"
+        },
+        "options": {
+          "shell": "/bin/bash"
+        }
+      },
+      {
+        "label": "dev:server",
+        "type": "shell",
+        "command": "pnpm dev:server",
+        "problemMatcher": [],
+        "presentation": {
+          "group": "terminal",
+          "panel": "new",
+          "reveal": "always"
+        },
+        "options": {
+          "shell": "/bin/bash"
+        }
+      },
+      {
+        "label": "dev:packages",
+        "type": "shell",
+        "command": "pnpm dev:packages",
+        "problemMatcher": [],
+        "presentation": {
+          "group": "terminal",
+          "panel": "new",
+          "reveal": "always"
+        },
+        "options": {
+          "shell": "/bin/bash"
+        }
+      }
+    ]
+  }
+  

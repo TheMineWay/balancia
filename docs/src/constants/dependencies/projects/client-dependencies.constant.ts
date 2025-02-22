@@ -42,6 +42,10 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   { dep: "jsdom", isDevelopment: true },
   { dep: "postcss", isDevelopment: true },
   { dep: "tailwindcss", isDevelopment: true },
+  {
+    dep: "@tailwindcss/postcss",
+    isDevelopment: true,
+  },
   { dep: "typescript", isDevelopment: true },
   { dep: "typescript-eslint", isDevelopment: true },
   { dep: "vite", isDevelopment: true },
