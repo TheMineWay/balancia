@@ -1,5 +1,5 @@
 import { DEVICE_INFO_CONTEXT } from "@core/providers/device/device-info.context";
-import { WithChildren } from "@ts-types/common/component.types";
+import { WithChildren } from "@core/types/common/component.types";
 import { useEffect, useState } from "react";
 
 type Props = WithChildren;

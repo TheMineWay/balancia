@@ -1,11 +1,11 @@
 import { useSyncAccountInfo } from "@core/hooks/auth/use-sync-account-info";
-import { WithChildren } from "@ts-types/common/component.types";
+import { WithChildren } from "@core/types/common/component.types";
 
 type Props = WithChildren;
 
 export default function AfterProviders({ children }: Readonly<Props>) {
-    // Load hook to ensure account info is up-to-date
-    useSyncAccountInfo();
+  // Load hook to ensure account info is up-to-date
+  useSyncAccountInfo();
 
-    return children;
+  return children;
 }

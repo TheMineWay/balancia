@@ -18,6 +18,8 @@ export default defineProject({
       "@schemas": resolve(__dirname, "src/database/schemas"),
       "@core": resolve(__dirname, "src/core"),
       "@mocks": resolve(__dirname, "src/mocks"),
+      "@ts-types": resolve(__dirname, "src/types"),
+      "@guards": resolve(__dirname, "src/guards"),
     },
   },
 });

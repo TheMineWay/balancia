@@ -1,5 +1,5 @@
-import { Language } from "@ts-types/base/i18n/language.enum";
-import { TranslationStore } from "@ts-types/base/i18n/translation/translation-store.type";
+import { Language } from "@core/types/base/i18n/language.enum";
+import { TranslationStore } from "@core/types/base/i18n/translation/translation-store.type";
 import { createContext, useContext } from "react";
 
 interface LanguageContext {

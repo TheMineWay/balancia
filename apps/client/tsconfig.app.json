@@ -33,7 +33,7 @@
       "@providers/*": ["src/providers/*"],
       "@constants/*": ["src/constants/*"],
       "@i18n/*": ["src/i18n/*"],
-      "@ts-types/*": ["src/core/types/*"],
+      "@ts-types/*": ["src/types/*"],
       "@core/*": ["src/core/*"]
     }
   },
