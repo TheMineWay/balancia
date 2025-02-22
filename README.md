@@ -107,8 +107,8 @@ NestFlux is a **monorepo scaffold application** designed for rapid development a
 
 By default:
 
-- API is accessible at `http://localhost:3000`
-- Client is accessible at `http://localhost:3001`
+- API is accessible at `http://localhost:3001`
+- Client is accessible at `http://localhost:3000`
 
 ## Testing
 

@@ -5,7 +5,11 @@ import { USERS_MOCK } from "@shared/mocks";
 import { UserModel } from "@shared/models";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vitest } from "vitest";
+
+vitest.mock("@core/hooks/auth/use-sync-account-info", () => ({
+  useSyncAccountInfo: () => {},
+}));
 
 const LOCAL_STORAGE_KEY = "accounts";
 const SESSION_STORAGE_KEY = "active-auth-info";

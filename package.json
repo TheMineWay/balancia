@@ -20,12 +20,14 @@
     "build:packages": "pnpm --filter @shared/* build",
     "build": "pnpm build:packages && pnpm build:client && pnpm build:server",
     "test": "vitest",
+    "test:dev": "vitest --watch",
     "test:ui": "vitest --ui",
     "tools": "pnpm --filter scripts launch",
     "db:generate": "pnpm --filter nestflux-server \"db:generate\"",
     "db:migrate": "pnpm --filter nestflux-server \"db:migrate\"",
     "lint": "pnpm -r run lint",
-    "lint:fix": "pnpm -r run lint:fix"
+    "lint:fix": "pnpm -r run lint:fix",
+    "clean:all": "find . -type d \\( -name \"node_modules\" -or -name \"dist\" \\) -exec rm -rf {} +"
   },
   "keywords": [
     "scaffold",
@@ -47,5 +49,17 @@
     "packages/*",
     "docs",
     "scripts"
-  ]
+  ],
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "@scarf/scarf",
+      "core-js",
+      "core-js-pure"
+    ],
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@swc/core",
+      "esbuild"
+    ]
+  }
 }
