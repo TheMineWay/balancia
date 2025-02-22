@@ -22,7 +22,8 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "tools": "pnpm --filter scripts launch",
-    "db:init": "pnpm --filter nestflux-server \"db:generate\" && pnpm --filter nestflux-server \"db:migrate\"",
+    "db:generate": "pnpm --filter nestflux-server \"db:generate\"",
+    "db:migrate": "pnpm --filter nestflux-server \"db:migrate\"",
     "lint": "pnpm -r run lint",
     "lint:fix": "pnpm -r run lint:fix"
   },

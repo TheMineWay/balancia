@@ -12,7 +12,6 @@ NestFlux is a **monorepo scaffold application** designed for rapid development a
 
   - **React**: Modern UI framework for the client.
   - **Ant Design (AntD)**: Pre-configured UI components for sleek and professional designs.
-  - **next-i18n**: Out-of-the-box internationalization support.
 
 - **Backend**
 
@@ -71,7 +70,7 @@ NestFlux is a **monorepo scaffold application** designed for rapid development a
 
 4. Run database migrations:
    ```bash
-   pnpm run migrate
+   pnpm migrate
    ```
 
 ### Running the Application
@@ -87,11 +86,11 @@ NestFlux is a **monorepo scaffold application** designed for rapid development a
 - **Without Docker**:
   - **Start the backend**:
     ```bash
-    pnpm run start:server
+    pnpm start:server
     ```
   - **Start the client**:
     ```bash
-    pnpm run start:client
+    pnpm start:client
     ```
 
 By default:
@@ -109,24 +108,16 @@ Run all Vitest tests:
 pnpm run test
 ```
 
-### End-to-End Testing
-
-Run Playwright tests:
-
-```bash
-pnpm run e2e
-```
-
 ## Scripts
 
-| Command                 | Description                                |
-| ----------------------- | ------------------------------------------ |
-| `pnpm run start:client` | Start the React client application.        |
-| `pnpm run start:server` | Start the NestJS backend application.      |
-| `pnpm run test`         | Run all Vitest tests (client and backend). |
-| `pnpm run e2e`          | Run Playwright end-to-end tests.           |
-| `pnpm run lint`         | Check code quality using linter rules.     |
-| `pnpm run migrate`      | Run database migrations.                   |
+| Command             | Description                                |
+| ------------------- | ------------------------------------------ |
+| `pnpm start:client` | Start the React client application.        |
+| `pnpm start:server` | Start the NestJS backend application.      |
+| `pnpm test`         | Run all Vitest tests (client and backend). |
+| `pnpm lint`         | Check code quality using linter rules.     |
+| `pnpm db:generate`  | Generate database SQL.                     |
+| `pnpm db:migrate`   | Run database migrations.                   |
 
 ## Customization
 
@@ -134,16 +125,11 @@ pnpm run e2e
 
 NestFlux uses **Ant Design** for UI components. Visit [Ant Design documentation](https://ant.design/docs/react/introduce) to learn more about customization and component usage.
 
-### Internationalization (i18n)
-
-The project is pre-configured with **next-i18n**. Add translations to the `public/locales` directory and refer to [next-i18n documentation](https://www.npmjs.com/package/next-i18next) for more details.
-
 ### GitHub Pipelines
 
 NestFlux includes prebuilt GitHub workflows:
 
-- **Testing and Linting**: Enabled by default.
-- **GitHub Pages Deployment**: Available but disabled by default. Enable it in `.github/workflows/gh-pages.yml` as needed.
+- **Testing and Linting**: Enabled by default (unit testing, e2e and lint).
 
 ## License
 
