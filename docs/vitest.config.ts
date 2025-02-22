@@ -1,15 +1,14 @@
 import path from "path";
 import { defineProject, mergeConfig } from "vitest/config";
-import configShared from "../vitest.shared";
+import sharedConfig from "../vitest.shared";
 
 export default mergeConfig(
-  configShared,
+  sharedConfig,
   defineProject({
     test: {
       globals: true,
       environment: "node",
       include: ["**/*.spec.*"],
-      environmentMatchGlobs: [["**/*.spec.ts", "node"]],
     },
     resolve: {
       alias: {

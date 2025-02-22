@@ -30,7 +30,7 @@
       "@core/*": ["src/core/*"],
       "@mocks/*": ["src/mocks/*"],
       "@guards/*": ["src/guards/*"],
-      "@ts-types/*": ["src/types/*"],
+      "@ts-types/*": ["src/types/*"]
     }
   }
 }
