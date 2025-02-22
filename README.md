@@ -122,14 +122,30 @@ pnpm run test
 
 ## Scripts
 
-| Command             | Description                                |
-| ------------------- | ------------------------------------------ |
-| `pnpm start:client` | Start the React client application.        |
-| `pnpm start:server` | Start the NestJS backend application.      |
-| `pnpm test`         | Run all Vitest tests (client and backend). |
-| `pnpm lint`         | Check code quality using linter rules.     |
-| `pnpm db:generate`  | Generate database SQL.                     |
-| `pnpm db:migrate`   | Run database migrations.                   |
+| Command               | Description                            |
+| --------------------- | -------------------------------------- |
+| `pnpm start:client`   | Start the React client application.    |
+| `pnpm start:server`   | Start the NestJS backend application.  |
+| `pnpm build:client`   | Build client.                          |
+| `pnpm build:server`   | Build server.                          |
+| `pnpm build:packages` | Build all packages.                    |
+| `pnpm build`          | Build everything.                      |
+| `pnpm test`           | Run all Vitest tests.                  |
+| `pnpm lint`           | Check code quality using linter rules. |
+| `pnpm db:generate`    | Generate database SQL.                 |
+| `pnpm db:migrate`     | Run database migrations.               |
+
+## Development scripts
+
+| Command             | Description                                                             |
+| ------------------- | ----------------------------------------------------------------------- |
+| `pnpm dev:client`   | Start the React client application in dev mode.                         |
+| `pnpm sev:server`   | Start the NestJS backend application in dev mode.                       |
+| `pnpm dev:packages` | Build packages and rebuild them if changes are detected.                |
+| `pnpm dev`          | Start **client** and **server** in dev mode.                            |
+| `pnpm test:ui`      | Run all Vitest tests and show them in a web UI (and listen to changes). |
+| `pnpm lint:fix`     | Check code quality using linter rules and fix what is possible.         |
+| `pnpm tools`        | Run NestFlux tools.                                                     |
 
 ## Customization
 
