@@ -57,7 +57,19 @@ NestFlux is a **monorepo scaffold application** designed for rapid development a
    pnpm install
    ```
 
-3. Set up the database:
+3. Build packages:
+
+   ```bash
+   pnpm build:packages
+   ```
+
+   if you are in development (this listens to changes on all):
+
+   ```bash
+   pnpm dev:packages
+   ```
+
+4. Set up the database:
 
    - Update the database configuration in `.env`:
      ```env
@@ -68,7 +80,7 @@ NestFlux is a **monorepo scaffold application** designed for rapid development a
      DB_NAME=nestflux
      ```
 
-4. Run database migrations:
+5. Run database migrations:
    ```bash
    pnpm migrate
    ```
