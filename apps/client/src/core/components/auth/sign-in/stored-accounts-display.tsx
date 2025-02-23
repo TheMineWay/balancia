@@ -66,6 +66,9 @@ const Account = ({
           }}
           type="text"
           className={styles["forget-account"]}
+          aria-description={
+            t()["stored-accounts"].display.account["Forget-aria-description"]
+          }
         />
       </div>
       <div className={styles.body}>
