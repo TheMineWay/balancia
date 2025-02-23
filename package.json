@@ -21,7 +21,7 @@
     "build:packages": "pnpm --filter @shared/* build",
     "build:docs": "pnpm --filter docs build",
     "build": "pnpm build:packages && pnpm build:client && pnpm build:server",
-    "test": "vitest",
+    "test": "vitest run --reporter=verbose",
     "test:dev": "vitest --watch",
     "test:ui": "vitest --ui",
     "tools": "pnpm --filter scripts launch",
