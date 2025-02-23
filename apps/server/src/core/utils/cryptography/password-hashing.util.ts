@@ -7,7 +7,7 @@ export function hash(text: string): string {
 
 export function compareHash(
   originalPassword: string,
-  strangePassword: string
+  strangePassword: string,
 ): boolean {
   return compareSync(strangePassword, originalPassword);
 }

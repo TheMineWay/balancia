@@ -10,7 +10,7 @@ import { UserService } from "../user/user.service";
 export class AuthService {
   constructor(
     private readonly usersService: UserService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
   ) {}
 
   async signIn({
