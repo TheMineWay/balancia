@@ -41,7 +41,7 @@ const Account = ({
   onPick: () => void;
   onRemove: () => void;
 }) => {
-  const { interpolated } = useTranslation("auth");
+  const { interpolated, t } = useTranslation("auth");
 
   const avatarUrl = account.user.email
     ? getGravatarUrl(account.user.email)
@@ -49,7 +49,7 @@ const Account = ({
 
   return (
     <div
-      className={styles.card}
+      className={clsx(styles.card, "m-4")}
       onClick={onPick}
       aria-description={interpolated(
         (t) => t["stored-accounts"].display.account["Pick-aria-description"],
@@ -57,16 +57,16 @@ const Account = ({
       )}
     >
       <div className={clsx(styles.avatar, "h-36 w-36")}>
+        <img className="object-cover" alt="avatar" src={avatarUrl} />
         <Button
           icon={<AiOutlineClose />}
-          className="absolute top-1 left-1 text-white"
           onClick={(e) => {
             e.stopPropagation();
             onRemove();
           }}
-          type="link"
+          type="text"
+          className={styles["forget-account"]}
         />
-        <img className={"object-cover"} alt="avatar" src={avatarUrl} />
       </div>
       <div className={styles.body}>
         <p className="text-center py-2">{getUserName(account.user)}</p>
