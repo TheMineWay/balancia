@@ -18,9 +18,9 @@ jobs:
     name: gitleaks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: gitleaks/gitleaks-action@v2
+      - uses: gitleaks/gitleaks-action@59fdd904af445f5a90568b4931a6e7e6a2aa5cb2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
