@@ -77,15 +77,21 @@ const config: Config = {
       items: [
         {
           type: "docSidebar",
-          sidebarId: "docsSidebar",
+          sidebarId: "projectSidebar",
           position: "left",
-          label: "Introduction",
+          label: "📃 Project documentation",
         },
         {
           type: "docSidebar",
           sidebarId: "nestfluxSidebar",
           position: "left",
-          label: "NestFlux documentation",
+          label: "🩵 NestFlux documentation",
+        },
+        {
+          type: "docSidebar",
+          sidebarId: "getStartedSidebar",
+          position: "left",
+          label: "🔨 Get started",
         },
         {
           href: "https://github.com/TheMineWay/NestFlux",
