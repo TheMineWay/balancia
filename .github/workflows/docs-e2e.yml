@@ -37,8 +37,7 @@ jobs:
       - name: 🔄️ Build & start Docusaurus server
         run: |
           pnpm build:docs
-          cd docs
-          pnpm serve
+          pnpm start:docs &
         env:
           NODE_ENV: development
 
