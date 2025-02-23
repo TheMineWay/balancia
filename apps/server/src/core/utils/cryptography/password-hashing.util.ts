@@ -1,35 +1,13 @@
-import { createHash, randomBytes, scryptSync, timingSafeEqual } from "crypto";
+import { compareSync, hashSync } from "bcrypt";
 
 export function hash(text: string): string {
-  return createHash("sha3-512").update(text).digest("base64");
-}
-
-export function hashWithSalt(password: string): string {
-  const salt: string = randomBytes(16).toString("base64");
-  const hashedPassword: string = scryptSync(password, salt, 64).toString(
-    "base64",
-  );
-
-  return `${salt}:${hashedPassword}`;
+  const saltRounds = 10; // Default rounds
+  return hashSync(text, saltRounds);
 }
 
 export function compareHash(
   originalPassword: string,
-  strangePassword: string,
+  strangePassword: string
 ): boolean {
-  return hash(originalPassword) === hash(strangePassword);
-}
-
-export function compareHashWithSalt(
-  originalPassword: string,
-  strangePassword: string,
-): boolean {
-  const [salt, key]: string[] = originalPassword.split(":");
-
-  const hashedBuffer: Buffer = scryptSync(strangePassword, salt, 64);
-  const keyBuffer: Buffer = Buffer.from(key, "base64");
-
-  // Compare avoiding timing attacks
-  const match: boolean = timingSafeEqual(hashedBuffer, keyBuffer);
-  return match;
+  return compareSync(strangePassword, originalPassword);
 }

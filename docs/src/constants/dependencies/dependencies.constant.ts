@@ -2,6 +2,16 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "@types/bcrypt",
+    name: "@types bcrypt",
+    url: "https://www.npmjs.com/package/@types/bcrypt",
+  },
+  {
+    code: "bcrypt",
+    name: "bcrypt",
+    url: "https://www.npmjs.com/package/bcrypt",
+  },
+  {
     code: "@tailwindcss/postcss",
     name: "Tailwind CSS PostCSS",
     url: "https://www.npmjs.com/package/@tailwindcss/postcss",
