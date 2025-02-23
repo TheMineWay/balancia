@@ -72,14 +72,20 @@ const config: Config = {
       title: "NestFlux",
       logo: {
         alt: "NestFlux logo",
-        src: "img/logo.svg",
+        src: "img/logo.png",
       },
       items: [
         {
           type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          sidebarId: "docsSidebar",
           position: "left",
-          label: "Tutorial",
+          label: "Introduction",
+        },
+        {
+          type: "docSidebar",
+          sidebarId: "nestfluxSidebar",
+          position: "left",
+          label: "NestFlux documentation",
         },
         {
           href: "https://github.com/TheMineWay/NestFlux",
@@ -95,7 +101,7 @@ const config: Config = {
           title: "Docs",
           items: [
             {
-              label: "Tutorial",
+              label: "Introduction",
               to: "/docs/intro",
             },
           ],
