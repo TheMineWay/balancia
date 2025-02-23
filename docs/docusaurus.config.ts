@@ -10,15 +10,16 @@ const config: Config = {
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
-  url: "https://your-docusaurus-site.example.com",
+  url: "https://themineway.github.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/",
+  baseUrl: "/NestFlux/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
+  projectName: "NestFlux", // Usually your repo name.
   organizationName: "TheMineWay", // Usually your GitHub org/user name.
-  projectName: "nestflux", // Usually your repo name.
+  trailingSlash: false,
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -72,14 +73,26 @@ const config: Config = {
       title: "NestFlux",
       logo: {
         alt: "NestFlux logo",
-        src: "img/logo.svg",
+        src: "img/logo.png",
       },
       items: [
         {
           type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          sidebarId: "projectSidebar",
           position: "left",
-          label: "Tutorial",
+          label: "📃 Project documentation",
+        },
+        {
+          type: "docSidebar",
+          sidebarId: "nestfluxSidebar",
+          position: "left",
+          label: "🩵 NestFlux documentation",
+        },
+        {
+          type: "docSidebar",
+          sidebarId: "getStartedSidebar",
+          position: "left",
+          label: "🔨 Get started",
         },
         {
           href: "https://github.com/TheMineWay/NestFlux",
@@ -95,7 +108,7 @@ const config: Config = {
           title: "Docs",
           items: [
             {
-              label: "Tutorial",
+              label: "Introduction",
               to: "/docs/intro",
             },
           ],

@@ -18,6 +18,7 @@
     "build:client": "pnpm --filter nestflux-client build",
     "build:server": "pnpm --filter nestflux-server build",
     "build:packages": "pnpm --filter @shared/* build",
+    "build:docs": "pnpm --filter docs build",
     "build": "pnpm build:packages && pnpm build:client && pnpm build:server",
     "test": "vitest",
     "test:dev": "vitest --watch",
