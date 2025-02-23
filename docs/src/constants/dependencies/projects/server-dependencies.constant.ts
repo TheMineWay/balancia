@@ -3,6 +3,11 @@ import { ProjectDependency } from "@site/src/types/dependencies/dependency.type"
 import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
+  { dep: "bcrypt" },
+  {
+    dep: "@types/bcrypt",
+    isDevelopment: true,
+  },
   {
     dep: "@eslint/js",
     isDevelopment: true,

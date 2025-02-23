@@ -1,5 +1,5 @@
 import { UserTokenData } from "@core/decorators/user/user.decorator";
-import { compareHashWithSalt } from "@core/utils/cryptography/password-hashing.util";
+import { compareHash } from "@core/utils/cryptography/password-hashing.util";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { CONTROLLERS, InferEndpointDTO } from "@shared/api-definition";
@@ -19,7 +19,7 @@ export class AuthService {
     totp,
   }: InferEndpointDTO<typeof CONTROLLERS.auth, "login">) {
     const user = await this.usersService.findByUsername(username);
-    if (!user?.password || !compareHashWithSalt(user.password, password))
+    if (!user?.password || !compareHash(user.password, password))
       throw new UnauthorizedException();
 
     if (!this.validateTotp(totp ?? null, user.totpSecret))

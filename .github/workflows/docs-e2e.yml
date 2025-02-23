@@ -1,7 +1,13 @@
 name: Documentation e2e
+
 on:
   pull_request:
     branches: [main]
+
+permissions:
+  contents: read
+  checks: write
+  actions: read
 
 jobs:
   docs-e2e:
