@@ -402,3 +402,42 @@ export const useUserAccountInfoQuery = () => {
   });
 };
 ```
+
+Now we have our query hook ready to be used. As it returns a `useQuery` hook instance (from the TanStack Query package) you can read about how to deal with it [here](https://tanstack.com/query/latest/docs/framework/react/guides/queries).
+The query is executed once the component that contains its hook is rendered. You don't need to call any method.
+
+As a summary, what's important to know is that the `useQuery` hook returns:
+
+- **data**: the object containing the response data. It is undefined while the query is fetching data.
+- **isLoading**: a boolean value that indicates wether client is retrieving data (read official docs for more detailed info. It has special behaviors)
+- **refetch**: a method that reruns the API request.
+
+Now, we can try creating a **mutation**:
+
+```tsx
+// This sample hook is meant to perform a login (POST).
+export const useLoginMutation = () => {
+  // As in the query example, we use the 'useRequest' to access the 'request' method.
+  const { request } = useRequest();
+
+  // If we want an authenticated mutation, we can use 'useAuthenticatedRequest'.
+  // const { request } = useAuthenticatedRequest();
+
+  return useMutation({
+    mutationFn: endpointMutation(CONTROLLERS.auth, "login", request),
+  });
+};
+```
+
+Now we have our mutation hook ready to be used. As it returns a `useMutation` hook instance (from the TanStack Query package) you can read about how to deal with it [here](https://tanstack.com/query/latest/docs/framework/react/guides/mutations).
+
+As a summary, what's important to know is that the `useQuery` hook returns:
+
+- **mutate**: the method that initiates the mutation. Once it is called it runs the API request.
+  - Its first parameter is the request data.
+  - The second parameter is an object with some options. For example:
+    - **onSuccess**: method called once the request finishes without errors.
+    - **onError**: method called once the request finished with an error.
+- **data**: the object containing the response data. It is undefined while the mutation is fetching data.
+- **isPending**: a boolean value that indicates wether client is mutating.
+- **error**: an object that stores last request error info. Undefined if last request had no errors.
