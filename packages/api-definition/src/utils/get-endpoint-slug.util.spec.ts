@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ControllerDefinition, EndpointDefinition } from "../types";
-import { getEndpoint } from "./get-endpoint.util";
+import { getEndpointSlug } from "./get-endpoint-slug.util";
 
 const CONTROLLER: ControllerDefinition = {
   getName: () => "test",
@@ -14,10 +14,10 @@ const CONTROLLER: ControllerDefinition = {
   },
 };
 
-describe("getEndpoint()", () => {
+describe("getEndpointSlug()", () => {
   describe("when no parameters are needed", () => {
     it("should return the endpoint name", () => {
-      const name = getEndpoint(CONTROLLER, "test1");
+      const name = getEndpointSlug(CONTROLLER, "test1");
 
       expect(name).toBe("test1");
     });
@@ -29,7 +29,7 @@ describe("getEndpoint()", () => {
         getPath: (params: { name: string }) => `test2/${params.name}`,
       };
 
-      const name = getEndpoint(CONTROLLER, "test2", { name: "test-param" });
+      const name = getEndpointSlug(CONTROLLER, "test2", { name: "test-param" });
 
       expect(name).toBe(`test2/test-param`);
     });
@@ -39,7 +39,7 @@ describe("getEndpoint()", () => {
         getPath: (params: { name: string }) => `test2/${params.name}`,
       };
 
-      expect(() => getEndpoint(CONTROLLER, "test2")).toThrowError();
+      expect(() => getEndpointSlug(CONTROLLER, "test2")).toThrowError();
     });
   });
 });
