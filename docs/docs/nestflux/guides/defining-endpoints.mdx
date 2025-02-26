@@ -1,0 +1,443 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# Defining endpoints & DTOs
+
+NestFlux provides a type-safe way of transferring data between the client and the server via HTTP. This means TypeScript will only allow requests to existing endpoints. Also, DTOs will be automatically applied and validated. This can avoid bad typings errors that might be noticed after deployment.
+
+To achieve this NestFlux uses a package named `api-definition` (stored inside the `packages` folder). Its main objective is to store all available endpoints grouped by controllers (including path, parameters and DTOs).
+
+## Hierarchy
+
+The package follows the following file structure:
+
+```text
+api-definition/
+├── definitions/
+│   ├── controllers/
+│   │   └── ...                     # Recommendation: one file per controller
+│   ├── controllers-definition.ts   # File containing all controller definitions (imported from files inside the controllers directory)
+├── types/                          # Types related to this package
+└── utils/                          # Utilities related to this package
+```
+
+You will rarely modify files outside the `api-definition/definitions` folder.
+
+## Creating new controllers
+
+Whenever you need a new controller you should create it in the `api-definition` package.
+
+First, you need to create a new file for the controller inside the `controllers` directory (it is a good idea to group similar controllers in folders. You are free to create as much folders as you want inside the `controllers` folder).
+
+The file should be named like **\<\<controller-name\>\>.controller-definition.ts** (as the [NestFlux name conventions](/docs/nestflux/naming.mdx) specifies).
+
+The file must contain a constant that satisfies the `ControllerDefinition` type exported as `const` (TypeScript as const). See the example below:
+
+```ts
+import { ControllerDefinition } from "@ts-types";
+
+export const PROFILE_CONTROLLER_DEFINITION = {
+  getName: () => "profile", // Controller name
+  endpoints: {},
+} as const satisfies ControllerDefinition; // Exported as const and satisfying ControllerDefinition
+```
+
+Now, you need to add this controller to the `controllers-definition.ts` file (located in the `definitions` directory).
+You should add the new controller below the comment _"End core endpoints"_. See the example:
+
+```ts
+export const CONTROLLERS = {
+  // Core endpoints
+  auth: AUTH_CONTROLLER_DEFINITION, // This is a CORE endpoint created by the scaffold. It should not be updated.
+  // End core endpoints
+  profile: PROFILE_CONTROLLER_DEFINITION, // This is the new endpoint
+  /// ... more endpoints should go here
+} as const;
+```
+
+## Adding endpoints to a controller
+
+If you want to add an endpoint to an existing controller, you need to open the `*.controller-definition.ts` file that contains the controller definition. Then, just add the new endpoint inside the _endpoints_ object. See the example:
+
+```ts
+export const PROFILE_CONTROLLER_DEFINITION = {
+  getName: () => "profile",
+  endpoints: {
+    getInfo: { // Endpoint name (visible on the project)
+      getPath: () => "", // Empty will be "/"
+      method: EndpointMethod.GET,    // Specify the method (by default EndpointMethod.GET)
+    },
+    ... // More endpoints
+  },
+} as const satisfies ControllerDefinition;
+
+```
+
+Now your controller has a new endpoint ready to be used.
+
+:::warning
+
+Defining endpoints and controllers don't adds them to the NestJS project automatically. See [Implementing endpoints on the API](/) to see how.
+
+:::
+
+### Using path variables
+
+If your endpoint needs to use a path variable (or more than one), you can add it easily. See the example for fetching a user by id:
+
+```ts
+export const USERS_CONTROLLER_DEFINITION = {
+  getName: () => "users",
+  endpoints: {
+    getById: {
+      getPath: (options: { userId: number }) => `${options.userId}`,
+      method: EndpointMethod.GET,
+    },
+  },
+} as const satisfies ControllerDefinition;
+```
+
+This can be used also in controllers:
+
+```ts
+export const USERS_CONTROLLER_DEFINITION = {
+  getName: (options: { userId: number }) => `${options.userId}`,
+  endpoints: {
+    get: {
+      getPath: () => "",
+      method: EndpointMethod.GET,
+    },
+  },
+} as const satisfies ControllerDefinition;
+```
+
+## Schema validation & transformations
+
+Schema validations and transformations can be applied on the request payload and the server response. This not only protects your API from malicious requests that do not comply with expected request data, this also allows you to transform incoming data to a desired format.
+
+Both DTOs are defined using [Zod](https://zod.dev/) schemas.
+
+Also, when using DTOs, the client and the server are able to share a unique _TypeScript_ type inferred from the schema. This allows you to have one unique type that is shared across client and server. This prevents request type errors when DTOs are modified.
+
+:::info Keep in mind
+
+In the `@shared/api-definition` package you will define dto schemas for both request and response (both optional), but you must follow some instructions on both client and server to ensure validation and transformations really occur.
+You can read about specific project usage on [Server usage (NestJS)](#server-usage) or [Client usage (ReactJS)](#client-usage).
+
+:::
+
+### Validation
+
+Automatically reject requests that don't match a expected data schema.
+
+```ts
+export const USERS_CONTROLLER_DEFINITION = {
+  getName: (options: { userId: number }) => `${options.userId}`,
+  endpoints: {
+    login: {
+      getPath: () => "login",
+      method: EndpointMethod.POST,
+      dto: Zod.object({
+        password: string().min(1).max(32), // Validate that the password is a string between 1-32 characters
+        username: string().min(6).max(32), // Validate that the username is a string between 6-32 characters
+      }),
+    },
+  },
+} as const satisfies ControllerDefinition;
+```
+
+:::info
+
+When validation occurs, extra fields that are not specified in the schema are removed. This prevents malicious requests from injecting malicious data.
+
+:::
+
+### Transformation
+
+You might want to transform some data from the incoming request (or from the server response). The most popular scenario are requests with dates. As dates are usually transferred as **string** or **number** you might want to convert them to **Date** objects. See the example:
+
+```ts
+export const USERS_CONTROLLER_DEFINITION = {
+  getName: (options: { userId: number }) => `${options.userId}`,
+  endpoints: {
+    login: {
+      getPath: () => "login",
+      method: EndpointMethod.POST,
+      dto: Zod.object({
+        // First, validate that it is a string. Then, transform the string date to a real Date object.
+        date: Zod.string().transfform((value) => new Date(value)),
+      }),
+    },
+  },
+} as const satisfies ControllerDefinition;
+```
+
+### Response DTO
+
+You can apply validation and transformations on the server response (on client side). Instead of using the `dto` property, you need to use the `responseDto` (both can be used at the same time).
+
+```ts
+export const AUTH_CONTROLLER_DEFINITION = {
+  getName: () => "auth",
+  endpoints: {
+    login: {
+      method: EndpointMethod.POST,
+      getPath: () => "login",
+      dto: LOGIN_DTO, // LOGIN_DTO is a Zod schema
+      responseDto: Zod.object({
+        token: string(),
+        user: USER_SCHEMA, // USER_SCHEMA is a Zod schema
+      }),
+    },
+  },
+} as const satisfies ControllerDefinition;
+```
+
+## Using endpoints in the NestJS project {#server-usage}
+
+Once you have endpoints defined, you can reference them on your **NestJS** project.
+
+NestFlux offers the `@Endpoint` custom decorator that automatically detects the endpoint configuration of a specific `EndpointDefinition`. See the example below:
+
+<Tabs>
+  <TabItem value="code" label="Code" default>
+
+```ts
+// We import controller definitions
+import { CONTROLLERS, getController } from "@shared/api-definition";
+import { Controller } from "@nestjs/common";
+// We import the @Endpoint decorator
+import { Endpoint } from "@core/decorators/endpoints/endpoint.decorator";
+
+// To define the controller, we simply use the 'getController' method and provide the desired controller
+@Controller(getController(CONTROLLERS.auth))
+export class AuthController {
+  private constructor() {}
+
+  // We use the @Endpoint decorator.
+  // - Providing the AUTH controller (CONTROLLERS.auth)
+  // - We indicate which endpoint we are referencing ("login").
+  @Endpoint(CONTROLLERS.auth, "login")
+  login() {
+    return "Logged in";
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="definition" label="Controller definition">
+
+```ts
+// Definition in the @shared/api-definition package
+export const AUTH_CONTROLLER_DEFINITION = {
+  getName: () => "auth",
+  endpoints: {
+    login: {
+      method: EndpointMethod.POST,
+      getPath: () => "login",
+      dto: Zod.object({
+        username: Zod.string().min(6).max(32),
+        password: Zod.string().min(1).max(64),
+      }),
+    },
+  },
+} as const satisfies ControllerDefinition;
+```
+
+  </TabItem>
+</Tabs>
+
+### Reading request data
+
+In order to read request data we can use the NestFlux `@ValidatedBody` decorator. It ensures request data comply with the expected schema (defined in the `dto` field of the endpoint definition). If transformations are defined they are also applied.
+If either validation or transformation fails, the request is rejected with [HTTP 400 (Bad Request)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400).
+
+Example:
+
+<Tabs>
+  <TabItem value="code" label="Code" default>
+
+```ts
+@Controller(getController(CONTROLLERS.auth))
+export class AuthController {
+  private constructor() {}
+
+  @Endpoint(CONTROLLERS.auth, "login")
+  login(
+    @ValidatedBody(CONTROLLERS.auth, "login") // Here we use the @ValidatedBody decorator, specifying the controller and the endpoint
+    loginDto: InferEndpointDTO<typeof CONTROLLERS.auth, "login"> // Then, for TS inference, we use The InferEndpointDTO type.
+  ) {
+    // This will only be executed if data validation and transformations happened without any error
+    Logger.log(loginDto.username);
+    return "Logged in";
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="definition" label="Controller definition">
+
+```ts
+// Definition in the @shared/api-definition package
+export const AUTH_CONTROLLER_DEFINITION = {
+  getName: () => "auth",
+  endpoints: {
+    login: {
+      method: EndpointMethod.POST,
+      getPath: () => "login",
+      dto: Zod.object({
+        username: Zod.string().min(6).max(32),
+        password: Zod.string().min(1).max(64),
+      }),
+    },
+  },
+} as const satisfies ControllerDefinition;
+```
+
+  </TabItem>
+</Tabs>
+
+### Typing API responses
+
+You should ensure API responses match the schema defined in the `responseDto` defined in the endpoint. This can be easily by typing the response of the endpoint method. See the example:
+
+<Tabs>
+  <TabItem value="code" label="Code" default>
+
+```ts
+@Controller(getController(CONTROLLERS.auth))
+export class AuthController {
+  private constructor() {}
+
+  // We use the `InferEndpointResponseDTO` type.
+  @Endpoint(CONTROLLERS.auth, "login")
+  login(): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "login">> {
+    return {
+      accessToken: "supersecret token",
+    };
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="definition" label="Controller definition">
+
+```ts
+// Definition in the @shared/api-definition package
+export const AUTH_CONTROLLER_DEFINITION = {
+  getName: () => "auth",
+  endpoints: {
+    login: {
+      method: EndpointMethod.POST,
+      getPath: () => "login",
+      responseDto: Zod.object({
+        accessToken: Zod.string(),
+      }),
+    },
+  },
+} as const satisfies ControllerDefinition;
+```
+
+  </TabItem>
+</Tabs>
+
+:::info Keep in mind
+
+Typing API responses don't validate nor transform API responses on the server. Validation and transformation is performed on the client (if you did a proper client implementation).
+
+:::
+
+All examples show the specific implementation of specific parts. You can combine all of them together to achieve a perfectly typed and secure API.
+
+## Using endpoints in the ReactJS project {#client-usage}
+
+When performing requests to the server from our client we should use some prebuilt tools. They automatically build the endpoint path based on the `ControllerDefinition` metadata. Tools will also ensure data transformations occur on client side when we receive response data.
+
+## Creating our request hook
+
+:::info Information of interest
+
+The client uses the **TanStack Query** package to manage API request states. See its documentation [here](https://tanstack.com/query/latest).
+
+:::
+
+We can differentiate two types of requests:
+
+- **Queries**: they retrieve information from the server (usually GET).
+- **Mutations**: they update data on the server (usually all request types that are not GET. Ex: POST, PUT, PATCH, DELETE, etc).
+
+Let's first work with a **query**:
+
+```tsx
+// This object stores a method that returns the query key of the request defined below.
+// It is exported so it can be referenced by other files.
+// You will learn more about QueryKeys later.
+export const USER_ACCOUNT_INFO_QUERY_KEYS: QueryKey = () => [
+  "user",
+  "account-info",
+];
+
+// This sample hook is meant to fetch user profile information
+export const useUserAccountInfoQuery = () => {
+  // We use this hook to get access to the request method.
+  // The request method automatically provides the base URL by default.
+  const { request } = useRequest();
+
+  // If we want to authenticate our request with the current access token, we use the useAuthenticatedRequest hook.
+  // const { request } = useAuthenticatedRequest();
+
+  // We invoke the useQuery hook from @tanstack/react-query
+  return useQuery({
+    // Here we reference the query keys method
+    queryKey: USER_ACCOUNT_INFO_QUERY_KEYS(),
+    // In the queryFn we use the `endpointQuery` method.
+    // - As first parameter, we provide the controller.
+    // - Then, on the second, we provide the endpoint.
+    // - Finally, on the third, we indicate the request method.
+    queryFn: endpointQuery(CONTROLLERS.userProfile, "get", request),
+  });
+};
+```
+
+Now we have our query hook ready to be used. As it returns a `useQuery` hook instance (from the TanStack Query package) you can read about how to deal with it [here](https://tanstack.com/query/latest/docs/framework/react/guides/queries).
+The query is executed once the component that contains its hook is rendered. You don't need to call any method.
+
+As a summary, what's important to know is that the `useQuery` hook returns:
+
+- **data**: the object containing the response data. It is undefined while the query is fetching data.
+- **isLoading**: a boolean value that indicates wether client is retrieving data (read official docs for more detailed info. It has special behaviors)
+- **refetch**: a method that reruns the API request.
+
+Now, we can try creating a **mutation**:
+
+```tsx
+// This sample hook is meant to perform a login (POST).
+export const useLoginMutation = () => {
+  // As in the query example, we use the 'useRequest' to access the 'request' method.
+  const { request } = useRequest();
+
+  // If we want an authenticated mutation, we can use 'useAuthenticatedRequest'.
+  // const { request } = useAuthenticatedRequest();
+
+  return useMutation({
+    mutationFn: endpointMutation(CONTROLLERS.auth, "login", request),
+  });
+};
+```
+
+Now we have our mutation hook ready to be used. As it returns a `useMutation` hook instance (from the TanStack Query package) you can read about how to deal with it [here](https://tanstack.com/query/latest/docs/framework/react/guides/mutations).
+
+As a summary, what's important to know is that the `useQuery` hook returns:
+
+- **mutate**: the method that initiates the mutation. Once it is called it runs the API request.
+  - Its first parameter is the request data.
+  - The second parameter is an object with some options. For example:
+    - **onSuccess**: method called once the request finishes without errors.
+    - **onError**: method called once the request finished with an error.
+- **data**: the object containing the response data. It is undefined while the mutation is fetching data.
+- **isPending**: a boolean value that indicates wether client is mutating.
+- **error**: an object that stores last request error info. Undefined if last request had no errors.

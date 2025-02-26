@@ -38,6 +38,14 @@ const ENV_SCHEMA = Zod.object({
     })
     .transform((val) => val === "true")
     .default("false"),
+
+  // CORS
+
+  CORS_ONLY_ALLOW_DOMAINS: Zod.string()
+    .transform((val) => {
+      return val.trim().split(",");
+    })
+    .default("*"),
 });
 
 const TEST_VALUES: Partial<Zod.infer<typeof ENV_SCHEMA>> = {
@@ -72,6 +80,9 @@ export const ENV = (() => {
     },
     database: {
       url: values.DATABASE_URL,
+    },
+    cors: {
+      allowedDomains: values.CORS_ONLY_ALLOW_DOMAINS,
     },
   };
 })();

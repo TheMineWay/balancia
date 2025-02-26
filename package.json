@@ -29,7 +29,7 @@
     "db:migrate": "pnpm --filter nestflux-server \"db:migrate\"",
     "lint": "pnpm -r run lint",
     "lint:fix": "pnpm -r run lint:fix",
-    "clean:all": "find . -type d \\( -name \"node_modules\" -or -name \"dist\" \\) -exec rm -rf {} +"
+    "clean:all": "find . -type d \\( -name \"node_modules\" -or -name \"dist\" -or -name \"test-results\" -or -name \"playwright-report\" -or -name \".docusaurus\" -or -name \"build\" \\) -exec rm -rf {} +"
   },
   "keywords": [
     "scaffold",

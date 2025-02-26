@@ -29,5 +29,6 @@ NestFlux/
 ```text
 NestFlux/
 ├── .githooks/          # Contains git commit settings
+├── .github/            # Contains GitHub pipelines for testing, deployment, etc
 └── .vscode/            # Contains specific configurations for VSCode
 ```

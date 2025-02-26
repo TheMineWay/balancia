@@ -1,13 +1,12 @@
 import { ENV } from "@constants/conf/env.constant";
+import { Endpoint } from "@core/decorators/endpoints/endpoint.decorator";
 import { ValidatedBody } from "@core/decorators/validation/validated-body.decorator";
 import { Public } from "@core/guards/auth/public.guard";
-import { Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
+import { Controller, HttpCode, HttpStatus } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
 import {
   CONTROLLERS,
   getController,
-  getEndpoint,
-  getEndpointDTO,
   InferEndpointDTO,
   InferEndpointResponseDTO,
 } from "@shared/api-definition";
@@ -23,9 +22,9 @@ export class AuthController {
   })
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Post(getEndpoint(CONTROLLER, "login"))
+  @Endpoint(CONTROLLER, "login")
   login(
-    @ValidatedBody(getEndpointDTO(CONTROLLER, "login"))
+    @ValidatedBody(CONTROLLER, "login")
     loginDto: InferEndpointDTO<typeof CONTROLLER, "login">,
   ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "login">> {
     return this.authService.signIn(loginDto);

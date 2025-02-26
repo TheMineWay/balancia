@@ -1,12 +1,11 @@
 import { MyUserProfileService } from "@core/api/user/profile/my-user-profile.service";
+import { Endpoint } from "@core/decorators/endpoints/endpoint.decorator";
 import { UserId } from "@core/decorators/user/user-id.decorator";
 import { ValidatedBody } from "@core/decorators/validation/validated-body.decorator";
-import { Body, Controller, Get, Patch, Put } from "@nestjs/common";
+import { Body, Controller } from "@nestjs/common";
 import {
   CONTROLLERS,
   getController,
-  getEndpoint,
-  getEndpointDTO,
   InferEndpointDTO,
   InferEndpointResponseDTO,
 } from "@shared/api-definition";
@@ -18,16 +17,16 @@ const CONTROLLER = CONTROLLERS.userProfile;
 export class MyUserProfileController {
   constructor(private readonly myUserProfileService: MyUserProfileService) {}
 
-  @Get(getEndpoint(CONTROLLER, "get"))
+  @Endpoint(CONTROLLER, "get")
   get(
     @UserId() userId: UserModel["id"],
   ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "get">> {
     return this.myUserProfileService.getById(userId);
   }
 
-  @Put(getEndpoint(CONTROLLER, "update"))
+  @Endpoint(CONTROLLER, "update")
   update(
-    @ValidatedBody(getEndpointDTO(CONTROLLER, "update"))
+    @ValidatedBody(CONTROLLER, "update")
     userData: InferEndpointDTO<typeof CONTROLLER, "update">,
     @UserId() userId: UserModel["id"],
   ) {
@@ -36,7 +35,7 @@ export class MyUserProfileController {
 
   // Details
 
-  @Patch(getEndpoint(CONTROLLER, "updatePassword"))
+  @Endpoint(CONTROLLER, "updatePassword")
   updatePassword(
     @Body() { password }: { password: string }, // TODO: validate
     @UserId() userId: UserModel["id"],

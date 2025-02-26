@@ -1,7 +1,7 @@
 import { CONFIG } from "@shared/constants";
 import { USER_MODEL_VALUES, USER_SCHEMA } from "@shared/models";
 import { object, string } from "zod";
-import { ControllerDefinition } from "../../../types";
+import { ControllerDefinition, EndpointMethod } from "../../../types";
 
 const LOGIN_DTO = USER_SCHEMA.pick({
   username: true,
@@ -16,7 +16,7 @@ export const AUTH_CONTROLLER_DEFINITION = {
   getName: () => "auth",
   endpoints: {
     login: {
-      method: "POST",
+      method: EndpointMethod.POST,
       getPath: () => "login",
       dto: LOGIN_DTO,
       responseDto: object({

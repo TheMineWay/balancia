@@ -1,3 +1,4 @@
+import { ENV } from "@constants/conf/env.constant";
 import { NestFactory } from "@nestjs/core";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
@@ -9,7 +10,9 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Enable CORS
-  app.enableCors();
+  app.enableCors({
+    origin: ENV.cors.allowedDomains[0] === "*" ? "*" : ENV.cors.allowedDomains,
+  });
 
   // Use Helmet
   app.use(helmet());

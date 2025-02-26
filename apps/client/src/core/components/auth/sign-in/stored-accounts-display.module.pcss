@@ -20,29 +20,27 @@
 
   .avatar {
     position: relative;
-    display: inline-block;
 
     img {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    &::before,
-    img {
-      border-top-right-radius: var(--radius);
       border-top-left-radius: var(--radius);
+      border-top-right-radius: var(--radius);
+    }
+  }
+
+  .forget-account {
+    --opacity: 0.35;
+
+    &:hover {
+      --opacity: 1;
     }
 
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 40%;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent);
-      pointer-events: none; /* Ensure this layer doesn't block interactions */
-    }
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    color: black;
+    width: 2em;
+    height: 2em;
+    margin: 0.25em;
+    background-color: rgba(255, 255, 255, var(--opacity));
   }
 }
