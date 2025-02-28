@@ -36,5 +36,19 @@
                 "Description": "information used to reach you. It is only visible to you."
             }
         }
+    },
+    "my-security": {
+        "Title": "Account security",
+        "Description": "Manage your security information to keep your account secure and only yours.",
+        "main-actions": {
+            "password": {
+                "Update": "Update password"
+            },
+            "2fa": {
+                "Disable": "Disable 2FA",
+                "See-codes": "Show 2FA recovery codes",
+                "Enable": "Enable 2FA"
+            }
+        }
     }
 }
