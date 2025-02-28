@@ -7,7 +7,7 @@ import { Card, Divider, Typography } from "antd";
 
 const { Title, Text } = Typography;
 
-export default function ProfileInformationTemplate() {
+export default function ProfileInformation() {
   const { t } = useTranslation("userProfile");
   const { user } = useActiveAuth();
 

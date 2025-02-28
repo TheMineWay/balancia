@@ -1,7 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { Button } from "antd";
 
-export default function HomeTemplate() {
+export default function Home() {
   const navigate = useNavigate();
 
   return (

@@ -3,7 +3,8 @@ import PageContainer from "@core/components/ui/container/page-container";
 import { useActiveAuth } from "@core/hooks/auth/use-active-auth";
 import { useTranslation } from "@core/i18n/use-translation";
 import { useDeviceInfo } from "@core/providers/device/device-info.context";
-import ProfileInformationTemplate from "@core/templates/user/profile/information/profile-information.template";
+import ProfileInformation from "@core/templates/user/profile/information/profile-information.template";
+import ProfileSecurity from "@core/templates/user/profile/security/profile-security.template";
 import { getUserName, interpolate } from "@shared/utils";
 import { Tabs } from "antd";
 import clsx from "clsx";
@@ -28,12 +29,12 @@ export default function ProfilePageTemplate() {
     {
       key: "info",
       label: t()["my-profile"].tabs.info.Label,
-      children: <ProfileInformationTemplate />,
+      children: <ProfileInformation />,
     },
     {
       key: "security",
       label: t()["my-profile"].tabs.security.Label,
-      children: <div>b</div>,
+      children: <ProfileSecurity />,
     },
   ].map(({ children, ...rest }) => ({
     ...rest,
