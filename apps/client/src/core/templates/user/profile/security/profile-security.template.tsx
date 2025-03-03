@@ -14,7 +14,6 @@ const { Title, Text } = Typography;
 const ProfileSecurity: FC = () => {
   const { t } = useTranslation("userProfile");
   const [isEditPasswordVisible, setEditPasswordVisibility] = useState(false);
-  console.log({ isEditPasswordVisible });
 
   const is2FAEnabled = true;
 
