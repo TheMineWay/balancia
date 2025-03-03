@@ -1,5 +1,5 @@
 import { useTranslation } from "@core/i18n/use-translation";
-import ProfileSecurityEditPasswordModal from "@core/templates/user/profile/security/profile-security-edit-password-modal.template";
+import UpdatePasswordModal from "@core/templates/user/profile/security/update-password/update-password-modal.template";
 import { Button, Card, Typography } from "antd";
 import { useState } from "react";
 import {
@@ -14,6 +14,7 @@ const { Title, Text } = Typography;
 const ProfileSecurity: FC = () => {
   const { t } = useTranslation("userProfile");
   const [isEditPasswordVisible, setEditPasswordVisibility] = useState(false);
+  console.log({ isEditPasswordVisible });
 
   const is2FAEnabled = true;
 
@@ -44,7 +45,7 @@ const ProfileSecurity: FC = () => {
         </div>
       </div>
 
-      <ProfileSecurityEditPasswordModal
+      <UpdatePasswordModal
         open={isEditPasswordVisible}
         onClose={() => setEditPasswordVisibility(false)}
       />

@@ -50,5 +50,17 @@
                 "Enable": "Enable 2FA"
             }
         }
+    },
+    "my-password": {
+        "update": {
+            "Title": "Change my password",
+            "form": {
+                "fields": {
+                    "New-password": "New password",
+                    "Repeat": "Repeat password"
+                },
+                "Submit": "Update password"
+            }
+        }
     }
 }

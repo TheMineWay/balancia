@@ -3,6 +3,7 @@ import ScopedAlertError from "@core/components/error/scoped/scoped-alert-error";
 import { useLoginMutation } from "@core/hooks/api/user/auth/use-login.mutation";
 import { useTranslation } from "@core/i18n/use-translation";
 import { AuthContextInfo } from "@core/providers/auth/auth.context";
+import { FORM_STYLES } from "@core/styles/form.styles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input } from "antd";
 import { AxiosError } from "axios";
@@ -11,7 +12,6 @@ import { Controller, useForm } from "react-hook-form";
 import { FaUserCircle } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
 import Zod, { string } from "zod";
-import styles from "./auth-with-password.form.module.pcss";
 
 type Props = {
   onSuccess: (info: AuthContextInfo) => void;
@@ -56,7 +56,7 @@ export default function AuthWithPasswordForm({ onSuccess }: Readonly<Props>) {
 
   return (
     <form
-      className={styles.form}
+      className={FORM_STYLES.form}
       onSubmit={handleSubmit((data) =>
         mutate(data, {
           onSuccess,
@@ -64,7 +64,7 @@ export default function AuthWithPasswordForm({ onSuccess }: Readonly<Props>) {
         })
       )}
     >
-      <div className={styles["form-item"]}>
+      <div className={FORM_STYLES.item}>
         <label htmlFor="username">
           {t().forms["login-with-password"].fields.username.Label}
         </label>
@@ -76,7 +76,7 @@ export default function AuthWithPasswordForm({ onSuccess }: Readonly<Props>) {
           )}
         />
       </div>
-      <div className={styles["form-item"]}>
+      <div className={FORM_STYLES.item}>
         <label htmlFor="password">
           {t().forms["login-with-password"].fields.password.Label}
         </label>
