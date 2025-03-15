@@ -1,8 +1,10 @@
+import { AuthService } from "@core/api/auth/auth.service";
 import { MyUserProfileService } from "@core/api/user/profile/my-user-profile.service";
 import { Endpoint } from "@core/decorators/endpoints/endpoint.decorator";
 import { UserId } from "@core/decorators/user/user-id.decorator";
+import { User, UserTokenData } from "@core/decorators/user/user.decorator";
 import { ValidatedBody } from "@core/decorators/validation/validated-body.decorator";
-import { Body, Controller } from "@nestjs/common";
+import { Controller } from "@nestjs/common";
 import {
   CONTROLLERS,
   getController,
@@ -15,7 +17,10 @@ const CONTROLLER = CONTROLLERS.userProfile;
 
 @Controller(getController(CONTROLLER))
 export class MyUserProfileController {
-  constructor(private readonly myUserProfileService: MyUserProfileService) {}
+  constructor(
+    private readonly myUserProfileService: MyUserProfileService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Endpoint(CONTROLLER, "get")
   get(
@@ -28,7 +33,7 @@ export class MyUserProfileController {
   update(
     @ValidatedBody(CONTROLLER, "update")
     userData: InferEndpointDTO<typeof CONTROLLER, "update">,
-    @UserId() userId: UserModel["id"],
+    @UserId() userId: UserTokenData["id"],
   ) {
     return this.myUserProfileService.updateById(userId, userData);
   }
@@ -36,10 +41,21 @@ export class MyUserProfileController {
   // Details
 
   @Endpoint(CONTROLLER, "updatePassword")
-  updatePassword(
-    @Body() { password }: { password: string }, // TODO: validate
-    @UserId() userId: UserModel["id"],
-  ) {
-    return this.myUserProfileService.updateUserPassword(userId, password);
+  async updatePassword(
+    @ValidatedBody(CONTROLLER, "updatePassword")
+    {
+      currentPassword,
+      password,
+    }: InferEndpointDTO<typeof CONTROLLER, "updatePassword">,
+    @User() user: UserTokenData,
+  ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "updatePassword">> {
+    // Check if user provided its own correct password
+    await this.authService.fetchAndValidateCredentials({
+      password: currentPassword,
+      username: user.username,
+    });
+
+    // Update password
+    await this.myUserProfileService.updateUserPassword(user.id, password);
   }
 }

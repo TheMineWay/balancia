@@ -49,6 +49,20 @@
         "options": {
           "shell": "/bin/bash"
         }
+      },
+      {
+        "label": "build:packages",
+        "type": "shell",
+        "command": "pnpm build:packages",
+        "problemMatcher": [],
+        "presentation": {
+          "group": "terminal",
+          "panel": "new",
+          "reveal": "always"
+        },
+        "options": {
+          "shell": "/bin/bash"
+        }
       }
     ]
   }

@@ -3,6 +3,7 @@ import { compareHash } from "@core/utils/cryptography/password-hashing.util";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { CONTROLLERS, InferEndpointDTO } from "@shared/api-definition";
+import { DbUserModel } from "@shared/models";
 import { TOTP } from "otpauth";
 import { UserService } from "../user/user.service";
 
@@ -19,8 +20,7 @@ export class AuthService {
     totp,
   }: InferEndpointDTO<typeof CONTROLLERS.auth, "login">) {
     const user = await this.usersService.findByUsername(username);
-    if (!user?.password || !compareHash(user.password, password))
-      throw new UnauthorizedException();
+    this.validateCredentials(password, user);
 
     if (!this.validateTotp(totp ?? null, user.totpSecret))
       throw new UnauthorizedException("TOTP");
@@ -37,6 +37,26 @@ export class AuthService {
       token,
       user: restUser,
     };
+  }
+
+  /**
+   * Given a username and a password, fetch user DB data. Then, check if password is correct.
+   * If it is not, throw an exception.
+   */
+  async fetchAndValidateCredentials(credentials: {
+    username: string;
+    password: string;
+  }) {
+    const user = await this.usersService.findByUsername(credentials.username);
+    this.validateCredentials(credentials.password, user);
+  }
+
+  /**
+   * Given a password and the user DB model, throw an error if password is not correct.
+   */
+  validateCredentials(password: string, user: DbUserModel) {
+    if (!user?.password || !compareHash(user.password, password))
+      throw new UnauthorizedException();
   }
 
   validateTotp(providedCode: string | null, totpSecret: string | null) {

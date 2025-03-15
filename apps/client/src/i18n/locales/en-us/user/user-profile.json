@@ -56,6 +56,7 @@
             "Title": "Change my password",
             "form": {
                 "fields": {
+                    "Current-password": "Current password",
                     "New-password": "New password",
                     "Repeat": "Repeat password"
                 },

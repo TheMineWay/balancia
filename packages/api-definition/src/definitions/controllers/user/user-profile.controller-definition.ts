@@ -5,6 +5,10 @@ import { ControllerDefinition, EndpointMethod } from "../../../types";
 /* DTOs */
 
 const UPDATE_PASSWORD_DTO = z.object({
+  currentPassword: z
+    .string()
+    .min(USER_MODEL_VALUES.password.minLength)
+    .max(USER_MODEL_VALUES.password.maxLength),
   password: z
     .string()
     .min(USER_MODEL_VALUES.password.minLength)
