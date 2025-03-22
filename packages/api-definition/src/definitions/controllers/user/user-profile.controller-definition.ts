@@ -27,7 +27,6 @@ export const USER_PROFILE_CONTROLLER_DEFINITION = {
   endpoints: {
     get: {
       getPath: () => "",
-      dto: USER_SCHEMA,
       responseDto: USER_SCHEMA,
     },
     update: {
