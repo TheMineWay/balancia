@@ -1,16 +1,17 @@
-import { RequestOptions } from "@core/hooks/utils/api/use-request.util";
+import type { RequestOptions } from "@core/hooks/utils/api/use-request.util";
 import { getClientEndpointRequest } from "@core/utils/request/get-client-endpoint-request.util";
-import {
+import type {
   ControllerDefinition,
   InferEndpointDTO,
-  InferEndpointResponseDTO,
+  InferEndpointResponseDTO} from "@shared/api-definition";
+import {
   getEndpointResponseDTO,
 } from "@shared/api-definition";
-import { AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 
 /**
  * NOTE:
- * - The 'endpointQuery' derives its behaviour from this method.
+ * - The 'endpointQuery' derives its behavior from this method.
  */
 
 /**
@@ -19,7 +20,7 @@ import { AxiosResponse } from "axios";
 export const endpointMutation = <
   C extends ControllerDefinition,
   E extends keyof C["endpoints"],
-  R = never,
+  R = never
 >(
   controller: C,
   endpoint: E,

@@ -2,11 +2,11 @@ import AuthWithPasswordTotpForm from "@core/components/auth/sign-in/with-passwor
 import ScopedAlertError from "@core/components/error/scoped/scoped-alert-error";
 import { useLoginMutation } from "@core/hooks/api/user/auth/use-login.mutation";
 import { useTranslation } from "@core/i18n/use-translation";
-import { AuthContextInfo } from "@core/providers/auth/auth.context";
+import type { AuthContextInfo } from "@core/providers/auth/auth.context";
 import { FORM_STYLES } from "@core/styles/form.styles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input } from "antd";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FaUserCircle } from "react-icons/fa";

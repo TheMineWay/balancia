@@ -1,6 +1,6 @@
 import type { PickerProps } from "antd/es/date-picker/generatePicker";
-import { DateTime } from "luxon";
-import { PickerRef } from "rc-picker";
+import type { DateTime } from "luxon";
+import type { PickerRef } from "rc-picker";
 import * as React from "react";
 import DatePicker from "./date-picker";
 

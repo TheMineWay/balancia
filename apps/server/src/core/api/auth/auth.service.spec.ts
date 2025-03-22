@@ -1,4 +1,4 @@
-import { AuthService } from "@core/api/auth/auth.service";
+import type { AuthService } from "@core/api/auth/auth.service";
 import { AUTH_SERVICE_MOCK } from "@core/mocks/auth/auth.service.mock";
 import { UnauthorizedException } from "@nestjs/common";
 import { DB_USERS_MOCK } from "@shared/mocks";

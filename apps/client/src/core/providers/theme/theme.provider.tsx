@@ -1,7 +1,7 @@
 import { DEFAULT_THEME } from "@core/constants/theme/default-theme.constant";
 import { THEME_CONTEXT } from "@core/providers/theme/theme.context";
-import { ThemeInfo } from "@core/types/base/theme/theme-info.type";
-import { WithChildren } from "@core/types/common/component.types";
+import type { ThemeInfo } from "@core/types/base/theme/theme-info.type";
+import type { WithChildren } from "@core/types/common/component.types";
 import { useState } from "react";
 
 export default function ThemeProvider({ children }: Readonly<WithChildren>) {

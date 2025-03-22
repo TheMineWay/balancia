@@ -1,5 +1,6 @@
 import { useActiveAuth } from "@core/hooks/auth/use-active-auth";
-import { RequestOptions as ReqOptions, useRequest } from "@core/hooks/utils/api/use-request.util";
+import type { RequestOptions as ReqOptions} from "@core/hooks/utils/api/use-request.util";
+import { useRequest } from "@core/hooks/utils/api/use-request.util";
 
 type RequestOptions = ReqOptions;
 

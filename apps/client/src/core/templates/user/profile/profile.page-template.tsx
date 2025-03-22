@@ -8,7 +8,7 @@ import ProfileSecurity from "@core/templates/user/profile/security/profile-secur
 import { getUserName, interpolate } from "@shared/utils";
 import { Tabs } from "antd";
 import clsx from "clsx";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 type Tab = {
   label: string;

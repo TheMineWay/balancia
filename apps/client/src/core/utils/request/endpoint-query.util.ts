@@ -1,10 +1,10 @@
-import { RequestOptions } from "@core/hooks/utils/api/use-request.util";
+import type { RequestOptions } from "@core/hooks/utils/api/use-request.util";
 import { endpointMutation } from "@core/utils/request/endpoint-mutation.util";
-import { getClientEndpointRequest } from "@core/utils/request/get-client-endpoint-request.util";
-import {
+import type { getClientEndpointRequest } from "@core/utils/request/get-client-endpoint-request.util";
+import type {
   ControllerDefinition,
 } from "@shared/api-definition";
-import { AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 
 /**
  * Perform a request into the API

@@ -1,8 +1,8 @@
 import StoredAccountsDisplay from "@core/components/auth/sign-in/stored-accounts-display";
-import { AuthContextInfo } from "@core/providers/auth/auth.context";
+import type { AuthContextInfo } from "@core/providers/auth/auth.context";
 import TestProviders from "@core/providers/test/test.providers";
 import { USERS_MOCK } from "@shared/mocks";
-import { UserModel } from "@shared/models";
+import type { UserModel } from "@shared/models";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vitest } from "vitest";

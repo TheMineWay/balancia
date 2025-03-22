@@ -1,5 +1,5 @@
 import { useLanguageContext } from "@core/providers/language/language.context";
-import { LocaleContent, LocaleKey } from "@i18n/locales/locales";
+import type { LocaleContent, LocaleKey } from "@i18n/locales/locales";
 import { interpolate } from "@shared/utils";
 
 export const useTranslation = <K extends Readonly<LocaleKey>>(locale: K) => {

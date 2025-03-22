@@ -5,7 +5,7 @@ import DeviceInfoProvider from "@core/providers/device/device-info.provider";
 import LanguageProvider from "@core/providers/language/language.provider";
 import ThemeProvider from "@core/providers/theme/theme.provider";
 import UIProviders from "@core/providers/ui/ui.providers";
-import { WithChildren } from "@core/types/common/component.types";
+import type { WithChildren } from "@core/types/common/component.types";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export default function TestProviders({ children }: Readonly<WithChildren>) {

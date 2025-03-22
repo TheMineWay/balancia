@@ -1,6 +1,6 @@
 import { useTheme } from "@core/providers/theme/theme.context";
 import { Theme } from "@core/types/base/theme/theme.enum";
-import { WithChildren } from "@core/types/common/component.types";
+import type { WithChildren } from "@core/types/common/component.types";
 import { ConfigProvider, theme as antdTheme } from "antd";
 
 export default function UIProviders({ children }: Readonly<WithChildren>) {

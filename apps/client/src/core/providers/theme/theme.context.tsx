@@ -1,5 +1,5 @@
-import { ProviderSetter } from "@core/providers/provider-setter.type";
-import { ThemeInfo } from "@core/types/base/theme/theme-info.type";
+import type { ProviderSetter } from "@core/providers/provider-setter.type";
+import type { ThemeInfo } from "@core/types/base/theme/theme-info.type";
 import { createContext, useContext } from "react";
 
 export const THEME_CONTEXT = createContext<ProviderSetter<ThemeInfo>>(null!);

@@ -1,6 +1,7 @@
 import { timestamps } from "@database/common/timestamps";
-import { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
-import { USER_MODEL_VALUES, UserModel } from "@shared/models";
+import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
+import type { UserModel } from "@shared/models";
+import { USER_MODEL_VALUES } from "@shared/models";
 import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 
 type ColumnsModel = DbModeledColumnsDefinition<

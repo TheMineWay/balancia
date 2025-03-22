@@ -1,9 +1,10 @@
+import type {
+  StoredAccount} from "@core/providers/auth/stored-account.context";
 import {
   STORED_ACCOUNTS_CONTEXT,
-  STORED_ACCOUNTS_SCHEMA,
-  StoredAccount,
+  STORED_ACCOUNTS_SCHEMA
 } from "@core/providers/auth/stored-account.context";
-import { WithChildren } from "@core/types/common/component.types";
+import type { WithChildren } from "@core/types/common/component.types";
 import { useState } from "react";
 
 /**

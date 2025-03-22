@@ -1,6 +1,8 @@
-import { Button, ButtonProps } from "antd";
+import type { ButtonProps } from "antd";
+import { Button } from "antd";
 import clsx from "clsx";
-import { ReactNode, useState } from "react";
+import type { ReactNode} from "react";
+import { useState } from "react";
 
 export type ButtonTabItemType<K extends string> = {
   label: string;

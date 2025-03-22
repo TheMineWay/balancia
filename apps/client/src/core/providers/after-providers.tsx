@@ -1,5 +1,5 @@
 import { useSyncAccountInfo } from "@core/hooks/auth/use-sync-account-info";
-import { WithChildren } from "@core/types/common/component.types";
+import type { WithChildren } from "@core/types/common/component.types";
 
 type Props = WithChildren;
 

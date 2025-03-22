@@ -1,6 +1,6 @@
 import { timestamps } from "@database/common/timestamps";
 import { usersTable } from "@database/schemas/main/tables/users.table";
-import { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { int, mysqlTable, unique, varchar } from "drizzle-orm/mysql-core";
 
 export const totpRecoveryCodesTable = mysqlTable(

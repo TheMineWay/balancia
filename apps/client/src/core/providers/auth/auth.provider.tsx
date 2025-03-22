@@ -1,11 +1,12 @@
 import Auth from "@core/components/auth/sign-in/auth";
+import type {
+  AuthContextInfo} from "@core/providers/auth/auth.context";
 import {
   AUTH_CONTEXT,
-  AUTH_CONTEXT_INFO_SCHEMA,
-  AuthContextInfo,
+  AUTH_CONTEXT_INFO_SCHEMA
 } from "@core/providers/auth/auth.context";
 import { useStoredAccounts } from "@core/providers/auth/stored-account.context";
-import { WithChildren } from "@core/types/common/component.types";
+import type { WithChildren } from "@core/types/common/component.types";
 import { useState } from "react";
 
 /**

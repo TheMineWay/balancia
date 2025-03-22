@@ -9,8 +9,8 @@ import {
   Post,
   Put,
 } from "@nestjs/common";
+import type { ControllerDefinition } from "@shared/api-definition";
 import {
-  ControllerDefinition,
   EndpointMethod,
   getEndpoint,
   getEndpointSlug,

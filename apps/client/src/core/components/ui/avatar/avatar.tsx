@@ -1,8 +1,9 @@
 import defaultAvatar from "@core/assets/auth/default-avatar.jpg";
-import { UserModel } from "@shared/models";
+import type { UserModel } from "@shared/models";
 import { getUserAvatar } from "@shared/utils";
 import clsx from "clsx";
-import { ImgHTMLAttributes, useMemo } from "react";
+import type { ImgHTMLAttributes} from "react";
+import { useMemo } from "react";
 
 export type AvatarProps = Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> & {
   user: UserModel;

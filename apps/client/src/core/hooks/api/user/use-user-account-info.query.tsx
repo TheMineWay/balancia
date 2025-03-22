@@ -1,6 +1,6 @@
 import { CORE_BASE_QUERY_KEY } from "@core/constants/request/core-base-query-key.constant";
 import { useAuthenticatedRequest } from "@core/hooks/utils/api/use-authenticated-request.util";
-import { QueryKey } from "@core/types/base/query/query-key.type";
+import type { QueryKey } from "@core/types/base/query/query-key.type";
 import { endpointQuery } from "@core/utils/request/endpoint-query.util";
 import { CONTROLLERS } from "@shared/api-definition";
 import { useQuery } from "@tanstack/react-query";

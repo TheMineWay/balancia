@@ -1,7 +1,7 @@
 import { LANGUAGE_CONTEXT } from "@core/providers/language/language.context";
 import { Language } from "@core/types/base/i18n/language.enum";
-import { TranslationStore } from "@core/types/base/i18n/translation/translation-store.type";
-import { WithChildren } from "@core/types/common/component.types";
+import type { TranslationStore } from "@core/types/base/i18n/translation/translation-store.type";
+import type { WithChildren } from "@core/types/common/component.types";
 import { getLocale } from "@i18n/locales/locales";
 import { useEffect, useState } from "react";
 

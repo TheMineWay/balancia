@@ -1,10 +1,11 @@
 import { useEditMyProfileNameMutation } from "@core/hooks/api/user/my-profile/use-edit-my-profile-name.mutation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { USER_SCHEMA, UserModel } from "@shared/models";
+import type { UserModel } from "@shared/models";
+import { USER_SCHEMA } from "@shared/models";
 import { Button, Input } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import { AiOutlineSave } from "react-icons/ai";
-import z from "zod";
+import type z from "zod";
 
 const SCHEMA = USER_SCHEMA.pick({
     name: true,

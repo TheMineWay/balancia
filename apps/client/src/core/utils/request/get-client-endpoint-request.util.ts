@@ -1,8 +1,9 @@
 import { ENV } from "@core/constants/env/env.constant";
-import {
+import type {
   ControllerDefinition,
-  getEndpointRequest,
-  InferEndpointDTO,
+  InferEndpointDTO} from "@shared/api-definition";
+import {
+  getEndpointRequest
 } from "@shared/api-definition";
 
 /**

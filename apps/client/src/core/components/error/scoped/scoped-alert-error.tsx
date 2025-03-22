@@ -1,7 +1,8 @@
-import ScopedError, {
+import type {
   ScopedErrorProps,
 } from "@core/components/error/scoped/scoped-error";
-import { LocaleContent } from "@i18n/locales/locales";
+import ScopedError from "@core/components/error/scoped/scoped-error";
+import type { LocaleContent } from "@i18n/locales/locales";
 import { Alert } from "antd";
 
 export default function ScopedAlertError<

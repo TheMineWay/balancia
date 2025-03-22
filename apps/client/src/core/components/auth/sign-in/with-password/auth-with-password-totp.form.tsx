@@ -1,5 +1,5 @@
 import { useLoginMutation } from "@core/hooks/api/user/auth/use-login.mutation";
-import { AuthContextInfo } from "@core/providers/auth/auth.context";
+import type { AuthContextInfo } from "@core/providers/auth/auth.context";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input } from "antd";
 import { Controller, useForm } from "react-hook-form";

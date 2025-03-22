@@ -1,7 +1,8 @@
-import { ProviderSetter } from "@core/providers/provider-setter.type";
+import type { ProviderSetter } from "@core/providers/provider-setter.type";
 import { USER_SCHEMA } from "@shared/models";
 import { createContext, useContext } from "react";
-import { object, string, z } from "zod";
+import type { z } from "zod";
+import { object, string } from "zod";
 
 export const AUTH_CONTEXT = createContext<
   ProviderSetter<AuthContextInfo | null>

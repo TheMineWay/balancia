@@ -2,7 +2,7 @@ import Avatar from "@core/components/ui/avatar/avatar";
 import { useActiveAuth } from "@core/hooks/auth/use-active-auth";
 import { useTranslation } from "@core/i18n/use-translation";
 import ProfileInformationEditName from "@core/templates/user/profile/information/profile-information-edit-name.template";
-import { UserModel } from "@shared/models";
+import type { UserModel } from "@shared/models";
 import { Card, Divider, Typography } from "antd";
 
 const { Title, Text } = Typography;
