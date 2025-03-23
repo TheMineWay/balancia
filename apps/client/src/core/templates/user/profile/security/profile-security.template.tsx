@@ -2,6 +2,7 @@ import { useMyUserProfileInfoQuery } from "@core/hooks/api/user/my-profile/use-m
 import { useTranslation } from "@core/i18n/use-translation";
 import UpdatePasswordModal from "@core/templates/user/profile/security/update-password/update-password-modal.template";
 import type { UserProfileInfoModel } from "@shared/models";
+import { useNavigate } from "@tanstack/react-router";
 import { Button, Card, Skeleton, Typography } from "antd";
 import { useState } from "react";
 import {
@@ -67,6 +68,7 @@ const TwoFaActions: FC<{ profileInfo: UserProfileInfoModel }> = ({
   profileInfo: { configs },
 }) => {
   const { t } = useTranslation("userProfile");
+  const navigate = useNavigate();
 
   if (configs?.totpEnabled)
     return (
@@ -81,7 +83,10 @@ const TwoFaActions: FC<{ profileInfo: UserProfileInfoModel }> = ({
     );
 
   return (
-    <Button icon={<AiOutlineMobile />}>
+    <Button
+      onClick={() => navigate({ to: "/me/profile/config/2fa/setup" })}
+      icon={<AiOutlineMobile />}
+    >
       {t()["my-security"]["main-actions"]["2fa"].Enable}
     </Button>
   );

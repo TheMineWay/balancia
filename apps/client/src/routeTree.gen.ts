@@ -18,6 +18,9 @@ import { Route as rootRoute } from './routes/__root'
 
 const IndexLazyImport = createFileRoute('/')()
 const MeProfileIndexLazyImport = createFileRoute('/me/profile/')()
+const MeProfileConfig2faSetupIndexLazyImport = createFileRoute(
+  '/me/profile/config/2fa/setup/',
+)()
 
 // Create/Update Routes
 
@@ -34,6 +37,17 @@ const MeProfileIndexLazyRoute = MeProfileIndexLazyImport.update({
 } as any).lazy(() =>
   import('./routes/me/profile/index.lazy').then((d) => d.Route),
 )
+
+const MeProfileConfig2faSetupIndexLazyRoute =
+  MeProfileConfig2faSetupIndexLazyImport.update({
+    id: '/me/profile/config/2fa/setup/',
+    path: '/me/profile/config/2fa/setup/',
+    getParentRoute: () => rootRoute,
+  } as any).lazy(() =>
+    import('./routes/me/profile/config/2fa/setup/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 // Populate the FileRoutesByPath interface
 
@@ -53,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MeProfileIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/me/profile/config/2fa/setup/': {
+      id: '/me/profile/config/2fa/setup/'
+      path: '/me/profile/config/2fa/setup'
+      fullPath: '/me/profile/config/2fa/setup'
+      preLoaderRoute: typeof MeProfileConfig2faSetupIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -61,36 +82,41 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/me/profile': typeof MeProfileIndexLazyRoute
+  '/me/profile/config/2fa/setup': typeof MeProfileConfig2faSetupIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/me/profile': typeof MeProfileIndexLazyRoute
+  '/me/profile/config/2fa/setup': typeof MeProfileConfig2faSetupIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/me/profile/': typeof MeProfileIndexLazyRoute
+  '/me/profile/config/2fa/setup/': typeof MeProfileConfig2faSetupIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/me/profile'
+  fullPaths: '/' | '/me/profile' | '/me/profile/config/2fa/setup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/me/profile'
-  id: '__root__' | '/' | '/me/profile/'
+  to: '/' | '/me/profile' | '/me/profile/config/2fa/setup'
+  id: '__root__' | '/' | '/me/profile/' | '/me/profile/config/2fa/setup/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   MeProfileIndexLazyRoute: typeof MeProfileIndexLazyRoute
+  MeProfileConfig2faSetupIndexLazyRoute: typeof MeProfileConfig2faSetupIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   MeProfileIndexLazyRoute: MeProfileIndexLazyRoute,
+  MeProfileConfig2faSetupIndexLazyRoute: MeProfileConfig2faSetupIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -104,7 +130,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/me/profile/"
+        "/me/profile/",
+        "/me/profile/config/2fa/setup/"
       ]
     },
     "/": {
@@ -112,6 +139,9 @@ export const routeTree = rootRoute
     },
     "/me/profile/": {
       "filePath": "me/profile/index.lazy.tsx"
+    },
+    "/me/profile/config/2fa/setup/": {
+      "filePath": "me/profile/config/2fa/setup/index.lazy.tsx"
     }
   }
 }
