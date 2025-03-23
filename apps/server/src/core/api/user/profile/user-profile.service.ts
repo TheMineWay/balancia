@@ -1,19 +1,24 @@
-import { Injectable } from "@nestjs/common";
-import { DbUserModel } from "@shared/models";
+import { UserService } from "@core/api/user/user.service";
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+} from "@nestjs/common";
+import type { DbUserModel } from "@shared/models";
+import { evaluatePassword } from "@shared/utils";
 
 @Injectable()
 export class UserProfileService {
-  /*constructor(private readonly userService: UserService) {}
+  constructor(
+    @Inject(forwardRef(() => UserService))
+    private readonly userService: UserService,
+  ) {}
 
   updateUserPassword = async (userId: DbUserModel["id"], password: string) => {
     if (evaluatePassword(password).score < 60) throw new BadRequestException();
     await this.userService.updateById(userId, { password });
-  };*/
-
-  updateUserPassword = async (
-    userId: DbUserModel["id"],
-    password: string,
-  ) => {};
+  };
 
   // Utils
 

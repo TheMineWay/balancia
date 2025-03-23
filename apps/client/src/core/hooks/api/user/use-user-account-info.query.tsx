@@ -22,6 +22,6 @@ export const useUserAccountInfoQuery = () => {
 
   return useQuery({
     queryKey: USER_ACCOUNT_INFO_QUERY_KEYS(),
-    queryFn: endpointQuery(CONTROLLERS.userProfile, "get", request),
+    queryFn: endpointQuery(CONTROLLERS.user, "get", request),
   });
 };

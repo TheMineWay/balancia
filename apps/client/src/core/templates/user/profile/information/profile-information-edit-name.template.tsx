@@ -1,4 +1,4 @@
-import { useEditMyProfileNameMutation } from "@core/hooks/api/user/my-profile/use-edit-my-profile-name.mutation";
+import { useEditMyUserMutation } from "@core/hooks/api/user/my-profile/use-edit-my-user.mutation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { UserModel } from "@shared/models";
 import { USER_SCHEMA } from "@shared/models";
@@ -8,21 +8,49 @@ import { AiOutlineSave } from "react-icons/ai";
 import type z from "zod";
 
 const SCHEMA = USER_SCHEMA.pick({
-    name: true,
-    lastName: true
+  name: true,
+  lastName: true,
 });
 
 type FormData = z.infer<typeof SCHEMA>;
 
-type Props = { user: UserModel }
+type Props = { user: UserModel };
 
 export default function ProfileInformationEditName({ user }: Readonly<Props>) {
-    const { control, handleSubmit } = useForm<FormData>({ defaultValues: user, resolver: zodResolver(SCHEMA), });
-    const { mutateAsync, isPending } = useEditMyProfileNameMutation();
+  const { control, handleSubmit } = useForm<FormData>({
+    defaultValues: user,
+    resolver: zodResolver(SCHEMA),
+  });
+  const { mutateAsync, isPending } = useEditMyUserMutation();
 
-    return <form onSubmit={handleSubmit((data) => mutateAsync(data))} className="flex flex-col md:flex-row gap-2">
-        <Controller name="name" control={control} render={({ field: { value, onChange } }) => <Input value={value} onChange={onChange} />} />
-        <Controller name="lastName" control={control} render={({ field: { value, onChange } }) => <Input value={value} onChange={onChange} />} />
-        <Button loading={isPending} htmlType="submit" icon={<AiOutlineSave />} type="primary" block>Save</Button>
-    </form>;
-};
+  return (
+    <form
+      onSubmit={handleSubmit((data) => mutateAsync(data))}
+      className="flex flex-col md:flex-row gap-2"
+    >
+      <Controller
+        name="name"
+        control={control}
+        render={({ field: { value, onChange } }) => (
+          <Input value={value} onChange={onChange} />
+        )}
+      />
+      <Controller
+        name="lastName"
+        control={control}
+        render={({ field: { value, onChange } }) => (
+          <Input value={value} onChange={onChange} />
+        )}
+      />
+      <Button
+        loading={isPending}
+        htmlType="submit"
+        icon={<AiOutlineSave />}
+        type="primary"
+        block
+      >
+        Save
+      </Button>
+    </form>
+  );
+}
