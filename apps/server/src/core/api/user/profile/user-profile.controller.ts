@@ -1,5 +1,6 @@
 import { AuthService } from "@core/api/auth/auth.service";
-import { MyUserProfileService } from "@core/api/user/profile/my-user-profile.service";
+import { UserProfileService } from "@core/api/user/profile/user-profile.service";
+import { UserService } from "@core/api/user/user.service";
 import { Endpoint } from "@core/decorators/endpoints/endpoint.decorator";
 import { UserId } from "@core/decorators/user/user-id.decorator";
 import { User, UserTokenData } from "@core/decorators/user/user.decorator";
@@ -16,17 +17,18 @@ import { UserModel } from "@shared/models";
 const CONTROLLER = CONTROLLERS.userProfile;
 
 @Controller(getController(CONTROLLER))
-export class MyUserProfileController {
+export class UserProfileController {
   constructor(
-    private readonly myUserProfileService: MyUserProfileService,
     private readonly authService: AuthService,
+    private readonly userService: UserService,
+    private readonly userProfileService: UserProfileService,
   ) {}
 
   @Endpoint(CONTROLLER, "get")
   get(
     @UserId() userId: UserModel["id"],
   ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "get">> {
-    return this.myUserProfileService.getById(userId);
+    return this.userService.getById(userId);
   }
 
   @Endpoint(CONTROLLER, "update")
@@ -35,7 +37,7 @@ export class MyUserProfileController {
     userData: InferEndpointDTO<typeof CONTROLLER, "update">,
     @UserId() userId: UserTokenData["id"],
   ) {
-    return this.myUserProfileService.updateById(userId, userData);
+    return this.userService.updateById(userId, userData);
   }
 
   // Details
@@ -56,6 +58,6 @@ export class MyUserProfileController {
     });
 
     // Update password
-    await this.myUserProfileService.updateUserPassword(user.id, password);
+    await this.userProfileService.updateUserPassword(user.id, password);
   }
 }

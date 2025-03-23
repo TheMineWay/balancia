@@ -19,7 +19,7 @@ export class AuthService {
     password,
     totp,
   }: InferEndpointDTO<typeof CONTROLLERS.auth, "login">) {
-    const user = await this.usersService.findByUsername(username);
+    const user = await this.usersService.getByUsername(username);
     this.validateCredentials(password, user);
 
     if (!this.validateTotp(totp ?? null, user.totpSecret))
@@ -47,7 +47,7 @@ export class AuthService {
     username: string;
     password: string;
   }) {
-    const user = await this.usersService.findByUsername(credentials.username);
+    const user = await this.usersService.getByUsername(credentials.username);
     this.validateCredentials(credentials.password, user);
   }
 
