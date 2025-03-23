@@ -1,4 +1,3 @@
-import { UserProfileService } from "@core/api/user/profile/user-profile.service";
 import { QueryOptions } from "@database/repository/core/repository";
 import { Injectable } from "@nestjs/common";
 import { UserRepository } from "@repository/core/user.repository";
@@ -13,8 +12,7 @@ export class UserService {
   }
 
   getById = async (userId: DbUserModel["id"]) => {
-    const user = await this.userRepository.findById(userId);
-    return UserProfileService.getProfileFromDbUser(user);
+    return await this.userRepository.findById(userId);
   };
 
   updateById = (

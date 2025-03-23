@@ -32,3 +32,6 @@ export const USER_SCHEMA = object({
 }).merge(TIMESTAMPS_SCHEMA);
 
 export type UserModel = z.infer<typeof USER_SCHEMA>;
+
+// Special export
+export type UserModelId = UserModel["id"];

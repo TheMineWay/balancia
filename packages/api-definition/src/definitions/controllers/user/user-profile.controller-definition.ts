@@ -1,4 +1,4 @@
-import { USER_MODEL_VALUES } from "@shared/models";
+import { USER_MODEL_VALUES, USER_PROFILE_INFO_SCHEMA } from "@shared/models";
 import { z } from "zod";
 import { ControllerDefinition, EndpointMethod } from "../../../types";
 
@@ -20,6 +20,10 @@ const UPDATE_PASSWORD_DTO = z.object({
 export const USER_PROFILE_CONTROLLER_DEFINITION = {
   getName: () => "user-profile",
   endpoints: {
+    getInfo: {
+      getPath: () => "info",
+      responseDto: USER_PROFILE_INFO_SCHEMA,
+    },
     updatePassword: {
       getPath: () => "update-password",
       method: EndpointMethod.PATCH,

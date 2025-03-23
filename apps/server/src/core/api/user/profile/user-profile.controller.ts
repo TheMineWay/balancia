@@ -1,6 +1,7 @@
 import { AuthService } from "@core/api/auth/auth.service";
 import { UserProfileService } from "@core/api/user/profile/user-profile.service";
 import { Endpoint } from "@core/decorators/endpoints/endpoint.decorator";
+import { UserId } from "@core/decorators/user/user-id.decorator";
 import { User, UserTokenData } from "@core/decorators/user/user.decorator";
 import { ValidatedBody } from "@core/decorators/validation/validated-body.decorator";
 import { Controller } from "@nestjs/common";
@@ -10,6 +11,7 @@ import {
   InferEndpointDTO,
   InferEndpointResponseDTO,
 } from "@shared/api-definition";
+import type { UserModelId } from "@shared/models";
 
 const CONTROLLER = CONTROLLERS.userProfile;
 
@@ -21,6 +23,13 @@ export class UserProfileController {
   ) {}
 
   // Details
+
+  @Endpoint(CONTROLLER, "getInfo")
+  getInfo(
+    @UserId() userId: UserModelId,
+  ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "getInfo">> {
+    return this.userProfileService.getUserInfo(userId);
+  }
 
   @Endpoint(CONTROLLER, "updatePassword")
   async updatePassword(
