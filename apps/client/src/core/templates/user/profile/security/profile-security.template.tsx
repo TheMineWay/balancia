@@ -1,6 +1,8 @@
+import { useMyUserProfileInfoQuery } from "@core/hooks/api/user/my-profile/use-my-user-profile-info.query";
 import { useTranslation } from "@core/i18n/use-translation";
 import UpdatePasswordModal from "@core/templates/user/profile/security/update-password/update-password-modal.template";
-import { Button, Card, Typography } from "antd";
+import type { UserProfileInfoModel } from "@shared/models";
+import { Button, Card, Skeleton, Typography } from "antd";
 import { useState } from "react";
 import {
   AiOutlineClose,
@@ -14,8 +16,7 @@ const { Title, Text } = Typography;
 const ProfileSecurity: FC = () => {
   const { t } = useTranslation("userProfile");
   const [isEditPasswordVisible, setEditPasswordVisibility] = useState(false);
-
-  const is2FAEnabled = true;
+  const { data: profileInfo } = useMyUserProfileInfoQuery();
 
   return (
     <>
@@ -36,7 +37,15 @@ const ProfileSecurity: FC = () => {
             >
               {t()["my-security"]["main-actions"].password.Update}
             </Button>
-            <TwoFaActions isEnabled={is2FAEnabled} />
+            {profileInfo ? (
+              <TwoFaActions profileInfo={profileInfo} />
+            ) : (
+              <>
+                <Skeleton.Button />
+                <Skeleton.Button />
+                <Skeleton.Button />
+              </>
+            )}
           </Card>
         </div>
         <div className="grid lg:grid-cols-2 gap-2">
@@ -54,10 +63,12 @@ const ProfileSecurity: FC = () => {
 
 export default ProfileSecurity;
 
-const TwoFaActions: FC<{ isEnabled: boolean }> = ({ isEnabled }) => {
+const TwoFaActions: FC<{ profileInfo: UserProfileInfoModel }> = ({
+  profileInfo: { configs },
+}) => {
   const { t } = useTranslation("userProfile");
 
-  if (isEnabled)
+  if (configs?.totpEnabled)
     return (
       <>
         <Button icon={<AiOutlineEye />}>
