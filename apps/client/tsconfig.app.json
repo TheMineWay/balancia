@@ -34,7 +34,8 @@
       "@constants/*": ["src/constants/*"],
       "@i18n/*": ["src/i18n/*"],
       "@ts-types/*": ["src/types/*"],
-      "@core/*": ["src/core/*"]
+      "@core/*": ["src/core/*"],
+      "@routes/*": ["src/routes/*"],
     }
   },
   "include": ["src"]

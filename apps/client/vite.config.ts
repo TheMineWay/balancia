@@ -19,6 +19,7 @@ export default defineConfig({
       "@i18n": path.resolve(__dirname, "src/i18n"),
       "@ts-types": path.resolve(__dirname, "src/types"),
       "@core": path.resolve(__dirname, "src/core"),
+      "@routes": path.resolve(__dirname, "src/routes"),
     },
   },
   server: {

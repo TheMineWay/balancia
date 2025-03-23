@@ -1,6 +1,7 @@
 import Avatar from "@core/components/ui/avatar/avatar";
 import PageContainer from "@core/components/ui/container/page-container";
 import { useActiveAuth } from "@core/hooks/auth/use-active-auth";
+import { useTabs } from "@core/hooks/utils/components/tabs/use-tabs.util";
 import { useTranslation } from "@core/i18n/use-translation";
 import { useDeviceInfo } from "@core/providers/device/device-info.context";
 import ProfileInformation from "@core/templates/user/profile/information/profile-information.template";
@@ -41,13 +42,18 @@ export default function ProfilePageTemplate() {
     children: <PageContainer>{children}</PageContainer>,
   }));
 
+  const { control } = useTabs({
+    items: PROFILE_TABS,
+    track: { by: "query", name: "tab" },
+  });
+
   return (
     <div>
       {/* Tabs */}
       <Tabs
         className={clsx("w-full mt-4", { "px-4": isMobile })}
         tabPosition={isMobile ? "top" : "left"}
-        items={PROFILE_TABS}
+        {...control}
       />
     </div>
   );
