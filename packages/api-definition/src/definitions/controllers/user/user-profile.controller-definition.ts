@@ -1,19 +1,5 @@
-import { USER_MODEL_VALUES, USER_PROFILE_INFO_SCHEMA } from "@shared/models";
-import { z } from "zod";
-import { ControllerDefinition, EndpointMethod } from "../../../types";
-
-/* DTOs */
-
-const UPDATE_PASSWORD_DTO = z.object({
-  currentPassword: z
-    .string()
-    .min(USER_MODEL_VALUES.password.minLength)
-    .max(USER_MODEL_VALUES.password.maxLength),
-  password: z
-    .string()
-    .min(USER_MODEL_VALUES.password.minLength)
-    .max(USER_MODEL_VALUES.password.maxLength),
-});
+import { USER_PROFILE_INFO_SCHEMA } from "@shared/models";
+import { ControllerDefinition } from "../../../types";
 
 /* Controller */
 
@@ -23,11 +9,6 @@ export const USER_PROFILE_CONTROLLER_DEFINITION = {
     getInfo: {
       getPath: () => "info",
       responseDto: USER_PROFILE_INFO_SCHEMA,
-    },
-    updatePassword: {
-      getPath: () => "update-password",
-      method: EndpointMethod.PATCH,
-      dto: UPDATE_PASSWORD_DTO,
     },
   },
 } as const satisfies ControllerDefinition;

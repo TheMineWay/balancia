@@ -9,7 +9,6 @@ export const totpRecoveryCodesTable = mysqlTable(
     userId: int()
       .notNull()
       .references(() => usersTable.id),
-
     code: varchar({ length: 12 }).notNull(),
 
     // Timestamps

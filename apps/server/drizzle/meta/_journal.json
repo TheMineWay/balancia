@@ -8,6 +8,13 @@
       "when": 1740060232363,
       "tag": "0000_plain_supreme_intelligence",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1742811136655,
+      "tag": "0001_hard_puff_adder",
+      "breakpoints": true
     }
   ]
 }
