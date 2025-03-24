@@ -3,6 +3,9 @@ import { ProjectDependency } from "@site/src/types/dependencies/dependency.type"
 import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
+  {
+    dep: "date-fns",
+  },
   { dep: "bcrypt" },
   {
     dep: "@types/bcrypt",

@@ -2,6 +2,11 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "date-fns",
+    name: "Date fns",
+    url: "https://www.npmjs.com/package/date-fns",
+  },
+  {
     code: "@types/bcrypt",
     name: "@types bcrypt",
     url: "https://www.npmjs.com/package/@types/bcrypt",

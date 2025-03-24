@@ -65,7 +65,9 @@ const Enable2Fa: FC = () => {
         {step === 1 && (
           <Enable2FaDeviceSetupStep onProceed={() => setHasScanned(true)} />
         )}
-        {step === 2 && <Enable2FaDeviceVerify />}
+        {step === 2 && (
+          <Enable2FaDeviceVerify onBack={() => setHasScanned(false)} />
+        )}
       </div>
     </div>
   );

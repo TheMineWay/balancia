@@ -3,6 +3,7 @@ import { useAuthenticatedRequest } from "@core/hooks/utils/api/use-authenticated
 import type { QueryKey } from "@core/types/base/query/query-key.type";
 import { endpointQuery } from "@core/utils/request/endpoint-query.util";
 import { CONTROLLERS } from "@shared/api-definition";
+import { CONFIG } from "@shared/constants";
 import { useQuery } from "@tanstack/react-query";
 
 export const USE_TOTP_ENABLE_INFO_QUERY_KEY: QueryKey = () => [
@@ -17,5 +18,6 @@ export const useTotpEnableInfoQuery = () => {
   return useQuery({
     queryKey: USE_TOTP_ENABLE_INFO_QUERY_KEY(),
     queryFn: endpointQuery(CONTROLLERS.user, "getEnable2FaInfo", request),
+    refetchInterval: CONFIG.totp.totpIdleConfigTimeout * 1000 * 60,
   });
 };

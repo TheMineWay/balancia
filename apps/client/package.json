@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.1",
+    "@shared/constants": "workspace:*",
     "@shared/api-definition": "workspace:*",
     "@shared/models": "workspace:*",
     "@shared/utils": "workspace:*",

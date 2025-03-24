@@ -23,4 +23,10 @@ export class TotpEnableRepository extends Repository {
     await this.query(options).insert(totpEnableTable).values([data]);
     return { userId: data.userId };
   };
+
+  deleteByUserId = async (userId: UserModelId, options?: QueryOptions) => {
+    return await this.query(options)
+      .delete(totpEnableTable)
+      .where(eq(totpEnableTable.userId, userId));
+  };
 }
