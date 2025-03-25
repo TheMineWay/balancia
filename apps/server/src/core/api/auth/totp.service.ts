@@ -11,7 +11,7 @@ export class TotpService {
   constructor(private readonly totpEnableRepository: TotpEnableRepository) {}
 
   async getCurrentUserTotpEnable(userId: UserModelId) {
-    const totp = await this.totpEnableRepository.transaction(
+    const { totp, createdAt } = await this.totpEnableRepository.transaction(
       async (transaction) => {
         const totpEnableInfo = await this.totpEnableRepository.findByUserId(
           userId,
@@ -25,7 +25,14 @@ export class TotpService {
 
           if (isFuture(windowedCreatedAt)) {
             // If we are still on validation time window, return code
-            return new TOTP({ secret: totpEnableInfo.totpSecret });
+            const totp = new TOTP({
+              secret: totpEnableInfo.totpSecret,
+              digits: CONFIG.totp.digits,
+            });
+            return {
+              totp,
+              createdAt: totpEnableInfo.createdAt,
+            };
           } else {
             // Otherwise, remove existing code
             await this.totpEnableRepository.deleteByUserId(userId, {
@@ -40,15 +47,24 @@ export class TotpService {
         };
 
         await this.totpEnableRepository.create(insertData, { transaction });
+        const { createdAt } = await this.totpEnableRepository.findByUserId(
+          userId,
+          { transaction },
+        );
 
-        return new TOTP({
+        const totp = new TOTP({
           secret: insertData.totpSecret,
           digits: CONFIG.totp.digits,
         });
+
+        return {
+          totp,
+          createdAt,
+        };
       },
     );
 
     const totpUri = totp.toString();
-    return { totpUri };
+    return { totpUri, createdAt };
   }
 }

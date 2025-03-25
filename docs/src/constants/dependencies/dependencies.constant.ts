@@ -129,12 +129,6 @@ export const DEPENDENCIES = [
     ],
   },
   {
-    code: "luxon",
-    name: "Luxon",
-    url: "https://www.npmjs.com/package/luxon",
-    docsUrl: "https://moment.github.io/luxon/#/",
-  },
-  {
     code: "rc-picker",
     name: "React Picker",
     url: "https://www.npmjs.com/package/rc-picker",
@@ -191,11 +185,6 @@ export const DEPENDENCIES = [
     name: "Testing Library User Event",
     url: "https://www.npmjs.com/package/@testing-library/user-event",
     docsUrl: "https://testing-library.com/docs/user-event/intro/",
-  },
-  {
-    code: "@types/luxon",
-    name: "@types Luxon",
-    url: "https://www.npmjs.com/package/@types/luxon",
   },
   {
     code: "@types/react",

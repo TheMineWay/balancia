@@ -1,3 +1,4 @@
+import { useTotpEnableInfoQuery } from "@core/hooks/api/user/auth/use-totp-enable-info.query";
 import { useTranslation } from "@core/i18n/use-translation";
 import { Button, Input } from "antd";
 import { AiOutlineArrowLeft } from "react-icons/ai";
@@ -7,6 +8,8 @@ type Props = {
 };
 
 const Enable2FaDeviceVerify: FC<Props> = ({ onBack }) => {
+  const { data: totpInfo } = useTotpEnableInfoQuery();
+
   const { t } = useTranslation("userProfile");
   const { t: commonT } = useTranslation("common");
 

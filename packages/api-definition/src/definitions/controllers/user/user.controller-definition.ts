@@ -1,4 +1,4 @@
-import { USER_MODEL_VALUES, USER_SCHEMA } from "@shared/models";
+import { DATE_SCHEMA, USER_MODEL_VALUES, USER_SCHEMA } from "@shared/models";
 import { ControllerDefinition } from "@ts-types/controller-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
 import { z } from "zod";
@@ -42,6 +42,7 @@ export const USER_CONTROLLER_DEFINITION = {
       getPath: () => "enable-2fa",
       responseDto: z.object({
         totpUri: z.string(),
+        createdAt: DATE_SCHEMA,
       }),
     },
   },

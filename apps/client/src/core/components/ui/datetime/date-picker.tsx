@@ -1,7 +1,6 @@
 import { DatePicker as AntdDatePicker } from "antd";
-import type { DateTime } from "luxon";
-import luxonGenerateConfig from "rc-picker/lib/generate/luxon";
+import dateFnsGenerateConfig from "rc-picker/lib/generate/dateFns";
 
-const DatePicker = AntdDatePicker.generatePicker<DateTime>(luxonGenerateConfig);
+const DatePicker = AntdDatePicker.generatePicker<Date>(dateFnsGenerateConfig);
 
 export default DatePicker;

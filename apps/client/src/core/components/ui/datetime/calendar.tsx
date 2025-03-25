@@ -1,7 +1,6 @@
 import { Calendar as AntdCalendar } from "antd";
-import type { DateTime } from "luxon";
-import luxonGenerateConfig from "rc-picker/es/generate/luxon";
+import dateFnsGenerateConfig from "rc-picker/lib/generate/dateFns";
 
-const Calendar = AntdCalendar.generateCalendar<DateTime>(luxonGenerateConfig);
+const Calendar = AntdCalendar.generateCalendar(dateFnsGenerateConfig);
 
 export default Calendar;

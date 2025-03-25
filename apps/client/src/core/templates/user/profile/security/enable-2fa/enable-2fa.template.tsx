@@ -1,7 +1,6 @@
 import { useMyUserProfileInfoQuery } from "@core/hooks/api/user/my-profile/use-my-user-profile-info.query";
 import { useTranslation } from "@core/i18n/use-translation";
-import Enable2FaDeviceSetupStep from "@core/templates/user/profile/security/enable-2fa/steps/enable-2fa-device-setup-step.template";
-import Enable2FaDeviceVerify from "@core/templates/user/profile/security/enable-2fa/steps/enable-2fa-device-verify.template";
+import Enable2FaDeviceStepGroup from "@core/templates/user/profile/security/enable-2fa/steps/enable-2fa-device-step-group.template";
 import Enable2FaInfoStep from "@core/templates/user/profile/security/enable-2fa/steps/enable-2fa-info-step.template";
 import { useNavigate } from "@tanstack/react-router";
 import { Divider, Steps, type StepsProps } from "antd";
@@ -59,14 +58,14 @@ const Enable2Fa: FC = () => {
       <Divider />
       <div className="flex flex-col gap-2 items-center">
         {/* Steps */}
-        {step === 0 && (
+        {step === 0 ? (
           <Enable2FaInfoStep onProceed={() => setReadInfo(true)} />
-        )}
-        {step === 1 && (
-          <Enable2FaDeviceSetupStep onProceed={() => setHasScanned(true)} />
-        )}
-        {step === 2 && (
-          <Enable2FaDeviceVerify onBack={() => setHasScanned(false)} />
+        ) : (
+          <Enable2FaDeviceStepGroup
+            step={step}
+            onCancelScanned={() => setHasScanned(false)}
+            onScanned={() => setHasScanned(true)}
+          />
         )}
       </div>
     </div>
