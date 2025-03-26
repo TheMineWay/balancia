@@ -18,6 +18,6 @@ export const useTotpEnableInfoQuery = () => {
   return useQuery({
     queryKey: USE_TOTP_ENABLE_INFO_QUERY_KEY(),
     queryFn: endpointQuery(CONTROLLERS.user, "getEnable2FaInfo", request),
-    refetchInterval: CONFIG.totp.totpIdleConfigTimeout * 1000 * 60,
+    refetchInterval: CONFIG.totp.totpIdleConfigTimeout * 60 * 1000,
   });
 };

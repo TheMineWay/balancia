@@ -59,10 +59,20 @@ export class UserController {
     await this.userService.updateUserPassword(user.id, password);
   }
 
+  /* TOTP config */
   @Endpoint(CONTROLLER, "getEnable2FaInfo")
   getEnable2FaInfo(
     @UserId() userId: UserModelId,
   ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "getEnable2FaInfo">> {
     return this.totpService.getCurrentUserTotpEnable(userId);
+  }
+
+  @Endpoint(CONTROLLER, "validate2fa")
+  validateTotp(
+    @UserId() userId: UserModelId,
+    @ValidatedBody(CONTROLLER, "validate2fa")
+    body: InferEndpointDTO<typeof CONTROLLER, "validate2fa">,
+  ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "validate2fa">> {
+    return this.totpService.validateCurrentUserTotpEnable(userId, body.code);
   }
 }

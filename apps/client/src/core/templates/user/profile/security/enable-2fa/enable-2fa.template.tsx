@@ -3,13 +3,12 @@ import { useTranslation } from "@core/i18n/use-translation";
 import Enable2FaDeviceStepGroup from "@core/templates/user/profile/security/enable-2fa/steps/enable-2fa-device-step-group.template";
 import Enable2FaInfoStep from "@core/templates/user/profile/security/enable-2fa/steps/enable-2fa-info-step.template";
 import { useNavigate } from "@tanstack/react-router";
-import { Divider, Steps, type StepsProps } from "antd";
+import { Divider, Result, Steps, Typography, type StepsProps } from "antd";
 import { useEffect, useMemo, useState } from "react";
-import {
-  AiOutlineInfo,
-  AiOutlineMobile,
-  AiOutlineVerified,
-} from "react-icons/ai";
+import { AiOutlineInfo, AiOutlineMobile } from "react-icons/ai";
+import { MdOutlineVerified } from "react-icons/md";
+
+const { Text } = Typography;
 
 const Enable2Fa: FC = () => {
   const { data: userInfoData } = useMyUserProfileInfoQuery();
@@ -34,7 +33,7 @@ const Enable2Fa: FC = () => {
       },
       {
         title: steps.verify.Title,
-        icon: <AiOutlineVerified />,
+        icon: <MdOutlineVerified />,
       },
     ],
     [steps]
@@ -43,11 +42,25 @@ const Enable2Fa: FC = () => {
   /* STATES */
   const [readInfo, setReadInfo] = useState(false);
   const [hasScanned, setHasScanned] = useState(false);
+  const [hasEnabled2Fa, setHasEnabled2Fa] = useState(false);
 
   const step = useMemo(
     () => calculateStep({ readInfo, hasScanned }),
     [readInfo, hasScanned]
   );
+
+  if (hasEnabled2Fa)
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <Result
+          status="success"
+          title={steps.enabled.Title}
+          className="flex flex-col items-center"
+        >
+          <Text>{steps.enabled.Description}</Text>
+        </Result>
+      </div>
+    );
 
   return (
     <div className="flex flex-col gap-4">
@@ -65,6 +78,7 @@ const Enable2Fa: FC = () => {
             step={step}
             onCancelScanned={() => setHasScanned(false)}
             onScanned={() => setHasScanned(true)}
+            onEnable2Fa={() => setHasEnabled2Fa(true)}
           />
         )}
       </div>

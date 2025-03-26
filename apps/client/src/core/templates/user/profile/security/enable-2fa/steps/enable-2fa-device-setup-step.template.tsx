@@ -1,4 +1,4 @@
-import { useTotpEnableInfoQuery } from "@core/hooks/api/user/auth/use-totp-enable-info.query";
+import { useTotpEnableInfoQuery } from "@core/hooks/api/user/auth/config/use-totp-enable-info.query";
 import { useTranslation } from "@core/i18n/use-translation";
 import { Button, QRCode, Spin, Typography } from "antd";
 

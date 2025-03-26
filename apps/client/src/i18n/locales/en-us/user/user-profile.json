@@ -68,6 +68,7 @@
         "2fa": {
             "setup": {
                 "Title": "Setup 2FA",
+                "Timeout-warning": "For security reasons a new QR will be generated in {time}. Scan and verify the code before that deadline.",
                 "steps": {
                     "info": {
                         "Title": "About",
@@ -89,6 +90,10 @@
                         "actions": {
                             "Verify": "Verify"
                         }
+                    },
+                    "enabled": {
+                        "Title": "2FA has been enabled",
+                        "Description": "From now on you will be asked to provide an additional code when signing in."
                     }
                 }
             }

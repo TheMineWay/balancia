@@ -1,11 +1,12 @@
 import { useLoginMutation } from "@core/hooks/api/user/auth/use-login.mutation";
 import type { AuthContextInfo } from "@core/providers/auth/auth.context";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CONFIG } from "@shared/constants";
 import { Button, Input } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import Zod, { string } from "zod";
 
-const TOTP_DIGITS = 6;
+const TOTP_DIGITS = CONFIG.totp.digits;
 
 type Props = {
   passwordCredentials: { username: string; password: string };

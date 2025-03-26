@@ -13,7 +13,7 @@ const Enable2FaInfoStep: FC<Props> = ({ onProceed }) => {
   const step = t().configs["2fa"].setup.steps.info;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 items-center">
       <Text>{step.Description}</Text>
       <Button onClick={() => onProceed()} type="primary">
         {step.actions.Start}
