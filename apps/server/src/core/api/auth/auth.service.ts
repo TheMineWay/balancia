@@ -1,9 +1,9 @@
 import { UserTokenData } from "@core/decorators/user/user.decorator";
-import { compareHash } from "@core/utils/cryptography/password-hashing.util";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { CONTROLLERS, InferEndpointDTO } from "@shared/api-definition";
 import { DbUserModel } from "@shared/models";
+import { compareHash } from "@utils/security/cryptography/password-hashing.util";
 import { TOTP } from "otpauth";
 import { UserService } from "../user/user.service";
 

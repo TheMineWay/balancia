@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "launch": "pnpm build && node dist/index.js"
+    "launch": "pnpm build && node dist/cli.js",
+    "generate-packages-indexs": "pnpm build && node dist/packages/generate-indexs/index.js"
   },
   "license": "MIT",
   "devDependencies": {

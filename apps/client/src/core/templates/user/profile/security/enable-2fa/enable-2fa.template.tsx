@@ -3,7 +3,14 @@ import { useTranslation } from "@core/i18n/use-translation";
 import Enable2FaDeviceStepGroup from "@core/templates/user/profile/security/enable-2fa/steps/enable-2fa-device-step-group.template";
 import Enable2FaInfoStep from "@core/templates/user/profile/security/enable-2fa/steps/enable-2fa-info-step.template";
 import { useNavigate } from "@tanstack/react-router";
-import { Divider, Result, Steps, Typography, type StepsProps } from "antd";
+import {
+  Button,
+  Divider,
+  Result,
+  Steps,
+  Typography,
+  type StepsProps,
+} from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { AiOutlineInfo, AiOutlineMobile } from "react-icons/ai";
 import { MdOutlineVerified } from "react-icons/md";
@@ -19,6 +26,8 @@ const Enable2Fa: FC = () => {
   }, [userInfoData, navigate]);
 
   const { t } = useTranslation("userProfile");
+  const { t: commonT } = useTranslation("common");
+
   const steps = t().configs["2fa"].setup.steps;
 
   const STEPS = useMemo<StepsProps["items"]>(
@@ -57,7 +66,15 @@ const Enable2Fa: FC = () => {
           title={steps.enabled.Title}
           className="flex flex-col items-center"
         >
-          <Text>{steps.enabled.Description}</Text>
+          <div className="flex flex-col gap-2">
+            <Text>{steps.enabled.Description}</Text>
+            <Button
+              type="primary"
+              onClick={() => navigate({ to: "/me/profile" })}
+            >
+              {commonT().actions.Back}
+            </Button>
+          </div>
         </Result>
       </div>
     );
