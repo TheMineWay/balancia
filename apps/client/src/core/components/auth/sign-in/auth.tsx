@@ -1,5 +1,5 @@
+import AuthentikAuth from "@core/components/auth/sign-in/authentik/authentik-auth";
 import StoredAccountsDisplay from "@core/components/auth/sign-in/stored-accounts-display";
-import AuthWithPasswordForm from "@core/components/auth/sign-in/with-password/auth-with-password.form";
 import type { AuthContextInfo } from "@core/providers/auth/auth.context";
 import { useStoredAccounts } from "@core/providers/auth/stored-account.context";
 import { Card } from "antd";
@@ -34,7 +34,8 @@ export default function Auth({ setAuthContext }: Readonly<Props>) {
           }
         >
           <Card className="w-full">
-            <AuthWithPasswordForm onSuccess={setAuthContext} />
+            <AuthentikAuth />
+            {/* <AuthWithPasswordForm onSuccess={setAuthContext} /> */}
           </Card>
         </div>
       </div>
