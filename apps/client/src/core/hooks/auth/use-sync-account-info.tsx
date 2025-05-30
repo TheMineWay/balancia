@@ -1,6 +1,5 @@
 import { useUserAccountInfoQuery } from "@core/hooks/api/user/use-user-account-info.query";
 import { useAuthContext } from "@core/providers/auth/auth.context";
-import { useStoredAccounts } from "@core/providers/auth/stored-account.context";
 import { isEqual } from "lodash";
 import { useEffect, useTransition } from "react";
 
@@ -14,7 +13,6 @@ import { useEffect, useTransition } from "react";
  */
 export const useSyncAccountInfo = () => {
   const { context: authContext, setContext: setAuthContext } = useAuthContext();
-  const { updateAccount } = useStoredAccounts();
   const { data: updatedAccountInfo } = useUserAccountInfoQuery();
 
   const [, startTransition] = useTransition();
@@ -32,16 +30,8 @@ export const useSyncAccountInfo = () => {
     if (isEqual(authContext, newContext)) return;
 
     startTransition(() => {
-      updateAccount(newContext.user.id, newContext);
-
       // Update context
       setAuthContext(newContext);
     });
-  }, [
-    authContext,
-    setAuthContext,
-    updatedAccountInfo,
-    startTransition,
-    updateAccount,
-  ]);
+  }, [authContext, setAuthContext, updatedAccountInfo, startTransition]);
 };

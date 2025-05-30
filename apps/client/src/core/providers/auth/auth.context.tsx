@@ -4,7 +4,7 @@ import { createContext, useContext } from "react";
 import type { z } from "zod";
 import { object, string } from "zod";
 
-export const AUTH_CONTEXT = createContext<
+export const authContext = createContext<
   ProviderSetter<AuthContextInfo | null>
 >(null!);
 
@@ -16,7 +16,7 @@ export const AUTH_CONTEXT_INFO_SCHEMA = object({
 export type AuthContextInfo = z.infer<typeof AUTH_CONTEXT_INFO_SCHEMA>;
 
 export const useAuthContext = () => {
-  const context = useContext(AUTH_CONTEXT);
+  const context = useContext(authContext);
 
   if (!context) {
     throw new Error("useAuthContext must be used within a AuthProvider");

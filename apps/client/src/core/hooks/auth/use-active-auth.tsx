@@ -1,5 +1,4 @@
 import { useAuthContext } from "@core/providers/auth/auth.context";
-import { useStoredAccounts } from "@core/providers/auth/stored-account.context";
 
 /**
  * A hook used to interact with the active authentication state.
@@ -16,7 +15,6 @@ import { useStoredAccounts } from "@core/providers/auth/stored-account.context";
  * @returns {object} The active authentication state and functions to interact with it.
  */
 export const useActiveAuth = () => {
-  const storedAccountsContext = useStoredAccounts();
   const { context: activeAccount, setContext: setActiveAccount } =
     useAuthContext();
 
@@ -27,24 +25,11 @@ export const useActiveAuth = () => {
     setActiveAccount(null);
   };
 
-  const switchTo = (id: number) => {
-    const account = storedAccountsContext.findAccount(id);
-    if (!account) signOut();
-
-    const { grantedAt: _, ...accountData } = account!;
-
-    setActiveAccount(accountData);
-  };
-
   return {
-    storedAccounts: Object.values(storedAccountsContext.accounts),
     activeUser: activeAccount,
     setActiveUser: setActiveAccount,
     user: activeAccount.user,
     token: activeAccount.token,
     signOut,
-    switchTo,
-
-    storedAccountsContext,
   };
 };

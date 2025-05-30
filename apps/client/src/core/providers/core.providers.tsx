@@ -1,6 +1,5 @@
 import AfterProviders from "@core/providers/after-providers";
 import AuthProvider from "@core/providers/auth/auth.provider";
-import StoredAccountsProvider from "@core/providers/auth/stored-accounts.provider";
 import DeviceInfoProvider from "@core/providers/device/device-info.provider";
 import LanguageProvider from "@core/providers/language/language.provider";
 import NetworkProvider from "@core/providers/network/network.provider";
@@ -15,11 +14,9 @@ export default function CoreProviders({ children }: Readonly<WithChildren>) {
         <ThemeProvider>
           <UIProviders>
             <NetworkProvider>
-              <StoredAccountsProvider>
-                <AuthProvider>
-                  <AfterProviders>{children}</AfterProviders>
-                </AuthProvider>
-              </StoredAccountsProvider>
+              <AuthProvider>
+                <AfterProviders>{children}</AfterProviders>
+              </AuthProvider>
             </NetworkProvider>
           </UIProviders>
         </ThemeProvider>

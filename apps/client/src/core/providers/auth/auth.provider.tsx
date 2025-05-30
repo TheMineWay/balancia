@@ -1,13 +1,11 @@
 import Auth from "@core/components/auth/sign-in/auth";
-import type {
-  AuthContextInfo} from "@core/providers/auth/auth.context";
+import type { AuthContextInfo } from "@core/providers/auth/auth.context";
 import {
-  AUTH_CONTEXT,
-  AUTH_CONTEXT_INFO_SCHEMA
+  AUTH_CONTEXT_INFO_SCHEMA,
+  authContext,
 } from "@core/providers/auth/auth.context";
-import { useStoredAccounts } from "@core/providers/auth/stored-account.context";
 import type { WithChildren } from "@core/types/common/component.types";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 /**
  * Stores in SESSION STORAGE the current auth info.
@@ -18,23 +16,21 @@ import { useState } from "react";
 const SESSION_STORAGE_KEY = "active-auth-info";
 
 export default function AuthProvider({ children }: Readonly<WithChildren>) {
-  const [context, setContextState] = useState<AuthContextInfo | null>(
+  const [contextState, setContextState] = useState<AuthContextInfo | null>(
     readCurrentAuthData()
   );
-  const { addAccount } = useStoredAccounts();
 
-  const setContext = (info: AuthContextInfo | null) => {
+  const setContext = useCallback((info: AuthContextInfo | null) => {
     setCurrentAuthData(info);
-    if (info) addAccount(info);
     setContextState(info);
-  };
+  }, []);
 
-  if (!context) return <Auth setAuthContext={setContext} />;
+  if (!contextState) return <Auth setAuthContext={setContext} />;
 
   return (
-    <AUTH_CONTEXT.Provider value={{ context, setContext }}>
+    <authContext.Provider value={{ context: contextState, setContext }}>
       {children}
-    </AUTH_CONTEXT.Provider>
+    </authContext.Provider>
   );
 }
 
