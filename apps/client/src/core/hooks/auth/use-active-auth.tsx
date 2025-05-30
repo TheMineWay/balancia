@@ -4,7 +4,6 @@ import { useAuthContext } from "@core/providers/auth/auth.context";
  * A hook used to interact with the active authentication state.
  *
  * This hook provides functionalities for:
- * - Accessing stored accounts
  * - Managing the active user
  * - Signing out
  *

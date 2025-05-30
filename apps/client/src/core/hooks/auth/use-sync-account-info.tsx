@@ -4,7 +4,7 @@ import { isEqual } from "lodash";
 import { useEffect, useTransition } from "react";
 
 /**
- * This hook ensures stored account info stays updated with changes that occur after info storage.
+ * This hook ensures account information is synchronized across the application.
  *
  * IT MANAGES:
  * - Session storage.
@@ -18,7 +18,7 @@ export const useSyncAccountInfo = () => {
   const [, startTransition] = useTransition();
 
   /**
-   * Every time account info changes, update stored accounts and context.
+   * Every time account info changes, update auth context.
    */
   useEffect(() => {
     // If no fresh data is loaded or no existing context is present, exit

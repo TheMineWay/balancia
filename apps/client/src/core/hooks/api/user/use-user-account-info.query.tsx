@@ -15,7 +15,7 @@ export const USER_ACCOUNT_INFO_QUERY_KEYS: QueryKey = () => [
  * Returns a query object containing user account info.
  *
  * NOTES:
- * - This is used to obtain the data that repopulates the stored user auth context (the user property).
+ * - This is used to obtain the data that repopulates the user auth context (the user property).
  */
 export const useUserAccountInfoQuery = () => {
   const { request } = useAuthenticatedRequest();
