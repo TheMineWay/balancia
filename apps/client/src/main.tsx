@@ -1,4 +1,8 @@
 import { RouterProvider, createRouter } from "@tanstack/react-router";
+import {
+  LocalStorageConnector,
+  WebWarehouse,
+} from "@themineway/smart-storage-js";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.pcss";
@@ -13,6 +17,8 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
 }
+
+WebWarehouse.setConnector("ls", new LocalStorageConnector());
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

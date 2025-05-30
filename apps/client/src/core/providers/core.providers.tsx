@@ -1,3 +1,4 @@
+import { CallbackRender } from "@core/callbacks/callback-render";
 import AfterProviders from "@core/providers/after-providers";
 import AuthProvider from "@core/providers/auth/auth.provider";
 import DeviceInfoProvider from "@core/providers/device/device-info.provider";
@@ -14,9 +15,11 @@ export default function CoreProviders({ children }: Readonly<WithChildren>) {
         <ThemeProvider>
           <UIProviders>
             <NetworkProvider>
-              <AuthProvider>
-                <AfterProviders>{children}</AfterProviders>
-              </AuthProvider>
+              <CallbackRender>
+                <AuthProvider>
+                  <AfterProviders>{children}</AfterProviders>
+                </AuthProvider>
+              </CallbackRender>
             </NetworkProvider>
           </UIProviders>
         </ThemeProvider>

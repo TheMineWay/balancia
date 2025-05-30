@@ -27,6 +27,6 @@ export class AuthController {
     @ValidatedBody(CONTROLLER, "login")
     loginDto: InferEndpointDTO<typeof CONTROLLER, "login">,
   ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "login">> {
-    return this.authService.signIn(loginDto);
+    return this.authService.logins(loginDto);
   }
 }

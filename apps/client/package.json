@@ -28,6 +28,8 @@
     "@shared/utils": "workspace:*",
     "@tanstack/react-query": "^5.66.9",
     "@tanstack/react-router": "^1.109.2",
+    "@themineway/smart-storage-js": "1.0.0-alpha.15",
+    "@themineway/smart-storage-react": "1.0.0-alpha.11",
     "antd": "^5.24.1",
     "axios": "^1.7.9",
     "clsx": "^2.1.1",
