@@ -12,16 +12,19 @@ const OIDC_GET_TOKEN_URL = `${OIDC_SERVER_URL}/application/o/token`;
 export class OidcService {
   constructor(
     @Inject(OIDC_CONFIG_PROVIDER)
-    private readonly oidcClient: typeof client.Configuration,
+    private readonly oidcClient: client.Configuration,
   ) {}
 
   async getTokenFromCode(code: string): Promise<string> {
+    const serverMetadata = this.oidcClient.serverMetadata();
+
     const values = {
       client_id: ENV.oidc.clientId,
       client_secret: ENV.oidc.clientSecret,
       code,
-      grant_type: ENV.oidc.grantType,
-      redirect_uri: ENV.oidc.redirectUri,
+      grant_type:
+        serverMetadata.grant_types_supported?.[0] ?? "authorization_code",
+      redirect_uri: "http://localhost:3000/_callback/auth", // TODO: Make this dynamic
     };
 
     const data: string = qs.stringify(values);
@@ -36,6 +39,5 @@ export class OidcService {
     });
     Logger.log(response.data, "OidcService");
     return "JWT";
-    return "test";
   }
 }

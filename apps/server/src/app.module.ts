@@ -18,10 +18,8 @@ import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
     AuthModule.register({
       clientId: ENV.oidc.clientId,
       clientSecret: ENV.oidc.clientSecret,
-      redirectUri: ENV.oidc.redirectUri,
-      grantType: ENV.oidc.grantType,
       host: ENV.oidc.host,
-      emitterUrl: ENV.oidc.emitterUrl,
+      issuerUrl: ENV.oidc.issuerUrl,
     }),
     DatabaseModule,
     CoreModule,

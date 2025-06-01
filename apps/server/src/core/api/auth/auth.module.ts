@@ -8,10 +8,8 @@ import * as client from "openid-client";
 type RegisterOptions = {
   clientId: string;
   clientSecret: string;
-  redirectUri: string;
-  grantType: string;
   host: string;
-  emitterUrl: string;
+  issuerUrl: string;
 };
 
 @Global()
@@ -20,7 +18,7 @@ export class AuthModule {
   static async register(options: RegisterOptions): Promise<DynamicModule> {
     // Setup the OIDC client configuration
     const config: client.Configuration = await client.discovery(
-      new URL(options.emitterUrl),
+      new URL(options.issuerUrl),
       options.clientId,
       options.clientSecret,
     );

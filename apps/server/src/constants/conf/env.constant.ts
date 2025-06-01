@@ -46,9 +46,7 @@ const ENV_SCHEMA = Zod.object({
     .refine((val) => !val.endsWith("/")),
   OIDC_CLIENT_ID: Zod.string(),
   OIDC_CLIENT_SECRET: Zod.string(),
-  OIDC_GRANT_TYPE: Zod.string().default("authorization_code"),
-  OIDC_REDIRECT_URI: Zod.string().url(),
-  OIDC_EMITTER_URL: Zod.string().url().optional(),
+  OIDC_ISSUER_URL: Zod.string().url(),
 });
 
 const TEST_VALUES: Partial<Zod.infer<typeof ENV_SCHEMA>> = {
@@ -56,7 +54,7 @@ const TEST_VALUES: Partial<Zod.infer<typeof ENV_SCHEMA>> = {
   OIDC_SERVER_HOST: "http://localhost:3000",
   OIDC_CLIENT_ID: "test-client-id",
   OIDC_CLIENT_SECRET: "test-client-secret",
-  OIDC_REDIRECT_URI: "http://localhost:3000/_text-callback/auth",
+  OIDC_ISSUER_URL: "http://localhost:3000",
 };
 
 export const ENV = (() => {
@@ -85,9 +83,7 @@ export const ENV = (() => {
       host: values.OIDC_SERVER_HOST,
       clientId: values.OIDC_CLIENT_ID,
       clientSecret: values.OIDC_CLIENT_SECRET,
-      grantType: values.OIDC_GRANT_TYPE,
-      redirectUri: values.OIDC_REDIRECT_URI,
-      emitterUrl: values.OIDC_EMITTER_URL ?? values.OIDC_SERVER_HOST,
+      issuerUrl: values.OIDC_ISSUER_URL,
     },
   };
 })();
