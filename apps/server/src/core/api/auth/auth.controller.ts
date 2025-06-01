@@ -18,7 +18,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Throttle({
-    default: { limit: ENV.rateLimit.maxLoginRequestsPerMinute, ttl: 60 * 1000 },
+    default: { limit: ENV.rateLimit.maxJwtRequestsPerMinute, ttl: 60 * 1000 },
   })
   @Public()
   @HttpCode(HttpStatus.OK)
@@ -27,6 +27,6 @@ export class AuthController {
     @ValidatedBody(CONTROLLER, "login")
     loginDto: InferEndpointDTO<typeof CONTROLLER, "login">,
   ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "login">> {
-    return this.authService.logins(loginDto);
+    return this.authService.loginFromOidcCode(loginDto.code);
   }
 }

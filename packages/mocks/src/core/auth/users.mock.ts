@@ -3,6 +3,7 @@ import { UserModel } from "@shared/models";
 export const USERS_MOCK = {
   john: {
     id: 1,
+    code: "john123",
     name: "John",
     lastName: "Doe",
     username: "john",
@@ -12,6 +13,7 @@ export const USERS_MOCK = {
   },
   alice: {
     id: 2,
+    code: "alice456",
     name: "Alice",
     lastName: "Smith",
     username: "alice",

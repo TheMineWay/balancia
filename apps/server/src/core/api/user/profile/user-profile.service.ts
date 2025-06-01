@@ -23,16 +23,14 @@ export class UserProfileService {
 
     return {
       user,
-      configs: {
-        totpEnabled: !!user.totpSecret,
-      },
+      configs: {},
     };
   };
 
   // Utils
 
   static readonly getProfileFromDbUser = (user: DbUserModel) => {
-    const { password: _, totpSecret: __, ...profile } = user;
+    const { ...profile } = user;
     return profile;
   };
 }

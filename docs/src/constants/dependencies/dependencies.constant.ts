@@ -2,6 +2,21 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "oidc-client-ts",
+    name: "OIDC Client TS",
+    url: "https://www.npmjs.com/package/oidc-client-ts",
+  },
+  {
+    code: "@themineway/smart-storage-js",
+    name: "@themineway/smart-storage-js",
+    url: "https://www.npmjs.com/package/@themineway/smart-storage-js",
+  },
+  {
+    code: "@themineway/smart-storage-react",
+    name: "@themineway/smart-storage-react",
+    url: "https://www.npmjs.com/package/@themineway/smart-storage-react",
+  },
+  {
     code: "date-fns",
     name: "Date fns",
     url: "https://www.npmjs.com/package/date-fns",

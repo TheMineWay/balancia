@@ -2,25 +2,17 @@ import { Logger } from "@nestjs/common";
 import "dotenv/config";
 import Zod from "zod";
 
-const DURATION_REGEXP = /^([0-9]+)([smhdw])$/;
 const toNum = (value) => Number(value);
 const refinedMin = (min: number) => (val: number) => val >= min;
 
 const ENV_SCHEMA = Zod.object({
-  // JWT
-  JWT_SECRET: Zod.string(),
-  JWT_DURATION: Zod.string().regex(DURATION_REGEXP).optional().default("30d"),
-
-  // TOTP
-  TOTP_DIGITS: Zod.string().transform(toNum).optional().default("6"),
-  TOTP_PERIOD: Zod.string().transform(toNum).optional().default("30"),
-
+  // MAX REQUESTS PER MINUTE
   MAX_REQUESTS_PER_MINUTE: Zod.string()
     .optional()
     .default("120")
     .transform(toNum)
     .refine(refinedMin(1)),
-  MAX_LOGIN_REQUESTS_PER_MINUTE: Zod.string()
+  MAX_JWT_REQUESTS_PER_MINUTE: Zod.string()
     .optional()
     .default("8")
     .transform(toNum)
@@ -46,11 +38,19 @@ const ENV_SCHEMA = Zod.object({
       return val.trim().split(",");
     })
     .default("*"),
+
+  // AUTHENTICATION
+  OIDC_CLIENT_ID: Zod.string(),
+  OIDC_CLIENT_SECRET: Zod.string(),
+  OIDC_GRANT_TYPE: Zod.string().default("authorization_code"),
+  OIDC_REDIRECT_URI: Zod.string().url(),
 });
 
 const TEST_VALUES: Partial<Zod.infer<typeof ENV_SCHEMA>> = {
   DATABASE_URL: "",
-  JWT_SECRET: "",
+  OIDC_CLIENT_ID: "test-client-id",
+  OIDC_CLIENT_SECRET: "test-client-secret",
+  OIDC_REDIRECT_URI: "http://localhost:3000/_text-callback/auth",
 };
 
 export const ENV = (() => {
@@ -65,24 +65,21 @@ export const ENV = (() => {
   if (values.LOG_ENV_VALUES) Logger.log("ENV", values);
 
   return {
-    jwt: {
-      secret: values.JWT_SECRET,
-      duration: values.JWT_DURATION,
-    },
-    totp: {
-      digits: values.TOTP_DIGITS,
-      period: values.TOTP_PERIOD,
-    },
-
     rateLimit: {
       maxRequestsPerMinute: values.MAX_REQUESTS_PER_MINUTE,
-      maxLoginRequestsPerMinute: values.MAX_LOGIN_REQUESTS_PER_MINUTE,
+      maxJwtRequestsPerMinute: values.MAX_JWT_REQUESTS_PER_MINUTE,
     },
     database: {
       url: values.DATABASE_URL,
     },
     cors: {
       allowedDomains: values.CORS_ONLY_ALLOW_DOMAINS,
+    },
+    oidc: {
+      clientId: values.OIDC_CLIENT_ID,
+      clientSecret: values.OIDC_CLIENT_SECRET,
+      grantType: values.OIDC_GRANT_TYPE,
+      redirectUri: values.OIDC_REDIRECT_URI,
     },
   };
 })();

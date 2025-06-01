@@ -1,4 +1,3 @@
-import { ENV } from "@constants/conf/env.constant";
 import { UserTokenData } from "@core/decorators/user/user.decorator";
 import { IS_PUBLIC_KEY } from "@core/guards/auth/public.guard";
 import {
@@ -35,7 +34,7 @@ export class AuthGuard implements CanActivate {
     }
     try {
       const payload: UserTokenData = await this.jwtService.verifyAsync(token, {
-        secret: ENV.jwt.secret,
+        secret: "TODO: remove this hardcoded secret. Replace with Authentik",
       });
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers

@@ -15,6 +15,13 @@
       "when": 1742811136655,
       "tag": "0001_hard_puff_adder",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1748683931119,
+      "tag": "0002_faulty_captain_flint",
+      "breakpoints": true
     }
   ]
 }

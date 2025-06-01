@@ -1,3 +1,4 @@
+import { WAREHOUSES } from "@core/constants/device-storage/warehouses.constant";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import {
   LocalStorageConnector,
@@ -18,7 +19,7 @@ declare module "@tanstack/react-router" {
   }
 }
 
-WebWarehouse.setConnector("ls", new LocalStorageConnector());
+WebWarehouse.setConnector(WAREHOUSES.ls, new LocalStorageConnector());
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

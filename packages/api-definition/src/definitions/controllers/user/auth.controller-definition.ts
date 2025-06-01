@@ -1,5 +1,5 @@
 import { USER_SCHEMA } from "@shared/models";
-import { object, string, z } from "zod";
+import { z } from "zod";
 import { ControllerDefinition, EndpointMethod } from "../../../types";
 
 const LOGIN_DTO = z.object({
@@ -13,8 +13,8 @@ export const AUTH_CONTROLLER_DEFINITION = {
       method: EndpointMethod.POST,
       getPath: () => "login",
       dto: LOGIN_DTO,
-      responseDto: object({
-        token: string(),
+      responseDto: z.object({
+        token: z.string(),
         user: USER_SCHEMA,
       }),
     },

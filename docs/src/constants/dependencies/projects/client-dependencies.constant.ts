@@ -4,7 +4,16 @@ import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   {
+    dep: "@themineway/smart-storage-js",
+  },
+  {
+    dep: "@themineway/smart-storage-react",
+  },
+  {
     dep: "lodash",
+  },
+  {
+    dep: "oidc-client-ts",
   },
   {
     dep: "@types/lodash",
