@@ -48,6 +48,7 @@ const ENV_SCHEMA = Zod.object({
   OIDC_CLIENT_SECRET: Zod.string(),
   OIDC_GRANT_TYPE: Zod.string().default("authorization_code"),
   OIDC_REDIRECT_URI: Zod.string().url(),
+  OIDC_EMITTER_URL: Zod.string().url().optional(),
 });
 
 const TEST_VALUES: Partial<Zod.infer<typeof ENV_SCHEMA>> = {
@@ -86,6 +87,7 @@ export const ENV = (() => {
       clientSecret: values.OIDC_CLIENT_SECRET,
       grantType: values.OIDC_GRANT_TYPE,
       redirectUri: values.OIDC_REDIRECT_URI,
+      emitterUrl: values.OIDC_EMITTER_URL ?? values.OIDC_SERVER_HOST,
     },
   };
 })();

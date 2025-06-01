@@ -1,10 +1,10 @@
 import { ENV } from "@constants/conf/env.constant";
+import { AuthModule } from "@core/api/auth/auth.module";
 import { CoreModule } from "@core/core.module";
 import { AuthGuard } from "@core/guards/auth/auth.guard";
 import { DatabaseModule } from "@database/database.module";
 import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
-import { JwtModule } from "@nestjs/jwt";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 
 @Module({
@@ -15,9 +15,13 @@ import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
         limit: ENV.rateLimit.maxRequestsPerMinute,
       },
     ]),
-    JwtModule.register({
-      global: true,
-      secret: "todo-replace",
+    AuthModule.register({
+      clientId: ENV.oidc.clientId,
+      clientSecret: ENV.oidc.clientSecret,
+      redirectUri: ENV.oidc.redirectUri,
+      grantType: ENV.oidc.grantType,
+      host: ENV.oidc.host,
+      emitterUrl: ENV.oidc.emitterUrl,
     }),
     DatabaseModule,
     CoreModule,
