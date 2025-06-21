@@ -1,5 +1,5 @@
 import { ENV } from "@constants/env/env.constant";
-import { UserManager, WebStorageStateStore } from "oidc-client-ts";
+import { UserManager } from "oidc-client-ts";
 
 export const oidcUserManager = new UserManager({
   authority: ENV.auth.authorityUrl,
@@ -8,6 +8,5 @@ export const oidcUserManager = new UserManager({
   response_type: ENV.auth.responseType,
   scope: ENV.auth.scope,
   post_logout_redirect_uri: ENV.auth.postLogoutRedirectUri,
-  userStore: new WebStorageStateStore({ store: window.localStorage }),
   automaticSilentRenew: true,
 });

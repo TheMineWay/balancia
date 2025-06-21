@@ -14,7 +14,6 @@ import type { WithChildren } from "src/common/types/component/component.types";
  * - Auth token.
  * - User info (USER_SCHEMA).
  */
-const SESSION_STORAGE_KEY = "active-auth-info";
 
 export default function AuthProvider({ children }: Readonly<WithChildren>) {
   const [contextState, setContextState] = useState<AuthContextInfo | null>();
@@ -23,6 +22,12 @@ export default function AuthProvider({ children }: Readonly<WithChildren>) {
     readCurrentAuthData()
       .then(setContextState)
       .catch(() => setContextState(null));
+
+    const clearLoop = setInterval(() => {
+      oidcUserManager.clearStaleState();
+    }, 1000 * 60 * 5);
+
+    return () => clearInterval(clearLoop);
   }, []);
 
   if (contextState === undefined) return null;
