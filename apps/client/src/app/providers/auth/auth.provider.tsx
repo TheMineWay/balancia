@@ -1,10 +1,10 @@
 import Auth from "@common/core/auth/components/auth";
 import { oidcUserManager } from "@common/core/auth/lib/oidc/oidc.manager";
-import { OIDC_USER_SCHEMA } from "@common/core/auth/schemas/oidc-user.model";
 import {
   authContext,
   type AuthContextInfo,
 } from "@providers/auth/auth.context";
+import { OIDC_USER_SCHEMA } from "@shared/models";
 import { useEffect, useState } from "react";
 import type { WithChildren } from "src/common/types/component/component.types";
 

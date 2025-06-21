@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1740060232363,
-      "tag": "0000_plain_supreme_intelligence",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1742811136655,
-      "tag": "0001_hard_puff_adder",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1748683931119,
-      "tag": "0002_faulty_captain_flint",
+      "when": 1750527669105,
+      "tag": "0000_dry_masque",
       "breakpoints": true
     }
   ]

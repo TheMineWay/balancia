@@ -1,5 +1,5 @@
-import { OIDC_USER_SCHEMA } from "@common/core/auth/schemas/oidc-user.model";
 import type { ProviderSetter } from "@providers/provider-setter.type";
+import { OIDC_USER_SCHEMA } from "@shared/models";
 import { createContext, useContext } from "react";
 import type { z } from "zod";
 

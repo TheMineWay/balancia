@@ -8,11 +8,11 @@ describe("getUserName()", () => {
     });
 
     it("should capitalize name and lastname", () => {
-      expect(getUserName({ name: "john", lastName: "doe" })).toBe("John Doe");
+      expect(getUserName({ name: "john doe" })).toBe("John Doe");
     });
 
     it("should capitalize name and two part lastname", () => {
-      expect(getUserName({ name: "john", lastName: "doe oliver" })).toBe("John Doe Oliver");
+      expect(getUserName({ name: "john doe oliver" })).toBe("John Doe Oliver");
     });
   });
 
@@ -22,9 +22,9 @@ describe("getUserName()", () => {
     });
 
     it("should not capitalize name and lastname", () => {
-      expect(
-        getUserName({ name: "john", lastName: "doe" }, { capitalize: false })
-      ).toBe("john doe");
+      expect(getUserName({ name: "john doe" }, { capitalize: false })).toBe(
+        "john doe"
+      );
     });
   });
 });

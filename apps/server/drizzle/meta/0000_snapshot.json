@@ -1,63 +1,9 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "5d724c0a-27ad-4fb4-b729-6fb31bbc0c86",
+  "id": "40c45495-8482-4219-96f6-9c1bde170bee",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "totp-recovery-codes": {
-      "name": "totp-recovery-codes",
-      "columns": {
-        "userId": {
-          "name": "userId",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "code": {
-          "name": "code",
-          "type": "varchar(12)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(now())"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "totp-recovery-codes_userId_user_id_fk": {
-          "name": "totp-recovery-codes_userId_user_id_fk",
-          "tableFrom": "totp-recovery-codes",
-          "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "totp-recovery-codes_userId_code_unique": {
-          "name": "totp-recovery-codes_userId_code_unique",
-          "columns": [
-            "userId",
-            "code"
-          ]
-        }
-      },
-      "checkConstraint": {}
-    },
     "user": {
       "name": "user",
       "columns": {
@@ -68,46 +14,11 @@
           "notNull": true,
           "autoincrement": true
         },
-        "name": {
-          "name": "name",
-          "type": "varchar(64)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "lastName": {
-          "name": "lastName",
-          "type": "varchar(128)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "username": {
-          "name": "username",
+        "code": {
+          "name": "code",
           "type": "varchar(32)",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar(128)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "password": {
-          "name": "password",
-          "type": "varchar(512)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "totpSecret": {
-          "name": "totpSecret",
-          "type": "varchar(128)",
-          "primaryKey": false,
-          "notNull": false,
           "autoincrement": false
         },
         "createdAt": {
@@ -138,16 +49,10 @@
         }
       },
       "uniqueConstraints": {
-        "user_username_unique": {
-          "name": "user_username_unique",
+        "user_code_unique": {
+          "name": "user_code_unique",
           "columns": [
-            "username"
-          ]
-        },
-        "user_email_unique": {
-          "name": "user_email_unique",
-          "columns": [
-            "email"
+            "code"
           ]
         }
       },

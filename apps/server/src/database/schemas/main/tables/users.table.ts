@@ -13,14 +13,6 @@ export const usersTable = mysqlTable("user", {
     .unique()
     .notNull(),
 
-  // Props
-  name: varchar({ length: USER_MODEL_VALUES.name.maxLength }).notNull(),
-  lastName: varchar({ length: USER_MODEL_VALUES.lastName.maxLength }).notNull(),
-  username: varchar({ length: USER_MODEL_VALUES.username.maxLength })
-    .unique()
-    .notNull(),
-  email: varchar({ length: USER_MODEL_VALUES.email.maxLength }),
-
   // Timestamps
   ...timestamps,
 } satisfies ColumnsModel);

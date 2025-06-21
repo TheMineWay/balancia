@@ -1,4 +1,5 @@
 import { QueryOptions } from "@database/repository/core/repository";
+import { UserUpdate } from "@database/schemas/main/tables/users.table";
 import { Injectable } from "@nestjs/common";
 import { UserRepository } from "@repository/core/user.repository";
 import { DbUserModel } from "@shared/models";
@@ -7,8 +8,8 @@ import { DbUserModel } from "@shared/models";
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async getByUsername(username: string) {
-    return await this.userRepository.findByUsername(username);
+  async getByCode(code: string) {
+    return await this.userRepository.findByCode(code);
   }
 
   getById = async (userId: DbUserModel["id"]) => {
@@ -17,7 +18,7 @@ export class UserService {
 
   updateById = (
     userId: DbUserModel["id"],
-    userData: Partial<DbUserModel>,
+    userData: UserUpdate,
     options?: QueryOptions,
   ) => this.userRepository.updateById(userId, userData, options);
 }

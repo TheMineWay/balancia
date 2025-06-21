@@ -1,4 +1,3 @@
-import { AuthController } from "@core/api/auth/auth.controller";
 import { AuthService } from "@core/api/auth/auth.service";
 import { OidcModule } from "@core/api/auth/open-id-connect/oidc.module";
 import { OIDC_CONFIG_PROVIDER } from "@core/api/auth/strategies/oidc.strategy";
@@ -33,7 +32,6 @@ export class AuthModule {
           useValue: config,
         },
       ],
-      controllers: [AuthController],
       exports: [AuthService, OIDC_CONFIG_PROVIDER],
       imports: [OidcModule],
       module: AuthModule,
