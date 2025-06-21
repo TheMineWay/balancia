@@ -1,4 +1,4 @@
-import { Language } from "@core/types/base/i18n/language.enum";
+import { Language } from "@i18n/types/language.enum";
 import { expect, it } from "vitest";
 
 function isValidLanguageCode(name: string): boolean {
