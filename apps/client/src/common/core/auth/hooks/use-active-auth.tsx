@@ -1,3 +1,4 @@
+import { oidcUserManager } from "@common/core/auth/lib/oidc/oidc.manager";
 import { useAuthContext } from "@providers/auth/auth.context";
 
 /**
@@ -14,21 +15,19 @@ import { useAuthContext } from "@providers/auth/auth.context";
  * @returns {object} The active authentication state and functions to interact with it.
  */
 export const useActiveAuth = () => {
-  const { context: activeAccount, setContext: setActiveAccount } =
-    useAuthContext();
+  const { context: account } = useAuthContext();
 
-  if (!activeAccount)
+  if (!account)
     throw new Error("useActiveAuth must be used when user is logged in");
 
   const signOut = () => {
-    setActiveAccount(null);
+    oidcUserManager.signoutRedirect();
   };
 
   return {
-    activeUser: activeAccount,
-    setActiveUser: setActiveAccount,
-    user: activeAccount.user,
-    token: activeAccount.token,
+    activeUser: account,
+    user: account.profile,
+    token: account.access_token,
     signOut,
   };
 };

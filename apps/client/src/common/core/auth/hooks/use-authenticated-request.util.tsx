@@ -1,4 +1,4 @@
-import { useActiveAuth } from "@core-fts/auth/hooks/use-active-auth";
+import { useActiveAuth } from "@common/core/auth/hooks/use-active-auth";
 import {
   type RequestOptions as ReqOptions,
   useRequest,

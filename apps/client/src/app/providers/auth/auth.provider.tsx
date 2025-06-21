@@ -1,10 +1,11 @@
-import Auth from "@core-fts/auth/components/auth";
+import Auth from "@common/core/auth/components/auth";
+import { oidcUserManager } from "@common/core/auth/lib/oidc/oidc.manager";
+import { OIDC_USER_SCHEMA } from "@common/core/auth/schemas/oidc-user.model";
 import {
-  AUTH_CONTEXT_INFO_SCHEMA,
   authContext,
   type AuthContextInfo,
 } from "@providers/auth/auth.context";
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import type { WithChildren } from "src/common/types/component/component.types";
 
 /**
@@ -16,38 +17,31 @@ import type { WithChildren } from "src/common/types/component/component.types";
 const SESSION_STORAGE_KEY = "active-auth-info";
 
 export default function AuthProvider({ children }: Readonly<WithChildren>) {
-  const [contextState, setContextState] = useState<AuthContextInfo | null>(
-    readCurrentAuthData()
-  );
+  const [contextState, setContextState] = useState<AuthContextInfo | null>();
 
-  const setContext = useCallback((info: AuthContextInfo | null) => {
-    setCurrentAuthData(info);
-    setContextState(info);
+  useEffect(() => {
+    readCurrentAuthData()
+      .then(setContextState)
+      .catch(() => setContextState(null));
   }, []);
 
-  if (!contextState) return <Auth setAuthContext={setContext} />;
+  if (contextState === undefined) return null;
+  if (contextState === null) return <Auth />;
 
   return (
-    <authContext.Provider value={{ context: contextState, setContext }}>
+    <authContext.Provider value={{ context: contextState }}>
       {children}
     </authContext.Provider>
   );
 }
 
-const readCurrentAuthData = (): AuthContextInfo | null => {
+const readCurrentAuthData = async (): Promise<AuthContextInfo | null> => {
   try {
-    const rawData = sessionStorage.getItem(SESSION_STORAGE_KEY);
-    if (!rawData) return null;
+    const user = await oidcUserManager.getUser();
+    if (!user) return null;
 
-    const parsed = JSON.parse(rawData);
-
-    return AUTH_CONTEXT_INFO_SCHEMA.parse(parsed);
+    return OIDC_USER_SCHEMA.parse(user);
   } catch {
     return null;
   }
-};
-
-const setCurrentAuthData = (data: AuthContextInfo | null) => {
-  if (data) sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(data));
-  else sessionStorage.removeItem(SESSION_STORAGE_KEY);
 };

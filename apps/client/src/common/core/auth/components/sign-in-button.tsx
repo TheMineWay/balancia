@@ -1,5 +1,5 @@
+import { useOidcAuth } from "@common/core/auth/hooks/use-oidc-auth";
 import { ENV } from "@constants/env/env.constant";
-import { useOidcAuth } from "@core-fts/auth/hooks/use-oidc-auth";
 import { useTranslation } from "@i18n/use-translation";
 import { Button } from "antd";
 

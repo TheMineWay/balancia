@@ -1,17 +1,13 @@
+import { OIDC_USER_SCHEMA } from "@common/core/auth/schemas/oidc-user.model";
 import type { ProviderSetter } from "@providers/provider-setter.type";
-import { USER_SCHEMA } from "@shared/models";
 import { createContext, useContext } from "react";
 import type { z } from "zod";
-import { object, string } from "zod";
 
 export const authContext = createContext<
-  ProviderSetter<AuthContextInfo | null>
+  Omit<ProviderSetter<AuthContextInfo | null>, "setContext">
 >(null!);
 
-export const AUTH_CONTEXT_INFO_SCHEMA = object({
-  token: string(),
-  user: USER_SCHEMA,
-});
+export const AUTH_CONTEXT_INFO_SCHEMA = OIDC_USER_SCHEMA;
 
 export type AuthContextInfo = z.infer<typeof AUTH_CONTEXT_INFO_SCHEMA>;
 
