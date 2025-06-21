@@ -6,9 +6,7 @@ export const useOidcAuth = () => {
   const login = async () => {
     try {
       setIsAuthenticating(true);
-      await oidcUserManager.signinRedirect({
-        extraQueryParams: { fromUrl: window.location.pathname },
-      });
+      await oidcUserManager.signinRedirect();
     } catch (e) {
       console.error(e);
     } finally {

@@ -2,6 +2,22 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "@types/openid-client",
+    name: "@types OpenID Client",
+    url: "https://www.npmjs.com/package/@types/openid-client",
+  },
+  {
+    code: "@nestjs/passport",
+    name: "@nestjs/passport",
+    url: "https://www.npmjs.com/package/@nestjs/passport",
+  },
+  {
+    code: "openid-client",
+    name: "OpenID Client",
+    url: "https://www.npmjs.com/package/openid-client",
+  },
+
+  {
     code: "oidc-client-ts",
     name: "OIDC Client TS",
     url: "https://www.npmjs.com/package/oidc-client-ts",
@@ -82,6 +98,11 @@ export const DEPENDENCIES = [
     name: "axios",
     url: "https://www.npmjs.com/package/axios",
     docsUrl: "https://axios-http.com/",
+  },
+  {
+    code: "@types/axios",
+    name: "@types axios",
+    url: "https://www.npmjs.com/package/@types/axios",
   },
   {
     code: "@hookform/resolvers",

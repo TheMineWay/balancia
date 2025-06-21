@@ -1,4 +1,5 @@
 import { getCallbackByUrl } from "@core/callbacks/get-callback-by-url";
+import { Spin } from "antd";
 import { useEffect, useMemo } from "react";
 
 type Props = {
@@ -16,5 +17,11 @@ export const CallbackRender: FC<Props> = ({ children }) => {
     }
   }, [callback]);
 
-  if (!callback) return children;
+  if (callback)
+    return (
+      <div className="h-full w-full flex justify-center items-center">
+        <Spin />
+      </div>
+    );
+  else return children;
 };

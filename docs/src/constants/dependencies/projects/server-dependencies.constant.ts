@@ -4,6 +4,23 @@ import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   {
+    dep: "axios",
+  },
+  {
+    dep: "openid-client",
+  },
+  {
+    dep: "@types/openid-client",
+    isDevelopment: true,
+  },
+  {
+    dep: "@nestjs/passport",
+  },
+  {
+    dep: "@types/axios",
+    isDevelopment: true,
+  },
+  {
     dep: "date-fns",
   },
   { dep: "bcrypt" },

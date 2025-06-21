@@ -1,4 +1,5 @@
 import { ENV } from "@core/constants/env/env.constant";
+import "core-js/stable/atob";
 import { UserManager, WebStorageStateStore } from "oidc-client-ts";
 
 export const oidcUserManager = new UserManager({
@@ -9,4 +10,5 @@ export const oidcUserManager = new UserManager({
   scope: ENV.auth.scope,
   post_logout_redirect_uri: ENV.auth.postLogoutRedirectUri,
   userStore: new WebStorageStateStore({ store: window.localStorage }),
+  automaticSilentRenew: true,
 });
