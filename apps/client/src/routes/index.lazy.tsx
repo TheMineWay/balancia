@@ -1,5 +1,5 @@
+import { useActiveAuth } from "@core-fts/auth/hooks/use-active-auth";
 import { metadata } from "@core/constants/metadata.constant.ts";
-import { useActiveAuth } from "@core/hooks/auth/use-active-auth";
 import Home from "@core/templates/home.template";
 import { createLazyFileRoute } from "@tanstack/react-router";
 

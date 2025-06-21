@@ -1,4 +1,4 @@
-import { Language } from "@core/types/base/i18n/language.enum.ts";
+import { Language } from "@i18n/types/language.enum.ts";
 
 const LOCALES = {
   [Language.EN_US]: () => import("./en-us/locale.ts"),

@@ -1,7 +1,7 @@
 import { ENV } from "@constants/conf/env.constant";
+import { DatabaseService } from "@database/services/database.service";
 import { Global, Module } from "@nestjs/common";
 import { drizzle } from "drizzle-orm/mysql2";
-import { DatabaseService } from "src/database/services/database.service";
 
 export const DATABASE_PROVIDERS = {
   main: "main_db_provider",

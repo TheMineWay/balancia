@@ -1,4 +1,5 @@
-import { WAREHOUSES } from "@core/constants/device-storage/warehouses.constant";
+import Providers from "@app/providers";
+import { WAREHOUSES } from "@constants/device-storage/warehouses.constant";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import {
   LocalStorageConnector,
@@ -7,7 +8,6 @@ import {
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.pcss";
-import Providers from "./providers";
 import { routeTree } from "./routeTree.gen";
 
 const router = createRouter({ routeTree });
