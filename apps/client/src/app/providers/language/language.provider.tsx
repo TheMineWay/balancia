@@ -1,7 +1,7 @@
 import { getLocale } from "@i18n/locales/locales";
 import { Language } from "@i18n/types/language.enum";
 import type { TranslationStore } from "@i18n/types/translation/translation-store.type";
-import { LANGUAGE_CONTEXT } from "@providers/language/language.context";
+import { languageContext } from "@providers/language/language.context";
 import { useEffect, useState } from "react";
 import type { WithChildren } from "src/common/types/component/component.types";
 
@@ -26,7 +26,7 @@ export default function LanguageProvider({ children }: Readonly<Props>) {
   if (!translations) return null;
 
   return (
-    <LANGUAGE_CONTEXT.Provider
+    <languageContext.Provider
       value={{
         language,
         setLanguage,
@@ -34,6 +34,6 @@ export default function LanguageProvider({ children }: Readonly<Props>) {
       }}
     >
       {children}
-    </LANGUAGE_CONTEXT.Provider>
+    </languageContext.Provider>
   );
 }

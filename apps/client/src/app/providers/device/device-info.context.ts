@@ -9,10 +9,10 @@ interface DeviceInfoContextType {
   isMobile: boolean;
 }
 
-export const DEVICE_INFO_CONTEXT = createContext<DeviceInfoContextType>(null!);
+export const deviceInfoContext = createContext<DeviceInfoContextType>(null!);
 
 export const useDeviceInfo = () => {
-  const context = useContext(DEVICE_INFO_CONTEXT);
+  const context = useContext(deviceInfoContext);
 
   if (!context)
     throw new Error("useDeviceInfo must be used within a DeviceInfoProvider");

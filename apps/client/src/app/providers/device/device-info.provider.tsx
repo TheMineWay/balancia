@@ -1,4 +1,4 @@
-import { DEVICE_INFO_CONTEXT } from "@providers/device/device-info.context";
+import { deviceInfoContext } from "@providers/device/device-info.context";
 import { useEffect, useState } from "react";
 import type { WithChildren } from "src/common/types/component/component.types";
 
@@ -37,13 +37,13 @@ export default function DeviceInfoProvider({ children }: Readonly<Props>) {
   };
 
   return (
-    <DEVICE_INFO_CONTEXT.Provider
+    <deviceInfoContext.Provider
       value={{
         window: windowInfo,
         ...booleans,
       }}
     >
       {children}
-    </DEVICE_INFO_CONTEXT.Provider>
+    </deviceInfoContext.Provider>
   );
 }
