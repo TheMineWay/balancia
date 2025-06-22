@@ -5,7 +5,7 @@ import { number, object, string, z } from "zod";
 export const USER_MODEL_VALUES = {
   code: {
     minLength: 32,
-    maxLength: 32,
+    maxLength: 64,
   },
 } satisfies ModelValues;
 

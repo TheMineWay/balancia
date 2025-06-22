@@ -9,6 +9,7 @@ import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 
 @Module({
   imports: [
+    DatabaseModule,
     ThrottlerModule.forRoot([
       {
         ttl: 60 * 1000,
@@ -21,7 +22,6 @@ import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
       host: ENV.oidc.host,
       issuerUrl: ENV.oidc.issuerUrl,
     }),
-    DatabaseModule,
     CoreModule,
   ],
   providers: [

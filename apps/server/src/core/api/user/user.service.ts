@@ -21,4 +21,11 @@ export class UserService {
     userData: UserUpdate,
     options?: QueryOptions,
   ) => this.userRepository.updateById(userId, userData, options);
+
+  findOrCreateByCode = async (code: string) => {
+    const user = await this.getByCode(code);
+    if (user) return user;
+
+    return await this.userRepository.create({ code });
+  };
 }
