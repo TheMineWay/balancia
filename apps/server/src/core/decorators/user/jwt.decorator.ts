@@ -7,7 +7,7 @@ export const Jwt = createParamDecorator((_: unknown, ctx: ExecutionContext) => {
   const request: Request & { user: UserTokenData } = ctx
     .switchToHttp()
     .getRequest();
-  const accessToken = request.headers["Authorization"] as string | undefined;
+  const accessToken = request.headers["authorization"] as string | undefined;
 
   if (!accessToken) throw new BadRequestException();
 
