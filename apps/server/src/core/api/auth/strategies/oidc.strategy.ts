@@ -1,1 +1,0 @@
-export const OIDC_CONFIG_PROVIDER = "OIDC_CONFIG";

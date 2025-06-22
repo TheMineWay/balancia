@@ -1,9 +1,12 @@
 import { AuthController } from "@core/api/auth/auth.controller";
 import { AuthService } from "@core/api/auth/auth.service";
-import { OidcModule } from "@core/api/auth/open-id-connect/oidc.module";
-import { OIDC_CONFIG_PROVIDER } from "@core/api/auth/strategies/oidc.strategy";
+import {
+  JWT_STRATEGY,
+  JwtStrategy,
+} from "@core/api/auth/strategies/jwt.strategy";
 import { DynamicModule, Global, Logger, Module } from "@nestjs/common";
-import * as client from "openid-client";
+
+export const OPENID_CONFIG = "OPENID_CONFIG";
 
 type RegisterOptions = {
   clientId: string;
@@ -17,25 +20,26 @@ type RegisterOptions = {
 export class AuthModule {
   static async register(options: RegisterOptions): Promise<DynamicModule> {
     // Setup the OIDC client configuration
-    const config: client.Configuration = await client.discovery(
-      new URL(options.issuerUrl),
-      options.clientId,
-      options.clientSecret,
-    );
+    const config = await AuthService.getOpenIdConfiguration(options.issuerUrl);
 
-    Logger.log("Configuration discovered", "OIDC");
+    Logger.log("Configuration discovered", "OpenID");
 
     return {
       providers: [
         AuthService,
+        // Expose strategy
         {
-          provide: OIDC_CONFIG_PROVIDER,
+          provide: JWT_STRATEGY,
+          useFactory: () => new JwtStrategy(config),
+        },
+        // Expose OpenID config
+        {
+          provide: OPENID_CONFIG,
           useValue: config,
         },
       ],
       controllers: [AuthController],
-      exports: [AuthService, OIDC_CONFIG_PROVIDER],
-      imports: [OidcModule],
+      exports: [AuthService, OPENID_CONFIG],
       module: AuthModule,
       global: true,
     };

@@ -1,7 +1,13 @@
+import { AuthService } from "@core/api/auth/auth.service";
 import { IS_PUBLIC_KEY } from "@core/guards/auth/public.guard";
-import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { Request } from "express";
+import { ExtractJwt } from "passport-jwt";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -12,16 +18,16 @@ export class AuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
+
     if (isPublic) {
-      // 💡 See this condition
       return true;
     }
 
-    return true;
-  }
+    const token = ExtractJwt.fromAuthHeaderAsBearerToken();
+    if (!token) throw new UnauthorizedException();
 
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(" ") ?? [];
-    return type === "Bearer" ? token : undefined;
+    const user = AuthService.parseJwtToken(token);
+
+    return true;
   }
 }

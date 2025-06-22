@@ -1,6 +1,11 @@
 import { UserService } from "@core/api/user/user.service";
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { JWT_TOKEN_SCHEMA, type JwtToken } from "@shared/models";
+import {
+  JWT_TOKEN_SCHEMA,
+  OPEN_ID_CONFIG_SCHEMA,
+  type JwtToken,
+} from "@shared/models";
+import axios from "axios";
 import jwt from "jsonwebtoken";
 
 @Injectable()
@@ -17,5 +22,13 @@ export class AuthService {
     if (parsed.success) return parsed.data;
 
     throw new BadRequestException();
+  }
+
+  static async getOpenIdConfiguration(issuerUrl: string) {
+    const configResponse = await axios.get(
+      issuerUrl + ".well-known/openid-configuration",
+    );
+
+    return OPEN_ID_CONFIG_SCHEMA.parse(configResponse.data);
   }
 }

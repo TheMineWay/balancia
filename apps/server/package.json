@@ -41,9 +41,11 @@
     "drizzle-orm": "^0.39.3",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
+    "jwks-rsa": "^3.2.0",
     "mysql2": "^3.14.1",
     "openid-client": "^6.5.0",
     "otpauth": "^9.4.0",
+    "passport-jwt": "^4.0.1",
     "reflect-metadata": "~0.2.2",
     "zod": "^3.25.46"
   },
