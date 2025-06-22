@@ -1,4 +1,4 @@
-import { useOidcAuth } from "@common/core/auth/hooks/use-oidc-auth";
+import { useLogin } from "@common/core/auth/hooks/use-login";
 import { ENV } from "@constants/env/env.constant";
 import { useTranslation } from "@i18n/use-translation";
 import { Button } from "antd";
@@ -7,9 +7,9 @@ type Props = {
   onSuccess?: CallableFunction;
 };
 
-const SignInButton: FC<Props> = () => {
+export const SignInButton: FC<Props> = () => {
   const { interpolated } = useTranslation("auth");
-  const { login, isAuthenticating } = useOidcAuth();
+  const { login, isAuthenticating } = useLogin();
 
   const onAuth = () => {
     login();
@@ -22,11 +22,9 @@ const SignInButton: FC<Props> = () => {
       type="primary"
       onClick={onAuth}
     >
-      {interpolated((t) => t.forms.authentik.Login, {
+      {interpolated((t) => t.actions.Login, {
         name: ENV.auth.ui.providerName,
       })}
     </Button>
   );
 };
-
-export default SignInButton;

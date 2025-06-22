@@ -1,3 +1,4 @@
+import { SignOutButton } from "@common/core/auth/components/actions/sign-out-button";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
@@ -8,6 +9,7 @@ export const Route = createRootRoute({
         <Link to="/" className="[&.active]:font-bold">
           Home
         </Link>
+        <SignOutButton />
       </div>
       <hr />
       <div className="mt-8">

@@ -1,8 +1,9 @@
 import { oidcUserManager } from "@common/core/auth/lib/oidc/oidc.manager";
 import { useState } from "react";
 
-export const useOidcAuth = () => {
+export const useLogin = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+
   const login = async () => {
     try {
       setIsAuthenticating(true);
