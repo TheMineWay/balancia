@@ -74,5 +74,6 @@ export const ENV = (() => {
         providerColor: values.VITE_AUTH_UI_PROVIDER_COLOR,
       },
     },
+    env: env.NODE_ENV,
   };
 })();
