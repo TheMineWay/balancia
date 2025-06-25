@@ -2,14 +2,14 @@ import { AuthService } from "@core/api/auth/auth.service";
 import type { UserTokenData } from "@core/decorators/user/user.decorator";
 import type { ExecutionContext } from "@nestjs/common";
 import { BadRequestException, createParamDecorator } from "@nestjs/common";
+import { extractTokenFromHeader } from "@utils/extract-token-from-header.util";
 import { Request } from "express";
-import { ExtractJwt } from "passport-jwt";
 
 export const Jwt = createParamDecorator((_: unknown, ctx: ExecutionContext) => {
   const request: Request & { user: UserTokenData } = ctx
     .switchToHttp()
     .getRequest();
-  const accessToken = ExtractJwt.fromAuthHeaderAsBearerToken();
+  const accessToken = extractTokenFromHeader(request);
 
   if (!accessToken) throw new BadRequestException();
 

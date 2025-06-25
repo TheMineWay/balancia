@@ -1,5 +1,6 @@
 import AfterProviders from "@providers/after-providers";
 import AuthProvider from "@providers/auth/auth.provider";
+import { OidcProvider } from "@providers/auth/oidc.provider";
 import DeviceInfoProvider from "@providers/device/device-info.provider";
 import LanguageProvider from "@providers/language/language.provider";
 import UIProviders from "@providers/ui/ui.providers";
@@ -12,9 +13,11 @@ export default function TestProviders({ children }: Readonly<WithChildren>) {
       <LanguageProvider>
         <UIProviders>
           <NetworkProvider>
-            <AuthProvider>
-              <AfterProviders>{children}</AfterProviders>
-            </AuthProvider>
+            <OidcProvider>
+              <AuthProvider>
+                <AfterProviders>{children}</AfterProviders>
+              </AuthProvider>
+            </OidcProvider>
           </NetworkProvider>
         </UIProviders>
       </LanguageProvider>

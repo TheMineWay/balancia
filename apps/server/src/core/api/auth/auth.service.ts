@@ -6,7 +6,7 @@ import {
   type JwtToken,
 } from "@shared/models";
 import axios from "axios";
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 
 @Injectable()
 export class AuthService {
@@ -19,6 +19,7 @@ export class AuthService {
   static parseJwtToken(token: string): JwtToken {
     const decoded = jwt.decode(token);
     const parsed = JWT_TOKEN_SCHEMA.safeParse(decoded);
+
     if (parsed.success) return parsed.data;
 
     throw new BadRequestException();

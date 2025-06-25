@@ -7,7 +7,7 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { ExtractJwt } from "passport-jwt";
+import { extractTokenFromHeader } from "@utils/extract-token-from-header.util";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -23,7 +23,8 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    const token = ExtractJwt.fromAuthHeaderAsBearerToken();
+    const token = extractTokenFromHeader(context.switchToHttp().getRequest());
+
     if (!token) throw new UnauthorizedException();
 
     const user = AuthService.parseJwtToken(token);

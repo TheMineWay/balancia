@@ -1,7 +1,8 @@
 import { UserService } from "@core/api/user/user.service";
 import { Endpoint } from "@core/decorators/endpoints/endpoint.decorator";
 import { UserId } from "@core/decorators/user/user-id.decorator";
-import { Controller } from "@nestjs/common";
+import { Controller, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import {
   CONTROLLERS,
   getController,
@@ -11,6 +12,7 @@ import { UserModel } from "@shared/models";
 
 const CONTROLLER = CONTROLLERS.user;
 
+@UseGuards(AuthGuard("jwt"))
 @Controller(getController(CONTROLLER))
 export class UserController {
   constructor(private readonly userService: UserService) {}

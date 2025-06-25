@@ -1,4 +1,4 @@
-import { oidcUserManager } from "@common/core/auth/lib/oidc/oidc.manager";
+import { getOidcUserManager } from "@common/core/auth/lib/oidc/oidc.manager";
 import { useState } from "react";
 
 export const useLogout = () => {
@@ -7,7 +7,7 @@ export const useLogout = () => {
   const logout = async () => {
     try {
       setIsLoggingOut(true);
-      oidcUserManager.signoutRedirect();
+      getOidcUserManager().signoutRedirect();
     } catch {
       setIsLoggingOut(false);
     }

@@ -14,6 +14,7 @@ function Index() {
       <h3>
         Hi {activeUser.profile.name}, welcome to {metadata.projectName}!
       </h3>
+      <p>{activeUser.accessToken()}</p>
     </div>
   );
 }

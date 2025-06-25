@@ -1,34 +1,23 @@
 import Auth from "@common/core/auth/components/auth";
-import { oidcUserManager } from "@common/core/auth/lib/oidc/oidc.manager";
 import {
   authContext,
   type AuthContextInfo,
 } from "@providers/auth/auth.context";
+import { useOidc } from "@providers/auth/oidc.context";
 import { OIDC_USER_SCHEMA } from "@shared/models";
+import type { UserManager } from "oidc-client-ts";
 import { useEffect, useState } from "react";
 import type { WithChildren } from "src/common/types/component/component.types";
 
-/**
- * Stores in SESSION STORAGE the current auth info.
- * It includes:
- * - Auth token.
- * - User info (USER_SCHEMA).
- */
-
 export default function AuthProvider({ children }: Readonly<WithChildren>) {
   const [contextState, setContextState] = useState<AuthContextInfo | null>();
+  const { manager } = useOidc();
 
   useEffect(() => {
-    readCurrentAuthData()
+    readCurrentAuthData(manager)
       .then(setContextState)
       .catch(() => setContextState(null));
-
-    const clearLoop = setInterval(() => {
-      oidcUserManager.clearStaleState();
-    }, 1000 * 60 * 5);
-
-    return () => clearInterval(clearLoop);
-  }, []);
+  }, [manager]);
 
   if (contextState === undefined) return null;
   if (contextState === null) return <Auth />;
@@ -40,12 +29,18 @@ export default function AuthProvider({ children }: Readonly<WithChildren>) {
   );
 }
 
-const readCurrentAuthData = async (): Promise<AuthContextInfo | null> => {
+const readCurrentAuthData = async (
+  manager: UserManager
+): Promise<AuthContextInfo | null> => {
   try {
-    const user = await oidcUserManager.getUser();
+    const user = await manager.getUser();
     if (!user) return null;
 
-    return OIDC_USER_SCHEMA.parse(user);
+    return {
+      ...OIDC_USER_SCHEMA.parse(user),
+      accessToken: () => user.access_token,
+      oidcManager: manager,
+    };
   } catch {
     return null;
   }

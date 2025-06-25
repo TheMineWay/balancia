@@ -1,4 +1,3 @@
-import { oidcUserManager } from "@common/core/auth/lib/oidc/oidc.manager";
 import { useAuthContext } from "@providers/auth/auth.context";
 
 /**
@@ -21,13 +20,13 @@ export const useActiveAuth = () => {
     throw new Error("useActiveAuth must be used when user is logged in");
 
   const signOut = () => {
-    oidcUserManager.signoutRedirect();
+    account.oidcManager.signoutRedirect();
   };
 
   return {
     activeUser: account,
     user: account.profile,
-    token: account.access_token,
+    token: account.accessToken(),
     signOut,
   };
 };

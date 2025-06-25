@@ -1,4 +1,4 @@
-import { oidcUserManager } from "@common/core/auth/lib/oidc/oidc.manager";
+import { getOidcUserManager } from "@common/core/auth/lib/oidc/oidc.manager";
 import { useState } from "react";
 
 export const useLogin = () => {
@@ -7,7 +7,7 @@ export const useLogin = () => {
   const login = async () => {
     try {
       setIsAuthenticating(true);
-      await oidcUserManager.signinRedirect();
+      await getOidcUserManager().signinRedirect();
     } catch (e) {
       console.error(e);
     } finally {
