@@ -1,11 +1,11 @@
-import { getLocale } from "@i18n/locales/locales";
-import { Language } from "@i18n/types/language.enum";
+import { getLocale, MASTER_LOCALE } from "@i18n/locales/locales";
 import type { TranslationStore } from "@i18n/types/translation/translation-store.type";
 import { languageContext } from "@providers/language/language.context";
+import _ from "lodash";
 import { useEffect, useState } from "react";
 import type { WithChildren } from "src/common/types/component/component.types";
 
-const DEFAULT_LANGUAGE = Language.EN_US;
+const DEFAULT_LANGUAGE = MASTER_LOCALE;
 
 type Props = WithChildren;
 
@@ -15,9 +15,17 @@ export default function LanguageProvider({ children }: Readonly<Props>) {
 
   useEffect(() => {
     const updateLoadedLocale = async () => {
-      setTranslations({
-        ...(await getLocale(language)).default,
-      });
+      setTranslations(
+        _.defaultsDeep(
+          {},
+          {
+            ...(await getLocale(language)).default,
+          },
+          {
+            ...(await getLocale(MASTER_LOCALE)).default,
+          }
+        )
+      );
     };
 
     updateLoadedLocale();
