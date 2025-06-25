@@ -8,15 +8,13 @@ type RequestOptions = ReqOptions;
 
 export const useAuthenticatedRequest = () => {
   const { request: req } = useRequest();
-  const {
-    activeUser: { token },
-  } = useActiveAuth();
+  const { activeUser } = useActiveAuth();
 
   const request = async (options: RequestOptions) =>
     await req({
       ...options,
       headers: {
-        authorization: `Bearer ${token}`,
+        authorization: `Bearer ${activeUser.accessToken()}`,
         ...options.headers,
       },
     });
