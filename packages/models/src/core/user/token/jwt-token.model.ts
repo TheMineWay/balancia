@@ -26,7 +26,7 @@ export const JWT_TOKEN_SCHEMA = z.object({
   iat: D_SCHEMA, // issued at
   auth_time: z.number(), // authentication time
   acr: z.string(), // authentication context class reference
-  amr: z.array(z.string()), // authentication methods references
+  amr: z.array(z.string()).default([]), // authentication methods references
   sid: z.string(), // session ID
   email: z.string().email(),
   email_verified: z.boolean(),

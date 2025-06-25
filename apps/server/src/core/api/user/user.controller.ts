@@ -1,26 +1,24 @@
 import { UserService } from "@core/api/user/user.service";
 import { Endpoint } from "@core/decorators/endpoints/endpoint.decorator";
-import { UserId } from "@core/decorators/user/user-id.decorator";
-import { Controller, UseGuards } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
+import { User } from "@core/decorators/user/user.decorator";
+import { Controller } from "@nestjs/common";
 import {
   CONTROLLERS,
   getController,
   InferEndpointResponseDTO,
 } from "@shared/api-definition";
-import { UserModel } from "@shared/models";
+import type { UserModel } from "@shared/models";
 
 const CONTROLLER = CONTROLLERS.user;
 
-@UseGuards(AuthGuard("jwt"))
 @Controller(getController(CONTROLLER))
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Endpoint(CONTROLLER, "get")
   get(
-    @UserId() userId: UserModel["id"],
+    @User() user: UserModel,
   ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "get">> {
-    return this.userService.getById(userId);
+    return this.userService.getById(user.id);
   }
 }
