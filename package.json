@@ -56,11 +56,13 @@
     "ignoredBuiltDependencies": [
       "@scarf/scarf",
       "core-js",
-      "core-js-pure"
+      "core-js-pure",
+      "unrs-resolver"
     ],
     "onlyBuiltDependencies": [
       "@nestjs/core",
       "@swc/core",
+      "@tailwindcss/oxide",
       "bcrypt",
       "esbuild"
     ]
