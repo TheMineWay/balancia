@@ -1,4 +1,4 @@
-import { Request } from "express";
+import type { Request } from "express";
 
 export const extractTokenFromHeader = (req: Request): string | null => {
   const authHeader = req.headers.authorization;

@@ -3,7 +3,7 @@ import type { UserTokenData } from "@core/decorators/user/user.decorator";
 import type { ExecutionContext } from "@nestjs/common";
 import { BadRequestException, createParamDecorator } from "@nestjs/common";
 import { extractTokenFromHeader } from "@utils/extract-token-from-header.util";
-import { Request } from "express";
+import type { Request } from "express";
 
 export const Jwt = createParamDecorator((_: unknown, ctx: ExecutionContext) => {
   const request: Request & { user: UserTokenData } = ctx

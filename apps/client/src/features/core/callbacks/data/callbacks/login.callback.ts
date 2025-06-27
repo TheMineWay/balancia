@@ -12,7 +12,7 @@ export const loginCallback = new Callback({
   schema: LOGIN_SCHEMA,
   urlMatcher: /^auth$/,
   onCallback: async (data) => {
-    const user = await getOidcUserManager().signinRedirectCallback();
+    await getOidcUserManager().signinRedirectCallback();
 
     window.location.href = data.fromUrl ?? "/";
   },
