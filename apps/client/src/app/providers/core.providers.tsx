@@ -12,9 +12,9 @@ import type { WithChildren } from "src/common/types/component/component.types";
 export default function CoreProviders({ children }: Readonly<WithChildren>) {
   return (
     <LocalConfigProvider>
-      <DeviceInfoProvider>
-        <LanguageProvider>
-          <UIProviders>
+      <UIProviders>
+        <DeviceInfoProvider>
+          <LanguageProvider>
             <NetworkProvider>
               <CallbackRender>
                 <OidcProvider>
@@ -24,9 +24,9 @@ export default function CoreProviders({ children }: Readonly<WithChildren>) {
                 </OidcProvider>
               </CallbackRender>
             </NetworkProvider>
-          </UIProviders>
-        </LanguageProvider>
-      </DeviceInfoProvider>
+          </LanguageProvider>
+        </DeviceInfoProvider>
+      </UIProviders>
     </LocalConfigProvider>
   );
 }

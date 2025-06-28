@@ -10,12 +10,17 @@ import { useConnectorWatch } from "@themineway/smart-storage-react";
 import { useCallback, useMemo } from "react";
 
 const KEY = "__conf";
-const DEFAULT_LOCAL_CONFIG: LocalConfig = {};
+const DEFAULT_LOCAL_CONFIG: LocalConfig = {
+  theme: {
+    colorScheme: "light",
+    primaryColor: "grape",
+  },
+};
 
 type Props = WithChildren;
 
 export const LocalConfigProvider: FC<Props> = ({ children }) => {
-  const { value: config, connector } = useConnectorWatch(
+  const { value: config, connector } = useConnectorWatch<LocalConfig>(
     WebWarehouse.getConnector(WAREHOUSES.ls),
     KEY,
     LOCAL_CONFIG_SCHEMA

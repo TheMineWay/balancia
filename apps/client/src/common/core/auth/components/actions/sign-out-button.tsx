@@ -14,9 +14,9 @@ export const SignOutButton: FC<Props> = () => {
   return (
     <Button
       color={ENV.auth.ui.providerColor}
-      variant="filled"
       onClick={logout}
       loading={isLoggingOut}
+      variant="primary"
     >
       {interpolated((t) => t.actions.Logout)}
     </Button>

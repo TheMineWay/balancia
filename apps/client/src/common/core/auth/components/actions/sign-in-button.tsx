@@ -19,7 +19,7 @@ export const SignInButton: FC<Props> = () => {
     <Button
       color={ENV.auth.ui.providerColor}
       loading={isAuthenticating}
-      variant="filled"
+      variant="primary"
       onClick={onAuth}
     >
       {interpolated((t) => t.actions.Login, {
