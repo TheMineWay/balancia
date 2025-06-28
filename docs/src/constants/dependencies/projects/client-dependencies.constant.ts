@@ -30,7 +30,6 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   { dep: "react-hook-form" },
   { dep: "@tanstack/react-query" },
   { dep: "@tanstack/react-router" },
-  { dep: "antd" },
   { dep: "clsx" },
   { dep: "date-fns" },
   { dep: "rc-picker" },

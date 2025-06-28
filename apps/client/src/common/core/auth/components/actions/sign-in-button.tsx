@@ -1,7 +1,7 @@
 import { useLogin } from "@common/core/auth/hooks/use-login";
 import { ENV } from "@constants/env/env.constant";
 import { useTranslation } from "@i18n/use-translation";
-import { Button } from "antd";
+import { Button } from "@mantine/core";
 
 type Props = {
   onSuccess?: CallableFunction;
@@ -19,7 +19,7 @@ export const SignInButton: FC<Props> = () => {
     <Button
       color={ENV.auth.ui.providerColor}
       loading={isAuthenticating}
-      type="primary"
+      variant="filled"
       onClick={onAuth}
     >
       {interpolated((t) => t.actions.Login, {

@@ -1,6 +1,7 @@
-import { ConfigProvider } from "antd";
+import { MantineProvider } from "@mantine/core";
+import "@mantine/core/styles.css";
 import type { WithChildren } from "src/common/types/component/component.types";
 
 export default function UIProviders({ children }: Readonly<WithChildren>) {
-  return <ConfigProvider>{children}</ConfigProvider>;
+  return <MantineProvider>{children}</MantineProvider>;
 }

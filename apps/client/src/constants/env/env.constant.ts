@@ -1,6 +1,6 @@
 import Zod, { z } from "zod";
 
-const ANTD_COLORS = [
+const COLORS = [
   "default",
   "primary",
   "danger",
@@ -31,9 +31,7 @@ const ENV_SCHEMA = Zod.object({
   VITE_AUTH_SCOPE: Zod.string().default("openid profile email"),
   VITE_AUTH_POST_LOGOUT_REDIRECT_URI: Zod.string().url().default("/"),
   VITE_AUTH_UI_PROVIDER_NAME: Zod.string().default("SSO"),
-  VITE_AUTH_UI_PROVIDER_COLOR: Zod.enum(ANTD_COLORS)
-    .optional()
-    .default("default"),
+  VITE_AUTH_UI_PROVIDER_COLOR: Zod.enum(COLORS).optional().default("default"),
   VITE_AUTH_UI_PROVIDER_ICON_URL: Zod.string().nullable().default(null),
 
   // DEFAULT

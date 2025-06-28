@@ -1,5 +1,5 @@
 import { getCallbackByUrl } from "@core-fts/callbacks/lib/get-callback-by-url";
-import { Spin } from "antd";
+import { Loader } from "@mantine/core";
 import { useEffect, useMemo } from "react";
 
 type Props = {
@@ -20,7 +20,7 @@ export const CallbackRender: FC<Props> = ({ children }) => {
   if (callback)
     return (
       <div className="h-full w-full flex justify-center items-center">
-        <Spin />
+        <Loader />
       </div>
     );
   else return children;

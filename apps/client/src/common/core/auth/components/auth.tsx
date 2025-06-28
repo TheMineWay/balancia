@@ -1,5 +1,5 @@
 import { SignInButton } from "@common/core/auth/components/actions/sign-in-button";
-import { Card } from "antd";
+import { Card } from "@mantine/core";
 import clsx from "clsx";
 import styles from "./auth.module.pcss";
 

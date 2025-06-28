@@ -1,7 +1,7 @@
 import { useLogout } from "@common/core/auth/hooks/use-logout";
 import { ENV } from "@constants/env/env.constant";
 import { useTranslation } from "@i18n/use-translation";
-import { Button } from "antd";
+import { Button } from "@mantine/core";
 
 type Props = {
   onSuccess?: CallableFunction;
@@ -14,7 +14,7 @@ export const SignOutButton: FC<Props> = () => {
   return (
     <Button
       color={ENV.auth.ui.providerColor}
-      type="primary"
+      variant="filled"
       onClick={logout}
       loading={isLoggingOut}
     >

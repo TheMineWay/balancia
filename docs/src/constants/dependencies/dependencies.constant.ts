@@ -181,12 +181,6 @@ export const DEPENDENCIES = [
     url: "https://www.npmjs.com/package/@tanstack/react-router-devtools",
   },
   {
-    code: "antd",
-    name: "Ant Design",
-    url: "https://www.npmjs.com/package/antd",
-    docsUrl: "https://ant.design/",
-  },
-  {
     code: "clsx",
     name: "CLSX",
     url: "https://www.npmjs.com/package/clsx",
