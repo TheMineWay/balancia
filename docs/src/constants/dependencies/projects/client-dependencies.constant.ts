@@ -4,6 +4,10 @@ import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   {
+    dep: "@tanstack/react-router-devtools",
+    isDevelopment: true,
+  },
+  {
     dep: "@themineway/smart-storage-js",
   },
   {
@@ -33,7 +37,6 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   { dep: "react" },
   { dep: "react-dom" },
   { dep: "@eslint/js", isDevelopment: true },
-  { dep: "@tanstack/router-devtools", isDevelopment: true },
   { dep: "@tanstack/router-plugin", isDevelopment: true },
   { dep: "@testing-library/jest-dom", isDevelopment: true },
   { dep: "@testing-library/react", isDevelopment: true },

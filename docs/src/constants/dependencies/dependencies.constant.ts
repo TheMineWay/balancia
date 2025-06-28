@@ -2,6 +2,36 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "jsonwebtoken",
+    name: "JSON Web Token",
+    url: "https://www.npmjs.com/package/jsonwebtoken",
+  },
+  {
+    code: "jwks-rsa",
+    name: "JWKS RSA",
+    url: "https://www.npmjs.com/package/jwks-rsa",
+  },
+  {
+    code: "@types/jsonwebtoken",
+    name: "@types jsonwebtoken",
+    url: "https://www.npmjs.com/package/@types/jsonwebtoken",
+  },
+  {
+    code: "passport-jwt",
+    name: "Passport JWT",
+    url: "https://www.npmjs.com/package/passport-jwt",
+  },
+  {
+    code: "@types/passport-jwt",
+    name: "@types passport-jwt",
+    url: "https://www.npmjs.com/package/@types/passport-jwt",
+  },
+  {
+    code: "eslint-config-prettier",
+    name: "ESLint Config Prettier",
+    url: "https://www.npmjs.com/package/eslint-config-prettier",
+  },
+  {
     code: "@types/openid-client",
     name: "@types OpenID Client",
     url: "https://www.npmjs.com/package/@types/openid-client",
@@ -146,6 +176,11 @@ export const DEPENDENCIES = [
     ],
   },
   {
+    code: "@tanstack/react-router-devtools",
+    name: "Tanstack Router DevTools",
+    url: "https://www.npmjs.com/package/@tanstack/react-router-devtools",
+  },
+  {
     code: "antd",
     name: "Ant Design",
     url: "https://www.npmjs.com/package/antd",
@@ -191,12 +226,6 @@ export const DEPENDENCIES = [
     name: "React DOM",
     url: "https://www.npmjs.com/package/react-dom",
     docsUrl: "https://reactjs.org/docs/react-dom.html",
-  },
-  {
-    code: "@tanstack/router-devtools",
-    name: "Tanstack Router DevTools",
-    url: "https://www.npmjs.com/package/@tanstack/router-devtools",
-    docsUrl: "https://tanstack.com/router/devtools",
   },
   {
     code: "@tanstack/router-plugin",
