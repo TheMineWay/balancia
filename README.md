@@ -11,7 +11,7 @@ NestFlux is a **monorepo scaffold application** designed for rapid development a
 - **Frontend**
 
   - **React**: Modern UI framework for the client.
-  - **Ant Design (AntD)**: Pre-configured UI components for sleek and professional designs.
+  - **Mantine**: Pre-configured UI components for sleek and professional designs.
 
 - **Backend**
 

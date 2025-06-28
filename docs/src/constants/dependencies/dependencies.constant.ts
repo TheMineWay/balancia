@@ -181,10 +181,26 @@ export const DEPENDENCIES = [
     url: "https://www.npmjs.com/package/@tanstack/react-router-devtools",
   },
   {
-    code: "antd",
-    name: "Ant Design",
-    url: "https://www.npmjs.com/package/antd",
-    docsUrl: "https://ant.design/",
+    code: "@mantine/core",
+    name: "Mantine Core",
+    url: "https://www.npmjs.com/package/@mantine/core",
+    docsUrl: "https://mantine.dev/",
+  },
+  {
+    code: "@mantine/hooks",
+    name: "Mantine Hooks",
+    url: "https://www.npmjs.com/package/@mantine/hooks",
+    docsUrl: "https://mantine.dev/",
+  },
+  {
+    code: "postcss-preset-mantine",
+    name: "PostCSS Preset Mantine",
+    url: "https://www.npmjs.com/package/postcss-preset-mantine",
+  },
+  {
+    code: "postcss-simple-vars",
+    name: "PostCSS Simple Vars",
+    url: "https://www.npmjs.com/package/postcss-simple-vars",
   },
   {
     code: "clsx",
