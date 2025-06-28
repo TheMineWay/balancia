@@ -1,5 +1,5 @@
-import { UserModel } from "@shared/models";
+import { OidcUser } from "@shared/models";
 import { getGravatarUrl } from "./gravatar";
 
-export const getUserAvatar = (user: UserModel) =>
-  user.email ? getGravatarUrl(user.email) : null;
+export const getUserAvatar = (user: OidcUser) =>
+  user.profile.email ? getGravatarUrl(user.profile.email) : null;

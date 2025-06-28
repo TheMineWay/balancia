@@ -1,1 +1,2 @@
-export * from "./controllers-definition";
+export * from './controllers';
+export * from './controllers-definition';

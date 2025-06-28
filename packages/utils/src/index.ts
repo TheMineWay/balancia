@@ -1,2 +1,2 @@
-export * from "./core/index";
-export * from "./env/index";
+export * from './core';
+export * from './env';

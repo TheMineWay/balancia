@@ -1,11 +1,12 @@
-import { MyUserProfileModule } from "@core/api/user/profile/my-user-profile.module";
+import { UserController } from "@core/api/user/user.controller";
+import { UserService } from "@core/api/user/user.service";
 import { UserRepository } from "@database/repository/core/user.repository";
-import { Module } from "@nestjs/common";
-import { UserService } from "./user.service";
+import { Global, Module } from "@nestjs/common";
 
+@Global()
 @Module({
   providers: [UserService, UserRepository],
   exports: [UserService],
-  imports: [MyUserProfileModule],
+  controllers: [UserController],
 })
 export class UserModule {}

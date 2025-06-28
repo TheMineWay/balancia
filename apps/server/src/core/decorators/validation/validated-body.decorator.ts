@@ -1,9 +1,7 @@
-import {
-  BadRequestException,
-  createParamDecorator,
-  ExecutionContext,
-} from "@nestjs/common";
-import { ControllerDefinition, getEndpointDTO } from "@shared/api-definition";
+import type { ExecutionContext } from "@nestjs/common";
+import { BadRequestException, createParamDecorator } from "@nestjs/common";
+import type { ControllerDefinition } from "@shared/api-definition";
+import { getEndpointDTO } from "@shared/api-definition";
 
 export const ValidatedBody = <
   C extends ControllerDefinition,

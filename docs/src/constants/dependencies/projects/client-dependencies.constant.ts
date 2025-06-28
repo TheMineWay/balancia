@@ -4,7 +4,20 @@ import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   {
+    dep: "@tanstack/react-router-devtools",
+    isDevelopment: true,
+  },
+  {
+    dep: "@themineway/smart-storage-js",
+  },
+  {
+    dep: "@themineway/smart-storage-react",
+  },
+  {
     dep: "lodash",
+  },
+  {
+    dep: "oidc-client-ts",
   },
   {
     dep: "@types/lodash",
@@ -19,17 +32,15 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   { dep: "@tanstack/react-router" },
   { dep: "antd" },
   { dep: "clsx" },
-  { dep: "luxon" },
+  { dep: "date-fns" },
   { dep: "rc-picker" },
   { dep: "react" },
   { dep: "react-dom" },
   { dep: "@eslint/js", isDevelopment: true },
-  { dep: "@tanstack/router-devtools", isDevelopment: true },
   { dep: "@tanstack/router-plugin", isDevelopment: true },
   { dep: "@testing-library/jest-dom", isDevelopment: true },
   { dep: "@testing-library/react", isDevelopment: true },
   { dep: "@testing-library/user-event", isDevelopment: true },
-  { dep: "@types/luxon", isDevelopment: true },
   { dep: "@types/react", isDevelopment: true },
   { dep: "@types/react-dom", isDevelopment: true },
   { dep: "@vitejs/plugin-react-swc", isDevelopment: true },

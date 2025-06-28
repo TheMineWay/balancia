@@ -1,1 +1,1 @@
-export * from "./evaluate-password.util";
+export * from './evaluate-password.util';

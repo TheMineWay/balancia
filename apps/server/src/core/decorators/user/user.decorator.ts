@@ -1,13 +1,19 @@
-import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { UserModel } from "@shared/models";
+import type { ExecutionContext } from "@nestjs/common";
+import { BadRequestException, createParamDecorator } from "@nestjs/common";
+import { JWT_TOKEN_SCHEMA, type UserModel } from "@shared/models";
 
-export type UserTokenData = Pick<UserModel, "id" | "username">;
+export type UserTokenData = Pick<UserModel, "id">;
 
 export const User = createParamDecorator(
-  (data: unknown, ctx: ExecutionContext) => {
+  (_: unknown, ctx: ExecutionContext) => {
     const request: Request & { user: UserTokenData } = ctx
       .switchToHttp()
       .getRequest();
-    return request.user;
+
+    const user = JWT_TOKEN_SCHEMA.safeParse(request.headers["authorization"]);
+
+    if (user.error) throw new BadRequestException();
+
+    return user.data;
   },
 );

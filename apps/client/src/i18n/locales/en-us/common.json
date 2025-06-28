@@ -1,3 +1,28 @@
 {
-  "Test": "Hello world!"
+  "ui": {
+    "password": {
+      "score": {
+        "levels": {
+          "very-low": {
+            "Text": "Very weak password"
+          },
+          "low": {
+            "Text": "Weak password"
+          },
+          "medium": {
+            "Text": "Acceptable password"
+          },
+          "strong": {
+            "Text": "Strong password"
+          },
+          "very-strong": {
+            "Text": "Very strong password"
+          }
+        }
+      }
+    }
+  },
+  "actions": {
+    "Back": "Back"
+  }
 }

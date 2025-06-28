@@ -3,6 +3,47 @@ import { ProjectDependency } from "@site/src/types/dependencies/dependency.type"
 import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
+  {
+    dep: "@types/jsonwebtoken",
+    isDevelopment: true,
+  },
+  {
+    dep: "jsonwebtoken",
+  },
+  {
+    dep: "jwks-rsa",
+  },
+  {
+    dep: "passport-jwt",
+  },
+  {
+    dep: "@types/passport-jwt",
+    isDevelopment: true,
+  },
+  {
+    dep: "eslint-config-prettier",
+    isDevelopment: true,
+  },
+  {
+    dep: "axios",
+  },
+  {
+    dep: "openid-client",
+  },
+  {
+    dep: "@types/openid-client",
+    isDevelopment: true,
+  },
+  {
+    dep: "@nestjs/passport",
+  },
+  {
+    dep: "@types/axios",
+    isDevelopment: true,
+  },
+  {
+    dep: "date-fns",
+  },
   { dep: "bcrypt" },
   {
     dep: "@types/bcrypt",

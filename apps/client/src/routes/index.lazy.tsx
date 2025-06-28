@@ -1,6 +1,5 @@
-import { metadata } from "@core/constants/metadata.constant.ts";
-import { useActiveAuth } from "@core/hooks/auth/use-active-auth";
-import HomeTemplate from "@core/templates/home.template";
+import { useActiveAuth } from "@common/core/auth/hooks/use-active-auth";
+import { metadata } from "@constants/metadata.constant";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/")({
@@ -13,9 +12,8 @@ function Index() {
   return (
     <div className="p-2">
       <h3>
-        Hi {activeUser.user.name}, welcome to {metadata.projectName}!
+        Hi {activeUser.profile.name}, welcome to {metadata.projectName}!
       </h3>
-      <HomeTemplate />
     </div>
   );
 }

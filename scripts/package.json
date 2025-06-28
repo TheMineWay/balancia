@@ -5,15 +5,16 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "launch": "pnpm build && node dist/index.js"
+    "launch": "pnpm build && node dist/cli.js",
+    "generate-packages-indexs": "pnpm build && node dist/packages/generate-indexs/index.js"
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^22.13.5",
-    "typescript": "^5.7.3"
+    "@types/node": "^22.15.29",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@inquirer/prompts": "^7.3.2",
+    "@inquirer/prompts": "^7.5.3",
     "fs": "0.0.1-security"
   }
 }

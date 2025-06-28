@@ -19,9 +19,9 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "tsup": "^8.3.6",
-    "typescript": "^5.7.3",
-    "vitest": "^3.0.6"
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
   },
   "publishConfig": {
     "access": "public"
@@ -35,7 +35,7 @@
   "dependencies": {
     "@shared/constants": "workspace:*",
     "@shared/models": "workspace:*",
-    "axios": "^1.7.9",
-    "zod": "^3.24.2"
+    "axios": "^1.9.0",
+    "zod": "^3.25.46"
   }
 }

@@ -60,5 +60,15 @@
   "unknown": {
     "Title": "Unknown Error",
     "Message": "An unknown error occurred"
+  },
+  "generic": {
+    "validation-failed": {
+      "Title": "Validation failed",
+      "Message": "Could not validate your request"
+    },
+    "2fa-failed": {
+      "Title": "2FA validation failed",
+      "Message": "The provided code could not be validated."
+    }
   }
 }

@@ -42,9 +42,9 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@vitest/ui": "3.0.6",
+    "@vitest/ui": "3.2.4",
     "concurrently": "^9.1.2",
-    "vitest": "^3.0.6"
+    "vitest": "^3.1.4"
   },
   "workspaces": [
     "apps/*",
@@ -56,11 +56,13 @@
     "ignoredBuiltDependencies": [
       "@scarf/scarf",
       "core-js",
-      "core-js-pure"
+      "core-js-pure",
+      "unrs-resolver"
     ],
     "onlyBuiltDependencies": [
       "@nestjs/core",
       "@swc/core",
+      "@tailwindcss/oxide",
       "bcrypt",
       "esbuild"
     ]

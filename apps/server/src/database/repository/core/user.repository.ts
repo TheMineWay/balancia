@@ -10,12 +10,12 @@ import { eq } from "drizzle-orm";
 
 @Injectable()
 export class UserRepository extends Repository {
-  findByUsername = async (username: string, options?: QueryOptions) =>
+  findByCode = async (code: string, options?: QueryOptions) =>
     (
       await this.query(options)
         .select()
         .from(usersTable)
-        .where(eq(usersTable.username, username))
+        .where(eq(usersTable.code, code))
         .limit(1)
     )?.[0];
 

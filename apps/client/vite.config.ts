@@ -9,16 +9,16 @@ export default defineConfig({
   resolve: {
     alias: {
       "@pkg": path.resolve(__dirname, "package.json"),
-      "@components": path.resolve(__dirname, "src/components"),
-      "@utils": path.resolve(__dirname, "src/utils"),
+      "@core-fts": path.resolve(__dirname, "src/features/core"),
+      "@fts": path.resolve(__dirname, "src/features"),
       "@assets": path.resolve(__dirname, "src/assets"),
       "@public": path.resolve(__dirname, "public"),
-      "@hooks": path.resolve(__dirname, "src/hooks"),
-      "@providers": path.resolve(__dirname, "src/providers"),
+      "@providers": path.resolve(__dirname, "src/app/providers"),
       "@constants": path.resolve(__dirname, "src/constants"),
       "@i18n": path.resolve(__dirname, "src/i18n"),
-      "@ts-types": path.resolve(__dirname, "src/types"),
-      "@core": path.resolve(__dirname, "src/core"),
+      "@routes": path.resolve(__dirname, "src/routes"),
+      "@common": path.resolve(__dirname, "src/common"),
+      "@app": path.resolve(__dirname, "src/app"),
     },
   },
   server: {

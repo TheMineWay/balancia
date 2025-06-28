@@ -1,18 +1,20 @@
-import { UserModel } from "@shared/models";
+import { OidcProfileInfo } from "@shared/models";
 
 type Options = {
   capitalize?: boolean;
 };
 
 export const getUserName = (
-  { name, lastName }: Partial<UserModel>,
+  { name }: Partial<OidcProfileInfo>,
   options: Options = { capitalize: true }
 ) => {
   const { capitalize: shouldCapitalize } = options;
 
-  return [name, ...(lastName?.split(" ") ?? [])]
+  return name
+    ?.trim()
+    ?.split(" ")
     .filter(Boolean)
-    .map((text) => (shouldCapitalize ? capitalize(text!) : text))
+    .map((text) => (shouldCapitalize && text ? capitalize(text) : text))
     .join(" ");
 };
 

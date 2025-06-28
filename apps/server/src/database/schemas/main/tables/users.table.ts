@@ -1,24 +1,17 @@
 import { timestamps } from "@database/common/timestamps";
-import { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
-import { USER_MODEL_VALUES, UserModel } from "@shared/models";
+import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
+import type { UserModel } from "@shared/models";
+import { USER_MODEL_VALUES } from "@shared/models";
 import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 
-type ColumnsModel = DbModeledColumnsDefinition<
-  UserModel & { password: string; totpSecret: string | null }
->;
+type ColumnsModel = DbModeledColumnsDefinition<UserModel>;
 
 export const usersTable = mysqlTable("user", {
   id: int().autoincrement().primaryKey(),
-
-  // Props
-  name: varchar({ length: USER_MODEL_VALUES.name.maxLength }).notNull(),
-  lastName: varchar({ length: USER_MODEL_VALUES.lastName.maxLength }).notNull(),
-  username: varchar({ length: USER_MODEL_VALUES.username.maxLength })
+  // Code is the unique identifier that comes from the OIDC provider
+  code: varchar({ length: USER_MODEL_VALUES.code.maxLength })
     .unique()
     .notNull(),
-  email: varchar({ length: USER_MODEL_VALUES.email.maxLength }).unique(),
-  password: varchar({ length: 512 }).notNull(),
-  totpSecret: varchar({ length: 128 }),
 
   // Timestamps
   ...timestamps,

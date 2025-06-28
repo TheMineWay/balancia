@@ -2,6 +2,72 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "jsonwebtoken",
+    name: "JSON Web Token",
+    url: "https://www.npmjs.com/package/jsonwebtoken",
+  },
+  {
+    code: "jwks-rsa",
+    name: "JWKS RSA",
+    url: "https://www.npmjs.com/package/jwks-rsa",
+  },
+  {
+    code: "@types/jsonwebtoken",
+    name: "@types jsonwebtoken",
+    url: "https://www.npmjs.com/package/@types/jsonwebtoken",
+  },
+  {
+    code: "passport-jwt",
+    name: "Passport JWT",
+    url: "https://www.npmjs.com/package/passport-jwt",
+  },
+  {
+    code: "@types/passport-jwt",
+    name: "@types passport-jwt",
+    url: "https://www.npmjs.com/package/@types/passport-jwt",
+  },
+  {
+    code: "eslint-config-prettier",
+    name: "ESLint Config Prettier",
+    url: "https://www.npmjs.com/package/eslint-config-prettier",
+  },
+  {
+    code: "@types/openid-client",
+    name: "@types OpenID Client",
+    url: "https://www.npmjs.com/package/@types/openid-client",
+  },
+  {
+    code: "@nestjs/passport",
+    name: "@nestjs/passport",
+    url: "https://www.npmjs.com/package/@nestjs/passport",
+  },
+  {
+    code: "openid-client",
+    name: "OpenID Client",
+    url: "https://www.npmjs.com/package/openid-client",
+  },
+
+  {
+    code: "oidc-client-ts",
+    name: "OIDC Client TS",
+    url: "https://www.npmjs.com/package/oidc-client-ts",
+  },
+  {
+    code: "@themineway/smart-storage-js",
+    name: "@themineway/smart-storage-js",
+    url: "https://www.npmjs.com/package/@themineway/smart-storage-js",
+  },
+  {
+    code: "@themineway/smart-storage-react",
+    name: "@themineway/smart-storage-react",
+    url: "https://www.npmjs.com/package/@themineway/smart-storage-react",
+  },
+  {
+    code: "date-fns",
+    name: "Date fns",
+    url: "https://www.npmjs.com/package/date-fns",
+  },
+  {
     code: "@types/bcrypt",
     name: "@types bcrypt",
     url: "https://www.npmjs.com/package/@types/bcrypt",
@@ -64,6 +130,11 @@ export const DEPENDENCIES = [
     docsUrl: "https://axios-http.com/",
   },
   {
+    code: "@types/axios",
+    name: "@types axios",
+    url: "https://www.npmjs.com/package/@types/axios",
+  },
+  {
     code: "@hookform/resolvers",
     name: "@hookform resolvers",
     url: "https://www.npmjs.com/package/@hookform/resolvers",
@@ -105,6 +176,11 @@ export const DEPENDENCIES = [
     ],
   },
   {
+    code: "@tanstack/react-router-devtools",
+    name: "Tanstack Router DevTools",
+    url: "https://www.npmjs.com/package/@tanstack/react-router-devtools",
+  },
+  {
     code: "antd",
     name: "Ant Design",
     url: "https://www.npmjs.com/package/antd",
@@ -122,12 +198,6 @@ export const DEPENDENCIES = [
         url: "https://www.npmjs.com/package/classnames",
       },
     ],
-  },
-  {
-    code: "luxon",
-    name: "Luxon",
-    url: "https://www.npmjs.com/package/luxon",
-    docsUrl: "https://moment.github.io/luxon/#/",
   },
   {
     code: "rc-picker",
@@ -158,12 +228,6 @@ export const DEPENDENCIES = [
     docsUrl: "https://reactjs.org/docs/react-dom.html",
   },
   {
-    code: "@tanstack/router-devtools",
-    name: "Tanstack Router DevTools",
-    url: "https://www.npmjs.com/package/@tanstack/router-devtools",
-    docsUrl: "https://tanstack.com/router/devtools",
-  },
-  {
     code: "@tanstack/router-plugin",
     name: "Tanstack Router Plugin",
     url: "https://www.npmjs.com/package/@tanstack/router-plugin",
@@ -186,11 +250,6 @@ export const DEPENDENCIES = [
     name: "Testing Library User Event",
     url: "https://www.npmjs.com/package/@testing-library/user-event",
     docsUrl: "https://testing-library.com/docs/user-event/intro/",
-  },
-  {
-    code: "@types/luxon",
-    name: "@types Luxon",
-    url: "https://www.npmjs.com/package/@types/luxon",
   },
   {
     code: "@types/react",
