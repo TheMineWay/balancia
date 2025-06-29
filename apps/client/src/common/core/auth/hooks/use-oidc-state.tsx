@@ -12,17 +12,6 @@ export const useOidcState = () => {
       .getUser()
       .then(setUser)
       .catch(() => setUser(null));
-
-    manager.events.addUserLoaded((u) => {
-      console.log({ u });
-      setUser(u);
-    });
-
-    // const interval = setInterval(() => {
-    //   manager.getUser().then(console.log);
-    // }, 1000);
-
-    //return () => clearInterval(interval);
   }, [manager]);
 
   const token = user?.access_token;
