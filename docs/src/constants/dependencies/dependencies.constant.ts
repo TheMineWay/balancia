@@ -2,6 +2,16 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "@nestjs/cache-manager",
+    name: "@nestjs/cache-manager",
+    url: "https://www.npmjs.com/package/@nestjs/cache-manager",
+  },
+  {
+    code: "cache-manager",
+    name: "Cache Manager",
+    url: "https://www.npmjs.com/package/cache-manager",
+  },
+  {
     code: "jsonwebtoken",
     name: "JSON Web Token",
     url: "https://www.npmjs.com/package/jsonwebtoken",
