@@ -14,5 +14,6 @@ export const getCallbackByUrl = (url: string): ICallback | null => {
   });
 
   if (!callback) return null;
+
   return callback;
 };

@@ -1,4 +1,4 @@
-import { getOidcUserManager } from "@common/core/auth/lib/oidc/oidc.manager";
+import { oidcUserManager } from "@common/core/auth/lib/oidc/oidc.manager";
 import { Callback } from "@core-fts/callbacks/lib/callback";
 import z from "zod";
 
@@ -12,7 +12,7 @@ export const loginCallback = new Callback({
   schema: LOGIN_SCHEMA,
   urlMatcher: /^auth$/,
   onCallback: async (data) => {
-    await getOidcUserManager().signinRedirectCallback();
+    await oidcUserManager.signinCallback();
 
     window.location.href = data.fromUrl ?? "/";
   },
