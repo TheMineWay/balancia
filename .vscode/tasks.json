@@ -20,6 +20,10 @@
         },
         "options": {
           "shell": "/bin/bash"
+        },
+        "group": {
+          "kind": "dev",
+          "isDefault": true
         }
       },
       {
@@ -34,6 +38,10 @@
         },
         "options": {
           "shell": "/bin/bash"
+        },
+        "group": {
+          "kind": "dev",
+          "isDefault": true
         }
       },
       {
@@ -48,6 +56,28 @@
         },
         "options": {
           "shell": "/bin/bash"
+        },
+        "group": {
+          "kind": "dev",
+          "isDefault": true
+        }
+      },
+      {
+        "label": "dev:docs",
+        "type": "shell",
+        "command": "pnpm start:docs",
+        "problemMatcher": [],
+        "presentation": {
+          "group": "terminal",
+          "panel": "new",
+          "reveal": "always"
+        },
+        "options": {
+          "shell": "/bin/bash"
+        },
+        "group": {
+          "kind": "dev",
+          "isDefault": true
         }
       },
       {
@@ -62,6 +92,9 @@
         },
         "options": {
           "shell": "/bin/bash"
+        },
+        "group": {
+          "kind": "build"
         }
       }
     ]

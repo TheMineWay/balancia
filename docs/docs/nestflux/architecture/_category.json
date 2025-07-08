@@ -1,0 +1,10 @@
+{
+    "label": "👷 Architecture",
+    "link": {
+        "type": "generated-index",
+        "title": "Architecture"
+    },
+    "customProps": {
+        "description": "Project architecture"
+    }
+}

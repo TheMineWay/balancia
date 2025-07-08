@@ -1,12 +1,12 @@
 ---
-sidebar_position: 3
+sidebar_position: 2
 ---
 
-# Architecture
+# 🌍 Global hirearchy
 
 This template offers a defined structure that should be followed and maintained.
 
-## Project hierarchy
+## 🌲 Project files hierarchy
 
 ```text
 NestFlux/
@@ -24,7 +24,7 @@ NestFlux/
 └── scripts/            # CLI utilities
 ```
 
-## Configuration hierarchy
+## ⚙️ Configuration hierarchy
 
 ```text
 NestFlux/
