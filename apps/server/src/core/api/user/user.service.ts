@@ -1,34 +1,26 @@
-import { CACHE_PROVIDERS } from "@core/cache/caches.module";
+import { UserCacheService } from "@core/api/user/user-cache.service";
 import { QueryOptions } from "@database/repository/core/repository";
 import { UserUpdate } from "@database/schemas/main/tables/users.table";
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { UserRepository } from "@repository/core/user.repository";
 import { DbUserModel } from "@shared/models";
-import type { Cacheable } from "cacheable";
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
-    @Inject(CACHE_PROVIDERS.USER) private readonly userCache: Cacheable,
+    private readonly userCacheService: UserCacheService,
   ) {}
 
   async getByCode(code: string) {
-    return await this.userRepository.findByCode(code);
+    return this.userCacheService.getByCode(
+      code,
+      this.userRepository.findByCode,
+    );
   }
 
   getById = async (userId: DbUserModel["id"]) => {
-    // Look for user in cache
-    const cachedUser = await this.userCache.get<DbUserModel>(userId.toString());
-    if (cachedUser) return cachedUser;
-
-    // If not found in cache, fetch from database
-    const user = await this.userRepository.findById(userId);
-    if (!user) return null;
-
-    // Store user in cache
-    await this.userCache.set(userId.toString(), user);
-    return user;
+    return this.userCacheService.getById(userId, this.userRepository.findById);
   };
 
   updateById = (

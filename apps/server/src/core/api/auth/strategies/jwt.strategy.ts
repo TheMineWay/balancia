@@ -1,7 +1,8 @@
 // src/auth/jwt.strategy.ts
-import { Injectable } from "@nestjs/common";
+import { UserService } from "@core/api/user/user.service";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
-import { OpenIdConfig } from "@shared/models";
+import { JwtToken, OpenIdConfig } from "@shared/models";
 import * as jwksRsa from "jwks-rsa";
 import { ExtractJwt, Strategy } from "passport-jwt";
 
@@ -9,7 +10,10 @@ export const JWT_STRATEGY = "JWT_STRATEGY";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(openIdConfig: OpenIdConfig) {
+  constructor(
+    openIdConfig: OpenIdConfig,
+    private readonly userService: UserService,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       //audience: 'your-audience', // optional
@@ -24,8 +28,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: any) {
-    // This is the decoded JWT payload
-    return payload;
+  async validate(payload: JwtToken) {
+    const user = await this.userService.getByCode(payload.sub);
+
+    if (!user) throw new BadRequestException();
+
+    return { payload, ...user };
   }
 }
