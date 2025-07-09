@@ -1,9 +1,9 @@
 import { ENV } from "@constants/conf/env.constant";
 import { AuthModule } from "@core/api/auth/auth.module";
+import { CachesModule } from "@core/cache/caches.module";
 import { CoreModule } from "@core/core.module";
 import { JwtAuthGuard } from "@core/guards/auth/jwt-auth.guard";
 import { DatabaseModule } from "@database/database.module";
-import { CacheModule } from "@nestjs/cache-manager";
 import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
@@ -11,9 +11,7 @@ import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 @Module({
   imports: [
     DatabaseModule,
-    CacheModule.register({
-      isGlobal: true,
-    }),
+    CachesModule,
     ThrottlerModule.forRoot([
       {
         ttl: 60 * 1000,

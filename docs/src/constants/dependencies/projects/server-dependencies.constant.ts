@@ -4,10 +4,7 @@ import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   {
-    dep: "@nestjs/cache-manager",
-  },
-  {
-    dep: "cache-manager",
+    dep: "cacheable",
   },
   {
     dep: "@types/jsonwebtoken",

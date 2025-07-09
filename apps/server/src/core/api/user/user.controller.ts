@@ -1,7 +1,7 @@
 import { UserService } from "@core/api/user/user.service";
 import { Endpoint } from "@core/decorators/endpoints/endpoint.decorator";
 import { User } from "@core/decorators/user/user.decorator";
-import { Controller } from "@nestjs/common";
+import { Controller, NotFoundException } from "@nestjs/common";
 import {
   CONTROLLERS,
   getController,
@@ -16,9 +16,12 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Endpoint(CONTROLLER, "get")
-  get(
+  async get(
     @User() user: UserModel,
   ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "get">> {
-    return this.userService.getById(user.id);
+    const userData = await this.userService.getById(user.id);
+
+    if (!userData) throw new NotFoundException();
+    return userData;
   }
 }

@@ -47,6 +47,16 @@ const ENV_SCHEMA = Zod.object({
   OIDC_CLIENT_ID: Zod.string(),
   OIDC_CLIENT_SECRET: Zod.string(),
   OIDC_ISSUER_URL: Zod.string().url(),
+
+  // CACHE
+  USER_CACHE_TTL: Zod.string()
+    .default("1800000")
+    .transform((val) => +val)
+    .refine((val) => isFinite(val) && val >= 0),
+  DATA_CACHE_TTL: Zod.string()
+    .default("600000")
+    .transform((val) => +val)
+    .refine((val) => isFinite(val) && val >= 0),
 });
 
 const TEST_VALUES: Partial<Zod.infer<typeof ENV_SCHEMA>> = {
@@ -84,6 +94,10 @@ export const ENV = (() => {
       clientId: values.OIDC_CLIENT_ID,
       clientSecret: values.OIDC_CLIENT_SECRET,
       issuerUrl: values.OIDC_ISSUER_URL,
+    },
+    cache: {
+      user: values.USER_CACHE_TTL,
+      data: values.DATA_CACHE_TTL,
     },
   };
 })();
