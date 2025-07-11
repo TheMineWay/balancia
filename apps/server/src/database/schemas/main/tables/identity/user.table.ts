@@ -6,7 +6,7 @@ import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
 
 type ColumnsModel = DbModeledColumnsDefinition<UserModel>;
 
-export const usersTable = mysqlTable("user", {
+export const userTable = mysqlTable("user", {
   id: int().autoincrement().primaryKey(),
   // Code is the unique identifier that comes from the OIDC provider
   code: varchar({ length: USER_MODEL_VALUES.code.maxLength })
@@ -17,6 +17,6 @@ export const usersTable = mysqlTable("user", {
   ...timestamps,
 } satisfies ColumnsModel);
 
-export type UserInsert = typeof usersTable.$inferInsert;
-export type UserSelect = typeof usersTable.$inferSelect;
+export type UserInsert = typeof userTable.$inferInsert;
+export type UserSelect = typeof userTable.$inferSelect;
 export type UserUpdate = Partial<UserInsert>;

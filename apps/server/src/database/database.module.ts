@@ -1,11 +1,9 @@
 import { ENV } from "@constants/conf/env.constant";
+import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { DatabaseService } from "@database/services/database.service";
+import { DatabaseSeederService } from "@database/services/seeders/database-seeder.service";
 import { Global, Module } from "@nestjs/common";
 import { drizzle } from "drizzle-orm/mysql2";
-
-export const DATABASE_PROVIDERS = {
-  main: "main_db_provider",
-};
 
 @Global()
 @Module({
@@ -17,6 +15,7 @@ export const DATABASE_PROVIDERS = {
         return new DatabaseService(db);
       },
     },
+    DatabaseSeederService,
   ],
   exports: [...Object.values(DATABASE_PROVIDERS)],
 })

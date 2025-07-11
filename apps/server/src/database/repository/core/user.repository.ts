@@ -1,9 +1,9 @@
 import { QueryOptions, Repository } from "@database/repository/core/repository";
 import {
   UserInsert,
-  usersTable,
+  userTable,
   UserUpdate,
-} from "@database/schemas/main/tables/users.table";
+} from "@database/schemas/main/tables/identity/user.table";
 import { Injectable } from "@nestjs/common";
 import { DbUserModel } from "@shared/models";
 import { eq } from "drizzle-orm";
@@ -14,8 +14,8 @@ export class UserRepository extends Repository {
     (
       await this.query(options)
         .select()
-        .from(usersTable)
-        .where(eq(usersTable.code, code))
+        .from(userTable)
+        .where(eq(userTable.code, code))
         .limit(1)
     )?.[0];
 
@@ -23,14 +23,14 @@ export class UserRepository extends Repository {
     (
       await this.query(options)
         .select()
-        .from(usersTable)
-        .where(eq(usersTable.id, userId))
+        .from(userTable)
+        .where(eq(userTable.id, userId))
         .limit(1)
     )?.[0];
 
   create = async (user: UserInsert, options?: QueryOptions) =>
     (
-      await this.query(options).insert(usersTable).values([user]).$returningId()
+      await this.query(options).insert(userTable).values([user]).$returningId()
     )?.[0];
 
   updateById = (
@@ -38,8 +38,5 @@ export class UserRepository extends Repository {
     data: UserUpdate,
     options?: QueryOptions,
   ) =>
-    this.query(options)
-      .update(usersTable)
-      .set(data)
-      .where(eq(usersTable.id, id));
+    this.query(options).update(userTable).set(data).where(eq(userTable.id, id));
 }

@@ -1,4 +1,4 @@
-import { DATABASE_PROVIDERS } from "@database/database.module";
+import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { DatabaseService } from "@database/services/database.service";
 import { Inject } from "@nestjs/common";
 

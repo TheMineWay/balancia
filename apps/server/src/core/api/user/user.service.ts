@@ -1,6 +1,6 @@
 import { UserCacheService } from "@core/api/user/user-cache.service";
 import { QueryOptions } from "@database/repository/core/repository";
-import { UserUpdate } from "@database/schemas/main/tables/users.table";
+import { UserUpdate } from "@database/schemas/main/tables/identity/user.table";
 import { Injectable } from "@nestjs/common";
 import { UserRepository } from "@repository/core/user.repository";
 import { DbUserModel } from "@shared/models";
