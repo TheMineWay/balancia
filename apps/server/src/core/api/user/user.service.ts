@@ -1,4 +1,4 @@
-import { UserCacheService } from "@core/api/user/user-cache.service";
+import { UserCacheService } from "@core/cache/caches/user-cache.service";
 import { QueryOptions } from "@database/repository/core/repository";
 import { UserUpdate } from "@database/schemas/main/tables/identity/user.table";
 import { Injectable } from "@nestjs/common";

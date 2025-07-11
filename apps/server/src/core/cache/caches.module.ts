@@ -1,4 +1,4 @@
-import { UserCacheService } from "@core/api/user/user-cache.service";
+import { UserCacheService } from "@core/cache/caches/user-cache.service";
 import { Global, Module } from "@nestjs/common";
 /* Module */
 
