@@ -1,6 +1,7 @@
+import type { JwtRequestUserInfo } from "@core/api/auth/strategies/jwt.strategy";
 import type { ExecutionContext } from "@nestjs/common";
 import { BadRequestException, createParamDecorator } from "@nestjs/common";
-import type { JwtToken, UserModel } from "@shared/models";
+import type { UserModel } from "@shared/models";
 
 export type UserTokenData = Pick<UserModel, "id">;
 
@@ -10,9 +11,9 @@ export const UserId = createParamDecorator(
       .switchToHttp()
       .getRequest();
 
-    const user = request.user as unknown as { payload: JwtToken } & UserModel;
+    const { user } = request.user as unknown as JwtRequestUserInfo;
 
-    if (!user || !user.id) throw new BadRequestException();
+    if (!user?.id) throw new BadRequestException();
 
     return user.id;
   },

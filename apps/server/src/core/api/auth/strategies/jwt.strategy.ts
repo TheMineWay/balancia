@@ -34,8 +34,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const user = await this.userService.getByCode(payload.sub);
 
     if (!user) throw new BadRequestException();
-    await this.authService.getUserAuthInfo(user.id);
+    const permissionInfo = await this.authService.getUserAuthInfo(user.id);
 
-    return { payload, ...user };
+    return { payload, user, permissionInfo };
   }
 }
+
+export type JwtRequestUserInfo = Awaited<ReturnType<JwtStrategy["validate"]>>;
