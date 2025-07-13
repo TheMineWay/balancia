@@ -7,7 +7,7 @@ import {
   getController,
   InferEndpointResponseDTO,
 } from "@shared/api-definition";
-import type { UserModel } from "@shared/models";
+import { type UserModel } from "@shared/models";
 
 const CONTROLLER = CONTROLLERS.user;
 
