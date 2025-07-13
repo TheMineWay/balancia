@@ -1,5 +1,5 @@
 import { TIMESTAMPS_SCHEMA } from "@/utils";
-import { ModelValues } from "@ts-types/model-values.type";
+import type { ModelValues } from "@ts-types/model-values.type";
 import { number, object, string, z } from "zod";
 
 export const USER_MODEL_VALUES = {
