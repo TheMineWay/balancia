@@ -13,7 +13,7 @@ import { drizzle } from "drizzle-orm/mysql2";
       provide: DATABASE_PROVIDERS.main,
       useFactory: () => {
         const db = drizzle(ENV.database.url, {
-          logger: new DatabaseLogger(),
+          logger: ENV.database.logQueries ? new DatabaseLogger() : undefined,
         });
         return new DatabaseService(db);
       },

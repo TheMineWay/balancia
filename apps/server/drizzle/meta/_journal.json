@@ -8,6 +8,13 @@
       "when": 1752227064625,
       "tag": "0000_noisy_talisman",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1752393944239,
+      "tag": "0001_broken_paper_doll",
+      "breakpoints": true
     }
   ]
 }

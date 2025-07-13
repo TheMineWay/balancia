@@ -18,7 +18,11 @@ const ENV_SCHEMA = Zod.object({
     .transform(toNum)
     .refine(refinedMin(1)),
 
+  // DATABASE
   DATABASE_URL: Zod.string(),
+  LOG_QUERIES: Zod.string()
+    .default("false")
+    .transform((val) => val.trim().toLowerCase() === "true"),
 
   // NODE ENV
   NODE_ENV: Zod.string().default("production"),
@@ -89,6 +93,7 @@ export const ENV = (() => {
     },
     database: {
       url: values.DATABASE_URL,
+      logQueries: values.LOG_QUERIES,
     },
     cors: {
       allowedDomains: values.CORS_ONLY_ALLOW_DOMAINS,
