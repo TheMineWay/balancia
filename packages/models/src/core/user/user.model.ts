@@ -14,7 +14,8 @@ export const USER_SCHEMA = object({
   code: string()
     .min(USER_MODEL_VALUES.code.minLength)
     .max(USER_MODEL_VALUES.code.maxLength),
-}).merge(TIMESTAMPS_SCHEMA);
+  ...TIMESTAMPS_SCHEMA.shape,
+});
 
 export type UserModel = z.infer<typeof USER_SCHEMA>;
 

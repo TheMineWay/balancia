@@ -19,7 +19,7 @@ const D_SCHEMA = z
   });
 
 export const JWT_TOKEN_SCHEMA = z.object({
-  iss: z.string().url(), // issuer
+  iss: z.url(), // issuer
   sub: z.string(), // subject (user ID)
   aud: z.string(), // audience (client ID)
   exp: D_SCHEMA, // expiration time (UNIX timestamp)
@@ -28,7 +28,7 @@ export const JWT_TOKEN_SCHEMA = z.object({
   acr: z.string(), // authentication context class reference
   amr: z.array(z.string()).default([]), // authentication methods references
   sid: z.string(), // session ID
-  email: z.string().email(),
+  email: z.email(),
   email_verified: z.boolean(),
   name: z.string().nonempty(),
   given_name: z.string(),
