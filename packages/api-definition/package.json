@@ -36,6 +36,6 @@
     "@shared/constants": "workspace:*",
     "@shared/models": "workspace:*",
     "axios": "^1.9.0",
-    "zod": "^3.25.46"
+    "zod": "^4.0.5"
   }
 }

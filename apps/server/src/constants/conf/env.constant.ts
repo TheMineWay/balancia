@@ -1,73 +1,74 @@
 import { Logger } from "@nestjs/common";
 import "dotenv/config";
-import Zod from "zod";
+import { z } from "zod";
 
 const toNum = (value) => Number(value);
 const refinedMin = (min: number) => (val: number) => val >= min;
 
-const ENV_SCHEMA = Zod.object({
+const ENV_SCHEMA = z.object({
   // MAX REQUESTS PER MINUTE
-  MAX_REQUESTS_PER_MINUTE: Zod.string()
+  MAX_REQUESTS_PER_MINUTE: z
+    .string()
     .optional()
     .default("120")
     .transform(toNum)
     .refine(refinedMin(1)),
-  MAX_JWT_REQUESTS_PER_MINUTE: Zod.string()
+  MAX_JWT_REQUESTS_PER_MINUTE: z
+    .string()
     .optional()
     .default("8")
     .transform(toNum)
     .refine(refinedMin(1)),
 
   // DATABASE
-  DATABASE_URL: Zod.string(),
-  LOG_QUERIES: Zod.string()
-    .default("false")
-    .transform((val) => val.trim().toLowerCase() === "true"),
+  LOG_QUERIES: z.stringbool().default(false),
+  DATABASE_URL: z.string(),
 
   // NODE ENV
-  NODE_ENV: Zod.string().default("production"),
+  NODE_ENV: z.string().default("production"),
 
   // DEBUG
-  LOG_ENV_VALUES: Zod.string()
-    .refine((val) => val === "true" || val === "false", {
-      message: 'Value must be "true" or "false"',
-    })
-    .transform((val) => val === "true")
-    .default("false"),
+  LOG_ENV_VALUES: z.stringbool().default(false),
 
   // CORS
 
-  CORS_ONLY_ALLOW_DOMAINS: Zod.string()
+  CORS_ONLY_ALLOW_DOMAINS: z
+    .string()
     .transform((val) => {
       return val.trim().split(",");
     })
-    .default("*"),
+    .default(["*"]),
 
   // AUTHENTICATION
-  OIDC_SERVER_HOST: Zod.string()
+  OIDC_SERVER_HOST: z
     .url()
     .transform((val) => (val.endsWith("/") ? val.slice(0, -1) : val))
     .refine((val) => !val.endsWith("/")),
-  OIDC_CLIENT_ID: Zod.string(),
-  OIDC_CLIENT_SECRET: Zod.string(),
-  OIDC_ISSUER_URL: Zod.string().url(),
+
+  // OIDC
+  OIDC_CLIENT_ID: z.string(),
+  OIDC_CLIENT_SECRET: z.string(),
+  OIDC_ISSUER_URL: z.url(),
 
   // CACHE
-  USER_CACHE_TTL: Zod.string()
+  USER_CACHE_TTL: z
+    .string()
     .default("28800000")
     .transform((val) => +val)
     .refine((val) => isFinite(val) && val >= 0),
-  USER_AUTH_INFO_CACHE_TTL: Zod.string()
+  USER_AUTH_INFO_CACHE_TTL: z
+    .string()
     .default("1800000")
     .transform((val) => +val)
     .refine((val) => isFinite(val) && val >= 0),
-  DATA_CACHE_TTL: Zod.string()
+  DATA_CACHE_TTL: z
+    .string()
     .default("600000")
     .transform((val) => +val)
     .refine((val) => isFinite(val) && val >= 0),
 });
 
-const TEST_VALUES: Partial<Zod.infer<typeof ENV_SCHEMA>> = {
+const TEST_VALUES: Partial<z.infer<typeof ENV_SCHEMA>> = {
   DATABASE_URL: "",
   OIDC_SERVER_HOST: "http://localhost:3000",
   OIDC_CLIENT_ID: "test-client-id",
@@ -76,7 +77,7 @@ const TEST_VALUES: Partial<Zod.infer<typeof ENV_SCHEMA>> = {
 };
 
 export const ENV = (() => {
-  let env = process.env as unknown as Zod.infer<typeof ENV_SCHEMA>;
+  let env = process.env as unknown as z.infer<typeof ENV_SCHEMA>;
 
   if (process.env.TEST === "true") {
     env = { ...env, ...TEST_VALUES };

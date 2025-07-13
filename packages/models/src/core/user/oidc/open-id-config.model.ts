@@ -1,14 +1,14 @@
 import { z } from "zod";
 
 export const OPEN_ID_CONFIG_SCHEMA = z.object({
-  issuer: z.string().url(),
-  authorization_endpoint: z.string().url(),
-  token_endpoint: z.string().url(),
-  userinfo_endpoint: z.string().url().optional(),
-  end_session_endpoint: z.string().url().optional(),
-  introspection_endpoint: z.string().url().optional(),
-  revocation_endpoint: z.string().url().optional(),
-  device_authorization_endpoint: z.string().url().optional(),
+  issuer: z.url(),
+  authorization_endpoint: z.url(),
+  token_endpoint: z.url(),
+  userinfo_endpoint: z.url().optional(),
+  end_session_endpoint: z.url().optional(),
+  introspection_endpoint: z.url().optional(),
+  revocation_endpoint: z.url().optional(),
+  device_authorization_endpoint: z.url().optional(),
 
   response_types_supported: z.array(
     z.enum([
@@ -26,7 +26,7 @@ export const OPEN_ID_CONFIG_SCHEMA = z.object({
     z.enum(["query", "fragment", "form_post", "jwt"])
   ),
 
-  jwks_uri: z.string().url(),
+  jwks_uri: z.url(),
 
   grant_types_supported: z.array(
     z.enum([

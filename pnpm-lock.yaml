@@ -84,8 +84,8 @@ importers:
         specifier: ^5.5.0
         version: 5.5.0(react@19.1.0)
       zod:
-        specifier: ^3.25.46
-        version: 3.25.67
+        specifier: ^4.0.5
+        version: 4.0.5
     devDependencies:
       '@eslint/js':
         specifier: ^9.28.0
@@ -244,8 +244,8 @@ importers:
         specifier: ~0.2.2
         version: 0.2.2
       zod:
-        specifier: ^3.25.46
-        version: 3.25.67
+        specifier: ^4.0.5
+        version: 4.0.5
     devDependencies:
       '@eslint/js':
         specifier: ^9.28.0
@@ -375,8 +375,8 @@ importers:
         specifier: ^1.9.0
         version: 1.10.0
       zod:
-        specifier: ^3.25.46
-        version: 3.25.67
+        specifier: ^4.0.5
+        version: 4.0.5
     devDependencies:
       tsup:
         specifier: ^8.5.0
@@ -419,8 +419,8 @@ importers:
   packages/models:
     dependencies:
       zod:
-        specifier: ^3.25.46
-        version: 3.25.67
+        specifier: ^4.0.5
+        version: 4.0.5
     devDependencies:
       tsup:
         specifier: ^8.5.0
@@ -8868,6 +8868,9 @@ packages:
 
   zod@3.25.67:
     resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
+
+  zod@4.0.5:
+    resolution: {integrity: sha512-/5UuuRPStvHXu7RS+gmvRf4NXrNxpSllGwDnCBcJZtQsKrviYXm54yDGV2KYNLT5kq0lHGcl7lqWJLgSaG+tgA==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -19060,5 +19063,7 @@ snapshots:
       type-fest: 2.19.0
 
   zod@3.25.67: {}
+
+  zod@4.0.5: {}
 
   zwitch@2.0.4: {}
