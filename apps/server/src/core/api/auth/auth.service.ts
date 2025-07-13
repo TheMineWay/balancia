@@ -11,7 +11,7 @@ import {
   JWT_TOKEN_SCHEMA,
   OPEN_ID_CONFIG_SCHEMA,
   Permission,
-  Role,
+  RoleModel,
   UserModel,
   type JwtToken,
 } from "@shared/models";
@@ -53,7 +53,7 @@ export class AuthService {
    */
   async getUserAuthInfo(
     userId: UserModel["id"],
-  ): Promise<{ permissions: Permission[]; roles: Role[] }> {
+  ): Promise<{ permissions: Permission[]; roles: RoleModel[] }> {
     const authInfo = await this.userAuthInfoCacheService.getById(
       userId,
       // Fallback
@@ -76,7 +76,7 @@ export class AuthService {
     roles: RoleSelect[];
   } {
     const permissions = new Set<Permission>();
-    const roles = new Set<Role>();
+    const roles = new Set<RoleModel>();
 
     for (const group of rowGroups) {
       // Add permission

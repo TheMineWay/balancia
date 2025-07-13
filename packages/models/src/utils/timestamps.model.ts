@@ -5,5 +5,4 @@ export const TIMESTAMPS_SCHEMA = object({
   createdAt: DATE_SCHEMA,
   updatedAt: DATE_SCHEMA,
 });
-
 export type TimestampsSchema = z.infer<typeof TIMESTAMPS_SCHEMA>;

@@ -1,11 +1,25 @@
-import { DATABASE_PROVIDERS } from "@database/database.provider";
-import { DatabaseService } from "@database/services/database.service";
-import { Inject, Injectable } from "@nestjs/common";
+import { RoleRepository } from "@database/repository/core/role/role.repository";
+import {
+  RoleSelect,
+  RoleUpdate,
+} from "@database/schemas/main/tables/identity/role.table";
+import { Injectable } from "@nestjs/common";
+import { RoleCreateModel } from "@shared/models";
 
 @Injectable()
 export class RoleService {
-  constructor(
-    @Inject(DATABASE_PROVIDERS.main)
-    private readonly databaseService: DatabaseService,
-  ) {}
+  constructor(private readonly roleRepository: RoleRepository) {}
+
+  /* Admin */
+  create(role: RoleCreateModel) {
+    return this.roleRepository.create(role);
+  }
+
+  update(id: RoleSelect["id"], role: RoleUpdate) {
+    return this.roleRepository.update(id, role);
+  }
+
+  delete(id: RoleSelect["id"]) {
+    return this.roleRepository.delete(id);
+  }
 }

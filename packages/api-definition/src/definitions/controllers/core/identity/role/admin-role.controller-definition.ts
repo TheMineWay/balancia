@@ -1,25 +1,33 @@
-import { Role } from "@shared/models";
+import {
+  CREATE_ROLE_SCHEMA,
+  UPDATE_ROLE_SCHEMA,
+  type RoleModel,
+} from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
 import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
+
+/* Definition */
 
 export const ADMIN_ROLE_CONTROLLER_DEFINITION = {
   getName: () => "admin-role",
   endpoints: {
     // Roles
     create: {
-      getPath: () => "create",
+      getPath: () => "",
       method: EndpointMethod.POST,
+      dto: CREATE_ROLE_SCHEMA,
     },
     update: {
-      getPath: (options) => `update/${options.roleId}`,
+      getPath: (options) => `${options.roleId}`,
       getDefinitionPath: () => ({ roleId: "roleId" }),
       method: EndpointMethod.PUT,
-    } satisfies EndpointDefinition<{ roleId: Role["id"] }>,
+      dto: UPDATE_ROLE_SCHEMA,
+    } satisfies EndpointDefinition<{ roleId: RoleModel["id"] }>,
     delete: {
-      getPath: (options) => `delete/${options.roleId}`,
+      getPath: (options) => `${options.roleId}`,
       getDefinitionPath: () => ({ roleId: "roleId" }),
       method: EndpointMethod.DELETE,
-    } satisfies EndpointDefinition<{ roleId: Role["id"] }>,
+    } satisfies EndpointDefinition<{ roleId: RoleModel["id"] }>,
   },
 } as const satisfies ControllerDefinition;

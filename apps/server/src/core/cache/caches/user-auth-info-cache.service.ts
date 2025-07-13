@@ -1,7 +1,7 @@
 import { ENV } from "@constants/conf/env.constant";
 import { CacheService } from "@core/cache/cache.abstract";
 import { Injectable } from "@nestjs/common";
-import { Permission, Role, UserModel } from "@shared/models";
+import { Permission, RoleModel, UserModel } from "@shared/models";
 import { Cacheable } from "cacheable";
 
 @Injectable()
@@ -23,5 +23,5 @@ export class UserAuthInfoCacheService extends CacheService {
 
 export type UserAuthInfoCacheData = {
   permissions: Permission[];
-  roles: Role[];
+  roles: RoleModel[];
 };
