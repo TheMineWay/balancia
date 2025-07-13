@@ -5,6 +5,8 @@ import {
   JwtStrategy,
 } from "@core/api/auth/strategies/jwt.strategy";
 import { UserService } from "@core/api/user/user.service";
+import { UserAuthInfoCacheService } from "@core/cache/caches/user-auth-info-cache.service";
+import { AuthRepository } from "@database/repository/core/auth/auth.repository";
 import { DynamicModule, Global, Logger, Module } from "@nestjs/common";
 
 export const OPENID_CONFIG = "OPENID_CONFIG";
@@ -28,13 +30,15 @@ export class AuthModule {
     return {
       providers: [
         AuthService,
+        AuthRepository,
+        UserAuthInfoCacheService,
         // Expose strategy
         {
           provide: JWT_STRATEGY,
-          useFactory: (userService: UserService) => {
-            return new JwtStrategy(config, userService);
+          useFactory: (userService: UserService, authService: AuthService) => {
+            return new JwtStrategy(config, userService, authService);
           },
-          inject: [UserService],
+          inject: [UserService, AuthService],
         },
         // Expose OpenID config
         {

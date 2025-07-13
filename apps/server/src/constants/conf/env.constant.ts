@@ -50,6 +50,10 @@ const ENV_SCHEMA = Zod.object({
 
   // CACHE
   USER_CACHE_TTL: Zod.string()
+    .default("28800000")
+    .transform((val) => +val)
+    .refine((val) => isFinite(val) && val >= 0),
+  USER_AUTH_INFO_CACHE_TTL: Zod.string()
     .default("1800000")
     .transform((val) => +val)
     .refine((val) => isFinite(val) && val >= 0),
@@ -97,6 +101,7 @@ export const ENV = (() => {
     },
     cache: {
       user: values.USER_CACHE_TTL,
+      userAuthInfo: values.USER_AUTH_INFO_CACHE_TTL,
       data: values.DATA_CACHE_TTL,
     },
   };

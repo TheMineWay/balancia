@@ -1,4 +1,5 @@
 // src/auth/jwt.strategy.ts
+import { AuthService } from "@core/api/auth/auth.service";
 import { UserService } from "@core/api/user/user.service";
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
@@ -13,6 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     openIdConfig: OpenIdConfig,
     private readonly userService: UserService,
+    private readonly authService: AuthService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -32,6 +34,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const user = await this.userService.getByCode(payload.sub);
 
     if (!user) throw new BadRequestException();
+    await this.authService.getUserAuthInfo(user.id);
 
     return { payload, ...user };
   }
