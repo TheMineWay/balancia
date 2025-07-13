@@ -45,14 +45,20 @@ export function Endpoint<
 >(controller: C, endpoint: E): MethodDecorator {
   const e = getEndpoint(controller, endpoint);
 
+  const params = e.getDefinitionPath?.();
+  const mappedParams: Record<string, string> = {};
+
+  for (const key of Object.keys(params ?? {})) {
+    mappedParams[key] = `:${key}`;
+  }
+
   return applyDecorators(
-    decoratorMapper(e.method)(getEndpointSlug(controller, endpoint)),
+    decoratorMapper(e.method)(
+      getEndpointSlug(
+        controller,
+        endpoint,
+        mappedParams as Parameters<(typeof e)["getPath"]>[0],
+      ),
+    ),
   );
 }
-
-type GetPathParams<
-  C extends ControllerDefinition,
-  E extends keyof C["endpoints"],
-> = C["endpoints"][E] extends { getPath: (options: infer P) => any }
-  ? P
-  : never;

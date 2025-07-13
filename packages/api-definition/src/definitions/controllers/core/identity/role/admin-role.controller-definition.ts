@@ -1,5 +1,6 @@
 import { Role } from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
+import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
 
 export const ADMIN_ROLE_CONTROLLER_DEFINITION = {
@@ -7,16 +8,18 @@ export const ADMIN_ROLE_CONTROLLER_DEFINITION = {
   endpoints: {
     // Roles
     create: {
-      getPath: () => "",
+      getPath: () => "create",
       method: EndpointMethod.POST,
     },
     update: {
-      getPath: (options: { roleId: Role["id"] }) => options.roleId.toString(),
+      getPath: (options) => `update/${options.roleId}`,
+      getDefinitionPath: () => ({ roleId: "roleId" }),
       method: EndpointMethod.PUT,
-    },
+    } satisfies EndpointDefinition<{ roleId: Role["id"] }>,
     delete: {
-      getPath: (options: { roleId: Role["id"] }) => options.roleId.toString(),
+      getPath: (options) => `delete/${options.roleId}`,
+      getDefinitionPath: () => ({ roleId: "roleId" }),
       method: EndpointMethod.DELETE,
-    },
+    } satisfies EndpointDefinition<{ roleId: Role["id"] }>,
   },
 } as const satisfies ControllerDefinition;
