@@ -6,8 +6,7 @@
  * - `resource:use` - Allows a user to use the resource.
  */
 export enum Permission {
-  USE = "resource:use",
-  ADMIN = "resource:admin",
+  ROLE_ADMIN = "role:admin",
 }
 
 // List of all permissions. Used on DB

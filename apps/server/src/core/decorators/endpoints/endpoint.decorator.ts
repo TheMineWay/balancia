@@ -49,3 +49,10 @@ export function Endpoint<
     decoratorMapper(e.method)(getEndpointSlug(controller, endpoint)),
   );
 }
+
+type GetPathParams<
+  C extends ControllerDefinition,
+  E extends keyof C["endpoints"],
+> = C["endpoints"][E] extends { getPath: (options: infer P) => any }
+  ? P
+  : never;
