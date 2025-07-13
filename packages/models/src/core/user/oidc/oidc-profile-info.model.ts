@@ -10,7 +10,7 @@ export const OIDC_PROFILE_INFO_SCHEMA = z.object({
   groups: z.array(z.string()).default([]),
 
   // Email
-  email: z.string().email().nullable(),
+  email: z.email().nullable(),
   email_verified: z.boolean().nullable(),
 });
 
