@@ -50,6 +50,10 @@ const ENV_SCHEMA = z.object({
   OIDC_CLIENT_SECRET: z.string(),
   OIDC_ISSUER_URL: z.url(),
 
+  // AUTH DIRECTORY
+  AUTH_DIRECTORY_API_URL: z.url(),
+  AUTH_DIRECTORY_API_KEY: z.string(),
+
   // CACHE
   USER_CACHE_TTL: z
     .string()
@@ -109,6 +113,10 @@ export const ENV = (() => {
       user: values.USER_CACHE_TTL,
       userAuthInfo: values.USER_AUTH_INFO_CACHE_TTL,
       data: values.DATA_CACHE_TTL,
+    },
+    authDirectory: {
+      apiUrl: values.AUTH_DIRECTORY_API_URL,
+      apiKey: values.AUTH_DIRECTORY_API_KEY,
     },
   };
 })();
