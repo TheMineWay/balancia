@@ -13,6 +13,10 @@ export const userTable = mysqlTable("user", {
     .unique()
     .notNull(),
 
+  // Metadata (should stay in sync with the OIDC provider directory info)
+  name: varchar({ length: USER_MODEL_VALUES.name.maxLength }).notNull(),
+  username: varchar({ length: USER_MODEL_VALUES.username.maxLength }).notNull(),
+
   // Timestamps
   ...timestamps,
 } satisfies ColumnsModel);

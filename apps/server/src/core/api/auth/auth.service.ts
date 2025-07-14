@@ -27,7 +27,7 @@ export class AuthService {
   ) {}
 
   async checkIn(jwt: JwtToken) {
-    await this.userService.findOrCreateByCode(jwt.sub);
+    //await this.userService.findOrCreateByCode(jwt.sub); // TODO: implement with OIDC user data
   }
 
   static parseJwtToken(token: string): JwtToken {
