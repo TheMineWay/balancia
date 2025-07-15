@@ -1,3 +1,9 @@
+import { RolesTable } from "@core-fts/role/manager/components/roles-table";
+
 export const RoleManager: FC = () => {
-  return <div></div>;
+  return (
+    <div>
+      <RolesTable />
+    </div>
+  );
 };
