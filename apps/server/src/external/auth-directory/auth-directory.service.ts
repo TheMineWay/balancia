@@ -9,9 +9,9 @@ import z from "zod";
 
 @Injectable()
 export class AuthDirectoryService {
-  async getUsers() {
+  async getUsers(options: Options = {}) {
     const url = getApiUrl(API_CONFIG.usersEndpoint);
-    const response = await axios.request(getRequestConfig(url));
+    const response = await axios.request(getRequestConfig(url, options));
     const data = PAGINATED_RESPONSE_SCHEMA(USER_SCHEMA).parse(response.data);
     return data;
   }
@@ -22,6 +22,11 @@ type ApiConfig = {
   baseApiPath?: string;
   usersEndpoint: string;
   authHeaderName: string;
+};
+
+type Options = {
+  pageSize?: number;
+  page?: number;
 };
 
 const USER_SCHEMA = z.object({
@@ -80,14 +85,25 @@ const getHeaders = () => {
 
 type GetRequestConfigOptions = {
   method?: Method;
-};
+  params?: Record<string, string | number>;
+} & Options;
 const getRequestConfig = (
   url: string,
-  { method = "GET" }: GetRequestConfigOptions = {},
+  {
+    method = "GET",
+    page = 1,
+    pageSize = 20,
+    params = {},
+  }: GetRequestConfigOptions = {},
 ): AxiosRequestConfig => {
   return {
     url,
     headers: getHeaders(),
     method,
+    params: {
+      ...params,
+      page,
+      page_size: pageSize,
+    },
   };
 };
