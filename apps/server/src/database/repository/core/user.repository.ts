@@ -6,7 +6,7 @@ import {
 } from "@database/schemas/main/tables/identity/user.table";
 import { Injectable } from "@nestjs/common";
 import { DbUserModel } from "@shared/models";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 
 @Injectable()
 export class UserRepository extends Repository {
@@ -27,6 +27,12 @@ export class UserRepository extends Repository {
         .where(eq(userTable.id, userId))
         .limit(1)
     )?.[0];
+
+  findByCodes = async (codes: string[], options?: QueryOptions) =>
+    this.query(options)
+      .select()
+      .from(userTable)
+      .where(inArray(userTable.code, codes));
 
   create = async (user: UserInsert, options?: QueryOptions) =>
     (

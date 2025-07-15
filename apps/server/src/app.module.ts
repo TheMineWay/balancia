@@ -7,7 +7,9 @@ import { PermissionsGuard } from "@core/guards/permissions/permission.guard";
 import { DatabaseModule } from "@database/database.module";
 import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
+import { ScheduleModule } from "@nestjs/schedule";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
+import { IntegrationModule } from "src/integrations/integration.module";
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
       host: ENV.oidc.host,
       issuerUrl: ENV.oidc.issuerUrl,
     }),
+    ScheduleModule.forRoot(),
+    IntegrationModule,
     CoreModule,
   ],
   providers: [

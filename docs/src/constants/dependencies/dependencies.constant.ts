@@ -2,6 +2,11 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "@nestjs/schedule",
+    name: "@nestjs/schedule",
+    url: "https://www.npmjs.com/package/@nestjs/schedule",
+  },
+  {
     code: "cacheable",
     name: "Cacheable",
     url: "https://www.npmjs.com/package/cacheable",
