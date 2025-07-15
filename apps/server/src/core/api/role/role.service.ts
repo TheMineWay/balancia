@@ -10,16 +10,20 @@ import { RoleCreateModel } from "@shared/models";
 export class RoleService {
   constructor(private readonly roleRepository: RoleRepository) {}
 
+  async getAll() {
+    return this.roleRepository.findAll();
+  }
+
   /* Admin */
-  create(role: RoleCreateModel) {
+  async create(role: RoleCreateModel) {
     return this.roleRepository.create(role);
   }
 
-  update(id: RoleSelect["id"], role: RoleUpdate) {
+  async update(id: RoleSelect["id"], role: RoleUpdate) {
     return this.roleRepository.update(id, role);
   }
 
-  delete(id: RoleSelect["id"]) {
+  async delete(id: RoleSelect["id"]) {
     return this.roleRepository.delete(id);
   }
 }

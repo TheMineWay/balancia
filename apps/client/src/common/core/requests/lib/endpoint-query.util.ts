@@ -1,9 +1,7 @@
-import type { RequestOptions } from "@core/hooks/utils/api/use-request.util";
-import { endpointMutation } from "@core/utils/request/endpoint-mutation.util";
-import type { getClientEndpointRequest } from "@core/utils/request/get-client-endpoint-request.util";
-import type {
-  ControllerDefinition,
-} from "@shared/api-definition";
+import type { RequestOptions } from "@common/core/requests/hooks/use-request.util";
+import { endpointMutation } from "@common/core/requests/lib/endpoint-mutation.util";
+import type { getClientEndpointRequest } from "@common/core/requests/lib/get-client-endpoint-request.util";
+import type { ControllerDefinition } from "@shared/api-definition";
 import type { AxiosResponse } from "axios";
 
 /**
@@ -11,7 +9,7 @@ import type { AxiosResponse } from "axios";
  */
 export const endpointQuery = <
   C extends ControllerDefinition,
-  E extends keyof C["endpoints"],
+  E extends keyof C["endpoints"]
 >(
   controller: C,
   endpoint: E,
@@ -19,5 +17,6 @@ export const endpointQuery = <
   options?: Parameters<typeof getClientEndpointRequest>[2]
 ) => {
   // This method derives its behaviour from the endpointMutation.
-  return () => endpointMutation(controller, endpoint, requestFn, options)(null as never);
+  return () =>
+    endpointMutation(controller, endpoint, requestFn, options)(null as never);
 };

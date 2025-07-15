@@ -9,6 +9,10 @@ import { eq } from "drizzle-orm";
 
 @Injectable()
 export class RoleRepository extends Repository {
+  async findAll(options?: QueryOptions) {
+    return await this.query(options).select().from(roleTable);
+  }
+
   create(role: RoleInsert, options?: QueryOptions) {
     return this.query(options).insert(roleTable).values(role).$returningId();
   }

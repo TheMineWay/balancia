@@ -2,7 +2,7 @@ import { useActiveAuth } from "@common/core/auth/hooks/use-active-auth";
 import {
   type RequestOptions as ReqOptions,
   useRequest,
-} from "src/common/core/requests/hooks/use-request.util";
+} from "@common/core/requests/hooks/use-request.util";
 
 type RequestOptions = ReqOptions;
 

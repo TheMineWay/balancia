@@ -1,12 +1,11 @@
-import type { RequestOptions } from "@core/hooks/utils/api/use-request.util";
-import { getClientEndpointRequest } from "@core/utils/request/get-client-endpoint-request.util";
+import type { RequestOptions } from "@common/core/requests/hooks/use-request.util";
+import { getClientEndpointRequest } from "@common/core/requests/lib/get-client-endpoint-request.util";
 import type {
   ControllerDefinition,
   InferEndpointDTO,
-  InferEndpointResponseDTO} from "@shared/api-definition";
-import {
-  getEndpointResponseDTO,
+  InferEndpointResponseDTO,
 } from "@shared/api-definition";
+import { getEndpointResponseDTO } from "@shared/api-definition";
 import type { AxiosResponse } from "axios";
 
 /**

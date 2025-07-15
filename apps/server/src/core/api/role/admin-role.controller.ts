@@ -7,6 +7,7 @@ import {
   CONTROLLERS,
   getController,
   InferEndpointDTO,
+  InferEndpointResponseDTO,
 } from "@shared/api-definition";
 import { Permission } from "@shared/models";
 
@@ -17,25 +18,32 @@ const CONTROLLER = CONTROLLERS.adminRole;
 export class AdminRoleController {
   constructor(private readonly roleService: RoleService) {}
 
+  @Endpoint(CONTROLLER, "get")
+  getRoles(): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "get">> {
+    return this.roleService.getAll();
+  }
+
   @Endpoint(CONTROLLER, "create")
-  create(
+  async create(
     @ValidatedBody(CONTROLLER, "create")
     body: InferEndpointDTO<typeof CONTROLLER, "create">,
-  ) {
-    return this.roleService.create(body);
+  ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "create">> {
+    await this.roleService.create(body);
   }
 
   @Endpoint(CONTROLLER, "update")
-  update(
+  async update(
     @ValidatedBody(CONTROLLER, "update")
     body: InferEndpointDTO<typeof CONTROLLER, "update">,
     @Param("id", ParseIntPipe) id: number,
-  ) {
-    return this.roleService.update(id, body);
+  ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "update">> {
+    await this.roleService.update(id, body);
   }
 
   @Endpoint(CONTROLLER, "delete")
-  delete(@Param("id", ParseIntPipe) id: number) {
-    return this.roleService.delete(id);
+  async delete(
+    @Param("id", ParseIntPipe) id: number,
+  ): Promise<InferEndpointResponseDTO<typeof CONTROLLER, "delete">> {
+    await this.roleService.delete(id);
   }
 }

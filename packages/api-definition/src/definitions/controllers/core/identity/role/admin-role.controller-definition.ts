@@ -1,17 +1,24 @@
 import {
   CREATE_ROLE_SCHEMA,
+  ROLE_SCHEMA,
   UPDATE_ROLE_SCHEMA,
   type RoleModel,
 } from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
 import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
+import z from "zod";
 
 /* Definition */
 
 export const ADMIN_ROLE_CONTROLLER_DEFINITION = {
   getName: () => "admin-role",
   endpoints: {
+    get: {
+      getPath: () => "",
+      method: EndpointMethod.GET,
+      responseDto: z.array(ROLE_SCHEMA),
+    },
     // Roles
     create: {
       getPath: () => "",

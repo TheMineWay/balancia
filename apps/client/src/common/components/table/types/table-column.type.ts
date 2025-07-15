@@ -1,4 +1,8 @@
-export type TableColumn<TData extends object> = {
+export type TableColumn<
+  TData extends object,
+  K extends keyof TData = keyof TData
+> = {
   label: string;
-  accessorKey: keyof TData;
+  accessorKey?: K;
+  render?: (item: TData) => React.ReactNode;
 };
