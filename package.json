@@ -40,6 +40,10 @@
     "name": "TheMineWay",
     "url": "https://github.com/TheMineWay"
   },
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=10"
+  },
   "license": "MIT",
   "devDependencies": {
     "@vitest/ui": "3.2.4",

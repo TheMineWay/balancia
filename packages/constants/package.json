@@ -31,5 +31,9 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
+  },
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=10"
   }
 }

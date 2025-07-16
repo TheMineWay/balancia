@@ -20,6 +20,10 @@
     "name": "TheMineWay",
     "url": "https://github.com/TheMineWay"
   },
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=10"
+  },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
     "@mantine/core": "^8.1.2",

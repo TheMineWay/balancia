@@ -31,6 +31,10 @@
       "require": "./dist/index.cjs"
     }
   },
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=10"
+  },
   "dependencies": {
     "zod": "^4.0.5"
   }

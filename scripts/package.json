@@ -16,5 +16,9 @@
   "dependencies": {
     "@inquirer/prompts": "^7.5.3",
     "fs": "0.0.1-security"
+  },
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=10"
   }
 }
