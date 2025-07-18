@@ -1,3 +1,4 @@
+import { EndpointMethod } from "@/v3/types/endpoint-method.enum";
 import {
   CREATE_ROLE_SCHEMA,
   ROLE_SCHEMA,
@@ -6,7 +7,6 @@ import {
 } from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
 import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
-import { EndpointMethod } from "@ts-types/endpoint-method.enum";
 import z from "zod";
 
 /* Definition */

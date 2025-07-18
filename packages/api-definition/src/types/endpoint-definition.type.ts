@@ -1,4 +1,4 @@
-import { EndpointMethod } from "@ts-types/endpoint-method.enum";
+import { EndpointMethod } from "@/v3/types/endpoint-method.enum";
 import { ZodSchema } from "zod";
 
 export type EndpointDefinition<

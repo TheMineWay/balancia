@@ -1,5 +1,5 @@
+import { EndpointMethod } from "@/v3/types/endpoint-method.enum";
 import { ControllerDefinition } from "@ts-types/controller-definition.type";
-import { EndpointMethod } from "@ts-types/endpoint-method.enum";
 
 export const AUTH_CONTROLLER_DEFINITION = {
   getName: () => "auth",
