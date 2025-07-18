@@ -1,15 +1,15 @@
-import { EndpointDefinition } from "@/v3/types/endpoint-definition.type";
+import {
+  EndpointDefinition,
+  ParametrizedEndpointDefinition,
+} from "@/v3/types/endpoint-definition.type";
 
-export const getEndpointPath = <
-  P extends Record<string, string>,
-  E extends EndpointDefinition<P>
->(
-  endpoint: E
-) => {
-  let path: string[];
-  if (endpoint.paramsMapping) {
-    path = endpoint.getPath(endpoint.paramsMapping);
-  } else path = endpoint.getPath({});
+export function getEndpointPath(endpoint: EndpointDefinition) {
+  return endpoint.getPath().join("/");
+}
 
-  return path.join("/");
-};
+export function getEndpointPathWithParams<P extends Record<string, string>>(
+  endpoint: ParametrizedEndpointDefinition<P>,
+  params: P
+) {
+  return endpoint.getPath(params).join("/");
+}
