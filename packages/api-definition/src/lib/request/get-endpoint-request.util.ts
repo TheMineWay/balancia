@@ -38,11 +38,9 @@ export const getEndpointRequest = <
 
   return {
     request: {
-      url: [
-        apiUrl,
-        getPath(controller, params),
-        getPath(endpoint, params),
-      ].join("/"),
+      url: [apiUrl, getPath(controller, params), getPath(endpoint, params)]
+        .filter((p) => p !== "")
+        .join("/"),
       data: options.body,
       params: options.query ? {} : undefined,
       method: endpoint.method ?? EndpointMethod.GET,

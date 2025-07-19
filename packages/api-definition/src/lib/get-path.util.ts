@@ -8,5 +8,6 @@ export function getPath<P extends Record<string, string>>(
   path: Path<P>,
   params: P
 ) {
-  return path.getPath(params).join("/");
+  const p = path.getPath(params);
+  return p.length === 0 ? "" : p.join("/");
 }
