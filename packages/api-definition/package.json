@@ -12,7 +12,8 @@
     "directory": "packages/api-definition"
   },
   "scripts": {
-    "build": "vite build",
+    "generate-barrel": "ts-node scripts/generate-barrel.ts",
+    "build": "pnpm generate-barrel && vite build",
     "old-build": "tsup src/index.ts --format esm,cjs --dts",
     "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
     "prepublishOnly": "pnpm run build",
@@ -20,9 +21,10 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "ts-node": "^10.9.2",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5",
+    "vite": "^7.0.5",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.1.4"
   },

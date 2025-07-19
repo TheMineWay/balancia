@@ -7,13 +7,14 @@ export default defineConfig({
     target: "es2020",
     outDir: "dist",
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
+      entry: path.resolve(__dirname, "src/index.ts"), // entry is still required in lib mode
       formats: ["es"],
     },
     rollupOptions: {
-      //preserveModules: true,
-      //preserveModulesRoot: "src",
       output: {
+        // ✅ CORRECT PLACE FOR preserveModules
+        preserveModules: true,
+        preserveModulesRoot: "src",
         entryFileNames: "[name].js",
       },
     },
@@ -26,9 +27,8 @@ export default defineConfig({
   },
   plugins: [
     dts({
-      //tsConfigFilePath: "./tsconfig.json",
+      tsconfigPath: "./tsconfig.json",
       include: ["src"],
-      exclude: ["src/definitions", "**/*.spec.ts"],
     }),
   ],
 });
