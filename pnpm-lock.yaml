@@ -48,11 +48,11 @@ importers:
         specifier: ^1.120.13
         version: 1.121.34(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@themineway/smart-storage-js':
-        specifier: 1.0.0-alpha.17
-        version: 1.0.0-alpha.17
+        specifier: 1.0.0-alpha.19
+        version: 1.0.0-alpha.19
       '@themineway/smart-storage-react':
-        specifier: 1.0.0-alpha.13
-        version: 1.0.0-alpha.13
+        specifier: 1.0.0-alpha.15
+        version: 1.0.0-alpha.15
       axios:
         specifier: ^1.9.0
         version: 1.10.0
@@ -3180,14 +3180,11 @@ packages:
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
 
-  '@themineway/smart-storage-js@1.0.0-alpha.15':
-    resolution: {integrity: sha512-odjxrWV9qU3M51uwIOwq4bPt0vOAPfwMupKXKlwfzaEuadKS6Al6w0Ocj9b5HQHeHvBOe5wH29GamW0XoQ0B2w==}
+  '@themineway/smart-storage-js@1.0.0-alpha.19':
+    resolution: {integrity: sha512-M4aj8d930OmKxUA/kysdKH+B2HC8aGIF8CuHNW5EtAX1n3vyoC49Wlav2mE/AxLl2I1Ev6XzcRyqWCoF3Zwdig==}
 
-  '@themineway/smart-storage-js@1.0.0-alpha.17':
-    resolution: {integrity: sha512-ukt0Y0o9xLHhfH9hNniyYR7+wd3gh6RSeN4w5db7av+iT56ajsMueG3f6vkgMmP6zBvLmbBhv5fUt37W1POzWg==}
-
-  '@themineway/smart-storage-react@1.0.0-alpha.13':
-    resolution: {integrity: sha512-5KTprMrLAWiWBPqGD9dRukiX7GLa2lyFhy7VNjzD5KFBQ1tokZNbF6m7K1BmWWZoFTXxX91LteSJte28B0SBgw==}
+  '@themineway/smart-storage-react@1.0.0-alpha.15':
+    resolution: {integrity: sha512-gu8/8+jzFhLUY3TgsJxhv2SsCTS2xAsoNQVDHZXxhEXFSaqmbKm/ZxZMpA6MlcysPnZpQTV+AS4ZGotASBs77Q==}
 
   '@tokenizer/inflate@0.2.7':
     resolution: {integrity: sha512-MADQgmZT1eKjp06jpI2yozxaU9uVs4GzzgSL+uEq7bVcJ9V1ZXQkeGNql1fsSI0gMy1vhvNTNbUqrx+pZfJVmg==}
@@ -12778,19 +12775,14 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.4.0
 
-  '@themineway/smart-storage-js@1.0.0-alpha.15':
+  '@themineway/smart-storage-js@1.0.0-alpha.19':
     dependencies:
       yup: 1.6.1
-      zod: 3.25.67
+      zod: 4.0.5
 
-  '@themineway/smart-storage-js@1.0.0-alpha.17':
+  '@themineway/smart-storage-react@1.0.0-alpha.15':
     dependencies:
-      yup: 1.6.1
-      zod: 3.25.67
-
-  '@themineway/smart-storage-react@1.0.0-alpha.13':
-    dependencies:
-      '@themineway/smart-storage-js': 1.0.0-alpha.15
+      '@themineway/smart-storage-js': 1.0.0-alpha.19
       react: 19.1.0
 
   '@tokenizer/inflate@0.2.7':

@@ -4,7 +4,7 @@ import { useAdminRolesQuery } from "@core-fts/role/manager/api/use-admin-roles.q
 import type { RoleModel } from "@shared/models";
 
 export const RolesTable: FC = () => {
-  const { data: roles } = useAdminRolesQuery();
+  const { data: { roles } = {} } = useAdminRolesQuery();
 
   const table = useTable<RoleModel>({
     data: roles,
