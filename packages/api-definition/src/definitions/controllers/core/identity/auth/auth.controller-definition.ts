@@ -8,7 +8,7 @@ const CHECK_IN_ENDPOINT = {
   method: EndpointMethod.POST,
 } satisfies EndpointDefinition;
 
-export const AUTH_CONTROLLER_DEFINITION = {
+export const AUTH_CONTROLLER = {
   getPath: () => ["auth"],
   paramsMapping: {},
   endpoints: {

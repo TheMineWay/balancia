@@ -38,7 +38,7 @@ const DELETE_ENDPOINT = {
 
 /* Definition */
 
-export const ADMIN_ROLE_CONTROLLER_DEFINITION = {
+export const ADMIN_ROLE_CONTROLLER = {
   getPath: () => ["admin-role"],
   paramsMapping: {},
   endpoints: {
