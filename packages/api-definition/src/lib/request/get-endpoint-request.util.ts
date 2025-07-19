@@ -2,6 +2,7 @@ import { getPath } from "@/lib/get-path.util";
 import type { ApiRequest } from "@ts-types/api-request.type";
 import { ControllerDefinition } from "@ts-types/controller-definition.type";
 import type { EndpointDefinition } from "@ts-types/endpoint-definition.type";
+import { EndpointMethod } from "@ts-types/endpoint-method.enum";
 import { Path } from "@ts-types/path/path.type";
 import z from "zod";
 
@@ -37,9 +38,14 @@ export const getEndpointRequest = <
 
   return {
     request: {
-      url: [apiUrl, getPath(endpoint, params)].join("/"),
+      url: [
+        apiUrl,
+        getPath(controller, params),
+        getPath(endpoint, params),
+      ].join("/"),
       data: options.body,
       params: options.query ? {} : undefined,
+      method: endpoint.method ?? EndpointMethod.GET,
     },
 
     // Parse response based on the response DTO if it exists. If no dto is defined, return undefined.
