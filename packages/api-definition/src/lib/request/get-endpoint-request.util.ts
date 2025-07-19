@@ -1,4 +1,4 @@
-import { getEndpointPath } from "@/lib/get-endpoint-path.util";
+import { getPath } from "@/lib/get-path.util";
 import type { ApiRequest } from "@ts-types/api-request.type";
 import type { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import type z from "zod";
@@ -29,7 +29,7 @@ export const getEndpointRequest = <
 ): ApiRequest<R> => {
   return {
     request: {
-      url: [apiUrl, getEndpointPath(endpoint, params)].join("/"),
+      url: [apiUrl, getPath(endpoint, params)].join("/"),
       data: options.body,
       params: options.query ? {} : undefined,
     },

@@ -1,1 +1,1 @@
-export * from "./get-endpoint-path.util";
+export * from "./get-path.util";
