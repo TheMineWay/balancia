@@ -46,7 +46,13 @@ export class UserService {
 
     for (const user of users) {
       const data = usersData.find((u) => u.code === user.code);
+
+      // If there is no user, do not integrate
       if (!data) continue;
+
+      // If the data is the same, do not update
+      if (data.name === user.name && data.username === user.username) continue;
+
       await this.updateById(user.id, data, options);
     }
   };
