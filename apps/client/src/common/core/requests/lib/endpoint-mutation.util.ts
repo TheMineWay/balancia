@@ -1,11 +1,11 @@
 import type { RequestOptions } from "@common/core/requests/hooks/use-request.util";
 import { getClientEndpointRequest } from "@common/core/requests/lib/get-client-endpoint-request.util";
+import { ENV } from "@constants/env/env.constant";
 import type {
   ControllerDefinition,
   InferEndpointDTO,
-  InferEndpointResponseDTO,
 } from "@shared/api-definition";
-import { getEndpointResponseDTO } from "@shared/api-definition";
+import { getEndpointRequest } from "@shared/api-definition";
 import type { AxiosResponse } from "axios";
 
 /**
@@ -18,8 +18,7 @@ import type { AxiosResponse } from "axios";
  */
 export const endpointMutation = <
   C extends ControllerDefinition,
-  E extends keyof C["endpoints"],
-  R = never
+  E extends keyof C["endpoints"]
 >(
   controller: C,
   endpoint: E,
@@ -27,14 +26,15 @@ export const endpointMutation = <
   options?: Parameters<typeof getClientEndpointRequest>[2]
 ) => {
   return async (data: InferEndpointDTO<C, E>) => {
-    const response = await requestFn(
-      getClientEndpointRequest(controller, endpoint, { data, ...options })
+    const { request, onResponse } = getEndpointRequest(
+      ENV.api.host,
+      controller,
+      endpoint,
+      {},
+      {}
     );
+    const response = await requestFn(request);
 
-    const responseDto = getEndpointResponseDTO(controller, endpoint);
-
-    if (responseDto)
-      return responseDto.parse(response.data) as InferEndpointResponseDTO<C, E>;
-    return response.data as R;
+    return onResponse(response.data);
   };
 };

@@ -20,7 +20,6 @@ const CREATE_ENDPOINT = {
   paramsMapping: {},
   method: EndpointMethod.POST,
   bodyDto: CREATE_ROLE_SCHEMA,
-  responseDto: ROLE_SCHEMA,
 } satisfies EndpointDefinition;
 
 const UPDATE_ENDPOINT = {
