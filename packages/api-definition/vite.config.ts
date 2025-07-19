@@ -27,7 +27,7 @@ export default defineConfig({
           format: "cjs",
           preserveModules: true,
           preserveModulesRoot: "src",
-          dir: "dist",
+          dir: "dist/cjs",
           entryFileNames: "[name].cjs",
           exports: "named",
         },

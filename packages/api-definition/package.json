@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Shared API definition",
   "type": "module",
-  "main": "./dist/index.cjs",
+  "main": "./dist/cjs/index.cjs",
   "module": "./dist/esm/index.mjs",
   "types": "./dist/esm/index.d.ts",
   "repository": {
@@ -32,9 +32,9 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/esm/index.d.ts",
       "import": "./dist/esm/index.mjs",
-      "require": "./dist/index.cjs",
-      "types": "./dist/esm/index.d.ts"
+      "require": "./dist/cjs/index.cjs"
     }
   },
   "engines": {
