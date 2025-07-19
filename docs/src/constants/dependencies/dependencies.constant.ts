@@ -2,6 +2,16 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "ts-node",
+    name: "TS Node",
+    url: "https://www.npmjs.com/package/ts-node",
+  },
+  {
+    code: "vite-plugin-dts",
+    name: "Vite Plugin DTS",
+    url: "https://www.npmjs.com/package/vite-plugin-dts",
+  },
+  {
     code: "@nestjs/schedule",
     name: "@nestjs/schedule",
     url: "https://www.npmjs.com/package/@nestjs/schedule",

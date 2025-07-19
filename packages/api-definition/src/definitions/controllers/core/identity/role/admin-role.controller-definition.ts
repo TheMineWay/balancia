@@ -2,39 +2,48 @@ import {
   CREATE_ROLE_SCHEMA,
   ROLE_SCHEMA,
   UPDATE_ROLE_SCHEMA,
-  type RoleModel,
 } from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
 import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
 import z from "zod";
 
+const GET_ENDPOINT = {
+  getPath: () => [],
+  paramsMapping: {},
+  method: EndpointMethod.GET,
+  responseDto: z.object({ roles: z.array(ROLE_SCHEMA) }),
+} satisfies EndpointDefinition;
+
+const CREATE_ENDPOINT = {
+  getPath: () => [],
+  paramsMapping: {},
+  method: EndpointMethod.POST,
+  bodyDto: CREATE_ROLE_SCHEMA,
+} satisfies EndpointDefinition;
+
+const UPDATE_ENDPOINT = {
+  getPath: (params) => [params.roleId],
+  paramsMapping: { roleId: "roleId" },
+  method: EndpointMethod.PUT,
+  bodyDto: UPDATE_ROLE_SCHEMA,
+} satisfies EndpointDefinition<{ roleId: string }>;
+
+const DELETE_ENDPOINT = {
+  getPath: (params) => [params.roleId],
+  paramsMapping: { roleId: "roleId" },
+  method: EndpointMethod.DELETE,
+} satisfies EndpointDefinition<{ roleId: string }>;
+
 /* Definition */
 
-export const ADMIN_ROLE_CONTROLLER_DEFINITION = {
-  getName: () => "admin-role",
+export const ADMIN_ROLE_CONTROLLER = {
+  getPath: () => ["admin-role"],
+  paramsMapping: {},
   endpoints: {
-    get: {
-      getPath: () => "",
-      method: EndpointMethod.GET,
-      responseDto: z.array(ROLE_SCHEMA),
-    },
-    // Roles
-    create: {
-      getPath: () => "",
-      method: EndpointMethod.POST,
-      dto: CREATE_ROLE_SCHEMA,
-    },
-    update: {
-      getPath: (options) => `${options.roleId}`,
-      getDefinitionPath: () => ({ roleId: "roleId" }),
-      method: EndpointMethod.PUT,
-      dto: UPDATE_ROLE_SCHEMA,
-    } satisfies EndpointDefinition<{ roleId: RoleModel["id"] }>,
-    delete: {
-      getPath: (options) => `${options.roleId}`,
-      getDefinitionPath: () => ({ roleId: "roleId" }),
-      method: EndpointMethod.DELETE,
-    } satisfies EndpointDefinition<{ roleId: RoleModel["id"] }>,
+    get: GET_ENDPOINT,
+    create: CREATE_ENDPOINT,
+    update: UPDATE_ENDPOINT,
+    delete: DELETE_ENDPOINT,
   },
-} as const satisfies ControllerDefinition;
+} satisfies ControllerDefinition;

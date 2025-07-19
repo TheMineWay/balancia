@@ -1,11 +1,16 @@
 import { useAuthenticatedRequest } from "@common/core/auth/hooks/use-authenticated-request.util";
 import { endpointMutation } from "@common/core/requests/lib/endpoint-mutation.util";
-import { CONTROLLERS } from "@shared/api-definition";
+import { ADMIN_ROLE_CONTROLLER } from "@shared/api-definition";
 import { useMutation } from "@tanstack/react-query";
 
-export const useRoleUpdateMutation = () => {
+export const useRoleUpdateMutation = (roleId: number) => {
   const { request } = useAuthenticatedRequest();
   return useMutation({
-    mutationFn: endpointMutation(CONTROLLERS.adminRole, "update", request),
+    mutationFn: endpointMutation(
+      ADMIN_ROLE_CONTROLLER,
+      "update",
+      { roleId: roleId.toString() },
+      request
+    ),
   });
 };

@@ -3,7 +3,7 @@ import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { DatabaseService } from "@database/services/database.service";
 import { AuthDirectoryService } from "@external/auth-directory/auth-directory.service";
 import { Inject, Injectable, Logger } from "@nestjs/common";
-import { Cron } from "@nestjs/schedule";
+import { Cron, CronExpression } from "@nestjs/schedule";
 
 // How many users will be fetched per request
 const SYNC_USERS_PER_REQUEST = 200;
@@ -17,7 +17,8 @@ export class UserIntegrationService {
     private readonly userService: UserService,
   ) {}
 
-  @Cron("0 3 * * *") // Runs every day at 3:00 AM
+  //@Cron("0 3 * * *") // Runs every day at 3:00 AM
+  @Cron(CronExpression.EVERY_10_SECONDS)
   async syncUsersWithOidcDirectory() {
     Logger.log("Syncing users with OIDC directory...", "User integration");
 

@@ -10,11 +10,7 @@ import {
   Put,
 } from "@nestjs/common";
 import type { ControllerDefinition } from "@shared/api-definition";
-import {
-  EndpointMethod,
-  getEndpoint,
-  getEndpointSlug,
-} from "@shared/api-definition";
+import { EndpointMethod, getPath } from "@shared/api-definition";
 
 const decoratorMapper = (method?: EndpointMethod) => {
   switch (method) {
@@ -43,22 +39,14 @@ export function Endpoint<
   C extends ControllerDefinition,
   E extends keyof C["endpoints"],
 >(controller: C, endpoint: E): MethodDecorator {
-  const e = getEndpoint(controller, endpoint);
+  const e = controller.endpoints[endpoint as string];
 
-  const params = e.getDefinitionPath?.();
+  const params = e.paramsMapping;
   const mappedParams: Record<string, string> = {};
 
-  for (const key of Object.keys(params ?? {})) {
-    mappedParams[key] = `:${key}`;
+  for (const [key, value] of Object.entries(params ?? {})) {
+    mappedParams[key] = `:${value}`;
   }
 
-  return applyDecorators(
-    decoratorMapper(e.method)(
-      getEndpointSlug(
-        controller,
-        endpoint,
-        mappedParams as Parameters<(typeof e)["getPath"]>[0],
-      ),
-    ),
-  );
+  return applyDecorators(decoratorMapper(e.method)(getPath(e, mappedParams)));
 }
