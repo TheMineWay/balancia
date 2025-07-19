@@ -14,8 +14,7 @@
   "scripts": {
     "generate-barrel": "ts-node scripts/generate-barrel.ts",
     "build": "pnpm generate-barrel && vite build",
-    "old-build": "tsup src/index.ts --format esm,cjs --dts",
-    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "dev": "pnpm build",
     "prepublishOnly": "pnpm run build",
     "test": "vitest"
   },
@@ -33,8 +32,9 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/esm/index.d.ts"
     }
   },
   "engines": {
