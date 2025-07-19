@@ -44,8 +44,8 @@ export function Endpoint<
   const params = e.paramsMapping;
   const mappedParams: Record<string, string> = {};
 
-  for (const key of Object.keys(params ?? {})) {
-    mappedParams[key] = `:${key}`;
+  for (const [key, value] of Object.entries(params ?? {})) {
+    mappedParams[key] = `:${value}`;
   }
 
   return applyDecorators(decoratorMapper(e.method)(getPath(e, mappedParams)));
