@@ -1,12 +1,17 @@
 import { getPath } from "@/lib/get-path.util";
 import type { ApiRequest } from "@ts-types/api-request.type";
+import { ControllerDefinition } from "@ts-types/controller-definition.type";
 import type { EndpointDefinition } from "@ts-types/endpoint-definition.type";
-import type z from "zod";
+import { Path } from "@ts-types/path/path.type";
+import z from "zod";
+
+type Params<P extends Path, D = Parameters<P["getPath"]>[0]> = D extends object
+  ? D
+  : {};
 
 export type GetEndpointRequestOptions<
-  P extends Record<string, string> = {},
-  E extends EndpointDefinition<P> = EndpointDefinition<P>
-> = Body<P, E> & Query<P, E>;
+  E extends EndpointDefinition<any> = EndpointDefinition<any>
+> = Body<E> & Query<E>;
 
 /**
  * Given an endpoint, it returns the Axios request config.
@@ -18,15 +23,18 @@ export type GetEndpointRequestOptions<
  * @returns AxiosRequestConfig - The configuration for the request.
  */
 export const getEndpointRequest = <
-  P extends Record<string, string> = {},
-  E extends EndpointDefinition<P> = EndpointDefinition<P>,
-  R = z.infer<E["responseDto"]>
+  C extends ControllerDefinition<any>,
+  K extends keyof C["endpoints"] = keyof C["endpoints"]
 >(
   apiUrl: string,
-  endpoint: E,
-  params: P,
-  options: GetEndpointRequestOptions<P, E>
-): ApiRequest<R> => {
+  controller: C,
+  endpointKey: K,
+  params: Params<C> & Params<C["endpoints"][K]>,
+  options: GetEndpointRequestOptions<C["endpoints"][K]>
+): ApiRequest<z.infer<C["endpoints"][K]["responseDto"]>> => {
+  const endpoint =
+    controller.endpoints[endpointKey as keyof typeof controller.endpoints];
+
   return {
     request: {
       url: [apiUrl, getPath(endpoint, params)].join("/"),
@@ -58,13 +66,11 @@ type PartialDto<
   : { [P in NK]?: never };
 
 // Extracts the body type from the defined DTO. If there is no DTO, it does not include a body.
-type Body<
-  P extends Record<string, string>,
-  E extends EndpointDefinition<P>
-> = PartialDto<E, "bodyDto", "body">;
+type Body<E extends EndpointDefinition<any>> = PartialDto<E, "bodyDto", "body">;
 
 // Extracts the query type from the defined DTO. If there is no DTO, it does not include a query.
-type Query<
-  P extends Record<string, string>,
-  E extends EndpointDefinition<P>
-> = PartialDto<E, "queryDto", "query">;
+type Query<E extends EndpointDefinition<any>> = PartialDto<
+  E,
+  "queryDto",
+  "query"
+>;
