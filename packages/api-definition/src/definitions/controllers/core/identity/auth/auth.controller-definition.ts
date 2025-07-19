@@ -1,12 +1,17 @@
 import { ControllerDefinition } from "@ts-types/controller-definition.type";
+import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
 
+const CHECK_IN_ENDPOINT = {
+  getPath: () => ["check-in"],
+  paramsMapping: {},
+  method: EndpointMethod.POST,
+} satisfies EndpointDefinition;
+
 export const AUTH_CONTROLLER_DEFINITION = {
-  getName: () => "auth",
+  getPath: () => ["auth"],
+  paramsMapping: {},
   endpoints: {
-    "check-in": {
-      getPath: () => "check-in",
-      method: EndpointMethod.POST,
-    },
+    "check-in": CHECK_IN_ENDPOINT,
   },
-} as const satisfies ControllerDefinition;
+} satisfies ControllerDefinition;

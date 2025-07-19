@@ -1,14 +1,16 @@
 import { USER_SCHEMA } from "@shared/models";
-import { ControllerDefinition } from "@ts-types/controller-definition.type";
+import type { ControllerDefinition } from "@ts-types/controller-definition.type";
 
 /* DTOs */
 
 export const USER_CONTROLLER_DEFINITION = {
-  getName: () => "user",
+  getPath: () => ["user"],
+  paramsMapping: {},
   endpoints: {
     get: {
-      getPath: () => "",
+      getPath: () => [],
+      paramsMapping: {},
       responseDto: USER_SCHEMA,
     },
   },
-} as const satisfies ControllerDefinition;
+} satisfies ControllerDefinition;
