@@ -1,7 +1,10 @@
 import type { RequestOptions } from "@common/core/requests/hooks/use-request.util";
-import { endpointMutation } from "@common/core/requests/lib/endpoint-mutation.util";
-import type { getClientEndpointRequest } from "@common/core/requests/lib/get-client-endpoint-request.util";
-import type { ControllerDefinition } from "@shared/api-definition";
+import { ENV } from "@constants/env/env.constant";
+import {
+  getEndpointRequest,
+  type ControllerDefinition,
+  type GetEndpointRequestOptions,
+} from "@shared/api-definition";
 import type { AxiosResponse } from "axios";
 
 /**
@@ -9,14 +12,24 @@ import type { AxiosResponse } from "axios";
  */
 export const endpointQuery = <
   C extends ControllerDefinition,
-  E extends keyof C["endpoints"]
+  EK extends keyof C["endpoints"]
 >(
   controller: C,
-  endpoint: E,
+  endpoint: EK,
+  params: Parameters<typeof getEndpointRequest<C, EK>>[3],
   requestFn: (options: RequestOptions) => Promise<AxiosResponse>,
-  options?: Parameters<typeof getClientEndpointRequest>[2]
+  options: GetEndpointRequestOptions<C["endpoints"][EK]>
 ) => {
-  // This method derives its behaviour from the endpointMutation.
-  return () =>
-    endpointMutation(controller, endpoint, requestFn, options)(null as never);
+  return async () => {
+    const { request, onResponse } = getEndpointRequest(
+      ENV.api.host,
+      controller,
+      endpoint,
+      params,
+      options
+    );
+    const response = await requestFn(request);
+
+    return onResponse(response.data);
+  };
 };
