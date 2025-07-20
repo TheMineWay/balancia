@@ -2,8 +2,11 @@
   "admin": {
     "table": {
       "columns": {
-        "permissions": {
-          "Label": "Permissions"
+        "permissions-count": {
+          "Label": "Permissions assigned"
+        },
+        "users-count": {
+          "Label": "Users assigned"
         }
       }
     }
@@ -15,6 +18,12 @@
           "Name": "Role name"
         }
       }
+    }
+  },
+  "permissions": {
+    "role:admin": {
+      "Name": "Admin roles",
+      "Description": "Manage roles and permissions"
     }
   }
 }

@@ -1,10 +1,14 @@
+import { DatetimeRender } from "@common/components/date/components/datetime-render";
 import { Table } from "@common/components/table/components/table";
 import { useTable } from "@common/components/table/hooks/use-table";
 import { useAdminRolesQuery } from "@core-fts/role/manager/api/use-admin-roles.query";
 import { useTranslation } from "@i18n/use-translation";
-import type { Permission, RoleModel } from "@shared/models";
+import type { RoleModel } from "@shared/models";
 
-type RoleTableData = RoleModel & { permissions: Permission[] };
+type RoleTableData = RoleModel & {
+  permissionsCount: number;
+  usersCount: number;
+};
 
 export const RolesTable: FC = () => {
   const { data: { roles } = {} } = useAdminRolesQuery();
@@ -22,11 +26,15 @@ export const RolesTable: FC = () => {
       {
         label: commonT().models.fields["created-at"].Name,
         accessorKey: "createdAt",
-        render: (item) => <p>{item.createdAt.toString()}</p>,
+        render: (item) => <DatetimeRender mode="long" date={item.createdAt} />,
       },
       {
-        label: t().admin.table.columns.permissions.Label,
-        render: (row) => <>{row.permissions.join(",")}</>,
+        label: t().admin.table.columns["users-count"].Label,
+        accessorKey: "usersCount",
+      },
+      {
+        label: t().admin.table.columns["permissions-count"].Label,
+        accessorKey: "permissionsCount",
       },
     ],
     rowKey: "id",

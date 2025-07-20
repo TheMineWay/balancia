@@ -1,6 +1,5 @@
 import {
   CREATE_ROLE_SCHEMA,
-  Permission,
   ROLE_SCHEMA,
   UPDATE_ROLE_SCHEMA,
 } from "@shared/models";
@@ -36,13 +35,16 @@ const DELETE_ENDPOINT = {
   method: EndpointMethod.DELETE,
 } satisfies EndpointDefinition<{ roleId: string }>;
 
-const GET_WITH_PERMISSIONS_ENDPOINT = {
-  getPath: () => ["with-permissions"],
+const GET_WITH_STATISTICS = {
+  getPath: () => ["with-statistics"],
   paramsMapping: {},
   method: EndpointMethod.GET,
   responseDto: z.object({
     roles: z.array(
-      ROLE_SCHEMA.extend({ permissions: z.array(z.enum(Permission)) })
+      ROLE_SCHEMA.extend({
+        permissionsCount: z.number(),
+        usersCount: z.number(),
+      })
     ),
   }),
 } satisfies EndpointDefinition;
@@ -60,6 +62,6 @@ export const ADMIN_ROLE_CONTROLLER = {
     delete: DELETE_ENDPOINT,
 
     // Extended
-    "get-with-permissions": GET_WITH_PERMISSIONS_ENDPOINT,
+    "get-with-statistics": GET_WITH_STATISTICS,
   },
 } satisfies ControllerDefinition;

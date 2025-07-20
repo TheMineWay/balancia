@@ -13,7 +13,7 @@ export const useAdminRolesQuery = () => {
     queryKey: ADMIN_ROLES_QUERY_KEY(),
     queryFn: endpointQuery(
       ADMIN_ROLE_CONTROLLER,
-      "get-with-permissions",
+      "get-with-statistics",
       {},
       request,
       {}

@@ -56,10 +56,10 @@ export class AdminRoleController {
   }
 
   // Extended
-  @ApiOperation({ summary: "Get roles with permissions" })
-  @Endpoint(CONTROLLER, "get-with-permissions")
+  @ApiOperation({ summary: "Get roles with statistics" })
+  @Endpoint(CONTROLLER, "get-with-statistics")
   async getRolesWithPermissions(): Promise<
-    InferResponseDto<typeof CONTROLLER, "get-with-permissions">
+    InferResponseDto<typeof CONTROLLER, "get-with-statistics">
   > {
     return { roles: await this.roleService.getRolesWithPermissions() };
   }

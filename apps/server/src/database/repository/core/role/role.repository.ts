@@ -1,7 +1,7 @@
 import { QueryOptions, Repository } from "@database/repository/core/repository";
 import {
-  permissionTable,
   rolePermissionTable,
+  userRoleTable,
 } from "@database/schemas/main.schema";
 import {
   RoleInsert,
@@ -9,7 +9,7 @@ import {
   RoleUpdate,
 } from "@database/schemas/main/tables/identity/role.table";
 import { Injectable } from "@nestjs/common";
-import { eq } from "drizzle-orm";
+import { countDistinct, eq, sql } from "drizzle-orm";
 
 @Injectable()
 export class RoleRepository extends Repository {
@@ -17,24 +17,44 @@ export class RoleRepository extends Repository {
     return await this.query(options).select().from(roleTable);
   }
 
-  async findAllWithPermissions(options?: QueryOptions) {
+  async findWithStatistics(options?: QueryOptions) {
+    // Count permissions
+    const pc = this.query(options)
+      .select({
+        roleId: rolePermissionTable.roleId,
+        count: countDistinct(rolePermissionTable.permissionId).as(
+          "permissionsCount",
+        ),
+      })
+      .from(rolePermissionTable)
+      .groupBy(rolePermissionTable.roleId)
+      .as("pc");
+
+    // Count users
+    const uc = this.query(options)
+      .select({
+        roleId: userRoleTable.roleId,
+        count: countDistinct(userRoleTable.userId).as("usersCount"),
+      })
+      .from(userRoleTable)
+      .groupBy(userRoleTable.roleId)
+      .as("uc");
+
     return await this.query(options)
       .select({
         id: roleTable.id,
         name: roleTable.name,
         createdAt: roleTable.createdAt,
         updatedAt: roleTable.updatedAt,
-        permission: permissionTable.code,
+        permissionsCount: sql<number>`COALESCE(${pc.count}, 0)`.as(
+          "permissionsCount",
+        ),
+        usersCount: sql<number>`COALESCE(${uc.count}, 0)`.as("usersCount"),
       })
       .from(roleTable)
-      .leftJoin(
-        rolePermissionTable,
-        eq(roleTable.id, rolePermissionTable.roleId),
-      )
-      .leftJoin(
-        permissionTable,
-        eq(rolePermissionTable.permissionId, permissionTable.id),
-      );
+      .groupBy(roleTable.id)
+      .leftJoin(pc, eq(roleTable.id, pc.roleId))
+      .leftJoin(uc, eq(roleTable.id, uc.roleId));
   }
 
   create(role: RoleInsert, options?: QueryOptions) {

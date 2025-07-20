@@ -40,8 +40,10 @@ const HeadersComponent = <TData extends TableValue>({
 }: HeadersProps<TData>): ReactNode => {
   return (
     <MTable.Tr>
-      {columns.map((column) => (
-        <MTable.Th key={column.accessorKey as string}>{column.label}</MTable.Th>
+      {columns.map((column, i) => (
+        <MTable.Th key={(column.accessorKey as string) ?? i}>
+          {column.label}
+        </MTable.Th>
       ))}
     </MTable.Tr>
   );
@@ -65,7 +67,7 @@ const Row = <TData extends TableValue>({
 }): ReactNode => {
   return (
     <MTable.Tr>
-      {table.columns.map((column) => {
+      {table.columns.map((column, i) => {
         const value = column.accessorKey ? item[column.accessorKey] : null;
 
         // Custom render or default rendering
@@ -75,7 +77,7 @@ const Row = <TData extends TableValue>({
           <MTable.Td
             className={column.classNames?.cell}
             style={column.styles?.cell}
-            key={column.accessorKey as string}
+            key={(column.accessorKey as string) ?? i}
           >
             {content}
           </MTable.Td>
