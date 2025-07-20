@@ -72,7 +72,13 @@ const Row = <TData extends TableValue>({
         const content = column.render ? column.render(item) : <>{`${value}`}</>;
 
         return (
-          <MTable.Td key={column.accessorKey as string}>{content}</MTable.Td>
+          <MTable.Td
+            className={column.classNames?.cell}
+            style={column.styles?.cell}
+            key={column.accessorKey as string}
+          >
+            {content}
+          </MTable.Td>
         );
       })}
     </MTable.Tr>
