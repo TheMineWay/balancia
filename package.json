@@ -29,6 +29,7 @@
     "db:migrate": "pnpm --filter nestflux-server \"db:migrate\"",
     "lint": "pnpm -r run lint",
     "lint:fix": "pnpm -r run lint:fix",
+    "lint:report": "pnpm biome check --reporter=summary",
     "clean:all": "find . -type d \\( -name \"node_modules\" -or -name \"dist\" -or -name \"test-results\" -or -name \"playwright-report\" -or -name \".docusaurus\" -or -name \"build\" \\) -exec rm -rf {} +"
   },
   "keywords": [
@@ -46,6 +47,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@biomejs/biome": "^2.1.2",
     "@vitest/ui": "3.2.4",
     "concurrently": "^9.2.0",
     "vitest": "^3.2.4"
