@@ -3,5 +3,11 @@
   "extends": "//",
   "linter": {
     "rules": {}
+  },
+  "files": {
+    "includes": [
+      "./src/*/**/*.{ts,tsx,spec.ts,spec.tsx,pcss,css}",
+      "src/main.tsx"
+    ]
   }
 }
