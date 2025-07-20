@@ -35,7 +35,7 @@ const DELETE_ENDPOINT = {
   method: EndpointMethod.DELETE,
 } satisfies EndpointDefinition<{ roleId: string }>;
 
-const GET_WITH_STATISTICS = {
+const GET_WITH_STATISTICS_ENDPOINT = {
   getPath: () => ["with-statistics"],
   paramsMapping: {},
   method: EndpointMethod.GET,
@@ -62,6 +62,6 @@ export const ADMIN_ROLE_CONTROLLER = {
     delete: DELETE_ENDPOINT,
 
     // Extended
-    "get-with-statistics": GET_WITH_STATISTICS,
+    "get-with-statistics": GET_WITH_STATISTICS_ENDPOINT,
   },
 } satisfies ControllerDefinition;
