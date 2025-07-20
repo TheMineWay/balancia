@@ -33,7 +33,7 @@ export const RoleManager: FC = () => {
         onClose={close}
         title={t().admin.managers.create.Title}
       >
-        <RoleCreateManager />
+        <RoleCreateManager onSuccess={close} />
       </Drawer>
     </>
   );

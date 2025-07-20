@@ -1,11 +1,11 @@
 import type { RequestOptions } from "@common/core/requests/hooks/use-request.util";
 import { ENV } from "@constants/env/env.constant";
 import {
-  getEndpointRequest,
   type ControllerDefinition,
   type GetEndpointRequestOptions,
+  getEndpointRequest,
 } from "@shared/api-definition";
-import type { AxiosResponse } from "axios";
+import { AxiosError, type AxiosResponse } from "axios";
 
 /**
  * Perform a request into the API
@@ -17,7 +17,7 @@ export const endpointQuery = <
   controller: C,
   endpoint: EK,
   params: Parameters<typeof getEndpointRequest<C, EK>>[3],
-  requestFn: (options: RequestOptions) => Promise<AxiosResponse>,
+  requestFn: (options: RequestOptions) => Promise<AxiosResponse | AxiosError>,
   options: GetEndpointRequestOptions<C["endpoints"][EK]>
 ) => {
   return async () => {
@@ -30,6 +30,9 @@ export const endpointQuery = <
     );
     const response = await requestFn(request);
 
+    if (response instanceof AxiosError) {
+      throw response;
+    }
     return onResponse(response.data);
   };
 };

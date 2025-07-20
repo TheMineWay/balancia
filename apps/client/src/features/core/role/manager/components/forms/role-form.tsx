@@ -11,13 +11,17 @@ type Props = {
 };
 
 export const RoleForm: FC<Props> = ({ form, onSuccess }) => {
-  const { handleSubmit, register } = form;
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = form;
   const { t } = useTranslation("role");
 
   return (
     <Form onSubmit={handleSubmit((role) => onSuccess?.(role))}>
       <Input.Wrapper label={t().models.role.fields.name.Name}>
-        <Input {...register("name")} />
+        <Input error={errors.name?.message} {...register("name")} />
       </Input.Wrapper>
 
       <Button leftSection={<IoAddOutline />} type="submit">
