@@ -1,1 +1,21 @@
-{}
+{
+  "models": {
+    "fields": {
+      "created-at": {
+        "Name": "Created at"
+      },
+      "updated-at": {
+        "Name": "Updated at"
+      },
+      "id": {
+        "Name": "ID"
+      },
+      "name": {
+        "Name": "Name"
+      },
+      "description": {
+        "Name": "Description"
+      }
+    }
+  }
+}
