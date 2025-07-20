@@ -9,6 +9,12 @@
           "Label": "Users assigned"
         }
       }
+    },
+    "managers": {
+      "create": {
+        "Title": "Create new role",
+        "Action": "Create role"
+      }
     }
   },
   "models": {
