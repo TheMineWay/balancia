@@ -10,11 +10,11 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^22.15.29",
+    "@types/node": "^24.0.15",
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@inquirer/prompts": "^7.5.3",
+    "@inquirer/prompts": "^7.6.0",
     "fs": "0.0.1-security"
   },
   "engines": {

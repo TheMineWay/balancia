@@ -25,7 +25,7 @@
     "typescript": "^5.8.3",
     "vite": "^7.0.5",
     "vite-plugin-dts": "^4.5.4",
-    "vitest": "^3.1.4"
+    "vitest": "^3.2.4"
   },
   "publishConfig": {
     "access": "public"
@@ -44,7 +44,7 @@
   "dependencies": {
     "@shared/constants": "workspace:*",
     "@shared/models": "workspace:*",
-    "axios": "^1.9.0",
+    "axios": "^1.10.0",
     "zod": "^4.0.5"
   }
 }

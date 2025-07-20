@@ -19,9 +19,9 @@
     "e2e:dev": "pnpm exec playwright test --ui"
   },
   "dependencies": {
-    "@docusaurus/core": "3.7.0",
-    "@docusaurus/plugin-sitemap": "^3.8.0",
-    "@docusaurus/preset-classic": "3.7.0",
+    "@docusaurus/core": "3.8.1",
+    "@docusaurus/plugin-sitemap": "^3.8.1",
+    "@docusaurus/preset-classic": "3.8.1",
     "@mdx-js/react": "^3.1.0",
     "clsx": "^2.1.1",
     "prism-react-renderer": "^2.4.1",
@@ -29,14 +29,14 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.7.0",
-    "@docusaurus/tsconfig": "3.7.0",
-    "@docusaurus/types": "3.7.0",
-    "@playwright/test": "^1.52.0",
-    "@types/node": "^22.15.29",
-    "@types/react": "^19.1.6",
-    "typescript": "~5.7.3",
-    "vitest": "^3.1.4"
+    "@docusaurus/module-type-aliases": "3.8.1",
+    "@docusaurus/tsconfig": "3.8.1",
+    "@docusaurus/types": "3.8.1",
+    "@playwright/test": "^1.54.1",
+    "@types/node": "^24.0.15",
+    "@types/react": "^19.1.8",
+    "typescript": "~5.8.3",
+    "vitest": "^3.2.4"
   },
   "browserslist": {
     "production": [
