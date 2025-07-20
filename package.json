@@ -27,8 +27,8 @@
     "tools": "pnpm --filter scripts launch",
     "db:generate": "pnpm --filter nestflux-server \"db:generate\"",
     "db:migrate": "pnpm --filter nestflux-server \"db:migrate\"",
-    "lint": "pnpm -r run lint",
-    "lint:fix": "pnpm -r run lint:fix",
+    "lint": "pnpm exec biome format",
+    "lint:fix": "pnpm exec biome format --write",
     "lint:report": "pnpm biome check --reporter=summary",
     "clean:all": "find . -type d \\( -name \"node_modules\" -or -name \"dist\" -or -name \"test-results\" -or -name \"playwright-report\" -or -name \".docusaurus\" -or -name \"build\" \\) -exec rm -rf {} +"
   },

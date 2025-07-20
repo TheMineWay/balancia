@@ -9,8 +9,8 @@
     "start:prod": "node .",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "lint": "pnpm exec biome format ./src",
-    "lint:fix": "pnpm exec biome format --write ./src"
+    "lint": "pnpm exec biome format",
+    "lint:fix": "pnpm exec biome format --write"
   },
   "keywords": [],
   "repository": {

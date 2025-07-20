@@ -7,8 +7,8 @@
     "dev": "vite",
     "start": "pnpm build && pnpm preview",
     "build": "tsc -b && vite build",
-    "lint": "pnpm exec biome format ./src",
-    "lint:fix": "pnpm exec biome format --write ./src",
+    "lint": "pnpm exec biome format",
+    "lint:fix": "pnpm exec biome format --write",
     "preview": "vite preview"
   },
   "repository": {
