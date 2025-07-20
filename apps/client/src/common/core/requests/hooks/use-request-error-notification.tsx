@@ -8,12 +8,12 @@ export const useRequestManagedErrorNotification = () => {
 
   const manage = (error: AxiosError) => {
     const status = error.response?.status;
-    if (!status) return;
+    if (!status) throw error;
 
     const err =
       t().http?.[status.toString() as keyof ReturnType<typeof t>["http"]];
 
-    if (!err) return;
+    if (!err) throw error;
 
     notifications.show({
       color: "red",
@@ -21,6 +21,8 @@ export const useRequestManagedErrorNotification = () => {
       message: err.Message,
       title: err.Title,
     });
+
+    throw error;
   };
 
   return { manage };

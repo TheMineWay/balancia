@@ -8,9 +8,10 @@ import { IoAddOutline } from "react-icons/io5";
 type Props = {
   form: UseFormReturn<RoleCreateModel>;
   onSuccess?: (role: RoleCreateModel) => void;
+  loading?: boolean;
 };
 
-export const RoleForm: FC<Props> = ({ form, onSuccess }) => {
+export const RoleForm: FC<Props> = ({ form, onSuccess, loading = false }) => {
   const {
     handleSubmit,
     register,
@@ -24,7 +25,7 @@ export const RoleForm: FC<Props> = ({ form, onSuccess }) => {
         <Input error={errors.name?.message} {...register("name")} />
       </Input.Wrapper>
 
-      <Button leftSection={<IoAddOutline />} type="submit">
+      <Button loading={loading} leftSection={<IoAddOutline />} type="submit">
         {t().admin.managers.create.Action}
       </Button>
     </Form>

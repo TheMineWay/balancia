@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const RoleCreateManager: FC<Props> = ({ onSuccess }) => {
-  const { mutate: createRole } = useRoleCreateMutation();
+  const { mutate: createRole, isPending } = useRoleCreateMutation();
 
   const createForm = useForm<RoleCreateModel>({
     resolver: zodResolver(CREATE_ROLE_SCHEMA),
@@ -18,6 +18,7 @@ export const RoleCreateManager: FC<Props> = ({ onSuccess }) => {
   return (
     <RoleForm
       form={createForm}
+      loading={isPending}
       onSuccess={(role) => {
         createRole(
           { body: role },
