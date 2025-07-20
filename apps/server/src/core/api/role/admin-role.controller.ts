@@ -20,6 +20,8 @@ const CONTROLLER = ADMIN_ROLE_CONTROLLER;
 export class AdminRoleController {
   constructor(private readonly roleService: RoleService) {}
 
+  // CRUD
+
   @ApiOperation({ summary: "Get all roles" })
   @Endpoint(CONTROLLER, "get")
   async getRoles(): Promise<InferResponseDto<typeof CONTROLLER, "get">> {
@@ -51,5 +53,14 @@ export class AdminRoleController {
     @Param("id", ParseIntPipe) id: number,
   ): Promise<InferResponseDto<typeof CONTROLLER, "delete">> {
     await this.roleService.delete(id);
+  }
+
+  // Extended
+  @ApiOperation({ summary: "Get roles with permissions" })
+  @Endpoint(CONTROLLER, "get-with-permissions")
+  async getRolesWithPermissions(): Promise<
+    InferResponseDto<typeof CONTROLLER, "get-with-permissions">
+  > {
+    return { roles: await this.roleService.getRolesWithPermissions() };
   }
 }

@@ -1,5 +1,6 @@
 import {
   CREATE_ROLE_SCHEMA,
+  Permission,
   ROLE_SCHEMA,
   UPDATE_ROLE_SCHEMA,
 } from "@shared/models";
@@ -35,15 +36,30 @@ const DELETE_ENDPOINT = {
   method: EndpointMethod.DELETE,
 } satisfies EndpointDefinition<{ roleId: string }>;
 
+const GET_WITH_PERMISSIONS_ENDPOINT = {
+  getPath: () => ["with-permissions"],
+  paramsMapping: {},
+  method: EndpointMethod.GET,
+  responseDto: z.object({
+    roles: z.array(
+      ROLE_SCHEMA.extend({ permissions: z.array(z.enum(Permission)) })
+    ),
+  }),
+} satisfies EndpointDefinition;
+
 /* Definition */
 
 export const ADMIN_ROLE_CONTROLLER = {
   getPath: () => ["admin-role"],
   paramsMapping: {},
   endpoints: {
+    // Basic CRUD
     get: GET_ENDPOINT,
     create: CREATE_ENDPOINT,
     update: UPDATE_ENDPOINT,
     delete: DELETE_ENDPOINT,
+
+    // Extended
+    "get-with-permissions": GET_WITH_PERMISSIONS_ENDPOINT,
   },
 } satisfies ControllerDefinition;

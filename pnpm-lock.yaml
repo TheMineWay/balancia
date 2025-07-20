@@ -231,6 +231,9 @@ importers:
       jwks-rsa:
         specifier: ^3.2.0
         version: 3.2.0
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       mysql2:
         specifier: ^3.14.2
         version: 3.14.2
@@ -277,6 +280,9 @@ importers:
       '@types/jsonwebtoken':
         specifier: ^9.0.10
         version: 9.0.10
+      '@types/lodash':
+        specifier: ^4.17.20
+        version: 4.17.20
       '@types/node':
         specifier: ^24.0.15
         version: 24.0.15

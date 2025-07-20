@@ -11,6 +11,12 @@ export const useAdminRolesQuery = () => {
 
   return useQuery({
     queryKey: ADMIN_ROLES_QUERY_KEY(),
-    queryFn: endpointQuery(ADMIN_ROLE_CONTROLLER, "get", {}, request, {}),
+    queryFn: endpointQuery(
+      ADMIN_ROLE_CONTROLLER,
+      "get-with-permissions",
+      {},
+      request,
+      {}
+    ),
   });
 };
