@@ -46,10 +46,10 @@ export class RoleRepository extends Repository {
         name: roleTable.name,
         createdAt: roleTable.createdAt,
         updatedAt: roleTable.updatedAt,
-        permissionsCount: sql<number>`COALESCE(${pc.count}, 0)`.as(
+        permissionsCount: sql<number>`coalesce(${pc.count}, 0)`.as(
           "permissionsCount",
         ),
-        usersCount: sql<number>`COALESCE(${uc.count}, 0)`.as("usersCount"),
+        usersCount: sql<number>`coalesce(${uc.count}, 0)`.as("usersCount"),
       })
       .from(roleTable)
       .groupBy(roleTable.id)
