@@ -4,13 +4,16 @@ import type { QueryKey } from "@common/core/requests/types/query-key.type";
 import { ADMIN_ROLE_CONTROLLER } from "@shared/api-definition";
 import { useQuery } from "@tanstack/react-query";
 
-export const ADMIN_ROLES_QUERY_KEY: QueryKey = () => ["admin-roles", "list"];
+export const ADMIN_ROLES_WITH_STATS_QUERY_KEY: QueryKey = () => [
+  "admin-roles",
+  "list-with-statistics",
+];
 
-export const useAdminRolesQuery = () => {
+export const useAdminRolesWithStatsQuery = () => {
   const { request } = useAuthenticatedRequest();
 
   return useQuery({
-    queryKey: ADMIN_ROLES_QUERY_KEY(),
+    queryKey: ADMIN_ROLES_WITH_STATS_QUERY_KEY(),
     queryFn: endpointQuery(
       ADMIN_ROLE_CONTROLLER,
       "get-with-statistics",

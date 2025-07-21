@@ -1,7 +1,7 @@
 import { DatetimeRender } from "@common/components/date/components/datetime-render";
 import { Table } from "@common/components/table/components/table";
 import { useTable } from "@common/components/table/hooks/use-table";
-import { useAdminRolesQuery } from "@core-fts/role/manager/api/use-admin-roles.query";
+import { useAdminRolesWithStatsQuery } from "@core-fts/role/manager/api/use-admin-roles-with-stats.query";
 import { useTranslation } from "@i18n/use-translation";
 import type { RoleModel } from "@shared/models";
 
@@ -11,7 +11,7 @@ type RoleTableData = RoleModel & {
 };
 
 export const RolesTable: FC = () => {
-  const { data: { roles } = {} } = useAdminRolesQuery();
+  const { data: { roles } = {} } = useAdminRolesWithStatsQuery();
 
   const { t: commonT } = useTranslation("common");
   const { t } = useTranslation("role");

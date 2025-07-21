@@ -2,10 +2,10 @@ import type { RequestOptions } from "@common/core/requests/hooks/use-request.uti
 import { endpointQuery } from "@common/core/requests/lib/endpoint-query.util";
 import type {
   ControllerDefinition,
-  getEndpointRequest,
   GetEndpointRequestOptions,
+  getEndpointRequest,
 } from "@shared/api-definition";
-import type { AxiosResponse } from "axios";
+import type { AxiosError, AxiosResponse } from "axios";
 
 /**
  * NOTE:
@@ -22,7 +22,7 @@ export const endpointMutation = <
   controller: C,
   endpoint: EK,
   params: Parameters<typeof getEndpointRequest<C, EK>>[3],
-  requestFn: (options: RequestOptions) => Promise<AxiosResponse>
+  requestFn: (options: RequestOptions) => Promise<AxiosResponse | AxiosError>
 ) => {
   return async (options: GetEndpointRequestOptions<C["endpoints"][EK]>) => {
     // Derives its behavior from the endpointQuery.
