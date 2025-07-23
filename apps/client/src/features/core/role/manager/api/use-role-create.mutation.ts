@@ -3,7 +3,6 @@ import { endpointMutation } from "@common/core/requests/lib/endpoint-mutation.ut
 import { ADMIN_ROLES_WITH_STATS_QUERY_KEY } from "@core-fts/role/manager/api/use-admin-roles-with-stats.query";
 import { ADMIN_ROLE_CONTROLLER } from "@shared/api-definition";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
 
 export const useRoleCreateMutation = () => {
   const { request } = useAuthenticatedRequest();
@@ -16,6 +15,5 @@ export const useRoleCreateMutation = () => {
         queryKey: ADMIN_ROLES_WITH_STATS_QUERY_KEY(),
       });
     },
-    onError: (error: AxiosError) => {},
   });
 };

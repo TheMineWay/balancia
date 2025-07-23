@@ -1,12 +1,15 @@
-import { QueryOptions, Repository } from "@database/repository/core/repository";
+import {
+  type QueryOptions,
+  Repository,
+} from "@database/repository/core/repository";
 import {
   rolePermissionTable,
   userRoleTable,
 } from "@database/schemas/main.schema";
 import {
-  RoleInsert,
+  type RoleInsert,
+  type RoleUpdate,
   roleTable,
-  RoleUpdate,
 } from "@database/schemas/main/tables/identity/role.table";
 import { Injectable } from "@nestjs/common";
 import { countDistinct, eq, sql } from "drizzle-orm";

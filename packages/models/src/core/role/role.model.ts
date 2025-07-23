@@ -9,22 +9,17 @@ export const ROLE_MODEL_VALUES = {
   },
 } satisfies ModelValues;
 
-const BASE_ROLE_SCHEMA = z.object({
+export const ROLE_EDITABLE_PROPS_SCHEMA = z.object({
   id: z.number(),
   name: z
     .string()
     .min(ROLE_MODEL_VALUES.name.minLength)
     .max(ROLE_MODEL_VALUES.name.maxLength),
 });
-
-export const CREATE_ROLE_SCHEMA = BASE_ROLE_SCHEMA.omit({ id: true });
-export type RoleCreateModel = z.infer<typeof CREATE_ROLE_SCHEMA>;
-
-export const UPDATE_ROLE_SCHEMA = CREATE_ROLE_SCHEMA.partial();
-export type RoleUpdateModel = z.infer<typeof UPDATE_ROLE_SCHEMA>;
+export type RoleEditablePropsModel = z.infer<typeof ROLE_EDITABLE_PROPS_SCHEMA>;
 
 export const ROLE_SCHEMA = z.object({
-  ...BASE_ROLE_SCHEMA.shape,
+  ...ROLE_EDITABLE_PROPS_SCHEMA.shape,
   ...TIMESTAMPS_SCHEMA.shape,
 });
 export type RoleModel = z.infer<typeof ROLE_SCHEMA>;

@@ -1,10 +1,10 @@
 import { RoleRepository } from "@database/repository/core/role/role.repository";
-import {
+import type {
   RoleSelect,
   RoleUpdate,
 } from "@database/schemas/main/tables/identity/role.table";
 import { Injectable } from "@nestjs/common";
-import { RoleCreateModel } from "@shared/models";
+import type { RoleEditablePropsModel } from "@shared/models";
 
 @Injectable()
 export class RoleService {
@@ -15,7 +15,7 @@ export class RoleService {
   }
 
   /* Admin */
-  async create(role: RoleCreateModel) {
+  async create(role: RoleEditablePropsModel) {
     return this.roleRepository.create(role);
   }
 

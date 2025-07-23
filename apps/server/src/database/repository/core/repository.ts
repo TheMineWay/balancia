@@ -1,5 +1,5 @@
 import { DATABASE_PROVIDERS } from "@database/database.provider";
-import { DatabaseService } from "@database/services/database.service";
+import type { DatabaseService } from "@database/services/database.service";
 import { Inject } from "@nestjs/common";
 
 export type Transaction = Parameters<

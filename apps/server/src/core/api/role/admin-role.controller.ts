@@ -1,4 +1,4 @@
-import { RoleService } from "@core/api/role/role.service";
+import type { RoleService } from "@core/api/role/role.service";
 import { Endpoint } from "@core/decorators/endpoints/endpoint.decorator";
 import { ValidatedBody } from "@core/decorators/validation/validated-body.decorator";
 import { Permissions } from "@core/guards/permissions/permission.decorator";
@@ -7,8 +7,8 @@ import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import {
   ADMIN_ROLE_CONTROLLER,
   getController,
-  InferBodyDto,
-  InferResponseDto,
+  type InferBodyDto,
+  type InferResponseDto,
 } from "@shared/api-definition";
 import { Permission } from "@shared/models";
 

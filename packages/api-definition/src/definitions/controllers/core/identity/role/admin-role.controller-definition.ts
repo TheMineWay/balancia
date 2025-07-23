@@ -1,10 +1,6 @@
-import {
-  CREATE_ROLE_SCHEMA,
-  ROLE_SCHEMA,
-  UPDATE_ROLE_SCHEMA,
-} from "@shared/models";
+import { ROLE_EDITABLE_PROPS_SCHEMA, ROLE_SCHEMA } from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
-import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
+import type { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
 import z from "zod";
 
@@ -19,14 +15,14 @@ const CREATE_ENDPOINT = {
   getPath: () => [],
   paramsMapping: {},
   method: EndpointMethod.POST,
-  bodyDto: CREATE_ROLE_SCHEMA,
+  bodyDto: ROLE_EDITABLE_PROPS_SCHEMA,
 } satisfies EndpointDefinition;
 
 const UPDATE_ENDPOINT = {
   getPath: (params) => [params.roleId],
   paramsMapping: { roleId: "roleId" },
   method: EndpointMethod.PUT,
-  bodyDto: UPDATE_ROLE_SCHEMA,
+  bodyDto: ROLE_EDITABLE_PROPS_SCHEMA,
 } satisfies EndpointDefinition<{ roleId: string }>;
 
 const DELETE_ENDPOINT = {
