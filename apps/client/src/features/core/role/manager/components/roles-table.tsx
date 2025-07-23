@@ -3,7 +3,7 @@ import { Table } from "@common/components/table/components/table";
 import { useTable } from "@common/components/table/hooks/use-table";
 import { useAdminRolesWithStatsQuery } from "@core-fts/role/manager/api/use-admin-roles-with-stats.query";
 import { useTranslation } from "@i18n/use-translation";
-import { Button, Space } from "@mantine/core";
+import { ActionIcon, Group } from "@mantine/core";
 import type { RoleModel } from "@shared/models";
 import { IoPencil, IoTrash } from "react-icons/io5";
 
@@ -51,18 +51,27 @@ export const RolesTable: FC<Props> = ({
       {
         label: "",
         render: (row) => (
-          <Space>
+          <Group gap="sm">
             {onEdit && (
-              <Button leftSection={<IoPencil />} onClick={() => onEdit(row)} />
+              <ActionIcon
+                aria-label={commonT().expressions.Edit}
+                onClick={() => onEdit(row)}
+              >
+                <IoPencil />
+              </ActionIcon>
             )}
             {onDelete && (
-              <Button
+              <ActionIcon
+                aria-label={commonT().expressions.Delete}
                 loading={isDeleting}
-                leftSection={<IoTrash />}
                 onClick={() => onDelete(row)}
-              />
+                variant="outline"
+                color="red"
+              >
+                <IoTrash />
+              </ActionIcon>
             )}
-          </Space>
+          </Group>
         ),
       },
     ],

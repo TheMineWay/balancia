@@ -1,4 +1,5 @@
 import { ManagerLayout } from "@common/layouts/manager/manager-layout";
+import { useRoleDeleteMutation } from "@core-fts/role/manager/api/use-role-delete.mutation";
 import { RoleCreateManager } from "@core-fts/role/manager/components/role-create-manager";
 import { RoleUpdateManager } from "@core-fts/role/manager/components/role-update-manager";
 import { RolesTable } from "@core-fts/role/manager/components/roles-table";
@@ -12,6 +13,7 @@ import { IoAddOutline } from "react-icons/io5";
 export const RoleManager: FC = () => {
   const { t } = useTranslation("role");
 
+  const { mutate: deleteRole } = useRoleDeleteMutation();
   const [createOpened, { open, close }] = useDisclosure(false);
   const [selectedToEditRole, setSelectedToEditRole] =
     useState<RoleModel | null>(null);
@@ -28,7 +30,10 @@ export const RoleManager: FC = () => {
 
         {/* Table */}
         <ManagerLayout.View>
-          <RolesTable onEdit={setSelectedToEditRole} />
+          <RolesTable
+            onEdit={setSelectedToEditRole}
+            onDelete={(r) => deleteRole(r.id)}
+          />
         </ManagerLayout.View>
       </ManagerLayout.Main>
 
@@ -42,6 +47,7 @@ export const RoleManager: FC = () => {
       </Drawer>
 
       <Drawer
+        title={t().admin.managers.update.Title}
         position="right"
         opened={Boolean(selectedToEditRole)}
         onClose={() => setSelectedToEditRole(null)}

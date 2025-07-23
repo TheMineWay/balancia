@@ -10,7 +10,6 @@ export const ROLE_MODEL_VALUES = {
 } satisfies ModelValues;
 
 export const ROLE_EDITABLE_PROPS_SCHEMA = z.object({
-  id: z.number(),
   name: z
     .string()
     .min(ROLE_MODEL_VALUES.name.minLength)
@@ -19,6 +18,7 @@ export const ROLE_EDITABLE_PROPS_SCHEMA = z.object({
 export type RoleEditablePropsModel = z.infer<typeof ROLE_EDITABLE_PROPS_SCHEMA>;
 
 export const ROLE_SCHEMA = z.object({
+  id: z.number(),
   ...ROLE_EDITABLE_PROPS_SCHEMA.shape,
   ...TIMESTAMPS_SCHEMA.shape,
 });

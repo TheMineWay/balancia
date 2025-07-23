@@ -1,17 +1,24 @@
 import { Form } from "@common/components/form/form";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Input } from "@mantine/core";
-import type { RoleCreateModel } from "@shared/models";
+import { RoleEditablePropsModel } from "@shared/models";
 import type { UseFormReturn } from "react-hook-form";
-import { IoAddOutline } from "react-icons/io5";
 
 type Props = {
-  form: UseFormReturn<RoleCreateModel>;
-  onSuccess?: (role: RoleCreateModel) => void;
+  form: UseFormReturn<RoleEditablePropsModel>;
+  onSuccess?: (role: RoleEditablePropsModel) => void;
   loading?: boolean;
+  submitText: string;
+  submitIcon?: React.ReactNode;
 };
 
-export const RoleForm: FC<Props> = ({ form, onSuccess, loading = false }) => {
+export const RoleForm: FC<Props> = ({
+  form,
+  onSuccess,
+  loading = false,
+  submitText,
+  submitIcon,
+}) => {
   const {
     handleSubmit,
     register,
@@ -25,8 +32,8 @@ export const RoleForm: FC<Props> = ({ form, onSuccess, loading = false }) => {
         <Input error={errors.name?.message} {...register("name")} />
       </Input.Wrapper>
 
-      <Button loading={loading} leftSection={<IoAddOutline />} type="submit">
-        {t().admin.managers.create.Action}
+      <Button loading={loading} leftSection={submitIcon} type="submit">
+        {submitText}
       </Button>
     </Form>
   );

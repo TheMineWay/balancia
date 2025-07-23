@@ -42,7 +42,7 @@ export class AdminRoleController {
   async update(
     @ValidatedBody(CONTROLLER, "update")
     body: InferBodyDto<typeof CONTROLLER, "update">,
-    @Param("id", ParseIntPipe) id: number,
+    @Param("roleId", ParseIntPipe) id: number,
   ): Promise<InferResponseDto<typeof CONTROLLER, "update">> {
     await this.roleService.update(id, body);
   }
@@ -50,7 +50,7 @@ export class AdminRoleController {
   @ApiOperation({ summary: "Delete a role" })
   @Endpoint(CONTROLLER, "delete")
   async delete(
-    @Param("id", ParseIntPipe) id: number,
+    @Param("roleId", ParseIntPipe) id: number,
   ): Promise<InferResponseDto<typeof CONTROLLER, "delete">> {
     await this.roleService.delete(id);
   }
