@@ -1,4 +1,4 @@
-import type { RoleService } from "@core/api/role/role.service";
+import { RoleService } from "@core/api/role/role.service";
 import { Endpoint } from "@core/decorators/endpoints/endpoint.decorator";
 import { ValidatedBody } from "@core/decorators/validation/validated-body.decorator";
 import { Permissions } from "@core/guards/permissions/permission.decorator";
