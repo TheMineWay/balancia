@@ -3,6 +3,7 @@ import type { TableColumn } from "@common/components/table/types/table-column.ty
 import type { TableValue } from "@common/components/table/types/table-value.type";
 import { Table as MTable } from "@mantine/core";
 import { memo, type ReactNode } from "react";
+import styles from "./table.module.pcss";
 
 export type TableProps<TData extends TableValue> = {
   table: UseTable<TData>;
@@ -14,7 +15,7 @@ export const Table = <TData extends TableValue>({
   const { columns } = table;
 
   return (
-    <MTable>
+    <MTable className={styles.table}>
       <MTable.Thead>
         <Headers<TData> columns={columns} />
       </MTable.Thead>
