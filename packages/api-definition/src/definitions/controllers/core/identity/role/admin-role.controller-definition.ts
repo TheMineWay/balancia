@@ -1,4 +1,10 @@
-import { ROLE_EDITABLE_PROPS_SCHEMA, ROLE_SCHEMA } from "@shared/models";
+import {
+  getPaginatedResponse,
+  PAGINATED_QUERY_SCHEMA,
+  ROLE_EDITABLE_PROPS_SCHEMA,
+  ROLE_SCHEMA,
+  USER_SCHEMA,
+} from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
 import type { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
@@ -19,14 +25,14 @@ const CREATE_ENDPOINT = {
 } satisfies EndpointDefinition;
 
 const UPDATE_ENDPOINT = {
-  getPath: (params) => [params.roleId],
+  getPath: (params) => ["role", params.roleId],
   paramsMapping: { roleId: "roleId" },
   method: EndpointMethod.PUT,
   bodyDto: ROLE_EDITABLE_PROPS_SCHEMA,
 } satisfies EndpointDefinition<{ roleId: string }>;
 
 const DELETE_ENDPOINT = {
-  getPath: (params) => [params.roleId],
+  getPath: (params) => ["role", params.roleId],
   paramsMapping: { roleId: "roleId" },
   method: EndpointMethod.DELETE,
 } satisfies EndpointDefinition<{ roleId: string }>;
@@ -45,6 +51,14 @@ const GET_WITH_STATISTICS_ENDPOINT = {
   }),
 } satisfies EndpointDefinition;
 
+const GET_ROLE_USERS_ENDPOINT = {
+  getPath: (params) => ["role", params.roleId, "users"],
+  paramsMapping: { roleId: "roleId" },
+  method: EndpointMethod.GET,
+  responseDto: getPaginatedResponse(USER_SCHEMA),
+  queryDto: PAGINATED_QUERY_SCHEMA,
+} satisfies EndpointDefinition<{ roleId: string }>;
+
 /* Definition */
 
 export const ADMIN_ROLE_CONTROLLER = {
@@ -59,5 +73,6 @@ export const ADMIN_ROLE_CONTROLLER = {
 
     // Extended
     "get-with-statistics": GET_WITH_STATISTICS_ENDPOINT,
+    "role-users": GET_ROLE_USERS_ENDPOINT,
   },
 } satisfies ControllerDefinition;

@@ -2,6 +2,7 @@ import { ManagerLayout } from "@common/layouts/manager/manager-layout";
 import { useRoleDeleteMutation } from "@core-fts/role/manager/api/use-role-delete.mutation";
 import { RoleCreateManager } from "@core-fts/role/manager/components/role-create-manager";
 import { RoleUpdateManager } from "@core-fts/role/manager/components/role-update-manager";
+import { RoleUsersManager } from "@core-fts/role/manager/components/role-users-manager";
 import { RolesTable } from "@core-fts/role/manager/components/roles-table";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Drawer, Text } from "@mantine/core";
@@ -81,6 +82,17 @@ export const RoleManager: FC = () => {
             onSuccess={() => setSelectedToEditRole(null)}
             role={selectedToEditRole}
           />
+        )}
+      </Drawer>
+
+      <Drawer
+        title={t().admin.managers["role-users"].Title}
+        opened={Boolean(selectedToManageUsersRole)}
+        onClose={() => setSelectedToManageUsersRole(null)}
+        position="right"
+      >
+        {selectedToManageUsersRole && (
+          <RoleUsersManager role={selectedToManageUsersRole} />
         )}
       </Drawer>
     </>

@@ -4,7 +4,12 @@ import type {
   RoleUpdate,
 } from "@database/schemas/main/tables/identity/role.table";
 import { Injectable } from "@nestjs/common";
-import type { RoleEditablePropsModel } from "@shared/models";
+import type {
+  PaginatedQuery,
+  PaginatedResponse,
+  RoleEditablePropsModel,
+  UserModel,
+} from "@shared/models";
 
 @Injectable()
 export class RoleService {
@@ -29,5 +34,12 @@ export class RoleService {
 
   async getRolesWithPermissions() {
     return await this.roleRepository.findWithStatistics();
+  }
+
+  getRoleUsersList(
+    roleId: number,
+    pagination: PaginatedQuery,
+  ): Promise<PaginatedResponse<UserModel>> {
+    return this.roleRepository.findRoleUsersList(roleId, pagination);
   }
 }

@@ -2,7 +2,7 @@ import { RoleService } from "@core/api/role/role.service";
 import { Endpoint } from "@core/decorators/endpoints/endpoint.decorator";
 import { ValidatedBody } from "@core/decorators/validation/validated-body.decorator";
 import { Permissions } from "@core/guards/permissions/permission.decorator";
-import { Controller, Param, ParseIntPipe } from "@nestjs/common";
+import { Controller, Param, ParseIntPipe, Query } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import {
   ADMIN_ROLE_CONTROLLER,
@@ -10,7 +10,7 @@ import {
   type InferBodyDto,
   type InferResponseDto,
 } from "@shared/api-definition";
-import { Permission } from "@shared/models";
+import { PaginatedQuery, Permission } from "@shared/models";
 
 const CONTROLLER = ADMIN_ROLE_CONTROLLER;
 
@@ -62,5 +62,14 @@ export class AdminRoleController {
     InferResponseDto<typeof CONTROLLER, "get-with-statistics">
   > {
     return { roles: await this.roleService.getRolesWithPermissions() };
+  }
+
+  @ApiOperation({ summary: "Get users assigned to a role" })
+  @Endpoint(CONTROLLER, "role-users")
+  async getRoleUsers(
+    @Param("roleId", ParseIntPipe) roleId: number,
+    @Query() pagination: PaginatedQuery,
+  ): Promise<InferResponseDto<typeof CONTROLLER, "role-users">> {
+    return await this.roleService.getRoleUsersList(roleId, pagination);
   }
 }

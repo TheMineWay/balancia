@@ -5,5 +5,5 @@ type Props = {
 };
 
 export const RoleUsersManager: FC<Props> = ({ role }) => {
-  return <></>;
+  return <div className="flex"></div>;
 };

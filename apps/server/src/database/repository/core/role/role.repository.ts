@@ -1,3 +1,4 @@
+import { queryWithCount, withPagination } from "@database/common/pagination";
 import {
   type QueryOptions,
   Repository,
@@ -5,6 +6,7 @@ import {
 import {
   rolePermissionTable,
   userRoleTable,
+  userTable,
 } from "@database/schemas/main.schema";
 import {
   type RoleInsert,
@@ -12,7 +14,8 @@ import {
   roleTable,
 } from "@database/schemas/main/tables/identity/role.table";
 import { Injectable } from "@nestjs/common";
-import { countDistinct, eq, sql } from "drizzle-orm";
+import { PaginatedQuery, RoleModel } from "@shared/models";
+import { and, countDistinct, desc, eq, like, sql } from "drizzle-orm";
 
 @Injectable()
 export class RoleRepository extends Repository {
@@ -73,5 +76,49 @@ export class RoleRepository extends Repository {
 
   delete(id: number, options?: QueryOptions) {
     return this.query(options).delete(roleTable).where(eq(roleTable.id, id));
+  }
+
+  async findRoleUsersList(
+    roleId: RoleModel["id"],
+    pagination: PaginatedQuery,
+    textSearch: string | null = null,
+    options?: QueryOptions,
+  ) {
+    const parsedTextSearch = textSearch
+      ? textSearch.trim().toLowerCase()
+      : null;
+
+    const query = withPagination(
+      this.query(options)
+        .select({
+          id: userTable.id,
+          name: userTable.name,
+          code: userTable.code,
+          username: userTable.username,
+          createdAt: userTable.createdAt,
+          updatedAt: userTable.updatedAt,
+        })
+        .from(userRoleTable)
+        .innerJoin(userTable, eq(userRoleTable.userId, userTable.id))
+        .where(
+          and(
+            eq(userRoleTable.roleId, roleId),
+            parsedTextSearch
+              ? like(userTable.name, parsedTextSearch)
+              : undefined,
+          ),
+        )
+        .orderBy(desc(userRoleTable.createdAt))
+        .$dynamic(),
+      pagination.page,
+      pagination.limit,
+    );
+
+    const [items, total] = await queryWithCount(query);
+
+    return {
+      items,
+      total,
+    };
   }
 }
