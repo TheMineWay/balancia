@@ -4,19 +4,42 @@ import { RoleCreateManager } from "@core-fts/role/manager/components/role-create
 import { RoleUpdateManager } from "@core-fts/role/manager/components/role-update-manager";
 import { RolesTable } from "@core-fts/role/manager/components/roles-table";
 import { useTranslation } from "@i18n/use-translation";
-import { Button, Drawer } from "@mantine/core";
+import { Button, Drawer, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { modals } from "@mantine/modals";
 import type { RoleModel } from "@shared/models";
 import { useState } from "react";
-import { IoAddOutline } from "react-icons/io5";
+import { IoAddOutline, IoTrash } from "react-icons/io5";
 
 export const RoleManager: FC = () => {
-  const { t } = useTranslation("role");
+  const { t, interpolated } = useTranslation("role");
+  const { t: commonT } = useTranslation("common");
 
   const { mutate: deleteRole } = useRoleDeleteMutation();
   const [createOpened, { open, close }] = useDisclosure(false);
   const [selectedToEditRole, setSelectedToEditRole] =
     useState<RoleModel | null>(null);
+  const [selectedToManageUsersRole, setSelectedToManageUsersRole] =
+    useState<RoleModel | null>(null);
+
+  const onDeleteClick = (role: RoleModel) => {
+    modals.openConfirmModal({
+      title: t().admin.managers.delete.Title,
+      children: (
+        <Text>
+          {interpolated((t) => t.admin.managers.delete.confirm.Message, {
+            name: role.name,
+          })}
+        </Text>
+      ),
+      onConfirm: () => deleteRole(role.id),
+      labels: {
+        cancel: commonT().templates["confirm-modal"].Cancel,
+        confirm: t().admin.managers.delete.Action,
+      },
+      confirmProps: { color: "red", leftSection: <IoTrash /> },
+    });
+  };
 
   return (
     <>
@@ -31,8 +54,9 @@ export const RoleManager: FC = () => {
         {/* Table */}
         <ManagerLayout.View>
           <RolesTable
-            onEdit={setSelectedToEditRole}
-            onDelete={(r) => deleteRole(r.id)}
+            onEditClick={setSelectedToEditRole}
+            onUserAssignClick={setSelectedToManageUsersRole}
+            onDeleteClick={onDeleteClick}
           />
         </ManagerLayout.View>
       </ManagerLayout.Main>

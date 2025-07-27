@@ -1,5 +1,6 @@
 import { createTheme, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
+import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
 import { useLocalConfig } from "@providers/config/local-config.context";
@@ -21,8 +22,10 @@ export default function UIProviders({ children }: Readonly<WithChildren>) {
 
   return (
     <MantineProvider theme={theme} defaultColorScheme={themeConfig.colorScheme}>
-      <Notifications />
-      {children}
+      <ModalsProvider>
+        <Notifications />
+        {children}
+      </ModalsProvider>
     </MantineProvider>
   );
 }

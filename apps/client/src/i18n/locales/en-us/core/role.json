@@ -18,6 +18,17 @@
       "update": {
         "Title": "Update role",
         "Action": "Update role"
+      },
+      "role-users": {
+        "Title": "Manage users in role",
+        "Action": "Update users"
+      },
+      "delete": {
+        "Title": "Delete role",
+        "Action": "Delete role",
+        "confirm": {
+          "Message": "Are you sure you want to delete the \"{name}\" role?"
+        }
       }
     }
   },

@@ -20,6 +20,13 @@
   },
   "expressions": {
     "Edit": "Edit",
-    "Delete": "Delete"
+    "Delete": "Delete",
+    "Actions": "Actions"
+  },
+  "templates": {
+    "confirm-modal": {
+      "Cancel": "Cancel",
+      "Confirm": "Confirm"
+    }
   }
 }

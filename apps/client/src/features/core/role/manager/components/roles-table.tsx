@@ -5,6 +5,7 @@ import { useAdminRolesWithStatsQuery } from "@core-fts/role/manager/api/use-admi
 import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Group } from "@mantine/core";
 import type { RoleModel } from "@shared/models";
+import { FaUserEdit } from "react-icons/fa";
 import { IoPencil, IoTrash } from "react-icons/io5";
 
 type RoleTableData = RoleModel & {
@@ -13,14 +14,16 @@ type RoleTableData = RoleModel & {
 };
 
 type Props = {
-  onEdit?: (role: RoleModel) => void;
-  onDelete?: (role: RoleModel) => void;
+  onEditClick?: (role: RoleModel) => void;
+  onDeleteClick?: (role: RoleModel) => void;
+  onUserAssignClick?: (role: RoleModel) => void;
   isDeleting?: boolean;
 };
 
 export const RolesTable: FC<Props> = ({
-  onEdit,
-  onDelete,
+  onEditClick,
+  onDeleteClick,
+  onUserAssignClick,
   isDeleting = false,
 }) => {
   const { data: { roles } = {} } = useAdminRolesWithStatsQuery();
@@ -49,22 +52,30 @@ export const RolesTable: FC<Props> = ({
         accessorKey: "permissionsCount",
       },
       {
-        label: "",
+        label: commonT().expressions.Actions,
         render: (row) => (
           <Group gap="sm">
-            {onEdit && (
+            {onEditClick && (
               <ActionIcon
                 aria-label={commonT().expressions.Edit}
-                onClick={() => onEdit(row)}
+                onClick={() => onEditClick(row)}
               >
                 <IoPencil />
               </ActionIcon>
             )}
-            {onDelete && (
+            {onUserAssignClick && (
               <ActionIcon
-                aria-label={commonT().expressions.Delete}
+                aria-label={t().admin.managers["role-users"].Action}
+                onClick={() => onUserAssignClick(row)}
+              >
+                <FaUserEdit />
+              </ActionIcon>
+            )}
+            {onDeleteClick && (
+              <ActionIcon
+                aria-label={t().admin.managers.delete.Action}
                 loading={isDeleting}
-                onClick={() => onDelete(row)}
+                onClick={() => onDeleteClick(row)}
                 variant="outline"
                 color="red"
               >
