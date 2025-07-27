@@ -94,6 +94,7 @@ export class RoleRepository extends Repository {
           id: userTable.id,
           name: userTable.name,
           code: userTable.code,
+          email: userTable.email,
           username: userTable.username,
           createdAt: userTable.createdAt,
           updatedAt: userTable.updatedAt,

@@ -51,7 +51,12 @@ export class UserService {
       if (!data) continue;
 
       // If the data is the same, do not update
-      if (data.name === user.name && data.username === user.username) continue;
+      if (
+        data.name === user.name &&
+        data.username === user.username &&
+        data.email === user.email
+      )
+        continue;
 
       await this.updateById(user.id, data, options);
     }

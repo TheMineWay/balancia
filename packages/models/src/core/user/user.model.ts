@@ -15,6 +15,10 @@ export const USER_MODEL_VALUES = {
     minLength: 1,
     maxLength: 128,
   },
+  email: {
+    minLength: 5,
+    maxLength: 256,
+  },
 } satisfies ModelValues;
 
 export const USER_SCHEMA = object({
@@ -28,6 +32,10 @@ export const USER_SCHEMA = object({
   username: string()
     .min(USER_MODEL_VALUES.username.minLength)
     .max(USER_MODEL_VALUES.username.maxLength),
+  email: string()
+    .min(USER_MODEL_VALUES.email.minLength)
+    .max(USER_MODEL_VALUES.email.maxLength)
+    .nullish(),
   ...TIMESTAMPS_SCHEMA.shape,
 });
 
