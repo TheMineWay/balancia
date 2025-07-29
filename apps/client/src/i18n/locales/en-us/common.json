@@ -21,7 +21,9 @@
   "expressions": {
     "Edit": "Edit",
     "Delete": "Delete",
-    "Actions": "Actions"
+    "Actions": "Actions",
+    "Unassign": "Unassign",
+    "Unassign-sth": "Unassign {name}"
   },
   "templates": {
     "confirm-modal": {
