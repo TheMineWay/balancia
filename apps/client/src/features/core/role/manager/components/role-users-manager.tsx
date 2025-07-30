@@ -2,10 +2,12 @@ import { DebouncedSearch } from "@common/components/form/items/search/debounced-
 import { useDebouncedSearch } from "@common/components/form/items/search/use-debounced-search";
 import { UserCard } from "@common/components/user/user-card";
 import { usePagination } from "@common/hooks/use-pagination";
-import { useRoleUsersListQuery } from "@core-fts/role/manager/api/use-role-users-list.query";
+import { useRoleUserUnassignMutation } from "@core-fts/role/manager/api/role-user/use-role-user-unassign.mutation";
+import { useRoleUsersListQuery } from "@core-fts/role/manager/api/role-user/use-role-users-list.query";
 import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Pagination } from "@mantine/core";
 import type { RoleModel } from "@shared/models";
+import { useCallback } from "react";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 
 type Props = {
@@ -15,6 +17,7 @@ type Props = {
 export const RoleUsersManager: FC<Props> = ({ role }) => {
   const { interpolated: commonInterpolated } = useTranslation("common");
   const pagination = usePagination();
+  const { mutate: unassignUser } = useRoleUserUnassignMutation();
 
   const search = useDebouncedSearch();
 
@@ -24,6 +27,16 @@ export const RoleUsersManager: FC<Props> = ({ role }) => {
     {
       search: search.debouncedValue,
     }
+  );
+
+  const onUnassignClick = useCallback(
+    (userId: number) => {
+      unassignUser({
+        roleId: role.id,
+        userId,
+      });
+    },
+    [role.id]
   );
 
   return (
@@ -43,6 +56,7 @@ export const RoleUsersManager: FC<Props> = ({ role }) => {
                   (t) => t.expressions["Unassign-sth"],
                   { name: user.name }
                 )}
+                onClick={() => onUnassignClick(user.id)}
               >
                 <IoIosRemoveCircleOutline />
               </ActionIcon>,

@@ -2,7 +2,7 @@ import { useAuthenticatedRequest } from "@common/core/auth/hooks/use-authenticat
 import { endpointQuery } from "@common/core/requests/lib/endpoint-query.util";
 import type { ParametrizedQueryKey } from "@common/core/requests/types/query-key.type";
 import type { UsePagination } from "@common/hooks/use-pagination";
-import { ADMIN_ROLE_CONTROLLER } from "@shared/api-definition";
+import { ADMIN_ROLE_CONTROLLER, getController } from "@shared/api-definition";
 import type { PaginatedQuery, RoleModel } from "@shared/models";
 import { useQuery } from "@tanstack/react-query";
 
@@ -11,7 +11,7 @@ export const ROLE_USERS_LIST_QUERY_KEY: ParametrizedQueryKey<{
   pagination: PaginatedQuery;
   filters: Filters;
 }> = ({ roleId, pagination, filters }) => [
-  "admin-roles",
+  getController(ADMIN_ROLE_CONTROLLER, {}),
   "role",
   roleId,
   "users-list",
