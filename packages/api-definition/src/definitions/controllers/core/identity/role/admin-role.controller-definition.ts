@@ -51,6 +51,8 @@ const GET_WITH_STATISTICS_ENDPOINT = {
   }),
 } satisfies EndpointDefinition;
 
+// Role users
+
 const GET_ROLE_USERS_ENDPOINT = {
   getPath: (params) => ["role", params.roleId, "users"],
   paramsMapping: { roleId: "roleId" },
@@ -61,6 +63,30 @@ const GET_ROLE_USERS_ENDPOINT = {
     ...PAGINATED_QUERY_SCHEMA.shape,
   }),
 } satisfies EndpointDefinition<{ roleId: string }>;
+
+const ASSIGN_ROLE_ENDPOINT = {
+  getPath: (params) => [
+    "role",
+    params.roleId,
+    "user",
+    params.userId,
+    "assignation",
+  ],
+  paramsMapping: { roleId: "roleId", userId: "userId" },
+  method: EndpointMethod.POST,
+} satisfies EndpointDefinition<{ roleId: string; userId: string }>;
+
+const UNASSIGN_ROLE_ENDPOINT = {
+  getPath: (params) => [
+    "role",
+    params.roleId,
+    "user",
+    params.userId,
+    "assignation",
+  ],
+  paramsMapping: { roleId: "roleId", userId: "userId" },
+  method: EndpointMethod.DELETE,
+} satisfies EndpointDefinition<{ roleId: string; userId: string }>;
 
 /* Definition */
 
@@ -77,5 +103,7 @@ export const ADMIN_ROLE_CONTROLLER = {
     // Extended
     "get-with-statistics": GET_WITH_STATISTICS_ENDPOINT,
     "role-users": GET_ROLE_USERS_ENDPOINT,
+    "assign-role": ASSIGN_ROLE_ENDPOINT,
+    "unassign-role": UNASSIGN_ROLE_ENDPOINT,
   },
 } satisfies ControllerDefinition;

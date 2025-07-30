@@ -68,6 +68,30 @@ export class AdminRoleController {
     return { roles: await this.roleService.getRolesWithPermissions() };
   }
 
+  // MARK: Role users
+
+  @ApiOperation({ summary: "Assign a user to a role" })
+  @Endpoint(CONTROLLER, "assign-role")
+  async assignRole(
+    @Param(getParamName(CONTROLLER, "assign-role", "roleId"), ParseIntPipe)
+    roleId: number,
+    @Param(getParamName(CONTROLLER, "assign-role", "userId"), ParseIntPipe)
+    userId: number,
+  ): Promise<InferResponseDto<typeof CONTROLLER, "assign-role">> {
+    await this.roleService.assignRole(roleId, userId);
+  }
+
+  @ApiOperation({ summary: "Unassign a user from a role" })
+  @Endpoint(CONTROLLER, "unassign-role")
+  async unassignRole(
+    @Param(getParamName(CONTROLLER, "unassign-role", "roleId"), ParseIntPipe)
+    roleId: number,
+    @Param(getParamName(CONTROLLER, "unassign-role", "userId"), ParseIntPipe)
+    userId: number,
+  ): Promise<InferResponseDto<typeof CONTROLLER, "unassign-role">> {
+    await this.roleService.unassignRole(roleId, userId);
+  }
+
   @ApiOperation({ summary: "Get users assigned to a role" })
   @Endpoint(CONTROLLER, "role-users")
   async getRoleUsers(

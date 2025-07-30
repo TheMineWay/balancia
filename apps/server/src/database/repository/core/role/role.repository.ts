@@ -14,7 +14,7 @@ import {
   roleTable,
 } from "@database/schemas/main/tables/identity/role.table";
 import { Injectable } from "@nestjs/common";
-import { PaginatedQuery, RoleModel } from "@shared/models";
+import { PaginatedQuery, RoleModel, UserModel } from "@shared/models";
 import { and, countDistinct, desc, eq, like, sql } from "drizzle-orm";
 
 @Injectable()
@@ -76,6 +76,26 @@ export class RoleRepository extends Repository {
 
   delete(id: number, options?: QueryOptions) {
     return this.query(options).delete(roleTable).where(eq(roleTable.id, id));
+  }
+
+  assignRole(
+    roleId: RoleModel["id"],
+    userId: UserModel["id"],
+    options?: QueryOptions,
+  ) {
+    return this.query(options).insert(userRoleTable).values({ roleId, userId });
+  }
+
+  unassignRole(
+    roleId: RoleModel["id"],
+    userId: UserModel["id"],
+    options?: QueryOptions,
+  ) {
+    return this.query(options)
+      .delete(userRoleTable)
+      .where(
+        and(eq(userRoleTable.roleId, roleId), eq(userRoleTable.userId, userId)),
+      );
   }
 
   async findRoleUsersList(

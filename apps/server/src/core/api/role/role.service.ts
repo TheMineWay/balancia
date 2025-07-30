@@ -8,6 +8,7 @@ import type {
   PaginatedQuery,
   PaginatedResponse,
   RoleEditablePropsModel,
+  RoleModel,
   UserModel,
 } from "@shared/models";
 
@@ -34,6 +35,16 @@ export class RoleService {
 
   async getRolesWithPermissions() {
     return await this.roleRepository.findWithStatistics();
+  }
+
+  // MARK: Role users
+
+  assignRole(roleId: RoleModel["id"], userId: UserModel["id"]) {
+    return this.roleRepository.assignRole(roleId, userId);
+  }
+
+  unassignRole(roleId: RoleModel["id"], userId: UserModel["id"]) {
+    return this.roleRepository.unassignRole(roleId, userId);
   }
 
   getRoleUsersList(
