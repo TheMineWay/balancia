@@ -15,14 +15,16 @@ type Props = {
 export const RoleUsersManager: FC<Props> = ({ role }) => {
   const { interpolated: commonInterpolated } = useTranslation("common");
   const pagination = usePagination();
+
+  const search = useDebouncedSearch();
+
   const { data: { items: users = [] } = {} } = useRoleUsersListQuery(
     role.id,
-    pagination
+    pagination,
+    {
+      search: search.debouncedValue,
+    }
   );
-
-  const search = useDebouncedSearch({
-    onSearch: console.log,
-  });
 
   return (
     <div className="flex flex-col gap-2">

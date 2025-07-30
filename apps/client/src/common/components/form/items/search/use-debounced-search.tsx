@@ -11,7 +11,9 @@ export const useDebouncedSearch = ({
   onSearch,
 }: Options = {}) => {
   const [value, setValue] = useState<string>("");
+  const [debouncedValue, setDebouncedValue] = useState<string>("");
   const debouncedSearch = useDebouncedCallback((nv: string) => {
+    setDebouncedValue(nv);
     onSearch?.(nv);
   }, debounceTime);
 
@@ -20,6 +22,7 @@ export const useDebouncedSearch = ({
   }, [value, debouncedSearch]);
 
   return {
+    debouncedValue,
     value,
     setValue,
   };

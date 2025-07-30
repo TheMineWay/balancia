@@ -42,7 +42,7 @@ export const getEndpointRequest = <
         .filter((p) => p !== "")
         .join("/"),
       data: options.body,
-      params: options.query ? {} : undefined,
+      params: options.query ?? undefined,
       method: endpoint.method ?? EndpointMethod.GET,
     },
 

@@ -56,7 +56,10 @@ const GET_ROLE_USERS_ENDPOINT = {
   paramsMapping: { roleId: "roleId" },
   method: EndpointMethod.GET,
   responseDto: getPaginatedResponse(USER_SCHEMA),
-  queryDto: PAGINATED_QUERY_SCHEMA,
+  queryDto: z.object({
+    ...PAGINATED_QUERY_SCHEMA.shape,
+    search: z.string().optional(),
+  }),
 } satisfies EndpointDefinition<{ roleId: string }>;
 
 /* Definition */
