@@ -39,7 +39,8 @@ export class RoleService {
   getRoleUsersList(
     roleId: number,
     pagination: PaginatedQuery,
+    search?: string,
   ): Promise<PaginatedResponse<UserModel>> {
-    return this.roleRepository.findRoleUsersList(roleId, pagination);
+    return this.roleRepository.findRoleUsersList(roleId, pagination, search);
   }
 }

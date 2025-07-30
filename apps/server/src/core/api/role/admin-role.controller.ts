@@ -10,9 +10,10 @@ import {
   getController,
   getParamName,
   type InferBodyDto,
+  type InferQueryDto,
   type InferResponseDto,
 } from "@shared/api-definition";
-import { type PaginatedQuery, Permission } from "@shared/models";
+import { Permission } from "@shared/models";
 
 const CONTROLLER = ADMIN_ROLE_CONTROLLER;
 
@@ -72,8 +73,13 @@ export class AdminRoleController {
   async getRoleUsers(
     @Param(getParamName(CONTROLLER, "role-users", "roleId"), ParseIntPipe)
     roleId: number,
-    @ValidatedQuery(CONTROLLER, "role-users") pagination: PaginatedQuery,
+    @ValidatedQuery(CONTROLLER, "role-users")
+    { limit, page, search }: InferQueryDto<typeof CONTROLLER, "role-users">,
   ): Promise<InferResponseDto<typeof CONTROLLER, "role-users">> {
-    return await this.roleService.getRoleUsersList(roleId, pagination);
+    return await this.roleService.getRoleUsersList(
+      roleId,
+      { limit, page },
+      search,
+    );
   }
 }

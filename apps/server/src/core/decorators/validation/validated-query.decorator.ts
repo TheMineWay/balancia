@@ -15,7 +15,7 @@ export const ValidatedQuery = <
 
     const request: Request = ctx.switchToHttp().getRequest();
     const queryParams = new URLSearchParams(request.url.split("?")[1]);
-    const result = schema.safeParse(queryParams);
+    const result = schema.safeParse(Object.fromEntries(queryParams.entries()));
 
     if (!result.success) {
       throw new BadRequestException({

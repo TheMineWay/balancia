@@ -105,7 +105,7 @@ export class RoleRepository extends Repository {
           and(
             eq(userRoleTable.roleId, roleId),
             parsedTextSearch
-              ? like(userTable.name, parsedTextSearch)
+              ? like(userTable.name, `%${parsedTextSearch}%`)
               : undefined,
           ),
         )
