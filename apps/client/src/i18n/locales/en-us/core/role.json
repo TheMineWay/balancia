@@ -29,6 +29,11 @@
         "confirm": {
           "Message": "Are you sure you want to delete the \"{name}\" role?"
         }
+      },
+      "assign-role": {
+        "Title": "Assign role \"{name}\" to user",
+        "Action": "Assign role",
+        "Message": "The role \"{name}\" will be assigned to {name}"
       }
     }
   },
