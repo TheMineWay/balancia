@@ -4,7 +4,7 @@ import z from "zod";
 
 export const PAGINATED_SEARCH_SCHEMA = z.object({
   pagination: PAGINATED_QUERY_SCHEMA,
-  search: SEARCH_SCHEMA,
+  search: SEARCH_SCHEMA.optional().default({ search: null }),
 });
 
 export type PaginatedSearchModel = z.infer<typeof PAGINATED_SEARCH_SCHEMA>;

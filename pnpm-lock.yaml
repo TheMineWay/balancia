@@ -252,6 +252,9 @@ importers:
       passport-jwt:
         specifier: ^4.0.1
         version: 4.0.1
+      qs:
+        specifier: ^6.14.0
+        version: 6.14.0
       reflect-metadata:
         specifier: ~0.2.2
         version: 0.2.2
@@ -298,6 +301,9 @@ importers:
       '@types/passport-jwt':
         specifier: ^4.0.1
         version: 4.0.1
+      '@types/qs':
+        specifier: ^6.14.0
+        version: 6.14.0
       dotenv:
         specifier: ^17.2.1
         version: 17.2.1
@@ -7765,6 +7771,7 @@ packages:
   source-map@0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
     engines: {node: '>= 8'}
+    deprecated: The work that was done in this beta branch won't be included in future versions
 
   space-separated-tokens@2.0.2:
     resolution: {integrity: sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==}

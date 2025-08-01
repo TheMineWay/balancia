@@ -1,6 +1,8 @@
 import type { ExecutionContext } from "@nestjs/common";
 import { BadRequestException, createParamDecorator } from "@nestjs/common";
 import type { ControllerDefinition } from "@shared/api-definition";
+import type { Request } from "express";
+import * as qs from "qs";
 
 export const ValidatedQuery = <
   C extends ControllerDefinition,
@@ -14,8 +16,10 @@ export const ValidatedQuery = <
     if (!schema) return {};
 
     const request: Request = ctx.switchToHttp().getRequest();
-    const queryParams = new URLSearchParams(request.url.split("?")[1]);
-    const result = schema.safeParse(Object.fromEntries(queryParams.entries()));
+    const queryString = request.url.split("?")[1] || "";
+    const parsedQuery = qs.parse(queryString);
+
+    const result = schema.safeParse(parsedQuery);
 
     if (!result.success) {
       throw new BadRequestException({
