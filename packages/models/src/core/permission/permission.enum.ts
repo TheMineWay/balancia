@@ -6,6 +6,7 @@
  * - `resource:use` - Allows a user to use the resource.
  */
 export enum Permission {
+  USERS_READ = "users:read",
   ROLE_ADMIN = "role:admin",
 }
 

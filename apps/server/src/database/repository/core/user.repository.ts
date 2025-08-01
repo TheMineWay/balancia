@@ -1,3 +1,4 @@
+import { queryWithCount, withPagination } from "@database/common/pagination";
 import { QueryOptions, Repository } from "@database/repository/core/repository";
 import {
   UserInsert,
@@ -5,8 +6,8 @@ import {
   UserUpdate,
 } from "@database/schemas/main/tables/identity/user.table";
 import { Injectable } from "@nestjs/common";
-import { DbUserModel } from "@shared/models";
-import { eq, inArray } from "drizzle-orm";
+import { DbUserModel, PaginatedQuery } from "@shared/models";
+import { eq, inArray, like } from "drizzle-orm";
 
 @Injectable()
 export class UserRepository extends Repository {
@@ -28,6 +29,29 @@ export class UserRepository extends Repository {
         .limit(1)
     )?.[0];
 
+  findAndCount = async (
+    pagination: PaginatedQuery,
+    { search }: GenericFilters = {},
+    options?: QueryOptions,
+  ) => {
+    const query = withPagination(
+      this.query(options)
+        .select()
+        .from(userTable)
+        .where(search ? like(userTable.name, `%${search}%`) : undefined)
+        .$dynamic(),
+      pagination.page,
+      pagination.limit,
+    );
+
+    const [items, total] = await queryWithCount(query);
+
+    return {
+      items,
+      total,
+    };
+  };
+
   findByCodes = async (codes: string[], options?: QueryOptions) =>
     this.query(options)
       .select()
@@ -46,3 +70,8 @@ export class UserRepository extends Repository {
   ) =>
     this.query(options).update(userTable).set(data).where(eq(userTable.id, id));
 }
+
+/* Internal types */
+type GenericFilters = {
+  search?: string;
+};
