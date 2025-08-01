@@ -1,6 +1,6 @@
 import {
   getPaginatedResponse,
-  PAGINATED_QUERY_SCHEMA,
+  PAGINATED_SEARCH_SCHEMA,
   ROLE_EDITABLE_PROPS_SCHEMA,
   ROLE_SCHEMA,
   USER_SCHEMA,
@@ -58,10 +58,7 @@ const GET_ROLE_USERS_ENDPOINT = {
   paramsMapping: { roleId: "roleId" },
   method: EndpointMethod.GET,
   responseDto: getPaginatedResponse(USER_SCHEMA),
-  queryDto: z.object({
-    search: z.string().max(32).optional(),
-    ...PAGINATED_QUERY_SCHEMA.shape,
-  }),
+  queryDto: PAGINATED_SEARCH_SCHEMA,
 } satisfies EndpointDefinition<{ roleId: string }>;
 
 const ASSIGN_ROLE_ENDPOINT = {

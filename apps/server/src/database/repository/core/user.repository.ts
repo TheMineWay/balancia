@@ -6,8 +6,8 @@ import {
   UserUpdate,
 } from "@database/schemas/main/tables/identity/user.table";
 import { Injectable } from "@nestjs/common";
-import { DbUserModel, PaginatedQuery } from "@shared/models";
-import { eq, inArray, like } from "drizzle-orm";
+import { DbUserModel, PaginatedQuery, SearchModel } from "@shared/models";
+import { asc, eq, inArray, like } from "drizzle-orm";
 
 @Injectable()
 export class UserRepository extends Repository {
@@ -31,7 +31,7 @@ export class UserRepository extends Repository {
 
   findAndCount = async (
     pagination: PaginatedQuery,
-    { search }: GenericFilters = {},
+    { search }: SearchModel = { search: null },
     options?: QueryOptions,
   ) => {
     const query = withPagination(
@@ -39,6 +39,7 @@ export class UserRepository extends Repository {
         .select()
         .from(userTable)
         .where(search ? like(userTable.name, `%${search}%`) : undefined)
+        .orderBy(asc(userTable.id))
         .$dynamic(),
       pagination.page,
       pagination.limit,

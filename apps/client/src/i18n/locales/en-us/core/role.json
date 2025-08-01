@@ -47,9 +47,9 @@
     }
   },
   "permissions": {
-    "role:admin": {
-      "Name": "Admin roles",
-      "Description": "Manage roles and permissions"
+    "admin": {
+      "Name": "Admin",
+      "Description": "Manage platform"
     }
   }
 }

@@ -9,7 +9,7 @@ type Options = {
 
 type Pagination = {
   page: number;
-  pageSize: number;
+  limit: number;
 };
 
 export const usePagination = ({
@@ -20,14 +20,14 @@ export const usePagination = ({
 }: Options = {}) => {
   const [pagination, setPagination] = useState<Pagination>({
     page: initialPage,
-    pageSize: initialPageSize,
+    limit: initialPageSize,
   });
   const [totalState, setTotalState] = useState(initialTotal);
 
   const requestData = useMemo(
     () => ({
       page: pagination.page,
-      limit: pagination.pageSize,
+      limit: pagination.limit,
     }),
     [pagination]
   );

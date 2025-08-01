@@ -11,18 +11,15 @@ import {
 } from "@shared/api-definition";
 import { Permission } from "@shared/models";
 
-@Permissions(Permission.USERS_READ)
+@Permissions(Permission.ADMIN)
 @Controller(getController(ADMIN_USER_CONTROLLER, {}))
 export class AdminUserController {
   constructor(private readonly userService: UserService) {}
 
   @Endpoint(ADMIN_USER_CONTROLLER, "list")
-  async getUsersList(
+  getUsersList(
     @ValidatedQuery(ADMIN_USER_CONTROLLER, "list")
-    {
-      search,
-      ...pagination
-    }: InferQueryDto<typeof ADMIN_USER_CONTROLLER, "list">,
+    { search, pagination }: InferQueryDto<typeof ADMIN_USER_CONTROLLER, "list">,
   ): Promise<InferResponseDto<typeof ADMIN_USER_CONTROLLER, "list">> {
     return this.userService.getList(pagination, search);
   }

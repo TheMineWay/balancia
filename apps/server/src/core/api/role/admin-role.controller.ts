@@ -18,7 +18,7 @@ import { Permission } from "@shared/models";
 const CONTROLLER = ADMIN_ROLE_CONTROLLER;
 
 @ApiTags("Role administration")
-@Permissions(Permission.ROLE_ADMIN)
+@Permissions(Permission.ADMIN)
 @Controller(getController(CONTROLLER, {}))
 export class AdminRoleController {
   constructor(private readonly roleService: RoleService) {}
@@ -98,12 +98,8 @@ export class AdminRoleController {
     @Param(getParamName(CONTROLLER, "role-users", "roleId"), ParseIntPipe)
     roleId: number,
     @ValidatedQuery(CONTROLLER, "role-users")
-    { limit, page, search }: InferQueryDto<typeof CONTROLLER, "role-users">,
+    { pagination, search }: InferQueryDto<typeof CONTROLLER, "role-users">,
   ): Promise<InferResponseDto<typeof CONTROLLER, "role-users">> {
-    return await this.roleService.getRoleUsersList(
-      roleId,
-      { limit, page },
-      search,
-    );
+    return await this.roleService.getRoleUsersList(roleId, pagination, search);
   }
 }

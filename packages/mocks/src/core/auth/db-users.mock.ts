@@ -8,6 +8,7 @@ export const DB_USERS_MOCK = {
     username: "john.doe",
     createdAt: new Date("2024-01-01T00:00:00Z"),
     updatedAt: new Date("2024-01-01T00:00:00Z"),
+    email: null,
   },
   "alice.smith": {
     id: 2,
@@ -16,5 +17,6 @@ export const DB_USERS_MOCK = {
     username: "alice.smith",
     createdAt: new Date("2024-02-01T12:30:00Z"),
     updatedAt: new Date("2024-02-01T12:30:00Z"),
+    email: null,
   },
 } satisfies Record<string, DbUserModel>;

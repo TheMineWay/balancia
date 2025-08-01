@@ -1,20 +1,21 @@
 import {
   getPaginatedResponse,
-  PAGINATED_QUERY_SCHEMA,
+  PAGINATED_SEARCH_SCHEMA,
   USER_SCHEMA,
 } from "@shared/models";
-import { ControllerDefinition } from "@ts-types/controller-definition.type";
-import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
+import type { ControllerDefinition } from "@ts-types/controller-definition.type";
+import type { EndpointDefinition } from "@ts-types/endpoint-definition.type";
+import { EndpointMethod } from "@ts-types/endpoint-method.enum";
 import z from "zod";
 
-export const USER_LIST_ENDPOINT = {
+const USER_LIST_ENDPOINT = {
   getPath: () => ["list"],
   paramsMapping: {},
   responseDto: getPaginatedResponse(USER_SCHEMA),
   queryDto: z.object({
-    search: z.string().optional(),
-    ...PAGINATED_QUERY_SCHEMA.shape,
+    ...PAGINATED_SEARCH_SCHEMA.shape,
   }),
+  method: EndpointMethod.GET,
 } satisfies EndpointDefinition;
 
 // Controller

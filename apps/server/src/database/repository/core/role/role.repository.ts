@@ -14,7 +14,12 @@ import {
   roleTable,
 } from "@database/schemas/main/tables/identity/role.table";
 import { Injectable } from "@nestjs/common";
-import { PaginatedQuery, RoleModel, UserModel } from "@shared/models";
+import {
+  PaginatedQuery,
+  RoleModel,
+  SearchModel,
+  UserModel,
+} from "@shared/models";
 import { and, countDistinct, desc, eq, like, sql } from "drizzle-orm";
 
 @Injectable()
@@ -101,11 +106,11 @@ export class RoleRepository extends Repository {
   async findRoleUsersList(
     roleId: RoleModel["id"],
     pagination: PaginatedQuery,
-    textSearch: string | null = null,
+    search: SearchModel = { search: null },
     options?: QueryOptions,
   ) {
-    const parsedTextSearch = textSearch
-      ? textSearch.trim().toLowerCase()
+    const parsedTextSearch = search.search
+      ? search.search.trim().toLowerCase()
       : null;
 
     const query = withPagination(

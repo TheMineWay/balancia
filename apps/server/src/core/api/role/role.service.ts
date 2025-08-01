@@ -9,6 +9,7 @@ import type {
   PaginatedResponse,
   RoleEditablePropsModel,
   RoleModel,
+  SearchModel,
   UserModel,
 } from "@shared/models";
 
@@ -50,7 +51,7 @@ export class RoleService {
   getRoleUsersList(
     roleId: number,
     pagination: PaginatedQuery,
-    search?: string,
+    search: SearchModel,
   ): Promise<PaginatedResponse<UserModel>> {
     return this.roleRepository.findRoleUsersList(roleId, pagination, search);
   }

@@ -4,7 +4,7 @@ import { number, object, string, z } from "zod";
 
 export const USER_MODEL_VALUES = {
   code: {
-    minLength: 32,
+    minLength: 4,
     maxLength: 64,
   },
   name: {
@@ -35,7 +35,9 @@ export const USER_SCHEMA = object({
   email: string()
     .min(USER_MODEL_VALUES.email.minLength)
     .max(USER_MODEL_VALUES.email.maxLength)
-    .nullish(),
+    .optional()
+    .nullable()
+    .default(null),
   ...TIMESTAMPS_SCHEMA.shape,
 });
 

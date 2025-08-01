@@ -3,29 +3,25 @@ import { endpointQuery } from "@common/core/requests/lib/endpoint-query.util";
 import type { ParametrizedQueryKey } from "@common/core/requests/types/query-key.type";
 import type { UsePagination } from "@common/hooks/use-pagination";
 import { ADMIN_ROLE_CONTROLLER, getController } from "@shared/api-definition";
-import type { PaginatedQuery, RoleModel } from "@shared/models";
+import type { PaginatedQuery, RoleModel, SearchModel } from "@shared/models";
 import { useQuery } from "@tanstack/react-query";
 
 export const ROLE_USERS_LIST_QUERY_KEY: ParametrizedQueryKey<{
   roleId: string;
   pagination: PaginatedQuery;
-  filters: Filters;
-}> = ({ roleId, pagination, filters }) => [
+  search: SearchModel;
+}> = ({ roleId, pagination, search }) => [
   getController(ADMIN_ROLE_CONTROLLER, {}),
   "role",
   roleId,
   "users-list",
-  { pagination, filters },
+  { pagination, search },
 ];
-
-type Filters = {
-  search?: string;
-};
 
 export const useRoleUsersListQuery = (
   roleId: RoleModel["id"],
   { requestData, setTotal }: UsePagination,
-  filters: Filters = {}
+  search: SearchModel
 ) => {
   const { request } = useAuthenticatedRequest();
 
@@ -36,7 +32,7 @@ export const useRoleUsersListQuery = (
         "role-users",
         { roleId: roleId.toString() },
         request,
-        { query: { ...requestData, ...filters } }
+        { query: { pagination: requestData, search } }
       )();
 
       setTotal(response.total);
@@ -46,7 +42,7 @@ export const useRoleUsersListQuery = (
     queryKey: ROLE_USERS_LIST_QUERY_KEY({
       roleId: roleId.toString(),
       pagination: requestData,
-      filters,
+      search,
     }),
   });
 };

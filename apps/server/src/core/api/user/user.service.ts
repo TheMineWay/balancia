@@ -6,7 +6,7 @@ import {
 } from "@database/schemas/main/tables/identity/user.table";
 import { Injectable } from "@nestjs/common";
 import { UserRepository } from "@repository/core/user.repository";
-import { DbUserModel, PaginatedQuery } from "@shared/models";
+import { DbUserModel, PaginatedQuery, SearchModel } from "@shared/models";
 
 @Injectable()
 export class UserService {
@@ -26,8 +26,8 @@ export class UserService {
     return this.userCacheService.getById(userId, this.userRepository.findById);
   };
 
-  getList = async (pagination: PaginatedQuery, search?: string) => {
-    return this.userRepository.findAndCount(pagination, { search });
+  getList = async (pagination: PaginatedQuery, search: SearchModel) => {
+    return this.userRepository.findAndCount(pagination, search);
   };
 
   updateById = (
