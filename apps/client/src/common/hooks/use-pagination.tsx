@@ -35,8 +35,21 @@ export const usePagination = ({
     () => ({
       total: totalState,
     }),
-    [pagination, totalState]
+    [totalState]
   );
+
+  const hasMore = useMemo(() => {
+    if (!pagination || !totalState) return false;
+    return pagination.page * pagination.limit < totalState;
+  }, [pagination, totalState]);
+
+  const next = useCallback(() => {
+    if (!hasMore) return;
+    setPagination((prev) => ({
+      ...prev,
+      page: prev.page + 1,
+    }));
+  }, [hasMore]);
 
   useEffect(() => {
     onPaginationChange?.(pagination);
@@ -57,6 +70,8 @@ export const usePagination = ({
     setTotal,
     control,
     requestData,
+    hasMore,
+    next,
   };
 };
 
