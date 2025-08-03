@@ -23,7 +23,7 @@ const CONTROLLER = ADMIN_ROLE_CONTROLLER;
 export class AdminRoleController {
   constructor(private readonly roleService: RoleService) {}
 
-  // CRUD
+  // MARK: CRUD
 
   @ApiOperation({ summary: "Get all roles" })
   @Endpoint(CONTROLLER, "get")
@@ -59,7 +59,7 @@ export class AdminRoleController {
     await this.roleService.delete(id);
   }
 
-  // Extended
+  // MARK: List
   @ApiOperation({ summary: "Get roles with statistics" })
   @Endpoint(CONTROLLER, "get-with-statistics")
   async getRolesWithPermissions(): Promise<
