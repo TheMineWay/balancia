@@ -150,4 +150,11 @@ export class RoleService {
 
     this.userAuthInfoCacheService.clearAll();
   }
+
+  /**
+   * Retrieves all permissions assigned to a specific role
+   */
+  async getRolePermissions(roleId: RoleModel["id"]) {
+    return this.roleRepository.findRolePermissions(roleId);
+  }
 }

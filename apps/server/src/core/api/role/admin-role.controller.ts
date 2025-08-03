@@ -104,7 +104,7 @@ export class AdminRoleController {
   }
 
   // MARK: Role permissions
-  @ApiOperation({ summary: "Set tole permissions" })
+  @ApiOperation({ summary: "Set role permissions" })
   @Endpoint(CONTROLLER, "set-role-permissions")
   async setPermissions(
     @Param(
@@ -116,5 +116,21 @@ export class AdminRoleController {
     body: InferBodyDto<typeof CONTROLLER, "set-role-permissions">,
   ): Promise<InferResponseDto<typeof CONTROLLER, "set-role-permissions">> {
     await this.roleService.setRolePermissions(roleId, body.permissions);
+  }
+
+  @ApiOperation({ summary: "Get role permissions" })
+  @Endpoint(CONTROLLER, "get-role-permissions")
+  async getRolePermissions(
+    @Param(
+      getParamName(CONTROLLER, "get-role-permissions", "roleId"),
+      ParseIntPipe,
+    )
+    roleId: number,
+  ): Promise<InferResponseDto<typeof CONTROLLER, "get-role-permissions">> {
+    return {
+      permissions: (await this.roleService.getRolePermissions(roleId)).map(
+        (r) => r.code,
+      ),
+    };
   }
 }

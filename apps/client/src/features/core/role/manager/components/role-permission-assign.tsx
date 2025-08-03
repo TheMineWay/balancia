@@ -1,5 +1,7 @@
+import { UnknownErrorAlert } from "@common/components/status/unknown-error-alert";
+import { useRolePermissionsQuery } from "@core-fts/role/manager/api/role-permission/use-role-permissions.query";
 import { useTranslation } from "@i18n/use-translation";
-import { Checkbox, Tooltip } from "@mantine/core";
+import { Checkbox, Loader, Tooltip } from "@mantine/core";
 import { PERMISSIONS, type Permission, type RoleModel } from "@shared/models";
 import { useId, useState } from "react";
 
@@ -14,7 +16,21 @@ type PermissionsCheckState = Permission[];
  * This component allows the assignment of permissions to a role.
  */
 export const RolePermissionAssign: FC<Props> = ({ role }) => {
-  const [permissions, setPermissions] = useState<PermissionsCheckState>([]);
+  const {
+    data: { permissions: rolePermissions = [] } = {},
+    isLoading: isLoadingPermissions,
+  } = useRolePermissionsQuery(role.id);
+  const [permissions, setPermissions] =
+    useState<PermissionsCheckState>(rolePermissions);
+
+  if (isLoadingPermissions)
+    return (
+      <div className="flex justify-center">
+        <Loader />
+      </div>
+    );
+
+  if (rolePermissions.length === 0) return <UnknownErrorAlert />;
 
   return (
     <div className="flex flex-col gap-4">
