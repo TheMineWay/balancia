@@ -1,6 +1,7 @@
 import {
   getPaginatedResponse,
   PAGINATED_SEARCH_SCHEMA,
+  Permission,
   ROLE_EDITABLE_PROPS_SCHEMA,
   ROLE_SCHEMA,
   USER_SCHEMA,
@@ -85,6 +86,24 @@ const UNASSIGN_ROLE_ENDPOINT = {
   method: EndpointMethod.DELETE,
 } satisfies EndpointDefinition<{ roleId: string; userId: string }>;
 
+const SET_ROLE_PERMISSIONS_ENDPOINT = {
+  getPath: (params) => ["role", params.roleId, "permissions"],
+  paramsMapping: { roleId: "roleId" },
+  method: EndpointMethod.POST,
+  bodyDto: z.object({
+    permissions: z.array(z.enum(Permission)),
+  }),
+} satisfies EndpointDefinition<{ roleId: string }>;
+
+const GET_ROLE_PERMISSIONS_ENDPOINT = {
+  getPath: (params) => ["role", params.roleId, "permissions"],
+  paramsMapping: { roleId: "roleId" },
+  method: EndpointMethod.GET,
+  responseDto: z.object({
+    permissions: z.array(z.enum(Permission)),
+  }),
+} satisfies EndpointDefinition<{ roleId: string }>;
+
 /* Definition */
 
 export const ADMIN_ROLE_CONTROLLER = {
@@ -97,10 +116,16 @@ export const ADMIN_ROLE_CONTROLLER = {
     update: UPDATE_ENDPOINT,
     delete: DELETE_ENDPOINT,
 
-    // Extended
+    // List
     "get-with-statistics": GET_WITH_STATISTICS_ENDPOINT,
+
+    // Role users
     "role-users": GET_ROLE_USERS_ENDPOINT,
     "assign-role": ASSIGN_ROLE_ENDPOINT,
     "unassign-role": UNASSIGN_ROLE_ENDPOINT,
+
+    // Role permissions
+    "set-role-permissions": SET_ROLE_PERMISSIONS_ENDPOINT,
+    "get-role-permissions": GET_ROLE_PERMISSIONS_ENDPOINT,
   },
 } satisfies ControllerDefinition;

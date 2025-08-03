@@ -9,6 +9,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import type {
   PaginatedQuery,
   PaginatedResponse,
+  Permission,
   RoleEditablePropsModel,
   RoleModel,
   SearchModel,
@@ -69,5 +70,51 @@ export class RoleService {
     search: SearchModel,
   ): Promise<PaginatedResponse<UserModel>> {
     return this.roleRepository.findRoleUsersList(roleId, pagination, search);
+  }
+
+  async setRolePermissions(
+    roleId: RoleModel["id"],
+    permissions: Permission[],
+  ): Promise<void> {
+    return await this.databaseService.db.transaction(async (transaction) => {
+      // Fetch BD permissions
+      const dbPermissions = await this.roleRepository.findPermissions({
+        transaction,
+      });
+
+      // Fetch assigned permissions
+      const assignedRolePermissions =
+        await this.roleRepository.findRolePermissions(roleId, { transaction });
+
+      if (assignedRolePermissions.length > 0) {
+        // Identify assigned permissions that are not present in the new permissions
+        const toRemove = assignedRolePermissions.filter(
+          (p) => !permissions.includes(p.code),
+        );
+
+        // Remove them
+        await this.roleRepository.deleteRolePermissions(
+          roleId,
+          toRemove.map((p) => p.id),
+          { transaction },
+        );
+      }
+
+      // Identify permissions to add
+      const toAdd = dbPermissions.filter(
+        (p) =>
+          permissions.includes(p.code) &&
+          !assignedRolePermissions.find((rp) => rp.code === p.code),
+      );
+
+      // Add new permissions
+      await this.roleRepository.addRolePermissions(
+        roleId,
+        toAdd.map((p) => p?.id),
+        {
+          transaction,
+        },
+      );
+    });
   }
 }

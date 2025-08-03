@@ -102,4 +102,19 @@ export class AdminRoleController {
   ): Promise<InferResponseDto<typeof CONTROLLER, "role-users">> {
     return await this.roleService.getRoleUsersList(roleId, pagination, search);
   }
+
+  // MARK: Role permissions
+  @ApiOperation({ summary: "Set tole permissions" })
+  @Endpoint(CONTROLLER, "set-role-permissions")
+  async setPermissions(
+    @Param(
+      getParamName(CONTROLLER, "set-role-permissions", "roleId"),
+      ParseIntPipe,
+    )
+    roleId: number,
+    @ValidatedBody(CONTROLLER, "set-role-permissions")
+    body: InferBodyDto<typeof CONTROLLER, "set-role-permissions">,
+  ): Promise<InferResponseDto<typeof CONTROLLER, "set-role-permissions">> {
+    await this.roleService.setRolePermissions(roleId, body.permissions);
+  }
 }

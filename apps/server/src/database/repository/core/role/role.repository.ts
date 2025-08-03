@@ -4,10 +4,12 @@ import {
   Repository,
 } from "@database/repository/core/repository";
 import {
+  permissionTable,
   rolePermissionTable,
   userRoleTable,
   userTable,
 } from "@database/schemas/main.schema";
+import { PermissionSelect } from "@database/schemas/main/tables/identity/permission.table";
 import {
   type RoleInsert,
   type RoleUpdate,
@@ -20,7 +22,7 @@ import {
   SearchModel,
   UserModel,
 } from "@shared/models";
-import { and, countDistinct, desc, eq, like, sql } from "drizzle-orm";
+import { and, countDistinct, desc, eq, inArray, like, sql } from "drizzle-orm";
 
 @Injectable()
 export class RoleRepository extends Repository {
@@ -162,5 +164,50 @@ export class RoleRepository extends Repository {
       items,
       total,
     };
+  }
+
+  async findRolePermissions(roleId: RoleModel["id"], options?: QueryOptions) {
+    return await this.query(options)
+      .select({ id: permissionTable.id, code: permissionTable.code })
+      .from(rolePermissionTable)
+      .where(eq(rolePermissionTable.roleId, roleId))
+      .innerJoin(
+        permissionTable,
+        eq(rolePermissionTable.permissionId, permissionTable.id),
+      );
+  }
+
+  async addRolePermissions(
+    roleId: RoleModel["id"],
+    permissionIds: PermissionSelect["id"][],
+    options?: QueryOptions,
+  ) {
+    return await this.query(options)
+      .insert(rolePermissionTable)
+      .values(
+        permissionIds.map((permissionId) => ({
+          roleId,
+          permissionId,
+        })),
+      );
+  }
+
+  async deleteRolePermissions(
+    roleId: RoleModel["id"],
+    permissionIds: PermissionSelect["id"][],
+    options?: QueryOptions,
+  ) {
+    return await this.query(options)
+      .delete(rolePermissionTable)
+      .where(
+        and(
+          eq(rolePermissionTable.roleId, roleId),
+          inArray(rolePermissionTable.permissionId, permissionIds),
+        ),
+      );
+  }
+
+  findPermissions(options?: QueryOptions) {
+    return this.query(options).select().from(permissionTable);
   }
 }
