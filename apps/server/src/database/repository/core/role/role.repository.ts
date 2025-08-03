@@ -28,6 +28,22 @@ export class RoleRepository extends Repository {
     return await this.query(options).select().from(roleTable);
   }
 
+  async findByUserAndRole(
+    userId: UserModel["id"],
+    roleId: RoleModel["id"],
+    options?: QueryOptions,
+  ) {
+    const userRole = await this.query(options)
+      .select()
+      .from(userRoleTable)
+      .where(
+        and(eq(userRoleTable.userId, userId), eq(userRoleTable.roleId, roleId)),
+      )
+      .limit(1);
+
+    return userRole.length > 0 ? userRole[0] : null;
+  }
+
   async findWithStatistics(options?: QueryOptions) {
     // Count permissions
     const pc = this.query(options)

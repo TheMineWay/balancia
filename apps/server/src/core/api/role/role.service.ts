@@ -1,9 +1,11 @@
+import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { RoleRepository } from "@database/repository/core/role/role.repository";
 import type {
   RoleSelect,
   RoleUpdate,
 } from "@database/schemas/main/tables/identity/role.table";
-import { Injectable } from "@nestjs/common";
+import { DatabaseService } from "@database/services/database.service";
+import { Inject, Injectable } from "@nestjs/common";
 import type {
   PaginatedQuery,
   PaginatedResponse,
@@ -15,7 +17,11 @@ import type {
 
 @Injectable()
 export class RoleService {
-  constructor(private readonly roleRepository: RoleRepository) {}
+  constructor(
+    private readonly roleRepository: RoleRepository,
+    @Inject(DATABASE_PROVIDERS.main)
+    private readonly databaseService: DatabaseService,
+  ) {}
 
   async getAll() {
     return this.roleRepository.findAll();
@@ -40,8 +46,17 @@ export class RoleService {
 
   // MARK: Role users
 
-  assignRole(roleId: RoleModel["id"], userId: UserModel["id"]) {
-    return this.roleRepository.assignRole(roleId, userId);
+  async assignRole(roleId: RoleModel["id"], userId: UserModel["id"]) {
+    return await this.databaseService.db.transaction(async (transaction) => {
+      const userRole = await this.roleRepository.findByUserAndRole(
+        userId,
+        roleId,
+        { transaction },
+      );
+      if (userRole) return;
+
+      return this.roleRepository.assignRole(roleId, userId, { transaction });
+    });
   }
 
   unassignRole(roleId: RoleModel["id"], userId: UserModel["id"]) {
