@@ -26,29 +26,46 @@ export class RoleService {
     private readonly userAuthInfoCacheService: UserAuthInfoCacheService,
   ) {}
 
+  /**
+   * Retrieves all roles from the database
+   */
   async getAll() {
     return this.roleRepository.findAll();
   }
 
-  /* Admin */
+  /**
+   * Creates a new role with the provided data
+   */
   async create(role: RoleEditablePropsModel) {
     return this.roleRepository.create(role);
   }
 
+  /**
+   * Updates an existing role with new data
+   */
   async update(id: RoleSelect["id"], role: RoleUpdate) {
     return this.roleRepository.update(id, role);
   }
 
+  /**
+   * Permanently deletes a role from the database
+   */
   async delete(id: RoleSelect["id"]) {
     return this.roleRepository.delete(id);
   }
 
+  /**
+   * Retrieves all roles along with their permission statistics
+   */
   async getRolesWithPermissions() {
     return await this.roleRepository.findWithStatistics();
   }
 
   // MARK: Role users
 
+  /**
+   * Assigns a role to a user within a database transaction and clears the authentication cache
+   */
   async assignRole(roleId: RoleModel["id"], userId: UserModel["id"]) {
     await this.databaseService.db.transaction(async (transaction) => {
       const userRole = await this.roleRepository.findByUserAndRole(
@@ -64,11 +81,17 @@ export class RoleService {
     this.userAuthInfoCacheService.clearAll();
   }
 
+  /**
+   * Removes a role assignment from a user and clears the authentication cache
+   */
   async unassignRole(roleId: RoleModel["id"], userId: UserModel["id"]) {
     await this.roleRepository.unassignRole(roleId, userId);
     this.userAuthInfoCacheService.clearAll();
   }
 
+  /**
+   * Retrieves a paginated and searchable list of users assigned to a specific role
+   */
   getRoleUsersList(
     roleId: number,
     pagination: PaginatedQuery,
@@ -77,6 +100,9 @@ export class RoleService {
     return this.roleRepository.findRoleUsersList(roleId, pagination, search);
   }
 
+  /**
+   * Updates the complete set of permissions assigned to a role, removing old ones and adding new ones
+   */
   async setRolePermissions(
     roleId: RoleModel["id"],
     permissions: Permission[],
