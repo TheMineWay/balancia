@@ -7,6 +7,7 @@ import { ActionIcon, Group } from "@mantine/core";
 import type { RoleModel } from "@shared/models";
 import { FaUserEdit } from "react-icons/fa";
 import { IoPencil, IoTrash } from "react-icons/io5";
+import { MdKey } from "react-icons/md";
 
 type RoleTableData = RoleModel & {
   permissionsCount: number;
@@ -17,6 +18,7 @@ type Props = {
   onEditClick?: (role: RoleModel) => void;
   onDeleteClick?: (role: RoleModel) => void;
   onUserAssignClick?: (role: RoleModel) => void;
+  onPermissionAssignClick?: (role: RoleModel) => void;
   isDeleting?: boolean;
 };
 
@@ -24,6 +26,7 @@ export const RolesTable: FC<Props> = ({
   onEditClick,
   onDeleteClick,
   onUserAssignClick,
+  onPermissionAssignClick,
   isDeleting = false,
 }) => {
   const { data: { roles } = {} } = useAdminRolesWithStatsQuery();
@@ -67,8 +70,18 @@ export const RolesTable: FC<Props> = ({
               <ActionIcon
                 aria-label={t().admin.managers["role-users"].Action}
                 onClick={() => onUserAssignClick(row)}
+                variant="outline"
               >
                 <FaUserEdit />
+              </ActionIcon>
+            )}
+            {onPermissionAssignClick && (
+              <ActionIcon
+                aria-label={t().admin.managers["assign-permissions"].Action}
+                onClick={() => onPermissionAssignClick(row)}
+                variant="outline"
+              >
+                <MdKey />
               </ActionIcon>
             )}
             {onDeleteClick && (

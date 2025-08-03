@@ -34,6 +34,11 @@
         "Title": "Assign role \"{name}\" to user",
         "Action": "Assign role",
         "Message": "The role \"{name}\" will be assigned to {name}"
+      },
+      "assign-permissions": {
+        "Title": "Assign permissions to role \"{name}\"",
+        "Action": "Assign permissions",
+        "Message": "The following permissions will be assigned to the role \"{name}\": {permissions}"
       }
     }
   },

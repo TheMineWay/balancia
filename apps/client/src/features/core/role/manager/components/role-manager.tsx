@@ -1,6 +1,7 @@
 import { ManagerLayout } from "@common/layouts/manager/manager-layout";
 import { useRoleDeleteMutation } from "@core-fts/role/manager/api/use-role-delete.mutation";
 import { RoleCreateManager } from "@core-fts/role/manager/components/role-create-manager";
+import { RolePermissionAssign } from "@core-fts/role/manager/components/role-permission-assign";
 import { RoleUpdateManager } from "@core-fts/role/manager/components/role-update-manager";
 import { RoleUsersManager } from "@core-fts/role/manager/components/role-users-manager";
 import { RolesTable } from "@core-fts/role/manager/components/roles-table";
@@ -21,6 +22,8 @@ export const RoleManager: FC = () => {
   const [selectedToEditRole, setSelectedToEditRole] =
     useState<RoleModel | null>(null);
   const [selectedToManageUsersRole, setSelectedToManageUsersRole] =
+    useState<RoleModel | null>(null);
+  const [selectedToAssignPermissionsRole, setSelectedToAssignPermissionsRole] =
     useState<RoleModel | null>(null);
 
   const onDeleteClick = (role: RoleModel) => {
@@ -58,6 +61,7 @@ export const RoleManager: FC = () => {
             onEditClick={setSelectedToEditRole}
             onUserAssignClick={setSelectedToManageUsersRole}
             onDeleteClick={onDeleteClick}
+            onPermissionAssignClick={setSelectedToAssignPermissionsRole}
           />
         </ManagerLayout.View>
       </ManagerLayout.Main>
@@ -93,6 +97,20 @@ export const RoleManager: FC = () => {
       >
         {selectedToManageUsersRole && (
           <RoleUsersManager role={selectedToManageUsersRole} />
+        )}
+      </Drawer>
+
+      <Drawer
+        title={interpolated(
+          (t) => t.admin.managers["assign-permissions"].Title,
+          { name: selectedToAssignPermissionsRole?.name || "" }
+        )}
+        opened={Boolean(selectedToAssignPermissionsRole)}
+        onClose={() => setSelectedToAssignPermissionsRole(null)}
+        position="right"
+      >
+        {selectedToAssignPermissionsRole && (
+          <RolePermissionAssign role={selectedToAssignPermissionsRole} />
         )}
       </Drawer>
     </>
