@@ -1,3 +1,4 @@
+import { UserAuthInfoCacheService } from "@core/cache/caches/user-auth-info-cache.service";
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { RoleRepository } from "@database/repository/core/role/role.repository";
 import type {
@@ -22,6 +23,7 @@ export class RoleService {
     private readonly roleRepository: RoleRepository,
     @Inject(DATABASE_PROVIDERS.main)
     private readonly databaseService: DatabaseService,
+    private readonly userAuthInfoCacheService: UserAuthInfoCacheService,
   ) {}
 
   async getAll() {
@@ -48,7 +50,7 @@ export class RoleService {
   // MARK: Role users
 
   async assignRole(roleId: RoleModel["id"], userId: UserModel["id"]) {
-    return await this.databaseService.db.transaction(async (transaction) => {
+    await this.databaseService.db.transaction(async (transaction) => {
       const userRole = await this.roleRepository.findByUserAndRole(
         userId,
         roleId,
@@ -58,10 +60,13 @@ export class RoleService {
 
       return this.roleRepository.assignRole(roleId, userId, { transaction });
     });
+
+    this.userAuthInfoCacheService.clearAll();
   }
 
-  unassignRole(roleId: RoleModel["id"], userId: UserModel["id"]) {
-    return this.roleRepository.unassignRole(roleId, userId);
+  async unassignRole(roleId: RoleModel["id"], userId: UserModel["id"]) {
+    await this.roleRepository.unassignRole(roleId, userId);
+    this.userAuthInfoCacheService.clearAll();
   }
 
   getRoleUsersList(
@@ -76,7 +81,7 @@ export class RoleService {
     roleId: RoleModel["id"],
     permissions: Permission[],
   ): Promise<void> {
-    return await this.databaseService.db.transaction(async (transaction) => {
+    await this.databaseService.db.transaction(async (transaction) => {
       // Fetch BD permissions
       const dbPermissions = await this.roleRepository.findPermissions({
         transaction,
@@ -116,5 +121,7 @@ export class RoleService {
         },
       );
     });
+
+    this.userAuthInfoCacheService.clearAll();
   }
 }

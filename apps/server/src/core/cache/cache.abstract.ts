@@ -22,4 +22,8 @@ export abstract class CacheService {
     }
     return null;
   }
+
+  clearAll() {
+    return this.cache.clear();
+  }
 }
