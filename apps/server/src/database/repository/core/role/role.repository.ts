@@ -1,4 +1,3 @@
-import { queryWithCount, withPagination } from "@database/common/pagination";
 import {
   type QueryOptions,
   Repository,
@@ -131,38 +130,34 @@ export class RoleRepository extends Repository {
       ? search.search.trim().toLowerCase()
       : null;
 
-    const query = withPagination(
-      this.query(options)
-        .select({
-          id: userTable.id,
-          name: userTable.name,
-          code: userTable.code,
-          email: userTable.email,
-          username: userTable.username,
-          createdAt: userTable.createdAt,
-          updatedAt: userTable.updatedAt,
-        })
-        .from(userRoleTable)
-        .innerJoin(userTable, eq(userRoleTable.userId, userTable.id))
-        .where(
-          and(
-            eq(userRoleTable.roleId, roleId),
-            parsedTextSearch
-              ? like(userTable.name, `%${parsedTextSearch}%`)
-              : undefined,
-          ),
-        )
-        .orderBy(desc(userRoleTable.createdAt))
-        .$dynamic(),
-      pagination.page,
-      pagination.limit,
-    );
+    const q = this.query(options)
+      .select({
+        id: userTable.id,
+        name: userTable.name,
+        code: userTable.code,
+        email: userTable.email,
+        username: userTable.username,
+        createdAt: userTable.createdAt,
+        updatedAt: userTable.updatedAt,
+      })
+      .from(userRoleTable)
+      .innerJoin(userTable, eq(userRoleTable.userId, userTable.id))
+      .where(
+        and(
+          eq(userRoleTable.roleId, roleId),
+          parsedTextSearch
+            ? like(userTable.name, `%${parsedTextSearch}%`)
+            : undefined,
+        ),
+      )
+      .orderBy(desc(userRoleTable.createdAt))
+      .$dynamic();
 
-    const [items, total] = await queryWithCount(query);
+    const { rows, count } = await super.paginated(pagination, q);
 
     return {
-      items,
-      total,
+      items: rows,
+      total: count,
     };
   }
 

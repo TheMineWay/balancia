@@ -1,4 +1,3 @@
-import { queryWithCount, withPagination } from "@database/common/pagination";
 import { QueryOptions, Repository } from "@database/repository/core/repository";
 import {
   UserInsert,
@@ -34,18 +33,17 @@ export class UserRepository extends Repository {
     { search }: SearchModel = { search: null },
     options?: QueryOptions,
   ) => {
-    const query = withPagination(
-      this.query(options)
-        .select()
-        .from(userTable)
-        .where(search ? like(userTable.name, `%${search}%`) : undefined)
-        .orderBy(asc(userTable.id))
-        .$dynamic(),
-      pagination.page,
-      pagination.limit,
-    );
+    const query = this.query(options)
+      .select()
+      .from(userTable)
+      .where(search ? like(userTable.name, `%${search}%`) : undefined)
+      .orderBy(asc(userTable.id))
+      .$dynamic();
 
-    const [items, total] = await queryWithCount(query);
+    const { rows: items, count: total } = await this.paginated(
+      pagination,
+      query,
+    );
 
     return {
       items,
