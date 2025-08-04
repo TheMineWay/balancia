@@ -1,4 +1,9 @@
-import { RoleUpdatedEvent } from "@core/api/role/role.events";
+import {
+  RoleAssignedEvent,
+  RoleCreatedEvent,
+  RoleUnassignedEvent,
+  RoleUpdatedEvent,
+} from "@core/api/role/role.events";
 import { UserAuthInfoCacheService } from "@core/cache/caches/user-auth-info-cache.service";
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { RoleRepository } from "@database/repository/core/role/role.repository";
@@ -7,7 +12,7 @@ import type {
   RoleUpdate,
 } from "@database/schemas/main/tables/identity/role.table";
 import { DatabaseService } from "@database/services/database.service";
-import { Inject, Injectable, Logger } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import type {
   PaginatedQuery,
@@ -41,7 +46,10 @@ export class RoleService {
    * Creates a new role with the provided data
    */
   async create(role: RoleEditablePropsModel) {
-    return this.roleRepository.create(role);
+    const [newRole] = await this.roleRepository.create(role);
+
+    this.eventService.emit(new RoleCreatedEvent({ id: newRole.id }));
+    return newRole;
   }
 
   /**
@@ -51,8 +59,7 @@ export class RoleService {
     await this.roleRepository.update(id, role);
 
     // Emit an event after updating the role
-    const event = new RoleUpdatedEvent({ id });
-    this.eventService.emit(event);
+    this.eventService.emit(new RoleUpdatedEvent({ id }));
   }
 
   /**
@@ -86,7 +93,7 @@ export class RoleService {
       return this.roleRepository.assignRole(roleId, userId, { transaction });
     });
 
-    this.userAuthInfoCacheService.clearAll();
+    this.eventService.emit(new RoleAssignedEvent({ roleId, userId }));
   }
 
   /**
@@ -94,7 +101,8 @@ export class RoleService {
    */
   async unassignRole(roleId: RoleModel["id"], userId: UserModel["id"]) {
     await this.roleRepository.unassignRole(roleId, userId);
-    this.userAuthInfoCacheService.clearAll();
+
+    this.eventService.emit(new RoleUnassignedEvent({ roleId, userId }));
   }
 
   /**
@@ -176,8 +184,10 @@ export class RoleService {
 
   // MARK: Events
 
-  @OnEvent(RoleUpdatedEvent.NAME)
-  onRoleUpdated(event: RoleUpdatedEvent) {
-    Logger.log(`Role with ID ${event.payload.id} has been updated.`);
+  @OnEvent(RoleUnassignedEvent.NAME)
+  @OnEvent(RoleAssignedEvent.NAME)
+  onRoleAssignedOrUnassigned() {
+    // Clear the user authentication info cache when a role is assigned or unassigned
+    this.userAuthInfoCacheService.clearAll();
   }
 }
