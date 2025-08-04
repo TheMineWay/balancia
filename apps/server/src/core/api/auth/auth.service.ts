@@ -93,6 +93,22 @@ export class AuthService {
       roles: Array.from(roles),
     };
   }
+
+  /**
+   * Returns user information along with their permissions and roles.
+   */
+  async getUserInfo(userId: UserModel["id"]) {
+    const user = await this.userService.getById(userId);
+    if (!user) throw new NotFoundException();
+
+    const { permissions, roles } = await this.getUserAuthInfo(userId);
+
+    return {
+      user,
+      permissions,
+      roles,
+    };
+  }
 }
 
 /* Internal types */
