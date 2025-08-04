@@ -44,7 +44,7 @@ export const RoleUsersManager: FC<Props> = ({ role }) => {
         userId,
       });
     },
-    [role.id]
+    [role.id, unassignUser]
   );
 
   return (
