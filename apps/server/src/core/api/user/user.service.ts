@@ -1,3 +1,4 @@
+import { UserUpdatedEvent } from "@core/api/user/user.events";
 import { UserCacheService } from "@core/cache/caches/user-cache.service";
 import { QueryOptions } from "@database/repository/core/repository";
 import {
@@ -7,12 +8,14 @@ import {
 import { Injectable } from "@nestjs/common";
 import { UserRepository } from "@repository/core/user.repository";
 import { DbUserModel, PaginatedQuery, SearchModel } from "@shared/models";
+import { EventService } from "src/events/event.service";
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly userCacheService: UserCacheService,
+    private readonly eventService: EventService,
   ) {}
 
   async getByCode(code: string) {
@@ -30,11 +33,14 @@ export class UserService {
     return this.userRepository.findAndCount(pagination, search);
   };
 
-  updateById = (
+  updateById = async (
     userId: DbUserModel["id"],
     userData: UserUpdate,
     options?: QueryOptions,
-  ) => this.userRepository.updateById(userId, userData, options);
+  ) => {
+    await this.userRepository.updateById(userId, userData, options);
+    this.eventService.emit(new UserUpdatedEvent({ userId }));
+  };
 
   findOrCreateByCode = async (code: string, data: Omit<UserInsert, "code">) => {
     const user = await this.getByCode(code);
