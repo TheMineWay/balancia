@@ -1,6 +1,7 @@
 import {
   RoleAssignedEvent,
   RoleCreatedEvent,
+  RolePermissionsUpdatedEvent,
   RoleUnassignedEvent,
   RoleUpdatedEvent,
 } from "@core/api/role/role.events";
@@ -48,7 +49,7 @@ export class RoleService {
   async create(role: RoleEditablePropsModel) {
     const [newRole] = await this.roleRepository.create(role);
 
-    this.eventService.emit(new RoleCreatedEvent({ id: newRole.id }));
+    this.eventService.emit(new RoleCreatedEvent({ roleId: newRole.id }));
     return newRole;
   }
 
@@ -59,7 +60,7 @@ export class RoleService {
     await this.roleRepository.update(id, role);
 
     // Emit an event after updating the role
-    this.eventService.emit(new RoleUpdatedEvent({ id }));
+    this.eventService.emit(new RoleUpdatedEvent({ roleId: id }));
   }
 
   /**
@@ -172,7 +173,7 @@ export class RoleService {
       );
     });
 
-    this.userAuthInfoCacheService.clearAll();
+    this.eventService.emit(new RolePermissionsUpdatedEvent({ roleId }));
   }
 
   /**
@@ -184,6 +185,7 @@ export class RoleService {
 
   // MARK: Events
 
+  @OnEvent(RolePermissionsUpdatedEvent.NAME)
   @OnEvent(RoleUnassignedEvent.NAME)
   @OnEvent(RoleAssignedEvent.NAME)
   onRoleAssignedOrUnassigned() {

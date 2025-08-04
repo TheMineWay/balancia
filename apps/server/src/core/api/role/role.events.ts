@@ -1,7 +1,7 @@
 import type { RoleModel, UserModel } from "@shared/models";
 import { Event } from "src/events/event.abstract";
 
-type RoleUpdatedEventPayload = Pick<RoleModel, "id">;
+type RoleUpdatedEventPayload = { roleId: RoleModel["id"] };
 
 /**
  * Event emitted when a role metadata is updated.
@@ -14,7 +14,7 @@ export class RoleUpdatedEvent extends Event<RoleUpdatedEventPayload> {
   }
 }
 
-type RoleDeletedEventPayload = Pick<RoleModel, "id">;
+type RoleDeletedEventPayload = { roleId: RoleModel["id"] };
 
 /**
  * Event emitted when a role is permanently deleted.
@@ -27,7 +27,7 @@ export class RoleDeletedEvent extends Event<RoleDeletedEventPayload> {
   }
 }
 
-type RoleCreatedEventPayload = Pick<RoleModel, "id">;
+type RoleCreatedEventPayload = { roleId: RoleModel["id"] };
 
 /**
  * Event emitted when a new role is created.
@@ -69,5 +69,18 @@ export class RoleUnassignedEvent extends Event<RoleUnassignedEventPayload> {
 
   constructor(payload: RoleUnassignedEventPayload) {
     super(RoleUnassignedEvent.NAME, payload);
+  }
+}
+
+type RolePermissionsUpdatedEventPayload = { roleId: RoleModel["id"] };
+
+/**
+ * Event emitted when a role's permissions are updated.
+ */
+export class RolePermissionsUpdatedEvent extends Event<RolePermissionsUpdatedEventPayload> {
+  public static readonly NAME = "role.permissions.updated";
+
+  constructor(payload: RolePermissionsUpdatedEventPayload) {
+    super(RolePermissionsUpdatedEvent.NAME, payload);
   }
 }
