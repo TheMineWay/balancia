@@ -111,7 +111,10 @@ export const RoleManager: FC = () => {
         position="right"
       >
         {selectedToAssignPermissionsRole && (
-          <RolePermissionAssign role={selectedToAssignPermissionsRole} />
+          <RolePermissionAssign
+            role={selectedToAssignPermissionsRole}
+            onSuccess={() => setSelectedToAssignPermissionsRole(null)}
+          />
         )}
       </Drawer>
     </>

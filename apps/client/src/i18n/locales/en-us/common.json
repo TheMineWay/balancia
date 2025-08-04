@@ -23,7 +23,8 @@
     "Delete": "Delete",
     "Actions": "Actions",
     "Unassign": "Unassign",
-    "Unassign-sth": "Unassign {name}"
+    "Unassign-sth": "Unassign {name}",
+    "Save": "Save"
   },
   "templates": {
     "confirm-modal": {

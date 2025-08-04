@@ -108,6 +108,14 @@ export class RoleService {
     permissions: Permission[],
   ): Promise<void> {
     await this.databaseService.db.transaction(async (transaction) => {
+      if (permissions.length === 0) {
+        // If no permissions are provided, remove all existing permissions
+        await this.roleRepository.deleteRolePermissionsByRole(roleId, {
+          transaction,
+        });
+        return;
+      }
+
       // Fetch BD permissions
       const dbPermissions = await this.roleRepository.findPermissions({
         transaction,
@@ -124,7 +132,7 @@ export class RoleService {
         );
 
         // Remove them
-        await this.roleRepository.deleteRolePermissions(
+        await this.roleRepository.deleteRolePermissionsByRoleAndPermissions(
           roleId,
           toRemove.map((p) => p.id),
           { transaction },

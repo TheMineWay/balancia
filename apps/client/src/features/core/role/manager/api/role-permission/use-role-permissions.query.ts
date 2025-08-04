@@ -5,7 +5,7 @@ import { ADMIN_ROLE_CONTROLLER, getController } from "@shared/api-definition";
 import type { RoleModel } from "@shared/models";
 import { useQuery } from "@tanstack/react-query";
 
-const USE_ROLE_PERMISSIONS_QUERY_KEY: ParametrizedQueryKey<{
+export const USE_ROLE_PERMISSIONS_QUERY_KEY: ParametrizedQueryKey<{
   roleId: RoleModel["id"];
 }> = (roleId) => [
   getController(ADMIN_ROLE_CONTROLLER, {}),

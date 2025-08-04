@@ -187,7 +187,7 @@ export class RoleRepository extends Repository {
       );
   }
 
-  async deleteRolePermissions(
+  async deleteRolePermissionsByRoleAndPermissions(
     roleId: RoleModel["id"],
     permissionIds: PermissionSelect["id"][],
     options?: QueryOptions,
@@ -200,6 +200,15 @@ export class RoleRepository extends Repository {
           inArray(rolePermissionTable.permissionId, permissionIds),
         ),
       );
+  }
+
+  async deleteRolePermissionsByRole(
+    roleId: RoleModel["id"],
+    options?: QueryOptions,
+  ) {
+    return await this.query(options)
+      .delete(rolePermissionTable)
+      .where(eq(rolePermissionTable.roleId, roleId));
   }
 
   findPermissions(options?: QueryOptions) {

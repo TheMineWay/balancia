@@ -1,12 +1,15 @@
 import { UnknownErrorAlert } from "@common/components/status/unknown-error-alert";
+import { useRolePermissionsSetMutation } from "@core-fts/role/manager/api/role-permission/use-role-permissions-set.mutation";
 import { useRolePermissionsQuery } from "@core-fts/role/manager/api/role-permission/use-role-permissions.query";
 import { useTranslation } from "@i18n/use-translation";
-import { Checkbox, Loader, Tooltip } from "@mantine/core";
+import { Button, Checkbox, Loader, Tooltip } from "@mantine/core";
 import { PERMISSIONS, type Permission, type RoleModel } from "@shared/models";
-import { useId, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
+import { IoSaveOutline } from "react-icons/io5";
 
 type Props = {
   role: RoleModel;
+  onSuccess?: CallableFunction;
 };
 
 type PermissionsCheckState = Permission[];
@@ -15,14 +18,33 @@ type PermissionsCheckState = Permission[];
  * RolePermissionAssign component
  * This component allows the assignment of permissions to a role.
  */
-export const RolePermissionAssign: FC<Props> = ({ role }) => {
+export const RolePermissionAssign: FC<Props> = ({ role, onSuccess }) => {
+  const { t: commonT } = useTranslation("common");
+
   const {
     data: { permissions: rolePermissions = [] } = {},
     isLoading: isLoadingPermissions,
     isError: isErrorPermissions,
   } = useRolePermissionsQuery(role.id);
-  const [permissions, setPermissions] =
-    useState<PermissionsCheckState>(rolePermissions);
+  const [permissions, setPermissions] = useState<PermissionsCheckState>([]);
+
+  const { mutate: setRolePermissions, isPending: isSettingPermissions } =
+    useRolePermissionsSetMutation(role.id);
+
+  useEffect(() => {
+    setPermissions(rolePermissions);
+  }, [rolePermissions]);
+
+  const onSaveClick = useCallback(() => {
+    setRolePermissions(
+      { body: { permissions } },
+      {
+        onSuccess: () => {
+          onSuccess?.();
+        },
+      }
+    );
+  }, [onSuccess, permissions, setRolePermissions]);
 
   if (isLoadingPermissions)
     return (
@@ -36,6 +58,13 @@ export const RolePermissionAssign: FC<Props> = ({ role }) => {
   return (
     <div className="flex flex-col gap-4">
       <PermissionCheck selected={permissions} onChange={setPermissions} />
+      <Button
+        loading={isSettingPermissions}
+        onClick={onSaveClick}
+        leftSection={<IoSaveOutline />}
+      >
+        {commonT().expressions.Save}
+      </Button>
     </div>
   );
 };
