@@ -19,6 +19,7 @@ export const RolePermissionAssign: FC<Props> = ({ role }) => {
   const {
     data: { permissions: rolePermissions = [] } = {},
     isLoading: isLoadingPermissions,
+    isError: isErrorPermissions,
   } = useRolePermissionsQuery(role.id);
   const [permissions, setPermissions] =
     useState<PermissionsCheckState>(rolePermissions);
@@ -30,7 +31,7 @@ export const RolePermissionAssign: FC<Props> = ({ role }) => {
       </div>
     );
 
-  if (rolePermissions.length === 0) return <UnknownErrorAlert />;
+  if (isErrorPermissions) return <UnknownErrorAlert />;
 
   return (
     <div className="flex flex-col gap-4">
