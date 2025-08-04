@@ -1,5 +1,6 @@
 import { DebouncedSearch } from "@common/components/form/items/search/debounced-search";
 import { useDebouncedSearch } from "@common/components/form/items/search/use-debounced-search";
+import List from "@common/components/list/list";
 import { UserCard } from "@common/components/user/user-card";
 import { usePagination } from "@common/hooks/use-pagination";
 import { useRoleUserUnassignMutation } from "@core-fts/role/manager/api/role-user/use-role-user-unassign.mutation";
@@ -17,6 +18,13 @@ type Props = {
   role: RoleModel;
 };
 
+/**
+ * Component to manage users assigned to a specific role.
+ * It allows searching for users, displaying them in a list,
+ * and unassigning users from the role.
+ *
+ * It has been designed to be contained in a drawer.
+ */
 export const RoleUsersManager: FC<Props> = ({ role }) => {
   const { interpolated: commonInterpolated } = useTranslation("common");
   const { t, interpolated } = useTranslation("role");
@@ -49,17 +57,20 @@ export const RoleUsersManager: FC<Props> = ({ role }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <DebouncedSearch manager={search} className="w-full" />
-          <ActionIcon
-            onClick={openAssignRole}
-            aria-label={t().admin.managers["assign-role"].Action}
-          >
-            <IoAddOutline />
-          </ActionIcon>
-        </div>
-        <div className="flex flex-col gap-1">
+      <List.Layout>
+        <List.Header className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <DebouncedSearch manager={search} className="w-full" />
+            <ActionIcon
+              onClick={openAssignRole}
+              aria-label={t().admin.managers["assign-role"].Action}
+            >
+              <IoAddOutline />
+            </ActionIcon>
+          </div>
+          <Pagination size="sm" {...pagination.control} />
+        </List.Header>
+        <List.VerticalContent>
           {users.map((user) => (
             <UserCard
               key={user.id}
@@ -80,9 +91,8 @@ export const RoleUsersManager: FC<Props> = ({ role }) => {
               ]}
             />
           ))}
-        </div>
-        <Pagination {...pagination.control} />
-      </div>
+        </List.VerticalContent>
+      </List.Layout>
       <Modal
         opened={assignRoleOpened}
         onClose={closeAssignRole}

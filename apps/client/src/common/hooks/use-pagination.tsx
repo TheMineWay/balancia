@@ -33,9 +33,9 @@ export const usePagination = ({
   );
   const control = useMemo(
     () => ({
-      total: totalState,
+      total: Math.ceil(totalState / pagination.limit),
     }),
-    [totalState]
+    [totalState, pagination.limit]
   );
 
   const hasMore = useMemo(() => {

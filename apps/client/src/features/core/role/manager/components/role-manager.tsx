@@ -6,7 +6,7 @@ import { RoleUpdateManager } from "@core-fts/role/manager/components/role-update
 import { RoleUsersManager } from "@core-fts/role/manager/components/role-users-manager";
 import { RolesTable } from "@core-fts/role/manager/components/roles-table";
 import { useTranslation } from "@i18n/use-translation";
-import { Button, Drawer, Text } from "@mantine/core";
+import { Button, Drawer, ScrollArea, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { RoleModel } from "@shared/models";
@@ -94,6 +94,7 @@ export const RoleManager: FC = () => {
         opened={Boolean(selectedToManageUsersRole)}
         onClose={() => setSelectedToManageUsersRole(null)}
         position="right"
+        scrollAreaComponent={ScrollArea.Autosize}
       >
         {selectedToManageUsersRole && (
           <RoleUsersManager role={selectedToManageUsersRole} />
