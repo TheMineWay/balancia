@@ -22,6 +22,11 @@ const ENV_SCHEMA = z.object({
 
   // DATABASE
   LOG_QUERIES: z.stringbool().default(false),
+  DATABASE_CONNECTION_LIMIT: z
+    .string()
+    .default("10")
+    .transform(toNum)
+    .refine(refinedMin(1)),
   DATABASE_URL: z.string(),
 
   // NODE ENV
@@ -98,6 +103,7 @@ export const ENV = (() => {
     },
     database: {
       url: values.DATABASE_URL,
+      connectionLimit: values.DATABASE_CONNECTION_LIMIT,
       logQueries: values.LOG_QUERIES,
     },
     cors: {
