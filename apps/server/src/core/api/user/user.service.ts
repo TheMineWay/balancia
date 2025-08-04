@@ -1,4 +1,4 @@
-import { UserUpdatedEvent } from "@core/api/user/user.events";
+import { UserCreatedEvent, UserUpdatedEvent } from "@core/api/user/user.events";
 import { UserCacheService } from "@core/cache/caches/user-cache.service";
 import { QueryOptions } from "@database/repository/core/repository";
 import {
@@ -42,10 +42,18 @@ export class UserService {
     this.eventService.emit(new UserUpdatedEvent({ userId }));
   };
 
+  create = async (data: UserInsert) => {
+    const user = await this.userRepository.create(data);
+
+    this.eventService.emit(new UserCreatedEvent({ userId: user.id }));
+    return user;
+  };
+
   findOrCreateByCode = async (code: string, data: Omit<UserInsert, "code">) => {
     const user = await this.getByCode(code);
     if (user) return user;
-    return await this.userRepository.create({ code, ...data });
+
+    return await this.create({ code, ...data });
   };
 
   syncUsers = async (usersData: UserInsert[], options?: QueryOptions) => {
