@@ -8,7 +8,7 @@ import type {
 } from "@database/schemas/main/tables/identity/role.table";
 import { DatabaseService } from "@database/services/database.service";
 import { Inject, Injectable, Logger } from "@nestjs/common";
-import { EventEmitter2, OnEvent } from "@nestjs/event-emitter";
+import { OnEvent } from "@nestjs/event-emitter";
 import type {
   PaginatedQuery,
   PaginatedResponse,
@@ -18,6 +18,7 @@ import type {
   SearchModel,
   UserModel,
 } from "@shared/models";
+import { EventService } from "src/events/event.service";
 
 @Injectable()
 export class RoleService {
@@ -26,7 +27,7 @@ export class RoleService {
     @Inject(DATABASE_PROVIDERS.main)
     private readonly databaseService: DatabaseService,
     private readonly userAuthInfoCacheService: UserAuthInfoCacheService,
-    private readonly eventEmitter: EventEmitter2,
+    private readonly eventService: EventService,
   ) {}
 
   /**
@@ -51,7 +52,7 @@ export class RoleService {
 
     // Emit an event after updating the role
     const event = new RoleUpdatedEvent({ id });
-    this.eventEmitter.emit(event.name, event);
+    this.eventService.emit(event);
   }
 
   /**

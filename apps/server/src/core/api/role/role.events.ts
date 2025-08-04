@@ -1,5 +1,5 @@
-import { Event } from "@core/lib/events/event.abstract";
 import type { RoleModel } from "@shared/models";
+import { Event } from "src/events/event.abstract";
 
 type RoleUpdatedEventPayload = Pick<RoleModel, "id">;
 

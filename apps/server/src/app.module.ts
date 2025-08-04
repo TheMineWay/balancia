@@ -7,14 +7,14 @@ import { PermissionsGuard } from "@core/guards/permissions/permission.guard";
 import { DatabaseModule } from "@database/database.module";
 import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
-import { EventEmitterModule } from "@nestjs/event-emitter";
 import { ScheduleModule } from "@nestjs/schedule";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
+import { EventModule } from "src/events/event.module";
 import { IntegrationModule } from "src/integrations/integration.module";
 
 @Module({
   imports: [
-    EventEmitterModule.forRoot(),
+    EventModule,
     DatabaseModule,
     CachesModule,
     ThrottlerModule.forRoot([
