@@ -89,8 +89,8 @@ export class RoleRepository extends Repository {
     return this.query(options).insert(roleTable).values(role).$returningId();
   }
 
-  update(id: number, role: RoleUpdate, options?: QueryOptions) {
-    return this.query(options)
+  async update(id: number, role: RoleUpdate, options?: QueryOptions) {
+    return await this.query(options)
       .update(roleTable)
       .set(role)
       .where(eq(roleTable.id, id));

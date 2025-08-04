@@ -1,3 +1,4 @@
+import { RoleUpdatedEvent } from "@core/api/role/role.events";
 import { UserAuthInfoCacheService } from "@core/cache/caches/user-auth-info-cache.service";
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { RoleRepository } from "@database/repository/core/role/role.repository";
@@ -6,7 +7,8 @@ import type {
   RoleUpdate,
 } from "@database/schemas/main/tables/identity/role.table";
 import { DatabaseService } from "@database/services/database.service";
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
+import { EventEmitter2, OnEvent } from "@nestjs/event-emitter";
 import type {
   PaginatedQuery,
   PaginatedResponse,
@@ -24,6 +26,7 @@ export class RoleService {
     @Inject(DATABASE_PROVIDERS.main)
     private readonly databaseService: DatabaseService,
     private readonly userAuthInfoCacheService: UserAuthInfoCacheService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   /**
@@ -44,7 +47,11 @@ export class RoleService {
    * Updates an existing role with new data
    */
   async update(id: RoleSelect["id"], role: RoleUpdate) {
-    return this.roleRepository.update(id, role);
+    await this.roleRepository.update(id, role);
+
+    // Emit an event after updating the role
+    const event = new RoleUpdatedEvent({ id });
+    this.eventEmitter.emit(event.name, event);
   }
 
   /**
@@ -164,5 +171,12 @@ export class RoleService {
    */
   async getRolePermissions(roleId: RoleModel["id"]) {
     return this.roleRepository.findRolePermissions(roleId);
+  }
+
+  // MARK: Events
+
+  @OnEvent(RoleUpdatedEvent.NAME)
+  onRoleUpdated(event: RoleUpdatedEvent) {
+    Logger.log(`Role with ID ${event.payload.id} has been updated.`);
   }
 }
