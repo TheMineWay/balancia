@@ -2,6 +2,21 @@ import { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
   {
+    code: "@nestjs/event-emitter",
+    name: "@nestjs/event-emitter",
+    url: "https://www.npmjs.com/package/@nestjs/event-emitter",
+  },
+  {
+    code: "qs",
+    name: "QS",
+    url: "https://www.npmjs.com/package/qs",
+  },
+  {
+    code: "@types/qs",
+    name: "@types qs",
+    url: "https://www.npmjs.com/package/@types/qs",
+  },
+  {
     code: "ts-node",
     name: "TS Node",
     url: "https://www.npmjs.com/package/ts-node",
@@ -211,6 +226,16 @@ export const DEPENDENCIES = [
     name: "Mantine Hooks",
     url: "https://www.npmjs.com/package/@mantine/hooks",
     docsUrl: "https://mantine.dev/",
+  },
+  {
+    code: "@mantine/modals",
+    name: "Mantine Modals",
+    url: "https://www.npmjs.com/package/@mantine/modals",
+  },
+  {
+    code: "@mantine/notifications",
+    name: "Mantine Notifications",
+    url: "https://www.npmjs.com/package/@mantine/notifications",
   },
   {
     code: "postcss-preset-mantine",

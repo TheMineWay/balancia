@@ -23,6 +23,8 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
     dep: "@types/lodash",
     isDevelopment: true,
   },
+  { dep: "@mantine/modals" },
+  { dep: "@mantine/notifications" },
   { dep: "@mantine/core" },
   { dep: "@mantine/hooks" },
   { dep: "postcss-preset-mantine", isDevelopment: true },

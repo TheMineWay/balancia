@@ -4,7 +4,24 @@ import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   {
+    dep: "@types/lodash",
+    isDevelopment: true,
+  },
+  {
+    dep: "@types/qs",
+    isDevelopment: true,
+  },
+  {
+    dep: "lodash",
+  },
+  {
+    dep: "qs",
+  },
+  {
     dep: "@nestjs/schedule",
+  },
+  {
+    dep: "@nestjs/event-emitter",
   },
   {
     dep: "cacheable",
