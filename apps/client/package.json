@@ -9,7 +9,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run --reporter=verbose",
+    "test:dev": "vitest --watch"
   },
   "repository": {
     "type": "git",

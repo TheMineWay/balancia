@@ -44,6 +44,7 @@ export default defineConfig({
     dts({
       tsconfigPath: "./tsconfig.json",
       include: ["src"],
+      exclude: ["src/**/*.spec.ts"],
       outDir: ["dist/esm", "dist/cjs"], // ✅ generate .d.ts for both
     }),
   ],
