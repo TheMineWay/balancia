@@ -1,4 +1,5 @@
 import Auth from "@common/core/auth/components/auth";
+import { TokenExpiracyModal } from "@core-fts/auth/token/components/token-expiracy-modal";
 import {
   authContext,
   type AuthContextInfo,
@@ -25,6 +26,8 @@ export default function AuthProvider({ children }: Readonly<WithChildren>) {
   return (
     <authContext.Provider value={{ context: contextState }}>
       {children}
+
+      <TokenExpiracyModal />
     </authContext.Provider>
   );
 }
