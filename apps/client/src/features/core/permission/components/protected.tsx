@@ -9,8 +9,11 @@ type ProtectedProps = {
 export const Protected: FC<ProtectedProps> = ({ permissions, children }) => {
   const { permissions: userPermissions } = useUserInfo();
 
+  console.log({ permissions, userPermissions });
+
   if (!permissions.every((p) => userPermissions.includes(p))) {
     return null;
   }
+
   return <>{children}</>;
 };
