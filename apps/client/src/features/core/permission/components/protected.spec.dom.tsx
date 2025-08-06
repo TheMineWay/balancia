@@ -9,12 +9,12 @@ vi.mock("@providers/auth/user-info.context", () => ({
 
 import { useUserInfo } from "@providers/auth/user-info.context";
 
-const ALLOWED_TEXT = "ALLOWED";
+const ALLOWED_CODE = "ALLOWED";
 
 const renderComponent = (permissions: Permission[]) => {
   render(
     <Protected permissions={permissions}>
-      <div data-testid={ALLOWED_TEXT} />
+      <div data-testid={ALLOWED_CODE} />
     </Protected>
   );
 };
@@ -35,26 +35,26 @@ describe("<Protected/>", () => {
   describe("should render children when user", () => {
     it("has all required permissions", () => {
       renderWithUserPermissions([Permission.ADMIN]);
-      expect(screen.queryByTestId(ALLOWED_TEXT)).not.toBeNull();
+      expect(screen.queryByTestId(ALLOWED_CODE)).not.toBeNull();
     });
   });
 
   describe("should not render children when user", () => {
     it("does not have all required permissions", () => {
       renderWithUserPermissions([]);
-      expect(screen.queryByTestId(ALLOWED_TEXT)).toBeNull();
+      expect(screen.queryByTestId(ALLOWED_CODE)).toBeNull();
     });
 
     // Should be updated when there are more permissions
     it("does not have any required permissions", () => {
       renderWithUserPermissions([]);
-      expect(screen.queryByTestId(ALLOWED_TEXT)).toBeNull();
+      expect(screen.queryByTestId(ALLOWED_CODE)).toBeNull();
     });
 
     // Should be updated when there are more permissions
     it("has no permissions at all", () => {
       renderWithUserPermissions([]);
-      expect(screen.queryByTestId(ALLOWED_TEXT)).toBeNull();
+      expect(screen.queryByTestId(ALLOWED_CODE)).toBeNull();
     });
   });
 });
