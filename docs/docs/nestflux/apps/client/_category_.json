@@ -1,10 +1,10 @@
 {
-    "label": "💻 Client",
-    "link": {
-        "type": "generated-index",
-        "title": "Client"
-    },
-    "customProps": {
-        "description": "Client specific documentations"
-    }
+	"label": "💻 Client",
+	"link": {
+		"type": "generated-index",
+		"title": "Client"
+	},
+	"customProps": {
+		"description": "Client specific documentations"
+	}
 }

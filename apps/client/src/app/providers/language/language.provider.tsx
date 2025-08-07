@@ -10,38 +10,38 @@ const DEFAULT_LANGUAGE = MASTER_LOCALE;
 type Props = WithChildren;
 
 export default function LanguageProvider({ children }: Readonly<Props>) {
-  const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
-  const [translations, setTranslations] = useState<TranslationStore>();
+	const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
+	const [translations, setTranslations] = useState<TranslationStore>();
 
-  useEffect(() => {
-    const updateLoadedLocale = async () => {
-      setTranslations(
-        _.defaultsDeep(
-          {},
-          {
-            ...(await getLocale(language)).default,
-          },
-          {
-            ...(await getLocale(MASTER_LOCALE)).default,
-          }
-        )
-      );
-    };
+	useEffect(() => {
+		const updateLoadedLocale = async () => {
+			setTranslations(
+				_.defaultsDeep(
+					{},
+					{
+						...(await getLocale(language)).default,
+					},
+					{
+						...(await getLocale(MASTER_LOCALE)).default,
+					},
+				),
+			);
+		};
 
-    updateLoadedLocale();
-  }, [language]);
+		updateLoadedLocale();
+	}, [language]);
 
-  if (!translations) return null;
+	if (!translations) return null;
 
-  return (
-    <languageContext.Provider
-      value={{
-        language,
-        setLanguage,
-        translations,
-      }}
-    >
-      {children}
-    </languageContext.Provider>
-  );
+	return (
+		<languageContext.Provider
+			value={{
+				language,
+				setLanguage,
+				translations,
+			}}
+		>
+			{children}
+		</languageContext.Provider>
+	);
 }

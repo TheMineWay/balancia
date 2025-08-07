@@ -5,33 +5,33 @@ import path from "path";
 const generateFolderPath = path.join(__dirname, "..", "..", "..", "generated");
 
 type DBServerProps = {
-  dialect: string;
-  port: number;
+	dialect: string;
+	port: number;
 };
 
 type DBComposeFileProps = DBServerProps & {
-  password: string;
-  connectionString: string;
-  dbName: string;
+	password: string;
+	connectionString: string;
+	dbName: string;
 };
 
 const DB_SERVERS = [
-  {
-    dialect: "MySQL",
-    port: 3306,
-  },
+	{
+		dialect: "MySQL",
+		port: 3306,
+	},
 ] as const satisfies Array<DBServerProps>;
 
 const WARNING_MESSAGE =
-  "# [!] This file is not uploaded to git so secret values can be safely stored in plain text";
+	"# [!] This file is not uploaded to git so secret values can be safely stored in plain text";
 
 const mySql = ({
-  password,
-  port,
-  dbName,
-  connectionString,
+	password,
+	port,
+	dbName,
+	connectionString,
 }: DBComposeFileProps) => {
-  return `${WARNING_MESSAGE}
+	return `${WARNING_MESSAGE}
 services:
     db-mysql:
         image: mysql
@@ -54,89 +54,89 @@ volumes:
 };
 
 const COMPOSE_FILES: Record<
-  (typeof DB_SERVERS)[number]["dialect"],
-  (props: DBComposeFileProps) => string
+	(typeof DB_SERVERS)[number]["dialect"],
+	(props: DBComposeFileProps) => string
 > = {
-  MySQL: mySql,
+	MySQL: mySql,
 };
 
 export const generateDockerComposeDatabase = async () => {
-  const dialect: keyof typeof COMPOSE_FILES = await select({
-    message: "Pick a DB dialect",
-    choices: Object.keys(COMPOSE_FILES),
-  });
+	const dialect: keyof typeof COMPOSE_FILES = await select({
+		message: "Pick a DB dialect",
+		choices: Object.keys(COMPOSE_FILES),
+	});
 
-  const defaultPort =
-    DB_SERVERS.find((d) => d.dialect === dialect)?.port ?? 3306;
+	const defaultPort =
+		DB_SERVERS.find((d) => d.dialect === dialect)?.port ?? 3306;
 
-  const defaultPassword = "database_password";
+	const defaultPassword = "database_password";
 
-  const password =
-    (await input({
-      message: "🔑 Database root password",
-      default: defaultPassword,
-    })) ?? defaultPassword;
+	const password =
+		(await input({
+			message: "🔑 Database root password",
+			default: defaultPassword,
+		})) ?? defaultPassword;
 
-  const defaultDbName = "nestflux-db";
+	const defaultDbName = "nestflux-db";
 
-  const dbName =
-    (await input({
-      message: "🧬 Database name",
-      default: defaultDbName,
-    })) ?? defaultDbName;
+	const dbName =
+		(await input({
+			message: "🧬 Database name",
+			default: defaultDbName,
+		})) ?? defaultDbName;
 
-  const port =
-    (await number({
-      message: "Select port to run the database on",
-      default: defaultPort,
-      min: 1000,
-      max: 24000,
-    })) ?? defaultPort;
+	const port =
+		(await number({
+			message: "Select port to run the database on",
+			default: defaultPort,
+			min: 1000,
+			max: 24000,
+		})) ?? defaultPort;
 
-  const connectionString = generateConnectionString({
-    host: "127.0.0.1",
-    port,
-    database: dbName,
-    user: "root",
-    password,
-  });
-  const composeContent = COMPOSE_FILES[dialect]({
-    port,
-    dialect,
-    password,
-    dbName,
-    connectionString,
-  });
+	const connectionString = generateConnectionString({
+		host: "127.0.0.1",
+		port,
+		database: dbName,
+		user: "root",
+		password,
+	});
+	const composeContent = COMPOSE_FILES[dialect]({
+		port,
+		dialect,
+		password,
+		dbName,
+		connectionString,
+	});
 
-  if (!fs.existsSync(generateFolderPath)) fs.mkdirSync(generateFolderPath);
-  if (!fs.existsSync(path.join(generateFolderPath, "database")))
-    fs.mkdirSync(path.join(generateFolderPath, "database"));
+	if (!fs.existsSync(generateFolderPath)) fs.mkdirSync(generateFolderPath);
+	if (!fs.existsSync(path.join(generateFolderPath, "database")))
+		fs.mkdirSync(path.join(generateFolderPath, "database"));
 
-  fs.writeFileSync(
-    path.join(
-      generateFolderPath,
-      "database",
-      `db.${dialect.toLowerCase()}.docker-compose.yml`
-    ),
-    composeContent,
-    "utf-8"
-  );
+	fs.writeFileSync(
+		path.join(
+			generateFolderPath,
+			"database",
+			`db.${dialect.toLowerCase()}.docker-compose.yml`,
+		),
+		composeContent,
+		"utf-8",
+	);
 
-  console.log(`❇️ Connection string: ${connectionString}`);
+	console.log(`❇️ Connection string: ${connectionString}`);
 };
 
 interface DBConnectionOptions {
-  host: string;
-  port: number;
-  database: string;
-  user: string;
-  password: string;
+	host: string;
+	port: number;
+	database: string;
+	user: string;
+	password: string;
 }
 
 function generateConnectionString(options: DBConnectionOptions): string {
-  const { host, port, database, user, password } = options;
+	const { host, port, database, user, password } = options;
 
-  const connectionString = `mysql://${user}:${password}@${host}:${port}/${database}`;
+	const connectionString = `mysql://${user}:${password}@${host}:${port}/${database}`;
 
-  return connectionString;
+	return connectionString;
 }

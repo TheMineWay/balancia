@@ -1,1 +1,1 @@
-export * from './model-values.type';
+export * from "./model-values.type";

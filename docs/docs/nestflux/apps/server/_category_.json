@@ -1,10 +1,10 @@
 {
-    "label": "🛢️ Server",
-    "link": {
-        "type": "generated-index",
-        "title": "Server"
-    },
-    "customProps": {
-        "description": "Server specific documentations"
-    }
+	"label": "🛢️ Server",
+	"link": {
+		"type": "generated-index",
+		"title": "Server"
+	},
+	"customProps": {
+		"description": "Server specific documentations"
+	}
 }

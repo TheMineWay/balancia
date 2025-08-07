@@ -1,1 +1,1 @@
-export * from './get-user-name.util';
+export * from "./get-user-name.util";

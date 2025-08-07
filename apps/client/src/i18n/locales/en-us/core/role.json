@@ -1,0 +1,60 @@
+{
+  "admin": {
+    "table": {
+      "columns": {
+        "permissions-count": {
+          "Label": "Permissions assigned"
+        },
+        "users-count": {
+          "Label": "Users assigned"
+        }
+      }
+    },
+    "managers": {
+      "create": {
+        "Title": "Create new role",
+        "Action": "Create role"
+      },
+      "update": {
+        "Title": "Update role",
+        "Action": "Update role"
+      },
+      "role-users": {
+        "Title": "Manage users in role",
+        "Action": "Update users"
+      },
+      "delete": {
+        "Title": "Delete role",
+        "Action": "Delete role",
+        "confirm": {
+          "Message": "Are you sure you want to delete the \"{name}\" role?"
+        }
+      },
+      "assign-role": {
+        "Title": "Assign role \"{name}\" to user",
+        "Action": "Assign role",
+        "Message": "The role \"{name}\" will be assigned to {name}"
+      },
+      "assign-permissions": {
+        "Title": "Assign permissions to role \"{name}\"",
+        "Action": "Assign permissions",
+        "Message": "The following permissions will be assigned to the role \"{name}\": {permissions}"
+      }
+    }
+  },
+  "models": {
+    "role": {
+      "fields": {
+        "name": {
+          "Name": "Role name"
+        }
+      }
+    }
+  },
+  "permissions": {
+    "admin": {
+      "Name": "Admin",
+      "Description": "Manage platform"
+    }
+  }
+}

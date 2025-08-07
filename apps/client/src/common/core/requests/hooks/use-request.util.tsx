@@ -1,14 +1,30 @@
-import { ENV } from "@core/constants/env/env.constant";
-import type { AxiosRequestConfig } from "axios";
-import axios from "axios";
+import { useRequestManagedErrorNotification } from "@common/core/requests/hooks/use-request-error-notification";
+import { ENV } from "@constants/env/env.constant";
+import axios, { AxiosError, type AxiosRequestConfig } from "axios";
 
 export type RequestOptions = AxiosRequestConfig & { url: string };
+export type AdditionalRequestOptions = { manage?: boolean };
 
 export const useRequest = () => {
-    const request = async (options: RequestOptions) => await axios.request({
-        ...options,
-        baseURL: ENV.api.host ?? options.baseURL
-    });
+	const { manage: manageFn } = useRequestManagedErrorNotification();
 
-    return { request }
-}
+	const request = async (
+		options: RequestOptions,
+		{ manage = true }: AdditionalRequestOptions = {},
+	) => {
+		try {
+			return await axios.request({
+				...options,
+				baseURL: ENV.api.host ?? options.baseURL,
+			});
+		} catch (error) {
+			if (error instanceof AxiosError) {
+				if (manage) manageFn(error);
+				return error;
+			}
+			throw error;
+		}
+	};
+
+	return { request };
+};

@@ -1,10 +1,10 @@
 {
-    "label": "Packages",
-    "link": {
-        "type": "generated-index",
-        "title": "packages"
-    },
-    "customProps": {
-        "description": "Package specific documentations"
-    }
+	"label": "Packages",
+	"link": {
+		"type": "generated-index",
+		"title": "packages"
+	},
+	"customProps": {
+		"description": "Package specific documentations"
+	}
 }

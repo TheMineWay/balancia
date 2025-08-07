@@ -3,20 +3,20 @@ import type { TranslationStore } from "@i18n/types/translation/translation-store
 import { createContext, useContext } from "react";
 
 interface LanguageContext {
-  language: Language;
-  setLanguage: (language: Language) => void;
-  translations: TranslationStore;
+	language: Language;
+	setLanguage: (language: Language) => void;
+	translations: TranslationStore;
 }
 
 export const languageContext = createContext<LanguageContext>(null!);
 
 export const useLanguageContext = () => {
-  const context = useContext(languageContext);
+	const context = useContext(languageContext);
 
-  if (!context)
-    throw new Error(
-      "Tried to use useLanguageContext outside the LanguageProvider"
-    );
+	if (!context)
+		throw new Error(
+			"Tried to use useLanguageContext outside the LanguageProvider",
+		);
 
-  return context;
+	return context;
 };

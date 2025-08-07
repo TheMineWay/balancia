@@ -1,102 +1,68 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "Start development environment (all)",
-        "type": "shell",
-        "command": "echo 'Opening dev environments...'",
-        "problemMatcher": [],
-        "dependsOn": ["dev:client", "dev:server", "dev:packages"]
-      },
-      {
-        "label": "dev:client",
-        "type": "shell",
-        "command": "pnpm dev:client",
-        "problemMatcher": [],
-        "presentation": {
-          "group": "terminal",
-          "panel": "new",
-          "reveal": "always"
-        },
-        "options": {
-          "shell": "/bin/bash"
-        },
-        "group": {
-          "kind": "dev",
-          "isDefault": true
-        }
-      },
-      {
-        "label": "dev:server",
-        "type": "shell",
-        "command": "pnpm dev:server",
-        "problemMatcher": [],
-        "presentation": {
-          "group": "terminal",
-          "panel": "new",
-          "reveal": "always"
-        },
-        "options": {
-          "shell": "/bin/bash"
-        },
-        "group": {
-          "kind": "dev",
-          "isDefault": true
-        }
-      },
-      {
-        "label": "dev:packages",
-        "type": "shell",
-        "command": "pnpm dev:packages",
-        "problemMatcher": [],
-        "presentation": {
-          "group": "terminal",
-          "panel": "new",
-          "reveal": "always"
-        },
-        "options": {
-          "shell": "/bin/bash"
-        },
-        "group": {
-          "kind": "dev",
-          "isDefault": true
-        }
-      },
-      {
-        "label": "dev:docs",
-        "type": "shell",
-        "command": "pnpm start:docs",
-        "problemMatcher": [],
-        "presentation": {
-          "group": "terminal",
-          "panel": "new",
-          "reveal": "always"
-        },
-        "options": {
-          "shell": "/bin/bash"
-        },
-        "group": {
-          "kind": "dev",
-          "isDefault": true
-        }
-      },
-      {
-        "label": "build:packages",
-        "type": "shell",
-        "command": "pnpm build:packages",
-        "problemMatcher": [],
-        "presentation": {
-          "group": "terminal",
-          "panel": "new",
-          "reveal": "always"
-        },
-        "options": {
-          "shell": "/bin/bash"
-        },
-        "group": {
-          "kind": "build"
-        }
-      }
-    ]
-  }
-  
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start development environment (all)",
+			"type": "shell",
+			"command": "echo 'Opening dev environments...'",
+			"problemMatcher": [],
+			"dependsOn": ["dev:client", "dev:server", "dev:packages"]
+		},
+		{
+			"label": "dev:client",
+			"type": "shell",
+			"command": ". $NVM_DIR/nvm.sh && nvm use 24 && pnpm dev:client",
+			"problemMatcher": [],
+			"presentation": {
+				"group": "terminal",
+				"panel": "new",
+				"reveal": "always"
+			},
+			"options": {
+				"shell": "/bin/bash"
+			}
+		},
+		{
+			"label": "dev:server",
+			"type": "shell",
+			"command": ". $NVM_DIR/nvm.sh && nvm use 24 && pnpm dev:server",
+			"problemMatcher": [],
+			"presentation": {
+				"group": "terminal",
+				"panel": "new",
+				"reveal": "always"
+			},
+			"options": {
+				"shell": "/bin/bash"
+			}
+		},
+		{
+			"label": "dev:packages",
+			"type": "shell",
+			"command": ". $NVM_DIR/nvm.sh && nvm use 24 && pnpm dev:packages",
+			"problemMatcher": [],
+			"presentation": {
+				"group": "terminal",
+				"panel": "new",
+				"reveal": "always"
+			},
+			"options": {
+				"shell": "/bin/bash"
+			}
+		},
+		{
+			"label": "build:packages",
+			"type": "shell",
+			"command": ". $NVM_DIR/nvm.sh && nvm use 24 && pnpm build:packages",
+			"problemMatcher": [],
+			"presentation": {
+				"group": "terminal",
+				"panel": "new",
+				"reveal": "always"
+			},
+			"options": {
+				"shell": "/bin/bash"
+			}
+		}
+	]
+}

@@ -1,1 +1,35 @@
-{}
+{
+  "models": {
+    "fields": {
+      "created-at": {
+        "Name": "Created at"
+      },
+      "updated-at": {
+        "Name": "Updated at"
+      },
+      "id": {
+        "Name": "ID"
+      },
+      "name": {
+        "Name": "Name"
+      },
+      "description": {
+        "Name": "Description"
+      }
+    }
+  },
+  "expressions": {
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Actions": "Actions",
+    "Unassign": "Unassign",
+    "Unassign-sth": "Unassign {name}",
+    "Save": "Save"
+  },
+  "templates": {
+    "confirm-modal": {
+      "Cancel": "Cancel",
+      "Confirm": "Confirm"
+    }
+  }
+}

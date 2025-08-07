@@ -5,45 +5,45 @@ import type { WithChildren } from "src/common/types/component/component.types";
 type Props = WithChildren;
 
 export default function DeviceInfoProvider({ children }: Readonly<Props>) {
-  // States
-  const [windowSizeInfo, setWindowSizeInfo] = useState<
-    Pick<Window, "innerWidth" | "innerHeight">
-  >({
-    innerHeight: window.innerHeight,
-    innerWidth: window.innerWidth,
-  });
+	// States
+	const [windowSizeInfo, setWindowSizeInfo] = useState<
+		Pick<Window, "innerWidth" | "innerHeight">
+	>({
+		innerHeight: window.innerHeight,
+		innerWidth: window.innerWidth,
+	});
 
-  // State modifiers
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSizeInfo({
-        innerHeight: window.innerHeight,
-        innerWidth: window.innerWidth,
-      });
-    };
+	// State modifiers
+	useEffect(() => {
+		const handleResize = () => {
+			setWindowSizeInfo({
+				innerHeight: window.innerHeight,
+				innerWidth: window.innerWidth,
+			});
+		};
 
-    window.addEventListener("resize", handleResize);
+		window.addEventListener("resize", handleResize);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, []);
 
-  // Build info objects
+	// Build info objects
 
-  const windowInfo = { ...windowSizeInfo };
-  const booleans = {
-    isMobile: windowSizeInfo.innerWidth < 768,
-  };
+	const windowInfo = { ...windowSizeInfo };
+	const booleans = {
+		isMobile: windowSizeInfo.innerWidth < 768,
+	};
 
-  return (
-    <deviceInfoContext.Provider
-      value={{
-        window: windowInfo,
-        ...booleans,
-      }}
-    >
-      {children}
-    </deviceInfoContext.Provider>
-  );
+	return (
+		<deviceInfoContext.Provider
+			value={{
+				window: windowInfo,
+				...booleans,
+			}}
+		>
+			{children}
+		</deviceInfoContext.Provider>
+	);
 }

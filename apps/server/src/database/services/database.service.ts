@@ -6,7 +6,7 @@ import { MySql2Database } from "drizzle-orm/mysql2/driver";
 
 @Injectable()
 export class DatabaseService<
-  TSchema extends Record<string, unknown> = typeof schema,
+	TSchema extends Record<string, unknown> = typeof schema,
 > {
-  constructor(public readonly db: MySql2Database<TSchema>) {}
+	constructor(public readonly db: MySql2Database<TSchema>) {}
 }

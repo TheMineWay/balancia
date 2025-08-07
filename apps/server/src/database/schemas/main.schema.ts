@@ -1,3 +1,6 @@
-import { usersTable } from "@database/schemas/main/tables/users.table";
-// Tables
-export const users = usersTable;
+// Identity
+export { permissionTable } from "@database/schemas/main/tables/identity/permission.table";
+export { rolePermissionTable } from "@database/schemas/main/tables/identity/role-permission.table";
+export { roleTable } from "@database/schemas/main/tables/identity/role.table";
+export { userRoleTable } from "@database/schemas/main/tables/identity/user-role.table";
+export { userTable } from "@database/schemas/main/tables/identity/user.table";

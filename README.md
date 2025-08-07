@@ -151,7 +151,7 @@ pnpm run test
 
 ### UI Design
 
-NestFlux uses **Ant Design** for UI components. Visit [Ant Design documentation](https://ant.design/docs/react/introduce) to learn more about customization and component usage.
+NestFlux uses **Mantine Design** for UI components. Visit [Mantine documentation](https://mantine.dev/) to learn more about customization and component usage.
 
 ### GitHub Pipelines
 
