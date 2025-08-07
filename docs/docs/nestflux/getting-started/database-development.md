@@ -33,42 +33,60 @@ apps/server/src/database/
 └── migrations/                        # Generated migration files
 ```
 
-## ✏️ Editing Existing Tables
+## 📋 Working with Tables
 
-When you need to modify existing tables, follow these steps:
+### Creating New Tables
+
+To add a new table to your database schema:
+
+1. **Create the table file** in the appropriate directory under `apps/server/src/database/schemas/main/tables/`
+2. **Define the table structure** using Drizzle's MySQL table syntax with appropriate column types, constraints, and relationships
+3. **Export the table and types** for TypeScript inference
+4. **Add the export** to `main.schema.ts` to include it in the database schema
+5. **Generate and apply migration** using `pnpm db:generate` followed by `pnpm db:migrate`
 
 ### Adding Columns
 
-**Step 1**: Modify the table definition:
+To add new columns to existing tables:
 
-```typescript
-// Before
-export const userTable = mysqlTable("user", {
-  id: int("id").primaryKey().autoincrement(),
-  email: varchar("email", { length: 255 }).unique(),
-  name: varchar("name", { length: 100 }),
-  createdAt: timestamp("createdAt").defaultNow(),
-});
+1. **Modify the table definition** by adding the new column definitions
+2. **Consider default values** for existing records if the column is NOT NULL
+3. **Add appropriate constraints** such as unique, foreign key, or check constraints
+4. **Generate migration** to create the ALTER TABLE statements
+5. **Review the generated SQL** to ensure it matches your expectations
+6. **Apply the migration** to update your database structure
 
-// After - adding avatar and phone columns
-export const userTable = mysqlTable("user", {
-  id: int("id").primaryKey().autoincrement(),
-  email: varchar("email", { length: 255 }).unique(),
-  name: varchar("name", { length: 100 }),
-  avatarUrl: varchar("avatarUrl", { length: 500 }), // New column
-  phoneNumber: varchar("phoneNumber", { length: 20 }), // New column
-  createdAt: timestamp("createdAt").defaultNow(),
-});
-```
+### Modifying Columns
 
-**Step 2**: Generate and apply migration:
+To change existing column properties:
 
-```bash
-pnpm db:generate  # Creates migration file
-pnpm db:migrate   # Applies to database
-```
+1. **Update the column definition** with new type, length, or constraint specifications
+2. **Consider data compatibility** - ensure existing data can be converted to the new format
+3. **Plan data migration** if the change requires transforming existing values
+4. **Generate migration** which will create appropriate ALTER TABLE statements
+5. **Test thoroughly** especially when changing data types or adding NOT NULL constraints
 
-**⚠️ Important**: Always consider data migration when removing columns in production.
+### Removing Columns
+
+To remove columns from existing tables:
+
+1. **Remove the column definition** from the table schema
+2. **Consider data preservation** - ensure you don't need the data or have backed it up
+3. **Update application code** to remove any references to the deleted column
+4. **Generate migration** which will create DROP COLUMN statements
+5. **Apply with caution** as this operation is irreversible and will permanently delete data
+
+### Foreign Key Relationships
+
+When working with relationships between tables:
+
+1. **Define foreign key columns** with matching data types to the referenced primary key
+2. **Add foreign key constraints** using Drizzle's foreignKey syntax
+3. **Specify cascade behavior** for updates and deletes (CASCADE, RESTRICT, SET NULL)
+4. **Ensure referenced tables exist** before creating the relationship
+5. **Consider index creation** on foreign key columns for performance
+
+**⚠️ Important**: Always consider data migration implications when making structural changes in production.
 
 ## 🔄 Migration Commands
 
