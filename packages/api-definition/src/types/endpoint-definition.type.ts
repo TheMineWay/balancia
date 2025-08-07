@@ -1,9 +1,12 @@
-import { EndpointMethod } from "@ts-types/endpoint-method.enum";
-import { ZodSchema } from "zod";
+import type { EndpointMethod } from "@ts-types/endpoint-method.enum";
+import { Path } from "@ts-types/path/path.type";
+import type { ZodObject } from "zod";
 
-export type EndpointDefinition = {
+export type EndpointDefinition<P extends Record<string, string> = {}> = {
   method?: EndpointMethod;
-  getPath: (params: any) => string;
-  dto?: ZodSchema;
-  responseDto?: ZodSchema;
-};
+
+  /* DTOs */
+  bodyDto?: ZodObject;
+  responseDto?: ZodObject;
+  queryDto?: ZodObject;
+} & Path<P>;

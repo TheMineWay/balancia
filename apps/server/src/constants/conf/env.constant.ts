@@ -20,6 +20,13 @@ const ENV_SCHEMA = z.object({
     .transform(toNum)
     .refine(refinedMin(1)),
 
+  // DATABASE
+  LOG_QUERIES: z.stringbool().default(false),
+  DATABASE_CONNECTION_LIMIT: z
+    .string()
+    .default("10")
+    .transform(toNum)
+    .refine(refinedMin(1)),
   DATABASE_URL: z.string(),
 
   // NODE ENV
@@ -39,13 +46,35 @@ const ENV_SCHEMA = z.object({
 
   // AUTHENTICATION
   OIDC_SERVER_HOST: z
-    .string()
     .url()
     .transform((val) => (val.endsWith("/") ? val.slice(0, -1) : val))
     .refine((val) => !val.endsWith("/")),
+
+  // OIDC
   OIDC_CLIENT_ID: z.string(),
   OIDC_CLIENT_SECRET: z.string(),
-  OIDC_ISSUER_URL: z.string().url(),
+  OIDC_ISSUER_URL: z.url(),
+
+  // AUTH DIRECTORY
+  AUTH_DIRECTORY_API_URL: z.url(),
+  AUTH_DIRECTORY_API_KEY: z.string(),
+
+  // CACHE
+  USER_CACHE_TTL: z
+    .string()
+    .default("28800000")
+    .transform((val) => +val)
+    .refine((val) => isFinite(val) && val >= 0),
+  USER_AUTH_INFO_CACHE_TTL: z
+    .string()
+    .default("1800000")
+    .transform((val) => +val)
+    .refine((val) => isFinite(val) && val >= 0),
+  DATA_CACHE_TTL: z
+    .string()
+    .default("600000")
+    .transform((val) => +val)
+    .refine((val) => isFinite(val) && val >= 0),
 });
 
 const TEST_VALUES: Partial<z.infer<typeof ENV_SCHEMA>> = {
@@ -74,6 +103,8 @@ export const ENV = (() => {
     },
     database: {
       url: values.DATABASE_URL,
+      connectionLimit: values.DATABASE_CONNECTION_LIMIT,
+      logQueries: values.LOG_QUERIES,
     },
     cors: {
       allowedDomains: values.CORS_ONLY_ALLOW_DOMAINS,
@@ -83,6 +114,15 @@ export const ENV = (() => {
       clientId: values.OIDC_CLIENT_ID,
       clientSecret: values.OIDC_CLIENT_SECRET,
       issuerUrl: values.OIDC_ISSUER_URL,
+    },
+    cache: {
+      user: values.USER_CACHE_TTL,
+      userAuthInfo: values.USER_AUTH_INFO_CACHE_TTL,
+      data: values.DATA_CACHE_TTL,
+    },
+    authDirectory: {
+      apiUrl: values.AUTH_DIRECTORY_API_URL,
+      apiKey: values.AUTH_DIRECTORY_API_KEY,
     },
   };
 })();

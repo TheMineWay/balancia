@@ -1,1 +1,0 @@
-ALTER TABLE `user` MODIFY COLUMN `code` varchar(64) NOT NULL;

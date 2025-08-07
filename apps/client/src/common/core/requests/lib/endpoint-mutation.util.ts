@@ -1,13 +1,11 @@
-import type { RequestOptions } from "@core/hooks/utils/api/use-request.util";
-import { getClientEndpointRequest } from "@core/utils/request/get-client-endpoint-request.util";
+import type { RequestOptions } from "@common/core/requests/hooks/use-request.util";
+import { endpointQuery } from "@common/core/requests/lib/endpoint-query.util";
 import type {
   ControllerDefinition,
-  InferEndpointDTO,
-  InferEndpointResponseDTO} from "@shared/api-definition";
-import {
-  getEndpointResponseDTO,
+  GetEndpointRequestOptions,
+  getEndpointRequest,
 } from "@shared/api-definition";
-import type { AxiosResponse } from "axios";
+import type { AxiosError, AxiosResponse } from "axios";
 
 /**
  * NOTE:
@@ -19,23 +17,15 @@ import type { AxiosResponse } from "axios";
  */
 export const endpointMutation = <
   C extends ControllerDefinition,
-  E extends keyof C["endpoints"],
-  R = never
+  EK extends keyof C["endpoints"]
 >(
   controller: C,
-  endpoint: E,
-  requestFn: (options: RequestOptions) => Promise<AxiosResponse>,
-  options?: Parameters<typeof getClientEndpointRequest>[2]
+  endpoint: EK,
+  params: Parameters<typeof getEndpointRequest<C, EK>>[3],
+  requestFn: (options: RequestOptions) => Promise<AxiosResponse | AxiosError>
 ) => {
-  return async (data: InferEndpointDTO<C, E>) => {
-    const response = await requestFn(
-      getClientEndpointRequest(controller, endpoint, { data, ...options })
-    );
-
-    const responseDto = getEndpointResponseDTO(controller, endpoint);
-
-    if (responseDto)
-      return responseDto.parse(response.data) as InferEndpointResponseDTO<C, E>;
-    return response.data as R;
+  return async (options: GetEndpointRequestOptions<C["endpoints"][EK]>) => {
+    // Derives its behavior from the endpointQuery.
+    return endpointQuery(controller, endpoint, params, requestFn, options)();
   };
 };

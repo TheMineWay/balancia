@@ -13,33 +13,45 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 
 const IndexLazyRouteImport = createFileRoute('/')()
+const SysRoleIndexLazyRouteImport = createFileRoute('/sys/role/')()
 
 const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+const SysRoleIndexLazyRoute = SysRoleIndexLazyRouteImport.update({
+  id: '/sys/role/',
+  path: '/sys/role/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/sys/role/index.lazy').then((d) => d.Route),
+)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/sys/role': typeof SysRoleIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/sys/role': typeof SysRoleIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
+  '/sys/role/': typeof SysRoleIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/sys/role'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/sys/role'
+  id: '__root__' | '/' | '/sys/role/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  SysRoleIndexLazyRoute: typeof SysRoleIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -51,11 +63,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sys/role/': {
+      id: '/sys/role/'
+      path: '/sys/role'
+      fullPath: '/sys/role'
+      preLoaderRoute: typeof SysRoleIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  SysRoleIndexLazyRoute: SysRoleIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

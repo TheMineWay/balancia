@@ -35,6 +35,12 @@ const ENV_SCHEMA = z
     VITE_AUTH_UI_PROVIDER_COLOR: z.enum(COLORS).optional().default("default"),
     VITE_AUTH_UI_PROVIDER_ICON_URL: z.string().nullable().default(null),
 
+    // USER
+    VITE_USER_INFO_STALE_TIME: z
+      .string()
+      .transform((val) => Number(val))
+      .default(1000 * 60 * 15), // 15 minutes
+
     // DEFAULT
     NODE_ENV: z
       .union([
@@ -75,6 +81,9 @@ export const ENV = (() => {
         providerName: values.VITE_AUTH_UI_PROVIDER_NAME,
         providerColor: values.VITE_AUTH_UI_PROVIDER_COLOR,
       },
+    },
+    user: {
+      infoStaleTime: values.VITE_USER_INFO_STALE_TIME,
     },
     env: env.NODE_ENV,
   };
