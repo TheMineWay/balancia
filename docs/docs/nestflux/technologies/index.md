@@ -20,7 +20,7 @@ Our technology choices are driven by several core principles:
 
 NestFlux employs a **monorepo architecture** with distinct technology stacks for different layers, built on **Node.js 24** ensuring access to the latest runtime features and performance improvements.
 
-### **Client Technologies**
+### 💻 Client Technologies
 Modern React-based frontend with cutting-edge tooling for optimal user experience and developer productivity:
 
 - **React (v19)**: Latest version of the component-based UI library for building interactive user interfaces
@@ -34,7 +34,7 @@ Modern React-based frontend with cutting-edge tooling for optimal user experienc
 - **PostCSS**: Tool for transforming CSS with JavaScript plugins
 - **Tailwind CSS**: Utility-first CSS framework for rapid UI development
 
-### **Server Technologies**
+### ⚡ Server Technologies
 Robust NestJS backend leveraging Node.js ecosystem with enterprise-grade patterns and practices:
 
 - **NestJS (v11)**: Latest version of the progressive Node.js framework for building efficient, scalable server-side applications
@@ -42,7 +42,7 @@ Robust NestJS backend leveraging Node.js ecosystem with enterprise-grade pattern
 - **Drizzle ORM**: TypeScript ORM with excellent type inference and SQL-like syntax
 - **Helmet**: Security middleware to help secure Express/NestJS apps by setting HTTP headers
 
-### **Shared Technologies**
+### ↔️ Shared Technologies
 Common libraries and utilities used across client, server, and packages for consistency:
 
 - **TypeScript (v5)**: Strongly typed programming language that builds on JavaScript
