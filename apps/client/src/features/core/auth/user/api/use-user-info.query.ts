@@ -8,11 +8,11 @@ import { useQuery } from "@tanstack/react-query";
 const USE_USER_INFO_QUERY_KEY: QueryKey = () => ["user-info"];
 
 export const useUserInfoQuery = () => {
-  const { request } = useAuthenticatedRequest();
+	const { request } = useAuthenticatedRequest();
 
-  return useQuery({
-    queryKey: USE_USER_INFO_QUERY_KEY(),
-    queryFn: endpointQuery(AUTH_CONTROLLER, "my-info", {}, request, {}),
-    staleTime: ENV.user.infoStaleTime,
-  });
+	return useQuery({
+		queryKey: USE_USER_INFO_QUERY_KEY(),
+		queryFn: endpointQuery(AUTH_CONTROLLER, "my-info", {}, request, {}),
+		staleTime: ENV.user.infoStaleTime,
+	});
 };

@@ -4,26 +4,26 @@ import type { AxiosError } from "axios";
 import { BiErrorAlt } from "react-icons/bi";
 
 export const useRequestManagedErrorNotification = () => {
-  const { t } = useTranslation("errors");
+	const { t } = useTranslation("errors");
 
-  const manage = (error: AxiosError) => {
-    const status = error.response?.status;
-    if (!status) throw error;
+	const manage = (error: AxiosError) => {
+		const status = error.response?.status;
+		if (!status) throw error;
 
-    const err =
-      t().http?.[status.toString() as keyof ReturnType<typeof t>["http"]];
+		const err =
+			t().http?.[status.toString() as keyof ReturnType<typeof t>["http"]];
 
-    if (!err) throw error;
+		if (!err) throw error;
 
-    notifications.show({
-      color: "red",
-      icon: <BiErrorAlt />,
-      message: err.Message,
-      title: err.Title,
-    });
+		notifications.show({
+			color: "red",
+			icon: <BiErrorAlt />,
+			message: err.Message,
+			title: err.Title,
+		});
 
-    throw error;
-  };
+		throw error;
+	};
 
-  return { manage };
+	return { manage };
 };

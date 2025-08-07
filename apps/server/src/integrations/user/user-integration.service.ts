@@ -10,55 +10,55 @@ const SYNC_USERS_PER_REQUEST = 200;
 
 @Injectable()
 export class UserIntegrationService {
-  constructor(
-    private readonly authDirectoryService: AuthDirectoryService,
-    @Inject(DATABASE_PROVIDERS.main)
-    private readonly databaseService: DatabaseService,
-    private readonly userService: UserService,
-  ) {}
+	constructor(
+		private readonly authDirectoryService: AuthDirectoryService,
+		@Inject(DATABASE_PROVIDERS.main)
+		private readonly databaseService: DatabaseService,
+		private readonly userService: UserService,
+	) {}
 
-  @Cron("0 3 * * *") // Runs every day at 3:00 AM
-  async syncUsersWithOidcDirectory() {
-    Logger.log("Syncing users with OIDC directory...", "User integration");
+	@Cron("0 3 * * *") // Runs every day at 3:00 AM
+	async syncUsersWithOidcDirectory() {
+		Logger.log("Syncing users with OIDC directory...", "User integration");
 
-    await this.databaseService.db.transaction(async (transaction) => {
-      const pendingQueries: Promise<void>[] = []; // Stores promises for pending queries
+		await this.databaseService.db.transaction(async (transaction) => {
+			const pendingQueries: Promise<void>[] = []; // Stores promises for pending queries
 
-      let nextPage: number | null = null;
-      while (nextPage !== 0) {
-        const users = await this.authDirectoryService.getUsers({
-          page: nextPage ?? 1,
-          pageSize: SYNC_USERS_PER_REQUEST,
-        });
-        nextPage = users.pagination.next;
+			let nextPage: number | null = null;
+			while (nextPage !== 0) {
+				const users = await this.authDirectoryService.getUsers({
+					page: nextPage ?? 1,
+					pageSize: SYNC_USERS_PER_REQUEST,
+				});
+				nextPage = users.pagination.next;
 
-        // Integrate users
-        pendingQueries.push(
-          this.userService.syncUsers(
-            users.results
-              .filter(
-                (r) =>
-                  !["internal_service_account", "service_account"].includes(
-                    r.type,
-                  ),
-              )
-              .map((r) => ({
-                code: r.uid,
-                name: r.name,
-                username: r.username,
-                email: r.email,
-              })),
-            {
-              transaction,
-            },
-          ),
-        );
-      }
+				// Integrate users
+				pendingQueries.push(
+					this.userService.syncUsers(
+						users.results
+							.filter(
+								(r) =>
+									!["internal_service_account", "service_account"].includes(
+										r.type,
+									),
+							)
+							.map((r) => ({
+								code: r.uid,
+								name: r.name,
+								username: r.username,
+								email: r.email,
+							})),
+						{
+							transaction,
+						},
+					),
+				);
+			}
 
-      // Wait for queries to complete
-      await Promise.all(pendingQueries);
-    });
+			// Wait for queries to complete
+			await Promise.all(pendingQueries);
+		});
 
-    Logger.log("User sync completed successfully", "User integration");
-  }
+		Logger.log("User sync completed successfully", "User integration");
+	}
 }

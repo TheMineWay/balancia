@@ -1,44 +1,44 @@
 {
-  "name": "@shared/utils",
-  "version": "1.0.0",
-  "description": "Shared utilities",
-  "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/TheMineWay/NestFlux",
-    "directory": "packages/utils"
-  },
-  "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts",
-    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
-    "prepublishOnly": "pnpm run build",
-    "test": "vitest"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
-    "vitest": "^3.2.4"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    }
-  },
-  "engines": {
-    "node": ">=24",
-    "pnpm": ">=10"
-  },
-  "dependencies": {
-    "@shared/models": "workspace:*",
-    "@types/crypto-js": "^4.2.2",
-    "crypto-js": "^4.2.0"
-  }
+	"name": "@shared/utils",
+	"version": "1.0.0",
+	"description": "Shared utilities",
+	"type": "module",
+	"main": "dist/index.cjs",
+	"module": "dist/index.mjs",
+	"types": "dist/index.d.ts",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/TheMineWay/NestFlux",
+		"directory": "packages/utils"
+	},
+	"scripts": {
+		"build": "tsup src/index.ts --format esm,cjs --dts",
+		"dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+		"prepublishOnly": "pnpm run build",
+		"test": "vitest"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"tsup": "^8.5.0",
+		"typescript": "^5.9.2",
+		"vitest": "^3.2.4"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		}
+	},
+	"engines": {
+		"node": ">=24",
+		"pnpm": ">=10"
+	},
+	"dependencies": {
+		"@shared/models": "workspace:*",
+		"@types/crypto-js": "^4.2.2",
+		"crypto-js": "^4.2.0"
+	}
 }

@@ -10,7 +10,7 @@ import { Global, Module } from "@nestjs/common";
  */
 @Global()
 @Module({
-  providers: [UserCacheService, UserAuthInfoCacheService],
-  exports: [UserCacheService, UserAuthInfoCacheService],
+	providers: [UserCacheService, UserAuthInfoCacheService],
+	exports: [UserCacheService, UserAuthInfoCacheService],
 })
 export class CachesModule {}

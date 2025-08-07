@@ -1,27 +1,27 @@
 import { BasicDependency } from "@site/src/types/dependencies/basic-dependency.type";
 
 type Props = {
-  alternatives: Array<BasicDependency>;
+	alternatives: Array<BasicDependency>;
 };
 
 export default function DependencyTableAlternatives({
-  alternatives,
+	alternatives,
 }: Readonly<Props>) {
-  return (
-    <div className="flex gap-2">
-      {alternatives.map((alternative) => (
-        <Alternative alternative={alternative} key={alternative.code} />
-      ))}
-    </div>
-  );
+	return (
+		<div className="flex gap-2">
+			{alternatives.map((alternative) => (
+				<Alternative alternative={alternative} key={alternative.code} />
+			))}
+		</div>
+	);
 }
 
 const Alternative = ({
-  alternative: { name, url },
+	alternative: { name, url },
 }: Readonly<{ alternative: BasicDependency }>) => {
-  return (
-    <a target="_blank" href={url}>
-      {name}
-    </a>
-  );
+	return (
+		<a target="_blank" href={url}>
+			{name}
+		</a>
+	);
 };

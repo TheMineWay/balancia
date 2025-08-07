@@ -11,25 +11,25 @@ import UIProviders from "@providers/ui/ui.providers";
 import type { WithChildren } from "src/common/types/component/component.types";
 
 export default function CoreProviders({ children }: Readonly<WithChildren>) {
-  return (
-    <LocalConfigProvider>
-      <UIProviders>
-        <DeviceInfoProvider>
-          <LanguageProvider>
-            <NetworkProvider>
-              <CallbackRender>
-                <OidcProvider>
-                  <AuthProvider>
-                    <UserInfoProvider>
-                      <AfterProviders>{children}</AfterProviders>
-                    </UserInfoProvider>
-                  </AuthProvider>
-                </OidcProvider>
-              </CallbackRender>
-            </NetworkProvider>
-          </LanguageProvider>
-        </DeviceInfoProvider>
-      </UIProviders>
-    </LocalConfigProvider>
-  );
+	return (
+		<LocalConfigProvider>
+			<UIProviders>
+				<DeviceInfoProvider>
+					<LanguageProvider>
+						<NetworkProvider>
+							<CallbackRender>
+								<OidcProvider>
+									<AuthProvider>
+										<UserInfoProvider>
+											<AfterProviders>{children}</AfterProviders>
+										</UserInfoProvider>
+									</AuthProvider>
+								</OidcProvider>
+							</CallbackRender>
+						</NetworkProvider>
+					</LanguageProvider>
+				</DeviceInfoProvider>
+			</UIProviders>
+		</LocalConfigProvider>
+	);
 }

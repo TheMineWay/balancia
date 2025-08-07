@@ -3,6 +3,6 @@ import { UserModule } from "@core/api/user/user.module";
 import { Module } from "@nestjs/common";
 
 @Module({
-  imports: [UserModule, RoleModule],
+	imports: [UserModule, RoleModule],
 })
 export class CoreModule {}

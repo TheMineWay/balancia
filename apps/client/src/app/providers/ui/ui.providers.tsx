@@ -8,24 +8,24 @@ import { useMemo } from "react";
 import type { WithChildren } from "src/common/types/component/component.types";
 
 export default function UIProviders({ children }: Readonly<WithChildren>) {
-  const {
-    config: { theme: themeConfig },
-  } = useLocalConfig();
+	const {
+		config: { theme: themeConfig },
+	} = useLocalConfig();
 
-  const theme = useMemo(
-    () =>
-      createTheme({
-        primaryColor: themeConfig.primaryColor ?? "red",
-      }),
-    [themeConfig]
-  );
+	const theme = useMemo(
+		() =>
+			createTheme({
+				primaryColor: themeConfig.primaryColor ?? "red",
+			}),
+		[themeConfig],
+	);
 
-  return (
-    <MantineProvider theme={theme} defaultColorScheme={themeConfig.colorScheme}>
-      <ModalsProvider>
-        <Notifications />
-        {children}
-      </ModalsProvider>
-    </MantineProvider>
-  );
+	return (
+		<MantineProvider theme={theme} defaultColorScheme={themeConfig.colorScheme}>
+			<ModalsProvider>
+				<Notifications />
+				{children}
+			</ModalsProvider>
+		</MantineProvider>
+	);
 }

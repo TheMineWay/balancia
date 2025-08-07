@@ -3,17 +3,17 @@ import { metadata } from "@constants/metadata.constant";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/")({
-  component: Index,
+	component: Index,
 });
 
 function Index() {
-  const { activeUser } = useActiveAuth();
+	const { activeUser } = useActiveAuth();
 
-  return (
-    <div className="p-2">
-      <h3>
-        Hi {activeUser.profile.name}, welcome to {metadata.projectName}!
-      </h3>
-    </div>
-  );
+	return (
+		<div className="p-2">
+			<h3>
+				Hi {activeUser.profile.name}, welcome to {metadata.projectName}!
+			</h3>
+		</div>
+	);
 }

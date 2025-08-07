@@ -6,22 +6,22 @@ import type { RoleModel } from "@shared/models";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useRolePermissionsSetMutation = (roleId: RoleModel["id"]) => {
-  const { request } = useAuthenticatedRequest();
-  const queryClient = useQueryClient();
+	const { request } = useAuthenticatedRequest();
+	const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: endpointMutation(
-      ADMIN_ROLE_CONTROLLER,
-      "set-role-permissions",
-      {
-        roleId: roleId.toString(),
-      },
-      request
-    ),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: USE_ROLE_PERMISSIONS_QUERY_KEY({ roleId }),
-      });
-    },
-  });
+	return useMutation({
+		mutationFn: endpointMutation(
+			ADMIN_ROLE_CONTROLLER,
+			"set-role-permissions",
+			{
+				roleId: roleId.toString(),
+			},
+			request,
+		),
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: USE_ROLE_PERMISSIONS_QUERY_KEY({ roleId }),
+			});
+		},
+	});
 };

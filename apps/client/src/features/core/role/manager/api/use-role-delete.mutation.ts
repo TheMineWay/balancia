@@ -5,21 +5,21 @@ import { ADMIN_ROLE_CONTROLLER } from "@shared/api-definition";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useRoleDeleteMutation = () => {
-  const { request } = useAuthenticatedRequest();
-  const queryClient = useQueryClient();
+	const { request } = useAuthenticatedRequest();
+	const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: async (roleId: number) =>
-      await endpointMutation(
-        ADMIN_ROLE_CONTROLLER,
-        "delete",
-        { roleId: roleId.toString() },
-        request
-      )({}),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ADMIN_ROLES_WITH_STATS_QUERY_KEY(),
-      });
-    },
-  });
+	return useMutation({
+		mutationFn: async (roleId: number) =>
+			await endpointMutation(
+				ADMIN_ROLE_CONTROLLER,
+				"delete",
+				{ roleId: roleId.toString() },
+				request,
+			)({}),
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ADMIN_ROLES_WITH_STATS_QUERY_KEY(),
+			});
+		},
+	});
 };

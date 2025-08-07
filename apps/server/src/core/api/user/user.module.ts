@@ -6,8 +6,8 @@ import { Global, Module } from "@nestjs/common";
 
 @Global()
 @Module({
-  providers: [UserService, UserRepository],
-  exports: [UserService],
-  controllers: [UserController, AdminUserController],
+	providers: [UserService, UserRepository],
+	exports: [UserService],
+	controllers: [UserController, AdminUserController],
 })
 export class UserModule {}

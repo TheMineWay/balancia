@@ -6,22 +6,22 @@ import { Cacheable } from "cacheable";
 
 @Injectable()
 export class UserAuthInfoCacheService extends CacheService {
-  constructor() {
-    super(new Cacheable({ ttl: ENV.cache.userAuthInfo }));
-  }
+	constructor() {
+		super(new Cacheable({ ttl: ENV.cache.userAuthInfo }));
+	}
 
-  async getById(
-    userId: UserModel["id"],
-    fetchInfo: (userId: UserModel["id"]) => Promise<UserAuthInfoCacheData>,
-  ) {
-    return await this.get<UserAuthInfoCacheData>(
-      userId.toString(),
-      async () => await fetchInfo(userId),
-    );
-  }
+	async getById(
+		userId: UserModel["id"],
+		fetchInfo: (userId: UserModel["id"]) => Promise<UserAuthInfoCacheData>,
+	) {
+		return await this.get<UserAuthInfoCacheData>(
+			userId.toString(),
+			async () => await fetchInfo(userId),
+		);
+	}
 }
 
 export type UserAuthInfoCacheData = {
-  permissions: Permission[];
-  roles: RoleModel[];
+	permissions: Permission[];
+	roles: RoleModel[];
 };

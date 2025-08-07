@@ -1,74 +1,76 @@
 {
-  "name": "nestflux",
-  "version": "1.0.0.alpha-1",
-  "description": "Scaffold app for ReactJS + NestJS projects (fully written in TS)",
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/TheMineWay/NestFlux"
-  },
-  "scripts": {
-    "dev:client": "pnpm --filter nestflux-client dev",
-    "dev:server": "pnpm --filter nestflux-server start:dev",
-    "dev:packages": "pnpm --filter @shared/* dev",
-    "dev": "tmux new-session -d -s nestflux 'pnpm dev:client' \\; split-window -h 'pnpm dev:server' \\; attach-session -d",
-    "start:client": "pnpm --filter nestflux-client start && pnpm --filter nestflux-client start",
-    "start:server": "pnpm --filter nestflux-server start:prod",
-    "start:docs": "pnpm --filter docs start",
-    "start": "tmux new-session -d -s nestflux 'pnpm start:client' \\; split-window -h 'pnpm start:server' \\; attach-session -d",
-    "build:client": "pnpm --filter nestflux-client build",
-    "build:server": "pnpm --filter nestflux-server build",
-    "build:packages": "pnpm --filter @shared/* build",
-    "build:docs": "pnpm --filter docs build",
-    "build": "pnpm build:packages && pnpm build:client && pnpm build:server",
-    "test": "vitest run --reporter=verbose",
-    "test:dev": "vitest --watch",
-    "test:ui": "vitest --ui",
-    "tools": "pnpm --filter scripts launch",
-    "db:generate": "pnpm --filter nestflux-server \"db:generate\"",
-    "db:migrate": "pnpm --filter nestflux-server \"db:migrate\"",
-    "lint": "pnpm -r run lint",
-    "lint:fix": "pnpm -r run lint:fix",
-    "clean:all": "find . -type d \\( -name \"node_modules\" -or -name \"dist\" -or -name \"test-results\" -or -name \"playwright-report\" -or -name \".docusaurus\" -or -name \"build\" \\) -exec rm -rf {} +"
-  },
-  "keywords": [
-    "scaffold",
-    "react",
-    "nest"
-  ],
-  "author": {
-    "name": "TheMineWay",
-    "url": "https://github.com/TheMineWay"
-  },
-  "engines": {
-    "node": ">=24",
-    "pnpm": ">=10"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "@vitest/ui": "3.2.4",
-    "concurrently": "^9.2.0",
-    "vitest": "^3.2.4"
-  },
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "docs",
-    "scripts"
-  ],
-  "pnpm": {
-    "ignoredBuiltDependencies": [
-      "@scarf/scarf",
-      "core-js",
-      "core-js-pure",
-      "unrs-resolver"
-    ],
-    "onlyBuiltDependencies": [
-      "@nestjs/core",
-      "@swc/core",
-      "@tailwindcss/oxide",
-      "bcrypt",
-      "esbuild"
-    ]
-  }
+	"name": "nestflux",
+	"version": "1.0.0.alpha-1",
+	"description": "Scaffold app for ReactJS + NestJS projects (fully written in TS)",
+	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/TheMineWay/NestFlux"
+	},
+	"scripts": {
+		"dev:client": "pnpm --filter nestflux-client dev",
+		"dev:server": "pnpm --filter nestflux-server start:dev",
+		"dev:packages": "pnpm --filter @shared/* dev",
+		"dev": "tmux new-session -d -s nestflux 'pnpm dev:client' \\; split-window -h 'pnpm dev:server' \\; attach-session -d",
+		"start:client": "pnpm --filter nestflux-client start && pnpm --filter nestflux-client start",
+		"start:server": "pnpm --filter nestflux-server start:prod",
+		"start:docs": "pnpm --filter docs start",
+		"start": "tmux new-session -d -s nestflux 'pnpm start:client' \\; split-window -h 'pnpm start:server' \\; attach-session -d",
+		"build:client": "pnpm --filter nestflux-client build",
+		"build:server": "pnpm --filter nestflux-server build",
+		"build:packages": "pnpm --filter @shared/* build",
+		"build:docs": "pnpm --filter docs build",
+		"build": "pnpm build:packages && pnpm build:client && pnpm build:server",
+		"test": "vitest run --reporter=verbose",
+		"test:dev": "vitest --watch",
+		"test:ui": "vitest --ui",
+		"tools": "pnpm --filter scripts launch",
+		"db:generate": "pnpm --filter nestflux-server \"db:generate\"",
+		"db:migrate": "pnpm --filter nestflux-server \"db:migrate\"",
+		"lint": "pnpm exec biome format",
+		"lint:fix": "pnpm exec biome format --write",
+		"lint:report": "pnpm biome check --reporter=summary",
+		"clean:all": "find . -type d \\( -name \"node_modules\" -or -name \"dist\" -or -name \"test-results\" -or -name \"playwright-report\" -or -name \".docusaurus\" -or -name \"build\" \\) -exec rm -rf {} +"
+	},
+	"keywords": [
+		"scaffold",
+		"react",
+		"nest"
+	],
+	"author": {
+		"name": "TheMineWay",
+		"url": "https://github.com/TheMineWay"
+	},
+	"engines": {
+		"node": ">=24",
+		"pnpm": ">=10"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"@biomejs/biome": "^2.1.2",
+		"@vitest/ui": "3.2.4",
+		"concurrently": "^9.2.0",
+		"vitest": "^3.2.4"
+	},
+	"workspaces": [
+		"apps/*",
+		"packages/*",
+		"docs",
+		"scripts"
+	],
+	"pnpm": {
+		"ignoredBuiltDependencies": [
+			"@scarf/scarf",
+			"core-js",
+			"core-js-pure",
+			"unrs-resolver"
+		],
+		"onlyBuiltDependencies": [
+			"@nestjs/core",
+			"@swc/core",
+			"@tailwindcss/oxide",
+			"bcrypt",
+			"esbuild"
+		]
+	}
 }

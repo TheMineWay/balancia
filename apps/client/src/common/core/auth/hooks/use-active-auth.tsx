@@ -14,19 +14,19 @@ import { useAuthContext } from "@providers/auth/auth.context";
  * @returns {object} The active authentication state and functions to interact with it.
  */
 export const useActiveAuth = () => {
-  const { context: account } = useAuthContext();
+	const { context: account } = useAuthContext();
 
-  if (!account)
-    throw new Error("useActiveAuth must be used when user is logged in");
+	if (!account)
+		throw new Error("useActiveAuth must be used when user is logged in");
 
-  const signOut = () => {
-    account.oidcManager.signoutRedirect();
-  };
+	const signOut = () => {
+		account.oidcManager.signoutRedirect();
+	};
 
-  return {
-    activeUser: account,
-    user: account.profile,
-    token: account.accessToken(),
-    signOut,
-  };
+	return {
+		activeUser: account,
+		user: account.profile,
+		token: account.accessToken(),
+		signOut,
+	};
 };

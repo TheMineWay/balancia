@@ -1,10 +1,10 @@
 {
-    "label": "📚 Guides",
-    "link": {
-        "type": "generated-index",
-        "title": "Guides"
-    },
-    "customProps": {
-        "description": "NestFlux guides"
-    }
+	"label": "📚 Guides",
+	"link": {
+		"type": "generated-index",
+		"title": "Guides"
+	},
+	"customProps": {
+		"description": "NestFlux guides"
+	}
 }

@@ -7,8 +7,8 @@
     "dev": "vite",
     "start": "pnpm build && pnpm preview",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix",
+    "lint": "pnpm exec biome format",
+    "lint:fix": "pnpm exec biome format --write",
     "preview": "vite preview",
     "test": "vitest run --reporter=verbose",
     "test:dev": "vitest --watch"

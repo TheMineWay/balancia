@@ -1,3 +1,3 @@
 export const WAREHOUSES = {
-  ls: "ls",
+	ls: "ls",
 } satisfies Record<string, string>;

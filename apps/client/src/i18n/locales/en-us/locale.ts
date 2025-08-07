@@ -5,11 +5,11 @@ import errors from "./errors.json";
 // End core
 
 const EN_US = {
-  common,
-  auth,
-  errors,
-  role,
-  // End core
+	common,
+	auth,
+	errors,
+	role,
+	// End core
 };
 
 export default EN_US;
