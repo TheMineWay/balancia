@@ -90,12 +90,6 @@ const config: Config = {
 					label: "🩵 NestFlux documentation",
 				},
 				{
-					type: "docSidebar",
-					sidebarId: "getStartedSidebar",
-					position: "left",
-					label: "🔨 Get started",
-				},
-				{
 					href: "https://github.com/TheMineWay/NestFlux",
 					label: "GitHub",
 					position: "right",
