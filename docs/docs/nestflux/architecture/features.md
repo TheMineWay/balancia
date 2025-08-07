@@ -95,12 +95,6 @@ feature-name/
     └── feature.types.ts
 ```
 
-### Client Structure Rules:
-- **components/**: React components, pages, layouts
-- **hooks/**: Custom hooks for state management and side effects
-- **lib/**: Pure business logic, calculations, API calls
-- **types/**: TypeScript interfaces and types
-
 ### 🚀 Server Feature Structure
 
 Each server feature follows this hierarchy:
@@ -119,13 +113,6 @@ feature-name/
 └── types/              # TypeScript types specific to this feature
     └── feature.types.ts
 ```
-
-### Server Structure Rules:
-- **controllers/**: HTTP request handlers and route definitions
-- **services/**: Business logic and data processing
-- **modules/**: NestJS modules for dependency injection
-- **lib/**: Pure utilities and helper functions
-- **types/**: TypeScript interfaces and types
 
 ## 📝 FEATURE.md Template
 
