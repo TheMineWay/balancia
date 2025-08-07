@@ -1,7 +1,7 @@
 import { Form } from "@common/components/form/form";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Input } from "@mantine/core";
-import { RoleEditablePropsModel } from "@shared/models";
+import type { RoleEditablePropsModel } from "@shared/models";
 import type { UseFormReturn } from "react-hook-form";
 
 type Props = {
