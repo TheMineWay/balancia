@@ -228,6 +228,12 @@ export const DEPENDENCIES = [
     docsUrl: "https://mantine.dev/",
   },
   {
+    code: "@mantine/dates",
+    name: "Mantine Dates",
+    url: "https://www.npmjs.com/package/@mantine/dates",
+    docsUrl: "https://mantine.dev/",
+  },
+  {
     code: "@mantine/modals",
     name: "Mantine Modals",
     url: "https://www.npmjs.com/package/@mantine/modals",

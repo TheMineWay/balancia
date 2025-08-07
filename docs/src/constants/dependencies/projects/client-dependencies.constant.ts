@@ -26,6 +26,7 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
   { dep: "@mantine/modals" },
   { dep: "@mantine/notifications" },
   { dep: "@mantine/core" },
+  { dep: "@mantine/dates" },
   { dep: "@mantine/hooks" },
   { dep: "postcss-preset-mantine", isDevelopment: true },
   { dep: "postcss-simple-vars", isDevelopment: true },
