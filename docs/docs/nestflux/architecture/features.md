@@ -1,0 +1,152 @@
+---
+sidebar_position: 2
+---
+
+# 🗄️ Features Pattern
+
+NestFlux follows a consistent feature-based architecture pattern across both client and server applications to promote code organization, maintainability, and scalability.
+
+## 📁 Folder Structure Overview
+
+```
+src/
+├── common/          # Reusable code across multiple features
+└── features/        # Application-specific features
+```
+
+## 🔄 Pattern Philosophy
+
+### Features Folder
+- Contains **application-specific code** that implements business requirements
+- Each feature represents a distinct domain or functionality
+- Features can be nested with unlimited depth for complex domains
+- Should be cohesive and focused on a specific business capability
+
+### Common Folder
+- Contains **reusable code** that's shared across multiple features
+- Used for foundational functionality like authentication, logging, utilities
+- Should be generic enough to be used in various contexts
+- Examples: auth, ui-kit, error-handling, validation
+
+### Documentation
+Every feature (both in `common/` and `features/`) must include a **FEATURE.md** file that documents its purpose, responsibilities, and usage examples. This ensures consistent documentation across the codebase and helps developers understand each feature's role. See the [FEATURE.md template](#-featuremd-template) for the complete documentation structure.
+
+:::tip
+
+The distinction between `features/` and `common/` is for **code organization only**. There are no restrictions on code reuse - features can import from other features, and common code can be used anywhere. The goal is to structure code logically while maintaining full flexibility for code sharing and reusability.
+
+:::
+
+## 🗄️ Feature structures
+
+Each application type (client and server) has its own specific folder structure tailored to its technology stack and architectural patterns:
+
+- **Client features** are designed around **React patterns** - components, hooks, and client-side logic
+- **Server features** follow **NestJS conventions** - controllers, services, modules, and server-side architecture
+- Both share common folder types (**lib**, **types**) for consistency where it makes sense
+- This approach ensures each application follows its **framework's best practices** while maintaining the overall feature pattern consistency
+
+### 🏗️ Feature Grouping Rule
+
+**Important**: If a feature contains sub-features, it becomes a **grouping feature** and **cannot contain its own feature content** (components, hooks, services, etc.). It can only contain:
+- `FEATURE.md` (required documentation)
+- Sub-feature folders
+
+**Example of a grouping feature:**
+```
+user-management/         # Grouping feature - no feature content allowed
+├── FEATURE.md           # Only documentation allowed
+├── user-profile/        # Sub-feature with actual implementation
+│   ├── FEATURE.md
+│   ├── components/
+│   │   └── profile-form.tsx
+│   └── hooks/
+│       └── use-profile.ts
+├── user-settings/       # Another sub-feature
+│   ├── FEATURE.md
+│   ├── components/
+│   │   └── settings-panel.tsx
+│   └── lib/
+│       └── settings-utils.ts
+└── user-permissions/    # Third sub-feature
+    ├── FEATURE.md
+    ├── services/
+    │   └── permissions.service.ts
+    └── types/
+        └── permissions.types.ts
+```
+
+This ensures clear separation between organizational structure and implementation details.
+
+### 💻 Client Feature Structure
+
+Each client feature follows this hierarchy:
+
+```
+feature-name/
+├── FEATURE.md           # Feature documentation
+├── components/          # React components specific to this feature
+│   └── feature-component.tsx
+├── hooks/              # Custom React hooks for this feature
+│   └── use-feature-hook.ts
+├── lib/                # Business logic and utilities
+│   └── feature-utils.ts
+└── types/              # TypeScript types specific to this feature
+    └── feature.types.ts
+```
+
+### Client Structure Rules:
+- **components/**: React components, pages, layouts
+- **hooks/**: Custom hooks for state management and side effects
+- **lib/**: Pure business logic, calculations, API calls
+- **types/**: TypeScript interfaces and types
+
+### 🚀 Server Feature Structure
+
+Each server feature follows this hierarchy:
+
+```
+feature-name/
+├── FEATURE.md           # Feature documentation
+├── controllers/         # NestJS controllers (if needed)
+│   └── feature.controller.ts
+├── services/           # NestJS services (if needed)
+│   └── feature.service.ts
+├── modules/            # NestJS modules (if needed)
+│   └── feature.module.ts
+├── lib/                # Business logic and utilities
+│   └── feature-utils.ts
+└── types/              # TypeScript types specific to this feature
+    └── feature.types.ts
+```
+
+### Server Structure Rules:
+- **controllers/**: HTTP request handlers and route definitions
+- **services/**: Business logic and data processing
+- **modules/**: NestJS modules for dependency injection
+- **lib/**: Pure utilities and helper functions
+- **types/**: TypeScript interfaces and types
+
+## 📝 FEATURE.md Template
+
+Each feature must include a `FEATURE.md` file following this template:
+
+```markdown
+# Feature Name
+
+## 📋 Overview
+Brief description of what this feature does and its purpose.
+
+## 🎯 Responsibilities
+- List the main responsibilities of this feature
+- What business logic it handles
+- What problems it solves
+
+## 🚧 Known Limitations (optional)
+- Current limitations or technical debt
+- Future improvements planned
+
+## 📖 Related Documentation (optional)
+- Links to relevant docs
+- API specifications
+- Design documents
