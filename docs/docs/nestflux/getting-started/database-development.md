@@ -147,51 +147,6 @@ cd apps/server && pnpm db:migrate
 Database is up to date!
 ```
 
-## 🔄 Development Workflow
-
-Here's the complete workflow for database development in NestFlux:
-
-### 1. Plan Your Changes
-- Identify what tables/columns you need to add/modify/remove
-- Consider data migration implications for existing data
-- Plan relationships between tables
-
-### 2. Modify Schema Files
-- Edit existing table files or create new ones
-- Update relationships and constraints
-- Export new tables in `main.schema.ts`
-
-### 3. Generate Migration
-```bash
-pnpm db:generate
-```
-This creates a new migration file in `apps/server/drizzle/` with the SQL changes.
-
-### 4. Review Generated SQL
-Always check the generated migration file to ensure it matches your intentions:
-
-```sql
--- Example migration file: 0005_brave_wolverine.sql
-ALTER TABLE `user` ADD `avatarUrl` varchar(500);
-ALTER TABLE `user` ADD `phoneNumber` varchar(20);
-```
-
-### 5. Apply Migration
-```bash
-pnpm db:migrate
-```
-This applies the changes to your database.
-
-### 6. Update Application Code
-- Update any services or controllers that use the modified tables
-- Add new queries or update existing ones
-- Update TypeScript types if needed (they're auto-generated from tables)
-
-### 7. Test Changes
-- Verify database changes work as expected
-- Test any affected API endpoints
-- Run unit tests to ensure nothing is broken
-
 ## 🚨 Best Practices
 
 ### Schema Organization
@@ -224,13 +179,6 @@ This applies the changes to your database.
 ```typescript
 // Make sure all tables are exported in main.schema.ts
 export { newTable } from "@database/schemas/main/tables/category/new.table";
-```
-
-**TypeScript Type Issues**:
-```typescript
-// Regenerate types by running migrations
-pnpm db:migrate
-// Types are automatically inferred from table definitions
 ```
 
 **Foreign Key Errors**:
