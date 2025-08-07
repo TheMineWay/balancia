@@ -16,19 +16,19 @@ src/
 
 ## 🔄 Pattern Philosophy
 
-### Features Folder
+### 📦 Features Folder
 - Contains **application-specific code** that implements business requirements
 - Each feature represents a distinct domain or functionality
 - Features can be nested with unlimited depth for complex domains
 - Should be cohesive and focused on a specific business capability
 
-### Common Folder
+### 🔃 Common Folder
 - Contains **reusable code** that's shared across multiple features
 - Used for foundational functionality like authentication, logging, utilities
 - Should be generic enough to be used in various contexts
 - Examples: auth, ui-kit, error-handling, validation
 
-### Documentation
+### 📖 Documentation
 Every feature (both in `common/` and `features/`) must include a **FEATURE.md** file that documents its purpose, responsibilities, and usage examples. This ensures consistent documentation across the codebase and helps developers understand each feature's role. See the [FEATURE.md template](#-featuremd-template) for the complete documentation structure.
 
 :::tip
