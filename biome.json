@@ -33,7 +33,22 @@
 	},
 	"overrides": [
 		{
-			"includes": ["dist/**", "node_modules/**"],
+			"includes": [
+				"dist/**",
+				"node_modules/**",
+				"build/**",
+				"out/**",
+				".next/**",
+				".nuxt/**",
+				".output/**",
+				"coverage/**",
+				".nyc_output/**",
+				"*.min.js",
+				"*.bundle.js",
+				"*.d.ts.map",
+				"**/*.generated.*",
+				"**/*.build.*"
+			],
 			"linter": {
 				"enabled": false
 			},
