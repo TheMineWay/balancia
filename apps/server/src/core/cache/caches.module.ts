@@ -1,9 +1,11 @@
+import { UserAuthInfoCacheService } from "@core/cache/caches/user-auth-info-cache.service";
 import { UserCacheService } from "@core/cache/caches/user-cache.service";
-import { Module } from "@nestjs/common";
+import { Global, Module } from "@nestjs/common";
 /* Module */
 
+@Global()
 @Module({
-  providers: [UserCacheService],
-  exports: [UserCacheService],
+  providers: [UserCacheService, UserAuthInfoCacheService],
+  exports: [UserCacheService, UserAuthInfoCacheService],
 })
 export class CachesModule {}
