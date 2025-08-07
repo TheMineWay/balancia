@@ -40,6 +40,7 @@ export abstract class Repository {
     TNullabilityMap extends Record<
       string,
       JoinNullability
+      // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     > = TTableName extends string ? Record<TTableName, "not-null"> : {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     TDynamic extends boolean = false,

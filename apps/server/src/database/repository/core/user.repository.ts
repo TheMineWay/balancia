@@ -69,8 +69,3 @@ export class UserRepository extends Repository {
   ) =>
     this.query(options).update(userTable).set(data).where(eq(userTable.id, id));
 }
-
-/* Internal types */
-type GenericFilters = {
-  search?: string;
-};

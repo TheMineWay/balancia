@@ -6,6 +6,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  NotImplementedException,
 } from "@nestjs/common";
 import {
   JWT_TOKEN_SCHEMA,
@@ -27,6 +28,8 @@ export class AuthService {
   ) {}
 
   async checkIn(jwt: JwtToken) {
+    await Promise.resolve(null);
+    throw new NotImplementedException(jwt);
     //await this.userService.findOrCreateByCode(jwt.sub); // TODO: implement with OIDC user data
   }
 
