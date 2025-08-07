@@ -4,19 +4,19 @@ import { userTable } from "@database/schemas/main/tables/identity/user.table";
 import { int, mysqlTable, primaryKey } from "drizzle-orm/mysql-core";
 
 export const userRoleTable = mysqlTable(
-  "user_role",
-  {
-    userId: int()
-      .notNull()
-      .references(() => userTable.id, { onDelete: "cascade" }),
-    roleId: int()
-      .notNull()
-      .references(() => roleTable.id, { onDelete: "cascade" }),
+	"user_role",
+	{
+		userId: int()
+			.notNull()
+			.references(() => userTable.id, { onDelete: "cascade" }),
+		roleId: int()
+			.notNull()
+			.references(() => roleTable.id, { onDelete: "cascade" }),
 
-    // Timestamps
-    ...timestamps,
-  },
-  (table) => [primaryKey({ columns: [table.userId, table.roleId] })],
+		// Timestamps
+		...timestamps,
+	},
+	(table) => [primaryKey({ columns: [table.userId, table.roleId] })],
 );
 
 export type UserRoleInsert = typeof userRoleTable.$inferInsert;

@@ -1,5 +1,5 @@
 import pkg from "@pkg";
 
 export const metadata = {
-  projectName: pkg.name,
+	projectName: pkg.name,
 };

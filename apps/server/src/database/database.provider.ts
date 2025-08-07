@@ -1,3 +1,3 @@
 export const DATABASE_PROVIDERS = {
-  main: "main_db_provider",
+	main: "main_db_provider",
 };

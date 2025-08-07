@@ -5,29 +5,29 @@ import type { RoleModel, UserModel } from "@shared/models";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Options = {
-  roleId: RoleModel["id"];
-  userId: UserModel["id"];
+	roleId: RoleModel["id"];
+	userId: UserModel["id"];
 };
 
 export const useRoleUserAssignMutation = () => {
-  const { request } = useAuthenticatedRequest();
-  const queryClient = useQueryClient();
+	const { request } = useAuthenticatedRequest();
+	const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: async ({ roleId, userId }: Options) =>
-      await endpointMutation(
-        ADMIN_ROLE_CONTROLLER,
-        "assign-role",
-        {
-          roleId: roleId.toString(),
-          userId: userId.toString(),
-        },
-        request
-      )({}),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [getController(ADMIN_ROLE_CONTROLLER, {})],
-      });
-    },
-  });
+	return useMutation({
+		mutationFn: async ({ roleId, userId }: Options) =>
+			await endpointMutation(
+				ADMIN_ROLE_CONTROLLER,
+				"assign-role",
+				{
+					roleId: roleId.toString(),
+					userId: userId.toString(),
+				},
+				request,
+			)({}),
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: [getController(ADMIN_ROLE_CONTROLLER, {})],
+			});
+		},
+	});
 };

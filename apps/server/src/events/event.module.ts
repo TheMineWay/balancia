@@ -4,12 +4,12 @@ import { EventService } from "src/events/event.service";
 
 @Global()
 @Module({
-  providers: [EventService],
-  exports: [EventService],
-  imports: [
-    EventEmitterModule.forRoot({
-      global: false,
-    }),
-  ],
+	providers: [EventService],
+	exports: [EventService],
+	imports: [
+		EventEmitterModule.forRoot({
+			global: false,
+		}),
+	],
 })
 export class EventModule {}

@@ -6,24 +6,24 @@ import { memo, type ReactNode } from "react";
 import styles from "./table.module.pcss";
 
 export type TableProps<TData extends TableValue> = {
-  table: UseTable<TData>;
+	table: UseTable<TData>;
 };
 
 export const Table = <TData extends TableValue>({
-  table,
+	table,
 }: TableProps<TData>): ReactNode => {
-  const { columns } = table;
+	const { columns } = table;
 
-  return (
-    <MTable className={styles.table}>
-      <MTable.Thead>
-        <Headers<TData> columns={columns} />
-      </MTable.Thead>
-      <MTable.Tbody>
-        <Rows<TData> table={table} />
-      </MTable.Tbody>
-    </MTable>
-  );
+	return (
+		<MTable className={styles.table}>
+			<MTable.Thead>
+				<Headers<TData> columns={columns} />
+			</MTable.Thead>
+			<MTable.Tbody>
+				<Rows<TData> table={table} />
+			</MTable.Tbody>
+		</MTable>
+	);
 };
 
 /* Internal */
@@ -33,25 +33,25 @@ export const Table = <TData extends TableValue>({
  * These are used to render the table headers based on the provided columns.
  */
 type HeadersProps<TData extends TableValue> = {
-  columns: TableColumn<TData>[];
+	columns: TableColumn<TData>[];
 };
 
 const HeadersComponent = <TData extends TableValue>({
-  columns,
+	columns,
 }: HeadersProps<TData>): ReactNode => {
-  return (
-    <MTable.Tr>
-      {columns.map((column, i) => (
-        <MTable.Th key={(column.accessorKey as string) ?? i}>
-          {column.label}
-        </MTable.Th>
-      ))}
-    </MTable.Tr>
-  );
+	return (
+		<MTable.Tr>
+			{columns.map((column, i) => (
+				<MTable.Th key={(column.accessorKey as string) ?? i}>
+					{column.label}
+				</MTable.Th>
+			))}
+		</MTable.Tr>
+	);
 };
 
 const Headers = memo(HeadersComponent) as <TData extends TableValue>(
-  props: HeadersProps<TData>
+	props: HeadersProps<TData>,
 ) => ReactNode;
 
 /**
@@ -60,48 +60,48 @@ const Headers = memo(HeadersComponent) as <TData extends TableValue>(
  */
 
 const Row = <TData extends TableValue>({
-  item,
-  table,
+	item,
+	table,
 }: {
-  item: TData;
-  table: UseTable<TData>;
+	item: TData;
+	table: UseTable<TData>;
 }): ReactNode => {
-  return (
-    <MTable.Tr>
-      {table.columns.map((column, i) => {
-        const value = column.accessorKey ? item[column.accessorKey] : null;
+	return (
+		<MTable.Tr>
+			{table.columns.map((column, i) => {
+				const value = column.accessorKey ? item[column.accessorKey] : null;
 
-        // Custom render or default rendering
-        const content = column.render ? column.render(item) : <>{`${value}`}</>;
+				// Custom render or default rendering
+				const content = column.render ? column.render(item) : <>{`${value}`}</>;
 
-        return (
-          <MTable.Td
-            className={column.classNames?.cell}
-            style={column.styles?.cell}
-            key={(column.accessorKey as string) ?? i}
-          >
-            {content}
-          </MTable.Td>
-        );
-      })}
-    </MTable.Tr>
-  );
+				return (
+					<MTable.Td
+						className={column.classNames?.cell}
+						style={column.styles?.cell}
+						key={(column.accessorKey as string) ?? i}
+					>
+						{content}
+					</MTable.Td>
+				);
+			})}
+		</MTable.Tr>
+	);
 };
 
 type RowsProps<TData extends TableValue> = {
-  table: UseTable<TData>;
+	table: UseTable<TData>;
 };
 
 const RowsComponent = <TData extends TableValue>({
-  table,
+	table,
 }: RowsProps<TData>): ReactNode => {
-  const { data: items } = table;
+	const { data: items } = table;
 
-  return items.map((item) => (
-    <Row item={item} table={table} key={`${item[table.rowKey]}`} />
-  ));
+	return items.map((item) => (
+		<Row item={item} table={table} key={`${item[table.rowKey]}`} />
+	));
 };
 
 const Rows = memo(RowsComponent) as <TData extends TableValue>(
-  props: RowsProps<TData>
+	props: RowsProps<TData>,
 ) => ReactNode;

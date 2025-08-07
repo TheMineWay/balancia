@@ -6,15 +6,15 @@ import type { UserModel } from "@shared/models";
 export type UserTokenData = Pick<UserModel, "id">;
 
 export const User = createParamDecorator(
-  (_: unknown, ctx: ExecutionContext) => {
-    const request: Request & { user: UserTokenData } = ctx
-      .switchToHttp()
-      .getRequest();
+	(_: unknown, ctx: ExecutionContext) => {
+		const request: Request & { user: UserTokenData } = ctx
+			.switchToHttp()
+			.getRequest();
 
-    const user = request.user as unknown as JwtRequestUserInfo;
+		const user = request.user as unknown as JwtRequestUserInfo;
 
-    if (!user) throw new BadRequestException();
+		if (!user) throw new BadRequestException();
 
-    return user.user;
-  },
+		return user.user;
+	},
 );

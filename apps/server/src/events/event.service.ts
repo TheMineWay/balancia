@@ -4,9 +4,9 @@ import { Event } from "src/events/event.abstract";
 
 @Injectable()
 export class EventService {
-  constructor(private readonly eventEmitter: EventEmitter2) {}
+	constructor(private readonly eventEmitter: EventEmitter2) {}
 
-  public emit<T extends object>(event: Event<T>) {
-    this.eventEmitter.emit(event.name, event);
-  }
+	public emit<T extends object>(event: Event<T>) {
+		this.eventEmitter.emit(event.name, event);
+	}
 }

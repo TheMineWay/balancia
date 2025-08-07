@@ -6,7 +6,7 @@ import { Module } from "@nestjs/common";
  */
 
 @Module({
-  providers: [AuthDirectoryService],
-  exports: [AuthDirectoryService],
+	providers: [AuthDirectoryService],
+	exports: [AuthDirectoryService],
 })
 export class AuthDirectoryModule {}

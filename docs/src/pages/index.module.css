@@ -1,20 +1,20 @@
 .layout {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .title > h1 {
-  font-size: min(4em, 7vw);
+	font-size: min(4em, 7vw);
 }
 
 .title > h1 > span {
-  --title-x-padding: 0.25em;
+	--title-x-padding: 0.25em;
 
-  background-color: var(--ifm-color-primary);
-  color: var(--ifm-color-primary-contrast-background);
-  padding-left: var(--title-x-padding);
-  padding-right: var(--title-x-padding);
+	background-color: var(--ifm-color-primary);
+	color: var(--ifm-color-primary-contrast-background);
+	padding-left: var(--title-x-padding);
+	padding-right: var(--title-x-padding);
 }

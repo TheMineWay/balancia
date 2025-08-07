@@ -5,9 +5,9 @@ import type { JwtToken } from "@shared/models";
 import type { Request } from "express";
 
 export const Jwt = createParamDecorator((_: unknown, ctx: ExecutionContext) => {
-  const request: Request & { user: UserTokenData } = ctx
-    .switchToHttp()
-    .getRequest();
+	const request: Request & { user: UserTokenData } = ctx
+		.switchToHttp()
+		.getRequest();
 
-  return request.user as unknown as JwtToken;
+	return request.user as unknown as JwtToken;
 });

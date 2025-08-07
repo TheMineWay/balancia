@@ -3,11 +3,11 @@ import { Badge } from "@mantine/core";
 import type { Permission } from "@shared/models";
 
 type Props = {
-  permission: Permission;
+	permission: Permission;
 };
 
 export const PermissionRender: FC<Props> = ({ permission }) => {
-  const { t } = useTranslation("role");
+	const { t } = useTranslation("role");
 
-  return <Badge>{t().permissions[permission].Name}</Badge>;
+	return <Badge>{t().permissions[permission].Name}</Badge>;
 };

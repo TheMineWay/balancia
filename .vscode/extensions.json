@@ -1,10 +1,10 @@
 {
-  "recommendations": [
-    "esbenp.prettier-vscode",
-    "streetsidesoftware.code-spell-checker",
-    "vitest.explorer",
-    "github.vscode-github-actions",
-    "csstools.postcss",
-    "biomejs.biome"
-  ]
+	"recommendations": [
+		"esbenp.prettier-vscode",
+		"streetsidesoftware.code-spell-checker",
+		"vitest.explorer",
+		"github.vscode-github-actions",
+		"csstools.postcss",
+		"biomejs.biome"
+	]
 }

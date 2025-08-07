@@ -7,12 +7,12 @@
  * @returns {number} - The parsed number, or the fallback if the input is invalid.
  */
 export const parseOptionalNumber = (
-  value: any | undefined,
-  fallback: number
+	value: any | undefined,
+	fallback: number,
 ): number => {
-  if (typeof value !== "string") return fallback;
-  if (value.trim().length === 0) return fallback;
-  const toReturn = +value;
-  if (isNaN(toReturn)) return fallback;
-  return toReturn;
+	if (typeof value !== "string") return fallback;
+	if (value.trim().length === 0) return fallback;
+	const toReturn = +value;
+	if (isNaN(toReturn)) return fallback;
+	return toReturn;
 };

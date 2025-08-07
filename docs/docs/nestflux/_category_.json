@@ -1,10 +1,10 @@
 {
-    "label": "NestFlux",
-    "link": {
-        "type": "generated-index",
-        "title": "NestFlux documentation"
-    },
-    "customProps": {
-        "description": "NestFlux template documentation"
-    }
+	"label": "NestFlux",
+	"link": {
+		"type": "generated-index",
+		"title": "NestFlux documentation"
+	},
+	"customProps": {
+		"description": "NestFlux template documentation"
+	}
 }

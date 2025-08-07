@@ -5,20 +5,20 @@ import { useUserInfo } from "@providers/auth/user-info.context";
 import { useMemo } from "react";
 
 type ProtectedProps = {
-  condition: PermissionCondition;
+	condition: PermissionCondition;
 } & WithChildren;
 
 export const Protected: FC<ProtectedProps> = ({ condition, children }) => {
-  const { permissions: userPermissions } = useUserInfo();
+	const { permissions: userPermissions } = useUserInfo();
 
-  const isAuthorized = useMemo(
-    () => evaluatePermissionCondition(userPermissions, condition),
-    [condition, userPermissions]
-  );
+	const isAuthorized = useMemo(
+		() => evaluatePermissionCondition(userPermissions, condition),
+		[condition, userPermissions],
+	);
 
-  if (!isAuthorized) {
-    return null;
-  }
+	if (!isAuthorized) {
+		return null;
+	}
 
-  return <>{children}</>;
+	return <>{children}</>;
 };

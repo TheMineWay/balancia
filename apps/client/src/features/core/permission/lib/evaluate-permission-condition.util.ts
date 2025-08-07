@@ -5,13 +5,13 @@ import type { Permission } from "@shared/models";
  * Evaluate wether the user has the required permissions based on the provided condition.
  */
 export const evaluatePermissionCondition = (
-  userPermissions: Permission[],
-  condition: PermissionCondition
+	userPermissions: Permission[],
+	condition: PermissionCondition,
 ): boolean => {
-  const or =
-    condition.type === "simple" ? [condition.permissions] : condition.or;
+	const or =
+		condition.type === "simple" ? [condition.permissions] : condition.or;
 
-  return or.some((permissions) =>
-    permissions.every((p) => userPermissions.includes(p))
-  );
+	return or.some((permissions) =>
+		permissions.every((p) => userPermissions.includes(p)),
+	);
 };

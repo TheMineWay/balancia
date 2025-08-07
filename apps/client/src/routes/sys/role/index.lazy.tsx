@@ -4,14 +4,14 @@ import { Permission } from "@shared/models";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/sys/role/")({
-  component: RouteComponent,
+	component: RouteComponent,
 });
 
 function RouteComponent() {
-  useProtection({
-    condition: { type: "simple", permissions: [Permission.ADMIN] },
-    routeProtection: true,
-  });
+	useProtection({
+		condition: { type: "simple", permissions: [Permission.ADMIN] },
+		routeProtection: true,
+	});
 
-  return <RoleManager />;
+	return <RoleManager />;
 }

@@ -1,3 +1,3 @@
 export type DevProp = {
-  isDevelopment?: boolean;
+	isDevelopment?: boolean;
 };
