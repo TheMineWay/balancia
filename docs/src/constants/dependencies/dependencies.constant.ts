@@ -1,6 +1,11 @@
-import { Dependency } from "@site/src/types/dependencies/dependency.type";
+import type { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
+	{
+		code: "@biomejs/biome",
+		name: "@biomejs biome",
+		url: "https://www.npmjs.com/package/@biomejs/biome",
+	},
 	{
 		code: "@nestjs/event-emitter",
 		name: "@nestjs/event-emitter",
