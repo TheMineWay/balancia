@@ -5,7 +5,6 @@ import {
   JwtStrategy,
 } from "@core/api/auth/strategies/jwt.strategy";
 import { UserService } from "@core/api/user/user.service";
-import { UserAuthInfoCacheService } from "@core/cache/caches/user-auth-info-cache.service";
 import { AuthRepository } from "@database/repository/core/auth/auth.repository";
 import { DynamicModule, Global, Logger, Module } from "@nestjs/common";
 
@@ -31,7 +30,6 @@ export class AuthModule {
       providers: [
         AuthService,
         AuthRepository,
-        UserAuthInfoCacheService,
         // Expose strategy
         {
           provide: JWT_STRATEGY,

@@ -5,6 +5,7 @@ import { DatabaseSeederService } from "@database/services/seeders/database-seede
 import { Global, Logger, Module } from "@nestjs/common";
 import { Logger as DbLogger } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
+import { createPool } from "mysql2";
 
 @Global()
 @Module({
@@ -12,7 +13,12 @@ import { drizzle } from "drizzle-orm/mysql2";
     {
       provide: DATABASE_PROVIDERS.main,
       useFactory: () => {
-        const db = drizzle(ENV.database.url, {
+        const pool = createPool({
+          uri: ENV.database.url,
+          connectionLimit: ENV.database.connectionLimit,
+        });
+
+        const db = drizzle(pool, {
           logger: ENV.database.logQueries ? new DatabaseLogger() : undefined,
         });
         return new DatabaseService(db);

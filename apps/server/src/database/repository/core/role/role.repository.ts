@@ -1,20 +1,48 @@
-import { QueryOptions, Repository } from "@database/repository/core/repository";
 import {
+  type QueryOptions,
+  Repository,
+} from "@database/repository/core/repository";
+import {
+  permissionTable,
   rolePermissionTable,
   userRoleTable,
+  userTable,
 } from "@database/schemas/main.schema";
+import { PermissionSelect } from "@database/schemas/main/tables/identity/permission.table";
 import {
-  RoleInsert,
+  type RoleInsert,
+  type RoleUpdate,
   roleTable,
-  RoleUpdate,
 } from "@database/schemas/main/tables/identity/role.table";
 import { Injectable } from "@nestjs/common";
-import { countDistinct, eq, sql } from "drizzle-orm";
+import {
+  PaginatedQuery,
+  RoleModel,
+  SearchModel,
+  UserModel,
+} from "@shared/models";
+import { and, countDistinct, desc, eq, inArray, like, sql } from "drizzle-orm";
 
 @Injectable()
 export class RoleRepository extends Repository {
   async findAll(options?: QueryOptions) {
     return await this.query(options).select().from(roleTable);
+  }
+
+  async findByUserAndRole(
+    userId: UserModel["id"],
+    roleId: RoleModel["id"],
+    options?: QueryOptions,
+  ) {
+    const userRole = await this.query(options)
+      .select()
+      .from(userRoleTable)
+      .where(
+        and(eq(userRoleTable.userId, userId), eq(userRoleTable.roleId, roleId)),
+      )
+      .limit(1);
+
+    return userRole.length > 0 ? userRole[0] : null;
   }
 
   async findWithStatistics(options?: QueryOptions) {
@@ -61,8 +89,8 @@ export class RoleRepository extends Repository {
     return this.query(options).insert(roleTable).values(role).$returningId();
   }
 
-  update(id: number, role: RoleUpdate, options?: QueryOptions) {
-    return this.query(options)
+  async update(id: number, role: RoleUpdate, options?: QueryOptions) {
+    return await this.query(options)
       .update(roleTable)
       .set(role)
       .where(eq(roleTable.id, id));
@@ -70,5 +98,120 @@ export class RoleRepository extends Repository {
 
   delete(id: number, options?: QueryOptions) {
     return this.query(options).delete(roleTable).where(eq(roleTable.id, id));
+  }
+
+  assignRole(
+    roleId: RoleModel["id"],
+    userId: UserModel["id"],
+    options?: QueryOptions,
+  ) {
+    return this.query(options).insert(userRoleTable).values({ roleId, userId });
+  }
+
+  unassignRole(
+    roleId: RoleModel["id"],
+    userId: UserModel["id"],
+    options?: QueryOptions,
+  ) {
+    return this.query(options)
+      .delete(userRoleTable)
+      .where(
+        and(eq(userRoleTable.roleId, roleId), eq(userRoleTable.userId, userId)),
+      );
+  }
+
+  async findRoleUsersList(
+    roleId: RoleModel["id"],
+    pagination: PaginatedQuery,
+    search: SearchModel = { search: null },
+    options?: QueryOptions,
+  ) {
+    const parsedTextSearch = search.search
+      ? search.search.trim().toLowerCase()
+      : null;
+
+    const q = this.query(options)
+      .select({
+        id: userTable.id,
+        name: userTable.name,
+        code: userTable.code,
+        email: userTable.email,
+        username: userTable.username,
+        createdAt: userTable.createdAt,
+        updatedAt: userTable.updatedAt,
+      })
+      .from(userRoleTable)
+      .innerJoin(userTable, eq(userRoleTable.userId, userTable.id))
+      .where(
+        and(
+          eq(userRoleTable.roleId, roleId),
+          parsedTextSearch
+            ? like(userTable.name, `%${parsedTextSearch}%`)
+            : undefined,
+        ),
+      )
+      .orderBy(desc(userRoleTable.createdAt))
+      .$dynamic();
+
+    const { rows, count } = await super.paginated(pagination, q);
+
+    return {
+      items: rows,
+      total: count,
+    };
+  }
+
+  async findRolePermissions(roleId: RoleModel["id"], options?: QueryOptions) {
+    return await this.query(options)
+      .select({ id: permissionTable.id, code: permissionTable.code })
+      .from(rolePermissionTable)
+      .where(eq(rolePermissionTable.roleId, roleId))
+      .innerJoin(
+        permissionTable,
+        eq(rolePermissionTable.permissionId, permissionTable.id),
+      );
+  }
+
+  async addRolePermissions(
+    roleId: RoleModel["id"],
+    permissionIds: PermissionSelect["id"][],
+    options?: QueryOptions,
+  ) {
+    return await this.query(options)
+      .insert(rolePermissionTable)
+      .values(
+        permissionIds.map((permissionId) => ({
+          roleId,
+          permissionId,
+        })),
+      );
+  }
+
+  async deleteRolePermissionsByRoleAndPermissions(
+    roleId: RoleModel["id"],
+    permissionIds: PermissionSelect["id"][],
+    options?: QueryOptions,
+  ) {
+    return await this.query(options)
+      .delete(rolePermissionTable)
+      .where(
+        and(
+          eq(rolePermissionTable.roleId, roleId),
+          inArray(rolePermissionTable.permissionId, permissionIds),
+        ),
+      );
+  }
+
+  async deleteRolePermissionsByRole(
+    roleId: RoleModel["id"],
+    options?: QueryOptions,
+  ) {
+    return await this.query(options)
+      .delete(rolePermissionTable)
+      .where(eq(rolePermissionTable.roleId, roleId));
+  }
+
+  findPermissions(options?: QueryOptions) {
+    return this.query(options).select().from(permissionTable);
   }
 }

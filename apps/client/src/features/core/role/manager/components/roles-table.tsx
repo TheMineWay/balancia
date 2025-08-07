@@ -3,14 +3,32 @@ import { Table } from "@common/components/table/components/table";
 import { useTable } from "@common/components/table/hooks/use-table";
 import { useAdminRolesWithStatsQuery } from "@core-fts/role/manager/api/use-admin-roles-with-stats.query";
 import { useTranslation } from "@i18n/use-translation";
+import { ActionIcon, Group } from "@mantine/core";
 import type { RoleModel } from "@shared/models";
+import { FaUserEdit } from "react-icons/fa";
+import { IoPencil, IoTrash } from "react-icons/io5";
+import { MdKey } from "react-icons/md";
 
 type RoleTableData = RoleModel & {
   permissionsCount: number;
   usersCount: number;
 };
 
-export const RolesTable: FC = () => {
+type Props = {
+  onEditClick?: (role: RoleModel) => void;
+  onDeleteClick?: (role: RoleModel) => void;
+  onUserAssignClick?: (role: RoleModel) => void;
+  onPermissionAssignClick?: (role: RoleModel) => void;
+  isDeleting?: boolean;
+};
+
+export const RolesTable: FC<Props> = ({
+  onEditClick,
+  onDeleteClick,
+  onUserAssignClick,
+  onPermissionAssignClick,
+  isDeleting = false,
+}) => {
   const { data: { roles } = {} } = useAdminRolesWithStatsQuery();
 
   const { t: commonT } = useTranslation("common");
@@ -35,6 +53,50 @@ export const RolesTable: FC = () => {
       {
         label: t().admin.table.columns["permissions-count"].Label,
         accessorKey: "permissionsCount",
+      },
+      {
+        label: commonT().expressions.Actions,
+        render: (row) => (
+          <Group gap="sm">
+            {onEditClick && (
+              <ActionIcon
+                aria-label={commonT().expressions.Edit}
+                onClick={() => onEditClick(row)}
+              >
+                <IoPencil />
+              </ActionIcon>
+            )}
+            {onUserAssignClick && (
+              <ActionIcon
+                aria-label={t().admin.managers["role-users"].Action}
+                onClick={() => onUserAssignClick(row)}
+                variant="outline"
+              >
+                <FaUserEdit />
+              </ActionIcon>
+            )}
+            {onPermissionAssignClick && (
+              <ActionIcon
+                aria-label={t().admin.managers["assign-permissions"].Action}
+                onClick={() => onPermissionAssignClick(row)}
+                variant="outline"
+              >
+                <MdKey />
+              </ActionIcon>
+            )}
+            {onDeleteClick && (
+              <ActionIcon
+                aria-label={t().admin.managers.delete.Action}
+                loading={isDeleting}
+                onClick={() => onDeleteClick(row)}
+                variant="outline"
+                color="red"
+              >
+                <IoTrash />
+              </ActionIcon>
+            )}
+          </Group>
+        ),
       },
     ],
     rowKey: "id",

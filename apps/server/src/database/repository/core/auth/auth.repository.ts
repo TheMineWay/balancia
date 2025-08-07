@@ -1,4 +1,7 @@
-import { QueryOptions, Repository } from "@database/repository/core/repository";
+import {
+  type QueryOptions,
+  Repository,
+} from "@database/repository/core/repository";
 import {
   rolePermissionTable,
   roleTable,
@@ -6,7 +9,7 @@ import {
 } from "@database/schemas/main.schema";
 import { permissionTable } from "@database/schemas/main/tables/identity/permission.table";
 import { Injectable } from "@nestjs/common";
-import { UserModel } from "@shared/models";
+import type { UserModel } from "@shared/models";
 import { eq } from "drizzle-orm";
 
 @Injectable()

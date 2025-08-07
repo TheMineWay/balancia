@@ -22,8 +22,8 @@
   "devDependencies": {
     "ts-node": "^10.9.2",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.3",
-    "vite": "^7.0.5",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.0",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.2.4"
   },
@@ -44,7 +44,7 @@
   "dependencies": {
     "@shared/constants": "workspace:*",
     "@shared/models": "workspace:*",
-    "axios": "^1.10.0",
-    "zod": "^4.0.5"
+    "axios": "^1.11.0",
+    "zod": "^4.0.15"
   }
 }

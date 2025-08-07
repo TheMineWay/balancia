@@ -1,6 +1,6 @@
 import { useTranslation } from "@i18n/use-translation";
 import { Badge } from "@mantine/core";
-import { Permission } from "@shared/models";
+import type { Permission } from "@shared/models";
 
 type Props = {
   permission: Permission;

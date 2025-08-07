@@ -6,6 +6,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  NotImplementedException,
 } from "@nestjs/common";
 import {
   JWT_TOKEN_SCHEMA,
@@ -27,6 +28,8 @@ export class AuthService {
   ) {}
 
   async checkIn(jwt: JwtToken) {
+    await Promise.resolve(null);
+    throw new NotImplementedException(jwt);
     //await this.userService.findOrCreateByCode(jwt.sub); // TODO: implement with OIDC user data
   }
 
@@ -91,6 +94,22 @@ export class AuthService {
     return {
       permissions: Array.from(permissions),
       roles: Array.from(roles),
+    };
+  }
+
+  /**
+   * Returns user information along with their permissions and roles.
+   */
+  async getUserInfo(userId: UserModel["id"]) {
+    const user = await this.userService.getById(userId);
+    if (!user) throw new NotFoundException();
+
+    const { permissions, roles } = await this.getUserAuthInfo(userId);
+
+    return {
+      user,
+      permissions,
+      roles,
     };
   }
 }

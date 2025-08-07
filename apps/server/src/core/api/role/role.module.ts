@@ -4,8 +4,8 @@ import { RoleRepository } from "@database/repository/core/role/role.repository";
 import { Module } from "@nestjs/common";
 
 @Module({
-  controllers: [AdminRoleController],
-  providers: [RoleService, RoleRepository],
+  providers: [RoleRepository, RoleService],
   exports: [RoleService],
+  controllers: [AdminRoleController],
 })
 export class RoleModule {}

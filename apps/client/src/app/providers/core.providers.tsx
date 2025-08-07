@@ -2,6 +2,7 @@ import { CallbackRender } from "@core-fts/callbacks/components/callback-render";
 import AfterProviders from "@providers/after-providers";
 import AuthProvider from "@providers/auth/auth.provider";
 import { OidcProvider } from "@providers/auth/oidc.provider";
+import { UserInfoProvider } from "@providers/auth/user-info.provider";
 import { LocalConfigProvider } from "@providers/config/local-config.provider";
 import DeviceInfoProvider from "@providers/device/device-info.provider";
 import LanguageProvider from "@providers/language/language.provider";
@@ -19,7 +20,9 @@ export default function CoreProviders({ children }: Readonly<WithChildren>) {
               <CallbackRender>
                 <OidcProvider>
                   <AuthProvider>
-                    <AfterProviders>{children}</AfterProviders>
+                    <UserInfoProvider>
+                      <AfterProviders>{children}</AfterProviders>
+                    </UserInfoProvider>
                   </AuthProvider>
                 </OidcProvider>
               </CallbackRender>

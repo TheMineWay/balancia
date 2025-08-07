@@ -46,6 +46,7 @@ export class UserIntegrationService {
                 code: r.uid,
                 name: r.name,
                 username: r.username,
+                email: r.email,
               })),
             {
               transaction,

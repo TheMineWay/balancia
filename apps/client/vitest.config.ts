@@ -12,8 +12,8 @@ export default mergeConfig(
           extends: true,
           test: {
             environment: "node",
-            include: ["**/*.spec.*"],
-            exclude: ["src/routes/**"],
+            include: ["**/*.spec.ts", "**/*.spec.tsx"],
+            exclude: ["src/routes/**", "**/*.spec.dom.*", "node_modules/**"],
           },
         },
         {
@@ -21,7 +21,7 @@ export default mergeConfig(
           test: {
             environment: "jsdom",
             include: ["**/*.spec.dom.*"],
-            exclude: ["src/routes/**"],
+            exclude: ["src/routes/**", "**/*.spec.ts", "node_modules/**"],
           },
         },
       ],

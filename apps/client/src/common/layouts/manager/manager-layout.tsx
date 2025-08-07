@@ -24,9 +24,9 @@ const View: FC<ViewProps> = ({ children, style, className }) => {
   );
 };
 
-type Actions = MainProps;
+type ActionsProps = MainProps;
 
-const Actions: FC<Actions> = ({ children, style, className }) => {
+const Actions: FC<ActionsProps> = ({ children, style, className }) => {
   return (
     <Flex
       style={style}
@@ -40,8 +40,10 @@ const Actions: FC<Actions> = ({ children, style, className }) => {
   );
 };
 
-export const ManagerLayout = {
+const ManagerLayout = {
   Main,
   View,
   Actions,
 };
+
+export default ManagerLayout;

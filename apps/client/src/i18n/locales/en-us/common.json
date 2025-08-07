@@ -17,5 +17,19 @@
         "Name": "Description"
       }
     }
+  },
+  "expressions": {
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Actions": "Actions",
+    "Unassign": "Unassign",
+    "Unassign-sth": "Unassign {name}",
+    "Save": "Save"
+  },
+  "templates": {
+    "confirm-modal": {
+      "Cancel": "Cancel",
+      "Confirm": "Confirm"
+    }
   }
 }

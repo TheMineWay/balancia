@@ -5,8 +5,8 @@ import {
   UserUpdate,
 } from "@database/schemas/main/tables/identity/user.table";
 import { Injectable } from "@nestjs/common";
-import { DbUserModel } from "@shared/models";
-import { eq, inArray } from "drizzle-orm";
+import { DbUserModel, PaginatedQuery, SearchModel } from "@shared/models";
+import { asc, eq, inArray, like } from "drizzle-orm";
 
 @Injectable()
 export class UserRepository extends Repository {
@@ -27,6 +27,29 @@ export class UserRepository extends Repository {
         .where(eq(userTable.id, userId))
         .limit(1)
     )?.[0];
+
+  findAndCount = async (
+    pagination: PaginatedQuery,
+    { search }: SearchModel = { search: null },
+    options?: QueryOptions,
+  ) => {
+    const query = this.query(options)
+      .select()
+      .from(userTable)
+      .where(search ? like(userTable.name, `%${search}%`) : undefined)
+      .orderBy(asc(userTable.id))
+      .$dynamic();
+
+    const { rows: items, count: total } = await this.paginated(
+      pagination,
+      query,
+    );
+
+    return {
+      items,
+      total,
+    };
+  };
 
   findByCodes = async (codes: string[], options?: QueryOptions) =>
     this.query(options)
