@@ -13,7 +13,7 @@ const ALLOWED_CODE = "ALLOWED";
 
 const renderComponent = (permissions: Permission[]) => {
   render(
-    <Protected permissions={permissions}>
+    <Protected condition={{ type: "simple", permissions }}>
       <div data-testid={ALLOWED_CODE} />
     </Protected>
   );
