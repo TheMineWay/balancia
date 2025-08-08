@@ -24,14 +24,14 @@ const config: Config = {
 	onBrokenLinks: "throw",
 	onBrokenMarkdownLinks: "warn",
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
-  i18n: {
-    defaultLocale: "en",
-    locales: ["en"],
-  },
-  themes: ["@docusaurus/theme-mermaid"],
+	// Even if you don't use internationalization, you can use this field to set
+	// useful metadata like html lang. For example, if your site is Chinese, you
+	// may want to replace "en" with "zh-Hans".
+	i18n: {
+		defaultLocale: "en",
+		locales: ["en"],
+	},
+	themes: ["@docusaurus/theme-mermaid"],
 
 	presets: [
 		[
@@ -116,9 +116,9 @@ const config: Config = {
 			darkTheme: prismThemes.dracula,
 		},
 	} satisfies Preset.ThemeConfig,
-  markdown: {
-    mermaid: true,
-  },
+	markdown: {
+		mermaid: true,
+	},
 };
 
 export default config;

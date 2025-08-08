@@ -15,10 +15,10 @@ import { selectRunner } from "./utils/select-runner.util.js";
 				run: generate,
 				label: "Generate",
 			},
-      {
-        run: developmentMenu,
-        label: "Development",
-      },
+			{
+				run: developmentMenu,
+				label: "Development",
+			},
 		],
 		"🛠️ Select tool to run",
 	);
