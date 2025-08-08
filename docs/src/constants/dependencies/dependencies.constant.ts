@@ -138,6 +138,11 @@ export const DEPENDENCIES = [
 		url: "https://www.npmjs.com/package/lodash",
 	},
 	{
+		code: "@docusaurus/theme-mermaid",
+		name: "@docusaurus theme-mermaid",
+		url: "https://www.npmjs.com/package/@docusaurus/theme-mermaid",
+	},
+	{
 		code: "@docusaurus/plugin-sitemap",
 		name: "@docusaurus/plugin-sitemap",
 		url: "https://www.npmjs.com/package/@docusaurus/plugin-sitemap",
