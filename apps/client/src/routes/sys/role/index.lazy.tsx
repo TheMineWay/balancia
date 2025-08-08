@@ -1,5 +1,5 @@
-import { useProtection } from "@core-fts/permission/hooks/use-protection";
-import { RoleManager } from "@core-fts/role/manager/components/role-manager";
+import { useProtection } from "@core/permission/hooks/use-protection";
+import { RoleManager } from "@core/role/manager/components/role-manager";
 import { Permission } from "@shared/models";
 import { createLazyFileRoute } from "@tanstack/react-router";
 

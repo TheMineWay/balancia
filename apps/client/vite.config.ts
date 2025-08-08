@@ -17,7 +17,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@pkg": path.resolve(__dirname, "package.json"),
-      "@core-fts": path.resolve(__dirname, "src/features/core"),
+      "@core": path.resolve(__dirname, "src/core"),
+      "@common": path.resolve(__dirname, "src/common"),
       "@fts": path.resolve(__dirname, "src/features"),
       "@assets": path.resolve(__dirname, "src/assets"),
       "@public": path.resolve(__dirname, "public"),
@@ -25,7 +26,6 @@ export default defineConfig({
       "@constants": path.resolve(__dirname, "src/constants"),
       "@i18n": path.resolve(__dirname, "src/i18n"),
       "@routes": path.resolve(__dirname, "src/routes"),
-      "@common": path.resolve(__dirname, "src/common"),
       "@app": path.resolve(__dirname, "src/app"),
     },
   },

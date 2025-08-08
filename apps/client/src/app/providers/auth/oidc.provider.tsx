@@ -1,8 +1,8 @@
-import { oidcUserManager } from "@common/core/auth/session/lib/oidc/oidc.manager";
 import type { WithChildren } from "@common/types/component/component.types";
+import { oidcUserManager } from "@core/auth/session/lib/oidc/oidc.manager";
 import {
-    type OidcContextInfo,
-    oidcContext,
+	type OidcContextInfo,
+	oidcContext,
 } from "@providers/auth/oidc.context";
 import { useMemo } from "react";
 

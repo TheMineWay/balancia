@@ -1,5 +1,5 @@
-import { useActiveAuth } from "@common/core/auth/session/hooks/use-active-auth";
 import { metadata } from "@constants/metadata.constant";
+import { useActiveAuth } from "@core/auth/session/hooks/use-active-auth";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/")({

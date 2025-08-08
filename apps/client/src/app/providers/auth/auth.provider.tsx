@@ -1,5 +1,5 @@
-import Auth from "@common/core/auth/session/components/auth";
-import { TokenExpiracyModal } from "@common/core/auth/token/components/token-expiracy-modal";
+import Auth from "@core/auth/session/components/auth";
+import { TokenExpiracyModal } from "@core/auth/token/components/token-expiracy-modal";
 import {
 	type AuthContextInfo,
 	authContext,

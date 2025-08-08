@@ -10,11 +10,23 @@ NestFlux follows a consistent feature-based architecture pattern across both cli
 
 ```
 src/
+├── core/            # Core framework functionality (managed by NestFlux)
 ├── common/          # Reusable code across multiple features
 └── features/        # Application-specific features
 ```
 
 ## 🔄 Pattern Philosophy
+
+### ⚙️ Core Folder
+- Contains **essential framework functionality** required to run the application
+- Handles core concepts like authentication or API configuration
+- Provides the foundational infrastructure that features and common code depend on
+- **Managed by NestFlux**: Updates to NestFlux will primarily affect core folders
+
+### 🔃 Common Folder
+- Contains **reusable code** that's shared across multiple features
+- Used for project-specific functionality that spans multiple business domains
+- Should be generic enough to be used in various contexts within your project
 
 ### 📦 Features Folder
 - Contains **application-specific code** that implements business requirements
@@ -22,18 +34,18 @@ src/
 - Features can be nested with unlimited depth for complex domains
 - Should be cohesive and focused on a specific business capability
 
-### 🔃 Common Folder
-- Contains **reusable code** that's shared across multiple features
-- Used for foundational functionality like authentication, logging, utilities
-- Should be generic enough to be used in various contexts
-- Examples: auth, ui-kit, error-handling, validation
+:::info NestFlux Updates
+
+When updating NestFlux to newer versions, changes will primarily affect the **`core/`** folders. The **`common/`** and **`features/`** folders will rarely be modified, ensuring your custom business logic and project-specific code remains stable across updates.
+
+:::
 
 ### 📖 Documentation
-Every feature (both in `common/` and `features/`) must include a **FEATURE.md** file that documents its purpose, responsibilities, and usage examples. This ensures consistent documentation across the codebase and helps developers understand each feature's role. See the [FEATURE.md template](#-featuremd-template) for the complete documentation structure.
+Every feature (both in `core/`, `common/` and `features/`) must include a **FEATURE.md** file that documents its purpose, responsibilities, and usage examples. This ensures consistent documentation across the codebase and helps developers understand each feature's role. See the [FEATURE.md template](#-featuremd-template) for the complete documentation structure.
 
 :::tip
 
-The distinction between `features/` and `common/` is for **code organization only**. There are no restrictions on code reuse - features can import from other features, and common code can be used anywhere. The goal is to structure code logically while maintaining full flexibility for code sharing and reusability.
+The distinction between `core/`, `features/` and `common/` is for **code organization only**. There are no restrictions on code reuse - features can import from other features, and common code can be used anywhere. The goal is to structure code logically while maintaining full flexibility for code sharing and reusability.
 
 :::
 

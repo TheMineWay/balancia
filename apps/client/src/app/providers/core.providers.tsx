@@ -1,4 +1,4 @@
-import { CallbackRender } from "@core-fts/callbacks/components/callback-render";
+import { CallbackRender } from "@core/callbacks/components/callback-render";
 import AfterProviders from "@providers/after-providers";
 import AuthProvider from "@providers/auth/auth.provider";
 import { OidcProvider } from "@providers/auth/oidc.provider";
