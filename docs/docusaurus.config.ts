@@ -31,6 +31,7 @@ const config: Config = {
 		defaultLocale: "en",
 		locales: ["en"],
 	},
+	themes: ["@docusaurus/theme-mermaid"],
 
 	presets: [
 		[
@@ -89,12 +90,6 @@ const config: Config = {
 					label: "🩵 NestFlux documentation",
 				},
 				{
-					type: "docSidebar",
-					sidebarId: "getStartedSidebar",
-					position: "left",
-					label: "🔨 Get started",
-				},
-				{
 					href: "https://github.com/TheMineWay/NestFlux",
 					label: "GitHub",
 					position: "right",
@@ -121,6 +116,9 @@ const config: Config = {
 			darkTheme: prismThemes.dracula,
 		},
 	} satisfies Preset.ThemeConfig,
+	markdown: {
+		mermaid: true,
+	},
 };
 
 export default config;
