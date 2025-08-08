@@ -1,6 +1,6 @@
-import { DatetimeRender } from "@common/components/date/components/datetime-render";
-import { Table } from "@common/components/table/components/table";
-import { useTable } from "@common/components/table/hooks/use-table";
+import { DatetimeRender } from "@common/extended-ui/date/components/datetime-render";
+import { Table } from "@common/extended-ui/table/components/table";
+import { useTable } from "@common/extended-ui/table/hooks/use-table";
 import { useAdminRolesWithStatsQuery } from "@core-fts/role/manager/api/use-admin-roles-with-stats.query";
 import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Group } from "@mantine/core";

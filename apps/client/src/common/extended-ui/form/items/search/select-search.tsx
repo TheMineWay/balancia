@@ -1,4 +1,4 @@
-import type { UseDebouncedSearch } from "@common/components/form/items/search/use-debounced-search";
+import type { UseDebouncedSearch } from "@common/extended-ui/form/items/search/use-debounced-search";
 import { Combobox, TextInput, useCombobox } from "@mantine/core";
 import { useCallback, useMemo } from "react";
 

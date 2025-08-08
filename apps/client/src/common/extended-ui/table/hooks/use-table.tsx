@@ -1,5 +1,5 @@
-import type { TableColumn } from "@common/components/table/types/table-column.type";
-import type { TableValue } from "@common/components/table/types/table-value.type";
+import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
+import type { TableValue } from "@common/extended-ui/table/types/table-value.type";
 
 export type UseTableOptions<TData extends TableValue> = {
 	data?: TData[];

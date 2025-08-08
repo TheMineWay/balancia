@@ -1,7 +1,7 @@
-import { DebouncedSearch } from "@common/components/form/items/search/debounced-search";
-import { useDebouncedSearch } from "@common/components/form/items/search/use-debounced-search";
-import List from "@common/components/list/list";
-import { UserCard } from "@common/components/user/user-card";
+import { DebouncedSearch } from "@common/extended-ui/form/items/search/debounced-search";
+import { useDebouncedSearch } from "@common/extended-ui/form/items/search/use-debounced-search";
+import List from "@common/extended-ui/list/list";
+import { UserCard } from "@common/extended-ui/user/user-card";
 import { usePagination } from "@common/hooks/use-pagination";
 import { useRoleUserUnassignMutation } from "@core-fts/role/manager/api/role-user/use-role-user-unassign.mutation";
 import { useRoleUsersListQuery } from "@core-fts/role/manager/api/role-user/use-role-users-list.query";

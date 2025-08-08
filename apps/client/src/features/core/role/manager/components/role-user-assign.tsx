@@ -1,5 +1,5 @@
-import { SelectSearch } from "@common/components/form/items/search/select-search";
-import { useDebouncedSearch } from "@common/components/form/items/search/use-debounced-search";
+import { SelectSearch } from "@common/extended-ui/form/items/search/select-search";
+import { useDebouncedSearch } from "@common/extended-ui/form/items/search/use-debounced-search";
 import { usePagination } from "@common/hooks/use-pagination";
 import { useAdminUserListQuery } from "@core-fts/auth/user/api/use-admin-user-list.query";
 import { useRoleUserAssignMutation } from "@core-fts/role/manager/api/role-user/use-role-user-assign.mutation";
