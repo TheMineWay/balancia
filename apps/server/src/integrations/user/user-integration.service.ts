@@ -1,4 +1,4 @@
-import { UserService } from "@core/api/user/user.service";
+import { UserService } from "@core/auth/user/user.service";
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { DatabaseService } from "@database/services/database.service";
 import { AuthDirectoryService } from "@external/auth-directory/auth-directory.service";
