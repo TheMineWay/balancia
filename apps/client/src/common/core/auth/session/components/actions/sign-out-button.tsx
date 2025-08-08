@@ -1,4 +1,4 @@
-import { useLogout } from "@common/core/auth/hooks/use-logout";
+import { useLogout } from "@common/core/auth/session/hooks/use-logout";
 import { ENV } from "@constants/env/env.constant";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, type ButtonProps } from "@mantine/core";

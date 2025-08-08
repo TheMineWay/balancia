@@ -43,7 +43,7 @@ Each application type (client and server) has its own specific folder structure 
 
 - **Client features** are designed around **React patterns** - components, hooks, and client-side logic
 - **Server features** follow **NestJS conventions** - controllers, services, modules, and server-side architecture
-- Both share common folder types (**lib**, **types**) for consistency where it makes sense
+- Both share common folder types (**lib**, **types**, **data**) for consistency where it makes sense
 - This approach ensures each application follows its **framework's best practices** while maintaining the overall feature pattern consistency
 
 ### 🏗️ Feature Grouping Rule
@@ -84,14 +84,19 @@ Each client feature follows this hierarchy:
 
 ```
 feature-name/
-├── FEATURE.md           # Feature documentation
-├── components/          # React components specific to this feature
+├── FEATURE.md              # Feature documentation
+├── api/                    # API queries and mutations (TanStack Query)
+│   ├── use-sth.query.ts    # Data fetching queries
+│   └── use-sth.mutation.ts # Data modification operations
+├── components/             # React components specific to this feature
 │   └── feature-component.tsx
-├── hooks/              # Custom React hooks for this feature
+├── data/                   # Static configuration and constants
+│   └── feature-config.ts
+├── hooks/                  # Custom React hooks for this feature
 │   └── use-feature-hook.ts
-├── lib/                # Business logic and utilities
+├── lib/                    # Business logic and utilities
 │   └── feature-utils.ts
-└── types/              # TypeScript types specific to this feature
+└── types/                  # TypeScript types specific to this feature
     └── feature.types.ts
 ```
 
@@ -104,6 +109,8 @@ feature-name/
 ├── FEATURE.md           # Feature documentation
 ├── controllers/         # NestJS controllers (if needed)
 │   └── feature.controller.ts
+├── data/               # Static configuration and constants
+│   └── feature-config.ts
 ├── services/           # NestJS services (if needed)
 │   └── feature.service.ts
 ├── modules/            # NestJS modules (if needed)

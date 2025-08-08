@@ -1,4 +1,4 @@
-import ManagerLayout from "@common/layouts/manager/manager-layout";
+import ManagerLayout from "@app/layouts/manager/manager-layout";
 import { useRoleDeleteMutation } from "@core-fts/role/manager/api/use-role-delete.mutation";
 import { RoleCreateManager } from "@core-fts/role/manager/components/role-create-manager";
 import { RolePermissionAssign } from "@core-fts/role/manager/components/role-permission-assign";

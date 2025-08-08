@@ -1,7 +1,7 @@
-import { SignInButton } from "@common/core/auth/components/actions/sign-in-button";
-import { SignOutButton } from "@common/core/auth/components/actions/sign-out-button";
-import { useLogout } from "@common/core/auth/hooks/use-logout";
-import { useOidcState } from "@common/core/auth/hooks/use-oidc-state";
+import { SignInButton } from "@common/core/auth/session/components/actions/sign-in-button";
+import { SignOutButton } from "@common/core/auth/session/components/actions/sign-out-button";
+import { useLogout } from "@common/core/auth/session/hooks/use-logout";
+import { useOidcState } from "@common/core/auth/session/hooks/use-oidc-state";
 import { useTranslation } from "@i18n/use-translation";
 import { Flex, Modal, Text } from "@mantine/core";
 import { useState } from "react";

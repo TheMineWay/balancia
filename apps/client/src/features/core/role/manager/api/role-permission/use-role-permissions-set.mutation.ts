@@ -1,4 +1,4 @@
-import { useAuthenticatedRequest } from "@common/core/auth/hooks/use-authenticated-request.util";
+import { useAuthenticatedRequest } from "@common/core/auth/session/hooks/use-authenticated-request.util";
 import { endpointMutation } from "@common/core/requests/lib/endpoint-mutation.util";
 import { USE_ROLE_PERMISSIONS_QUERY_KEY } from "@core-fts/role/manager/api/role-permission/use-role-permissions.query";
 import { ADMIN_ROLE_CONTROLLER } from "@shared/api-definition";

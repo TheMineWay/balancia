@@ -1,4 +1,4 @@
-import { useAuthenticatedRequest } from "@common/core/auth/hooks/use-authenticated-request.util";
+import { useAuthenticatedRequest } from "@common/core/auth/session/hooks/use-authenticated-request.util";
 import { endpointMutation } from "@common/core/requests/lib/endpoint-mutation.util";
 import { ADMIN_ROLE_CONTROLLER, getController } from "@shared/api-definition";
 import type { RoleModel, UserModel } from "@shared/models";

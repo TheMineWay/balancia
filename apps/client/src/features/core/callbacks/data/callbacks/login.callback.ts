@@ -1,4 +1,4 @@
-import { oidcUserManager } from "@common/core/auth/lib/oidc/oidc.manager";
+import { oidcUserManager } from "@common/core/auth/session/lib/oidc/oidc.manager";
 import { Callback } from "@core-fts/callbacks/lib/callback";
 import z from "zod";
 

@@ -1,4 +1,4 @@
-import { useLogin } from "@common/core/auth/hooks/use-login";
+import { useLogin } from "@common/core/auth/session/hooks/use-login";
 import { ENV } from "@constants/env/env.constant";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, type ButtonProps } from "@mantine/core";

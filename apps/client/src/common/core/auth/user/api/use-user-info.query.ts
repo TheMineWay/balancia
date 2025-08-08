@@ -1,4 +1,4 @@
-import { useAuthenticatedRequest } from "@common/core/auth/hooks/use-authenticated-request.util";
+import { useAuthenticatedRequest } from "@common/core/auth/session/hooks/use-authenticated-request.util";
 import { endpointQuery } from "@common/core/requests/lib/endpoint-query.util";
 import type { QueryKey } from "@common/core/requests/types/query-key.type";
 import { ENV } from "@constants/env/env.constant";

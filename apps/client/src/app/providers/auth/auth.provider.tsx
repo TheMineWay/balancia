@@ -1,8 +1,8 @@
-import Auth from "@common/core/auth/components/auth";
-import { TokenExpiracyModal } from "@core-fts/auth/token/components/token-expiracy-modal";
+import Auth from "@common/core/auth/session/components/auth";
+import { TokenExpiracyModal } from "@common/core/auth/token/components/token-expiracy-modal";
 import {
-	authContext,
 	type AuthContextInfo,
+	authContext,
 } from "@providers/auth/auth.context";
 import { useOidc } from "@providers/auth/oidc.context";
 import { OIDC_USER_SCHEMA } from "@shared/models";
