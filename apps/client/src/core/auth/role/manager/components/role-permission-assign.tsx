@@ -1,6 +1,6 @@
 import { UnknownErrorAlert } from "@common/extended-ui/status/unknown-error-alert";
-import { useRolePermissionsSetMutation } from "@core/role/manager/api/role-permission/use-role-permissions-set.mutation";
-import { useRolePermissionsQuery } from "@core/role/manager/api/role-permission/use-role-permissions.query";
+import { useRolePermissionsSetMutation } from "@core/auth/role/manager/api/role-permission/use-role-permissions-set.mutation";
+import { useRolePermissionsQuery } from "@core/auth/role/manager/api/role-permission/use-role-permissions.query";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Checkbox, Loader, Tooltip } from "@mantine/core";
 import { PERMISSIONS, type Permission, type RoleModel } from "@shared/models";

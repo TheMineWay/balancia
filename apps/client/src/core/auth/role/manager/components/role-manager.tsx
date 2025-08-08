@@ -1,10 +1,10 @@
 import ManagerLayout from "@app/layouts/manager/manager-layout";
-import { useRoleDeleteMutation } from "@core/role/manager/api/use-role-delete.mutation";
-import { RoleCreateManager } from "@core/role/manager/components/role-create-manager";
-import { RolePermissionAssign } from "@core/role/manager/components/role-permission-assign";
-import { RoleUpdateManager } from "@core/role/manager/components/role-update-manager";
-import { RoleUsersManager } from "@core/role/manager/components/role-users-manager";
-import { RolesTable } from "@core/role/manager/components/roles-table";
+import { useRoleDeleteMutation } from "@core/auth/role/manager/api/use-role-delete.mutation";
+import { RoleCreateManager } from "@core/auth/role/manager/components/role-create-manager";
+import { RolePermissionAssign } from "@core/auth/role/manager/components/role-permission-assign";
+import { RoleUpdateManager } from "@core/auth/role/manager/components/role-update-manager";
+import { RoleUsersManager } from "@core/auth/role/manager/components/role-users-manager";
+import { RolesTable } from "@core/auth/role/manager/components/roles-table";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Drawer, ScrollArea, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";

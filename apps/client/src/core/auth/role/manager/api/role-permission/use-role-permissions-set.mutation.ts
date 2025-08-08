@@ -1,6 +1,6 @@
+import { USE_ROLE_PERMISSIONS_QUERY_KEY } from "@core/auth/role/manager/api/role-permission/use-role-permissions.query";
 import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authenticated-request.util";
 import { endpointMutation } from "@core/requests/lib/endpoint-mutation.util";
-import { USE_ROLE_PERMISSIONS_QUERY_KEY } from "@core/role/manager/api/role-permission/use-role-permissions.query";
 import { ADMIN_ROLE_CONTROLLER } from "@shared/api-definition";
 import type { RoleModel } from "@shared/models";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

@@ -1,7 +1,7 @@
 import { DatetimeRender } from "@common/extended-ui/date/components/datetime-render";
 import { Table } from "@common/extended-ui/table/components/table";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
-import { useAdminRolesWithStatsQuery } from "@core/role/manager/api/use-admin-roles-with-stats.query";
+import { useAdminRolesWithStatsQuery } from "@core/auth/role/manager/api/use-admin-roles-with-stats.query";
 import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Group } from "@mantine/core";
 import type { RoleModel } from "@shared/models";
