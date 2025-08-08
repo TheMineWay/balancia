@@ -1,4 +1,4 @@
-import type { WithChildren } from "src/common/types/component/component.types";
+import type { WithChildren } from "@common/extended-ui/general/types/component.types";
 
 type Props = WithChildren;
 

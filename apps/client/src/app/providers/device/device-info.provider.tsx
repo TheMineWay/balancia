@@ -1,6 +1,6 @@
+import type { WithChildren } from "@common/extended-ui/general/types/component.types";
 import { deviceInfoContext } from "@providers/device/device-info.context";
 import { useEffect, useState } from "react";
-import type { WithChildren } from "src/common/types/component/component.types";
 
 type Props = WithChildren;
 

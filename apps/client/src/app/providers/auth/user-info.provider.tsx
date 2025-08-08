@@ -1,4 +1,4 @@
-import type { WithChildren } from "@common/types/component/component.types";
+import type { WithChildren } from "@common/extended-ui/general/types/component.types";
 import { useUserInfoQuery } from "@core/auth/user/api/use-user-info.query";
 import { userInfoContext } from "@providers/auth/user-info.context";
 

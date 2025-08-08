@@ -1,4 +1,4 @@
-import type { WithChildren } from "@common/types/component/component.types";
+import type { WithChildren } from "@common/extended-ui/general/types/component.types";
 import { evaluatePermissionCondition } from "@core/permission/lib/evaluate-permission-condition.util";
 import type { PermissionCondition } from "@core/permission/types/permission-condition.type";
 import { useUserInfo } from "@providers/auth/user-info.context";

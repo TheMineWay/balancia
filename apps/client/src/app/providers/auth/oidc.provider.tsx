@@ -1,4 +1,4 @@
-import type { WithChildren } from "@common/types/component/component.types";
+import type { WithChildren } from "@common/extended-ui/general/types/component.types";
 import { oidcUserManager } from "@core/auth/session/lib/oidc/oidc.manager";
 import {
 	type OidcContextInfo,
