@@ -63,6 +63,20 @@
 			"options": {
 				"shell": "/bin/bash"
 			}
+		},
+		{
+			"label": "docs",
+			"type": "shell",
+			"command": ". $NVM_DIR/nvm.sh && nvm use 24 && pnpm start:docs",
+			"problemMatcher": [],
+			"presentation": {
+				"group": "terminal",
+				"panel": "new",
+				"reveal": "always"
+			},
+			"options": {
+				"shell": "/bin/bash"
+			}
 		}
 	]
 }
