@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "pnpm build && pnpm preview",
+    "start": "pnpm build && pnpm preview --port 3000",
     "build": "tsc -b && vite build",
     "lint": "pnpm exec biome format",
     "lint:fix": "pnpm exec biome format --write",

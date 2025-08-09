@@ -1,7 +1,7 @@
 import { ENV } from "@constants/env/env.constant";
 import { UserManager, WebStorageStateStore } from "oidc-client-ts";
 
-export const oidcUserManager = new UserManager({
+export const getOidcUserManager = () => { const manager = new UserManager({
 	authority: ENV.auth.authorityUrl,
 	client_id: ENV.auth.clientId,
 	redirect_uri: ENV.baseUrl + "/_callback/" + ENV.auth.redirectSlug,
@@ -12,4 +12,6 @@ export const oidcUserManager = new UserManager({
 	userStore: new WebStorageStateStore({ store: window.localStorage }),
 });
 
-oidcUserManager.events.addSilentRenewError(console.error);
+console.log('created OIDC manager instance')
+return manager;
+}
