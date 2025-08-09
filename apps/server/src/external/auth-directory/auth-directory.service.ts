@@ -12,7 +12,7 @@ const USER_REQUEST_CACHE_TTL = 1000 * 60 * 5;
 
 @Injectable()
 export class AuthDirectoryService {
-	// Stores user ids that failed integration
+	// Stores user usernames that failed integration
 	readonly userIntegrationFailures = new Cacheable({ ttl: USER_REQUEST_CACHE_TTL });
 
 	async getUsers(options: Options = {}, filters: GetUsersFilters = {}) {
@@ -22,16 +22,16 @@ export class AuthDirectoryService {
 		return data;
 	}
 
-	async getUserByCode(code: z.infer<typeof USER_SCHEMA>['uid']): Promise<z.infer<typeof USER_SCHEMA> | null> {
+	async getUserByUsername(username: z.infer<typeof USER_SCHEMA>['username']): Promise<z.infer<typeof USER_SCHEMA> | null> {
 		// Check if an integration was performed before USER_REQUEST_CACHE_TTL value
-		if (await this.userIntegrationFailures.has(code)) return null;
+		if (await this.userIntegrationFailures.has(username)) return null;
 		
 		// Then, perform integration
-		const { results: users} = await this.getUsers({}, { uuid: code });
+		const { results: users} = await this.getUsers({}, { username });
 
 		if (users.length > 0) return users[0];
 
-		await this.userIntegrationFailures.set(code, true);
+		await this.userIntegrationFailures.set(username, true);
 		return null;
 	}
 }

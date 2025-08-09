@@ -5,5 +5,5 @@ import { vi } from "vitest";
 export const AUTH_DIRECTORY_SERVICE_MOCK: AuthDirectoryService = {
 	userIntegrationFailures: vi.mockObject(new Cacheable()),
 	getUsers: vi.fn(),
-	getUserByCode: vi.fn(),
+	getUserByUsername: vi.fn(),
 };
