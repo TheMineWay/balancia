@@ -40,9 +40,9 @@ export abstract class Repository {
 		TNullabilityMap extends Record<
 			string,
 			JoinNullability
-			// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+			// biome-ignore lint/complexity/noBannedTypes: <explanation>
 		> = TTableName extends string ? Record<TTableName, "not-null"> : {},
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		// biome-ignore lint/correctness/noUnusedVariables: <explanation>
 		TDynamic extends boolean = false,
 		TExcludedMethods extends string = never,
 	>(
