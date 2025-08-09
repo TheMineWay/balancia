@@ -67,11 +67,6 @@ export const DEPENDENCIES = [
 		url: "https://www.npmjs.com/package/@types/passport-jwt",
 	},
 	{
-		code: "eslint-config-prettier",
-		name: "ESLint Config Prettier",
-		url: "https://www.npmjs.com/package/eslint-config-prettier",
-	},
-	{
 		code: "@types/openid-client",
 		name: "@types OpenID Client",
 		url: "https://www.npmjs.com/package/@types/openid-client",
@@ -345,47 +340,10 @@ export const DEPENDENCIES = [
 		docsUrl: "https://vitejs.dev/plugins/#react",
 	},
 	{
-		code: "@eslint/js",
-		name: "Eslint JS",
-		url: "https://www.npmjs.com/package/eslint",
-		docsUrl: "https://eslint.org/",
-	},
-	{
 		code: "autoprefixer",
 		name: "Autoprefixer",
 		url: "https://www.npmjs.com/package/autoprefixer",
 		docsUrl: "https://github.com/postcss/autoprefixer",
-	},
-	{
-		code: "eslint",
-		name: "ESLint",
-		url: "https://www.npmjs.com/package/@eslint/js",
-		docsUrl: "https://eslint.org/",
-	},
-	{
-		code: "eslint-import-resolver-typescript",
-		name: "ESLint Import Resolver TypeScript",
-		url: "https://www.npmjs.com/package/eslint-import-resolver-typescript",
-		docsUrl:
-			"https://github.com/benmosher/eslint-plugin-import/blob/master/resolvers/typescript/README.md",
-	},
-	{
-		code: "eslint-plugin-react-hooks",
-		name: "ESLint Plugin React Hooks",
-		url: "https://www.npmjs.com/package/eslint-plugin-react-hooks",
-		docsUrl:
-			"https://github.com/facebook/react/tree/main/packages/eslint-plugin-react-hooks",
-	},
-	{
-		code: "eslint-plugin-prettier",
-		name: "ESLint Plugin Prettier",
-		url: "https://www.npmjs.com/package/eslint-plugin-prettier",
-	},
-	{
-		code: "eslint-plugin-react-refresh",
-		name: "ESLint Plugin React Refresh",
-		url: "https://www.npmjs.com/package/eslint-plugin-react-refresh",
-		docsUrl: "https://github.com/facebook/react-refresh",
 	},
 	{
 		code: "globals",
@@ -416,12 +374,6 @@ export const DEPENDENCIES = [
 		name: "TypeScript",
 		url: "https://www.npmjs.com/package/typescript",
 		docsUrl: "https://www.typescriptlang.org/",
-	},
-	{
-		code: "typescript-eslint",
-		name: "TypeScript ESLint",
-		url: "https://www.npmjs.com/package/typescript-eslint",
-		docsUrl: "https://typescript-eslint.io/",
 	},
 	{
 		code: "vite",

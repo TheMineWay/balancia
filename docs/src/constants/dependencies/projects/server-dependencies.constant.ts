@@ -44,10 +44,6 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 		isDevelopment: true,
 	},
 	{
-		dep: "eslint-config-prettier",
-		isDevelopment: true,
-	},
-	{
 		dep: "axios",
 	},
 	{
@@ -73,23 +69,7 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 		isDevelopment: true,
 	},
 	{
-		dep: "@eslint/js",
-		isDevelopment: true,
-	},
-	{
-		dep: "eslint",
-		isDevelopment: true,
-	},
-	{
-		dep: "eslint-plugin-prettier",
-		isDevelopment: true,
-	},
-	{
 		dep: "globals",
-		isDevelopment: true,
-	},
-	{
-		dep: "typescript-eslint",
 		isDevelopment: true,
 	},
 	{
