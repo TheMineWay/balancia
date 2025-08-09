@@ -37,8 +37,8 @@
     "@shared/constants": "workspace:*",
     "@shared/models": "workspace:*",
     "@shared/utils": "workspace:*",
-    "@tanstack/react-query": "^5.84.1",
-    "@tanstack/react-router": "^1.130.12",
+    "@tanstack/react-query": "^5.84.2",
+    "@tanstack/react-router": "^1.131.2",
     "@themineway/smart-storage-js": "1.0.0-alpha.19",
     "@themineway/smart-storage-react": "1.0.0-alpha.15",
     "axios": "^1.11.0",
@@ -51,14 +51,14 @@
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
     "react-icons": "^5.5.0",
-    "zod": "^4.0.15"
+    "zod": "^4.0.16"
   },
   "devDependencies": {
-    "@eslint/js": "^9.32.0",
+    "@eslint/js": "^9.33.0",
     "@shared/mocks": "workspace:*",
     "@tailwindcss/postcss": "^4.1.11",
-    "@tanstack/react-router-devtools": "^1.130.13",
-    "@tanstack/router-plugin": "^1.130.15",
+    "@tanstack/react-router-devtools": "^1.131.2",
+    "@tanstack/router-plugin": "^1.131.2",
     "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
@@ -67,7 +67,7 @@
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react-swc": "^4.0.0",
     "autoprefixer": "^10.4.21",
-    "eslint": "^9.32.0",
+    "eslint": "^9.33.0",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
@@ -79,7 +79,7 @@
     "tailwindcss": "^4.1.11",
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.39.0",
-    "vite": "^7.1.0",
+    "vite": "^7.1.1",
     "vitest": "^3.2.4"
   }
 }
