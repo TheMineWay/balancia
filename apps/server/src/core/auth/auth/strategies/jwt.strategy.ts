@@ -32,8 +32,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 	async validate(payload: JwtToken) {
 		const user = await this.userService.getByCode(payload.sub);
 
-		if (!user) throw new BadRequestException();
-		const permissionInfo = await this.authService.getUserAuthInfo(user.id);
+		let userId = user?.id;
+		if (!user) {
+			userId = (await this.authService.checkIn(payload)).id;
+		}
+
+		if (!userId) throw new BadRequestException();
+
+		const permissionInfo = await this.authService.getUserAuthInfo(userId);
 
 		return { payload, user, permissionInfo };
 	}

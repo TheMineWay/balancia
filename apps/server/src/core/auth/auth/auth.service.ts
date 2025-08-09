@@ -26,7 +26,7 @@ export class AuthService {
 		private readonly userService: UserService,
 		private readonly authRepository: AuthRepository,
 		private readonly userAuthInfoCacheService: UserAuthInfoCacheService,
-		private readonly authDirectoryService: AuthDirectoryService
+		private readonly authDirectoryService: AuthDirectoryService,
 	) {}
 
 	/**
@@ -41,7 +41,7 @@ export class AuthService {
 			username: directoryUser.username,
 			email: directoryUser.email,
 		};
-		await this.userService.findOrCreateByCode(jwt.sub, newUser);
+		return await this.userService.findOrCreateByCode(jwt.sub, newUser);
 	}
 
 	static parseJwtToken(token: string): JwtToken {

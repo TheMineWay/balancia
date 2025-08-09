@@ -1,7 +1,10 @@
 import { ENV } from "@constants/conf/env.constant";
 import { Injectable } from "@nestjs/common";
 import axios, { AxiosRequestConfig, Method } from "axios";
+import { Cacheable } from "cacheable";
 import z from "zod";
+
+const USER_REQUEST_CACHE_TTL = 1000 * 60 * 5;
 
 /**
  * This service is designed for Authentik.
@@ -9,6 +12,9 @@ import z from "zod";
 
 @Injectable()
 export class AuthDirectoryService {
+	// Stores user ids that failed integration
+	readonly userIntegrationFailures = new Cacheable({ ttl: USER_REQUEST_CACHE_TTL });
+
 	async getUsers(options: Options = {}, filters: GetUsersFilters = {}) {
 		const url = getApiUrl(API_CONFIG.usersEndpoint);
 		const response = await axios.request(getRequestConfig(url, {...options, params: filters}));
@@ -17,9 +23,15 @@ export class AuthDirectoryService {
 	}
 
 	async getUserByCode(code: z.infer<typeof USER_SCHEMA>['uid']): Promise<z.infer<typeof USER_SCHEMA> | null> {
+		// Check if an integration was performed before USER_REQUEST_CACHE_TTL value
+		if (await this.userIntegrationFailures.has(code)) return null;
+		
+		// Then, perform integration
 		const { results: users} = await this.getUsers({}, { uuid: code });
 
 		if (users.length > 0) return users[0];
+
+		await this.userIntegrationFailures.set(code, true);
 		return null;
 	}
 }
