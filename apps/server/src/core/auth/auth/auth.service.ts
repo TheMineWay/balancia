@@ -1,20 +1,20 @@
-import { AuthRepository } from "@core/auth/auth/repository/auth.repository";
+import { AuthRepository } from "@core/auth/auth/repositories/auth.repository";
 import { UserService } from "@core/auth/user/user.service";
 import { UserAuthInfoCacheService } from "@core/cache/caches/user-auth-info-cache.service";
-import { RoleSelect } from "@database/schemas/main/tables/identity/role.table";
+import type { RoleSelect } from "@database/schemas/main/tables/identity/role.table";
 import {
-    BadRequestException,
-    Injectable,
-    NotFoundException,
-    NotImplementedException,
+	BadRequestException,
+	Injectable,
+	NotFoundException,
+	NotImplementedException,
 } from "@nestjs/common";
 import {
-    JWT_TOKEN_SCHEMA,
-    type JwtToken,
-    OPEN_ID_CONFIG_SCHEMA,
-    Permission,
-    RoleModel,
-    UserModel,
+	JWT_TOKEN_SCHEMA,
+	type JwtToken,
+	OPEN_ID_CONFIG_SCHEMA,
+	type Permission,
+	type RoleModel,
+	type UserModel,
 } from "@shared/models";
 import axios from "axios";
 import * as jwt from "jsonwebtoken";

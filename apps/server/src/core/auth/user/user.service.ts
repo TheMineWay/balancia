@@ -1,4 +1,4 @@
-import { UserRepository } from "@core/auth/user/repository/user.repository";
+import { UserRepository } from "@core/auth/user/repositories/user.repository";
 import {
 	UserCreatedEvent,
 	UserUpdatedEvent,

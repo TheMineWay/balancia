@@ -1,4 +1,4 @@
-import { RoleRepository } from "@core/auth/role/repository/role.repository";
+import { RoleRepository } from "@core/auth/role/repositories/role.repository";
 import {
 	RoleAssignedEvent,
 	RoleCreatedEvent,
