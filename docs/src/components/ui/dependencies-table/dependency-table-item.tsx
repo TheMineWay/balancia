@@ -40,7 +40,9 @@ export default function DependencyTableItem({
 			<td>
 				<span
 					style={{
-						backgroundColor: isDevelopment ? "var(--ifm-color-warning)" : "var(--ifm-color-primary)",
+						backgroundColor: isDevelopment
+							? "var(--ifm-color-warning)"
+							: "var(--ifm-color-primary)",
 					}}
 					className={styles.badge}
 				>

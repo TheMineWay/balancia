@@ -1,4 +1,7 @@
-import { UserCreatedEvent, UserUpdatedEvent } from "@core/auth/user/user.events";
+import {
+	UserCreatedEvent,
+	UserUpdatedEvent,
+} from "@core/auth/user/user.events";
 import { UserCacheService } from "@core/cache/caches/user-cache.service";
 import { QueryOptions } from "@database/repository/core/repository";
 import {
