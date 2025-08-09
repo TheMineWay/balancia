@@ -127,6 +127,12 @@ feature-name/
 │   └── feature.service.ts
 ├── modules/            # NestJS modules (if needed)
 │   └── feature.module.ts
+├── decorators/         # Custom decorators (if needed)
+│   └── feature.decorator.ts
+├── guards/             # Custom guards (if needed)
+│   └── feature.guard.ts
+├── strategies/         # Authentication strategies (if needed)
+│   └── feature.strategy.ts
 ├── lib/                # Business logic and utilities
 │   └── feature-utils.ts
 └── types/              # TypeScript types specific to this feature
