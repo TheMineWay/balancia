@@ -1,11 +1,11 @@
 import { AuthController } from "@core/auth/auth/auth.controller";
 import { AuthService } from "@core/auth/auth/auth.service";
+import { AuthRepository } from "@core/auth/auth/repository/auth.repository";
 import {
-	JWT_STRATEGY,
-	JwtStrategy,
+    JWT_STRATEGY,
+    JwtStrategy,
 } from "@core/auth/auth/strategies/jwt.strategy";
 import { UserService } from "@core/auth/user/user.service";
-import { AuthRepository } from "@database/repository/core/auth/auth.repository";
 import { DynamicModule, Global, Logger, Module } from "@nestjs/common";
 
 export const OPENID_CONFIG = "OPENID_CONFIG";

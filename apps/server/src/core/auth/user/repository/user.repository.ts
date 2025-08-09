@@ -1,7 +1,7 @@
 import {
 	type QueryOptions,
 	Repository,
-} from "@database/repository/core/repository";
+} from "@database/repository/repository";
 import {
 	type UserInsert,
 	type UserUpdate,
