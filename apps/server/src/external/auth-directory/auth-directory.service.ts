@@ -9,11 +9,18 @@ import z from "zod";
 
 @Injectable()
 export class AuthDirectoryService {
-	async getUsers(options: Options = {}) {
+	async getUsers(options: Options = {}, filters: GetUsersFilters = {}) {
 		const url = getApiUrl(API_CONFIG.usersEndpoint);
-		const response = await axios.request(getRequestConfig(url, options));
+		const response = await axios.request(getRequestConfig(url, {...options, params: filters}));
 		const data = PAGINATED_RESPONSE_SCHEMA(USER_SCHEMA).parse(response.data);
 		return data;
+	}
+
+	async getUserByCode(code: z.infer<typeof USER_SCHEMA>['uid']): Promise<z.infer<typeof USER_SCHEMA> | null> {
+		const { results: users} = await this.getUsers({}, { uuid: code });
+
+		if (users.length > 0) return users[0];
+		return null;
 	}
 }
 
@@ -28,6 +35,13 @@ type Options = {
 	pageSize?: number;
 	page?: number;
 };
+
+type GetUsersFilters = {
+	email?: string;
+	name?: string;
+	username?: string;
+	uuid?: string;
+}
 
 const USER_SCHEMA = z.object({
 	pk: z.number(),

@@ -6,6 +6,7 @@ import {
 	JwtStrategy,
 } from "@core/auth/auth/strategies/jwt.strategy";
 import { UserService } from "@core/auth/user/user.service";
+import { AuthDirectoryModule } from "@external/auth-directory/auth-directory.module";
 import { DynamicModule, Global, Logger, Module } from "@nestjs/common";
 
 export const OPENID_CONFIG = "OPENID_CONFIG";
@@ -18,7 +19,9 @@ type RegisterOptions = {
 };
 
 @Global()
-@Module({})
+@Module({
+	imports: [AuthDirectoryModule]
+})
 // biome-ignore lint/complexity/noStaticOnlyClass: AuthModule is a static-only class
 export class AuthModule {
 	static async register(options: RegisterOptions): Promise<DynamicModule> {
