@@ -1,6 +1,6 @@
 import DependencyTableItem from "@site/src/components/ui/dependencies-table/dependency-table-item";
-import { Dependency } from "@site/src/types/dependencies/dependency.type";
-import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
+import type { Dependency } from "@site/src/types/dependencies/dependency.type";
+import type { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 type Props = {
 	dependencies: Array<Dependency & DevProp>;

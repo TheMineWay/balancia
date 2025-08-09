@@ -1,5 +1,5 @@
-import { RoleModule } from "@core/api/role/role.module";
-import { UserModule } from "@core/api/user/user.module";
+import { RoleModule } from "@core/auth/role/role.module";
+import { UserModule } from "@core/auth/user/user.module";
 import { Module } from "@nestjs/common";
 
 @Module({

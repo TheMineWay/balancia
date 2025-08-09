@@ -1,5 +1,5 @@
+import type { WithChildren } from "@common/extended-ui/general/types/component.types";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import type { WithChildren } from "src/common/types/component/component.types";
 
 const queryClient = new QueryClient();
 

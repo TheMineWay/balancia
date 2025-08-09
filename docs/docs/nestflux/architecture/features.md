@@ -10,11 +10,23 @@ NestFlux follows a consistent feature-based architecture pattern across both cli
 
 ```
 src/
+├── core/            # Core framework functionality (managed by NestFlux)
 ├── common/          # Reusable code across multiple features
 └── features/        # Application-specific features
 ```
 
 ## 🔄 Pattern Philosophy
+
+### ⚙️ Core Folder
+- Contains **essential framework functionality** required to run the application
+- Handles core concepts like authentication or API configuration
+- Provides the foundational infrastructure that features and common code depend on
+- **Managed by NestFlux**: Updates to NestFlux will primarily affect core folders
+
+### 🔃 Common Folder
+- Contains **reusable code** that's shared across multiple features
+- Used for project-specific functionality that spans multiple business domains
+- Should be generic enough to be used in various contexts within your project
 
 ### 📦 Features Folder
 - Contains **application-specific code** that implements business requirements
@@ -22,18 +34,18 @@ src/
 - Features can be nested with unlimited depth for complex domains
 - Should be cohesive and focused on a specific business capability
 
-### 🔃 Common Folder
-- Contains **reusable code** that's shared across multiple features
-- Used for foundational functionality like authentication, logging, utilities
-- Should be generic enough to be used in various contexts
-- Examples: auth, ui-kit, error-handling, validation
+:::info NestFlux Updates
+
+When updating NestFlux to newer versions, changes will primarily affect the **`core/`** folders. The **`common/`** and **`features/`** folders will rarely be modified, ensuring your custom business logic and project-specific code remains stable across updates.
+
+:::
 
 ### 📖 Documentation
-Every feature (both in `common/` and `features/`) must include a **FEATURE.md** file that documents its purpose, responsibilities, and usage examples. This ensures consistent documentation across the codebase and helps developers understand each feature's role. See the [FEATURE.md template](#-featuremd-template) for the complete documentation structure.
+Every feature (both in `core/`, `common/` and `features/`) must include a **FEATURE.md** file that documents its purpose, responsibilities, and usage examples. This ensures consistent documentation across the codebase and helps developers understand each feature's role. See the [FEATURE.md template](#-featuremd-template) for the complete documentation structure.
 
 :::tip
 
-The distinction between `features/` and `common/` is for **code organization only**. There are no restrictions on code reuse - features can import from other features, and common code can be used anywhere. The goal is to structure code logically while maintaining full flexibility for code sharing and reusability.
+The distinction between `core/`, `features/` and `common/` is for **code organization only**. There are no restrictions on code reuse - features can import from other features, and common code can be used anywhere. The goal is to structure code logically while maintaining full flexibility for code sharing and reusability.
 
 :::
 
@@ -43,7 +55,7 @@ Each application type (client and server) has its own specific folder structure 
 
 - **Client features** are designed around **React patterns** - components, hooks, and client-side logic
 - **Server features** follow **NestJS conventions** - controllers, services, modules, and server-side architecture
-- Both share common folder types (**lib**, **types**) for consistency where it makes sense
+- Both share common folder types (**lib**, **types**, **data**) for consistency where it makes sense
 - This approach ensures each application follows its **framework's best practices** while maintaining the overall feature pattern consistency
 
 ### 🏗️ Feature Grouping Rule
@@ -84,14 +96,19 @@ Each client feature follows this hierarchy:
 
 ```
 feature-name/
-├── FEATURE.md           # Feature documentation
-├── components/          # React components specific to this feature
+├── FEATURE.md              # Feature documentation
+├── api/                    # API queries and mutations (TanStack Query)
+│   ├── use-sth.query.ts    # Data fetching queries
+│   └── use-sth.mutation.ts # Data modification operations
+├── components/             # React components specific to this feature
 │   └── feature-component.tsx
-├── hooks/              # Custom React hooks for this feature
+├── data/                   # Static configuration and constants
+│   └── feature-config.ts
+├── hooks/                  # Custom React hooks for this feature
 │   └── use-feature-hook.ts
-├── lib/                # Business logic and utilities
+├── lib/                    # Business logic and utilities
 │   └── feature-utils.ts
-└── types/              # TypeScript types specific to this feature
+└── types/                  # TypeScript types specific to this feature
     └── feature.types.ts
 ```
 
@@ -104,10 +121,18 @@ feature-name/
 ├── FEATURE.md           # Feature documentation
 ├── controllers/         # NestJS controllers (if needed)
 │   └── feature.controller.ts
+├── data/               # Static configuration and constants
+│   └── feature-config.ts
 ├── services/           # NestJS services (if needed)
 │   └── feature.service.ts
 ├── modules/            # NestJS modules (if needed)
 │   └── feature.module.ts
+├── decorators/         # Custom decorators (if needed)
+│   └── feature.decorator.ts
+├── guards/             # Custom guards (if needed)
+│   └── feature.guard.ts
+├── strategies/         # Authentication strategies (if needed)
+│   └── feature.strategy.ts
 ├── lib/                # Business logic and utilities
 │   └── feature-utils.ts
 └── types/              # TypeScript types specific to this feature

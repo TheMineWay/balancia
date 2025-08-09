@@ -1,4 +1,4 @@
-import { SignOutButton } from "@common/core/auth/components/actions/sign-out-button";
+import { SignOutButton } from "@core/auth/session/components/actions/sign-out-button";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 

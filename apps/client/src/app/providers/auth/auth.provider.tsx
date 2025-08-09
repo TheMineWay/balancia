@@ -1,14 +1,14 @@
-import Auth from "@common/core/auth/components/auth";
-import { TokenExpiracyModal } from "@core-fts/auth/token/components/token-expiracy-modal";
+import type { WithChildren } from "@common/extended-ui/general/types/component.types";
+import Auth from "@core/auth/session/components/auth";
+import { TokenExpiracyModal } from "@core/auth/token/components/token-expiracy-modal";
 import {
-	authContext,
 	type AuthContextInfo,
+	authContext,
 } from "@providers/auth/auth.context";
 import { useOidc } from "@providers/auth/oidc.context";
 import { OIDC_USER_SCHEMA } from "@shared/models";
 import type { UserManager } from "oidc-client-ts";
 import { useEffect, useState } from "react";
-import type { WithChildren } from "src/common/types/component/component.types";
 
 export default function AuthProvider({ children }: Readonly<WithChildren>) {
 	const [contextState, setContextState] = useState<AuthContextInfo | null>();

@@ -1,9 +1,9 @@
 import { ENV } from "@constants/conf/env.constant";
-import { AuthModule } from "@core/api/auth/auth.module";
+import { AuthModule } from "@core/auth/auth/auth.module";
+import { JwtAuthGuard } from "@core/auth/auth/guards/jwt-auth.guard";
+import { PermissionsGuard } from "@core/auth/auth/guards/permission.guard";
 import { CachesModule } from "@core/cache/caches.module";
 import { CoreModule } from "@core/core.module";
-import { JwtAuthGuard } from "@core/guards/auth/jwt-auth.guard";
-import { PermissionsGuard } from "@core/guards/permissions/permission.guard";
 import { DatabaseModule } from "@database/database.module";
 import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";

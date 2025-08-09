@@ -1,6 +1,6 @@
-import Providers from "@app/providers";
 import { WAREHOUSES } from "@constants/device-storage/warehouses.constant";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
+import Providers from "@providers/providers";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
 import {
 	LocalStorageConnector,
 	WebWarehouse,

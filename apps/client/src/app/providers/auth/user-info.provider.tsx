@@ -1,5 +1,5 @@
-import type { WithChildren } from "@common/types/component/component.types";
-import { useUserInfoQuery } from "@core-fts/auth/user/api/use-user-info.query";
+import type { WithChildren } from "@common/extended-ui/general/types/component.types";
+import { useUserInfoQuery } from "@core/auth/user/api/use-user-info.query";
 import { userInfoContext } from "@providers/auth/user-info.context";
 
 export const UserInfoProvider: FC<WithChildren> = ({ children }) => {
