@@ -65,8 +65,15 @@ export const RoleManager: FC = () => {
 								</Button>
 							</ActionsLayout.Row>
 							<ActionsLayout.Row>
-								<ActionIcon aria-label={commonT().expressions.Reload} onClick={() => queryClient.invalidateQueries({ queryKey: ADMIN_ROLES_WITH_STATS_QUERY_KEY()})}>
-									<IoReload/>
+								<ActionIcon
+									aria-label={commonT().expressions.Reload}
+									onClick={() =>
+										queryClient.invalidateQueries({
+											queryKey: ADMIN_ROLES_WITH_STATS_QUERY_KEY(),
+										})
+									}
+								>
+									<IoReload />
 								</ActionIcon>
 							</ActionsLayout.Row>
 						</TableLayout.Actions>

@@ -52,7 +52,6 @@ export const RoleUserAssign: FC<Props> = ({ role, onSuccess }) => {
 				search={search}
 				value={selectedUserId}
 				setValue={setSelectedUserId}
-				placeholder="Select a user DEMO"
 			/>
 			<Button
 				leftSection={<LuUserCog />}
