@@ -2,7 +2,7 @@ import type { WithChildren } from "@common/extended-ui/general/types/component.t
 import { Container } from "@layouts/container/container";
 
 const Root: FC<WithChildren> = ({ children }) => {
-	return <nav className="flex flex-col gap-4">{children}</nav>;
+	return <nav className="flex flex-col gap-6">{children}</nav>;
 };
 
 const Content: FC<WithChildren> = ({ children }) => {
@@ -10,7 +10,11 @@ const Content: FC<WithChildren> = ({ children }) => {
 };
 
 const Navbar: FC<WithChildren> = ({ children }) => {
-	return <div className="flex justify-between gap-4 mx-2 mt-2">{children}</div>;
+	return (
+		<Container>
+			<div className="flex justify-between gap-4 mt-2">{children}</div>
+		</Container>
+	);
 };
 
 export const NavigationLayout = {

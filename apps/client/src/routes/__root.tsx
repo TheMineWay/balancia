@@ -18,7 +18,7 @@ const Navigator: FC = () => {
 	return (
 		<Link to="/">
 			<ActionIcon variant="outline">
-				<FaHome/>
+				<FaHome />
 			</ActionIcon>
 		</Link>
 	);
