@@ -12,7 +12,7 @@ const Content: FC<WithChildren> = ({ children }) => {
 const Navbar: FC<WithChildren> = ({ children }) => {
 	return (
 		<Container>
-			<div className="flex justify-between gap-4 mt-2">{children}</div>
+			<div className="flex justify-between items-center gap-4 mt-2">{children}</div>
 		</Container>
 	);
 };
