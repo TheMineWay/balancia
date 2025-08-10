@@ -1,5 +1,5 @@
 import { DATABASE_PROVIDERS } from "@database/database.provider";
-import { Transaction } from "@database/repository/core/repository";
+import { Transaction } from "@database/repository/repository";
 import { permissionTable } from "@database/schemas/main.schema";
 import { DatabaseService } from "@database/services/database.service";
 import {

@@ -1,11 +1,12 @@
 import { AuthController } from "@core/auth/auth/auth.controller";
 import { AuthService } from "@core/auth/auth/auth.service";
+import { AuthRepository } from "@core/auth/auth/repositories/auth.repository";
 import {
 	JWT_STRATEGY,
 	JwtStrategy,
 } from "@core/auth/auth/strategies/jwt.strategy";
 import { UserService } from "@core/auth/user/user.service";
-import { AuthRepository } from "@database/repository/core/auth/auth.repository";
+import { AuthDirectoryModule } from "@external/auth-directory/auth-directory.module";
 import { DynamicModule, Global, Logger, Module } from "@nestjs/common";
 
 export const OPENID_CONFIG = "OPENID_CONFIG";
@@ -18,7 +19,10 @@ type RegisterOptions = {
 };
 
 @Global()
-@Module({})
+@Module({
+	imports: [AuthDirectoryModule],
+})
+// biome-ignore lint/complexity/noStaticOnlyClass: AuthModule is a static-only class
 export class AuthModule {
 	static async register(options: RegisterOptions): Promise<DynamicModule> {
 		// Setup the OIDC client configuration

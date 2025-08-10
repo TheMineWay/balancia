@@ -1,7 +1,10 @@
 import { ENV } from "@constants/conf/env.constant";
 import { Injectable } from "@nestjs/common";
 import axios, { AxiosRequestConfig, Method } from "axios";
+import { Cacheable } from "cacheable";
 import z from "zod";
+
+const USER_REQUEST_CACHE_TTL = 1000 * 60 * 5;
 
 /**
  * This service is designed for Authentik.
@@ -9,11 +12,33 @@ import z from "zod";
 
 @Injectable()
 export class AuthDirectoryService {
-	async getUsers(options: Options = {}) {
+	// Stores user usernames that failed integration
+	readonly userIntegrationFailures = new Cacheable({
+		ttl: USER_REQUEST_CACHE_TTL,
+	});
+
+	async getUsers(options: Options = {}, filters: GetUsersFilters = {}) {
 		const url = getApiUrl(API_CONFIG.usersEndpoint);
-		const response = await axios.request(getRequestConfig(url, options));
+		const response = await axios.request(
+			getRequestConfig(url, { ...options, params: filters }),
+		);
 		const data = PAGINATED_RESPONSE_SCHEMA(USER_SCHEMA).parse(response.data);
 		return data;
+	}
+
+	async getUserByUsername(
+		username: z.infer<typeof USER_SCHEMA>["username"],
+	): Promise<z.infer<typeof USER_SCHEMA> | null> {
+		// Check if an integration was performed before USER_REQUEST_CACHE_TTL value
+		if (await this.userIntegrationFailures.has(username)) return null;
+
+		// Then, perform integration
+		const { results: users } = await this.getUsers({}, { username });
+
+		if (users.length > 0) return users[0];
+
+		await this.userIntegrationFailures.set(username, true);
+		return null;
 	}
 }
 
@@ -27,6 +52,13 @@ type ApiConfig = {
 type Options = {
 	pageSize?: number;
 	page?: number;
+};
+
+type GetUsersFilters = {
+	email?: string;
+	name?: string;
+	username?: string;
+	uuid?: string;
 };
 
 const USER_SCHEMA = z.object({

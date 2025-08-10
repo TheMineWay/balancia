@@ -1,3 +1,4 @@
+import { RoleRepository } from "@core/auth/role/repositories/role.repository";
 import {
 	RoleAssignedEvent,
 	RoleCreatedEvent,
@@ -7,7 +8,6 @@ import {
 } from "@core/auth/role/role.events";
 import { UserAuthInfoCacheService } from "@core/cache/caches/user-auth-info-cache.service";
 import { DATABASE_PROVIDERS } from "@database/database.provider";
-import { RoleRepository } from "@database/repository/core/role/role.repository";
 import type {
 	RoleSelect,
 	RoleUpdate,

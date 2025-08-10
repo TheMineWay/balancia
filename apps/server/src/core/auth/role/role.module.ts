@@ -1,6 +1,6 @@
 import { AdminRoleController } from "@core/auth/role/admin-role.controller";
+import { RoleRepository } from "@core/auth/role/repositories/role.repository";
 import { RoleService } from "@core/auth/role/role.service";
-import { RoleRepository } from "@database/repository/core/role/role.repository";
 import { Module } from "@nestjs/common";
 
 @Module({

@@ -1,20 +1,21 @@
+import { AuthRepository } from "@core/auth/auth/repositories/auth.repository";
 import { UserService } from "@core/auth/user/user.service";
 import { UserAuthInfoCacheService } from "@core/cache/caches/user-auth-info-cache.service";
-import { AuthRepository } from "@database/repository/core/auth/auth.repository";
-import { RoleSelect } from "@database/schemas/main/tables/identity/role.table";
+import type { RoleSelect } from "@database/schemas/main/tables/identity/role.table";
+import { UserInsert } from "@database/schemas/main/tables/identity/user.table";
+import { AuthDirectoryService } from "@external/auth-directory/auth-directory.service";
 import {
 	BadRequestException,
 	Injectable,
 	NotFoundException,
-	NotImplementedException,
 } from "@nestjs/common";
 import {
 	JWT_TOKEN_SCHEMA,
 	type JwtToken,
 	OPEN_ID_CONFIG_SCHEMA,
-	Permission,
-	RoleModel,
-	UserModel,
+	type Permission,
+	type RoleModel,
+	type UserModel,
 } from "@shared/models";
 import axios from "axios";
 import * as jwt from "jsonwebtoken";
@@ -25,12 +26,25 @@ export class AuthService {
 		private readonly userService: UserService,
 		private readonly authRepository: AuthRepository,
 		private readonly userAuthInfoCacheService: UserAuthInfoCacheService,
+		private readonly authDirectoryService: AuthDirectoryService,
 	) {}
 
+	/**
+	 * Given a JWT token from a non registered user, it checks if the user exists in the directory and its data gets integrated.
+	 */
 	async checkIn(jwt: JwtToken) {
-		await Promise.resolve(null);
-		throw new NotImplementedException(jwt);
-		//await this.userService.findOrCreateByCode(jwt.sub); // TODO: implement with OIDC user data
+		const directoryUser = await this.authDirectoryService.getUserByUsername(
+			jwt.nickname,
+		);
+		if (!directoryUser || directoryUser.uid !== jwt.sub)
+			throw new NotFoundException();
+
+		const newUser: Omit<UserInsert, "code"> = {
+			name: directoryUser.name,
+			username: directoryUser.username,
+			email: directoryUser.email,
+		};
+		return await this.userService.findOrCreateByCode(jwt.sub, newUser);
 	}
 
 	static parseJwtToken(token: string): JwtToken {

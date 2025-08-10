@@ -15,8 +15,8 @@ export const rolePermissionTable = mysqlTable(
 			.notNull()
 			.references(() => permissionTable.id, { onDelete: "cascade" }),
 
-		// Timestamps
-		...timestamps,
+		// Timestamps (only createdAt is used)
+		createdAt: timestamps.createdAt,
 	},
 	(table) => [
 		primaryKey({ columns: [table.roleId, table.permissionId] }),

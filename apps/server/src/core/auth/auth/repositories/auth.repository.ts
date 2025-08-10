@@ -1,7 +1,4 @@
-import {
-	type QueryOptions,
-	Repository,
-} from "@database/repository/core/repository";
+import { type QueryOptions, Repository } from "@database/repository/repository";
 import {
 	rolePermissionTable,
 	roleTable,

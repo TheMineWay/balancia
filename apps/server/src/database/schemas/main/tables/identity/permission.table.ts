@@ -6,8 +6,8 @@ export const permissionTable = mysqlTable("permission", {
 	id: int().autoincrement().primaryKey(),
 	code: varchar({ length: 64 }).unique().notNull().$type<Permission>(),
 
-	// Timestamps
-	...timestamps,
+	// Timestamps (only createdAt is used)
+	createdAt: timestamps.createdAt,
 });
 
 export type PermissionInsert = typeof permissionTable.$inferInsert;

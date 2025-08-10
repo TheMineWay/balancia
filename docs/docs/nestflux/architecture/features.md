@@ -118,15 +118,12 @@ Each server feature follows this hierarchy:
 
 ```
 feature-name/
-├── FEATURE.md           # Feature documentation
-├── controllers/         # NestJS controllers (if needed)
-│   └── feature.controller.ts
+├── FEATURE.md              # Feature documentation
+├── feature.controller.ts   # NestJS controller (if needed. Can have more than one)
+├── feature.service.ts      # NestJS service (if needed. Can have more than one)
+├── feature.module.ts       # NestJS module (if needed. Usually one per feature)
 ├── data/               # Static configuration and constants
 │   └── feature-config.ts
-├── services/           # NestJS services (if needed)
-│   └── feature.service.ts
-├── modules/            # NestJS modules (if needed)
-│   └── feature.module.ts
 ├── decorators/         # Custom decorators (if needed)
 │   └── feature.decorator.ts
 ├── guards/             # Custom guards (if needed)
@@ -135,6 +132,8 @@ feature-name/
 │   └── feature.strategy.ts
 ├── lib/                # Business logic and utilities
 │   └── feature-utils.ts
+├── repositories/         # Database operations
+│   └── feature.repository.ts
 └── types/              # TypeScript types specific to this feature
     └── feature.types.ts
 ```

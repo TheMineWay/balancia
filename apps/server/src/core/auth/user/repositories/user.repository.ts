@@ -1,11 +1,11 @@
-import { QueryOptions, Repository } from "@database/repository/core/repository";
+import { type QueryOptions, Repository } from "@database/repository/repository";
 import {
-	UserInsert,
+	type UserInsert,
+	type UserUpdate,
 	userTable,
-	UserUpdate,
 } from "@database/schemas/main/tables/identity/user.table";
 import { Injectable } from "@nestjs/common";
-import { DbUserModel, PaginatedQuery, SearchModel } from "@shared/models";
+import type { DbUserModel, PaginatedQuery, SearchModel } from "@shared/models";
 import { asc, eq, inArray, like } from "drizzle-orm";
 
 @Injectable()

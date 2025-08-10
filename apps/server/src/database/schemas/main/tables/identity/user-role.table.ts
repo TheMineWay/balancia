@@ -13,8 +13,8 @@ export const userRoleTable = mysqlTable(
 			.notNull()
 			.references(() => roleTable.id, { onDelete: "cascade" }),
 
-		// Timestamps
-		...timestamps,
+		// Timestamps (only createdAt is used)
+		createdAt: timestamps.createdAt,
 	},
 	(table) => [primaryKey({ columns: [table.userId, table.roleId] })],
 );

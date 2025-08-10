@@ -1,10 +1,13 @@
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import type { DatabaseService } from "@database/services/database.service";
 import { Inject } from "@nestjs/common";
-import { PaginatedQuery } from "@shared/models";
-import { ColumnsSelection, count } from "drizzle-orm";
-import { MySqlSelectBase, PreparedQueryHKTBase } from "drizzle-orm/mysql-core";
-import {
+import type { PaginatedQuery } from "@shared/models";
+import { type ColumnsSelection, count } from "drizzle-orm";
+import type {
+	MySqlSelectBase,
+	PreparedQueryHKTBase,
+} from "drizzle-orm/mysql-core";
+import type {
 	JoinNullability,
 	SelectMode,
 } from "drizzle-orm/query-builders/select.types";
@@ -40,9 +43,9 @@ export abstract class Repository {
 		TNullabilityMap extends Record<
 			string,
 			JoinNullability
-			// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+			// biome-ignore lint/complexity/noBannedTypes: got from package
 		> = TTableName extends string ? Record<TTableName, "not-null"> : {},
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		// biome-ignore lint/correctness/noUnusedVariables: got from package
 		TDynamic extends boolean = false,
 		TExcludedMethods extends string = never,
 	>(

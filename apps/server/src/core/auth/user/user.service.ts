@@ -1,16 +1,21 @@
+import { UserRepository } from "@core/auth/user/repositories/user.repository";
 import {
 	UserCreatedEvent,
 	UserUpdatedEvent,
 } from "@core/auth/user/user.events";
 import { UserCacheService } from "@core/cache/caches/user-cache.service";
-import { QueryOptions } from "@database/repository/core/repository";
+import { QueryOptions } from "@database/repository/repository";
 import {
 	UserInsert,
 	UserUpdate,
 } from "@database/schemas/main/tables/identity/user.table";
 import { Injectable } from "@nestjs/common";
-import { UserRepository } from "@repository/core/user.repository";
-import { DbUserModel, PaginatedQuery, SearchModel } from "@shared/models";
+import {
+	DbUserModel,
+	PaginatedQuery,
+	SearchModel,
+	UserModel,
+} from "@shared/models";
 import { EventService } from "src/events/event.service";
 
 @Injectable()
@@ -52,7 +57,10 @@ export class UserService {
 		return user;
 	};
 
-	findOrCreateByCode = async (code: string, data: Omit<UserInsert, "code">) => {
+	findOrCreateByCode = async (
+		code: UserModel["code"],
+		data: Omit<UserInsert, "code">,
+	) => {
 		const user = await this.getByCode(code);
 		if (user) return user;
 

@@ -1,6 +1,6 @@
 import type { WithChildren } from "@common/extended-ui/general/types/component.types";
 import { deviceInfoContext } from "@providers/device/device-info.context";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Props = WithChildren;
 
@@ -31,18 +31,19 @@ export default function DeviceInfoProvider({ children }: Readonly<Props>) {
 
 	// Build info objects
 
-	const windowInfo = { ...windowSizeInfo };
-	const booleans = {
-		isMobile: windowSizeInfo.innerWidth < 768,
-	};
+	const value = useMemo(
+		() => ({
+			window: { ...windowSizeInfo },
+			// Booleans
+			...{
+				isMobile: windowSizeInfo.innerWidth < 768,
+			},
+		}),
+		[windowSizeInfo],
+	);
 
 	return (
-		<deviceInfoContext.Provider
-			value={{
-				window: windowInfo,
-				...booleans,
-			}}
-		>
+		<deviceInfoContext.Provider value={value}>
 			{children}
 		</deviceInfoContext.Provider>
 	);
