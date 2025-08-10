@@ -1,13 +1,14 @@
-import DependencyTableAlternatives from "@site/src/components/ui/dependencies-table/dependency-table-alternatives";
+import { DependencyTableAlternatives } from "@site/src/components/ui/dependencies-table/dependency-table-alternatives";
 import type { Dependency } from "@site/src/types/dependencies/dependency.type";
 import type { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
+import { FC } from "react";
 import styles from "./dependency-table-item.module.css";
 
 type Props = {
 	dependency: Dependency & DevProp;
 };
 
-export default function DependencyTableItem({
+export const DependencyTableItem: FC<Props> = ({
 	dependency: {
 		name,
 		code,
@@ -16,7 +17,7 @@ export default function DependencyTableItem({
 		alternatives,
 		isDevelopment,
 	},
-}: Readonly<Props>) {
+}) => {
 	return (
 		<tr>
 			<td>{code}</td>
@@ -51,4 +52,4 @@ export default function DependencyTableItem({
 			</td>
 		</tr>
 	);
-}
+};

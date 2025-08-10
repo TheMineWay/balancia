@@ -2,6 +2,6 @@ import type { WithChildren } from "@common/extended-ui/general/types/component.t
 
 type Props = WithChildren;
 
-export default function AfterProviders({ children }: Readonly<Props>) {
+export const AfterProviders: FC<Props> = ({ children }) => {
 	return <>{children}</>;
-}
+};

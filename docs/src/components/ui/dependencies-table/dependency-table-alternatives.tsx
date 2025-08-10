@@ -1,12 +1,11 @@
 import { BasicDependency } from "@site/src/types/dependencies/basic-dependency.type";
+import type { FC } from "react";
 
 type Props = {
 	alternatives: Array<BasicDependency>;
 };
 
-export default function DependencyTableAlternatives({
-	alternatives,
-}: Readonly<Props>) {
+export const DependencyTableAlternatives: FC<Props> = ({ alternatives }) => {
 	return (
 		<div className="flex gap-2">
 			{alternatives.map((alternative) => (
@@ -14,7 +13,7 @@ export default function DependencyTableAlternatives({
 			))}
 		</div>
 	);
-}
+};
 
 const Alternative = ({
 	alternative: { name, url },

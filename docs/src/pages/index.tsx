@@ -1,10 +1,9 @@
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
+import type { FC } from "react";
 import styles from "./index.module.css";
 
-import { JSX } from "react";
-
-export default function Home(): JSX.Element {
+export const Home: FC = () => {
 	const { siteConfig } = useDocusaurusContext();
 	return (
 		<Layout
@@ -19,4 +18,4 @@ export default function Home(): JSX.Element {
 			</div>
 		</Layout>
 	);
-}
+};

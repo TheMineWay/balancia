@@ -10,7 +10,7 @@ const DEFAULT_LANGUAGE = MASTER_LOCALE;
 
 type Props = WithChildren;
 
-export default function LanguageProvider({ children }: Readonly<Props>) {
+export const LanguageProvider: FC<Props> = ({ children }) => {
 	const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
 	const [translations, setTranslations] = useState<TranslationStore>();
 
@@ -48,4 +48,4 @@ export default function LanguageProvider({ children }: Readonly<Props>) {
 			{children}
 		</languageContext.Provider>
 	);
-}
+};

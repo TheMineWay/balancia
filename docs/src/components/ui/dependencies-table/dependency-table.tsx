@@ -1,12 +1,13 @@
-import DependencyTableItem from "@site/src/components/ui/dependencies-table/dependency-table-item";
+import { DependencyTableItem } from "@site/src/components/ui/dependencies-table/dependency-table-item";
 import type { Dependency } from "@site/src/types/dependencies/dependency.type";
 import type { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
+import type { FC } from "react";
 
 type Props = {
 	dependencies: Array<Dependency & DevProp>;
 };
 
-export default function DependencyTable({ dependencies }: Readonly<Props>) {
+export const DependencyTable: FC<Props> = ({ dependencies }) => {
 	return (
 		<table>
 			<tbody>
@@ -23,7 +24,7 @@ export default function DependencyTable({ dependencies }: Readonly<Props>) {
 			</tbody>
 		</table>
 	);
-}
+};
 
 function sort(arr: Props["dependencies"]) {
 	return arr.sort((a, b) => {

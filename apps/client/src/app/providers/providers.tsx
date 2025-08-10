@@ -1,6 +1,6 @@
 import type { WithChildren } from "@common/extended-ui/general/types/component.types";
-import CoreProviders from "@providers/core.providers";
+import { CoreProviders } from "@providers/core.providers";
 
-export default function Providers({ children }: Readonly<WithChildren>) {
+export const Providers: FC<WithChildren> = ({ children }) => {
 	return <CoreProviders>{children}</CoreProviders>;
-}
+};

@@ -1,10 +1,11 @@
 import { NamingStrategyExtension } from "@site/src/constants/naming/naming-strategy-extensions.constant";
+import type { FC } from "react";
 
 type Props = {
 	extensions: Array<NamingStrategyExtension>;
 };
 
-export default function ExtensionsTable({ extensions }: Readonly<Props>) {
+export const ExtensionsTable: FC<Props> = ({ extensions }) => {
 	return extensions.map(
 		({
 			extension,
@@ -33,4 +34,4 @@ export default function ExtensionsTable({ extensions }: Readonly<Props>) {
 			</tr>
 		),
 	);
-}
+};

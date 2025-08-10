@@ -1,6 +1,6 @@
 import type { WithChildren } from "@common/extended-ui/general/types/component.types";
 import { CallbackRender } from "@core/callbacks/components/callback-render";
-import AfterProviders from "@providers/after-providers";
+import { AfterProviders } from "@providers/after-providers";
 import AuthProvider from "@providers/auth/auth.provider";
 import { OidcProvider } from "@providers/auth/oidc.provider";
 import { UserInfoProvider } from "@providers/auth/user-info.provider";
@@ -10,7 +10,7 @@ import LanguageProvider from "@providers/language/language.provider";
 import NetworkProvider from "@providers/network/network.provider";
 import UIProviders from "@providers/ui/ui.providers";
 
-export default function CoreProviders({ children }: Readonly<WithChildren>) {
+export const CoreProviders: FC<WithChildren> = ({ children }) => {
 	return (
 		<LocalConfigProvider>
 			<UIProviders>
@@ -32,4 +32,4 @@ export default function CoreProviders({ children }: Readonly<WithChildren>) {
 			</UIProviders>
 		</LocalConfigProvider>
 	);
-}
+};
