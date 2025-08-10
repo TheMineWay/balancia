@@ -27,6 +27,7 @@
       "@pkg": ["./package.json"],
       "@core/*": ["src/core/*"],
       "@fts/*": ["src/features/*"],
+      "@layouts/*": ["src/app/layouts/*"],
       "@assets/*": ["src/assets/*"],
       "@public/*": ["./public/*"],
       "@providers/*": ["src/app/providers/*"],
