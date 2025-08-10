@@ -7,7 +7,7 @@ import { AuthDirectoryService } from "@external/auth-directory/auth-directory.se
 import {
 	BadRequestException,
 	Injectable,
-	NotFoundException
+	NotFoundException,
 } from "@nestjs/common";
 import {
 	JWT_TOKEN_SCHEMA,
@@ -33,10 +33,13 @@ export class AuthService {
 	 * Given a JWT token from a non registered user, it checks if the user exists in the directory and its data gets integrated.
 	 */
 	async checkIn(jwt: JwtToken) {
-		const directoryUser = await this.authDirectoryService.getUserByUsername(jwt.nickname);
-		if (!directoryUser || directoryUser.uid !== jwt.sub) throw new NotFoundException();
+		const directoryUser = await this.authDirectoryService.getUserByUsername(
+			jwt.nickname,
+		);
+		if (!directoryUser || directoryUser.uid !== jwt.sub)
+			throw new NotFoundException();
 
-		const newUser: Omit<UserInsert, 'code'> = {
+		const newUser: Omit<UserInsert, "code"> = {
 			name: directoryUser.name,
 			username: directoryUser.username,
 			email: directoryUser.email,

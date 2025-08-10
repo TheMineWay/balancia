@@ -31,18 +31,19 @@ export default function DeviceInfoProvider({ children }: Readonly<Props>) {
 
 	// Build info objects
 
-	const value = useMemo(() => ({
-		window: { ...windowSizeInfo },
-		// Booleans
-		...{
-			isMobile: windowSizeInfo.innerWidth < 768,
-		},
-	}), [windowSizeInfo]);
+	const value = useMemo(
+		() => ({
+			window: { ...windowSizeInfo },
+			// Booleans
+			...{
+				isMobile: windowSizeInfo.innerWidth < 768,
+			},
+		}),
+		[windowSizeInfo],
+	);
 
 	return (
-		<deviceInfoContext.Provider
-			value={value}
-		>
+		<deviceInfoContext.Provider value={value}>
 			{children}
 		</deviceInfoContext.Provider>
 	);

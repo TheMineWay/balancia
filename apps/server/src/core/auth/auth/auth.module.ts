@@ -20,7 +20,7 @@ type RegisterOptions = {
 
 @Global()
 @Module({
-	imports: [AuthDirectoryModule]
+	imports: [AuthDirectoryModule],
 })
 // biome-ignore lint/complexity/noStaticOnlyClass: AuthModule is a static-only class
 export class AuthModule {

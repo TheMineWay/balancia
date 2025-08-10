@@ -13,21 +13,27 @@ const USER_REQUEST_CACHE_TTL = 1000 * 60 * 5;
 @Injectable()
 export class AuthDirectoryService {
 	// Stores user usernames that failed integration
-	readonly userIntegrationFailures = new Cacheable({ ttl: USER_REQUEST_CACHE_TTL });
+	readonly userIntegrationFailures = new Cacheable({
+		ttl: USER_REQUEST_CACHE_TTL,
+	});
 
 	async getUsers(options: Options = {}, filters: GetUsersFilters = {}) {
 		const url = getApiUrl(API_CONFIG.usersEndpoint);
-		const response = await axios.request(getRequestConfig(url, {...options, params: filters}));
+		const response = await axios.request(
+			getRequestConfig(url, { ...options, params: filters }),
+		);
 		const data = PAGINATED_RESPONSE_SCHEMA(USER_SCHEMA).parse(response.data);
 		return data;
 	}
 
-	async getUserByUsername(username: z.infer<typeof USER_SCHEMA>['username']): Promise<z.infer<typeof USER_SCHEMA> | null> {
+	async getUserByUsername(
+		username: z.infer<typeof USER_SCHEMA>["username"],
+	): Promise<z.infer<typeof USER_SCHEMA> | null> {
 		// Check if an integration was performed before USER_REQUEST_CACHE_TTL value
 		if (await this.userIntegrationFailures.has(username)) return null;
-		
+
 		// Then, perform integration
-		const { results: users} = await this.getUsers({}, { username });
+		const { results: users } = await this.getUsers({}, { username });
 
 		if (users.length > 0) return users[0];
 
@@ -53,7 +59,7 @@ type GetUsersFilters = {
 	name?: string;
 	username?: string;
 	uuid?: string;
-}
+};
 
 const USER_SCHEMA = z.object({
 	pk: z.number(),

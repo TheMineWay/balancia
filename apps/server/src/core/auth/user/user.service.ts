@@ -10,7 +10,12 @@ import {
 	UserUpdate,
 } from "@database/schemas/main/tables/identity/user.table";
 import { Injectable } from "@nestjs/common";
-import { DbUserModel, PaginatedQuery, SearchModel, UserModel } from "@shared/models";
+import {
+	DbUserModel,
+	PaginatedQuery,
+	SearchModel,
+	UserModel,
+} from "@shared/models";
 import { EventService } from "src/events/event.service";
 
 @Injectable()
@@ -52,7 +57,10 @@ export class UserService {
 		return user;
 	};
 
-	findOrCreateByCode = async (code: UserModel['code'], data: Omit<UserInsert, "code">) => {
+	findOrCreateByCode = async (
+		code: UserModel["code"],
+		data: Omit<UserInsert, "code">,
+	) => {
 		const user = await this.getByCode(code);
 		if (user) return user;
 

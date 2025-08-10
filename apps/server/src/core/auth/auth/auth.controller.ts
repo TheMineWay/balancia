@@ -14,7 +14,7 @@ const CONTROLLER = AUTH_CONTROLLER;
 @Controller(getController(CONTROLLER, {}))
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
-	
+
 	@Endpoint(CONTROLLER, "my-info")
 	async myInfo(
 		@User() user: UserModel,

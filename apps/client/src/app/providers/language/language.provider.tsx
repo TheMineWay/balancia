@@ -32,18 +32,19 @@ export default function LanguageProvider({ children }: Readonly<Props>) {
 		updateLoadedLocale();
 	}, [language]);
 
-	const value = useMemo(() => ({
-		language,
-		setLanguage: (language: Language) => setLanguage(language),
-		translations: translations as TranslationStore,
-	}), [language, translations])
+	const value = useMemo(
+		() => ({
+			language,
+			setLanguage: (language: Language) => setLanguage(language),
+			translations: translations as TranslationStore,
+		}),
+		[language, translations],
+	);
 
 	if (!translations) return null;
 
 	return (
-		<languageContext.Provider
-			value={value}
-		>
+		<languageContext.Provider value={value}>
 			{children}
 		</languageContext.Provider>
 	);
