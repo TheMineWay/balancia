@@ -1,5 +1,5 @@
 import type { WithChildren } from "@common/extended-ui/general/types/component.types";
-import Auth from "@core/auth/session/components/auth";
+import { Auth } from "@core/auth/session/components/auth";
 import { TokenExpiracyModal } from "@core/auth/token/components/token-expiracy-modal";
 import {
 	type AuthContextInfo,
