@@ -3,7 +3,7 @@ import Layout from "@theme/Layout";
 import type { FC } from "react";
 import styles from "./index.module.css";
 
-export const Home: FC = () => {
+const Home: FC = () => {
 	const { siteConfig } = useDocusaurusContext();
 	return (
 		<Layout
@@ -19,3 +19,5 @@ export const Home: FC = () => {
 		</Layout>
 	);
 };
+
+export default Home;
