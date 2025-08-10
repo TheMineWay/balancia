@@ -20,6 +20,7 @@ export default defineConfig({
       "@core": path.resolve(__dirname, "src/core"),
       "@common": path.resolve(__dirname, "src/common"),
       "@fts": path.resolve(__dirname, "src/features"),
+      "@layouts": path.resolve(__dirname, "src/app/layouts"),
       "@assets": path.resolve(__dirname, "src/assets"),
       "@public": path.resolve(__dirname, "public"),
       "@providers": path.resolve(__dirname, "src/app/providers"),

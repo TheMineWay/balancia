@@ -1,4 +1,4 @@
-import ManagerLayout from "@app/layouts/manager/manager-layout";
+import { ADMIN_ROLES_WITH_STATS_QUERY_KEY } from "@core/auth/role/manager/api/use-admin-roles-with-stats.query";
 import { useRoleDeleteMutation } from "@core/auth/role/manager/api/use-role-delete.mutation";
 import { RoleCreateManager } from "@core/auth/role/manager/components/role-create-manager";
 import { RolePermissionAssign } from "@core/auth/role/manager/components/role-permission-assign";
@@ -6,16 +6,22 @@ import { RoleUpdateManager } from "@core/auth/role/manager/components/role-updat
 import { RoleUsersManager } from "@core/auth/role/manager/components/role-users-manager";
 import { RolesTable } from "@core/auth/role/manager/components/roles-table";
 import { useTranslation } from "@i18n/use-translation";
-import { Button, Drawer, ScrollArea, Text } from "@mantine/core";
+import { ManagerLayout } from "@layouts/manager/manager.layout";
+import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
+import { TableLayout } from "@layouts/table/table.layout";
+import { ActionIcon, Button, Drawer, ScrollArea, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { RoleModel } from "@shared/models";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { IoAddOutline, IoTrash } from "react-icons/io5";
+import { IoAddOutline, IoReload, IoTrash } from "react-icons/io5";
 
 export const RoleManager: FC = () => {
 	const { t, interpolated } = useTranslation("role");
 	const { t: commonT } = useTranslation("common");
+
+	const queryClient = useQueryClient();
 
 	const { mutate: deleteRole } = useRoleDeleteMutation();
 	const [createOpened, { open, close }] = useDisclosure(false);
@@ -47,24 +53,43 @@ export const RoleManager: FC = () => {
 
 	return (
 		<>
-			<ManagerLayout.Main>
-				{/* Main actions */}
-				<ManagerLayout.Actions>
-					<Button leftSection={<IoAddOutline />} onClick={open}>
-						{t().admin.managers.create.Action}
-					</Button>
-				</ManagerLayout.Actions>
+			<ManagerLayout.Root>
+				<ManagerLayout.Content>
+					{/* Table */}
+					<TableLayout.Root>
+						{/* Table actions */}
+						<TableLayout.Actions>
+							<ActionsLayout.Row>
+								<Button leftSection={<IoAddOutline />} onClick={open}>
+									{t().admin.managers.create.Action}
+								</Button>
+							</ActionsLayout.Row>
+							<ActionsLayout.Row>
+								<ActionIcon
+									aria-label={commonT().expressions.Reload}
+									onClick={() =>
+										queryClient.invalidateQueries({
+											queryKey: ADMIN_ROLES_WITH_STATS_QUERY_KEY(),
+										})
+									}
+								>
+									<IoReload />
+								</ActionIcon>
+							</ActionsLayout.Row>
+						</TableLayout.Actions>
 
-				{/* Table */}
-				<ManagerLayout.View>
-					<RolesTable
-						onEditClick={setSelectedToEditRole}
-						onUserAssignClick={setSelectedToManageUsersRole}
-						onDeleteClick={onDeleteClick}
-						onPermissionAssignClick={setSelectedToAssignPermissionsRole}
-					/>
-				</ManagerLayout.View>
-			</ManagerLayout.Main>
+						{/* Table component */}
+						<TableLayout.Table>
+							<RolesTable
+								onEditClick={setSelectedToEditRole}
+								onUserAssignClick={setSelectedToManageUsersRole}
+								onDeleteClick={onDeleteClick}
+								onPermissionAssignClick={setSelectedToAssignPermissionsRole}
+							/>
+						</TableLayout.Table>
+					</TableLayout.Root>
+				</ManagerLayout.Content>
+			</ManagerLayout.Root>
 
 			<Drawer
 				position="right"
