@@ -12,6 +12,5 @@ export const getOidcUserManager = () => { const manager = new UserManager({
 	userStore: new WebStorageStateStore({ store: window.localStorage }),
 });
 
-console.log('created OIDC manager instance')
 return manager;
 }
