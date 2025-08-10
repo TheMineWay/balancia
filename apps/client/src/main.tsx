@@ -23,7 +23,7 @@ WebWarehouse.setConnector(WAREHOUSES.ls, new LocalStorageConnector());
 
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
-		<div className="h-screen w-screen bg-gray-300">
+		<div className="h-full w-screen bg-gray-300">
 			<Providers>
 				<RouterProvider router={router} />
 			</Providers>
