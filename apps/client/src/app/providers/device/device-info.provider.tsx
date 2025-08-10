@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 type Props = WithChildren;
 
-export default function DeviceInfoProvider({ children }: Readonly<Props>) {
+export const DeviceInfoProvider: FC<Props> = ({ children }) => {
 	// States
 	const [windowSizeInfo, setWindowSizeInfo] = useState<
 		Pick<Window, "innerWidth" | "innerHeight">
@@ -47,4 +47,4 @@ export default function DeviceInfoProvider({ children }: Readonly<Props>) {
 			{children}
 		</deviceInfoContext.Provider>
 	);
-}
+};

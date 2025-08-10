@@ -3,7 +3,7 @@ import { Card } from "@mantine/core";
 import clsx from "clsx";
 import styles from "./auth.module.pcss";
 
-export default function Auth() {
+export const Auth: FC = () => {
 	return (
 		<div className="w-full h-full flex items-center justify-center">
 			<div
@@ -20,4 +20,4 @@ export default function Auth() {
 			</div>
 		</div>
 	);
-}
+};

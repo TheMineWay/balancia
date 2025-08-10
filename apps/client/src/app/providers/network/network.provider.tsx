@@ -3,8 +3,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
-export default function NetworkProvider({ children }: Readonly<WithChildren>) {
+export const NetworkProvider: FC<WithChildren> = ({ children }) => {
 	return (
 		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 	);
-}
+};

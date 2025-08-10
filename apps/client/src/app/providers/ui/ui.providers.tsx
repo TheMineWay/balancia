@@ -7,7 +7,7 @@ import "@mantine/notifications/styles.css";
 import { useLocalConfig } from "@providers/config/local-config.context";
 import { useMemo } from "react";
 
-export default function UIProviders({ children }: Readonly<WithChildren>) {
+export const UIProviders: FC<WithChildren> = ({ children }) => {
 	const {
 		config: { theme: themeConfig },
 	} = useLocalConfig();
@@ -28,4 +28,4 @@ export default function UIProviders({ children }: Readonly<WithChildren>) {
 			</ModalsProvider>
 		</MantineProvider>
 	);
-}
+};

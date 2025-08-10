@@ -1,5 +1,5 @@
 import type { WithChildren } from "@common/extended-ui/general/types/component.types";
-import Auth from "@core/auth/session/components/auth";
+import { Auth } from "@core/auth/session/components/auth";
 import { TokenExpiracyModal } from "@core/auth/token/components/token-expiracy-modal";
 import {
 	type AuthContextInfo,
@@ -10,7 +10,7 @@ import { OIDC_USER_SCHEMA } from "@shared/models";
 import type { UserManager } from "oidc-client-ts";
 import { useEffect, useState } from "react";
 
-export default function AuthProvider({ children }: Readonly<WithChildren>) {
+export const AuthProvider: FC<WithChildren> = ({ children }) => {
 	const [contextState, setContextState] = useState<AuthContextInfo | null>();
 	const { manager } = useOidc();
 
@@ -30,7 +30,7 @@ export default function AuthProvider({ children }: Readonly<WithChildren>) {
 			<TokenExpiracyModal />
 		</authContext.Provider>
 	);
-}
+};
 
 const readCurrentAuthData = async (
 	manager: UserManager,
