@@ -12,50 +12,74 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 
+const SysLazyRouteImport = createFileRoute('/sys')()
 const IndexLazyRouteImport = createFileRoute('/')()
+const SysIndexLazyRouteImport = createFileRoute('/sys/')()
 const SysRoleIndexLazyRouteImport = createFileRoute('/sys/role/')()
 
+const SysLazyRoute = SysLazyRouteImport.update({
+  id: '/sys',
+  path: '/sys',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/sys.lazy').then((d) => d.Route))
 const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+const SysIndexLazyRoute = SysIndexLazyRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SysLazyRoute,
+} as any).lazy(() => import('./routes/sys/index.lazy').then((d) => d.Route))
 const SysRoleIndexLazyRoute = SysRoleIndexLazyRouteImport.update({
-  id: '/sys/role/',
-  path: '/sys/role/',
-  getParentRoute: () => rootRouteImport,
+  id: '/role/',
+  path: '/role/',
+  getParentRoute: () => SysLazyRoute,
 } as any).lazy(() =>
   import('./routes/sys/role/index.lazy').then((d) => d.Route),
 )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/sys': typeof SysLazyRouteWithChildren
+  '/sys/': typeof SysIndexLazyRoute
   '/sys/role': typeof SysRoleIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/sys': typeof SysIndexLazyRoute
   '/sys/role': typeof SysRoleIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
+  '/sys': typeof SysLazyRouteWithChildren
+  '/sys/': typeof SysIndexLazyRoute
   '/sys/role/': typeof SysRoleIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sys/role'
+  fullPaths: '/' | '/sys' | '/sys/' | '/sys/role'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sys/role'
-  id: '__root__' | '/' | '/sys/role/'
+  to: '/' | '/sys' | '/sys/role'
+  id: '__root__' | '/' | '/sys' | '/sys/' | '/sys/role/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  SysRoleIndexLazyRoute: typeof SysRoleIndexLazyRoute
+  SysLazyRoute: typeof SysLazyRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sys': {
+      id: '/sys'
+      path: '/sys'
+      fullPath: '/sys'
+      preLoaderRoute: typeof SysLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -63,19 +87,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sys/': {
+      id: '/sys/'
+      path: '/'
+      fullPath: '/sys/'
+      preLoaderRoute: typeof SysIndexLazyRouteImport
+      parentRoute: typeof SysLazyRoute
+    }
     '/sys/role/': {
       id: '/sys/role/'
-      path: '/sys/role'
+      path: '/role'
       fullPath: '/sys/role'
       preLoaderRoute: typeof SysRoleIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof SysLazyRoute
     }
   }
 }
 
+interface SysLazyRouteChildren {
+  SysIndexLazyRoute: typeof SysIndexLazyRoute
+  SysRoleIndexLazyRoute: typeof SysRoleIndexLazyRoute
+}
+
+const SysLazyRouteChildren: SysLazyRouteChildren = {
+  SysIndexLazyRoute: SysIndexLazyRoute,
+  SysRoleIndexLazyRoute: SysRoleIndexLazyRoute,
+}
+
+const SysLazyRouteWithChildren =
+  SysLazyRoute._addFileChildren(SysLazyRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  SysRoleIndexLazyRoute: SysRoleIndexLazyRoute,
+  SysLazyRoute: SysLazyRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,10 +1,13 @@
 import { UserActionsAvatar } from "@core/auth/user/components/avatar/user-actions-avatar";
+import { Protected } from "@core/permission/components/protected";
 import { NavigationLayout } from "@layouts/navigation/navigation.layout";
-import { ActionIcon } from "@mantine/core";
+import { ActionIcon, Group } from "@mantine/core";
 import { useUserInfo } from "@providers/auth/user-info.context";
+import { Permission } from "@shared/models";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { FaHome } from "react-icons/fa";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 const MyAvatar: FC = () => {
 	const { user } = useUserInfo();
@@ -16,11 +19,20 @@ const MyAvatar: FC = () => {
  */
 const Navigator: FC = () => {
 	return (
-		<Link to="/">
-			<ActionIcon variant="outline">
-				<FaHome />
-			</ActionIcon>
-		</Link>
+		<Group gap="xs">
+			<Link to="/">
+				<ActionIcon variant="outline">
+					<FaHome />
+				</ActionIcon>
+			</Link>
+			<Protected condition={{ type: 'simple', permissions: [Permission.ADMIN] }}>
+				<Link to="/sys">
+					<ActionIcon variant="outline">
+						<MdAdminPanelSettings />
+					</ActionIcon>
+				</Link>
+			</Protected>
+		</Group>
 	);
 };
 
