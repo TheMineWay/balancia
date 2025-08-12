@@ -1,5 +1,6 @@
 import { UserActionsAvatar } from "@core/auth/user/components/avatar/user-actions-avatar";
 import { Protected } from "@core/permission/components/protected";
+import { ThemeSwitch } from "@core/theme/components/theme-switch";
 import { NavigationLayout } from "@layouts/navigation/navigation.layout";
 import { ActionIcon, Group } from "@mantine/core";
 import { useUserInfo } from "@providers/auth/user-info.context";
@@ -44,7 +45,10 @@ export const Route = createRootRoute({
 			<NavigationLayout.Root>
 				<NavigationLayout.Navbar>
 					<Navigator />
-					<MyAvatar />
+					<div className="flex gap-4 items-center">
+						<ThemeSwitch/>
+						<MyAvatar />
+					</div>
 				</NavigationLayout.Navbar>
 				<NavigationLayout.Content>
 					<Outlet />
