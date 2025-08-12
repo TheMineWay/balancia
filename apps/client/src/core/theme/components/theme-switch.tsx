@@ -18,5 +18,5 @@ export const ThemeSwitch: FC = () => {
         })
     }, [config, theme, setConfig]);
 
-    return <Switch onLabel={<BiSun size={14}/>} offLabel={<BiMoon size={14}/>} checked={theme.colorScheme === 'dark'} onChange={(e) => onThemeChange(e.target.checked ? 'dark' : 'light')} />;
+    return <Switch offLabel={<BiSun size={14}/>} onLabel={<BiMoon size={14}/>} checked={theme.colorScheme === 'dark'} onChange={(e) => onThemeChange(e.target.checked ? 'dark' : 'light')} />;
 }
