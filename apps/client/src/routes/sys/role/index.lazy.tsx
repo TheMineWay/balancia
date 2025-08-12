@@ -6,6 +6,5 @@ export const Route = createLazyFileRoute("/sys/role/")({
 });
 
 function RouteComponent() {
-
 	return <RoleManager />;
 }

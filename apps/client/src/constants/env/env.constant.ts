@@ -26,6 +26,7 @@ const ENV_SCHEMA = z
 
 		// AUTH
 		VITE_AUTH_AUTHORITY_URL: z.url(),
+		VITE_AUTH_PROFILE_URL: z.url().optional(),
 		VITE_AUTH_CLIENT_ID: z.string(),
 		VITE_AUTH_REDIRECT_SLUG: z.string().default("auth"),
 		VITE_AUTH_RESPONSE_TYPE: z.string().default("code"),
@@ -72,6 +73,7 @@ export const ENV = (() => {
 		},
 		auth: {
 			authorityUrl: values.VITE_AUTH_AUTHORITY_URL,
+			profileUrl: values.VITE_AUTH_PROFILE_URL,
 			clientId: values.VITE_AUTH_CLIENT_ID,
 			redirectSlug: values.VITE_AUTH_REDIRECT_SLUG,
 			responseType: values.VITE_AUTH_RESPONSE_TYPE,

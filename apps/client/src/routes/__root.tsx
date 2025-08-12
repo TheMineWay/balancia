@@ -25,7 +25,9 @@ const Navigator: FC = () => {
 					<FaHome />
 				</ActionIcon>
 			</Link>
-			<Protected condition={{ type: 'simple', permissions: [Permission.ADMIN] }}>
+			<Protected
+				condition={{ type: "simple", permissions: [Permission.ADMIN] }}
+			>
 				<Link to="/sys">
 					<ActionIcon variant="outline">
 						<MdAdminPanelSettings />

@@ -1,16 +1,16 @@
-import { useProtection } from '@core/permission/hooks/use-protection';
-import { Permission } from '@shared/models';
-import { createLazyFileRoute, Outlet } from '@tanstack/react-router';
+import { useProtection } from "@core/permission/hooks/use-protection";
+import { Permission } from "@shared/models";
+import { createLazyFileRoute, Outlet } from "@tanstack/react-router";
 
-export const Route = createLazyFileRoute('/sys')({
-  component: RouteComponent,
-})
+export const Route = createLazyFileRoute("/sys")({
+	component: RouteComponent,
+});
 
 function RouteComponent() {
-  useProtection({
+	useProtection({
 		condition: { type: "simple", permissions: [Permission.ADMIN] },
 		routeProtection: true,
-	})
+	});
 
-  return <Outlet />
+	return <Outlet />;
 }
