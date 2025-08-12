@@ -1,0 +1,10 @@
+{
+    "page": {
+        "Title": "Admin dashboard",
+        "links": {
+            "role-manager": {
+                "Label": "Roles manager"
+            }
+        }
+    }
+}

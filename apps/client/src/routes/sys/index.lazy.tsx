@@ -1,3 +1,4 @@
+import { AdminDashboard } from "@core/admin/dashboard/components/admin-dashboard";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/sys/")({
@@ -5,5 +6,5 @@ export const Route = createLazyFileRoute("/sys/")({
 });
 
 function RouteComponent() {
-	return <div>Hello "/sys/"!</div>;
+	return <AdminDashboard/>;
 }
