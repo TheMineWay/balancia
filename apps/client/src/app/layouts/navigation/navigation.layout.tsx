@@ -11,11 +11,13 @@ const Content: FC<WithChildren> = ({ children }) => {
 
 const Navbar: FC<WithChildren> = ({ children }) => {
 	return (
-		<Container>
-			<div className="flex flex-wrap justify-between items-center gap-4 mt-2">
-				{children}
-			</div>
-		</Container>
+		<div className="bg-white p-2">
+			<Container>
+				<div className="flex flex-wrap justify-between items-center gap-4">
+					{children}
+				</div>
+			</Container>
+		</div>
 	);
 };
 
