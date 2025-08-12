@@ -2,7 +2,7 @@ import type { WithChildren } from "@common/extended-ui/general/types/component.t
 import { Container } from "@layouts/container/container";
 
 const Root: FC<WithChildren> = ({ children }) => {
-	return <nav className="flex flex-col gap-6">{children}</nav>;
+	return <nav className="flex flex-col gap-4">{children}</nav>;
 };
 
 const Content: FC<WithChildren> = ({ children }) => {
