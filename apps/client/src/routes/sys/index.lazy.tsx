@@ -6,5 +6,5 @@ export const Route = createLazyFileRoute("/sys/")({
 });
 
 function RouteComponent() {
-	return <AdminDashboard/>;
+	return <AdminDashboard />;
 }

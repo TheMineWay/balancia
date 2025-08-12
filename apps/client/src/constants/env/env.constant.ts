@@ -19,38 +19,37 @@ const COLORS = [
 	"gold",
 ] as const;
 
-const ENV_SCHEMA = z
-	.object({
-		VITE_BASE_URL: z.url(),
-		VITE_API_HOST: z.url(),
+const ENV_SCHEMA = z.object({
+	VITE_BASE_URL: z.url(),
+	VITE_API_HOST: z.url(),
 
-		// AUTH
-		VITE_AUTH_AUTHORITY_URL: z.url(),
-		VITE_AUTH_PROFILE_URL: z.url().optional(),
-		VITE_AUTH_CLIENT_ID: z.string(),
-		VITE_AUTH_REDIRECT_SLUG: z.string().default("auth"),
-		VITE_AUTH_RESPONSE_TYPE: z.string().default("code"),
-		VITE_AUTH_SCOPE: z.string().default("openid profile email"),
-		VITE_AUTH_POST_LOGOUT_REDIRECT_URI: z.url().default("/"),
-		VITE_AUTH_UI_PROVIDER_NAME: z.string().default("SSO"),
-		VITE_AUTH_UI_PROVIDER_COLOR: z.enum(COLORS).optional().default("default"),
-		VITE_AUTH_UI_PROVIDER_ICON_URL: z.string().nullable().default(null),
+	// AUTH
+	VITE_AUTH_AUTHORITY_URL: z.url(),
+	VITE_AUTH_PROFILE_URL: z.url().optional(),
+	VITE_AUTH_CLIENT_ID: z.string(),
+	VITE_AUTH_REDIRECT_SLUG: z.string().default("auth"),
+	VITE_AUTH_RESPONSE_TYPE: z.string().default("code"),
+	VITE_AUTH_SCOPE: z.string().default("openid profile email"),
+	VITE_AUTH_POST_LOGOUT_REDIRECT_URI: z.url().default("/"),
+	VITE_AUTH_UI_PROVIDER_NAME: z.string().default("SSO"),
+	VITE_AUTH_UI_PROVIDER_COLOR: z.enum(COLORS).optional().default("default"),
+	VITE_AUTH_UI_PROVIDER_ICON_URL: z.string().nullable().default(null),
 
-		// USER
-		VITE_USER_INFO_STALE_TIME: z
-			.string()
-			.transform((val) => Number(val))
-			.default(1000 * 60 * 15), // 15 minutes
+	// USER
+	VITE_USER_INFO_STALE_TIME: z
+		.string()
+		.transform((val) => Number(val))
+		.default(1000 * 60 * 15), // 15 minutes
 
-		// DEFAULT
-		NODE_ENV: z
-			.union([
-				z.literal("development"),
-				z.literal("production"),
-				z.literal("test"),
-			])
-			.default("production"),
-	});
+	// DEFAULT
+	NODE_ENV: z
+		.union([
+			z.literal("development"),
+			z.literal("production"),
+			z.literal("test"),
+		])
+		.default("production"),
+});
 
 const TEST_VALUES: Partial<z.infer<typeof ENV_SCHEMA>> = {
 	VITE_API_HOST: "http://localhost:3001",

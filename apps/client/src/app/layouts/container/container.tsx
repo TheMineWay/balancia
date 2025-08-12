@@ -6,5 +6,7 @@ type Props = WithChildren & {
 };
 
 export const Container: FC<Props> = ({ children, className }) => {
-	return <div className={clsx("px-2 mx-auto container", className)}>{children}</div>;
+	return (
+		<div className={clsx("px-2 mx-auto container", className)}>{children}</div>
+	);
 };

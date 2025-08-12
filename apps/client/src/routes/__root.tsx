@@ -41,12 +41,12 @@ const Navigator: FC = () => {
 
 export const Route = createRootRoute({
 	component: () => (
-		<main>
+		<>
 			<NavigationLayout.Root>
 				<NavigationLayout.Navbar>
 					<Navigator />
 					<div className="flex gap-4 items-center">
-						<ThemeSwitch/>
+						<ThemeSwitch />
 						<MyAvatar />
 					</div>
 				</NavigationLayout.Navbar>
@@ -55,6 +55,6 @@ export const Route = createRootRoute({
 				</NavigationLayout.Content>
 			</NavigationLayout.Root>
 			<TanStackRouterDevtools />
-		</main>
+		</>
 	),
 });

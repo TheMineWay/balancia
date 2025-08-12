@@ -44,7 +44,10 @@ const HeadersComponent = <TData extends TableValue>({
 	return (
 		<MTable.Tr>
 			{columns.map((column, i) => (
-				<MTable.Th key={(column.accessorKey as string) ?? i} style={{ textAlign: 'center' }}>
+				<MTable.Th
+					key={(column.accessorKey as string) ?? i}
+					style={{ textAlign: "center" }}
+				>
 					<Text>{column.label}</Text>
 				</MTable.Th>
 			))}
@@ -74,18 +77,27 @@ const Row = <TData extends TableValue>({
 				const value = column.accessorKey ? item[column.accessorKey] : null;
 
 				// Custom render or default rendering
-				const content = column.render ? column.render(item) : <Text>{`${value}`}</Text>;
+				const content = column.render ? (
+					column.render(item)
+				) : (
+					<Text>{`${value}`}</Text>
+				);
 
 				return (
 					<MTable.Td
 						className={column.classNames?.cell}
 						style={{
-							minWidth: '7rem',
+							minWidth: "7rem",
 							...column.styles?.cell,
 						}}
 						key={(column.accessorKey as string) ?? i}
 					>
-						<div className={column.classNames?.cellContent ?? "flex justify-center"} style={column.styles?.cellContent}>
+						<div
+							className={
+								column.classNames?.cellContent ?? "flex justify-center"
+							}
+							style={column.styles?.cellContent}
+						>
 							{content}
 						</div>
 					</MTable.Td>
