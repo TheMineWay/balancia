@@ -4,12 +4,16 @@
 	font-family: "Inter", sans-serif;
 	font-size: 14px;
 	color: #1a1b1e;
-	background-color: white;
 	border-radius: 8px;
+	background-color: var(--mantine-color-body);
+
+	& > * {
+		color: var(--mantine-color-text);
+	}
 }
 
 .table thead {
-	background-color: #f8f9fa;
+	background-color: var(--mantine-color-gray-filled);
 	text-align: left;
 }
 
@@ -20,7 +24,7 @@
 }
 
 .table tbody tr:hover {
-	background-color: #f1f3f5;
+	background-color: var(--mantine-color-default-hover);
 }
 
 .table tbody tr:last-child td {

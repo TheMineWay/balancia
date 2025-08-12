@@ -1,7 +1,7 @@
 import type { UseTable } from "@common/extended-ui/table/hooks/use-table";
 import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
 import type { TableValue } from "@common/extended-ui/table/types/table-value.type";
-import { Table as MTable } from "@mantine/core";
+import { Table as MTable, Text } from "@mantine/core";
 import { memo, type ReactNode } from "react";
 import styles from "./table.module.pcss";
 
@@ -45,7 +45,7 @@ const HeadersComponent = <TData extends TableValue>({
 		<MTable.Tr>
 			{columns.map((column, i) => (
 				<MTable.Th key={(column.accessorKey as string) ?? i} style={{ textAlign: 'center' }}>
-					{column.label}
+					<Text>{column.label}</Text>
 				</MTable.Th>
 			))}
 		</MTable.Tr>
@@ -74,7 +74,7 @@ const Row = <TData extends TableValue>({
 				const value = column.accessorKey ? item[column.accessorKey] : null;
 
 				// Custom render or default rendering
-				const content = column.render ? column.render(item) : <>{`${value}`}</>;
+				const content = column.render ? column.render(item) : <Text>{`${value}`}</Text>;
 
 				return (
 					<MTable.Td
