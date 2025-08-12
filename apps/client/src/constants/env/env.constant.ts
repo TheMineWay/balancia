@@ -31,9 +31,12 @@ const ENV_SCHEMA = z.object({
 	VITE_AUTH_RESPONSE_TYPE: z.string().default("code"),
 	VITE_AUTH_SCOPE: z.string().default("openid profile email"),
 	VITE_AUTH_POST_LOGOUT_REDIRECT_URI: z.url().default("/"),
+
+	// AUTH -> UI
 	VITE_AUTH_UI_PROVIDER_NAME: z.string().default("SSO"),
 	VITE_AUTH_UI_PROVIDER_COLOR: z.enum(COLORS).optional().default("default"),
 	VITE_AUTH_UI_PROVIDER_ICON_URL: z.string().nullable().default(null),
+	VITE_AUTH_UI_PROVIDER_LOGO_URL: z.url().optional(),
 
 	// USER
 	VITE_USER_INFO_STALE_TIME: z
@@ -80,6 +83,7 @@ export const ENV = (() => {
 			ui: {
 				providerName: values.VITE_AUTH_UI_PROVIDER_NAME,
 				providerColor: values.VITE_AUTH_UI_PROVIDER_COLOR,
+				logo: values.VITE_AUTH_UI_PROVIDER_LOGO_URL
 			},
 		},
 		user: {
