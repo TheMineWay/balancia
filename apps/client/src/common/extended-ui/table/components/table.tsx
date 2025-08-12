@@ -16,7 +16,7 @@ export const Table = <TData extends TableValue>({
 
 	return (
 		<div className="overflow-x-scroll">
-			<MTable className={styles.table}>
+			<MTable className={styles.table} withColumnBorders>
 				<MTable.Thead>
 					<Headers<TData> columns={columns} />
 				</MTable.Thead>
