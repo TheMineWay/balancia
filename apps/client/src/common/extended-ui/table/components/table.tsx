@@ -15,14 +15,16 @@ export const Table = <TData extends TableValue>({
 	const { columns } = table;
 
 	return (
-		<MTable className={styles.table}>
-			<MTable.Thead>
-				<Headers<TData> columns={columns} />
-			</MTable.Thead>
-			<MTable.Tbody>
-				<Rows<TData> table={table} />
-			</MTable.Tbody>
-		</MTable>
+		<div className="overflow-x-scroll">
+			<MTable className={styles.table}>
+				<MTable.Thead>
+					<Headers<TData> columns={columns} />
+				</MTable.Thead>
+				<MTable.Tbody>
+					<Rows<TData> table={table} />
+				</MTable.Tbody>
+			</MTable>
+		</div>
 	);
 };
 

@@ -56,6 +56,7 @@ export const RolesTable: FC<Props> = ({
 			},
 			{
 				label: commonT().expressions.Actions,
+				styles: { cell: {minWidth: '12rem'} },
 				render: (row) => (
 					<Group gap="sm">
 						{onEditClick && (
