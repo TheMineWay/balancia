@@ -14,6 +14,7 @@ export type TableColumn<
 /* Internal types */
 type Stylings<T extends CSSProperties | string> = {
 	cell?: T;
+	cellContent?: T;
 };
 
 type Styles = Stylings<CSSProperties>;
