@@ -79,7 +79,10 @@ const Row = <TData extends TableValue>({
 				return (
 					<MTable.Td
 						className={column.classNames?.cell}
-						style={column.styles?.cell}
+						style={{
+							minWidth: '7rem',
+							...column.styles?.cell,
+						}}
 						key={(column.accessorKey as string) ?? i}
 					>
 						{content}
