@@ -50,8 +50,7 @@ const ENV_SCHEMA = z
 				z.literal("test"),
 			])
 			.default("production"),
-	})
-	.required();
+	});
 
 const TEST_VALUES: Partial<z.infer<typeof ENV_SCHEMA>> = {
 	VITE_API_HOST: "http://localhost:3001",

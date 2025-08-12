@@ -26,15 +26,6 @@ export const UserActionsAvatar: FC<Props> = ({ user }) => {
 			</Menu.Target>
 
 			<Menu.Dropdown>
-				{/* Auth actions */}
-				<Menu.Item
-					color="red"
-					leftSection={isLoggingOut ? <Loader size="sm" /> : <BiLogOut />}
-					onClick={() => logout()}
-				>
-					{t().actions.Logout}
-				</Menu.Item>
-
 				{/* Profile */}
 				{ENV.auth.profileUrl && (
 					<a target="_blank" href={ENV.auth.profileUrl}>
@@ -43,6 +34,15 @@ export const UserActionsAvatar: FC<Props> = ({ user }) => {
 						</Menu.Item>
 					</a>
 				)}
+
+				{/* Auth actions */}
+				<Menu.Item
+					color="red"
+					leftSection={isLoggingOut ? <Loader size="sm" /> : <BiLogOut />}
+					onClick={() => logout()}
+				>
+					{t().actions.Logout}
+				</Menu.Item>
 			</Menu.Dropdown>
 		</Menu>
 	);
