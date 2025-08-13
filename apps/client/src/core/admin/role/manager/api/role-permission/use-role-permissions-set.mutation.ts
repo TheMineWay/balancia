@@ -1,23 +1,26 @@
-import { ADMIN_ROLES_WITH_STATS_QUERY_KEY } from "@core/auth/role/manager/api/use-admin-roles-with-stats.query";
+import { USE_ROLE_PERMISSIONS_QUERY_KEY } from "@core/admin/role/manager/api/role-permission/use-role-permissions.query";
 import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authenticated-request.util";
 import { endpointMutation } from "@core/requests/lib/endpoint-mutation.util";
 import { ADMIN_ROLE_CONTROLLER } from "@shared/api-definition";
+import type { RoleModel } from "@shared/models";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useRoleUpdateMutation = (roleId: number) => {
+export const useRolePermissionsSetMutation = (roleId: RoleModel["id"]) => {
 	const { request } = useAuthenticatedRequest();
 	const queryClient = useQueryClient();
 
 	return useMutation({
 		mutationFn: endpointMutation(
 			ADMIN_ROLE_CONTROLLER,
-			"update",
-			{ roleId: roleId.toString() },
+			"set-role-permissions",
+			{
+				roleId: roleId.toString(),
+			},
 			request,
 		),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: ADMIN_ROLES_WITH_STATS_QUERY_KEY(),
+				queryKey: USE_ROLE_PERMISSIONS_QUERY_KEY({ roleId }),
 			});
 		},
 	});

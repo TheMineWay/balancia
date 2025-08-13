@@ -1,10 +1,10 @@
-import { ADMIN_ROLES_WITH_STATS_QUERY_KEY } from "@core/auth/role/manager/api/use-admin-roles-with-stats.query";
-import { useRoleDeleteMutation } from "@core/auth/role/manager/api/use-role-delete.mutation";
-import { RoleCreateManager } from "@core/auth/role/manager/components/role-create-manager";
-import { RolePermissionAssign } from "@core/auth/role/manager/components/role-permission-assign";
-import { RoleUpdateManager } from "@core/auth/role/manager/components/role-update-manager";
-import { RoleUsersManager } from "@core/auth/role/manager/components/role-users-manager";
-import { RolesTable } from "@core/auth/role/manager/components/roles-table";
+import { ADMIN_ROLES_WITH_STATS_QUERY_KEY } from "@core/admin/role/manager/api/use-admin-roles-with-stats.query";
+import { useRoleDeleteMutation } from "@core/admin/role/manager/api/use-role-delete.mutation";
+import { RoleCreateManager } from "@core/admin/role/manager/components/role-create-manager";
+import { RolePermissionAssign } from "@core/admin/role/manager/components/role-permission-assign";
+import { RoleUpdateManager } from "@core/admin/role/manager/components/role-update-manager";
+import { RoleUsersManager } from "@core/admin/role/manager/components/role-users-manager";
+import { RolesTable } from "@core/admin/role/manager/components/roles-table";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";

@@ -1,6 +1,6 @@
 import { SelectSearch } from "@common/extended-ui/form/components/search/select-search";
 import { useDebouncedSearch } from "@common/extended-ui/form/components/search/use-debounced-search";
-import { useRoleUserAssignMutation } from "@core/auth/role/manager/api/role-user/use-role-user-assign.mutation";
+import { useRoleUserAssignMutation } from "@core/admin/role/manager/api/role-user/use-role-user-assign.mutation";
 import { useAdminUserListQuery } from "@core/auth/user/api/use-admin-user-list.query";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useTranslation } from "@i18n/use-translation";

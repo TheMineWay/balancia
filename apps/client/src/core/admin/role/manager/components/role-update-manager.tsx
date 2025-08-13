@@ -1,5 +1,5 @@
-import { useRoleUpdateMutation } from "@core/auth/role/manager/api/use-role-update.mutation";
-import { RoleForm } from "@core/auth/role/manager/components/forms/role-form";
+import { useRoleUpdateMutation } from "@core/admin/role/manager/api/use-role-update.mutation";
+import { RoleForm } from "@core/admin/role/manager/components/forms/role-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "@i18n/use-translation";
 import {

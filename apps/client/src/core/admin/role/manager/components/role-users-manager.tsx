@@ -2,9 +2,9 @@ import { DebouncedSearch } from "@common/extended-ui/form/components/search/debo
 import { useDebouncedSearch } from "@common/extended-ui/form/components/search/use-debounced-search";
 import List from "@common/extended-ui/list/components/list";
 import { UserCard } from "@common/extended-ui/user/components/user-card";
-import { useRoleUserUnassignMutation } from "@core/auth/role/manager/api/role-user/use-role-user-unassign.mutation";
-import { useRoleUsersListQuery } from "@core/auth/role/manager/api/role-user/use-role-users-list.query";
-import { RoleUserAssign } from "@core/auth/role/manager/components/role-user-assign";
+import { useRoleUserUnassignMutation } from "@core/admin/role/manager/api/role-user/use-role-user-unassign.mutation";
+import { useRoleUsersListQuery } from "@core/admin/role/manager/api/role-user/use-role-users-list.query";
+import { RoleUserAssign } from "@core/admin/role/manager/components/role-user-assign";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Modal, Pagination } from "@mantine/core";
