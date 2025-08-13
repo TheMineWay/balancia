@@ -152,7 +152,7 @@ const Status = <TData extends TableValue>({
 	table,
 }: WithChildren & { table: UseTable<TData> }) => {
 	return (
-		<MTable.Tr className={clsx(styles.status, 'h-40')} aria-hidden>
+		<MTable.Tr className={clsx(styles.status, "h-40")} aria-hidden>
 			<MTable.Td colSpan={table.columns.length}>
 				<div className="flex items-center justify-center h-full">
 					{children}

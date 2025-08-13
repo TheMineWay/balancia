@@ -43,20 +43,22 @@ const Navigator: FC = () => {
  * Contains options shown in the Admin section
  */
 const AdminMenu: FC = () => {
-	const { t } = useTranslation('admin');
+	const { t } = useTranslation("admin");
 
 	return (
 		<Menu trigger="hover">
 			<Menu.Target>
-				<Button variant="subtle" leftSection={<MdAdminPanelSettings />}>{t()["nav-actions"].Label}</Button>
+				<Button variant="subtle" leftSection={<MdAdminPanelSettings />}>
+					{t()["nav-actions"].Label}
+				</Button>
 			</Menu.Target>
 
 			<Menu.Dropdown>
-				<Menu.Item leftSection={<MdDashboard />}>
-					<Link to="/sys">
+				<Link to="/sys">
+					<Menu.Item leftSection={<MdDashboard />}>
 						<Text>{t()["nav-actions"].children.dashboard.Label}</Text>
-					</Link>
-				</Menu.Item>
+					</Menu.Item>
+				</Link>
 			</Menu.Dropdown>
 		</Menu>
 	);
