@@ -4,6 +4,7 @@ import type { TableColumn } from "@common/extended-ui/table/types/table-column.t
 import type { TableValue } from "@common/extended-ui/table/types/table-value.type";
 import { useTranslation } from "@i18n/use-translation";
 import { Loader, Table as MTable, Text } from "@mantine/core";
+import clsx from "clsx";
 import { memo, type ReactNode, useMemo } from "react";
 import styles from "./table.module.pcss";
 
@@ -43,7 +44,7 @@ export const Table = <TData extends TableValue>({
 				<MTable.Thead className="h-12">
 					<Headers<TData> columns={columns} />
 				</MTable.Thead>
-				<MTable.Tbody className="h-40">{content}</MTable.Tbody>
+				<MTable.Tbody>{content}</MTable.Tbody>
 			</MTable>
 		</div>
 	);
@@ -151,7 +152,7 @@ const Status = <TData extends TableValue>({
 	table,
 }: WithChildren & { table: UseTable<TData> }) => {
 	return (
-		<MTable.Tr className={styles.status} aria-hidden>
+		<MTable.Tr className={clsx(styles.status, 'h-40')} aria-hidden>
 			<MTable.Td colSpan={table.columns.length}>
 				<div className="flex items-center justify-center h-full">
 					{children}
