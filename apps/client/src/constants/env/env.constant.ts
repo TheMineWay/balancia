@@ -79,6 +79,7 @@ export const ENV = (() => {
 			ui: {
 				providerName: values.VITE_AUTH_UI_PROVIDER_NAME,
 				providerColor: values.VITE_AUTH_UI_PROVIDER_COLOR,
+				icon: values.VITE_AUTH_UI_PROVIDER_ICON_URL,
 				logo: values.VITE_AUTH_UI_PROVIDER_LOGO_URL,
 			},
 		},
