@@ -72,6 +72,7 @@ export const UserActionsAvatar: FC<Props> = ({ user }) => {
 
 			{/* LOCAL CONFIG */}
 			<Modal
+				centered
 				title={
 					<Group gap="xs">
 						<FaGear />
