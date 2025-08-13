@@ -82,7 +82,13 @@ export const UserActionsAvatar: FC<Props> = ({ user }) => {
 				opened={isLocalConfigOpened}
 				onClose={closeLocalConfig}
 			>
-				<Suspense fallback={<Loader />}>
+				<Suspense
+					fallback={
+						<div className="flex h-15 w-full justify-center items-center">
+							<Loader />
+						</div>
+					}
+				>
 					<LocalConfigManager />
 				</Suspense>
 			</Modal>
