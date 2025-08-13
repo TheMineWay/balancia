@@ -1,5 +1,6 @@
 .table {
 	width: 100%;
+
 	border-collapse: collapse;
 	font-family: "Inter", sans-serif;
 	font-size: 14px;
@@ -27,10 +28,18 @@
 	border-bottom: 1px solid #dee2e6;
 }
 
-.table tbody tr:hover {
+.table tbody tr:not(.status):hover {
 	background-color: var(--mantine-color-default-hover);
 }
 
 .table tbody tr:last-child td {
 	border-bottom: none;
+}
+
+html[data-mantine-color-scheme="light"] .table .status {
+	background-color: var(--mantine-color-gray-2);
+}
+
+html[data-mantine-color-scheme="dark"] .table .status {
+	background-color: var(--mantine-color-gray-8);
 }

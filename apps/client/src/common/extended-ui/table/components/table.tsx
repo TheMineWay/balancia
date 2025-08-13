@@ -1,27 +1,36 @@
+import type { WithChildren } from "@common/extended-ui/general/types/component.types";
 import type { UseTable } from "@common/extended-ui/table/hooks/use-table";
 import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
 import type { TableValue } from "@common/extended-ui/table/types/table-value.type";
-import { Table as MTable, Text } from "@mantine/core";
+import { Loader, Table as MTable, Text } from "@mantine/core";
 import { memo, type ReactNode } from "react";
 import styles from "./table.module.pcss";
 
 export type TableProps<TData extends TableValue> = {
 	table: UseTable<TData>;
+	loading?: boolean;
 };
 
 export const Table = <TData extends TableValue>({
 	table,
+	loading = false,
 }: TableProps<TData>): ReactNode => {
 	const { columns } = table;
 
 	return (
 		<div className="overflow-x-scroll">
 			<MTable className={styles.table} withColumnBorders>
-				<MTable.Thead>
+				<MTable.Thead className="h-12">
 					<Headers<TData> columns={columns} />
 				</MTable.Thead>
-				<MTable.Tbody>
-					<Rows<TData> table={table} />
+				<MTable.Tbody className="h-40">
+					{loading ? (
+						<Status<TData> table={table}>
+							<Loader />
+						</Status>
+					) : (
+						<Rows<TData> table={table} />
+					)}
 				</MTable.Tbody>
 			</MTable>
 		</div>
@@ -124,3 +133,16 @@ const RowsComponent = <TData extends TableValue>({
 const Rows = memo(RowsComponent) as <TData extends TableValue>(
 	props: RowsProps<TData>,
 ) => ReactNode;
+
+const Status = <TData extends TableValue>({
+	children,
+	table,
+}: WithChildren & { table: UseTable<TData> }) => {
+	return (
+		<MTable.Tr className={styles.status} aria-hidden>
+			<MTable.Td colSpan={table.columns.length}>
+				<div className="flex items-center justify-center h-full">{children}</div>
+			</MTable.Td>
+		</MTable.Tr>
+	);
+};

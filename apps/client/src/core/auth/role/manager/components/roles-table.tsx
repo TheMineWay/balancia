@@ -29,7 +29,7 @@ export const RolesTable: FC<Props> = ({
 	onPermissionAssignClick,
 	isDeleting = false,
 }) => {
-	const { data: { roles } = {} } = useAdminRolesWithStatsQuery();
+	const { data: { roles } = {}, isLoading: isLoadingRoles } = useAdminRolesWithStatsQuery();
 
 	const { t: commonT } = useTranslation("common");
 	const { t } = useTranslation("role");
@@ -102,5 +102,5 @@ export const RolesTable: FC<Props> = ({
 		],
 		rowKey: "id",
 	});
-	return <Table table={table} />;
+	return <Table table={table} loading={isLoadingRoles} />;
 };
