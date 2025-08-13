@@ -1,7 +1,7 @@
-import { DebouncedSearch } from "@common/extended-ui/form/items/search/debounced-search";
-import { useDebouncedSearch } from "@common/extended-ui/form/items/search/use-debounced-search";
-import List from "@common/extended-ui/list/list";
-import { UserCard } from "@common/extended-ui/user/user-card";
+import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
+import { useDebouncedSearch } from "@common/extended-ui/form/components/search/use-debounced-search";
+import List from "@common/extended-ui/list/components/list";
+import { UserCard } from "@common/extended-ui/user/components/user-card";
 import { useRoleUserUnassignMutation } from "@core/auth/role/manager/api/role-user/use-role-user-unassign.mutation";
 import { useRoleUsersListQuery } from "@core/auth/role/manager/api/role-user/use-role-users-list.query";
 import { RoleUserAssign } from "@core/auth/role/manager/components/role-user-assign";

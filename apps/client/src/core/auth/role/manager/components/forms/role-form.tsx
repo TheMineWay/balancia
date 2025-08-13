@@ -1,4 +1,4 @@
-import { Form } from "@common/extended-ui/form/form";
+import { Form } from "@common/extended-ui/form/components/form";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Input } from "@mantine/core";
 import type { RoleEditablePropsModel } from "@shared/models";

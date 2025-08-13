@@ -1,4 +1,4 @@
-import { UnknownErrorAlert } from "@common/extended-ui/status/unknown-error-alert";
+import { UnknownErrorAlert } from "@common/extended-ui/status/components/unknown-error-alert";
 import { useRolePermissionsSetMutation } from "@core/auth/role/manager/api/role-permission/use-role-permissions-set.mutation";
 import { useRolePermissionsQuery } from "@core/auth/role/manager/api/role-permission/use-role-permissions.query";
 import { useTranslation } from "@i18n/use-translation";
