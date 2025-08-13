@@ -1,22 +1,18 @@
 import { z } from "zod";
 
-const COLORS = [
-	"default",
-	"primary",
-	"danger",
-	"blue",
-	"purple",
-	"cyan",
-	"green",
-	"magenta",
-	"pink",
+export const UI_COLORS = [
 	"red",
-	"orange",
-	"yellow",
-	"volcano",
-	"geekblue",
+	"pink",
+	"grape",
+	"violet",
+	"indigo",
+	"blue",
+	"cyan",
+	"teal",
+	"green",
 	"lime",
-	"gold",
+	"yellow",
+	"orange",
 ] as const;
 
 const ENV_SCHEMA = z.object({
@@ -34,7 +30,7 @@ const ENV_SCHEMA = z.object({
 
 	// AUTH -> UI
 	VITE_AUTH_UI_PROVIDER_NAME: z.string().default("SSO"),
-	VITE_AUTH_UI_PROVIDER_COLOR: z.enum(COLORS).optional().default("default"),
+	VITE_AUTH_UI_PROVIDER_COLOR: z.enum(UI_COLORS).optional(),
 	VITE_AUTH_UI_PROVIDER_ICON_URL: z.string().nullable().default(null),
 	VITE_AUTH_UI_PROVIDER_LOGO_URL: z.url().optional(),
 
@@ -83,7 +79,7 @@ export const ENV = (() => {
 			ui: {
 				providerName: values.VITE_AUTH_UI_PROVIDER_NAME,
 				providerColor: values.VITE_AUTH_UI_PROVIDER_COLOR,
-				logo: values.VITE_AUTH_UI_PROVIDER_LOGO_URL
+				logo: values.VITE_AUTH_UI_PROVIDER_LOGO_URL,
 			},
 		},
 		user: {

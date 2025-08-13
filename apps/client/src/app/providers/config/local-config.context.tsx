@@ -1,3 +1,4 @@
+import { UI_COLORS } from "@constants/env/env.constant";
 import type { ProviderSetter } from "@providers/provider-setter.type";
 import { createContext, useContext } from "react";
 import { z } from "zod";
@@ -5,7 +6,7 @@ import { z } from "zod";
 export const LOCAL_CONFIG_SCHEMA = z.object({
 	theme: z.object({
 		colorScheme: z.enum(["light", "dark"]).optional().default("light"),
-		primaryColor: z.enum(["red", "blue", "grape"]).optional().default("grape"),
+		primaryColor: z.enum(UI_COLORS).optional().default("grape"),
 	}),
 });
 

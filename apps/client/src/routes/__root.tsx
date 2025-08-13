@@ -1,6 +1,6 @@
 import { UserActionsAvatar } from "@core/auth/user/components/avatar/user-actions-avatar";
+import { ThemeSwitch } from "@core/config/local-config/components/theme/theme-switch";
 import { Protected } from "@core/permission/components/protected";
-import { ThemeSwitch } from "@core/theme/components/theme-switch";
 import { NavigationLayout } from "@layouts/navigation/navigation.layout";
 import { ActionIcon, Group } from "@mantine/core";
 import { useUserInfo } from "@providers/auth/user-info.context";
@@ -21,11 +21,14 @@ const MyAvatar: FC = () => {
 const Navigator: FC = () => {
 	return (
 		<Group gap="xs">
+			{/* HOME */}
 			<Link to="/">
 				<ActionIcon variant="outline">
 					<FaHome />
 				</ActionIcon>
 			</Link>
+
+			{/* ADMIN DASHBOARD */}
 			<Protected
 				condition={{ type: "simple", permissions: [Permission.ADMIN] }}
 			>

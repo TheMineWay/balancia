@@ -33,5 +33,32 @@
       "Cancel": "Cancel",
       "Confirm": "Confirm"
     }
+  },
+  "local-config": {
+    "Title": "Local config",
+    "configs": {
+      "primary-color": {
+        "Name": "Primary color",
+        "options": {
+          "red": "Red",
+          "pink": "Pink",
+          "grape": "Grape",
+          "violet": "Violet",
+          "indigo": "Indigo",
+          "blue": "Blue",
+          "cyan": "Cyan",
+          "teal": "Teal",
+          "green": "Green",
+          "lime": "Lime",
+          "yellow": "Yellow",
+          "orange": "Orange"
+        }
+      }
+    },
+    "sections": {
+      "theme": {
+        "Title": "Theme"
+      }
+    }
   }
 }

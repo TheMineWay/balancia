@@ -22,7 +22,6 @@ export const SignInButton: FC<Props> = ({ onSuccess, onClick, ...props }) => {
 			leftSection={<FiLogIn />}
 			color={ENV.auth.ui.providerColor}
 			loading={isAuthenticating}
-			variant="primary"
 			onClick={() => {
 				onClick?.();
 				onAuth();

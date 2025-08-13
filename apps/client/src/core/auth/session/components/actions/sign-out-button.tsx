@@ -26,7 +26,6 @@ export const SignOutButton: FC<Props> = ({ onSuccess, onClick, ...props }) => {
 				onLogout();
 			}}
 			loading={isLoggingOut}
-			variant="primary"
 			{...props}
 		>
 			{interpolated((t) => t.actions.Logout)}
