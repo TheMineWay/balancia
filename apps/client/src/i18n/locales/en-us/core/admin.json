@@ -1,4 +1,12 @@
 {
+    "nav-actions": {
+        "Label": "Admin",
+        "children": {
+            "dashboard": {
+                "Label": "Dashboard"
+            }
+        }
+    },
     "page": {
         "Title": "Admin dashboard",
         "links": {
