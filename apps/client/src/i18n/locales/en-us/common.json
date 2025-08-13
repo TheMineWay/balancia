@@ -78,6 +78,10 @@
     "internal-server-error": {
       "Title": "Internal server error",
       "Description": "An unexpected error occurred on the server"
+    },
+    "no-data": {
+      "Title": "No data",
+      "Description": "No data available"
     }
   }
 }

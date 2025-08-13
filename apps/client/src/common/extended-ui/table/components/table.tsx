@@ -2,8 +2,9 @@ import type { WithChildren } from "@common/extended-ui/general/types/component.t
 import type { UseTable } from "@common/extended-ui/table/hooks/use-table";
 import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
 import type { TableValue } from "@common/extended-ui/table/types/table-value.type";
+import { useTranslation } from "@i18n/use-translation";
 import { Loader, Table as MTable, Text } from "@mantine/core";
-import { memo, type ReactNode } from "react";
+import { memo, type ReactNode, useMemo } from "react";
 import styles from "./table.module.pcss";
 
 export type TableProps<TData extends TableValue> = {
@@ -15,7 +16,26 @@ export const Table = <TData extends TableValue>({
 	table,
 	loading = false,
 }: TableProps<TData>): ReactNode => {
+	const { t } = useTranslation("common");
+
 	const { columns } = table;
+
+	const content = useMemo(() => {
+		if (loading)
+			return (
+				<Status<TData> table={table}>
+					<Loader />
+				</Status>
+			);
+		if (table.data.length === 0)
+			return (
+				<Status<TData> table={table}>
+					<Text size="sm">{t().status["no-data"].Description}</Text>
+				</Status>
+			);
+
+		return <Rows<TData> table={table} />;
+	}, [loading, table.data, table, t]);
 
 	return (
 		<div className="overflow-x-scroll">
@@ -23,15 +43,7 @@ export const Table = <TData extends TableValue>({
 				<MTable.Thead className="h-12">
 					<Headers<TData> columns={columns} />
 				</MTable.Thead>
-				<MTable.Tbody className="h-40">
-					{loading ? (
-						<Status<TData> table={table}>
-							<Loader />
-						</Status>
-					) : (
-						<Rows<TData> table={table} />
-					)}
-				</MTable.Tbody>
+				<MTable.Tbody className="h-40">{content}</MTable.Tbody>
 			</MTable>
 		</div>
 	);
@@ -141,7 +153,9 @@ const Status = <TData extends TableValue>({
 	return (
 		<MTable.Tr className={styles.status} aria-hidden>
 			<MTable.Td colSpan={table.columns.length}>
-				<div className="flex items-center justify-center h-full">{children}</div>
+				<div className="flex items-center justify-center h-full">
+					{children}
+				</div>
 			</MTable.Td>
 		</MTable.Tr>
 	);
