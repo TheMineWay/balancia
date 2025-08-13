@@ -1,4 +1,3 @@
-import { NotFoundStatus } from "@common/extended-ui/status/components/prebuilt/not-found-status";
 import { UserActionsAvatar } from "@core/auth/user/components/avatar/user-actions-avatar";
 import { ThemeSwitch } from "@core/config/local-config/components/theme/theme-switch";
 import { Protected } from "@core/permission/components/protected";
@@ -60,10 +59,5 @@ export const Route = createRootRoute({
 			</NavigationLayout.Root>
 			<TanStackRouterDevtools />
 		</>
-	),
-	notFoundComponent: () => (
-		<div className="flex items-center justify-center items-center h-full w-full">
-			<NotFoundStatus />
-		</div>
 	),
 });

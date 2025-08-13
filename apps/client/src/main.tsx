@@ -1,3 +1,4 @@
+import { NotFoundStatus } from "@common/extended-ui/status/components/prebuilt/not-found-status";
 import { WAREHOUSES } from "@constants/device-storage/warehouses.constant";
 import { Providers } from "@providers/providers";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
@@ -10,7 +11,14 @@ import { createRoot } from "react-dom/client";
 import "./index.pcss";
 import { routeTree } from "./routeTree.gen";
 
-const router = createRouter({ routeTree });
+const router = createRouter({
+	routeTree,
+	defaultNotFoundComponent: () => (
+		<div className="flex items-center justify-center items-center h-full w-full">
+			<NotFoundStatus />
+		</div>
+	),
+});
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {

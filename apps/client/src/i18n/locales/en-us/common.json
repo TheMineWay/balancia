@@ -74,6 +74,10 @@
     "not-found": {
       "Title": "Not found",
       "Description": "The requested resource could not be found"
+    },
+    "internal-server-error": {
+      "Title": "Internal server error",
+      "Description": "An unexpected error occurred on the server"
     }
   }
 }
