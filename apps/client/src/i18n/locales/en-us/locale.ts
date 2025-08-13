@@ -1,6 +1,6 @@
-import auth from "./auth.json";
 import common from "./common.json";
 import admin from "./core/admin.json";
+import auth from "./core/auth.json";
 import role from "./core/role.json";
 import errors from "./errors.json";
 
