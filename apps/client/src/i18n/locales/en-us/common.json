@@ -53,11 +53,20 @@
           "yellow": "Yellow",
           "orange": "Orange"
         }
+      },
+      "language": {
+        "Name": "Language",
+        "options": {
+          "en-US": "English (US)"
+        }
       }
     },
     "sections": {
       "theme": {
         "Title": "Theme"
+      },
+      "language": {
+        "Title": "Language"
       }
     }
   },

@@ -2,17 +2,25 @@ import type { WithChildren } from "@common/extended-ui/general/types/component.t
 import { getLocale, MASTER_LOCALE } from "@i18n/locales/locales";
 import type { Language } from "@i18n/types/language.enum";
 import type { TranslationStore } from "@i18n/types/translation/translation-store.type";
+import { useLocalConfig } from "@providers/config/local-config.context";
 import { languageContext } from "@providers/language/language.context";
 import _ from "lodash";
-import { useEffect, useMemo, useState } from "react";
-
-const DEFAULT_LANGUAGE = MASTER_LOCALE;
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Props = WithChildren;
 
 export const LanguageProvider: FC<Props> = ({ children }) => {
-	const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
 	const [translations, setTranslations] = useState<TranslationStore>();
+	const { config, setConfig } = useLocalConfig();
+
+	const { language } = config;
+
+	const setLanguage = useCallback(
+		(newLang: Language) => {
+			setConfig({ ...config, language: newLang });
+		},
+		[config, setConfig],
+	);
 
 	useEffect(() => {
 		const updateLoadedLocale = async () => {
@@ -38,7 +46,7 @@ export const LanguageProvider: FC<Props> = ({ children }) => {
 			setLanguage: (language: Language) => setLanguage(language),
 			translations: translations as TranslationStore,
 		}),
-		[language, translations],
+		[language, translations, setLanguage],
 	);
 
 	if (!translations) return null;
