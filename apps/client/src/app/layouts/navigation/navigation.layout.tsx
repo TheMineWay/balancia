@@ -10,7 +10,7 @@ const Root: FC<WithChildren> = ({ children }) => {
 const Content: FC<WithChildren> = ({ children }) => {
 	return (
 		<main className="h-full overflow-y-scroll pt-4">
-			<Container>{children}</Container>
+			<Container className="h-full">{children}</Container>
 		</main>
 	);
 };

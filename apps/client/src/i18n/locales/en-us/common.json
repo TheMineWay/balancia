@@ -60,5 +60,11 @@
         "Title": "Theme"
       }
     }
+  },
+  "status": {
+    "not-found": {
+      "Title": "Not found",
+      "Description": "The requested resource could not be found"
+    }
   }
 }
