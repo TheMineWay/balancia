@@ -19,10 +19,15 @@ export const SignInButton: FC<Props> = ({ onSuccess, onClick, ...props }) => {
 
 	return (
 		<Button
-			leftSection={<FiLogIn />}
+			leftSection={
+				ENV.auth.ui.icon ? (
+					<img className="h-4 w-4" src={ENV.auth.ui.icon} alt="Logo" />
+				) : (
+					<FiLogIn />
+				)
+			}
 			color={ENV.auth.ui.providerColor}
 			loading={isAuthenticating}
-			variant="primary"
 			onClick={() => {
 				onClick?.();
 				onAuth();

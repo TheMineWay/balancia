@@ -1,3 +1,4 @@
+import { Text } from "@mantine/core";
 import { format } from "date-fns";
 import { useMemo } from "react";
 
@@ -16,5 +17,5 @@ const MODES: Record<DateModes, string> = {
 export const DatetimeRender: FC<Props> = ({ date, mode = "short" }) => {
 	const value = useMemo(() => format(date, MODES[mode]), [date, mode]);
 
-	return <p>{value}</p>;
+	return <Text>{value}</Text>;
 };

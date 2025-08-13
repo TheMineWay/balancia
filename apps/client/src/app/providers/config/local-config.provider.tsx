@@ -1,5 +1,6 @@
 import type { WithChildren } from "@common/extended-ui/general/types/component.types";
 import { WAREHOUSES } from "@constants/device-storage/warehouses.constant";
+import { MASTER_LOCALE } from "@i18n/locales/locales";
 import {
 	LOCAL_CONFIG_SCHEMA,
 	type LocalConfig,
@@ -15,6 +16,7 @@ const DEFAULT_LOCAL_CONFIG: LocalConfig = {
 		colorScheme: "light",
 		primaryColor: "grape",
 	},
+	language: MASTER_LOCALE,
 };
 
 type Props = WithChildren;

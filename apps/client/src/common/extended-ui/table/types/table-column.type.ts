@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type { Stylings } from "@common/extended-ui/general/types/stylings.type";
 
 export type TableColumn<
 	TData extends object,
@@ -7,14 +7,4 @@ export type TableColumn<
 	label: string;
 	accessorKey?: K;
 	render?: (item: TData) => React.ReactNode;
-	styles?: Styles;
-	classNames?: ClassNames;
-};
-
-/* Internal types */
-type Stylings<T extends CSSProperties | string> = {
-	cell?: T;
-};
-
-type Styles = Stylings<CSSProperties>;
-type ClassNames = Stylings<string>;
+} & Stylings<"cell" | "cellContent">;

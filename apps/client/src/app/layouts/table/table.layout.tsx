@@ -5,7 +5,7 @@ import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
  * Parent component for a table layout
  */
 const Root: FC<WithChildren> = ({ children }) => {
-	return <div className="flex flex-col gap-4">{children}</div>;
+	return <div className="flex flex-col gap-2">{children}</div>;
 };
 
 /**

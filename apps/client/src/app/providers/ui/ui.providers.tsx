@@ -21,7 +21,11 @@ export const UIProviders: FC<WithChildren> = ({ children }) => {
 	);
 
 	return (
-		<MantineProvider theme={theme} defaultColorScheme={themeConfig.colorScheme}>
+		<MantineProvider
+			forceColorScheme={themeConfig.colorScheme}
+			theme={theme}
+			defaultColorScheme={themeConfig.colorScheme}
+		>
 			<ModalsProvider>
 				<Notifications />
 				{children}

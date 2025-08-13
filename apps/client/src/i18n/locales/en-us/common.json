@@ -25,12 +25,63 @@
     "Unassign": "Unassign",
     "Unassign-sth": "Unassign {name}",
     "Save": "Save",
-    "Reload": "Reload"
+    "Reload": "Reload",
+    "Profile": "Profile"
   },
   "templates": {
     "confirm-modal": {
       "Cancel": "Cancel",
       "Confirm": "Confirm"
+    }
+  },
+  "local-config": {
+    "Title": "Local config",
+    "configs": {
+      "primary-color": {
+        "Name": "Primary color",
+        "options": {
+          "red": "Red",
+          "pink": "Pink",
+          "grape": "Grape",
+          "violet": "Violet",
+          "indigo": "Indigo",
+          "blue": "Blue",
+          "cyan": "Cyan",
+          "teal": "Teal",
+          "green": "Green",
+          "lime": "Lime",
+          "yellow": "Yellow",
+          "orange": "Orange"
+        }
+      },
+      "language": {
+        "Name": "Language",
+        "options": {
+          "en-US": "English (US)"
+        }
+      }
+    },
+    "sections": {
+      "theme": {
+        "Title": "Theme"
+      },
+      "language": {
+        "Title": "Language"
+      }
+    }
+  },
+  "status": {
+    "not-found": {
+      "Title": "Not found",
+      "Description": "The requested resource could not be found"
+    },
+    "internal-server-error": {
+      "Title": "Internal server error",
+      "Description": "An unexpected error occurred on the server"
+    },
+    "no-data": {
+      "Title": "No data",
+      "Description": "No data available"
     }
   }
 }
