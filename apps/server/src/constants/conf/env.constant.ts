@@ -6,6 +6,10 @@ const toNum = (value) => Number(value);
 const refinedMin = (min: number) => (val: number) => val >= min;
 
 const ENV_SCHEMA = z.object({
+	//ENV
+	NODE_ENV: z.string().default("production"),
+	OPEN_API_DOCS: z.stringbool().default(false),
+
 	// MAX REQUESTS PER MINUTE
 	MAX_REQUESTS_PER_MINUTE: z
 		.string()
@@ -28,9 +32,6 @@ const ENV_SCHEMA = z.object({
 		.transform(toNum)
 		.refine(refinedMin(1)),
 	DATABASE_URL: z.string(),
-
-	// NODE ENV
-	NODE_ENV: z.string().default("production"),
 
 	// DEBUG
 	LOG_ENV_VALUES: z.stringbool().default(false),
@@ -132,6 +133,9 @@ export const ENV = (() => {
 		authDirectory: {
 			apiUrl: values.AUTH_DIRECTORY_API_URL,
 			apiKey: values.AUTH_DIRECTORY_API_KEY,
+		},
+		docs: {
+			openApiDocs: values.OPEN_API_DOCS,
 		},
 		env: values.NODE_ENV,
 	};

@@ -32,13 +32,15 @@ async function bootstrap() {
 	);
 
 	// Documentation
-	const config = new DocumentBuilder()
+	if (ENV.docs.openApiDocs) {
+		const config = new DocumentBuilder()
 		.setTitle(pkg?.name)
 		.setVersion(pkg?.version)
 		.addBearerAuth()
 		.build();
-	const documentFactory = () => SwaggerModule.createDocument(app, config);
-	SwaggerModule.setup("documentation", app, documentFactory);
+		const documentFactory = () => SwaggerModule.createDocument(app, config);
+		SwaggerModule.setup("documentation", app, documentFactory);
+	}
 
 	await app.listen(process.env.PORT || 3001);
 }
