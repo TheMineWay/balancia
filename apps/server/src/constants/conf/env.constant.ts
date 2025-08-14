@@ -133,6 +133,6 @@ export const ENV = (() => {
 			apiUrl: values.AUTH_DIRECTORY_API_URL,
 			apiKey: values.AUTH_DIRECTORY_API_KEY,
 		},
-		env: values.NODE_ENV
+		env: values.NODE_ENV,
 	};
 })();
