@@ -34,10 +34,10 @@ async function bootstrap() {
 	// Documentation
 	if (ENV.docs.openApiDocs) {
 		const config = new DocumentBuilder()
-		.setTitle(pkg?.name)
-		.setVersion(pkg?.version)
-		.addBearerAuth()
-		.build();
+			.setTitle(pkg?.name)
+			.setVersion(pkg?.version)
+			.addBearerAuth()
+			.build();
 		const documentFactory = () => SwaggerModule.createDocument(app, config);
 		SwaggerModule.setup("documentation", app, documentFactory);
 	}
