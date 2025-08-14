@@ -1,4 +1,4 @@
-# Feature Name
+# Server
 
 ## 📋 Overview
 Contains server-related logic. For example: server-stored config distribution, latest-version provisioning, etc.
