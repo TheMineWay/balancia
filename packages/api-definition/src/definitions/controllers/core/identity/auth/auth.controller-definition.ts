@@ -9,7 +9,10 @@ const MY_INFO_ENDPOINT = {
 	paramsMapping: {},
 	method: EndpointMethod.GET,
 	responseDto: z.object({
+		// User info
 		user: USER_SCHEMA,
+
+		// Auth data
 		permissions: z.array(z.enum(Permission)),
 		roles: z.array(ROLE_SCHEMA),
 	}),

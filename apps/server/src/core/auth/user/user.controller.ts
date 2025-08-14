@@ -16,7 +16,7 @@ export class UserController {
 	constructor(private readonly userService: UserService) {}
 
 	@Endpoint(CONTROLLER, "get")
-	async get(
+	async getMyUserInfo(
 		@UserId() userId: UserModel["id"],
 	): Promise<InferResponseDto<typeof CONTROLLER, "get">> {
 		const userData = await this.userService.getById(userId);
