@@ -4,7 +4,7 @@ import type { ControllerDefinition } from "@ts-types/controller-definition.type"
 /* DTOs */
 
 export const USER_CONTROLLER = {
-	getPath: () => ["user"],
+	getPath: () => ["me"],
 	paramsMapping: {},
 	endpoints: {
 		get: {

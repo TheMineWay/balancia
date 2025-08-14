@@ -6,6 +6,10 @@ const toNum = (value) => Number(value);
 const refinedMin = (min: number) => (val: number) => val >= min;
 
 const ENV_SCHEMA = z.object({
+	//ENV
+	NODE_ENV: z.string().default("production"),
+	OPEN_API_DOCS: z.stringbool().default(false),
+
 	// MAX REQUESTS PER MINUTE
 	MAX_REQUESTS_PER_MINUTE: z
 		.string()
@@ -29,9 +33,6 @@ const ENV_SCHEMA = z.object({
 		.refine(refinedMin(1)),
 	DATABASE_URL: z.string(),
 
-	// NODE ENV
-	NODE_ENV: z.string().default("production"),
-
 	// DEBUG
 	LOG_ENV_VALUES: z.stringbool().default(false),
 
@@ -43,6 +44,11 @@ const ENV_SCHEMA = z.object({
 			return val.trim().split(",");
 		})
 		.default(["*"]),
+
+	// REQUESTS
+	MAX_REQUEST_BODY_SIZE: z.string().transform(toNum).default(1048576), // 1 MB
+	MAX_REQUEST_QUERY_SIZE: z.string().transform(toNum).default(1048576), // 1 MB
+	REQUEST_TIMEOUT: z.string().transform(toNum).default(10000), // 10 seconds
 
 	// AUTHENTICATION
 	OIDC_SERVER_HOST: z
@@ -99,7 +105,6 @@ export const ENV = (() => {
 	return {
 		rateLimit: {
 			maxRequestsPerMinute: values.MAX_REQUESTS_PER_MINUTE,
-			maxJwtRequestsPerMinute: values.MAX_JWT_REQUESTS_PER_MINUTE,
 		},
 		database: {
 			url: values.DATABASE_URL,
@@ -108,6 +113,11 @@ export const ENV = (() => {
 		},
 		cors: {
 			allowedDomains: values.CORS_ONLY_ALLOW_DOMAINS,
+		},
+		requests: {
+			maxRequestBodySize: values.MAX_REQUEST_BODY_SIZE,
+			maxRequestQuerySize: values.MAX_REQUEST_QUERY_SIZE,
+			requestTimeout: values.REQUEST_TIMEOUT,
 		},
 		oidc: {
 			host: values.OIDC_SERVER_HOST,
@@ -124,5 +134,9 @@ export const ENV = (() => {
 			apiUrl: values.AUTH_DIRECTORY_API_URL,
 			apiKey: values.AUTH_DIRECTORY_API_KEY,
 		},
+		docs: {
+			openApiDocs: values.OPEN_API_DOCS,
+		},
+		env: values.NODE_ENV,
 	};
 })();

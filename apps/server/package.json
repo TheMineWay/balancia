@@ -43,6 +43,7 @@
 		"@shared/utils": "workspace:*",
 		"axios": "^1.11.0",
 		"bcrypt": "^6.0.0",
+		"body-parser": "^2.2.0",
 		"cacheable": "^1.10.3",
 		"date-fns": "^4.1.0",
 		"drizzle-orm": "^0.44.4",

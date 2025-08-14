@@ -2,6 +2,11 @@ import type { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
 	{
+		code: "body-parser",
+		name: "Body Parser",
+		url: "https://www.npmjs.com/package/body-parser",
+	},
+	{
 		code: "@biomejs/biome",
 		name: "@biomejs biome",
 		url: "https://www.npmjs.com/package/@biomejs/biome",
