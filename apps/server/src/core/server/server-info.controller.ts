@@ -1,9 +1,10 @@
 import { ServerInfoService } from "@core/server/server-info.service";
 import { Controller } from "@nestjs/common";
+import { ApiOperation } from "@nestjs/swagger";
 import {
-	getController,
-	InferResponseDto,
-	SERVER_INFO_CONTROLLER,
+    getController,
+    InferResponseDto,
+    SERVER_INFO_CONTROLLER,
 } from "@shared/api-definition";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
 
@@ -11,6 +12,7 @@ import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
 export class ServerInfoController {
 	constructor(private readonly serverInfoService: ServerInfoService) {}
 
+	@ApiOperation({ summary: "Get server information" })
 	@Endpoint(SERVER_INFO_CONTROLLER, "get-server-info")
 	getServerInfo(): InferResponseDto<
 		typeof SERVER_INFO_CONTROLLER,
