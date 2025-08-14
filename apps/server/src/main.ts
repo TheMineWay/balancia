@@ -3,11 +3,16 @@ import { NestFactory } from "@nestjs/core";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as pkg from "@pkg";
+import * as bodyParser from 'body-parser';
 import helmet from "helmet";
 import { AppModule } from "./app.module";
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+	// Set timeout
+	const server = app.getHttpServer();
+	server.setTimeout(ENV.requests.requestTimeout);
 
 	// Enable CORS
 	app.enableCors({
@@ -16,6 +21,10 @@ async function bootstrap() {
 
 	// Use Helmet
 	app.use(helmet());
+
+	// Limit request sizes
+	app.use(bodyParser.json({ limit: ENV.requests.maxRequestBodySize }));
+	app.use(bodyParser.urlencoded({ limit: ENV.requests.maxRequestQuerySize, extended: true }));
 
 	// Documentation
 	const config = new DocumentBuilder()
