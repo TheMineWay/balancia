@@ -31,5 +31,8 @@
 	"editor.defaultFormatter": "biomejs.biome",
 	"editor.defaultFoldingRangeProvider": "biomejs.biome",
 	"notebook.defaultFormatter": "biomejs.biome",
-	"files.insertFinalNewline": true
+	"files.insertFinalNewline": true,
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	}
 }

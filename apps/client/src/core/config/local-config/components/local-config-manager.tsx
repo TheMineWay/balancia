@@ -23,10 +23,10 @@ const Theme: FC = () => {
 	return (
 		<div className="flex flex-col gap-2">
 			<h3 className="font-bold text-xl">
-				{t()["local-config"].sections.theme.Title}
+				{t().components["local-config"].sections.theme.Title}
 			</h3>
 			<Item
-				label={t()["local-config"].configs["primary-color"].Name}
+				label={t().components["local-config"].configs["primary-color"].Name}
 				render={(id) => <PrimaryColorChanger id={id} />}
 			/>
 		</div>
@@ -39,10 +39,10 @@ const Language: FC = () => {
 	return (
 		<div className="flex flex-col gap-2">
 			<h3 className="font-bold text-xl">
-				{t()["local-config"].sections.language.Title}
+				{t().components["local-config"].sections.language.Title}
 			</h3>
 			<Item
-				label={t()["local-config"].configs.language.Name}
+				label={t().components["local-config"].configs.language.Name}
 				render={(id) => <LanguageChanger id={id} />}
 			/>
 		</div>

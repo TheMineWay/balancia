@@ -8,8 +8,8 @@ export const InternalServerErrorStatus: FC = () => {
 	return (
 		<Status
 			src={notFoundImage}
-			title={t().status["internal-server-error"].Title}
-			description={t().status["internal-server-error"].Description}
+			title={t().components.status["internal-server-error"].Title}
+			description={t().components.status["internal-server-error"].Description}
 		/>
 	);
 };
