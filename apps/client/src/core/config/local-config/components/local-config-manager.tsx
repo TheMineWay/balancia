@@ -2,6 +2,7 @@ import { LanguageChanger } from "@core/config/local-config/components/language/l
 import { PrimaryColorChanger } from "@core/config/local-config/components/theme/primary-color-changer";
 import { useTranslation } from "@i18n/use-translation";
 import { Divider } from "@mantine/core";
+import * as pkg from '@pkg';
 import { type ReactNode, useId, useMemo } from "react";
 
 export const LocalConfigManager: FC = () => {
@@ -11,6 +12,8 @@ export const LocalConfigManager: FC = () => {
 			<Theme />
 			<Divider />
 			<Language />
+			<Divider/>
+			<small className="text-center">v{pkg.version}</small>
 		</div>
 	);
 };
