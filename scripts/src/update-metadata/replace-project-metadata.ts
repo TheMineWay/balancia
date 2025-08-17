@@ -3,6 +3,7 @@ import path from "path";
 
 type Metadata = {
 	name?: string;
+	version?: string;
 };
 
 export const replaceProjectMetadata = (metadata: Metadata) => {
@@ -22,6 +23,8 @@ const updatePackageJsons = (metadata: Metadata) => {
 
 		if (metadata.name)
 			pk["name"] = generatePackageJsonName(pkPath, metadata.name);
+
+		if (metadata.version) pk["version"] = metadata.version;
 
 		fs.writeFileSync(pkPath, JSON.stringify(pk, null, 2) + "\n");
 	}
