@@ -43,6 +43,7 @@ The testing setup is organized across the monorepo:
 
 ```
 vitest.config.ts             # Shared test utilities and setup
+├── tests/                   # Global tests
 ├── apps/
 │   ├── client/
 │   │   └── vitest.config.ts  # Client-specific test config
