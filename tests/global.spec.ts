@@ -37,8 +37,10 @@ function scanAppsPackageJsons() {
 }
 
 describe("version should", () => {
-	it("be consistent across all the monorepo", () => {
-		const pk = require("./package.json");
+	it("be consistent across all the monorepo", async () => {
+		const pk = JSON.parse(
+			readFileSync(join(__dirname, "../package.json"), "utf-8"),
+		);
 		const version = pk.version;
 
 		expect(version).toBeTypeOf("string");
