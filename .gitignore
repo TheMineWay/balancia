@@ -3,3 +3,4 @@ dist
 .env
 /generated
 .pnpm-store
+*.pem
