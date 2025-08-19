@@ -1,17 +1,18 @@
 import { timestamps } from "@database/common/timestamps";
+import { identitySchema } from "@database/schemas/main.schema";
 import { permissionTable } from "@database/schemas/main/tables/identity/permission.table";
 import { roleTable } from "@database/schemas/main/tables/identity/role.table";
-import { index, int, mysqlTable, primaryKey } from "drizzle-orm/mysql-core";
+import { index, integer, primaryKey } from "drizzle-orm/pg-core";
 
-const TABLE_NAME = "role_permission";
+const TABLE_NAME = "role_permissions";
 
-export const rolePermissionTable = mysqlTable(
+export const rolePermissionTable = identitySchema.table(
 	TABLE_NAME,
 	{
-		roleId: int()
+		roleId: integer()
 			.notNull()
 			.references(() => roleTable.id, { onDelete: "cascade" }),
-		permissionId: int()
+		permissionId: integer()
 			.notNull()
 			.references(() => permissionTable.id, { onDelete: "cascade" }),
 

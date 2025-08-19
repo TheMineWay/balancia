@@ -1,41 +1,13 @@
 {
-	"version": "7",
-	"dialect": "mysql",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "5",
-			"when": 1752227064625,
-			"tag": "0000_noisy_talisman",
-			"breakpoints": true
-		},
-		{
-			"idx": 1,
-			"version": "5",
-			"when": 1752393944239,
-			"tag": "0001_broken_paper_doll",
-			"breakpoints": true
-		},
-		{
-			"idx": 2,
-			"version": "5",
-			"when": 1752516590398,
-			"tag": "0002_remarkable_squirrel_girl",
-			"breakpoints": true
-		},
-		{
-			"idx": 3,
-			"version": "5",
-			"when": 1753628828589,
-			"tag": "0003_overconfident_jane_foster",
-			"breakpoints": true
-		},
-		{
-			"idx": 4,
-			"version": "5",
-			"when": 1754733128729,
-			"tag": "0004_stale_ezekiel_stane",
-			"breakpoints": true
-		}
-	]
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1755589335547,
+      "tag": "0000_violet_black_cat",
+      "breakpoints": true
+    }
+  ]
 }

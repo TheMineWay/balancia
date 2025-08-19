@@ -1,9 +1,10 @@
 import { timestamps } from "@database/common/timestamps";
+import { identitySchema } from "@database/schemas/main.schema";
 import { ROLE_MODEL_VALUES } from "@shared/models";
-import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { integer, varchar } from "drizzle-orm/pg-core";
 
-export const roleTable = mysqlTable("role", {
-	id: int().autoincrement().primaryKey(),
+export const roleTable = identitySchema.table("roles", {
+	id: integer().generatedAlwaysAsIdentity().primaryKey(),
 	name: varchar({
 		length: ROLE_MODEL_VALUES.name.maxLength,
 	}).notNull(),

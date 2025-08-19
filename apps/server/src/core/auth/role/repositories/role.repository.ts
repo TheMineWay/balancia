@@ -18,7 +18,7 @@ import {
 	SearchModel,
 	UserModel,
 } from "@shared/models";
-import { and, countDistinct, desc, eq, inArray, like, sql } from "drizzle-orm";
+import { and, countDistinct, desc, eq, ilike, inArray, sql } from "drizzle-orm";
 
 @Injectable()
 export class RoleRepository extends Repository {
@@ -71,19 +71,21 @@ export class RoleRepository extends Repository {
 				name: roleTable.name,
 				createdAt: roleTable.createdAt,
 				updatedAt: roleTable.updatedAt,
-				permissionsCount: sql<number>`coalesce(${pc.count}, 0)`.as(
+				permissionsCount: sql<number>`coalesce(${pc.count}::int, 0)`.as(
 					"permissionsCount",
 				),
-				usersCount: sql<number>`coalesce(${uc.count}, 0)`.as("usersCount"),
+				usersCount: sql<number>`coalesce(${uc.count}::int, 0)`.as("usersCount"),
 			})
 			.from(roleTable)
-			.groupBy(roleTable.id)
 			.leftJoin(pc, eq(roleTable.id, pc.roleId))
 			.leftJoin(uc, eq(roleTable.id, uc.roleId));
 	}
 
 	create(role: RoleInsert, options?: QueryOptions) {
-		return this.query(options).insert(roleTable).values(role).$returningId();
+		return this.query(options)
+			.insert(roleTable)
+			.values(role)
+			.returning({ id: roleTable.id });
 	}
 
 	async update(id: number, role: RoleUpdate, options?: QueryOptions) {
@@ -143,7 +145,7 @@ export class RoleRepository extends Repository {
 				and(
 					eq(userRoleTable.roleId, roleId),
 					parsedTextSearch
-						? like(userTable.name, `%${parsedTextSearch}%`)
+						? ilike(userTable.name, `%${parsedTextSearch}%`)
 						: undefined,
 				),
 			)

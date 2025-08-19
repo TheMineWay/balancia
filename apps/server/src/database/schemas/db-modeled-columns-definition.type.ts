@@ -1,6 +1,6 @@
-import type { MySqlColumnBuilderBase } from "drizzle-orm/mysql-core";
+import { PgColumnBuilderBase } from "drizzle-orm/pg-core";
 
 export type DbModeledColumnsDefinition<T extends object> = Record<
 	keyof T,
-	MySqlColumnBuilderBase
+	PgColumnBuilderBase
 >;

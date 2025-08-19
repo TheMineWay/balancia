@@ -9,7 +9,7 @@ import { beforeEach, describe, expect, it } from "vitest";
  * @param dir - The directory to start scanning from.
  * @returns An array of paths to package.json files.
  */
-export function findPackageJsonFiles(dir: string): string[] {
+function findPackageJsonFiles(dir: string): string[] {
 	const result: string[] = [];
 
 	function scanDirectory(currentDir: string): void {
@@ -20,7 +20,7 @@ export function findPackageJsonFiles(dir: string): string[] {
 
 			if (entry.isDirectory()) {
 				// Skip node_modules directories
-				if (entry.name === "node_modules") {
+				if (entry.name === "node_modules" || entry.name === "generated") {
 					continue;
 				}
 				// Recursively scan subdirectories

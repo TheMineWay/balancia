@@ -17,15 +17,15 @@ type DBComposeFileProps = DBServerProps & {
 
 const DB_SERVERS = [
 	{
-		dialect: "MySQL",
-		port: 3306,
+		dialect: "PostgreSQL",
+		port: 5432,
 	},
 ] as const satisfies Array<DBServerProps>;
 
 const WARNING_MESSAGE =
 	"# [!] This file is not uploaded to git so secret values can be safely stored in plain text";
 
-const mySql = ({
+const pg = ({
 	password,
 	port,
 	dbName,
@@ -33,21 +33,18 @@ const mySql = ({
 }: DBComposeFileProps) => {
 	return `${WARNING_MESSAGE}
 services:
-    db-mysql:
-        image: mysql
-        #restart: always # Not recommended for development mode
-        environment:
-            MYSQL_DATABASE: "${dbName}"
-            MYSQL_ROOT_PASSWORD: "${password}"
-            #MYSQL_USER: api_user # Creates another user (independent from the root user)
-            #MYSQL_PASSWORD: api_user_password # Sets the password for the user defined in (MYSQL_USER)
-        ports:
-            - "${port}:3306"  # Custom port mapping (host:container)
-        volumes:
-            - mysql_data:/var/lib/mysql
-
-volumes:
-  mysql_data:
+  db:
+    image: postgres:17.6
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: ${password}
+      POSTGRES_USER: api_user
+      POSTGRES_DB: ${dbName}
+    ports:
+      - ${port}:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
 
 # [I] Connection string
 # ${connectionString}`;
@@ -57,7 +54,7 @@ const COMPOSE_FILES: Record<
 	(typeof DB_SERVERS)[number]["dialect"],
 	(props: DBComposeFileProps) => string
 > = {
-	MySQL: mySql,
+	PostgreSQL: pg,
 };
 
 export const generateDockerComposeDatabase = async () => {
@@ -112,10 +109,14 @@ export const generateDockerComposeDatabase = async () => {
 	if (!fs.existsSync(path.join(generateFolderPath, "database")))
 		fs.mkdirSync(path.join(generateFolderPath, "database"));
 
+	if (!fs.existsSync(path.join(generateFolderPath, "database", "postgres")))
+		fs.mkdirSync(path.join(generateFolderPath, "database", "postgres"));
+
 	fs.writeFileSync(
 		path.join(
 			generateFolderPath,
 			"database",
+			"postgres",
 			`db.${dialect.toLowerCase()}.docker-compose.yml`,
 		),
 		composeContent,
@@ -136,7 +137,7 @@ interface DBConnectionOptions {
 function generateConnectionString(options: DBConnectionOptions): string {
 	const { host, port, database, user, password } = options;
 
-	const connectionString = `mysql://${user}:${password}@${host}:${port}/${database}`;
+	const connectionString = `postgres://${user}:${password}@${host}:${port}/${database}`;
 
 	return connectionString;
 }

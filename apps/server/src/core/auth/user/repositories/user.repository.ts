@@ -6,7 +6,7 @@ import {
 } from "@database/schemas/main/tables/identity/user.table";
 import { Injectable } from "@nestjs/common";
 import type { DbUserModel, PaginatedQuery, SearchModel } from "@shared/models";
-import { asc, eq, inArray, like } from "drizzle-orm";
+import { asc, eq, ilike, inArray } from "drizzle-orm";
 
 @Injectable()
 export class UserRepository extends Repository {
@@ -36,7 +36,7 @@ export class UserRepository extends Repository {
 		const query = this.query(options)
 			.select()
 			.from(userTable)
-			.where(search ? like(userTable.name, `%${search}%`) : undefined)
+			.where(search ? ilike(userTable.name, `%${search}%`) : undefined)
 			.orderBy(asc(userTable.id))
 			.$dynamic();
 
@@ -59,7 +59,10 @@ export class UserRepository extends Repository {
 
 	create = async (user: UserInsert, options?: QueryOptions) =>
 		(
-			await this.query(options).insert(userTable).values([user]).$returningId()
+			await this.query(options)
+				.insert(userTable)
+				.values([user])
+				.returning({ id: userTable.id })
 		)?.[0];
 
 	updateById = (

@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # 🛢️ Database Development
 
-A comprehensive guide to working with the database layer in NestFlux using MySQL and Drizzle ORM.
+A comprehensive guide to working with the database layer in NestFlux using Postgres and Drizzle ORM.
 
 ## 🎯 Development Philosophy
 
@@ -40,7 +40,7 @@ apps/server/src/database/
 To add a new table to your database schema:
 
 1. **Create the table file** in the appropriate directory under `apps/server/src/database/schemas/main/tables/`
-2. **Define the table structure** using Drizzle's MySQL table syntax with appropriate column types, constraints, and relationships
+2. **Define the table structure** using Drizzle's Postgres table syntax with appropriate column types, constraints, and relationships
 3. **Export the table and types** for TypeScript inference
 4. **Add the export** to `main.schema.ts` to include it in the database schema
 5. **Generate and apply migration** using `pnpm db:generate` followed by `pnpm db:migrate`
@@ -188,8 +188,7 @@ export { newTable } from "@database/schemas/main/tables/category/new.table";
 
 ## 📚 Advanced Resources
 
-- [Drizzle ORM MySQL Guide](https://orm.drizzle.team/docs/get-started-mysql)
-- [MySQL Data Types Reference](https://dev.mysql.com/doc/refman/8.0/en/data-types.html)
+- [Drizzle ORM Postgres Guide](https://orm.drizzle.team/docs/get-started/postgresql-new)
 
 ---
 
