@@ -27,6 +27,13 @@ async function walk(dir: string): Promise<string[]> {
 }
 
 async function generateIndex() {
+	// Ensure SRC_DIR exists
+	try {
+		await fs.access(SRC_DIR);
+	} catch {
+		await fs.mkdir(SRC_DIR, { recursive: true });
+	}
+
 	const files = await walk(SRC_DIR);
 	// convert to relative paths from src/index.ts without extension
 	const exports = files.map((f) => {
