@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "start": "pnpm build && pnpm preview --port 3000",
     "build": "tsc -b && vite build",
     "lint": "pnpm exec biome format",

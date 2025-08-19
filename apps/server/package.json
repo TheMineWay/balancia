@@ -6,6 +6,7 @@
 	"scripts": {
 		"build": "nest build",
 		"start:dev": "nest start --watch",
+		"dev": "pnpm start:dev",
 		"start:prod": "node .",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
