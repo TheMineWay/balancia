@@ -84,7 +84,11 @@ const Option: FC<OptionProps> = ({ color, t, isSelected }) => {
 			<Group gap="xs">
 				{isSelected && <BiCheck />}
 				<Text>
-					{t()["local-config"].configs["primary-color"].options[color]}
+					{
+						t().components["local-config"].configs["primary-color"].options[
+							color
+						]
+					}
 				</Text>
 			</Group>
 			<div

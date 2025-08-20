@@ -1,9 +1,10 @@
 import { timestamps } from "@database/common/timestamps";
+import { identitySchema } from "@database/schemas/main.schema";
 import type { Permission } from "@shared/models";
-import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { integer, varchar } from "drizzle-orm/pg-core";
 
-export const permissionTable = mysqlTable("permission", {
-	id: int().autoincrement().primaryKey(),
+export const permissionTable = identitySchema.table("permissions", {
+	id: integer().generatedAlwaysAsIdentity().primaryKey(),
 	code: varchar({ length: 64 }).unique().notNull().$type<Permission>(),
 
 	// Timestamps (only createdAt is used)

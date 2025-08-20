@@ -1,6 +1,6 @@
 {
 	"name": "nestflux",
-	"version": "1.0.0.alpha-1",
+	"version": "1.0.0",
 	"description": "Scaffold app for ReactJS + NestJS projects (fully written in TS)",
 	"private": true,
 	"repository": {
@@ -24,7 +24,7 @@
 		"test": "vitest run --reporter=verbose",
 		"test:dev": "vitest --watch",
 		"test:ui": "vitest --ui",
-		"tools": "pnpm --filter scripts launch",
+		"tools": "pnpm --filter scripts launch && pnpm lint:fix",
 		"db:generate": "pnpm --filter nestflux-server \"db:generate\"",
 		"db:migrate": "pnpm --filter nestflux-server \"db:migrate\"",
 		"lint": "pnpm exec biome format",

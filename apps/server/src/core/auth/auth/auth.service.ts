@@ -97,11 +97,11 @@ export class AuthService {
 
 		for (const group of rowGroups) {
 			// Add permission
-			const permission = group.permission?.code;
+			const permission = group.permissions?.code;
 			if (permission) permissions.add(permission);
 
 			// Add role
-			const role = group.role;
+			const role = group.roles;
 			if (role) roles.add(role);
 		}
 

@@ -3,37 +3,42 @@
 	"version": "1.0.0",
 	"description": "Shared constants",
 	"type": "module",
-	"main": "dist/index.cjs",
-	"module": "dist/index.mjs",
-	"types": "dist/index.d.ts",
+	"main": "./dist/cjs/index.cjs",
+	"module": "./dist/esm/index.mjs",
+	"types": "./dist/esm/index.d.ts",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/TheMineWay/NestFlux",
 		"directory": "packages/constants"
 	},
 	"scripts": {
-		"build": "tsup src/index.ts --format esm,cjs --dts",
-		"dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+		"generate-barrel": "ts-node scripts/generate-barrel.ts",
+		"build": "pnpm generate-barrel && vite build",
+		"dev": "pnpm build",
 		"prepublishOnly": "pnpm run build",
 		"test": "vitest"
 	},
 	"license": "MIT",
 	"devDependencies": {
-		"@shared/types": "workspace:*",
-		"tsup": "^8.5.0",
-		"typescript": "^5.9.2"
+		"ts-node": "^10.9.2",
+		"typescript": "^5.9.2",
+		"vite": "^7.1.1",
+		"vite-plugin-dts": "^4.5.4",
+		"vitest": "^3.2.4"
 	},
 	"publishConfig": {
 		"access": "public"
 	},
 	"exports": {
 		".": {
-			"import": "./dist/index.js",
-			"require": "./dist/index.cjs"
+			"types": "./dist/esm/index.d.ts",
+			"import": "./dist/esm/index.mjs",
+			"require": "./dist/cjs/index.cjs"
 		}
 	},
 	"engines": {
 		"node": ">=24",
 		"pnpm": ">=10"
-	}
+	},
+	"dependencies": {}
 }

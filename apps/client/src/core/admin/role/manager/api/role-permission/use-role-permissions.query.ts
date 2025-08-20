@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const USE_ROLE_PERMISSIONS_QUERY_KEY: ParametrizedQueryKey<{
 	roleId: RoleModel["id"];
-}> = (roleId) => [
+}> = ({ roleId }) => [
 	getController(ADMIN_ROLE_CONTROLLER, {}),
 	"role",
 	roleId,

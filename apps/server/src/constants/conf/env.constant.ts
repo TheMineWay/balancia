@@ -49,6 +49,7 @@ const ENV_SCHEMA = z.object({
 	MAX_REQUEST_BODY_SIZE: z.string().transform(toNum).default(1048576), // 1 MB
 	MAX_REQUEST_QUERY_SIZE: z.string().transform(toNum).default(1048576), // 1 MB
 	REQUEST_TIMEOUT: z.string().transform(toNum).default(10000), // 10 seconds
+	HTTPS: z.stringbool().default(false),
 
 	// AUTHENTICATION
 	OIDC_SERVER_HOST: z
@@ -118,6 +119,7 @@ export const ENV = (() => {
 			maxRequestBodySize: values.MAX_REQUEST_BODY_SIZE,
 			maxRequestQuerySize: values.MAX_REQUEST_QUERY_SIZE,
 			requestTimeout: values.REQUEST_TIMEOUT,
+			useHttps: values.HTTPS,
 		},
 		oidc: {
 			host: values.OIDC_SERVER_HOST,

@@ -56,7 +56,7 @@ export const UserActionsAvatar: FC<Props> = ({ user }) => {
 
 					{/* Local config */}
 					<Menu.Item leftSection={<FaGear />} onClick={openLocalConfig}>
-						{commonT()["local-config"].Title}
+						{commonT().components["local-config"].Title}
 					</Menu.Item>
 
 					{/* Auth actions */}
@@ -76,7 +76,7 @@ export const UserActionsAvatar: FC<Props> = ({ user }) => {
 				title={
 					<Group gap="xs">
 						<FaGear />
-						<Text>{commonT()["local-config"].Title}</Text>
+						<Text>{commonT().components["local-config"].Title}</Text>
 					</Group>
 				}
 				opened={isLocalConfigOpened}

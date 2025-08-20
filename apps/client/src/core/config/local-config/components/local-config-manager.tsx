@@ -2,6 +2,7 @@ import { LanguageChanger } from "@core/config/local-config/components/language/l
 import { PrimaryColorChanger } from "@core/config/local-config/components/theme/primary-color-changer";
 import { useTranslation } from "@i18n/use-translation";
 import { Divider } from "@mantine/core";
+import * as pkg from "@pkg";
 import { type ReactNode, useId, useMemo } from "react";
 
 export const LocalConfigManager: FC = () => {
@@ -11,6 +12,8 @@ export const LocalConfigManager: FC = () => {
 			<Theme />
 			<Divider />
 			<Language />
+			<Divider />
+			<small className="text-center">v{pkg.version}</small>
 		</div>
 	);
 };
@@ -23,10 +26,10 @@ const Theme: FC = () => {
 	return (
 		<div className="flex flex-col gap-2">
 			<h3 className="font-bold text-xl">
-				{t()["local-config"].sections.theme.Title}
+				{t().components["local-config"].sections.theme.Title}
 			</h3>
 			<Item
-				label={t()["local-config"].configs["primary-color"].Name}
+				label={t().components["local-config"].configs["primary-color"].Name}
 				render={(id) => <PrimaryColorChanger id={id} />}
 			/>
 		</div>
@@ -39,10 +42,10 @@ const Language: FC = () => {
 	return (
 		<div className="flex flex-col gap-2">
 			<h3 className="font-bold text-xl">
-				{t()["local-config"].sections.language.Title}
+				{t().components["local-config"].sections.language.Title}
 			</h3>
 			<Item
-				label={t()["local-config"].configs.language.Name}
+				label={t().components["local-config"].configs.language.Name}
 				render={(id) => <LanguageChanger id={id} />}
 			/>
 		</div>

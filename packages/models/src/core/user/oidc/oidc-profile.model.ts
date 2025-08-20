@@ -1,5 +1,5 @@
 import { OIDC_PROFILE_INFO_SCHEMA } from "@/core/user/oidc/oidc-profile-info.model";
-import { DATE_SCHEMA } from "@/utils";
+import { DATE_SCHEMA } from "@/utils/date.model";
 import z from "zod";
 
 export const OIDC_PROFILE_SCHEMA = z.object({

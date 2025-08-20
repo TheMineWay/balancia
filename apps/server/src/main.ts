@@ -4,11 +4,25 @@ import type { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as pkg from "@pkg";
 import * as bodyParser from "body-parser";
+import * as fs from "fs";
 import helmet from "helmet";
 import { AppModule } from "./app.module";
 
+const getHttpsOptions = () => {
+	if (ENV.requests.useHttps) {
+		return {
+			key: fs.readFileSync("./certificates/key.pem"),
+			cert: fs.readFileSync("./certificates/cert.pem"),
+		};
+	}
+
+	return undefined;
+};
+
 async function bootstrap() {
-	const app = await NestFactory.create<NestExpressApplication>(AppModule);
+	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+		httpsOptions: getHttpsOptions(),
+	});
 
 	// Set timeout
 	const server = app.getHttpServer();
@@ -42,6 +56,6 @@ async function bootstrap() {
 		SwaggerModule.setup("documentation", app, documentFactory);
 	}
 
-	await app.listen(process.env.PORT || 3001);
+	await app.listen(process.env.PORT || 3001, "0.0.0.0");
 }
 bootstrap();

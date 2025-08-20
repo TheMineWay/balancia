@@ -1,11 +1,13 @@
 import { ENV } from "@constants/conf/env.constant";
 import { DATABASE_PROVIDERS } from "@database/database.provider";
+import type * as schema from "@database/schemas/main.schema";
 import { DatabaseService } from "@database/services/database.service";
 import { DatabaseSeederService } from "@database/services/seeders/database-seeder.service";
 import { Global, Logger, Module } from "@nestjs/common";
 import { Logger as DbLogger } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/mysql2";
-import { createPool } from "mysql2";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { PgDatabase, PgQueryResultHKT } from "drizzle-orm/pg-core";
+import { Pool } from "pg";
 
 @Global()
 @Module({
@@ -13,15 +15,19 @@ import { createPool } from "mysql2";
 		{
 			provide: DATABASE_PROVIDERS.main,
 			useFactory: () => {
-				const pool = createPool({
-					uri: ENV.database.url,
-					connectionLimit: ENV.database.connectionLimit,
+				const pool = new Pool({
+					connectionString: ENV.database.url,
+					max: ENV.database.connectionLimit,
+					min: 1,
 				});
 
 				const db = drizzle(pool, {
 					logger: ENV.database.logQueries ? new DatabaseLogger() : undefined,
 				});
-				return new DatabaseService(db);
+
+				return new DatabaseService(
+					db as unknown as PgDatabase<PgQueryResultHKT, typeof schema>,
+				);
 			},
 		},
 		DatabaseSeederService,

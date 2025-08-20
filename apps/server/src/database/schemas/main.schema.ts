@@ -1,4 +1,6 @@
 // Identity
+export { identitySchema } from "@database/schemas/main/tables/identity/identity.schema";
+
 export { permissionTable } from "@database/schemas/main/tables/identity/permission.table";
 export { rolePermissionTable } from "@database/schemas/main/tables/identity/role-permission.table";
 export { roleTable } from "@database/schemas/main/tables/identity/role.table";

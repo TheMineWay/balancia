@@ -4,6 +4,14 @@ import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 	{
+		dep: "tsx",
+		isDevelopment: true,
+	},
+	{
+		dep: "@types/pg",
+		isDevelopment: true,
+	},
+	{
 		dep: "body-parser",
 	},
 	{
@@ -95,7 +103,7 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 		dep: "helmet",
 	},
 	{
-		dep: "mysql2",
+		dep: "pg",
 	},
 	{
 		dep: "otpauth",

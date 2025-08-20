@@ -2,6 +2,16 @@ import type { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
 	{
+		code: "@types/pg",
+		name: "@types/pg",
+		url: "https://www.npmjs.com/package/@types/pg",
+	},
+	{
+		code: "tsx",
+		name: "TSX",
+		url: "https://www.npmjs.com/package/tsx",
+	},
+	{
 		code: "body-parser",
 		name: "Body Parser",
 		url: "https://www.npmjs.com/package/body-parser",
@@ -463,9 +473,9 @@ export const DEPENDENCIES = [
 		url: "https://www.npmjs.com/package/helmet",
 	},
 	{
-		code: "mysql2",
-		name: "mysql2",
-		url: "https://www.npmjs.com/package/mysql2",
+		code: "pg",
+		name: "pg",
+		url: "https://www.npmjs.com/package/pg",
 	},
 	{
 		code: "@docusaurus/core",

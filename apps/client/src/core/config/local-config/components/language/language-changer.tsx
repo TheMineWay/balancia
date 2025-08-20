@@ -62,7 +62,9 @@ const Option: FC<OptionProps> = ({ language, t }) => {
 			value={language}
 			className="flex items-center justify-between w-full"
 		>
-			<Text>{t()["local-config"].configs.language.options[language]}</Text>
+			<Text>
+				{t().components["local-config"].configs.language.options[language]}
+			</Text>
 		</Combobox.Option>
 	);
 };

@@ -1,6 +1,6 @@
 # NestFlux
 
-NestFlux is a **monorepo scaffold application** designed for rapid development and easy customization. Built entirely with **TypeScript**, it combines **React** for the client and **NestJS** for the backend. By default, it integrates **MySQL** as the database, offering a robust starting point for full-stack applications. The project uses **pnpm** for dependency management and is fully Dockerized.
+NestFlux is a **monorepo scaffold application** designed for rapid development and easy customization. Built entirely with **TypeScript**, it combines **React** for the client and **NestJS** for the backend. By default, it integrates **Postgres** as the database, offering a robust starting point for full-stack applications. The project uses **pnpm** for dependency management and is fully Dockerized.
 
 ## Features
 
@@ -16,7 +16,7 @@ NestFlux is a **monorepo scaffold application** designed for rapid development a
 - **Backend**
 
   - **NestJS**: A progressive Node.js framework for building efficient, reliable, and scalable server-side applications.
-  - **MySQL**: Default relational database support (easily replaceable).
+  - **Postgres**: Default relational database support (easily replaceable).
 
 - **Testing**
 
@@ -37,10 +37,10 @@ NestFlux is a **monorepo scaffold application** designed for rapid development a
 
 ### Prerequisites
 
-- **Node.js** (v16 or higher)
-- **pnpm** (v8 or higher)
+- **Node.js** (v24 or higher)
+- **pnpm** (v10 or higher)
 - **Docker** and **Docker Compose**
-- **MySQL** (or compatible database server)
+- **Postgres** (or compatible database server)
 
 ### Installation
 

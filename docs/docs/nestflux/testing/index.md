@@ -42,8 +42,8 @@ The monorepo uses **Vitest Workspace** for coordinated testing:
 The testing setup is organized across the monorepo:
 
 ```
-vitest.workspace.ts          # Main workspace configuration
-vitest.shared.ts            # Shared test utilities and setup
+vitest.config.ts             # Shared test utilities and setup
+├── tests/                   # Global tests
 ├── apps/
 │   ├── client/
 │   │   └── vitest.config.ts  # Client-specific test config

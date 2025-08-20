@@ -1,6 +1,6 @@
 import path from "path";
 import { defineProject, mergeConfig } from "vitest/config";
-import configShared from "../../vitest.shared";
+import configShared from "../../vitest.config";
 
 export default mergeConfig(
 	configShared,

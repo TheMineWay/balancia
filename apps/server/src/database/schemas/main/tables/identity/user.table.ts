@@ -1,13 +1,14 @@
 import { timestamps } from "@database/common/timestamps";
 import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
+import { identitySchema } from "@database/schemas/main/tables/identity/identity.schema";
 import type { UserModel } from "@shared/models";
 import { USER_MODEL_VALUES } from "@shared/models";
-import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+import { integer, varchar } from "drizzle-orm/pg-core";
 
 type ColumnsModel = DbModeledColumnsDefinition<UserModel>;
 
-export const userTable = mysqlTable("user", {
-	id: int().autoincrement().primaryKey(),
+export const userTable = identitySchema.table("users", {
+	id: integer().generatedAlwaysAsIdentity().primaryKey(),
 	// Code is the unique identifier that comes from the OIDC provider
 	code: varchar({ length: USER_MODEL_VALUES.code.maxLength })
 		.unique()

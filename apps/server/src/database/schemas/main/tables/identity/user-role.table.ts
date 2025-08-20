@@ -1,15 +1,16 @@
 import { timestamps } from "@database/common/timestamps";
+import { identitySchema } from "@database/schemas/main/tables/identity/identity.schema";
 import { roleTable } from "@database/schemas/main/tables/identity/role.table";
 import { userTable } from "@database/schemas/main/tables/identity/user.table";
-import { int, mysqlTable, primaryKey } from "drizzle-orm/mysql-core";
+import { integer, primaryKey } from "drizzle-orm/pg-core";
 
-export const userRoleTable = mysqlTable(
-	"user_role",
+export const userRoleTable = identitySchema.table(
+	"user_roles",
 	{
-		userId: int()
+		userId: integer()
 			.notNull()
 			.references(() => userTable.id, { onDelete: "cascade" }),
-		roleId: int()
+		roleId: integer()
 			.notNull()
 			.references(() => roleTable.id, { onDelete: "cascade" }),
 

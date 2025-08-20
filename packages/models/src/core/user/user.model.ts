@@ -1,4 +1,4 @@
-import { TIMESTAMPS_SCHEMA } from "@/utils";
+import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
 import type { ModelValues } from "@ts-types/model-values.type";
 import { number, object, string, z } from "zod";
 

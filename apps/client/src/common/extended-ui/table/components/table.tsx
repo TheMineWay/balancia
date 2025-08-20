@@ -31,7 +31,7 @@ export const Table = <TData extends TableValue>({
 		if (table.data.length === 0)
 			return (
 				<Status<TData> table={table}>
-					<Text size="sm">{t().status["no-data"].Description}</Text>
+					<Text size="sm">{t().components.status["no-data"].Description}</Text>
 				</Status>
 			);
 

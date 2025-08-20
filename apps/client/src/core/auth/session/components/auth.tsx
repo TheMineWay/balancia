@@ -29,7 +29,7 @@ export const Auth: FC = () => {
 					variant="outline"
 					size="lg"
 					onClick={openLocalConfig}
-					aria-label={commonT()["local-config"].Title}
+					aria-label={commonT().components["local-config"].Title}
 				>
 					<FaGear />
 				</ActionIcon>
@@ -37,7 +37,7 @@ export const Auth: FC = () => {
 
 			<Modal
 				centered
-				title={commonT()["local-config"].Title}
+				title={commonT().components["local-config"].Title}
 				opened={isLocalConfigOpened}
 				onClose={closeLocalConfig}
 			>

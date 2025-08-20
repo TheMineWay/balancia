@@ -8,8 +8,8 @@ export const NotFoundStatus: FC = () => {
 	return (
 		<Status
 			src={notFoundImage}
-			title={t().status["not-found"].Title}
-			description={t().status["not-found"].Description}
+			title={t().components.status["not-found"].Title}
+			description={t().components.status["not-found"].Description}
 		/>
 	);
 };

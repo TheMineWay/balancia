@@ -3,13 +3,13 @@ import type { DatabaseService } from "@database/services/database.service";
 import { Inject } from "@nestjs/common";
 import type { PaginatedQuery } from "@shared/models";
 import { type ColumnsSelection, count } from "drizzle-orm";
+import { PgSelectBase } from "drizzle-orm/pg-core";
+
 import type {
-	MySqlSelectBase,
-	PreparedQueryHKTBase,
-} from "drizzle-orm/mysql-core";
-import type {
+	BuildSubquerySelection,
 	JoinNullability,
 	SelectMode,
+	SelectResult,
 } from "drizzle-orm/query-builders/select.types";
 
 export type Transaction = Parameters<
@@ -39,25 +39,32 @@ export abstract class Repository {
 		TTableName extends string | undefined,
 		TSelection extends ColumnsSelection,
 		TSelectMode extends SelectMode,
-		TPreparedQueryHKT extends PreparedQueryHKTBase,
 		TNullabilityMap extends Record<
 			string,
 			JoinNullability
-			// biome-ignore lint/complexity/noBannedTypes: got from package
 		> = TTableName extends string ? Record<TTableName, "not-null"> : {},
-		// biome-ignore lint/correctness/noUnusedVariables: got from package
-		TDynamic extends boolean = false,
+		TDynamic extends true = true,
 		TExcludedMethods extends string = never,
+		TResult extends any[] = SelectResult<
+			TSelection,
+			TSelectMode,
+			TNullabilityMap
+		>[],
+		TSelectedFields extends ColumnsSelection = BuildSubquerySelection<
+			TSelection,
+			TNullabilityMap
+		>,
 	>(
 		pagination: PaginatedQuery,
-		query: MySqlSelectBase<
+		query: PgSelectBase<
 			TTableName,
 			TSelection,
 			TSelectMode,
-			TPreparedQueryHKT,
 			TNullabilityMap,
-			true,
-			TExcludedMethods
+			TDynamic,
+			TExcludedMethods,
+			TResult,
+			TSelectedFields
 		>,
 	) {
 		const rows = await query

@@ -16,7 +16,7 @@ Before you begin, ensure you have the following installed on your system:
 - **Git** - For version control and repository management
 
 ### Database
-- **MySQL** - A MySQL instance up and running. You can generate a MySQL docker-compose using the CLI.
+- **Postgres** - A Postgres instance up and running. You can generate a Postgres docker-compose using the CLI.
 
 ## 🛠️ Setup Process
 
@@ -67,8 +67,8 @@ cp apps/server/example.env apps/server/.env
 If using Docker (recommended):
 
 ```bash
-# Start MySQL database container
-docker-compose -f generated/database/db.mysql.docker-compose.yml up -d
+# Start Postgres database container
+docker-compose -f generated/database/postgres/db.postgres.docker-compose.yml up -d
 ```
 
 Then run database migrations:
