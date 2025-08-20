@@ -65,22 +65,22 @@ const AdminMenu: FC = () => {
 };
 
 const DevTools: FC = () => {
-    // Only load in development
-    if (process.env.NODE_ENV !== 'development') {
-        return null;
-    }
+	// Only load in development
+	if (process.env.NODE_ENV !== "development") {
+		return null;
+	}
 
-    const TanStackRouterDevtools = lazy(() => 
-        import('@tanstack/react-router-devtools').then(module => ({
-            default: module.TanStackRouterDevtools
-        }))
-    );
+	const TanStackRouterDevtools = lazy(() =>
+		import("@tanstack/react-router-devtools").then((module) => ({
+			default: module.TanStackRouterDevtools,
+		})),
+	);
 
-    return (
-        <Suspense fallback={null}>
-            <TanStackRouterDevtools />
-        </Suspense>
-    );
+	return (
+		<Suspense fallback={null}>
+			<TanStackRouterDevtools />
+		</Suspense>
+	);
 };
 
 export const Route = createRootRoute({
@@ -98,7 +98,7 @@ export const Route = createRootRoute({
 					<Outlet />
 				</NavigationLayout.Content>
 			</NavigationLayout.Root>
-			<DevTools/>
+			<DevTools />
 		</>
 	),
 });

@@ -39,15 +39,28 @@ services:
     shm_size: 128mb
     environment:
       POSTGRES_PASSWORD: ${password}
-      POSTGRES_USER: api_user
+      POSTGRES_USER: root
       POSTGRES_DB: ${dbName}
     ports:
       - ${port}:5432
     volumes:
       - ./data:/var/lib/postgresql/data
+      # SSL certificates
+      - ./certs:/var/lib/postgresql/certs:ro
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    command: [
+      "postgres",
+      "-c", "ssl=on",
+      "-c", "ssl_cert_file=/var/lib/postgresql/certs/server.crt",
+      "-c", "ssl_key_file=/var/lib/postgresql/certs/server.key"
+    ]
 
 # [I] Connection string
-# ${connectionString}`;
+# ${connectionString}
+
+# To generate DB certificates, run:
+# - openssl req -new -x509 -days 365 -nodes -text -out server.crt -keyout server.key
+# Put them inside a folder named "certs" next to the docker compose file.`;
 };
 
 const COMPOSE_FILES: Record<
