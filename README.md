@@ -1,168 +1,190 @@
-# NestFlux
+# 🚀 NestFlux
 
-NestFlux is a **monorepo scaffold application** designed for rapid development and easy customization. Built entirely with **TypeScript**, it combines **React** for the client and **NestJS** for the backend. By default, it integrates **Postgres** as the database, offering a robust starting point for full-stack applications. The project uses **pnpm** for dependency management and is fully Dockerized.
+A comprehensive **TypeScript monorepo template** that combines the power of **React** and **NestJS** to accelerate modern web application development.
 
-## Features
+## 🧰 What is NestFlux?
 
-- **Monorepo Architecture**:
+NestFlux is a full-stack scaffold designed for building scalable applications with:
 
-  - Shared **common types** and **static data** across both client and backend projects.
+- **⚛️ React Frontend** - Modern React 19 application with TypeScript
+- **🚀 NestJS Backend** - Robust Node.js server API with NestJS 11
+- **🗄️ PostgreSQL Database** - Enterprise-grade database with full TypeScript integration
+- **📦 Shared Libraries** - Common utilities, types, and constants across the entire stack
+- **🏗️ Structured Methodology** - Feature-based architecture with consistent patterns
+- **🧪 Comprehensive Testing** - Unit, integration, and E2E testing setup
+- **📚 Complete Documentation** - Built-in documentation system with Docusaurus
 
-- **Frontend**
+## ✨ Key Features
 
-  - **React**: Modern UI framework for the client.
-  - **Mantine**: Pre-configured UI components for sleek and professional designs.
+### 🔐 **Type Safety First**
+- **100% TypeScript** coverage across the entire stack
+- **Compile-time validation** with Zod schemas
+- **Type-safe API calls** between client and server
+- **Database type safety** with Drizzle ORM
 
-- **Backend**
+### 🏗️ **Structured Architecture**
+- **Monorepo setup** with shared packages
+- **Feature-based organization** for scalability
+- **Consistent development patterns** across applications
+- **Clear separation of concerns**
 
-  - **NestJS**: A progressive Node.js framework for building efficient, reliable, and scalable server-side applications.
-  - **Postgres**: Default relational database support (easily replaceable).
+### 🛡️ **Production Ready**
+- **Authentication & Authorization** system pre-built
+- **Security best practices** with Helmet and CORS
+- **Database migrations** and schema management
+- **SSL/TLS configuration** for secure connections
 
-- **Testing**
+### 🧪 **Testing & Quality**
+- **Automated testing** with Vitest
+- **Code quality tools** (Biome)
+- **Comprehensive test coverage**
 
-  - **Vitest**: Lightweight and fast testing for both client and backend.
-  - **Playwright**: End-to-end testing to ensure a smooth user experience.
+## 🛠️ Technology Stack
 
-- **Continuous Integration**
+### **Frontend**
+- **React 19** - Latest component-based UI library
+- **TypeScript 5** - Strongly typed JavaScript
+- **Vite** - Lightning-fast build tool
+- **TanStack Router** - Type-safe routing
+- **TanStack Query** - Server state management
+- **Mantine UI** - Comprehensive component library
+- **Tailwind CSS** - Utility-first styling
 
-  - **Prebuilt GitHub Pipelines**:
-    - **Testing**: Runs Vitest and Playwright tests on pull requests and merges.
-    - **Linting**: Ensures code quality and adheres to project standards.
-    - **GitHub Pages Deployment** (disabled by default): Automates static builds for documentation or app previews.
+### **Backend**
+- **NestJS 11** - Progressive Node.js framework
+- **Node.js 24** - Latest runtime features
+- **TypeScript 5** - Full backend type safety
+- **Drizzle ORM** - Type-safe database operations
+- **PostgreSQL** - Enterprise database
+- **Helmet** - Security middleware
 
-- **Dockerization**:
-  - Both client and backend solutions include prebuilt **Dockerfiles** for containerized deployment.
+### **Shared Tools**
+- **pnpm** - Fast, efficient package manager
+- **Vitest** - Blazing fast testing framework
+- **Zod** - TypeScript-first schema validation
+- **Biome** - Fast linter and formatter
+- **Docker** - Containerization support
 
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-
-- **Node.js** (v24 or higher)
-- **pnpm** (v10 or higher)
-- **Docker** and **Docker Compose**
-- **Postgres** (or compatible database server)
+- **Node.js 24+** - Latest runtime features
+- **pnpm 10+** - Package manager
+- **PostgreSQL** - Database instance
 
 ### Installation
 
-1. Clone the repository:
-
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/TheMineWay/NestFlux
+   git clone https://github.com/TheMineWay/NestFlux.git
    cd NestFlux
    ```
 
-2. Install dependencies:
-
+2. **Install dependencies**
    ```bash
    pnpm install
    ```
 
-3. Build packages:
-
+3. **Set up the database**
    ```bash
-   pnpm build:packages
+   # Use the built-in CLI to generate PostgreSQL Docker setup
+   pnpm tools
    ```
 
-   if you are in development (this listens to changes on all):
-
+4. **Configure environment**
    ```bash
-   pnpm dev:packages
+   # Copy example environment files
+   cp apps/client/example.env apps/client/.env
+   cp apps/server/example.env apps/server/.env
    ```
 
-4. Set up the database:
-
-   - Update the database configuration in `.env`:
-     ```env
-     DB_HOST=localhost
-     DB_PORT=3306
-     DB_USER=root
-     DB_PASSWORD=password
-     DB_NAME=nestflux
-     ```
-
-5. Run database migrations:
-   ```bash
-   pnpm migrate
-   ```
-
-### Running the Application
-
-- **Using Docker**:
-
-  ```bash
-  docker-compose up
-  ```
-
-  This will start both the client and backend services in a containerized environment.
-
-- **Without Docker**:
-  - **Start the backend**:
+5. **Build packages**
     ```bash
-    pnpm start:server
-    ```
-  - **Start the client**:
-    ```bash
-    pnpm start:client
+    pnpm build:packages
     ```
 
-By default:
+6. **Start development servers**
+   ```bash
+   # Start all services (client, server, packages)
+   pnpm dev
+   
+   # Or start individually:
+   pnpm dev:client    # React app at http://localhost:3000
+   pnpm dev:server    # NestJS API at http://localhost:3001
+   pnpm dev:packages  # Watch shared packages
+   ```
 
-- API is accessible at `http://localhost:3001`
-- Client is accessible at `http://localhost:3000`
+   (or start the dev.docker-compose.yml)
 
-## Testing
+7. **Start documentation**
+   ```bash
+   pnpm start:docs    # Documentation at http://localhost:3002
+   ```
 
-### Unit and Integration Tests
+## 🎯 Who Should Use NestFlux?
 
-Run all Vitest tests:
+NestFlux is perfect for:
+
+- **🧑‍💻 Full-stack developers** building TypeScript applications
+- **👥 Development teams** needing standardized project structure
+- **🚀 Startups** requiring rapid prototyping and scaling
+- **🏢 Enterprises** demanding maintainable, testable codebases
+- **📚 Learners** wanting to explore modern full-stack development
+
+## 🔧 CLI Tools
+
+NestFlux includes a powerful CLI for project management:
 
 ```bash
-pnpm run test
+pnpm tools
 ```
 
-## Scripts
+**Available features:**
+- **📝 Project Metadata** - Update name and version across all packages
+- **🐳 Docker Generation** - Generate PostgreSQL setup with SSL
+- **📋 Consistency Checks** - Automated validation and testing
 
-| Command               | Description                            |
-| --------------------- | -------------------------------------- |
-| `pnpm start:client`   | Start the React client application.    |
-| `pnpm start:server`   | Start the NestJS backend application.  |
-| `pnpm build:client`   | Build client.                          |
-| `pnpm build:server`   | Build server.                          |
-| `pnpm build:packages` | Build all packages.                    |
-| `pnpm build`          | Build everything.                      |
-| `pnpm test`           | Run all Vitest tests.                  |
-| `pnpm lint`           | Check code quality using linter rules. |
-| `pnpm db:generate`    | Generate database SQL.                 |
-| `pnpm db:migrate`     | Run database migrations.               |
+## 🧪 Testing
 
-## Development scripts
+Comprehensive testing setup included:
 
-| Command             | Description                                                             |
-| ------------------- | ----------------------------------------------------------------------- |
-| `pnpm dev:client`   | Start the React client application in dev mode.                         |
-| `pnpm sev:server`   | Start the NestJS backend application in dev mode.                       |
-| `pnpm dev:packages` | Build packages and rebuild them if changes are detected.                |
-| `pnpm dev`          | Start **client** and **server** in dev mode.                            |
-| `pnpm test:ui`      | Run all Vitest tests and show them in a web UI (and listen to changes). |
-| `pnpm lint:fix`     | Check code quality using linter rules and fix what is possible.         |
-| `pnpm tools`        | Run NestFlux tools.                                                     |
+```bash
+# Run all tests
+pnpm test
 
-## Customization
+# Run all tests in watch mode
+pnpm test:dev
 
-### UI Design
+# Run tests in UI mode
+pnpm test:ui
+```
 
-NestFlux uses **Mantine Design** for UI components. Visit [Mantine documentation](https://mantine.dev/) to learn more about customization and component usage.
+## 📚 Documentation
 
-### GitHub Pipelines
+- **📖 Full Documentation**: Available at `/docs` when running `pnpm start:docs`
+- **🏗️ Architecture Guide**: Detailed explanation of project structure
+- **🔐 Security Guidelines**: Best practices for secure development
 
-NestFlux includes prebuilt GitHub workflows:
+## 🛡️ Security Features
 
-- **Testing and Linting**: Enabled by default (unit testing, e2e and lint).
+- **🔒 SSL/TLS Encryption** for all connections
+- **🔐 Authentication system** with role-based access
+- **🛡️ Security headers** and CORS configuration
+- **📊 Database security** with encrypted connections
+- **🔑 Environment management** for sensitive data
 
-## License
+## 🤝 Contributing
 
-NestFlux is licensed under the [MIT License](LICENSE). Feel free to use and modify it for your projects.
+We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details.
+
+## 📄 License
+
+This project is licensed under the [MIT License](./LICENSE).
+
+## 🙏 Acknowledgments
+
+Built with ❤️ using modern open-source technologies and community best practices.
 
 ---
 
-Happy coding with **NestFlux**! 🚀
+**🚀 Ready to build something amazing?** [Get started with the documentation](https://themineway.github.io/NestFlux/) and join the NestFlux community!
