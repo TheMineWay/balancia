@@ -6,24 +6,40 @@ export default mergeConfig(
   mergeConfig(viteConfig, sharedConfig),
   defineConfig({
     test: {
+      pool: 'threads',
+      environment: "jsdom",
       globals: true,
-      workspace: [
+      include: [
+        "**/*.spec.ts",
+        "**/*.spec.tsx", 
+        "**/*.spec.dom.ts",
+        "**/*.spec.dom.tsx"
+      ],
+      exclude: [
+        "**/routes/**/*",
+        "**/node_modules/**"
+      ],
+      projects: [
         {
           extends: true,
           test: {
-            environment: "node",
-            include: ["**/*.spec.ts", "**/*.spec.tsx"],
-            exclude: ["src/routes/**", "**/*.spec.dom.*", "node_modules/**"],
-          },
+            environment: 'jsdom',
+            include: [
+              "**/*.spec.dom.ts",
+              "**/*.spec.dom.tsx"
+            ]
+          }
         },
         {
           extends: true,
           test: {
-            environment: "jsdom",
-            include: ["**/*.spec.dom.*"],
-            exclude: ["src/routes/**", "**/*.spec.ts", "node_modules/**"],
-          },
-        },
+            environment: 'node',
+            include: [
+              "**/*.spec.ts",
+              "**/*.spec.tsx"
+            ]
+          }
+        }
       ],
     },
   })
