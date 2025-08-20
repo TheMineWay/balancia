@@ -42,7 +42,7 @@ async function generateIndex() {
 	});
 
 	const content = exports.join("\n");
-	const space = content === "\n" ? "" : "\n";
+	const space = content === "" ? "\n" : "";
 	await fs.writeFile(INDEX_FILE, content + space);
 	console.log("Generated src/index.ts with exports for all source files.");
 }
