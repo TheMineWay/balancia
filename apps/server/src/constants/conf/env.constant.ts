@@ -32,6 +32,7 @@ const ENV_SCHEMA = z.object({
 		.transform(toNum)
 		.refine(refinedMin(1)),
 	DATABASE_URL: z.string(),
+	DATABASE_SSL_REJECT_UNAUTHORIZED: z.stringbool().default(true),
 
 	// DEBUG
 	LOG_ENV_VALUES: z.stringbool().default(false),
@@ -111,6 +112,7 @@ export const ENV = (() => {
 			url: values.DATABASE_URL,
 			connectionLimit: values.DATABASE_CONNECTION_LIMIT,
 			logQueries: values.LOG_QUERIES,
+			sslRejectUnauthorized: values.DATABASE_SSL_REJECT_UNAUTHORIZED,
 		},
 		cors: {
 			allowedDomains: values.CORS_ONLY_ALLOW_DOMAINS,
