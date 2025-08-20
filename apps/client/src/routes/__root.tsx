@@ -7,7 +7,7 @@ import { ActionIcon, Button, Group, Menu, Text } from "@mantine/core";
 import { useUserInfo } from "@providers/auth/user-info.context";
 import { Permission } from "@shared/models";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { lazy, Suspense } from "react";
 import { FaHome } from "react-icons/fa";
 import { MdAdminPanelSettings, MdDashboard } from "react-icons/md";
 
@@ -64,6 +64,25 @@ const AdminMenu: FC = () => {
 	);
 };
 
+const DevTools: FC = () => {
+    // Only load in development
+    if (process.env.NODE_ENV !== 'development') {
+        return null;
+    }
+
+    const TanStackRouterDevtools = lazy(() => 
+        import('@tanstack/react-router-devtools').then(module => ({
+            default: module.TanStackRouterDevtools
+        }))
+    );
+
+    return (
+        <Suspense fallback={null}>
+            <TanStackRouterDevtools />
+        </Suspense>
+    );
+};
+
 export const Route = createRootRoute({
 	component: () => (
 		<>
@@ -79,7 +98,7 @@ export const Route = createRootRoute({
 					<Outlet />
 				</NavigationLayout.Content>
 			</NavigationLayout.Root>
-			<TanStackRouterDevtools />
+			<DevTools/>
 		</>
 	),
 });
