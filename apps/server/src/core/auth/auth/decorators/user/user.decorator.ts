@@ -13,7 +13,7 @@ export const User = createParamDecorator(
 
 		const user = request.user as unknown as JwtRequestUserInfo;
 
-		if (!user) throw new BadRequestException();
+		if (!user || !user.user?.id) throw new BadRequestException();
 
 		return user.user;
 	},
