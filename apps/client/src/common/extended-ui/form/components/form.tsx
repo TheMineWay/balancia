@@ -16,6 +16,10 @@ type FormProps = Omit<
 	};
 };
 
+/**
+ * Styled form component with consistent vertical layout and spacing.
+ * Provides customizable styling through props while maintaining base form functionality.
+ */
 export const Form: FC<FormProps> = ({
 	styles: stylesProps,
 	classNames,

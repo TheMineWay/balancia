@@ -4,6 +4,10 @@ type Options = {
 	capitalize?: boolean;
 };
 
+/**
+ * Utility function to format and clean user names from profile information.
+ * Normalizes spacing and optionally capitalizes each word.
+ */
 export const getUserName = (
 	{ name }: Partial<OidcProfileInfo>,
 	options: Options = { capitalize: true },

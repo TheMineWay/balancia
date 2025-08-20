@@ -24,6 +24,11 @@ type Props = {
 	user: UserModel;
 };
 
+/**
+ * User actions avatar component that displays a clickable user avatar with dropdown menu.
+ * Provides access to profile, settings, and logout functionality.
+ * Lazy loads the local config manager to optimize bundle size.
+ */
 export const UserActionsAvatar: FC<Props> = ({ user }) => {
 	const { t } = useTranslation("auth");
 	const { t: commonT } = useTranslation("common");

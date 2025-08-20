@@ -20,6 +20,9 @@ import {
 import axios from "axios";
 import * as jwt from "jsonwebtoken";
 
+/**
+ * Service responsible for authentication operations
+ */
 @Injectable()
 export class AuthService {
 	constructor(

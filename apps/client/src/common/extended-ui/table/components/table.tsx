@@ -13,6 +13,10 @@ export type TableProps<TData extends TableValue> = {
 	loading?: boolean;
 };
 
+/**
+ * Generic table component that renders data in a tabular format.
+ * Supports loading states, empty states, and custom column rendering.
+ */
 export const Table = <TData extends TableValue>({
 	table,
 	loading = false,

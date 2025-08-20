@@ -6,6 +6,10 @@ type Options = {
 	debounceTime?: number;
 };
 
+/**
+ * Hook that provides debounced search functionality.
+ * Delays the execution of search operations to improve performance and reduce unnecessary API calls.
+ */
 export const useDebouncedSearch = ({
 	debounceTime = 300,
 	onSearch,

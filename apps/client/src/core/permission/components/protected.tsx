@@ -8,6 +8,10 @@ type ProtectedProps = {
 	condition: PermissionCondition;
 } & WithChildren;
 
+/**
+ * Permission-based component wrapper that conditionally renders children.
+ * Only displays content if the user meets the specified permission condition.
+ */
 export const Protected: FC<ProtectedProps> = ({ condition, children }) => {
 	const { permissions: userPermissions } = useUserInfo();
 

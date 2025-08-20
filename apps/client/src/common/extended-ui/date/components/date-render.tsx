@@ -14,6 +14,10 @@ const MODES: Record<DateModes, string> = {
 	long: "EEEE, dd-MM-yyyy",
 };
 
+/**
+ * Component for rendering formatted date strings without time information.
+ * Supports both short and long date display modes.
+ */
 export const DateRender: FC<Props> = ({ date, mode = "short" }) => {
 	const value = useMemo(() => format(date, MODES[mode]), [date, mode]);
 

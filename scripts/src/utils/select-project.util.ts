@@ -6,6 +6,10 @@ type Options = {
 	include?: ("packages" | "apps")[];
 };
 
+/**
+ * Utility function that provides an interactive project selector for the monorepo.
+ * Allows users to choose from available apps and packages to run operations on.
+ */
 export const selectProject = async (
 	fn: (path: string) => Promise<void>,
 	{ include = ["apps", "packages"] }: Options = {},

@@ -4,6 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 
 type Props = WithChildren;
 
+/**
+ * Provider component that tracks device information including window dimensions and mobile detection.
+ * Automatically updates device info when the window is resized.
+ */
 export const DeviceInfoProvider: FC<Props> = ({ children }) => {
 	// States
 	const [windowSizeInfo, setWindowSizeInfo] = useState<

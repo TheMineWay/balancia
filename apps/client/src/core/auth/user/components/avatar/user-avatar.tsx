@@ -5,6 +5,10 @@ type Props = {
 	user: UserModel;
 };
 
+/**
+ * User avatar component that displays a user's profile picture.
+ * Uses Gravatar service to generate avatar images based on user email.
+ */
 export const UserAvatar: FC<Props> = ({ user }) => {
 	return (
 		<img

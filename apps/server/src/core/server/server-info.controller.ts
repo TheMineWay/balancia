@@ -13,6 +13,10 @@ import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
 export class ServerInfoController {
 	constructor(private readonly serverInfoService: ServerInfoService) {}
 
+	/**
+	 * Endpoint for retrieving server information including version details.
+	 * Public endpoint that doesn't require authentication.
+	 */
 	@ApiOperation({ summary: "Get server information" })
 	@Public()
 	@Endpoint(SERVER_INFO_CONTROLLER, "get-server-info")

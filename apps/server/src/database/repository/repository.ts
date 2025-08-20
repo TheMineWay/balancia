@@ -20,12 +20,20 @@ export type QueryOptions = {
 	transaction?: Transaction;
 };
 
+/**
+ * Abstract base repository class that provides common database operations.
+ * Includes transaction support and pagination utilities for Drizzle ORM.
+ */
 export abstract class Repository {
 	constructor(
 		@Inject(DATABASE_PROVIDERS.main)
 		protected readonly dbService: DatabaseService,
 	) {}
 
+	/**
+	 * Returns the appropriate database instance for querying.
+	 * Uses the provided transaction if available, otherwise the main database connection.
+	 */
 	protected query = (options?: QueryOptions) =>
 		options?.transaction || this.dbService.db;
 

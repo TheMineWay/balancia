@@ -7,6 +7,10 @@ type Props = {
 	actions?: React.ReactNode[];
 };
 
+/**
+ * User card component that displays user information in a bordered paper container.
+ * Shows user avatar, name, username, and optional action buttons.
+ */
 export const UserCard: FC<Props> = ({ user, actions = [] }) => {
 	return (
 		<Paper withBorder>

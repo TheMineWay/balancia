@@ -42,6 +42,10 @@ const Header: FC<ListHeaderProps> = ({ children, className }) => {
 
 type ListFooterProps = WithChildren & Common;
 
+/**
+ * Footer component for List.
+ * Used to display footer content or actions at the bottom of the list.
+ */
 const Footer: FC<ListFooterProps> = ({ children, className }) => {
 	return <div className={clsx(className)}>{children}</div>;
 };
