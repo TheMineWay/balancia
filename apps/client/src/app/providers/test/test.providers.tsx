@@ -13,9 +13,7 @@ export const TestProviders: FC<WithChildren> = ({ children }) => {
 				<UIProviders>
 					<NetworkProvider>
 						<OidcProvider>
-							<AuthProvider>
-								{children}
-							</AuthProvider>
+							<AuthProvider>{children}</AuthProvider>
 						</OidcProvider>
 					</NetworkProvider>
 				</UIProviders>
