@@ -40,7 +40,10 @@ async function generateIndex() {
 		const relPath = "./" + path.relative(SRC_DIR, f).replace(/\.ts$/, "");
 		return `export * from "${relPath}";`;
 	});
-	await fs.writeFile(INDEX_FILE, exports.join("\n") + "\n");
+
+	const content = exports.join("\n");
+	const space = content === "\n" ? "" : "\n";
+	await fs.writeFile(INDEX_FILE, content + space);
 	console.log("Generated src/index.ts with exports for all source files.");
 }
 
