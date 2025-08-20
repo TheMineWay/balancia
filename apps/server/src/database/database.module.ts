@@ -19,6 +19,9 @@ import { Pool } from "pg";
 					connectionString: ENV.database.url,
 					max: ENV.database.connectionLimit,
 					min: 1,
+					ssl: {
+						rejectUnauthorized: ENV.database.sslRejectUnauthorized,
+					},
 				});
 
 				const db = drizzle(pool, {
