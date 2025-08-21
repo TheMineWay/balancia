@@ -1,0 +1,27 @@
+# This docker compose starts the NestFlux application in production mode.
+
+version: "3.9"
+services:
+  client:
+    image: node:24-alpine
+    working_dir: /app
+    command: sh -c "npm install -g pnpm && pnpm build:packages && pnpm build:client && pnpm start:client"
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    depends_on:
+      - server
+    expose:
+      - 3000
+
+  server:
+    image: node:24-alpine
+    working_dir: /app
+    command: sh -c "npm install -g pnpm && pnpm build:packages && pnpm build:server && pnpm start:server"
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/app
+    expose:
+      - 3001
