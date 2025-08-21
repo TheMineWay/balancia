@@ -2,6 +2,8 @@ import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { defineConfig } from "vite";
+import { VitePWA } from 'vite-plugin-pwa';
+import pkg from "./package.json";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -13,6 +15,18 @@ export default defineConfig({
       autoCodeSplitting: true,
     }),
     react(),
+    VitePWA({ registerType: 'autoUpdate', manifest: {
+      name: pkg.name,
+      description: pkg.description,
+      icons: [
+        {
+          src: 'logo-64.png',
+          sizes: '64x64',
+          type: 'image/png',
+        }
+      ]
+    }
+  }),
   ],
   resolve: {
     alias: {
