@@ -8,13 +8,15 @@ import pkg from "./package.json";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    react(),
+    // Router plugin
     tanstackRouter({
       routesDirectory: "./src/routes",
       generatedRouteTree: "./src/routeTree.gen.ts",
       target: "react",
       autoCodeSplitting: true,
     }),
-    react(),
+    // PWA config
     VitePWA({ registerType: 'autoUpdate', manifest: {
       name: pkg.name,
       description: pkg.description,
