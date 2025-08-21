@@ -1,11 +1,11 @@
 {
 	"name": "nestflux-server",
 	"version": "1.0.0",
-	"description": "",
+	"description": "Server project",
 	"main": "dist/src/main",
 	"scripts": {
 		"build": "nest build",
-		"dev": "pnpm start:dev --watch",
+		"dev": "nest start --watch",
 		"start": "pnpm db:migrate && node .",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
