@@ -8,6 +8,10 @@ type StatusProps = {
 	src: string;
 };
 
+/**
+ * Status component that displays a centered status message with an image.
+ * Commonly used for empty states, error states, or informational messages.
+ */
 export const Status: FC<StatusProps> = ({
 	title,
 	description,
@@ -39,6 +43,9 @@ type StatusImageProps = {
 	alt: string;
 };
 
+/**
+ * Internal component for rendering the status image with consistent styling.
+ */
 const StatusImage: FC<StatusImageProps> = ({ src, alt }) => {
 	return <img className="h-64 object-cover rounded-lg" src={src} alt={alt} />;
 };

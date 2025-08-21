@@ -8,6 +8,10 @@ import * as fs from "fs";
 import helmet from "helmet";
 import { AppModule } from "./app.module";
 
+/**
+ * Retrieves HTTPS options for the server if HTTPS is enabled in configuration.
+ * Reads SSL certificate and key files from the certificates directory.
+ */
 const getHttpsOptions = () => {
 	if (ENV.requests.useHttps) {
 		return {
@@ -19,6 +23,10 @@ const getHttpsOptions = () => {
 	return undefined;
 };
 
+/**
+ * Bootstrap function that initializes and configures the NestJS application.
+ * Sets up HTTPS, CORS, security middleware, request parsing, and API documentation.
+ */
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
 		httpsOptions: getHttpsOptions(),

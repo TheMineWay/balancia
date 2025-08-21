@@ -2,6 +2,11 @@ import type { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
 	{
+		code: "vite-plugin-pwa",
+		name: "Vite Plugin PWA",
+		url: "https://www.npmjs.com/package/vite-plugin-pwa",
+	},
+	{
 		code: "@types/pg",
 		name: "@types/pg",
 		url: "https://www.npmjs.com/package/@types/pg",

@@ -6,6 +6,10 @@ type Props = {
 	permission: Permission;
 };
 
+/**
+ * Component for rendering a permission as a styled badge.
+ * Displays the localized permission name within a badge component.
+ */
 export const PermissionRender: FC<Props> = ({ permission }) => {
 	const { t } = useTranslation("role");
 

@@ -10,6 +10,10 @@ import { Reflector } from "@nestjs/core";
 import type { Permission } from "@shared/models";
 import { Request } from "express";
 
+/**
+ * Permission guard that validates user permissions against endpoint requirements.
+ * Checks if the authenticated user has all required permissions to access an endpoint.
+ */
 @Injectable()
 export class PermissionsGuard implements CanActivate {
 	constructor(private readonly reflector: Reflector) {}

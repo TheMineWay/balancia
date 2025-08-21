@@ -1,5 +1,4 @@
 import type { WithChildren } from "@common/extended-ui/general/types/component.types";
-import { AfterProviders } from "@providers/after-providers";
 import { AuthProvider } from "@providers/auth/auth.provider";
 import { OidcProvider } from "@providers/auth/oidc.provider";
 import { DeviceInfoProvider } from "@providers/device/device-info.provider";
@@ -14,9 +13,7 @@ export const TestProviders: FC<WithChildren> = ({ children }) => {
 				<UIProviders>
 					<NetworkProvider>
 						<OidcProvider>
-							<AuthProvider>
-								<AfterProviders>{children}</AfterProviders>
-							</AuthProvider>
+							<AuthProvider>{children}</AuthProvider>
 						</OidcProvider>
 					</NetworkProvider>
 				</UIProviders>

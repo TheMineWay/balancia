@@ -1,5 +1,9 @@
 import { UserModel } from "@shared/models";
 
+/**
+ * Mock user data for testing and development purposes.
+ * Contains sample user objects with predefined properties.
+ */
 export const USERS_MOCK = {
 	john: {
 		id: 1,

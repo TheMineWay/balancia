@@ -6,6 +6,10 @@ type SearchProps = {
 	manager: UseDebouncedSearch;
 } & Omit<InputProps, "leftSection" | "onChange">;
 
+/**
+ * Search input component with built-in debouncing functionality.
+ * Automatically delays search execution to improve performance and reduce API calls.
+ */
 export const DebouncedSearch: FC<SearchProps> = ({ manager, ...props }) => {
 	return (
 		<Input

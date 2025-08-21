@@ -35,6 +35,10 @@ const decoratorMapper = (method?: EndpointMethod) => {
 	}
 };
 
+/**
+ * Decorator that automatically configures NestJS endpoints based on controller definitions.
+ * Maps endpoint configurations to appropriate HTTP method decorators with parameter routing.
+ */
 export function Endpoint<
 	C extends ControllerDefinition,
 	E extends keyof C["endpoints"],

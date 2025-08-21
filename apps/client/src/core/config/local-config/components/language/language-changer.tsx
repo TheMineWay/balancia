@@ -10,6 +10,10 @@ type Props = {
 	id?: string;
 };
 
+/**
+ * Language selector component that allows users to change the application language.
+ * Provides a dropdown interface with all available language options.
+ */
 export const LanguageChanger: FC<Props> = ({ id }) => {
 	const { t } = useTranslation("common");
 	const combobox = useCombobox();

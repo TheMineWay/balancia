@@ -6,6 +6,10 @@ type Props = {
 	children?: React.ReactNode;
 };
 
+/**
+ * Component that handles URL-based callbacks and displays loading state.
+ * Automatically detects and invokes callbacks based on the current URL.
+ */
 export const CallbackRender: FC<Props> = ({ children }) => {
 	const callback = useMemo(() => getCallbackByUrl(window.location.href), []);
 

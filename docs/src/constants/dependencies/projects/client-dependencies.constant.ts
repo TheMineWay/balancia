@@ -4,6 +4,10 @@ import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 	{
+		dep: "vite-plugin-pwa",
+		isDevelopment: true,
+	},
+	{
 		dep: "@tanstack/react-router-devtools",
 		isDevelopment: true,
 	},

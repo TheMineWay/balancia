@@ -8,6 +8,10 @@ import {
 import { Reflector } from "@nestjs/core";
 import { AuthGuard } from "@nestjs/passport";
 
+/**
+ * JWT authentication guard that verifies user tokens and handles public endpoints.
+ * Bypasses authentication for endpoints marked with @Public() decorator.
+ */
 @Injectable()
 export class JwtAuthGuard extends AuthGuard("jwt") implements CanActivate {
 	constructor(private readonly reflector: Reflector) {

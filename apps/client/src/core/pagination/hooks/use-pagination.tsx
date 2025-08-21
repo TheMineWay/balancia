@@ -12,6 +12,10 @@ type Pagination = {
 	limit: number;
 };
 
+/**
+ * Hook for managing pagination state and controls.
+ * Provides pagination logic, state management, and helper functions for data fetching.
+ */
 export const usePagination = ({
 	total: initialTotal = 0,
 	initialPageSize = 20,

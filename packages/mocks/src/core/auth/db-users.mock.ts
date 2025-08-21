@@ -1,5 +1,9 @@
 import type { DbUserModel } from "@shared/models";
 
+/**
+ * Mock database user data for testing database operations.
+ * Contains sample database user objects with fixed timestamps for consistent testing.
+ */
 export const DB_USERS_MOCK = {
 	"john.doe": {
 		id: 1,
