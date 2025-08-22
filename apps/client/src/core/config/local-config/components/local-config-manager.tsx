@@ -1,19 +1,33 @@
+import { ENV } from "@constants/env/env.constant";
 import { LanguageChanger } from "@core/config/local-config/components/language/language-changer";
 import { PrimaryColorChanger } from "@core/config/local-config/components/theme/primary-color-changer";
 import { useTranslation } from "@i18n/use-translation";
-import { Divider } from "@mantine/core";
+import { Button, Divider } from "@mantine/core";
 import * as pkg from "@pkg";
+import clsx from "clsx";
 import { type ReactNode, useId, useMemo } from "react";
 
+/**
+ * Local configuration manager component.
+ * Allows users to manage their device-specific configurations.
+ */
 export const LocalConfigManager: FC = () => {
 	return (
 		<div className="flex flex-col gap-4">
 			<Divider />
+
+			{/* Theming */}
 			<Theme />
 			<Divider />
+
+			{/* Language */}
 			<Language />
 			<Divider />
-			<small className="text-center">v{pkg.version}</small>
+
+			{/* Version indicator */}
+			<div className="flex justify-center">
+				<Version />
+			</div>
 		</div>
 	);
 };
@@ -50,6 +64,25 @@ const Language: FC = () => {
 			/>
 		</div>
 	);
+};
+
+const Version: FC = () => {
+	const className = "text-center";
+	const text = `v${pkg.version}`;
+
+	if (ENV.links.version)
+		return (
+			<a
+				href={ENV.links.version}
+				target="_blank"
+				className={clsx(className, "inline-flex w-fit")}
+			>
+				<Button size="compact-sm" variant="subtle">
+					{text}
+				</Button>
+			</a>
+		);
+	return <small className={className}>{text}</small>;
 };
 
 /* Utils */
