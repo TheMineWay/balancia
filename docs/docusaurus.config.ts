@@ -1,6 +1,7 @@
 import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
 import { themes as prismThemes } from "prism-react-renderer";
+import * as pkg from "./package.json";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -10,7 +11,7 @@ const config: Config = {
 	favicon: "img/favicon.ico",
 
 	// Set the production url of your site here
-	url: "https://themineway.github.io",
+	url: pkg.homepage,
 	// Set the /<baseUrl>/ pathname under which your site is served
 	// For GitHub pages deployment, it is often '/<projectName>/'
 	baseUrl: "/NestFlux/",
@@ -41,7 +42,7 @@ const config: Config = {
 					sidebarPath: "./sidebars.ts",
 					// Please change this to your repo.
 					// Remove this to remove the "edit this page" links.
-					editUrl: "https://github.com/TheMineWay/NestFlux/tree/main/docs",
+					editUrl: pkg.repository.url + "/tree/main/docs",
 				},
 				theme: {
 					customCss: "./src/css/custom.css",
@@ -90,7 +91,7 @@ const config: Config = {
 					label: "🩵 NestFlux documentation",
 				},
 				{
-					href: "https://github.com/TheMineWay/NestFlux",
+					href: pkg.repository.url,
 					label: "GitHub",
 					position: "right",
 				},
@@ -104,7 +105,7 @@ const config: Config = {
 					items: [
 						{
 							label: "GitHub",
-							href: "https://github.com/TheMineWay/NestFlux",
+							href: pkg.repository.url,
 						},
 					],
 				},

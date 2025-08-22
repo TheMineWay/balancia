@@ -50,9 +50,11 @@ export abstract class Repository {
 		TNullabilityMap extends Record<
 			string,
 			JoinNullability
+			// biome-ignore lint/complexity/noBannedTypes: need to specify {}
 		> = TTableName extends string ? Record<TTableName, "not-null"> : {},
 		TDynamic extends true = true,
 		TExcludedMethods extends string = never,
+		// biome-ignore lint/suspicious/noExplicitAny: all results are accepted
 		TResult extends any[] = SelectResult<
 			TSelection,
 			TSelectMode,
@@ -79,14 +81,14 @@ export abstract class Repository {
 			.limit(pagination.limit)
 			.offset((pagination.page - 1) * pagination.limit);
 
-		// @ts-ignore hack to override internals (not the ideal way)
+		// @ts-expect-error hack to override internals (not the ideal way)
 		query.config.fields = { count: count() };
-		// @ts-ignore hack to override internals (not the ideal way)
+		// @ts-expect-error hack to override internals (not the ideal way)
 		delete query.config.limit;
-		// @ts-ignore hack to override internals (not the ideal way)
+		// @ts-expect-error hack to override internals (not the ideal way)
 		delete query.config.offset;
 
-		// @ts-ignore
+		// @ts-expect-error
 		query.config.orderBy = [];
 
 		const [total] = await query;
