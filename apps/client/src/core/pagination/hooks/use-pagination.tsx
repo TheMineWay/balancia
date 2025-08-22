@@ -65,7 +65,7 @@ export const usePagination = ({
 			if (total < 0 || total === totalState) return;
 			setTotalState(total);
 		},
-		[setTotalState, totalState],
+		[totalState],
 	);
 
 	return {
