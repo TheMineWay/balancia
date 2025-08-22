@@ -14,7 +14,6 @@
 	"scripts": {
 		"generate-barrel": "ts-node scripts/generate-barrel.ts",
 		"build": "pnpm generate-barrel && vite build",
-		"dev": "pnpm build",
 		"prepublishOnly": "pnpm run build",
 		"test": "vitest"
 	},
