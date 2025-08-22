@@ -32,7 +32,6 @@ const ENV_SCHEMA = z.object({
 	VITE_AUTH_UI_PROVIDER_NAME: z.string().default("SSO"),
 	VITE_AUTH_UI_PROVIDER_COLOR: z.enum(UI_COLORS).optional(),
 	VITE_AUTH_UI_PROVIDER_ICON_URL: z.string().nullable().default(null),
-	VITE_AUTH_UI_PROVIDER_LOGO_URL: z.url().optional(),
 
 	// USER
 	VITE_USER_INFO_STALE_TIME: z
@@ -42,6 +41,9 @@ const ENV_SCHEMA = z.object({
 
 	// LINKS
 	VITE_VERSION_LINK: z.url().nullable().default(null),
+
+	// BRAND
+	VITE_BRAND_AUTH_LOGO_URL: z.url().optional(),
 
 	// DEFAULT
 	NODE_ENV: z
@@ -83,8 +85,10 @@ export const ENV = (() => {
 				providerName: values.VITE_AUTH_UI_PROVIDER_NAME,
 				providerColor: values.VITE_AUTH_UI_PROVIDER_COLOR,
 				icon: values.VITE_AUTH_UI_PROVIDER_ICON_URL,
-				logo: values.VITE_AUTH_UI_PROVIDER_LOGO_URL,
 			},
+		},
+		brand: {
+			authLogo: values.VITE_BRAND_AUTH_LOGO_URL,
 		},
 		user: {
 			infoStaleTime: values.VITE_USER_INFO_STALE_TIME,
