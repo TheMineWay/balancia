@@ -10,7 +10,7 @@
 	"scripts": {
 		"dev:client": "pnpm --filter nestflux-client dev",
 		"dev:server": "pnpm --filter nestflux-server dev",
-		"dev:packages": "pnpm --filter @shared/* dev",
+		"dev:packages": "nodemon --watch packages --ext ts,json --ignore 'packages/**/dist/*' --ignore 'packages/**/dist' --ignore 'packages/**/build/*' --ignore 'packages/**/index.ts' --exec \"pnpm build:packages\"",
 		"dev": "tmux new-session -d -s nestflux 'pnpm dev:client' \\; split-window -h 'pnpm dev:server' \\; attach-session -d",
 		"start:client": "pnpm --filter nestflux-client start",
 		"start:server": "pnpm --filter nestflux-server start",
@@ -50,6 +50,7 @@
 		"@biomejs/biome": "^2.2.0",
 		"@vitest/ui": "3.2.4",
 		"concurrently": "^9.2.0",
+		"nodemon": "^3.1.10",
 		"vitest": "^3.2.4"
 	},
 	"workspaces": [
