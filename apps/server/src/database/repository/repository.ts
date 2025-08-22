@@ -53,6 +53,7 @@ export abstract class Repository {
 		> = TTableName extends string ? Record<TTableName, "not-null"> : {},
 		TDynamic extends true = true,
 		TExcludedMethods extends string = never,
+		// biome-ignore lint/suspicious/noExplicitAny: all results are accepted
 		TResult extends any[] = SelectResult<
 			TSelection,
 			TSelectMode,
