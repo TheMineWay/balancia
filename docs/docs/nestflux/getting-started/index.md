@@ -64,11 +64,12 @@ cp apps/server/example.env apps/server/.env
 
 ### 5. Database Setup
 
-If using Docker (recommended):
+You can connect to your own Postgres database or generate a docker compose using the [NestFlux CLI](../getting-started/tools.md).
+
+If you generated a database docker compose using the CLI, you can start it using:
 
 ```bash
-# Start Postgres database container
-docker-compose -f generated/database/postgres/db.postgres.docker-compose.yml up -d
+docker compose -f generated/database/postgres/docker-compose.yml up -d
 ```
 
 Then run database migrations:

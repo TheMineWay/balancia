@@ -40,6 +40,9 @@ const ENV_SCHEMA = z.object({
 		.transform((val) => Number(val))
 		.default(1000 * 60 * 15), // 15 minutes
 
+	// LINKS
+	VITE_VERSION_LINK: z.url().nullable().default(null),
+
 	// DEFAULT
 	NODE_ENV: z
 		.union([
@@ -85,6 +88,9 @@ export const ENV = (() => {
 		},
 		user: {
 			infoStaleTime: values.VITE_USER_INFO_STALE_TIME,
+		},
+		links: {
+			version: values.VITE_VERSION_LINK,
 		},
 		env: env.NODE_ENV,
 	};

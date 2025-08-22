@@ -97,8 +97,22 @@ const Row = <TData extends TableValue>({
 	item: TData;
 	table: UseTable<TData>;
 }): ReactNode => {
+	const isClickable = Boolean(table.events.triggerRowClick);
+
+	const rowClassName = useMemo(
+		() =>
+			clsx({
+				"cursor-pointer": isClickable,
+			}),
+		[isClickable],
+	);
+
 	return (
-		<MTable.Tr>
+		<MTable.Tr
+			role={isClickable ? "button" : undefined}
+			className={rowClassName}
+			onClick={(e) => table.events.triggerRowClick?.(item, e)}
+		>
 			{table.columns.map((column, i) => {
 				const value = column.accessorKey ? item[column.accessorKey] : null;
 
