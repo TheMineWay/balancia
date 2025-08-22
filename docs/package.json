@@ -1,7 +1,14 @@
 {
 	"name": "docs",
+	"description": "NestFlux documentation",
 	"version": "1.0.0",
 	"private": true,
+	"homepage": "https://themineway.github.io",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/TheMineWay/NestFlux",
+		"directory": "docs"
+	},
 	"scripts": {
 		"docusaurus": "docusaurus",
 		"start": "docusaurus start",
