@@ -2,9 +2,9 @@ import type { WithChildren } from "@common/extended-ui/general/types/component.t
 import { WAREHOUSES } from "@constants/device-storage/warehouses.constant";
 import { MASTER_LOCALE } from "@i18n/locales/locales";
 import {
-    LOCAL_CONFIG_SCHEMA,
-    type LocalConfig,
-    localConfigContext,
+	LOCAL_CONFIG_SCHEMA,
+	type LocalConfig,
+	localConfigContext,
 } from "@providers/config/local-config.context";
 import { WebWarehouse } from "@themineway/smart-storage-js";
 import { useConnectorWatch } from "@themineway/smart-storage-react";
