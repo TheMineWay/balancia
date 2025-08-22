@@ -50,6 +50,7 @@ export abstract class Repository {
 		TNullabilityMap extends Record<
 			string,
 			JoinNullability
+			// biome-ignore lint/complexity/noBannedTypes: need to specify {}
 		> = TTableName extends string ? Record<TTableName, "not-null"> : {},
 		TDynamic extends true = true,
 		TExcludedMethods extends string = never,
