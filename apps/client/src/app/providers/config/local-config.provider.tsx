@@ -2,9 +2,9 @@ import type { WithChildren } from "@common/extended-ui/general/types/component.t
 import { WAREHOUSES } from "@constants/device-storage/warehouses.constant";
 import { MASTER_LOCALE } from "@i18n/locales/locales";
 import {
-	LOCAL_CONFIG_SCHEMA,
-	type LocalConfig,
-	LocalConfigContext,
+    LOCAL_CONFIG_SCHEMA,
+    type LocalConfig,
+    localConfigContext,
 } from "@providers/config/local-config.context";
 import { WebWarehouse } from "@themineway/smart-storage-js";
 import { useConnectorWatch } from "@themineway/smart-storage-react";
@@ -43,8 +43,8 @@ export const LocalConfigProvider: FC<Props> = ({ children }) => {
 	);
 
 	return (
-		<LocalConfigContext.Provider value={providerValue}>
+		<localConfigContext.Provider value={providerValue}>
 			{children}
-		</LocalConfigContext.Provider>
+		</localConfigContext.Provider>
 	);
 };

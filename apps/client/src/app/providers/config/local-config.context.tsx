@@ -15,12 +15,12 @@ export const LOCAL_CONFIG_SCHEMA = z.object({
 
 export type LocalConfig = z.infer<typeof LOCAL_CONFIG_SCHEMA>;
 
-export const LocalConfigContext = createContext<ProviderSetter<LocalConfig>>(
+export const localConfigContext = createContext<ProviderSetter<LocalConfig>>(
 	null!,
 );
 
 export const useLocalConfig = () => {
-	const context = useContext(LocalConfigContext);
+	const context = useContext(localConfigContext);
 
 	if (!context)
 		throw new Error("useLocalConfig must be used within a LocalConfigProvider");
