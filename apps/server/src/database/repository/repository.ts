@@ -80,14 +80,14 @@ export abstract class Repository {
 			.limit(pagination.limit)
 			.offset((pagination.page - 1) * pagination.limit);
 
-		// @ts-ignore hack to override internals (not the ideal way)
+		// @ts-expect-error hack to override internals (not the ideal way)
 		query.config.fields = { count: count() };
-		// @ts-ignore hack to override internals (not the ideal way)
+		// @ts-expect-error hack to override internals (not the ideal way)
 		delete query.config.limit;
-		// @ts-ignore hack to override internals (not the ideal way)
+		// @ts-expect-error hack to override internals (not the ideal way)
 		delete query.config.offset;
 
-		// @ts-ignore
+		// @ts-expect-error
 		query.config.orderBy = [];
 
 		const [total] = await query;
