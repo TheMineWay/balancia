@@ -1,5 +1,3 @@
-
-
 # 💸 Balancia
 
 Balancia is a personal economy management system designed to help you take control of your finances with ease, privacy, and confidence. Whether you want to track your daily expenses or analyze your spending habits, Balancia provides the tools you need to make smarter financial decisions.
