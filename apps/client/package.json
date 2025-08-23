@@ -2,7 +2,7 @@
   "name": "balancia-client",
   "description": "Balancia client application",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.1",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
