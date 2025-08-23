@@ -20,6 +20,8 @@ const MyAvatar: FC = () => {
  * Contains links that are visible on the navbar
  */
 const Navigator: FC = () => {
+	const { t: transactionT } = useTranslation('transaction');
+
 	return (
 		<Group gap="xs">
 			{/* HOME */}
@@ -27,6 +29,11 @@ const Navigator: FC = () => {
 				<ActionIcon variant="subtle">
 					<FaHome />
 				</ActionIcon>
+			</Link>
+
+			{/* TRANSACTIONS */}
+			<Link to="/transactions">
+				<Button size="compact-sm" leftSection={<MdDashboard />} variant="subtle">{transactionT().nav.Label}</Button>
 			</Link>
 
 			{/* ADMIN DASHBOARD */}
@@ -48,7 +55,7 @@ const AdminMenu: FC = () => {
 	return (
 		<Menu trigger="hover">
 			<Menu.Target>
-				<Button variant="subtle" leftSection={<MdAdminPanelSettings />}>
+				<Button size="compact-sm" variant="subtle" leftSection={<MdAdminPanelSettings />}>
 					{t()["nav-actions"].Label}
 				</Button>
 			</Menu.Target>

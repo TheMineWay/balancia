@@ -14,6 +14,7 @@ import { Route as rootRouteImport } from './routes/__root'
 
 const SysLazyRouteImport = createFileRoute('/sys')()
 const IndexLazyRouteImport = createFileRoute('/')()
+const TransactionsIndexLazyRouteImport = createFileRoute('/transactions/')()
 const SysIndexLazyRouteImport = createFileRoute('/sys/')()
 const SysRoleIndexLazyRouteImport = createFileRoute('/sys/role/')()
 
@@ -27,6 +28,13 @@ const IndexLazyRoute = IndexLazyRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+const TransactionsIndexLazyRoute = TransactionsIndexLazyRouteImport.update({
+  id: '/transactions/',
+  path: '/transactions/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/transactions/index.lazy').then((d) => d.Route),
+)
 const SysIndexLazyRoute = SysIndexLazyRouteImport.update({
   id: '/',
   path: '/',
@@ -44,11 +52,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/sys': typeof SysLazyRouteWithChildren
   '/sys/': typeof SysIndexLazyRoute
+  '/transactions': typeof TransactionsIndexLazyRoute
   '/sys/role': typeof SysRoleIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/sys': typeof SysIndexLazyRoute
+  '/transactions': typeof TransactionsIndexLazyRoute
   '/sys/role': typeof SysRoleIndexLazyRoute
 }
 export interface FileRoutesById {
@@ -56,19 +66,21 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/sys': typeof SysLazyRouteWithChildren
   '/sys/': typeof SysIndexLazyRoute
+  '/transactions/': typeof TransactionsIndexLazyRoute
   '/sys/role/': typeof SysRoleIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sys' | '/sys/' | '/sys/role'
+  fullPaths: '/' | '/sys' | '/sys/' | '/transactions' | '/sys/role'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sys' | '/sys/role'
-  id: '__root__' | '/' | '/sys' | '/sys/' | '/sys/role/'
+  to: '/' | '/sys' | '/transactions' | '/sys/role'
+  id: '__root__' | '/' | '/sys' | '/sys/' | '/transactions/' | '/sys/role/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   SysLazyRoute: typeof SysLazyRouteWithChildren
+  TransactionsIndexLazyRoute: typeof TransactionsIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,6 +97,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/transactions/': {
+      id: '/transactions/'
+      path: '/transactions'
+      fullPath: '/transactions'
+      preLoaderRoute: typeof TransactionsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sys/': {
@@ -120,6 +139,7 @@ const SysLazyRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   SysLazyRoute: SysLazyRouteWithChildren,
+  TransactionsIndexLazyRoute: TransactionsIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
