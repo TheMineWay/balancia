@@ -8,7 +8,7 @@
 	"types": "./dist/esm/index.d.ts",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/TheMineWay/NestFlux",
+		"url": "https://github.com/TheMineWay/Balancia",
 		"directory": "packages/utils"
 	},
 	"scripts": {

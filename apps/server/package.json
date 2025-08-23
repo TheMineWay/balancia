@@ -1,5 +1,5 @@
 {
-	"name": "nestflux-server",
+	"name": "balancia-server",
 	"version": "1.0.0",
 	"description": "Server project",
 	"main": "dist/src/main",
@@ -15,7 +15,7 @@
 	"keywords": [],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/TheMineWay/NestFlux",
+		"url": "https://github.com/TheMineWay/Balancia",
 		"directory": "apps/server"
 	},
 	"author": {

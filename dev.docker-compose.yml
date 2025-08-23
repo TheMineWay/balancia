@@ -1,6 +1,6 @@
 version: "3.9"
 
-# This docker compose starts the NestFlux application in development mode.
+# This docker compose starts the Balancia application in development mode.
 
 services:
   client:

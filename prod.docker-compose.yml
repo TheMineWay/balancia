@@ -1,4 +1,4 @@
-# This docker compose starts the NestFlux application in production mode.
+# This docker compose starts the Balancia application in production mode.
 
 version: "3.9"
 services:

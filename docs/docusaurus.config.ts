@@ -6,19 +6,19 @@ import * as pkg from "./package.json";
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-	title: "NestFlux",
-	tagline: "ReactJS + NestJS made easy",
+	title: "Balancia",
+	tagline: "Personal economy management",
 	favicon: "img/favicon.ico",
 
 	// Set the production url of your site here
 	url: pkg.homepage,
 	// Set the /<baseUrl>/ pathname under which your site is served
 	// For GitHub pages deployment, it is often '/<projectName>/'
-	baseUrl: "/NestFlux/",
+	baseUrl: "/Balancia/",
 
 	// GitHub pages deployment config.
 	// If you aren't using GitHub pages, you don't need these.
-	projectName: "NestFlux", // Usually your repo name.
+	projectName: "Balancia", // Usually your repo name.
 	organizationName: "TheMineWay", // Usually your GitHub org/user name.
 	trailingSlash: false,
 
@@ -65,16 +65,16 @@ const config: Config = {
 
 	themeConfig: {
 		metadata: [
-			{ name: "keywords", content: "nestJS, reactJS, monorepo" },
+			{ name: "keywords", content: "economy" },
 			{ name: "twitter:card", content: "summary_large_image" },
 		],
 
 		// Replace with your project's social card
 		image: "img/social-card.png",
 		navbar: {
-			title: "NestFlux",
+			title: "Balancia",
 			logo: {
-				alt: "NestFlux logo",
+				alt: "Balancia logo",
 				src: "img/logo.png",
 			},
 			items: [
@@ -110,7 +110,7 @@ const config: Config = {
 					],
 				},
 			],
-			copyright: `MIT Licensed ${new Date().getFullYear()} NestFlux. Built with Docusaurus and love.`,
+			copyright: `MIT Licensed ${new Date().getFullYear()} Balancia. Built with Docusaurus and love.`,
 		},
 		prism: {
 			theme: prismThemes.github,

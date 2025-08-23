@@ -1,12 +1,12 @@
 {
 	"name": "docs",
-	"description": "NestFlux documentation",
+	"description": "Balancia documentation",
 	"version": "1.0.0",
 	"private": true,
 	"homepage": "https://themineway.github.io",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/TheMineWay/NestFlux",
+		"url": "https://github.com/TheMineWay/Balancia",
 		"directory": "docs"
 	},
 	"scripts": {
