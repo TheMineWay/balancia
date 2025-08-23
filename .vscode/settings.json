@@ -10,21 +10,21 @@
 		"dist": true
 	},
 
-	// Basic UI Bar Colors (Activity Bar, Status Bar, Title Bar) with Blue Tones & Text/Icon Color
+	// Basic UI Bar Colors (Activity Bar, Status Bar, Title Bar) with Green Tones & Text/Icon Color
 	"workbench.colorCustomizations": {
-		"activityBar.background": "#3A5A8F", // Soft blue background for the activity bar
+		"activityBar.background": "#2E7D32", // Deep green background for the activity bar
 		"activityBar.foreground": "#FFFFFF", // White text and icons in the activity bar
-		"activityBar.inactiveForeground": "#D1D9E6", // Lighter color for inactive icons/text
+		"activityBar.inactiveForeground": "#A5D6A7", // Lighter green for inactive icons/text
 
-		"statusBar.background": "#4C70A0", // Muted blue for the status bar
+		"statusBar.background": "#388E3C", // Muted green for the status bar
 		"statusBar.foreground": "#FFFFFF", // White text in the status bar
-		"statusBar.noFolderBackground": "#4C70A0", // Blue status bar when no folder is open
+		"statusBar.noFolderBackground": "#388E3C", // Green status bar when no folder is open
 		"statusBar.noFolderForeground": "#FFFFFF", // White text when no folder is open
 
-		"titleBar.activeBackground": "#3A5A8F", // Blue color for the active title bar
+		"titleBar.activeBackground": "#2E7D32", // Green color for the active title bar
 		"titleBar.activeForeground": "#FFFFFF", // White text for the active title bar
-		"titleBar.inactiveBackground": "#5B7FA6", // Lighter blue for inactive title bar
-		"titleBar.inactiveForeground": "#D1D9E6" // Lighter text color for inactive title bar
+		"titleBar.inactiveBackground": "#66BB6A", // Lighter green for inactive title bar
+		"titleBar.inactiveForeground": "#A5D6A7" // Lighter text color for inactive title bar
 	},
 	"editor.formatOnSave": true,
 	"biome.requireConfiguration": true,
