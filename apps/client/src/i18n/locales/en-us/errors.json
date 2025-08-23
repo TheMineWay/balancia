@@ -1,0 +1,74 @@
+{
+  "auth": {
+    "401": {
+      "Title": "Unauthorized",
+      "Message": "Provided credentials do not match any user in the system"
+    }
+  },
+  "http": {
+    "400": {
+      "Title": "Bad Request",
+      "Message": "The request was invalid or cannot be served"
+    },
+    "401": {
+      "Title": "Unauthorized",
+      "Message": "The request has not been applied because it lacks valid authentication credentials for the target resource"
+    },
+    "403": {
+      "Title": "Forbidden",
+      "Message": "The server understood the request, but is refusing to fulfill it"
+    },
+    "404": {
+      "Title": "Not Found",
+      "Message": "The requested resource could not be found"
+    },
+    "405": {
+      "Title": "Method Not Allowed",
+      "Message": "A request method is not supported for the requested resource"
+    },
+    "406": {
+      "Title": "Not Acceptable",
+      "Message": "The requested resource is capable of generating only content not acceptable according to the Accept headers sent in the request"
+    },
+    "408": {
+      "Title": "Request Timeout",
+      "Message": "The server timed out waiting for the request"
+    },
+    "409": {
+      "Title": "Conflict",
+      "Message": "The request could not be completed due to a conflict with the current state of the target resource"
+    },
+    "500": {
+      "Title": "Internal Server Error",
+      "Message": "The server has encountered a situation it doesn't know how to handle"
+    },
+    "501": {
+      "Title": "Not Implemented",
+      "Message": "The request method is not supported by the server and cannot be handled"
+    },
+    "502": {
+      "Title": "Bad Gateway",
+      "Message": "The server received an invalid response from an upstream server"
+    }
+  },
+  "rate": {
+    "limit": {
+      "Title": "Rate Limit Exceeded",
+      "Message": "You have exceeded the rate limit for this request"
+    }
+  },
+  "unknown": {
+    "Title": "Unknown Error",
+    "Message": "An unknown error occurred"
+  },
+  "generic": {
+    "validation-failed": {
+      "Title": "Validation failed",
+      "Message": "Could not validate your request"
+    },
+    "2fa-failed": {
+      "Title": "2FA validation failed",
+      "Message": "The provided code could not be validated."
+    }
+  }
+}

@@ -1,0 +1,42 @@
+---
+sidebar_position: 2
+---
+
+import { DependencyTable } from '@site/src/components/ui/dependencies-table/dependency-table';
+
+import { CLIENT_DEPENDENCIES } from '@site/src/constants/dependencies/projects/client-dependencies.constant';
+
+import { SERVER_DEPENDENCIES } from '@site/src/constants/dependencies/projects/server-dependencies.constant';
+
+import { SCRIPTS_DEPENDENCIES } from '@site/src/constants/dependencies/projects/scripts-dependencies.constant';
+
+# 📦 Dependencies
+
+This project uses some well-known libraries. Here you can read a full list of dependencies and where they are being used.
+
+:::info Dependencies Documentation
+
+For dependencies to appear in the documentation tables below, they must be properly defined in their respective constant files:
+
+- **Client**: `@site/src/constants/dependencies/projects/client-dependencies.constant`
+- **Server**: `@site/src/constants/dependencies/projects/server-dependencies.constant`  
+- **Scripts**: `@site/src/constants/dependencies/projects/scripts-dependencies.constant`
+
+Each dependency should be added to the appropriate constant array to automatically populate the documentation tables.
+
+**🧪 Automated Testing**: Tests are in place to prevent misdocumenting libraries or leaving unused dependencies in the documentation constants, ensuring accuracy and consistency.
+
+:::
+
+## Client dependencies
+
+<DependencyTable dependencies={CLIENT_DEPENDENCIES}/>
+
+## Server dependencies
+
+<DependencyTable dependencies={SERVER_DEPENDENCIES}/>
+
+## Scripts dependencies
+
+<DependencyTable dependencies={SCRIPTS_DEPENDENCIES}/>
+

@@ -1,0 +1,40 @@
+name: Run unit tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  checks: write
+  actions: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 💚 Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 24
+
+      - name: 📦 Install dependencies
+        run: |
+          npm install -g pnpm
+          pnpm install
+
+      - name: 🔨 Build packages
+        run: pnpm build:packages
+
+      - name: 📋 Run tests
+        run: pnpm test
+        env:
+          NODE_ENV: test

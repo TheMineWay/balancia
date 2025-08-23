@@ -1,0 +1,19 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
+  "extends": "//",
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"style": {
+				"useImportType": "error"
+			}
+		}
+	},
+  "files": {
+    "includes": [
+      "./src/*/**/*.{ts,tsx,spec.ts,spec.tsx,pcss,css}",
+      "src/main.tsx"
+    ]
+  }
+}
