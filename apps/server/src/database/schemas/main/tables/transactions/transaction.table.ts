@@ -25,7 +25,7 @@ export const transactionsTable = transactionsSchema.table(
 	"transactions",
 	{
 		id: serial().primaryKey(),
-		amount: decimal({ precision: 10, scale: 2 }).notNull(),
+		amount: decimal({ precision: 10, scale: 2, mode: "number" }).notNull(),
 		subject: varchar({ length: TRANSACTION_MODEL_VALUES.subject.maxLength }),
 
 		// Performed time

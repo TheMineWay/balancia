@@ -1,5 +1,23 @@
 {
     "nav": {
         "Label": "Transactions"
+    },
+    "my-transactions": {
+        "manager": {
+            "Title": "My transactions"
+        }
+    },
+    "models": {
+        "transaction": {
+            "subject": {
+                "Label": "Subject"
+            },
+            "performedAt": {
+                "Label": "Transaction date"
+            },
+            "amount": {
+                "Label": "Amount"
+            }
+        }
     }
 }

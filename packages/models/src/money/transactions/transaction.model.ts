@@ -1,6 +1,7 @@
 import { ID_SCHEMA } from "@/common/__system/id.model";
 import { TimePrecision } from "@/common/time/time-precision.enum";
 import { CATEGORY_SCHEMA } from "@/money/transactions/category/category.model";
+import { DATE_SCHEMA } from "@/utils/date.model";
 import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
 import type { ModelValues } from "@ts-types/model-values.type";
 import z from "zod";
@@ -32,7 +33,7 @@ export const TRANSACTION_SCHEMA = z.object({
 		.default(null),
 
 	// When the transaction has been performed
-	performedAt: z.date(),
+	performedAt: DATE_SCHEMA,
 	performedAtPrecision: z
 		.enum(TimePrecision)
 		.default(TRANSACTION_MODEL_VALUES.performedAtPrecision.default),
