@@ -8,7 +8,12 @@ import { useQuery } from "@tanstack/react-query";
 
 export const MY_TRANSACTIONS_QUERY_KEY: ParametrizedQueryKey<{
 	pagination: PaginatedQuery;
-}> = () => [];
+}> = ({ pagination }) => [
+	"transactions",
+	"my-transactions",
+	"list",
+	{ pagination },
+];
 
 type Options = {
 	pagination: UsePagination;
