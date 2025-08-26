@@ -48,5 +48,9 @@ export const TRANSACTION_SCHEMA = z.object({
 export type TransactionModel = z.infer<typeof TRANSACTION_SCHEMA>;
 
 /* Create */
-export const TRANSACTION_CREATE_SCHEMA = TRANSACTION_SCHEMA.omit({ id: true });
+export const TRANSACTION_CREATE_SCHEMA = TRANSACTION_SCHEMA.omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true,
+});
 export type TransactionCreateModel = z.infer<typeof TRANSACTION_CREATE_SCHEMA>;

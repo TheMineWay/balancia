@@ -26,7 +26,7 @@ export const useMyTransactionsQuery = (options: Options) => {
 		queryFn: async () => {
 			const response = await endpointQuery(
 				MY_TRANSACTION_CONTROLLER,
-				"getMyTransactions",
+				"getTransactions",
 				{},
 				request,
 				{

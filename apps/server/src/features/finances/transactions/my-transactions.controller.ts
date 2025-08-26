@@ -1,13 +1,16 @@
 import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
-import { Controller } from "@nestjs/common";
+import { Controller, Param, ParseIntPipe } from "@nestjs/common";
 import {
 	getController,
+	getParamName,
+	InferBodyDto,
 	InferQueryDto,
 	InferResponseDto,
 	MY_TRANSACTION_CONTROLLER,
 } from "@shared/api-definition";
 import { UserModel } from "@shared/models";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
+import { ValidatedBody } from "src/decorators/validation/validated-body.decorator";
 import { ValidatedQuery } from "src/decorators/validation/validated-query.decorator";
 import { TransactionsService } from "src/features/finances/transactions/transactions.service";
 
@@ -15,17 +18,64 @@ import { TransactionsService } from "src/features/finances/transactions/transact
 export class MyTransactionsController {
 	constructor(private readonly transactionsService: TransactionsService) {}
 
-	@Endpoint(MY_TRANSACTION_CONTROLLER, "getMyTransactions")
-	async getMyTransactions(
-		@ValidatedQuery(MY_TRANSACTION_CONTROLLER, "getMyTransactions")
-		query: InferQueryDto<typeof MY_TRANSACTION_CONTROLLER, "getMyTransactions">,
+	@Endpoint(MY_TRANSACTION_CONTROLLER, "getTransactions")
+	async getTransactions(
+		@ValidatedQuery(MY_TRANSACTION_CONTROLLER, "getTransactions")
+		query: InferQueryDto<typeof MY_TRANSACTION_CONTROLLER, "getTransactions">,
 		@UserId() userId: UserModel["id"],
 	): Promise<
-		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "getMyTransactions">
+		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "getTransactions">
 	> {
-		return await this.transactionsService.getPaginatedTransactionsById(
+		return await this.transactionsService.getPaginatedTransactionsByUserId(
 			userId,
 			query,
 		);
+	}
+
+	@Endpoint(MY_TRANSACTION_CONTROLLER, "createTransaction")
+	async createTransaction(
+		@ValidatedBody(MY_TRANSACTION_CONTROLLER, "createTransaction")
+		body: InferBodyDto<typeof MY_TRANSACTION_CONTROLLER, "createTransaction">,
+		@UserId() userId: UserModel["id"],
+	): Promise<
+		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "createTransaction">
+	> {
+		return await this.transactionsService.createTransaction(userId, body);
+	}
+
+	@Endpoint(MY_TRANSACTION_CONTROLLER, "updateTransaction")
+	async updateTransaction(
+		@ValidatedBody(MY_TRANSACTION_CONTROLLER, "updateTransaction")
+		body: InferBodyDto<typeof MY_TRANSACTION_CONTROLLER, "updateTransaction">,
+		@UserId() userId: UserModel["id"],
+		@Param(
+			getParamName(MY_TRANSACTION_CONTROLLER, "updateTransaction", "id"),
+			ParseIntPipe,
+		)
+		transactionId: number,
+	): Promise<
+		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "updateTransaction">
+	> {
+		return await this.transactionsService.updateTransaction(
+			userId,
+			transactionId,
+			body,
+		);
+	}
+
+	@Endpoint(MY_TRANSACTION_CONTROLLER, "deleteTransaction")
+	async deleteTransaction(
+		@ValidatedBody(MY_TRANSACTION_CONTROLLER, "deleteTransaction")
+		@UserId()
+		userId: UserModel["id"],
+		@Param(
+			getParamName(MY_TRANSACTION_CONTROLLER, "deleteTransaction", "id"),
+			ParseIntPipe,
+		)
+		transactionId: number,
+	): Promise<
+		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "deleteTransaction">
+	> {
+		await this.transactionsService.deleteTransaction(userId, transactionId);
 	}
 }
