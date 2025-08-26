@@ -43,7 +43,7 @@ export const Table = <TData extends TableValue>({
 	}, [loading, table.data, table, t]);
 
 	return (
-		<div className="overflow-x-scroll overflow-y-scroll max-h-[25rem]">
+		<div className="overflow-x-scroll overflow-y-scroll">
 			<MTable className={styles.table} withColumnBorders>
 				<MTable.Thead className="h-12">
 					<Headers<TData> columns={columns} />
