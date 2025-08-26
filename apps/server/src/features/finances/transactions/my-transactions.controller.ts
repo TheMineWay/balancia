@@ -40,7 +40,7 @@ export class MyTransactionsController {
 	): Promise<
 		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "createTransaction">
 	> {
-		return await this.transactionsService.createTransaction(userId, body);
+		await this.transactionsService.createTransaction(userId, body);
 	}
 
 	@Endpoint(MY_TRANSACTION_CONTROLLER, "updateTransaction")
@@ -56,7 +56,7 @@ export class MyTransactionsController {
 	): Promise<
 		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "updateTransaction">
 	> {
-		return await this.transactionsService.updateTransaction(
+		await this.transactionsService.updateTransaction(
 			userId,
 			transactionId,
 			body,

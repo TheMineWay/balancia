@@ -2,6 +2,7 @@ import { type QueryOptions, Repository } from "@database/repository/repository";
 import { transactionsTable } from "@database/schemas/main.schema";
 import type {
 	TransactionInsert,
+	TransactionsSelect,
 	TransactionsUpdate,
 } from "@database/schemas/main/tables/transactions/transaction.table";
 import { Injectable } from "@nestjs/common";
@@ -53,7 +54,7 @@ export class TransactionsRepository extends Repository {
 		transactionId: TransactionModel["id"],
 		transaction: TransactionsUpdate,
 		options?: QueryOptions,
-	) {
+	): Promise<TransactionsSelect | undefined> {
 		return (
 			await this.query(options)
 				.update(transactionsTable)
@@ -65,22 +66,24 @@ export class TransactionsRepository extends Repository {
 					),
 				)
 				.returning()
-		)[0];
+		)?.[0];
 	}
 
 	async deleteByUserIdAndId(
 		userId: UserModel["id"],
 		transactionId: TransactionModel["id"],
 		options?: QueryOptions,
-	) {
-		return await this.query(options)
-			.delete(transactionsTable)
-			.where(
-				and(
-					eq(transactionsTable.id, transactionId),
-					eq(transactionsTable.userId, userId),
-				),
-			)
-			.returning();
+	): Promise<TransactionsSelect | undefined> {
+		return (
+			await this.query(options)
+				.delete(transactionsTable)
+				.where(
+					and(
+						eq(transactionsTable.id, transactionId),
+						eq(transactionsTable.userId, userId),
+					),
+				)
+				.returning()
+		)?.[0];
 	}
 }

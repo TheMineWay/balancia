@@ -7,12 +7,19 @@ import type {
 	TransactionModel,
 	UserModel,
 } from "@shared/models";
+import { EventService } from "src/events/event.service";
 import { TransactionsRepository } from "src/features/finances/transactions/repositories/transactions.repository";
+import {
+	TransactionCreatedEvent,
+	TransactionDeletedEvent,
+	TransactionUpdatedEvent,
+} from "src/features/finances/transactions/transactions.events";
 
 @Injectable()
 export class TransactionsService {
 	constructor(
 		private readonly transactionsRepository: TransactionsRepository,
+		private readonly eventService: EventService,
 	) {}
 
 	async getPaginatedTransactionsByUserId(
@@ -30,7 +37,16 @@ export class TransactionsService {
 		transaction: TransactionCreateModel,
 	) {
 		// TODO: if category is provided. Check if it is owned by the user
-		return await this.transactionsRepository.create({ ...transaction, userId });
+		const created = await this.transactionsRepository.create({
+			...transaction,
+			userId,
+		});
+
+		this.eventService.emit(
+			new TransactionCreatedEvent({ transaction: created }),
+		);
+
+		return created;
 	}
 
 	async updateTransaction(
@@ -39,20 +55,34 @@ export class TransactionsService {
 		transaction: Partial<TransactionCreateModel>,
 	) {
 		// TODO: if category is provided. Check if it is owned by the user
-		return await this.transactionsRepository.updateByIdAndUserId(
+		const updated = await this.transactionsRepository.updateByIdAndUserId(
 			userId,
 			transactionId,
 			transaction,
 		);
+
+		if (updated)
+			this.eventService.emit(
+				new TransactionUpdatedEvent({ transaction: updated }),
+			);
+
+		return updated;
 	}
 
 	async deleteTransaction(
 		userId: UserModel["id"],
 		transactionId: TransactionModel["id"],
 	) {
-		return await this.transactionsRepository.deleteByUserIdAndId(
+		const deleted = await this.transactionsRepository.deleteByUserIdAndId(
 			userId,
 			transactionId,
 		);
+
+		if (deleted)
+			this.eventService.emit(
+				new TransactionDeletedEvent({ transaction: deleted }),
+			);
+
+		return deleted;
 	}
 }

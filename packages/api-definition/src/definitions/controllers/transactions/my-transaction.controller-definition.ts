@@ -25,7 +25,6 @@ const CREATE_TRANSACTION = {
 	bodyDto: z.object({
 		...TRANSACTION_CREATE_SCHEMA.shape,
 	}),
-	responseDto: TRANSACTION_SCHEMA,
 } satisfies EndpointDefinition;
 
 const DELETE_TRANSACTION_ENDPOINT = {
@@ -41,7 +40,6 @@ const UPDATE_TRANSACTION = {
 	bodyDto: z.object({
 		...TRANSACTION_CREATE_SCHEMA.shape,
 	}),
-	responseDto: TRANSACTION_SCHEMA,
 } satisfies EndpointDefinition<{ id: string }>;
 
 // Controller
