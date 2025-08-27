@@ -4,19 +4,20 @@ import {
 } from "@common/extended-ui/form/components/search/select-search";
 import { useDebouncedSearch } from "@common/extended-ui/form/components/search/use-debounced-search";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
-import { useMyCategoriesQuery } from "@fts/finances/categories/api/use-my-categories.query";
-import type { CategoryModel } from "@shared/models";
+import { useMyAccountsQuery } from "@fts/finances/accounts/api/use-my-accounts.query";
+import type { AccountModel } from "@shared/models";
 import { useMemo } from "react";
 
 type Props = {
-	onChange?: (categoryId: CategoryModel["id"] | null) => void;
-	value: CategoryModel["id"] | null;
+	onChange?: (accountId: AccountModel["id"] | null) => void;
+	value: AccountModel["id"] | null;
+	allowClear?: boolean;
 } & Omit<
-	SelectSearchProps<CategoryModel["id"]>,
+	SelectSearchProps<AccountModel["id"]>,
 	"data" | "search" | "value" | "setValue"
 >;
 
-export const MyCategoriesSelector: FC<Props> = ({
+export const MyAccountsSelector: FC<Props> = ({
 	onChange,
 	value,
 	...props
@@ -24,22 +25,22 @@ export const MyCategoriesSelector: FC<Props> = ({
 	const pagination = usePagination();
 	const search = useDebouncedSearch();
 
-	const { data: categories = { items: [], total: 0 } } = useMyCategoriesQuery({
+	const { data: accounts = { items: [], total: 0 } } = useMyAccountsQuery({
 		pagination,
 		search: { search: search.debouncedValue },
 	});
 
 	const options = useMemo(
 		() =>
-			categories.items.map((item) => ({
+			accounts.items.map((item) => ({
 				label: item.name,
 				value: item.id,
 			})),
-		[categories],
+		[accounts],
 	);
 
 	return (
-		<SelectSearch<CategoryModel["id"]>
+		<SelectSearch<AccountModel["id"]>
 			data={options}
 			search={search}
 			setValue={(v) => onChange?.(v)}

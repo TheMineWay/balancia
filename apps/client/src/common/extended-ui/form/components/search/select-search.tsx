@@ -15,7 +15,7 @@ type Data<T extends string | number> = {
 	value: T;
 };
 
-type Props<T extends string | number> = {
+export type SelectSearchProps<T extends string | number> = {
 	data: Data<T>[];
 	search: UseDebouncedSearch;
 
@@ -24,6 +24,7 @@ type Props<T extends string | number> = {
 	value?: T | null;
 	setValue?: (value: T | null) => void;
 	allowClear?: boolean;
+	triggerId?: string | number;
 } & Pick<TextInputProps, "onBlur" | "onFocus" | "onClick">;
 
 /**
@@ -40,7 +41,8 @@ export function SelectSearch<T extends string | number>({
 	onBlur,
 	onClick,
 	onFocus,
-}: Readonly<Props<T>>) {
+	triggerId,
+}: Readonly<SelectSearchProps<T>>) {
 	const { t } = useTranslation("common");
 	const combobox = useCombobox({});
 
@@ -125,6 +127,7 @@ export function SelectSearch<T extends string | number>({
 						combobox.closeDropdown();
 						onBlur?.(e);
 					}}
+					id={triggerId?.toString()}
 				/>
 			</Combobox.Target>
 

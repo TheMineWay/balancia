@@ -1,6 +1,7 @@
 import { TimePrecisionSelector } from "@common/extended-ui/form/components/date/time-precision.selector";
 import { CashInputField } from "@common/extended-ui/form/components/finances/cash.input-field";
 import { Form } from "@common/extended-ui/form/components/form";
+import { MyAccountsSelector } from "@fts/finances/accounts/components/form/my-accounts.selector";
 import { MyCategoriesSelector } from "@fts/finances/categories/components/form/my-categories.selector";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Input } from "@mantine/core";
@@ -33,6 +34,8 @@ export const TransactionForm: FC<Props> = ({
 
 	const amountFieldId = useId();
 	const performedAtFieldId = useId();
+	const categoryFieldId = useId();
+	const accountIdFieldId = useId();
 
 	const { handleSubmit, watch, register, control, formState } = form;
 
@@ -101,7 +104,10 @@ export const TransactionForm: FC<Props> = ({
 				/>
 			</Input.Wrapper>
 
-			<Input.Wrapper label={t().category.expressions.Category}>
+			<Input.Wrapper
+				label={t().category.expressions.Category}
+				labelProps={{ htmlFor: categoryFieldId }}
+			>
 				<Controller
 					control={control}
 					name="categoryId"
@@ -110,6 +116,25 @@ export const TransactionForm: FC<Props> = ({
 							value={value}
 							onChange={onChange}
 							allowClear
+							triggerId={categoryFieldId}
+						/>
+					)}
+				/>
+			</Input.Wrapper>
+
+			<Input.Wrapper
+				label={t().account.expressions.Account}
+				labelProps={{ htmlFor: accountIdFieldId }}
+			>
+				<Controller
+					control={control}
+					name="accountId"
+					render={({ field: { value, onChange } }) => (
+						<MyAccountsSelector
+							value={value}
+							onChange={onChange}
+							allowClear
+							triggerId={accountIdFieldId}
 						/>
 					)}
 				/>
