@@ -104,6 +104,7 @@ export const TransactionForm: FC<Props> = ({
 				/>
 			</Input.Wrapper>
 
+			{/* Category */}
 			<Input.Wrapper
 				label={t().category.expressions.Category}
 				labelProps={{ htmlFor: categoryFieldId }}
@@ -122,6 +123,7 @@ export const TransactionForm: FC<Props> = ({
 				/>
 			</Input.Wrapper>
 
+			{/* Account */}
 			<Input.Wrapper
 				label={t().account.expressions.Account}
 				labelProps={{ htmlFor: accountIdFieldId }}
