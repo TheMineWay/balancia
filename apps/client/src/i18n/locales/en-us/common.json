@@ -1,97 +1,100 @@
 {
-  "models": {
-    "fields": {
-      "created-at": {
-        "Name": "Created at"
-      },
-      "updated-at": {
-        "Name": "Updated at"
-      },
-      "id": {
-        "Name": "ID"
-      },
-      "name": {
-        "Name": "Name"
-      },
-      "description": {
-        "Name": "Description"
-      }
-    }
-  },
-  "expressions": {
-    "Edit": "Edit",
-    "Delete": "Delete",
-    "Actions": "Actions",
-    "Unassign": "Unassign",
-    "Unassign-sth": "Unassign {name}",
-    "Save": "Save",
-    "Reload": "Reload",
-    "Profile": "Profile"
-  },
-  "templates": {
-    "confirm-modal": {
-      "Cancel": "Cancel",
-      "Confirm": "Confirm"
-    }
-  },
-  "components": {
-    "local-config": {
-      "Title": "Local config",
-      "configs": {
-        "primary-color": {
-          "Name": "Primary color",
-          "options": {
-            "red": "Red",
-            "pink": "Pink",
-            "grape": "Grape",
-            "violet": "Violet",
-            "indigo": "Indigo",
-            "blue": "Blue",
-            "cyan": "Cyan",
-            "teal": "Teal",
-            "green": "Green",
-            "lime": "Lime",
-            "yellow": "Yellow",
-            "orange": "Orange"
-          }
-        },
-        "language": {
-          "Name": "Language",
-          "options": {
-            "en-US": "English (US)"
-          }
-        }
-      },
-      "sections": {
-        "theme": {
-          "Title": "Theme"
-        },
-        "language": {
-          "Title": "Language"
-        }
-      }
-    },
-    "status": {
-      "not-found": {
-        "Title": "Not found",
-        "Description": "The requested resource could not be found"
-      },
-      "internal-server-error": {
-        "Title": "Internal server error",
-        "Description": "An unexpected error occurred on the server"
-      },
-      "no-data": {
-        "Title": "No data",
-        "Description": "No data available"
-      }
-    },
-    "server-info": {
-      "notifications": {
-        "version-mismatch": {
-          "Title": "Version mismatch",
-          "Description": "The client version ({current}) does not match the required version ({required}). Reload the page to update."
-        }
-      }
-    }
-  }
+	"models": {
+		"fields": {
+			"created-at": {
+				"Name": "Created at"
+			},
+			"updated-at": {
+				"Name": "Updated at"
+			},
+			"id": {
+				"Name": "ID"
+			},
+			"name": {
+				"Name": "Name"
+			},
+			"description": {
+				"Name": "Description"
+			},
+			"time-precision": {
+				"Name": "Time precision"
+			}
+		}
+	},
+	"expressions": {
+		"Edit": "Edit",
+		"Delete": "Delete",
+		"Actions": "Actions",
+		"Unassign": "Unassign",
+		"Unassign-sth": "Unassign {name}",
+		"Save": "Save",
+		"Reload": "Reload",
+		"Profile": "Profile"
+	},
+	"templates": {
+		"confirm-modal": {
+			"Cancel": "Cancel",
+			"Confirm": "Confirm"
+		}
+	},
+	"components": {
+		"local-config": {
+			"Title": "Local config",
+			"configs": {
+				"primary-color": {
+					"Name": "Primary color",
+					"options": {
+						"red": "Red",
+						"pink": "Pink",
+						"grape": "Grape",
+						"violet": "Violet",
+						"indigo": "Indigo",
+						"blue": "Blue",
+						"cyan": "Cyan",
+						"teal": "Teal",
+						"green": "Green",
+						"lime": "Lime",
+						"yellow": "Yellow",
+						"orange": "Orange"
+					}
+				},
+				"language": {
+					"Name": "Language",
+					"options": {
+						"en-US": "English (US)"
+					}
+				}
+			},
+			"sections": {
+				"theme": {
+					"Title": "Theme"
+				},
+				"language": {
+					"Title": "Language"
+				}
+			}
+		},
+		"status": {
+			"not-found": {
+				"Title": "Not found",
+				"Description": "The requested resource could not be found"
+			},
+			"internal-server-error": {
+				"Title": "Internal server error",
+				"Description": "An unexpected error occurred on the server"
+			},
+			"no-data": {
+				"Title": "No data",
+				"Description": "No data available"
+			}
+		},
+		"server-info": {
+			"notifications": {
+				"version-mismatch": {
+					"Title": "Version mismatch",
+					"Description": "The client version ({current}) does not match the required version ({required}). Reload the page to update."
+				}
+			}
+		}
+	}
 }

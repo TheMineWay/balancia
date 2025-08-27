@@ -1,8 +1,11 @@
+import { TimePrecisionSelector } from "@common/extended-ui/form/components/date/time-precision.selector";
 import { CashInputField } from "@common/extended-ui/form/components/finances/cash.input-field";
 import { Form } from "@common/extended-ui/form/components/form";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Input } from "@mantine/core";
+import { DateTimePicker } from "@mantine/dates";
 import {
+	TimePrecision,
 	TRANSACTION_MODEL_VALUES,
 	type TransactionCreateModel,
 } from "@shared/models";
@@ -25,9 +28,12 @@ export const TransactionForm: FC<Props> = ({
 	loading,
 }) => {
 	const { t } = useTranslation("finances");
-	const amountFieldId = useId();
+	const { t: commonT } = useTranslation("common");
 
-	const { handleSubmit, watch, register, control } = form;
+	const amountFieldId = useId();
+	const performedAtFieldId = useId();
+
+	const { handleSubmit, watch, register, control, formState } = form;
 
 	const formValues = watch();
 
@@ -46,14 +52,40 @@ export const TransactionForm: FC<Props> = ({
 				<Controller
 					control={control}
 					name="amount"
-					render={({ field: { ref, ...restField } }) => (
+					render={({ field: { ref: _, ...restField } }) => (
 						<CashInputField {...restField} id={amountFieldId} />
 					)}
 				/>
 			</Input.Wrapper>
 
+			<Input.Wrapper
+				label={t().transaction.models.transaction.performedAt.Label}
+				labelProps={{ htmlFor: performedAtFieldId }}
+				classNames={{ root: "flex flex-col gap-1" }}
+			>
+				<Controller
+					control={control}
+					name="performedAtPrecision"
+					render={({ field }) => <TimePrecisionSelector {...field} />}
+				/>
+				<Controller
+					control={control}
+					name="performedAt"
+					render={({ field: { ref: _, ...restField } }) => (
+						<DateTimePicker
+							{...restField}
+							id={performedAtFieldId}
+							timePickerProps={{
+								disabled:
+									formValues.performedAtPrecision === TimePrecision.DATE,
+							}}
+						/>
+					)}
+				/>
+			</Input.Wrapper>
+
 			<Button
-				disabled={formValues.amount === 0}
+				disabled={formValues.amount === 0 && !formState.isValid}
 				loading={loading}
 				leftSection={submitIcon}
 				type="submit"

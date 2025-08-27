@@ -1,7 +1,7 @@
 import { TransactionForm } from "@fts/finances/transactions/components/forms/transaction.form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "@i18n/use-translation";
-import { TRANSACTION_CREATE_SCHEMA } from "@shared/models";
+import { TRANSACTION_CREATE_SCHEMA, TRANSACTION_MODEL_VALUES } from "@shared/models";
 import { useForm } from "react-hook-form";
 import { IoAddOutline } from "react-icons/io5";
 
@@ -12,6 +12,8 @@ export const MyTransactionCreateManager: FC = () => {
 		resolver: zodResolver(TRANSACTION_CREATE_SCHEMA.required()),
 		defaultValues: {
 			amount: 0,
+			performedAt: new Date(),
+			performedAtPrecision: TRANSACTION_MODEL_VALUES.performedAtPrecision.default,
 		},
 	});
 
