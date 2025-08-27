@@ -23,7 +23,7 @@ export class CategoriesRepository extends Repository {
 		pagination: PaginatedQuery,
 		search?: SearchModel,
 		options?: QueryOptions,
-	): Promise<PaginatedResponse<OwnedModel<CategoryModel>>> {
+	): Promise<PaginatedResponse<OwnedModel<CategorySelect>>> {
 		const query = this.query(options)
 			.select()
 			.from(categoryTable)

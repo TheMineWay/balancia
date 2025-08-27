@@ -135,7 +135,6 @@ export const TransactionForm: FC<Props> = ({
 						<MyAccountsSelector
 							value={value}
 							onChange={onChange}
-							allowClear
 							triggerId={accountIdFieldId}
 						/>
 					)}

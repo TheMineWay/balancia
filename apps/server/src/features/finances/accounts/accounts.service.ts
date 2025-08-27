@@ -1,12 +1,27 @@
 import type { QueryOptions } from "@database/repository/repository";
 import { AccountSelect } from "@database/schemas/main/tables/finances/account.table";
 import { Injectable } from "@nestjs/common";
-import type { AccountModel, TransactionModel, UserModel } from "@shared/models";
+import type {
+	AccountModel,
+	PaginatedSearchModel,
+	TransactionModel,
+	UserModel,
+} from "@shared/models";
 import { AccountsRepository } from "src/features/finances/accounts/repositories/accounts.repository";
 
 @Injectable()
 export class AccountsService {
 	constructor(private readonly accountsRepository: AccountsRepository) {}
+
+	async getPaginatedAccountsByUserId(
+		userId: UserModel["id"],
+		paginatedSearch: PaginatedSearchModel,
+	) {
+		return await this.accountsRepository.paginatedFindByUserId(
+			userId,
+			paginatedSearch,
+		);
+	}
 
 	async checkAccountOwnership(
 		userId: UserModel["id"],
