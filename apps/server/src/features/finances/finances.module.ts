@@ -1,7 +1,8 @@
 import { Module } from "@nestjs/common";
-import { MyTransactionsModule } from "src/features/finances/transactions/my-transactions.module";
+import { CategoriesModule } from "src/features/finances/categories/categories.module";
+import { TransactionsModule } from "src/features/finances/transactions/transactions.module";
 
 @Module({
-	imports: [MyTransactionsModule],
+	imports: [TransactionsModule, CategoriesModule],
 })
 export class FinancesModule {}

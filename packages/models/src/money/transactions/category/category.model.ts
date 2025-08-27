@@ -28,5 +28,9 @@ export const CATEGORY_SCHEMA = z.object({
 export type CategoryModel = z.infer<typeof CATEGORY_SCHEMA>;
 
 /* Create */
-export const CATEGORY_CREATE_SCHEMA = CATEGORY_SCHEMA.omit({ id: true });
+export const CATEGORY_CREATE_SCHEMA = CATEGORY_SCHEMA.omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true,
+});
 export type CategoryCreateModel = z.infer<typeof CATEGORY_CREATE_SCHEMA>;

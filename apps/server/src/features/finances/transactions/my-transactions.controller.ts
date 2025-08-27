@@ -40,7 +40,7 @@ export class MyTransactionsController {
 	): Promise<
 		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "createTransaction">
 	> {
-		await this.transactionsService.createTransaction(userId, body);
+		await this.transactionsService.create(userId, body);
 	}
 
 	@Endpoint(MY_TRANSACTION_CONTROLLER, "updateTransaction")
@@ -56,7 +56,7 @@ export class MyTransactionsController {
 	): Promise<
 		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "updateTransaction">
 	> {
-		await this.transactionsService.updateTransaction(
+		await this.transactionsService.updateByUserIdAndId(
 			userId,
 			transactionId,
 			body,
@@ -65,7 +65,6 @@ export class MyTransactionsController {
 
 	@Endpoint(MY_TRANSACTION_CONTROLLER, "deleteTransaction")
 	async deleteTransaction(
-		@ValidatedBody(MY_TRANSACTION_CONTROLLER, "deleteTransaction")
 		@UserId()
 		userId: UserModel["id"],
 		@Param(
@@ -76,6 +75,6 @@ export class MyTransactionsController {
 	): Promise<
 		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "deleteTransaction">
 	> {
-		await this.transactionsService.deleteTransaction(userId, transactionId);
+		await this.transactionsService.deleteByUserIdAndId(userId, transactionId);
 	}
 }

@@ -46,12 +46,24 @@ export const Table = <TData extends TableValue>({
 	}, [loading, table.data, table, t]);
 
 	return (
-		<div className={clsx("overflow-x-scroll overflow-y-scroll", classNames?.root)} style={inlineStyles?.root}>
-			<MTable className={clsx(styles.table)} style={inlineStyles?.table} withColumnBorders>
-				<MTable.Thead className={clsx("h-12", classNames?.header)} style={inlineStyles?.header}>
+		<div
+			className={clsx("overflow-x-scroll overflow-y-scroll", classNames?.root)}
+			style={inlineStyles?.root}
+		>
+			<MTable
+				className={clsx(styles.table)}
+				style={inlineStyles?.table}
+				withColumnBorders
+			>
+				<MTable.Thead
+					className={clsx("h-12", classNames?.header)}
+					style={inlineStyles?.header}
+				>
 					<Headers<TData> columns={columns} />
 				</MTable.Thead>
-				<MTable.Tbody className={classNames?.body} style={inlineStyles?.body}>{content}</MTable.Tbody>
+				<MTable.Tbody className={classNames?.body} style={inlineStyles?.body}>
+					{content}
+				</MTable.Tbody>
 			</MTable>
 		</div>
 	);
@@ -185,4 +197,4 @@ const Status = <TData extends TableValue>({
 
 /* Styles */
 
-type Styles = Stylings<'root' | 'table' | 'body' | 'header'>;
+type Styles = Stylings<"root" | "table" | "body" | "header">;

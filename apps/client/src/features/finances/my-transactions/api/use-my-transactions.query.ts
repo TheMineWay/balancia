@@ -2,6 +2,7 @@ import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authentica
 import type { UsePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
 import type { ParametrizedQueryKey } from "@core/requests/types/query-key.type";
+import { MY_TRANSACTIONS_BASE_QUERY_KEY } from "@fts/finances/my-transactions/api/my-transactions.base-query-key";
 import { MY_TRANSACTION_CONTROLLER } from "@shared/api-definition";
 import type { PaginatedQuery } from "@shared/models";
 import { useQuery } from "@tanstack/react-query";
@@ -9,8 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 export const MY_TRANSACTIONS_QUERY_KEY: ParametrizedQueryKey<{
 	pagination: PaginatedQuery;
 }> = ({ pagination }) => [
-	"transactions",
-	"my-transactions",
+	...MY_TRANSACTIONS_BASE_QUERY_KEY,
 	"list",
 	{ pagination },
 ];
