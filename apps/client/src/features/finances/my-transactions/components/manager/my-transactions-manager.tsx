@@ -15,36 +15,44 @@ import { useCallback } from "react";
 import { IoAddOutline, IoReload, IoTrash } from "react-icons/io5";
 
 export const MyTransactionsManager: FC = () => {
-	const { t, interpolated } = useTranslation("transaction");
+	const { t, interpolated } = useTranslation("finances");
 	const { t: commonT } = useTranslation("common");
 
 	const pagination = usePagination();
-	const { data: transactions, isLoading: isLoadingTransactions, refetch: refetchTransactions, isFetching: isFetchingTransactions } =
-		useMyTransactionsQuery({ pagination });
+	const {
+		data: transactions,
+		isLoading: isLoadingTransactions,
+		refetch: refetchTransactions,
+		isFetching: isFetchingTransactions,
+	} = useMyTransactionsQuery({ pagination });
 	const { mutate: deleteTransaction } = useMyTransactionDeleteByIdMutation();
 
-	const [isCreateOpen, { open: openCreate, close: closeCreate }] = useDisclosure();
+	const [isCreateOpen, { open: openCreate, close: closeCreate }] =
+		useDisclosure();
 
-	const onDeleteClick = useCallback((item: TransactionModel) => {
-		modals.openConfirmModal({
-			title: interpolated((t) => t["delete"].confirm.Title, { name: item.subject || item.id.toString() }),
-			children: (<Text>
-				{t()["delete"].confirm.Message}
-			</Text>),
-			labels: {
-				cancel: commonT().templates["confirm-modal"].Cancel,
-				confirm: t()["delete"].confirm.Action,
-			},
-			confirmProps: { color: "red", leftSection: <IoTrash /> },
-			onConfirm: () => deleteTransaction(item.id),
-		});
-	}, [t, commonT, deleteTransaction, interpolated]);
+	const onDeleteClick = useCallback(
+		(item: TransactionModel) => {
+			modals.openConfirmModal({
+				title: interpolated((t) => t.transaction["delete"].confirm.Title, {
+					name: item.subject || item.id.toString(),
+				}),
+				children: <Text>{t().transaction["delete"].confirm.Message}</Text>,
+				labels: {
+					cancel: commonT().templates["confirm-modal"].Cancel,
+					confirm: t().transaction["delete"].confirm.Action,
+				},
+				confirmProps: { color: "red", leftSection: <IoTrash /> },
+				onConfirm: () => deleteTransaction(item.id),
+			});
+		},
+		[t, commonT, deleteTransaction, interpolated],
+	);
 
 	return (
 		<>
 			<ManagerLayout.Root>
 				<ManagerLayout.Title>
-					{t()["my-transactions"].manager.Title}
+					{t().transaction["my-transactions"].manager.Title}
 				</ManagerLayout.Title>
 				<ManagerLayout.Content>
 					{/* Table */}
@@ -52,10 +60,16 @@ export const MyTransactionsManager: FC = () => {
 						{/* Actions */}
 						<TableLayout.Actions>
 							<ActionsLayout.Row>
-								<Button onClick={openCreate} leftSection={<IoAddOutline />}>{t()["my-transactions"].manager.Actions.Register}</Button>
+								<Button onClick={openCreate} leftSection={<IoAddOutline />}>
+									{t().transaction["my-transactions"].manager.Actions.Register}
+								</Button>
 							</ActionsLayout.Row>
 							<ActionsLayout.Row>
-								<ActionIcon loading={isFetchingTransactions} onClick={() => refetchTransactions()} aria-label={commonT().expressions.Reload}>
+								<ActionIcon
+									loading={isFetchingTransactions}
+									onClick={() => refetchTransactions()}
+									aria-label={commonT().expressions.Reload}
+								>
 									<IoReload />
 								</ActionIcon>
 							</ActionsLayout.Row>
@@ -67,6 +81,8 @@ export const MyTransactionsManager: FC = () => {
 								data={transactions?.items}
 								loading={isLoadingTransactions}
 								onDeleteClick={onDeleteClick}
+								showAccount
+								showCategory
 							/>
 						</TableLayout.Table>
 						<TableLayout.Pagination>
@@ -78,8 +94,13 @@ export const MyTransactionsManager: FC = () => {
 
 			{/* Modals & Drawers */}
 
-			<Drawer position="right" opened={isCreateOpen} onClose={closeCreate} title={t().create.Title}>
-				<MyTransactionCreateManager/>
+			<Drawer
+				position="right"
+				opened={isCreateOpen}
+				onClose={closeCreate}
+				title={t().transaction.create.Title}
+			>
+				<MyTransactionCreateManager />
 			</Drawer>
 		</>
 	);

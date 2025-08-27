@@ -20,7 +20,7 @@ const MyAvatar: FC = () => {
  * Contains links that are visible on the navbar
  */
 const Navigator: FC = () => {
-	const { t: transactionT } = useTranslation("transaction");
+	const { t: transactionT } = useTranslation("finances");
 
 	return (
 		<Group gap="xs">
@@ -38,7 +38,7 @@ const Navigator: FC = () => {
 					leftSection={<MdDashboard />}
 					variant="subtle"
 				>
-					{transactionT().nav.Label}
+					{transactionT().transaction.nav.Label}
 				</Button>
 			</Link>
 

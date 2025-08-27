@@ -1,0 +1,49 @@
+{
+	"transaction": {
+		"nav": {
+			"Label": "Transactions"
+		},
+		"my-transactions": {
+			"manager": {
+				"Title": "My transactions",
+				"Actions": {
+					"Register": "Register transaction"
+				}
+			}
+		},
+		"delete": {
+			"confirm": {
+				"Title": "Delete transaction \"{name}\"",
+				"Message": "Are you sure you want to delete this transaction? This action cannot be undone.",
+				"Action": "Delete transaction"
+			}
+		},
+		"create": {
+			"Title": "Create transaction",
+			"Submit": "Create transaction"
+		},
+		"models": {
+			"transaction": {
+				"subject": {
+					"Label": "Subject"
+				},
+				"performedAt": {
+					"Label": "Transaction date"
+				},
+				"amount": {
+					"Label": "Amount"
+				}
+			}
+		}
+	},
+	"category": {
+		"expressions": {
+			"Category": "Category"
+		}
+	},
+	"account": {
+		"expressions": {
+			"Account": "Account"
+		}
+	}
+}

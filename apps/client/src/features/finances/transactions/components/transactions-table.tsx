@@ -2,35 +2,61 @@ import { DateRender } from "@common/extended-ui/date/components/date-render";
 import { DatetimeRender } from "@common/extended-ui/date/components/datetime-render";
 import { Table } from "@common/extended-ui/table/components/table";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
+import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
 import { useTranslation } from "@i18n/use-translation";
-import { ActionIcon, Group } from "@mantine/core";
-import { TimePrecision, type TransactionModel } from "@shared/models";
+import { ActionIcon, Group, Text } from "@mantine/core";
+import {
+	type AccountModel,
+	type CategoryModel,
+	type TransactionModel as RawTransactionModel,
+	TimePrecision,
+} from "@shared/models";
 import { BiEdit, BiTrash } from "react-icons/bi";
 
-type Props = {
-	data?: TransactionModel[];
-	loading?: boolean;
-	onDeleteClick?: (item: TransactionModel) => void;
+/**
+ * As this component accepts transactions with account and category, its type is extended
+ */
+type TransactionModel = RawTransactionModel & {
+	category?: CategoryModel | null;
+	account?: AccountModel;
 };
 
-export const TransactionsTable: FC<Props> = ({ data, loading = false, onDeleteClick }) => {
-	const { t } = useTranslation("transaction");
+type Props<T extends TransactionModel> = {
+	data?: T[];
+	loading?: boolean;
+	onDeleteClick?: (item: TransactionModel) => void;
+
+	// Extensions
+	showAccount?: boolean;
+	showCategory?: boolean;
+};
+
+export const TransactionsTable = <
+	T extends TransactionModel = TransactionModel,
+>({
+	data,
+	loading = false,
+	onDeleteClick,
+	showAccount = false,
+	showCategory = false,
+}: Readonly<Props<T>>) => {
+	const { t } = useTranslation("finances");
 	const { t: commonT } = useTranslation("common");
 
-	const table = useTable<TransactionModel>({
+	const table = useTable<T>({
 		rowKey: "id",
 		data,
 		columns: [
 			{
-				label: t().models.transaction.subject.Label,
+				label: t().transaction.models.transaction.subject.Label,
 				accessorKey: "subject",
 			},
 			{
-				label: t().models.transaction.amount.Label,
+				label: t().transaction.models.transaction.amount.Label,
 				accessorKey: "amount",
 			},
 			{
-				label: t().models.transaction.performedAt.Label,
+				label: t().transaction.models.transaction.performedAt.Label,
 				accessorKey: "performedAt",
 				render: (row) =>
 					row.performedAtPrecision === TimePrecision.DATE ? (
@@ -39,6 +65,24 @@ export const TransactionsTable: FC<Props> = ({ data, loading = false, onDeleteCl
 						<DatetimeRender date={row.performedAt} />
 					),
 			},
+			...(showCategory
+				? [
+						{
+							label: t().category.expressions.Category,
+							render: (row) => <Text>{row.category?.name}</Text>,
+							classNames: { cellContent: "min-w-[8rem] text-center" },
+						} satisfies TableColumn<T>,
+					]
+				: []),
+			...(showAccount
+				? [
+						{
+							label: t().account.expressions.Account,
+							render: (row) => <Text>{row.account?.name}</Text>,
+							classNames: { cellContent: "min-w-[8rem] text-center" },
+						} satisfies TableColumn<T>,
+					]
+				: []),
 			{
 				label: commonT().expressions.Actions,
 				render: (item) => (
@@ -46,9 +90,15 @@ export const TransactionsTable: FC<Props> = ({ data, loading = false, onDeleteCl
 						<ActionIcon aria-label={commonT().expressions.Edit}>
 							<BiEdit />
 						</ActionIcon>
-						{onDeleteClick && <ActionIcon onClick={() => onDeleteClick(item)} color="red" aria-label={commonT().expressions.Delete}>
-							<BiTrash />
-						</ActionIcon>}
+						{onDeleteClick && (
+							<ActionIcon
+								onClick={() => onDeleteClick(item)}
+								color="red"
+								aria-label={commonT().expressions.Delete}
+							>
+								<BiTrash />
+							</ActionIcon>
+						)}
 					</Group>
 				),
 			},

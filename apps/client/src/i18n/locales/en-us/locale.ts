@@ -3,7 +3,7 @@ import admin from "./core/admin.json";
 import auth from "./core/auth.json";
 import role from "./core/role.json";
 import errors from "./errors.json";
-import transaction from "./transaction.json";
+import finances from "./finances.json";
 
 // End core
 
@@ -15,7 +15,7 @@ const EN_US = {
 	admin,
 	// End core
 
-	transaction,
+	finances,
 };
 
 export default EN_US;
