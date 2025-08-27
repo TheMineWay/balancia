@@ -11,21 +11,30 @@ import type {
 	OwnedModel,
 	PaginatedQuery,
 	PaginatedResponse,
+	SearchModel,
 	UserModel,
 } from "@shared/models";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, ilike } from "drizzle-orm";
 
 @Injectable()
 export class CategoriesRepository extends Repository {
 	async paginatedFindByUserId(
 		userId: UserModel["id"],
 		pagination: PaginatedQuery,
+		search?: SearchModel,
 		options?: QueryOptions,
 	): Promise<PaginatedResponse<OwnedModel<CategoryModel>>> {
 		const query = this.query(options)
 			.select()
 			.from(categoryTable)
-			.where(eq(categoryTable.userId, userId))
+			.where(
+				and(
+					eq(categoryTable.userId, userId),
+					search?.search
+						? ilike(categoryTable.name, `%${search.search}%`)
+						: undefined,
+				),
+			)
 			.orderBy(desc(categoryTable.id))
 			.$dynamic();
 

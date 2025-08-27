@@ -7,9 +7,15 @@ import { useMemo } from "react";
 
 type Props = {
 	onChange?: (categoryId: CategoryModel["id"] | null) => void;
+	value: CategoryModel["id"] | null;
+	allowClear?: boolean;
 };
 
-export const MyCategoriesSelector: FC<Props> = ({ onChange }) => {
+export const MyCategoriesSelector: FC<Props> = ({
+	onChange,
+	value,
+	allowClear,
+}) => {
 	const pagination = usePagination();
 	const search = useDebouncedSearch();
 
@@ -32,6 +38,8 @@ export const MyCategoriesSelector: FC<Props> = ({ onChange }) => {
 			data={options}
 			search={search}
 			setValue={(v) => onChange?.(v)}
+			value={value}
+			allowClear={allowClear}
 		/>
 	);
 };

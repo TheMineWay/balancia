@@ -4,6 +4,7 @@ import {
 	getController,
 	getParamName,
 	InferBodyDto,
+	InferQueryDto,
 	InferResponseDto,
 	MY_CATEGORY_CONTROLLER,
 } from "@shared/api-definition";
@@ -19,7 +20,8 @@ export class MyCategoriesController {
 
 	@Endpoint(MY_CATEGORY_CONTROLLER, "getCategories")
 	async getCategories(
-		@ValidatedQuery(MY_CATEGORY_CONTROLLER, "getCategories") query,
+		@ValidatedQuery(MY_CATEGORY_CONTROLLER, "getCategories")
+		query: InferQueryDto<typeof MY_CATEGORY_CONTROLLER, "getCategories">,
 		@UserId() userId: UserModel["id"],
 	): Promise<InferResponseDto<typeof MY_CATEGORY_CONTROLLER, "getCategories">> {
 		return await this.categoriesService.getPaginatedCategoriesByUserId(

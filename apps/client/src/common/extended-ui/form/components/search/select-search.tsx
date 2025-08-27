@@ -1,6 +1,14 @@
 import type { UseDebouncedSearch } from "@common/extended-ui/form/components/search/use-debounced-search";
-import { Combobox, TextInput, useCombobox } from "@mantine/core";
+import { useTranslation } from "@i18n/use-translation";
+import {
+	ActionIcon,
+	Combobox,
+	TextInput,
+	type TextInputProps,
+	useCombobox,
+} from "@mantine/core";
 import { useCallback, useMemo } from "react";
+import { IoCloseOutline } from "react-icons/io5";
 
 type Data<T extends string | number> = {
 	label: string;
@@ -15,7 +23,8 @@ type Props<T extends string | number> = {
 	placeholder?: string;
 	value?: T | null;
 	setValue?: (value: T | null) => void;
-};
+	allowClear?: boolean;
+} & Pick<TextInputProps, "onBlur" | "onFocus" | "onClick">;
 
 /**
  * This component is a search-select input that allows users to select an item from a dropdown list.
@@ -26,8 +35,13 @@ export function SelectSearch<T extends string | number>({
 	placeholder,
 	search,
 	value,
+	allowClear = false,
 	setValue,
+	onBlur,
+	onClick,
+	onFocus,
 }: Readonly<Props<T>>) {
+	const { t } = useTranslation("common");
 	const combobox = useCombobox({});
 
 	// As the Combobox cannot operate with non-string values directly,
@@ -64,6 +78,22 @@ export function SelectSearch<T extends string | number>({
 		return data.find((option) => option.value === value) || null;
 	}, [data, value]);
 
+	const closeComponent = useMemo(
+		() =>
+			allowClear ? (
+				<ActionIcon
+					variant="transparent"
+					aria-label={t().expressions.Clear}
+					onClick={() => {
+						setValue?.(null);
+					}}
+				>
+					<IoCloseOutline />
+				</ActionIcon>
+			) : null,
+		[allowClear, t, setValue],
+	);
+
 	return (
 		<Combobox
 			store={combobox}
@@ -74,6 +104,7 @@ export function SelectSearch<T extends string | number>({
 		>
 			<Combobox.Target>
 				<TextInput
+					rightSection={closeComponent}
 					value={selectedOption ? selectedOption.label : search.value}
 					onChange={(e) => {
 						combobox.openDropdown();
@@ -81,9 +112,18 @@ export function SelectSearch<T extends string | number>({
 						search.setValue(e.currentTarget.value);
 					}}
 					placeholder={placeholder}
-					onClick={() => combobox.openDropdown()}
-					onFocus={() => combobox.openDropdown()}
-					onBlur={() => combobox.closeDropdown()}
+					onClick={(e) => {
+						combobox.openDropdown();
+						onClick?.(e);
+					}}
+					onFocus={(e) => {
+						combobox.openDropdown();
+						onFocus?.(e);
+					}}
+					onBlur={(e) => {
+						combobox.closeDropdown();
+						onBlur?.(e);
+					}}
 				/>
 			</Combobox.Target>
 

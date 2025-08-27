@@ -1,6 +1,7 @@
 import { TimePrecisionSelector } from "@common/extended-ui/form/components/date/time-precision.selector";
 import { CashInputField } from "@common/extended-ui/form/components/finances/cash.input-field";
 import { Form } from "@common/extended-ui/form/components/form";
+import { MyCategoriesSelector } from "@fts/finances/categories/components/form/my-categories.selector";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Input } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
@@ -95,6 +96,20 @@ export const TransactionForm: FC<Props> = ({
 								disabled:
 									formValues.performedAtPrecision === TimePrecision.DATE,
 							}}
+						/>
+					)}
+				/>
+			</Input.Wrapper>
+
+			<Input.Wrapper label={t().category.expressions.Category}>
+				<Controller
+					control={control}
+					name="categoryId"
+					render={({ field: { value, onChange } }) => (
+						<MyCategoriesSelector
+							value={value}
+							onChange={onChange}
+							allowClear
 						/>
 					)}
 				/>

@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import {
 	CategoryCreateModel,
 	CategoryModel,
-	PaginatedQuery,
+	PaginatedSearchModel,
 	UserModel,
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
@@ -22,11 +22,12 @@ export class CategoriesService {
 
 	async getPaginatedCategoriesByUserId(
 		userId: UserModel["id"],
-		pagination: PaginatedQuery,
+		{ pagination, search }: PaginatedSearchModel,
 	) {
 		return await this.categoriesRepository.paginatedFindByUserId(
 			userId,
 			pagination,
+			search,
 		);
 	}
 

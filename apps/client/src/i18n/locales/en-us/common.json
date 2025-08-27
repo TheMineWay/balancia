@@ -8,7 +8,8 @@
 		"Save": "Save",
 		"Reload": "Reload",
 		"Profile": "Profile",
-		"Created-at": "Created at"
+		"Created-at": "Created at",
+		"Clear": "Clear"
 	},
 	"templates": {
 		"confirm-modal": {
