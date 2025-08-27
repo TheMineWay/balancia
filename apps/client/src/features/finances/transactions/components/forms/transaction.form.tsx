@@ -20,8 +20,6 @@ export const TransactionForm: FC<Props> = ({ form, onSuccess, submitText, submit
 
     const formValues = watch();
 
-    console.log(formValues.amount);
-
     return <Form onSubmit={handleSubmit((transaction) => onSuccess?.(transaction))}>
         <Input.Wrapper label={t().models.transaction.subject.Label}>
             <Input maxLength={TRANSACTION_MODEL_VALUES.subject.maxLength} {...register('subject')}/>
