@@ -1,3 +1,4 @@
+import { RenderCurrency } from "@common/extended-ui/currency/render-currency";
 import { DateRender } from "@common/extended-ui/date/components/date-render";
 import { DatetimeRender } from "@common/extended-ui/date/components/datetime-render";
 import { Table } from "@common/extended-ui/table/components/table";
@@ -52,6 +53,7 @@ export const TransactionsTable = <
 			{
 				label: t().transaction.models.transaction.amount.Label,
 				accessorKey: "amount",
+				render: (row) => <RenderCurrency amount={row.amount} />,
 			},
 			{
 				label: t().transaction.models.transaction.performedAt.Label,
