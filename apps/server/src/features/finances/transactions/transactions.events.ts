@@ -27,7 +27,7 @@ export class TransactionCreatedEvent extends Event<TransactionCreatedEventPayloa
 	}
 }
 
-type TransactionDeletedEventPayload = { transaction: TransactionModel };
+type TransactionDeletedEventPayload = { transactionId: TransactionModel["id"] };
 
 /**
  * Event emitted when a transaction is deleted

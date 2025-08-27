@@ -1,8 +1,8 @@
 import { DATABASE_PROVIDERS } from "@database/database.provider";
+import type { QueryOptions } from "@database/repository/repository";
 import { DatabaseService } from "@database/services/database.service";
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import type {
-	OwnedModel,
 	PaginatedQuery,
 	PaginatedResponse,
 	TransactionCreateModel,
@@ -10,6 +10,7 @@ import type {
 	UserModel,
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
+import { AccountsService } from "src/features/finances/accounts/accounts.service";
 import { CategoriesRepository } from "src/features/finances/categories/repositories/categories.repository";
 import { TransactionsRepository } from "src/features/finances/transactions/repositories/transactions.repository";
 import {
@@ -23,15 +24,31 @@ export class TransactionsService {
 	constructor(
 		private readonly transactionsRepository: TransactionsRepository,
 		private readonly categoriesRepository: CategoriesRepository,
+		private readonly accountsService: AccountsService,
 		private readonly eventService: EventService,
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
 	) {}
 
+	async checkTransactionOwnership(
+		userId: UserModel["id"],
+		transactionId: TransactionModel["id"],
+		queryOptions?: QueryOptions,
+	) {
+		const account = await this.accountsService.getAccountByTransactionId(
+			transactionId,
+			queryOptions,
+		);
+
+		return {
+			isOwner: account?.userId === userId,
+		};
+	}
+
 	async getPaginatedTransactionsByUserId(
 		userId: UserModel["id"],
 		pagination: PaginatedQuery,
-	): Promise<PaginatedResponse<OwnedModel<TransactionModel>>> {
+	): Promise<PaginatedResponse<TransactionModel>> {
 		return await this.transactionsRepository.paginatedFindTransactionsByUserId(
 			userId,
 			pagination,
@@ -40,9 +57,16 @@ export class TransactionsService {
 
 	async create(
 		userId: UserModel["id"],
-		{ categoryId, ...transaction }: TransactionCreateModel,
+		{ categoryId, accountId, ...transaction }: TransactionCreateModel,
 	) {
 		return await this.databaseService.db.transaction(async (tsx) => {
+			const { isOwner: isAccountOwner, account } =
+				await this.accountsService.checkAccountOwnership(userId, accountId, {
+					transaction: tsx,
+				});
+
+			if (!isAccountOwner) throw new UnauthorizedException();
+
 			// If category is provided. Check if it is owned by the user
 			const category = categoryId
 				? await this.categoriesRepository.findCategoryByUserId(
@@ -55,7 +79,7 @@ export class TransactionsService {
 				{
 					...transaction,
 					categoryId: category?.id ?? null,
-					userId,
+					accountId: account.id,
 				},
 				{ transaction: tsx },
 			);
@@ -73,39 +97,61 @@ export class TransactionsService {
 		transactionId: TransactionModel["id"],
 		{ categoryId, ...transaction }: Partial<TransactionCreateModel>,
 	) {
-		// If category is provided. Check if it is owned by the user
-		const category = categoryId
-			? await this.categoriesRepository.findCategoryByUserId(userId, categoryId)
-			: null;
+		return await this.databaseService.db.transaction(async (tsx) => {
+			// Ensure transaction is owned by the user
+			const { isOwner } = await this.checkTransactionOwnership(
+				userId,
+				transactionId,
+				{ transaction: tsx },
+			);
+			if (!isOwner) throw new UnauthorizedException();
 
-		const updated = await this.transactionsRepository.updateByIdAndUserId(
-			userId,
-			transactionId,
-			{ ...transaction, categoryId: category?.id ?? null },
-		);
+			// If category is provided. Check if it is owned by the user
+			const category = categoryId
+				? await this.categoriesRepository.findCategoryByUserId(
+						userId,
+						categoryId,
+						{ transaction: tsx },
+					)
+				: null;
 
-		if (updated)
-			this.eventService.emit(
-				new TransactionUpdatedEvent({ transaction: updated }),
+			const updated = await this.transactionsRepository.updateById(
+				transactionId,
+				{ ...transaction, categoryId: category?.id ?? null },
+				{ transaction: tsx },
 			);
 
-		return updated;
+			if (updated)
+				this.eventService.emit(
+					new TransactionUpdatedEvent({ transaction: updated }),
+				);
+
+			return updated;
+		});
 	}
 
 	async deleteByUserIdAndId(
 		userId: UserModel["id"],
 		transactionId: TransactionModel["id"],
 	) {
-		const deleted = await this.transactionsRepository.deleteByUserIdAndId(
-			userId,
-			transactionId,
-		);
+		return await this.databaseService.db.transaction(async (transaction) => {
+			// Ensure transaction is owned by the user
+			const { isOwner } = await this.checkTransactionOwnership(
+				userId,
+				transactionId,
+				{ transaction },
+			);
+			if (!isOwner) throw new UnauthorizedException();
 
-		if (deleted)
-			this.eventService.emit(
-				new TransactionDeletedEvent({ transaction: deleted }),
+			const deleted = await this.transactionsRepository.deleteById(
+				transactionId,
+				{ transaction },
 			);
 
-		return deleted;
+			if (deleted)
+				this.eventService.emit(new TransactionDeletedEvent({ transactionId }));
+
+			return deleted;
+		});
 	}
 }

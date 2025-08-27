@@ -1,5 +1,5 @@
 import { type QueryOptions, Repository } from "@database/repository/repository";
-import { transactionsTable } from "@database/schemas/main.schema";
+import { accountTable, transactionsTable } from "@database/schemas/main.schema";
 import type {
 	TransactionInsert,
 	TransactionsSelect,
@@ -7,7 +7,6 @@ import type {
 } from "@database/schemas/main/tables/finances/transaction.table";
 import { Injectable } from "@nestjs/common";
 import type {
-	OwnedModel,
 	PaginatedQuery,
 	PaginatedResponse,
 	TransactionModel,
@@ -21,11 +20,22 @@ export class TransactionsRepository extends Repository {
 		userId: UserModel["id"],
 		pagination: PaginatedQuery,
 		options?: QueryOptions,
-	): Promise<PaginatedResponse<OwnedModel<TransactionModel>>> {
+	): Promise<PaginatedResponse<TransactionModel>> {
 		const query = this.query(options)
-			.select()
+			.select({
+				id: transactionsTable.id,
+				amount: transactionsTable.amount,
+				subject: transactionsTable.subject,
+				performedAt: transactionsTable.performedAt,
+				performedAtPrecision: transactionsTable.performedAtPrecision,
+				categoryId: transactionsTable.categoryId,
+				accountId: transactionsTable.accountId,
+				createdAt: transactionsTable.createdAt,
+				updatedAt: transactionsTable.updatedAt,
+			})
 			.from(transactionsTable)
-			.where(eq(transactionsTable.userId, userId))
+			.innerJoin(accountTable, eq(transactionsTable.accountId, accountTable.id))
+			.where(eq(accountTable.userId, userId))
 			.orderBy(desc(transactionsTable.performedAt))
 			.$dynamic();
 
@@ -49,8 +59,7 @@ export class TransactionsRepository extends Repository {
 		)[0];
 	}
 
-	async updateByIdAndUserId(
-		userId: UserModel["id"],
+	async updateById(
 		transactionId: TransactionModel["id"],
 		transaction: TransactionsUpdate,
 		options?: QueryOptions,
@@ -59,31 +68,17 @@ export class TransactionsRepository extends Repository {
 			await this.query(options)
 				.update(transactionsTable)
 				.set(transaction)
-				.where(
-					and(
-						eq(transactionsTable.userId, userId),
-						eq(transactionsTable.id, transactionId),
-					),
-				)
+				.where(eq(transactionsTable.id, transactionId))
 				.returning()
 		)?.[0];
 	}
 
-	async deleteByUserIdAndId(
-		userId: UserModel["id"],
+	async deleteById(
 		transactionId: TransactionModel["id"],
 		options?: QueryOptions,
-	): Promise<TransactionsSelect | undefined> {
-		return (
-			await this.query(options)
-				.delete(transactionsTable)
-				.where(
-					and(
-						eq(transactionsTable.id, transactionId),
-						eq(transactionsTable.userId, userId),
-					),
-				)
-				.returning()
-		)?.[0];
+	) {
+		return await this.query(options)
+			.delete(transactionsTable)
+			.where(and(eq(transactionsTable.id, transactionId)));
 	}
 }
