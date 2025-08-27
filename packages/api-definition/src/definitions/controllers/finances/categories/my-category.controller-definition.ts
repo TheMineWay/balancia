@@ -2,10 +2,12 @@ import {
 	CATEGORY_CREATE_SCHEMA,
 	CATEGORY_SCHEMA,
 	getPaginatedResponse,
+	PAGINATED_SEARCH_SCHEMA,
 } from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
 import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
+import z from "zod";
 
 // Endpoints
 
@@ -13,6 +15,9 @@ const GET_CATEGORIES_ENDPOINT = {
 	getPath: () => [],
 	paramsMapping: {},
 	responseDto: getPaginatedResponse(CATEGORY_SCHEMA),
+	queryDto: z.object({
+		...PAGINATED_SEARCH_SCHEMA.shape,
+	}),
 } satisfies EndpointDefinition;
 
 const CREATE_CATEGORY_ENDPOINT = {
