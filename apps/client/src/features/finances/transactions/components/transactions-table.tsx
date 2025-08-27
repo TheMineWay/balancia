@@ -17,7 +17,7 @@ import { BiEdit, BiTrash } from "react-icons/bi";
  * As this component accepts transactions with account and category, its type is extended
  */
 type TransactionModel = RawTransactionModel & {
-	category?: CategoryModel | null;
+	category: CategoryModel | null;
 	account?: AccountModel;
 };
 
@@ -28,7 +28,6 @@ type Props<T extends TransactionModel> = {
 
 	// Extensions
 	showAccount?: boolean;
-	showCategory?: boolean;
 };
 
 export const TransactionsTable = <
@@ -38,7 +37,6 @@ export const TransactionsTable = <
 	loading = false,
 	onDeleteClick,
 	showAccount = false,
-	showCategory = false,
 }: Readonly<Props<T>>) => {
 	const { t } = useTranslation("finances");
 	const { t: commonT } = useTranslation("common");
@@ -65,15 +63,11 @@ export const TransactionsTable = <
 						<DatetimeRender date={row.performedAt} />
 					),
 			},
-			...(showCategory
-				? [
-						{
-							label: t().category.expressions.Category,
-							render: (row) => <Text>{row.category?.name}</Text>,
-							classNames: { cellContent: "min-w-[8rem] text-center" },
-						} satisfies TableColumn<T>,
-					]
-				: []),
+			{
+				label: t().category.expressions.Category,
+				render: (row) => <Text>{row.category?.name}</Text>,
+				classNames: { cellContent: "min-w-[8rem] text-center" },
+			},
 			...(showAccount
 				? [
 						{

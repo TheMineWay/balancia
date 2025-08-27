@@ -82,7 +82,6 @@ export const MyTransactionsManager: FC = () => {
 								loading={isLoadingTransactions}
 								onDeleteClick={onDeleteClick}
 								showAccount
-								showCategory
 							/>
 						</TableLayout.Table>
 						<TableLayout.Pagination>
