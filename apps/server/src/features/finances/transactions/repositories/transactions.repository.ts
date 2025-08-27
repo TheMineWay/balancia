@@ -4,7 +4,7 @@ import type {
 	TransactionInsert,
 	TransactionsSelect,
 	TransactionsUpdate,
-} from "@database/schemas/main/tables/transactions/transaction.table";
+} from "@database/schemas/main/tables/finances/transaction.table";
 import { Injectable } from "@nestjs/common";
 import type {
 	OwnedModel,

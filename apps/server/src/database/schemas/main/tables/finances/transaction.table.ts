@@ -1,10 +1,9 @@
 import { timestamps } from "@database/common/timestamps";
 import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
-import { timePrecisionEnum, userTable } from "@database/schemas/main.schema";
-import { categoryTable } from "@database/schemas/main/tables/transactions/category.table";
-import { transactionsSchema } from "@database/schemas/main/tables/transactions/transaction.schema";
+import { accountTable, timePrecisionEnum } from "@database/schemas/main.schema";
+import { categoryTable } from "@database/schemas/main/tables/finances/category.table";
+import { financesSchema } from "@database/schemas/main/tables/finances/finances.schema";
 import {
-	type OwnedModel,
 	TimePrecision,
 	TRANSACTION_MODEL_VALUES,
 	type TransactionModel,
@@ -19,9 +18,9 @@ import {
 	varchar,
 } from "drizzle-orm/pg-core";
 
-type ColumnsModel = DbModeledColumnsDefinition<OwnedModel<TransactionModel>>;
+type ColumnsModel = DbModeledColumnsDefinition<TransactionModel>;
 
-export const transactionsTable = transactionsSchema.table(
+export const transactionsTable = financesSchema.table(
 	"transactions",
 	{
 		id: serial().primaryKey(),
@@ -39,18 +38,18 @@ export const transactionsTable = transactionsSchema.table(
 			onDelete: "set null",
 		}),
 
-		// Owned
-		userId: integer()
+		// Links
+		accountId: integer()
 			.notNull()
-			.references(() => userTable.id),
+			.references(() => accountTable.id),
 
 		// Timestamps
 		...timestamps,
 	} satisfies ColumnsModel,
 	(table) => [
 		// Indexes
-		index("user_id_and_performed_at_IDX").on(
-			table.userId,
+		index("account_id_and_performed_at_IDX").on(
+			table.accountId,
 			sql`${table.performedAt} DESC`,
 		),
 		index("category_id_IDX").on(table.categoryId),

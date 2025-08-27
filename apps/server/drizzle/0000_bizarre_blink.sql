@@ -1,4 +1,25 @@
+CREATE SCHEMA "finances";
+--> statement-breakpoint
 CREATE SCHEMA "identity";
+--> statement-breakpoint
+CREATE TYPE "public"."time_precision" AS ENUM('date', 'datetime');--> statement-breakpoint
+CREATE TABLE "finances"."accounts" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" varchar(64) NOT NULL,
+	"description" varchar(512),
+	"userId" integer NOT NULL,
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"updatedAt" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "finances"."categories" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" varchar(100) NOT NULL,
+	"description" varchar(512),
+	"userId" integer NOT NULL,
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"updatedAt" timestamp DEFAULT now() NOT NULL
+);
 --> statement-breakpoint
 CREATE TABLE "identity"."permissions" (
 	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "identity"."permissions_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
@@ -21,6 +42,18 @@ CREATE TABLE "identity"."roles" (
 	"updatedAt" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "finances"."transactions" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"amount" numeric(10, 2) NOT NULL,
+	"subject" varchar(255),
+	"performedAt" timestamp NOT NULL,
+	"performedAtPrecision" time_precision DEFAULT 'datetime' NOT NULL,
+	"categoryId" integer,
+	"accountId" integer NOT NULL,
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"updatedAt" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "identity"."user_roles" (
 	"userId" integer NOT NULL,
 	"roleId" integer NOT NULL,
@@ -39,9 +72,16 @@ CREATE TABLE "identity"."users" (
 	CONSTRAINT "users_code_unique" UNIQUE("code")
 );
 --> statement-breakpoint
+ALTER TABLE "finances"."accounts" ADD CONSTRAINT "accounts_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "identity"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "finances"."categories" ADD CONSTRAINT "categories_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "identity"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "identity"."role_permissions" ADD CONSTRAINT "role_permissions_roleId_roles_id_fk" FOREIGN KEY ("roleId") REFERENCES "identity"."roles"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "identity"."role_permissions" ADD CONSTRAINT "role_permissions_permissionId_permissions_id_fk" FOREIGN KEY ("permissionId") REFERENCES "identity"."permissions"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "finances"."transactions" ADD CONSTRAINT "transactions_categoryId_categories_id_fk" FOREIGN KEY ("categoryId") REFERENCES "finances"."categories"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "finances"."transactions" ADD CONSTRAINT "transactions_accountId_accounts_id_fk" FOREIGN KEY ("accountId") REFERENCES "finances"."accounts"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "identity"."user_roles" ADD CONSTRAINT "user_roles_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "identity"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "identity"."user_roles" ADD CONSTRAINT "user_roles_roleId_roles_id_fk" FOREIGN KEY ("roleId") REFERENCES "identity"."roles"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+CREATE INDEX "categories_userId_index" ON "finances"."categories" USING btree ("userId");--> statement-breakpoint
 CREATE INDEX "role_permissions_roleId_idx" ON "identity"."role_permissions" USING btree ("roleId");--> statement-breakpoint
-CREATE INDEX "role_permissions_permissionId_idx" ON "identity"."role_permissions" USING btree ("permissionId");
+CREATE INDEX "role_permissions_permissionId_idx" ON "identity"."role_permissions" USING btree ("permissionId");--> statement-breakpoint
+CREATE INDEX "account_id_and_performed_at_IDX" ON "finances"."transactions" USING btree ("accountId","performedAt" DESC);--> statement-breakpoint
+CREATE INDEX "category_id_IDX" ON "finances"."transactions" USING btree ("categoryId");

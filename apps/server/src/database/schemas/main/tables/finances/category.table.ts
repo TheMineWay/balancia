@@ -1,7 +1,7 @@
 import { timestamps } from "@database/common/timestamps";
 import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
 import { userTable } from "@database/schemas/main.schema";
-import { transactionsSchema } from "@database/schemas/main/tables/transactions/transaction.schema";
+import { financesSchema } from "@database/schemas/main/tables/finances/finances.schema";
 import {
 	CATEGORY_MODEL_VALUES,
 	type CategoryModel,
@@ -11,7 +11,7 @@ import { index, integer, serial, varchar } from "drizzle-orm/pg-core";
 
 type ColumnsModel = DbModeledColumnsDefinition<OwnedModel<CategoryModel>>;
 
-export const categoryTable = transactionsSchema.table(
+export const categoryTable = financesSchema.table(
 	"categories",
 	{
 		id: serial().primaryKey(),

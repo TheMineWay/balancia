@@ -1,5 +1,6 @@
 import { ID_SCHEMA } from "@/common/__system/id.model";
 import { TimePrecision } from "@/common/time/time-precision.enum";
+import { ACCOUNT_SCHEMA } from "@/money/transactions/account.model";
 import { CATEGORY_SCHEMA } from "@/money/transactions/category/category.model";
 import { DATE_SCHEMA } from "@/utils/date.model";
 import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
@@ -38,7 +39,8 @@ export const TRANSACTION_SCHEMA = z.object({
 		.enum(TimePrecision)
 		.default(TRANSACTION_MODEL_VALUES.performedAtPrecision.default),
 
-	// Category
+	// Links
+	accountId: ACCOUNT_SCHEMA.shape.id,
 	categoryId: CATEGORY_SCHEMA.shape.id.nullable().default(null),
 
 	// Timestamps

@@ -4,7 +4,7 @@ import {
 	CategorySelect,
 	type CategoryUpdate,
 	categoryTable,
-} from "@database/schemas/main/tables/transactions/category.table";
+} from "@database/schemas/main/tables/finances/category.table";
 import { Injectable } from "@nestjs/common";
 import type {
 	CategoryModel,
