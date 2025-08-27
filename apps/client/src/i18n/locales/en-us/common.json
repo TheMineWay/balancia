@@ -1,26 +1,4 @@
 {
-	"models": {
-		"fields": {
-			"created-at": {
-				"Name": "Created at"
-			},
-			"updated-at": {
-				"Name": "Updated at"
-			},
-			"id": {
-				"Name": "ID"
-			},
-			"name": {
-				"Name": "Name"
-			},
-			"description": {
-				"Name": "Description"
-			},
-			"time-precision": {
-				"Name": "Time precision"
-			}
-		}
-	},
 	"expressions": {
 		"Edit": "Edit",
 		"Delete": "Delete",
@@ -29,7 +7,8 @@
 		"Unassign-sth": "Unassign {name}",
 		"Save": "Save",
 		"Reload": "Reload",
-		"Profile": "Profile"
+		"Profile": "Profile",
+		"Created-at": "Created at"
 	},
 	"templates": {
 		"confirm-modal": {

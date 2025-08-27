@@ -28,7 +28,6 @@ export const TransactionForm: FC<Props> = ({
 	loading,
 }) => {
 	const { t } = useTranslation("finances");
-	const { t: commonT } = useTranslation("common");
 
 	const amountFieldId = useId();
 	const performedAtFieldId = useId();
