@@ -1,19 +1,21 @@
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useMyTransactionDeleteByIdMutation } from "@fts/finances/my-transactions/api/use-my-transaction-delete-by-id.mutation";
 import { useMyTransactionsQuery } from "@fts/finances/my-transactions/api/use-my-transactions.query";
+import { MyTransactionCreateManager } from "@fts/finances/my-transactions/components/manager/my-transaction-create-manager";
 import { TransactionsTable } from "@fts/finances/transactions/components/transactions-table";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Pagination, Text } from "@mantine/core";
+import { ActionIcon, Button, Drawer, Pagination, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
-import { TransactionModel } from "@shared/models";
+import type { TransactionModel } from "@shared/models";
 import { useCallback } from "react";
 import { IoAddOutline, IoReload, IoTrash } from "react-icons/io5";
 
 export const MyTransactionsManager: FC = () => {
-	const { t } = useTranslation("transaction");
+	const { t, interpolated } = useTranslation("transaction");
 	const { t: commonT } = useTranslation("common");
 
 	const pagination = usePagination();
@@ -21,20 +23,22 @@ export const MyTransactionsManager: FC = () => {
 		useMyTransactionsQuery({ pagination });
 	const { mutate: deleteTransaction } = useMyTransactionDeleteByIdMutation();
 
+	const [isCreateOpen, { open: openCreate, close: closeCreate }] = useDisclosure();
+
 	const onDeleteClick = useCallback((item: TransactionModel) => {
 		modals.openConfirmModal({
-			title: t()["delete-transaction"].confirm.Title,
+			title: interpolated((t) => t["delete"].confirm.Title, { name: item.subject || item.id.toString() }),
 			children: (<Text>
-				{t()["delete-transaction"].confirm.Message}
+				{t()["delete"].confirm.Message}
 			</Text>),
 			labels: {
 				cancel: commonT().templates["confirm-modal"].Cancel,
-				confirm: t()["delete-transaction"].confirm.Action,
+				confirm: t()["delete"].confirm.Action,
 			},
 			confirmProps: { color: "red", leftSection: <IoTrash /> },
 			onConfirm: () => deleteTransaction(item.id),
 		});
-	}, [t, commonT, deleteTransaction]);
+	}, [t, commonT, deleteTransaction, interpolated]);
 
 	return (
 		<>
@@ -48,7 +52,7 @@ export const MyTransactionsManager: FC = () => {
 						{/* Actions */}
 						<TableLayout.Actions>
 							<ActionsLayout.Row>
-								<Button leftSection={<IoAddOutline />}>{t()["my-transactions"].manager.Actions.Register}</Button>
+								<Button onClick={openCreate} leftSection={<IoAddOutline />}>{t()["my-transactions"].manager.Actions.Register}</Button>
 							</ActionsLayout.Row>
 							<ActionsLayout.Row>
 								<ActionIcon loading={isFetchingTransactions} onClick={() => refetchTransactions()} aria-label={commonT().expressions.Reload}>
@@ -74,6 +78,9 @@ export const MyTransactionsManager: FC = () => {
 
 			{/* Modals & Drawers */}
 
+			<Drawer position="right" opened={isCreateOpen} onClose={closeCreate} title={t().create.Title}>
+				<MyTransactionCreateManager/>
+			</Drawer>
 		</>
 	);
 };
