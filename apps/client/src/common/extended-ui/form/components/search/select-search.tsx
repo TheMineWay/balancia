@@ -80,18 +80,19 @@ export function SelectSearch<T extends string | number>({
 
 	const closeComponent = useMemo(
 		() =>
-			allowClear ? (
+			allowClear && value ? (
 				<ActionIcon
 					variant="transparent"
 					aria-label={t().expressions.Clear}
 					onClick={() => {
 						setValue?.(null);
+						search.setValue("");
 					}}
 				>
 					<IoCloseOutline />
 				</ActionIcon>
 			) : null,
-		[allowClear, t, setValue],
+		[allowClear, t, setValue, search, value],
 	);
 
 	return (
