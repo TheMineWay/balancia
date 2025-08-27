@@ -56,6 +56,18 @@ export const transactionsTable = financesSchema.table(
 	],
 );
 
+export const TRANSACTIONS_TABLE_COLUMNS = {
+	id: transactionsTable.id,
+	amount: transactionsTable.amount,
+	subject: transactionsTable.subject,
+	performedAt: transactionsTable.performedAt,
+	performedAtPrecision: transactionsTable.performedAtPrecision,
+	categoryId: transactionsTable.categoryId,
+	accountId: transactionsTable.accountId,
+	createdAt: transactionsTable.createdAt,
+	updatedAt: transactionsTable.updatedAt,
+};
+
 /* Types */
 export type TransactionsSelect = typeof transactionsTable.$inferSelect;
 export type TransactionInsert = typeof transactionsTable.$inferInsert;

@@ -4,7 +4,6 @@ import { DatabaseService } from "@database/services/database.service";
 import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import type {
 	PaginatedQuery,
-	PaginatedResponse,
 	TransactionCreateModel,
 	TransactionModel,
 	UserModel,
@@ -45,11 +44,11 @@ export class TransactionsService {
 		};
 	}
 
-	async getPaginatedTransactionsByUserId(
+	async getTransactionsListByUserId(
 		userId: UserModel["id"],
 		pagination: PaginatedQuery,
-	): Promise<PaginatedResponse<TransactionModel>> {
-		return await this.transactionsRepository.paginatedFindTransactionsByUserId(
+	) {
+		return await this.transactionsRepository.paginatedFindTransactionsListByUserId(
 			userId,
 			pagination,
 		);

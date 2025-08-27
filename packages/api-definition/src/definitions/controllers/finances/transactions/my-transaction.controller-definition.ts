@@ -1,4 +1,6 @@
 import {
+	ACCOUNT_SCHEMA,
+	CATEGORY_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_QUERY_SCHEMA,
 	TRANSACTION_CREATE_SCHEMA,
@@ -9,13 +11,19 @@ import type { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
 import z from "zod";
 
-const GET_TRANSACTIONS_ENDPOINT = {
+const GET_TRANSACTIONS_LIST_ENDPOINT = {
 	getPath: () => [],
 	paramsMapping: {},
 	queryDto: z.object({
 		...PAGINATED_QUERY_SCHEMA.shape,
 	}),
-	responseDto: getPaginatedResponse(TRANSACTION_SCHEMA),
+	responseDto: getPaginatedResponse(
+		z.object({
+			...TRANSACTION_SCHEMA.shape,
+			account: ACCOUNT_SCHEMA,
+			category: CATEGORY_SCHEMA.nullable(),
+		}),
+	),
 } satisfies EndpointDefinition;
 
 const CREATE_TRANSACTION = {
@@ -48,7 +56,7 @@ export const MY_TRANSACTION_CONTROLLER = {
 	getPath: () => ["my-transactions"],
 	paramsMapping: {},
 	endpoints: {
-		getTransactions: GET_TRANSACTIONS_ENDPOINT,
+		getTransactionsList: GET_TRANSACTIONS_LIST_ENDPOINT,
 		createTransaction: CREATE_TRANSACTION,
 		deleteTransaction: DELETE_TRANSACTION_ENDPOINT,
 		updateTransaction: UPDATE_TRANSACTION,

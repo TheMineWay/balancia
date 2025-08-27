@@ -31,6 +31,15 @@ export const categoryTable = financesSchema.table(
 	(table) => [index().on(table.userId)],
 );
 
+export const CATEGORY_TABLE_COLUMNS = {
+	id: categoryTable.id,
+	name: categoryTable.name,
+	description: categoryTable.description,
+	userId: categoryTable.userId,
+	createdAt: categoryTable.createdAt,
+	updatedAt: categoryTable.updatedAt,
+};
+
 /* Types */
 export type CategorySelect = typeof categoryTable.$inferSelect;
 export type CategoryInsert = typeof categoryTable.$inferInsert;

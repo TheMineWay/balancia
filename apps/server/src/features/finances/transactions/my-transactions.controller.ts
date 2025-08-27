@@ -18,15 +18,18 @@ import { TransactionsService } from "src/features/finances/transactions/transact
 export class MyTransactionsController {
 	constructor(private readonly transactionsService: TransactionsService) {}
 
-	@Endpoint(MY_TRANSACTION_CONTROLLER, "getTransactions")
-	async getTransactions(
-		@ValidatedQuery(MY_TRANSACTION_CONTROLLER, "getTransactions")
-		query: InferQueryDto<typeof MY_TRANSACTION_CONTROLLER, "getTransactions">,
+	@Endpoint(MY_TRANSACTION_CONTROLLER, "getTransactionsList")
+	async getTransactionsList(
+		@ValidatedQuery(MY_TRANSACTION_CONTROLLER, "getTransactionsList")
+		query: InferQueryDto<
+			typeof MY_TRANSACTION_CONTROLLER,
+			"getTransactionsList"
+		>,
 		@UserId() userId: UserModel["id"],
 	): Promise<
-		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "getTransactions">
+		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "getTransactionsList">
 	> {
-		return await this.transactionsService.getPaginatedTransactionsByUserId(
+		return await this.transactionsService.getTransactionsListByUserId(
 			userId,
 			query,
 		);

@@ -21,6 +21,15 @@ export const accountTable = financesSchema.table("accounts", {
 	...timestamps,
 } satisfies ColumnsModel);
 
+export const ACCOUNT_TABLE_COLUMNS = {
+	id: accountTable.id,
+	name: accountTable.name,
+	description: accountTable.description,
+	userId: accountTable.userId,
+	createdAt: accountTable.createdAt,
+	updatedAt: accountTable.updatedAt,
+};
+
 /* Types */
 export type AccountSelect = typeof accountTable.$inferSelect;
 export type AccountInsert = typeof accountTable.$inferInsert;

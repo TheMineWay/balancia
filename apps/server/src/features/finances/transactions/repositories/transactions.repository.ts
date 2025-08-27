@@ -1,9 +1,19 @@
 import { type QueryOptions, Repository } from "@database/repository/repository";
 import { accountTable, transactionsTable } from "@database/schemas/main.schema";
-import type {
-	TransactionInsert,
-	TransactionsSelect,
-	TransactionsUpdate,
+import {
+	ACCOUNT_TABLE_COLUMNS,
+	AccountSelect,
+} from "@database/schemas/main/tables/finances/account.table";
+import {
+	CATEGORY_TABLE_COLUMNS,
+	CategorySelect,
+	categoryTable,
+} from "@database/schemas/main/tables/finances/category.table";
+import {
+	TRANSACTIONS_TABLE_COLUMNS,
+	type TransactionInsert,
+	type TransactionsSelect,
+	type TransactionsUpdate,
 } from "@database/schemas/main/tables/finances/transaction.table";
 import { Injectable } from "@nestjs/common";
 import type {
@@ -16,25 +26,30 @@ import { and, desc, eq } from "drizzle-orm";
 
 @Injectable()
 export class TransactionsRepository extends Repository {
-	async paginatedFindTransactionsByUserId(
+	async paginatedFindTransactionsListByUserId(
 		userId: UserModel["id"],
 		pagination: PaginatedQuery,
 		options?: QueryOptions,
-	): Promise<PaginatedResponse<TransactionModel>> {
+	): Promise<
+		PaginatedResponse<
+			TransactionModel & {
+				account: AccountSelect;
+				category: CategorySelect | null;
+			}
+		>
+	> {
 		const query = this.query(options)
 			.select({
-				id: transactionsTable.id,
-				amount: transactionsTable.amount,
-				subject: transactionsTable.subject,
-				performedAt: transactionsTable.performedAt,
-				performedAtPrecision: transactionsTable.performedAtPrecision,
-				categoryId: transactionsTable.categoryId,
-				accountId: transactionsTable.accountId,
-				createdAt: transactionsTable.createdAt,
-				updatedAt: transactionsTable.updatedAt,
+				...TRANSACTIONS_TABLE_COLUMNS,
+				account: ACCOUNT_TABLE_COLUMNS,
+				category: CATEGORY_TABLE_COLUMNS,
 			})
 			.from(transactionsTable)
 			.innerJoin(accountTable, eq(transactionsTable.accountId, accountTable.id))
+			.leftJoin(
+				categoryTable,
+				eq(transactionsTable.categoryId, categoryTable.id),
+			)
 			.where(eq(accountTable.userId, userId))
 			.orderBy(desc(transactionsTable.performedAt))
 			.$dynamic();
