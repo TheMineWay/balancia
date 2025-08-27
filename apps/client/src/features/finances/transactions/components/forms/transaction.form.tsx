@@ -9,6 +9,7 @@ import {
 	TRANSACTION_MODEL_VALUES,
 	type TransactionCreateModel,
 } from "@shared/models";
+import { startOfDay } from "date-fns";
 import { useId } from "react";
 import { Controller, type UseFormReturn } from "react-hook-form";
 
@@ -38,12 +39,14 @@ export const TransactionForm: FC<Props> = ({
 
 	return (
 		<Form onSubmit={handleSubmit((transaction) => onSuccess?.(transaction))}>
+			{/* Subject */}
 			<Input.Wrapper label={t().transaction.models.transaction.subject.Label}>
 				<Input
 					maxLength={TRANSACTION_MODEL_VALUES.subject.maxLength}
 					{...register("subject")}
 				/>
 			</Input.Wrapper>
+			{/* Amount */}
 			<Input.Wrapper
 				label={t().transaction.models.transaction.amount.Label}
 				labelProps={{ htmlFor: amountFieldId }}
@@ -57,6 +60,7 @@ export const TransactionForm: FC<Props> = ({
 				/>
 			</Input.Wrapper>
 
+			{/* Performed at & time precision */}
 			<Input.Wrapper
 				label={t().transaction.models.transaction.performedAt.Label}
 				labelProps={{ htmlFor: performedAtFieldId }}
@@ -65,7 +69,19 @@ export const TransactionForm: FC<Props> = ({
 				<Controller
 					control={control}
 					name="performedAtPrecision"
-					render={({ field }) => <TimePrecisionSelector {...field} />}
+					render={({ field }) => (
+						<TimePrecisionSelector
+							{...field}
+							onChange={(tp) => {
+								field.onChange(tp);
+								if (tp === TimePrecision.DATE) {
+									// If switching to date only, remove the time part
+									const currentDate = form.getValues("performedAt");
+									form.setValue("performedAt", startOfDay(currentDate));
+								}
+							}}
+						/>
+					)}
 				/>
 				<Controller
 					control={control}
