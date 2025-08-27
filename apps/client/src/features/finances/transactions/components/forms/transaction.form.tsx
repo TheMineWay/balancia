@@ -46,6 +46,7 @@ export const TransactionForm: FC<Props> = ({
 					{...register("subject")}
 				/>
 			</Input.Wrapper>
+
 			{/* Amount */}
 			<Input.Wrapper
 				label={t().transaction.models.transaction.amount.Label}
