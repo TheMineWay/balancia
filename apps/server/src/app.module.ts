@@ -9,6 +9,7 @@ import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
 import { ScheduleModule } from "@nestjs/schedule";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
+import { UserPreferencesModule } from "src/common/user/preferences/user-preferences.module";
 import { EventModule } from "src/events/event.module";
 import { FinancesModule } from "src/features/finances/finances.module";
 import { IntegrationModule } from "src/integrations/integration.module";
@@ -33,6 +34,9 @@ import { IntegrationModule } from "src/integrations/integration.module";
 		ScheduleModule.forRoot(),
 		IntegrationModule,
 		CoreModule,
+
+		// Common
+		UserPreferencesModule,
 
 		// App specific
 		FinancesModule,
