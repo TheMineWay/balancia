@@ -66,12 +66,3 @@ export const MyAccountsSelector: FC<Props> = ({
 		/>
 	);
 };
-
-/* Internal */
-
-const autoPick = (accounts: AccountModel[]): AccountModel | null => {
-	if (accounts.length === 1) {
-		return accounts[0];
-	}
-	return null;
-};
