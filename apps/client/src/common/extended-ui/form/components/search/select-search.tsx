@@ -53,9 +53,11 @@ export function SelectSearch<T extends string | number>({
 	// Fetch data for the selected value.
 	// In case the selected item is not fetched in the options
 	useEffect(() => {
+		if (fetchedData?.value === value) return;
+
 		if (!value) setFetchedData(null);
 		else valueFetch?.(value).then((v) => setFetchedData(v ?? null));
-	}, [value, valueFetch]);
+	}, [value, valueFetch, fetchedData?.value]);
 
 	// Add fetched value to the data array
 	const data = useMemo(() => {
