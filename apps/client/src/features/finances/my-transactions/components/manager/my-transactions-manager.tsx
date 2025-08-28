@@ -68,12 +68,16 @@ export const MyTransactionsManager: FC = () => {
 						{/* Actions */}
 						<TableLayout.Actions>
 							<ActionsLayout.Row>
-								<Button onClick={openCreate} leftSection={<IoAddOutline />}>
-									{t().transaction["my-transactions"].manager.Actions.Register}
-								</Button>
+								<Filters search={search} />
 							</ActionsLayout.Row>
 							<ActionsLayout.Row>
-								<Filters search={search} />
+								<Button
+									size="xs"
+									onClick={openCreate}
+									leftSection={<IoAddOutline />}
+								>
+									{t().transaction["my-transactions"].manager.Actions.Register}
+								</Button>
 								<ActionIcon
 									loading={isFetchingTransactions}
 									onClick={() => refetchTransactions()}

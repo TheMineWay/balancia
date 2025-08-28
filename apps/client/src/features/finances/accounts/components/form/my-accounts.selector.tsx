@@ -101,7 +101,6 @@ export const MyAccountsSelector: FC<Props> = ({
 			valueFetch={valueFetch}
 			leftSection={<LuPiggyBank />}
 			aria-label={t().account.expressions.Account}
-			className="w-[12rem]"
 			{...props}
 		/>
 	);

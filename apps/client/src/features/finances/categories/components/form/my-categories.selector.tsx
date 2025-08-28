@@ -72,7 +72,6 @@ export const MyCategoriesSelector: FC<Props> = ({
 			valueFetch={valueFetch}
 			leftSection={<FaRegFolder />}
 			aria-label={t().category.expressions.Category}
-			className="w-[12rem]"
 			{...props}
 		/>
 	);
