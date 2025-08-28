@@ -2,23 +2,26 @@ import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authentica
 import type { UsePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
 import type { ParametrizedQueryKey } from "@core/requests/types/query-key.type";
+import type { UseSearch } from "@core/search/hooks/use-search";
 import {
 	getController,
 	MY_TRANSACTION_CONTROLLER,
 } from "@shared/api-definition";
-import type { PaginatedQuery } from "@shared/models";
+import type { PaginatedQuery, TransactionModel } from "@shared/models";
 import { useQuery } from "@tanstack/react-query";
 
 export const MY_TRANSACTIONS_QUERY_KEY: ParametrizedQueryKey<{
 	pagination: PaginatedQuery;
-}> = ({ pagination }) => [
+	search: Partial<TransactionModel>;
+}> = ({ pagination, search: filters }) => [
 	getController(MY_TRANSACTION_CONTROLLER, {}),
 	"list",
-	{ pagination },
+	{ pagination, filters },
 ];
 
 type Options = {
 	pagination: UsePagination;
+	search: UseSearch<TransactionModel>;
 };
 
 export const useMyTransactionsQuery = (options: Options) => {
@@ -34,6 +37,7 @@ export const useMyTransactionsQuery = (options: Options) => {
 				{
 					query: {
 						...options.pagination.requestData,
+						...options.search.requestData,
 					},
 				},
 			)();
@@ -44,6 +48,7 @@ export const useMyTransactionsQuery = (options: Options) => {
 		},
 		queryKey: MY_TRANSACTIONS_QUERY_KEY({
 			pagination: options.pagination.requestData,
+			search: options.search.filters,
 		}),
 	});
 };

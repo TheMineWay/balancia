@@ -26,7 +26,7 @@ export type SelectSearchProps<T extends string | number> = {
 	setValue?: (value: T | null) => void;
 	allowClear?: boolean;
 	triggerId?: string | number;
-} & Pick<TextInputProps, "onBlur" | "onFocus" | "onClick">;
+} & Pick<TextInputProps, "onBlur" | "onFocus" | "onClick" | "size">;
 
 /**
  * This component is a search-select input that allows users to select an item from a dropdown list.
@@ -44,6 +44,7 @@ export function SelectSearch<T extends string | number>({
 	onClick,
 	onFocus,
 	triggerId,
+	...props
 }: Readonly<SelectSearchProps<T>>) {
 	const { t } = useTranslation("common");
 	const combobox = useCombobox({});
@@ -152,6 +153,7 @@ export function SelectSearch<T extends string | number>({
 						onBlur?.(e);
 					}}
 					id={triggerId?.toString()}
+					{...props}
 				/>
 			</Combobox.Target>
 

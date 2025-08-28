@@ -1,4 +1,6 @@
 import { usePagination } from "@core/pagination/hooks/use-pagination";
+import { type UseSearch, useSearch } from "@core/search/hooks/use-search";
+import { MyAccountsSelector } from "@fts/finances/accounts/components/form/my-accounts.selector";
 import { useMyTransactionDeleteByIdMutation } from "@fts/finances/my-transactions/api/use-my-transaction-delete-by-id.mutation";
 import { useMyTransactionsQuery } from "@fts/finances/my-transactions/api/use-my-transactions.query";
 import { MyTransactionCreateManager } from "@fts/finances/my-transactions/components/manager/my-transaction-create-manager";
@@ -8,7 +10,14 @@ import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer, Pagination, Text } from "@mantine/core";
+import {
+	ActionIcon,
+	Button,
+	Drawer,
+	InputWrapper,
+	Pagination,
+	Text,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { TransactionModel } from "@shared/models";
@@ -20,12 +29,14 @@ export const MyTransactionsManager: FC = () => {
 	const { t: commonT } = useTranslation("common");
 
 	const pagination = usePagination();
+	const search = useSearch<TransactionModel>({});
+
 	const {
 		data: transactions,
 		isLoading: isLoadingTransactions,
 		refetch: refetchTransactions,
 		isFetching: isFetchingTransactions,
-	} = useMyTransactionsQuery({ pagination });
+	} = useMyTransactionsQuery({ pagination, search });
 	const { mutate: deleteTransaction } = useMyTransactionDeleteByIdMutation();
 
 	const [isCreateOpen, { open: openCreate, close: closeCreate }] =
@@ -68,6 +79,7 @@ export const MyTransactionsManager: FC = () => {
 								</Button>
 							</ActionsLayout.Row>
 							<ActionsLayout.Row>
+								<Filters search={search} />
 								<ActionIcon
 									loading={isFetchingTransactions}
 									onClick={() => refetchTransactions()}
@@ -125,5 +137,29 @@ export const MyTransactionsManager: FC = () => {
 				)}
 			</Drawer>
 		</>
+	);
+};
+
+type FilterOptions = {
+	search: UseSearch<TransactionModel>;
+};
+
+const Filters: FC<FilterOptions> = ({ search }) => {
+	const { t } = useTranslation("finances");
+
+	const { filters, setFilter } = search;
+
+	return (
+		<InputWrapper
+			label={t().account.expressions.Account}
+			labelProps={{ size: "xs" }}
+		>
+			<MyAccountsSelector
+				value={filters.accountId ?? null}
+				onChange={(value) => setFilter("accountId", value)}
+				allowClear
+				size="xs"
+			/>
+		</InputWrapper>
 	);
 };

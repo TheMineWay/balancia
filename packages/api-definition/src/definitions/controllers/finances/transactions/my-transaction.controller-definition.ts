@@ -16,6 +16,11 @@ const GET_TRANSACTIONS_LIST_ENDPOINT = {
 	paramsMapping: {},
 	queryDto: z.object({
 		...PAGINATED_QUERY_SCHEMA.shape,
+		filters: z
+			.object({
+				accountId: z.preprocess((val) => Number(val), z.number()).optional(),
+			})
+			.optional(),
 	}),
 	responseDto: getPaginatedResponse(
 		z.object({

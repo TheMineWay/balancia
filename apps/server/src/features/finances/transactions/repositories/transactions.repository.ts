@@ -29,6 +29,7 @@ export class TransactionsRepository extends Repository {
 	async paginatedFindTransactionsListByUserId(
 		userId: UserModel["id"],
 		pagination: PaginatedQuery,
+		filters?: Partial<Pick<TransactionModel, "accountId">>,
 		options?: QueryOptions,
 	): Promise<
 		PaginatedResponse<
@@ -38,6 +39,14 @@ export class TransactionsRepository extends Repository {
 			}
 		>
 	> {
+		const queryFilters = filters
+			? and(
+					filters.accountId
+						? eq(transactionsTable.accountId, filters.accountId)
+						: undefined,
+				)
+			: undefined;
+
 		const query = this.query(options)
 			.select({
 				...TRANSACTIONS_TABLE_COLUMNS,
@@ -50,7 +59,7 @@ export class TransactionsRepository extends Repository {
 				categoryTable,
 				eq(transactionsTable.categoryId, categoryTable.id),
 			)
-			.where(eq(accountTable.userId, userId))
+			.where(and(eq(accountTable.userId, userId), queryFilters))
 			.orderBy(desc(transactionsTable.performedAt), desc(transactionsTable.id))
 			.$dynamic();
 

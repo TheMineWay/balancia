@@ -47,10 +47,12 @@ export class TransactionsService {
 	async getTransactionsListByUserId(
 		userId: UserModel["id"],
 		pagination: PaginatedQuery,
+		filters?: Partial<Pick<TransactionModel, "accountId">>,
 	) {
 		return await this.transactionsRepository.paginatedFindTransactionsListByUserId(
 			userId,
 			pagination,
+			filters,
 		);
 	}
 

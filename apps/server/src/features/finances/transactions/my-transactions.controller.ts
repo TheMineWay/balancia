@@ -21,10 +21,10 @@ export class MyTransactionsController {
 	@Endpoint(MY_TRANSACTION_CONTROLLER, "getTransactionsList")
 	async getTransactionsList(
 		@ValidatedQuery(MY_TRANSACTION_CONTROLLER, "getTransactionsList")
-		query: InferQueryDto<
-			typeof MY_TRANSACTION_CONTROLLER,
-			"getTransactionsList"
-		>,
+		{
+			filters,
+			...query
+		}: InferQueryDto<typeof MY_TRANSACTION_CONTROLLER, "getTransactionsList">,
 		@UserId() userId: UserModel["id"],
 	): Promise<
 		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "getTransactionsList">
@@ -32,6 +32,7 @@ export class MyTransactionsController {
 		return await this.transactionsService.getTransactionsListByUserId(
 			userId,
 			query,
+			filters,
 		);
 	}
 
