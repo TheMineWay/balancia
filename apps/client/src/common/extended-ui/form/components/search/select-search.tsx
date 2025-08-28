@@ -26,7 +26,17 @@ export type SelectSearchProps<T extends string | number> = {
 	setValue?: (value: T | null) => void;
 	allowClear?: boolean;
 	triggerId?: string | number;
-} & Pick<TextInputProps, "onBlur" | "onFocus" | "onClick" | "size">;
+} & Pick<
+	TextInputProps,
+	| "onBlur"
+	| "onFocus"
+	| "onClick"
+	| "size"
+	| "leftSection"
+	| "aria-label"
+	| "className"
+	| "styles"
+>;
 
 /**
  * This component is a search-select input that allows users to select an item from a dropdown list.

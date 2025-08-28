@@ -7,9 +7,11 @@ import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authentica
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
 import { useMyCategoriesQuery } from "@fts/finances/categories/api/use-my-categories.query";
+import { useTranslation } from "@i18n/use-translation";
 import { MY_CATEGORY_CONTROLLER } from "@shared/api-definition";
 import type { CategoryModel } from "@shared/models";
 import { useCallback, useMemo } from "react";
+import { FaRegFolder } from "react-icons/fa6";
 
 type Props = {
 	onChange?: (categoryId: CategoryModel["id"] | null) => void;
@@ -24,6 +26,7 @@ export const MyCategoriesSelector: FC<Props> = ({
 	value,
 	...props
 }) => {
+	const { t } = useTranslation("finances");
 	const pagination = usePagination();
 	const search = useDebouncedSearch();
 	const { request } = useAuthenticatedRequest();
@@ -67,6 +70,9 @@ export const MyCategoriesSelector: FC<Props> = ({
 			setValue={(v) => onChange?.(v)}
 			value={value}
 			valueFetch={valueFetch}
+			leftSection={<FaRegFolder />}
+			aria-label={t().category.expressions.Category}
+			className="w-[12rem]"
 			{...props}
 		/>
 	);

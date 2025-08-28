@@ -8,9 +8,11 @@ import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authentica
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
 import { useMyAccountsQuery } from "@fts/finances/accounts/api/use-my-accounts.query";
+import { useTranslation } from "@i18n/use-translation";
 import { MY_ACCOUNTS_CONTROLLER } from "@shared/api-definition";
 import type { AccountModel } from "@shared/models";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { LuPiggyBank } from "react-icons/lu";
 
 type Props = {
 	onChange?: (accountId: AccountModel["id"] | null) => void;
@@ -28,6 +30,7 @@ export const MyAccountsSelector: FC<Props> = ({
 	autoFill = true,
 	...props
 }) => {
+	const { t } = useTranslation("finances");
 	const pagination = usePagination();
 	const search = useDebouncedSearch();
 	const { request } = useAuthenticatedRequest();
@@ -96,6 +99,9 @@ export const MyAccountsSelector: FC<Props> = ({
 			setValue={(v) => onChange?.(v)}
 			value={value}
 			valueFetch={valueFetch}
+			leftSection={<LuPiggyBank />}
+			aria-label={t().account.expressions.Account}
+			className="w-[12rem]"
 			{...props}
 		/>
 	);
