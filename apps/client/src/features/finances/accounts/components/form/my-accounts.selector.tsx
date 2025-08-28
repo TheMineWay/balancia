@@ -6,7 +6,8 @@ import { useDebouncedSearch } from "@common/extended-ui/form/components/search/u
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useMyAccountsQuery } from "@fts/finances/accounts/api/use-my-accounts.query";
 import type { AccountModel } from "@shared/models";
-import { useMemo } from "react";
+import { getPreferredAccount } from "@shared/utils";
+import { useEffect, useMemo, useState } from "react";
 
 type Props = {
 	onChange?: (accountId: AccountModel["id"] | null) => void;
@@ -25,6 +26,7 @@ export const MyAccountsSelector: FC<Props> = ({
 	const pagination = usePagination();
 	const search = useDebouncedSearch();
 
+	const [hasSetInitialAccount, setHasSetInitialAccount] = useState(false);
 	const { data: accounts = { items: [], total: 0 } } = useMyAccountsQuery({
 		pagination,
 		search: { search: search.debouncedValue },
@@ -39,6 +41,13 @@ export const MyAccountsSelector: FC<Props> = ({
 		[accounts],
 	);
 
+	useEffect(() => {
+		if (accounts.items.length > 0 && !hasSetInitialAccount) {
+			setHasSetInitialAccount(true);
+			onChange?.(autoPick(accounts.items)?.id ?? null);
+		}
+	}, [accounts, accounts.items, onChange, hasSetInitialAccount]);
+
 	return (
 		<SelectSearch<AccountModel["id"]>
 			data={options}
@@ -48,4 +57,14 @@ export const MyAccountsSelector: FC<Props> = ({
 			{...props}
 		/>
 	);
+};
+
+/* Internal */
+
+const autoPick = (accounts: AccountModel[]): AccountModel | null => {
+	if (accounts.length === 0) return null;
+	if (accounts.length === 1) {
+		return accounts[0];
+	}
+	return getPreferredAccount(accounts);
 };
