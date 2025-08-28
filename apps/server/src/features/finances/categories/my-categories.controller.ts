@@ -1,5 +1,10 @@
 import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
-import { Controller, Param, ParseIntPipe } from "@nestjs/common";
+import {
+	Controller,
+	NotFoundException,
+	Param,
+	ParseIntPipe,
+} from "@nestjs/common";
 import {
 	getController,
 	getParamName,
@@ -28,6 +33,24 @@ export class MyCategoriesController {
 			userId,
 			query,
 		);
+	}
+
+	@Endpoint(MY_CATEGORY_CONTROLLER, "getCategory")
+	async getCategory(
+		@Param(
+			getParamName(MY_CATEGORY_CONTROLLER, "getCategory", "id"),
+			ParseIntPipe,
+		)
+		categoryId: number,
+		@UserId() userId: UserModel["id"],
+	): Promise<InferResponseDto<typeof MY_CATEGORY_CONTROLLER, "getCategory">> {
+		const category = await this.categoriesService.getUserCategoryById(
+			userId,
+			categoryId,
+		);
+
+		if (!category) throw new NotFoundException();
+		return category;
 	}
 
 	@Endpoint(MY_CATEGORY_CONTROLLER, "createCategory")

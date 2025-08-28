@@ -4,6 +4,7 @@ import {
 	CategoryModel,
 	PaginatedSearchModel,
 	UserModel,
+	UserModelId,
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
 import {
@@ -28,6 +29,16 @@ export class CategoriesService {
 			userId,
 			pagination,
 			search,
+		);
+	}
+
+	async getUserCategoryById(
+		userId: UserModelId,
+		categoryId: CategoryModel["id"],
+	) {
+		return await this.categoriesRepository.findCategoryByUserId(
+			userId,
+			categoryId,
 		);
 	}
 

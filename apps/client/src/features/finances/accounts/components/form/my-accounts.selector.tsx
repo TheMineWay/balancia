@@ -63,7 +63,7 @@ export const MyAccountsSelector: FC<Props> = ({
 	// Fetch account details by id. In case it has not been fetched
 	const valueFetch = useCallback(
 		async (id: AccountModel["id"]) => {
-			const v = await endpointQuery(
+			const selectedAccount = await endpointQuery(
 				MY_ACCOUNTS_CONTROLLER,
 				"getAccount",
 				{ id: id.toString() },
@@ -72,8 +72,8 @@ export const MyAccountsSelector: FC<Props> = ({
 			)();
 
 			return {
-				value: v.id,
-				label: v.name,
+				value: selectedAccount.id,
+				label: selectedAccount.name,
 			};
 		},
 		[request],

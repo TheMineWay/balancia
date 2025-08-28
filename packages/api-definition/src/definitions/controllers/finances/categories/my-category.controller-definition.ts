@@ -20,6 +20,12 @@ const GET_CATEGORIES_ENDPOINT = {
 	}),
 } satisfies EndpointDefinition;
 
+const GET_CATEGORY_ENDPOINT = {
+	getPath: (params) => [params.id],
+	paramsMapping: { id: "categoryId" },
+	responseDto: CATEGORY_SCHEMA,
+} satisfies EndpointDefinition<{ id: string }>;
+
 const CREATE_CATEGORY_ENDPOINT = {
 	getPath: () => [],
 	paramsMapping: {},
@@ -47,6 +53,7 @@ export const MY_CATEGORY_CONTROLLER = {
 	paramsMapping: {},
 	endpoints: {
 		getCategories: GET_CATEGORIES_ENDPOINT,
+		getCategory: GET_CATEGORY_ENDPOINT,
 		createCategory: CREATE_CATEGORY_ENDPOINT,
 		updateCategory: UPDATE_CATEGORY_ENDPOINT,
 		deleteCategory: DELETE_CATEGORY_ENDPOINT,
