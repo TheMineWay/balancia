@@ -99,7 +99,7 @@ export const MyTransactionsManager: FC = () => {
 				onClose={closeCreate}
 				title={t().transaction.create.Title}
 			>
-				<MyTransactionCreateManager />
+				<MyTransactionCreateManager onSuccess={closeCreate} />
 			</Drawer>
 		</>
 	);

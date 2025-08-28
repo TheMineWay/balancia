@@ -4,21 +4,21 @@ import {
 	getController,
 	MY_TRANSACTION_CONTROLLER,
 } from "@shared/api-definition";
-import type { TransactionModel } from "@shared/models";
+import type { TransactionCreateModel } from "@shared/models";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useMyTransactionDeleteByIdMutation = () => {
+export const useCreateTransactionMutation = () => {
 	const { request } = useAuthenticatedRequest();
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (transactionId: TransactionModel["id"]) =>
+		mutationFn: (transaction: TransactionCreateModel) =>
 			endpointMutation(
 				MY_TRANSACTION_CONTROLLER,
-				"deleteTransaction",
-				{ id: transactionId.toString() },
+				"createTransaction",
+				{},
 				request,
-			)({}),
+			)({ body: transaction }),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: [getController(MY_TRANSACTION_CONTROLLER, {})],

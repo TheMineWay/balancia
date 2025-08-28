@@ -18,9 +18,9 @@ import { Controller, type UseFormReturn } from "react-hook-form";
 type Props = {
 	form: UseFormReturn<TransactionCreateModel>;
 	onSuccess?: (transaction: TransactionCreateModel) => void;
-	loading?: boolean;
 	submitText: string;
 	submitIcon?: React.ReactNode;
+	isMutating?: boolean;
 };
 
 export const TransactionForm: FC<Props> = ({
@@ -28,7 +28,7 @@ export const TransactionForm: FC<Props> = ({
 	onSuccess,
 	submitText,
 	submitIcon,
-	loading,
+	isMutating,
 }) => {
 	const { t } = useTranslation("finances");
 
@@ -142,8 +142,8 @@ export const TransactionForm: FC<Props> = ({
 			</Input.Wrapper>
 
 			<Button
-				disabled={formValues.amount === 0 && !formState.isValid}
-				loading={loading}
+				disabled={!formState.isValid}
+				loading={isMutating}
 				leftSection={submitIcon}
 				type="submit"
 			>
