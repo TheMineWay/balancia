@@ -125,6 +125,7 @@ export function SelectSearch<T extends string | number>({
 					}}
 					onBlur={(e) => {
 						combobox.closeDropdown();
+						search.setValue("");
 						onBlur?.(e);
 					}}
 					id={triggerId?.toString()}
