@@ -48,9 +48,10 @@ export const transactionsTable = financesSchema.table(
 	} satisfies ColumnsModel,
 	(table) => [
 		// Indexes
-		index("account_id_and_performed_at_IDX").on(
+		index("account_id_and_performed_at_and_id_IDX").on(
 			table.accountId,
 			sql`${table.performedAt} DESC`,
+			sql`${table.id} DESC`,
 		),
 		index("category_id_IDX").on(table.categoryId),
 	],

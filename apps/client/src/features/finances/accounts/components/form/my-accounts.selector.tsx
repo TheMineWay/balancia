@@ -4,10 +4,13 @@ import {
 } from "@common/extended-ui/form/components/search/select-search";
 import { useDebouncedSearch } from "@common/extended-ui/form/components/search/use-debounced-search";
 import { useMyUserPreferencesQuery } from "@common/user/preferences/api/use-my-user-preferences.query";
+import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authenticated-request.util";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
+import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
 import { useMyAccountsQuery } from "@fts/finances/accounts/api/use-my-accounts.query";
+import { MY_ACCOUNTS_CONTROLLER } from "@shared/api-definition";
 import type { AccountModel } from "@shared/models";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Props = {
 	onChange?: (accountId: AccountModel["id"] | null) => void;
@@ -25,6 +28,7 @@ export const MyAccountsSelector: FC<Props> = ({
 }) => {
 	const pagination = usePagination();
 	const search = useDebouncedSearch();
+	const { request } = useAuthenticatedRequest();
 
 	const [hasSetInitialAccount, setHasSetInitialAccount] = useState(false);
 	const { data: userPreferences } = useMyUserPreferencesQuery();
@@ -56,12 +60,32 @@ export const MyAccountsSelector: FC<Props> = ({
 		userPreferences,
 	]);
 
+	// Fetch account details by id. In case it has not been fetched
+	const valueFetch = useCallback(
+		async (id: AccountModel["id"]) => {
+			const v = await endpointQuery(
+				MY_ACCOUNTS_CONTROLLER,
+				"getAccount",
+				{ id: id.toString() },
+				request,
+				{},
+			)();
+
+			return {
+				value: v.id,
+				label: v.name,
+			};
+		},
+		[request],
+	);
+
 	return (
 		<SelectSearch<AccountModel["id"]>
 			data={options}
 			search={search}
 			setValue={(v) => onChange?.(v)}
 			value={value}
+			valueFetch={valueFetch}
 			{...props}
 		/>
 	);

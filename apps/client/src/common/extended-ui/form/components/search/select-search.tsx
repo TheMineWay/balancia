@@ -7,7 +7,7 @@ import {
 	type TextInputProps,
 	useCombobox,
 } from "@mantine/core";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 
 type Data<T extends string | number> = {
@@ -18,6 +18,7 @@ type Data<T extends string | number> = {
 export type SelectSearchProps<T extends string | number> = {
 	data: Data<T>[];
 	search: UseDebouncedSearch;
+	valueFetch?: (value: T) => Promise<Data<T> | null>;
 
 	// Input
 	placeholder?: string;
@@ -32,10 +33,11 @@ export type SelectSearchProps<T extends string | number> = {
  * It includes a search functionality that debounces input changes. As you need to provide the `useDebouncedSearch` hook, you can manage the search state externally.
  */
 export function SelectSearch<T extends string | number>({
-	data,
+	data: rawData,
 	placeholder,
 	search,
 	value,
+	valueFetch,
 	allowClear = false,
 	setValue,
 	onBlur,
@@ -45,6 +47,23 @@ export function SelectSearch<T extends string | number>({
 }: Readonly<SelectSearchProps<T>>) {
 	const { t } = useTranslation("common");
 	const combobox = useCombobox({});
+
+	const [fetchedData, setFetchedData] = useState<Data<T> | null>(null);
+
+	// Fetch data for the selected value.
+	// In case the selected item is not fetched in the options
+	useEffect(() => {
+		if (!value) setFetchedData(null);
+		else valueFetch?.(value).then((v) => setFetchedData(v ?? null));
+	}, [value, valueFetch]);
+
+	// Add fetched value to the data array
+	const data = useMemo(() => {
+		const cleanData = [...rawData];
+		if (fetchedData && !rawData.find((d) => d.value === fetchedData.value))
+			cleanData.push(fetchedData);
+		return cleanData;
+	}, [rawData, fetchedData]);
 
 	// As the Combobox cannot operate with non-string values directly,
 	// we create a mapping of index to value for the options.
@@ -56,14 +75,16 @@ export function SelectSearch<T extends string | number>({
 	}, [data]);
 
 	const options = useMemo(() => {
-		return data.map((item) => (
-			<Combobox.Option
-				key={item.value}
-				value={valueMap.find((v) => v[1] === item.value)?.[0] ?? ""}
-			>
-				{item.label}
-			</Combobox.Option>
-		));
+		return data
+			.filter((item): item is Data<T> => item !== null)
+			.map((item) => (
+				<Combobox.Option
+					key={item.value}
+					value={valueMap.find((v) => v[1] === item.value)?.[0] ?? ""}
+				>
+					{item.label}
+				</Combobox.Option>
+			));
 	}, [data, valueMap]);
 
 	const onValueChanged = useCallback(

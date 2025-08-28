@@ -6,6 +6,7 @@ import type {
 	PaginatedSearchModel,
 	TransactionModel,
 	UserModel,
+	UserModelId,
 } from "@shared/models";
 import { AccountsRepository } from "src/features/finances/accounts/repositories/accounts.repository";
 
@@ -21,6 +22,10 @@ export class AccountsService {
 			userId,
 			paginatedSearch,
 		);
+	}
+
+	async getUserAccountById(userId: UserModelId, accountId: AccountModel["id"]) {
+		return await this.accountsRepository.findByUserIdAndId(userId, accountId);
 	}
 
 	async checkAccountOwnership(

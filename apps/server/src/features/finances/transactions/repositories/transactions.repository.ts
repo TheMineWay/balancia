@@ -51,7 +51,7 @@ export class TransactionsRepository extends Repository {
 				eq(transactionsTable.categoryId, categoryTable.id),
 			)
 			.where(eq(accountTable.userId, userId))
-			.orderBy(desc(transactionsTable.performedAt))
+			.orderBy(desc(transactionsTable.performedAt), desc(transactionsTable.id))
 			.$dynamic();
 
 		const { rows: items, count: total } = await this.paginated(

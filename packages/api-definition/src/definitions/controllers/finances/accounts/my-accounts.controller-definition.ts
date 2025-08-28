@@ -18,6 +18,16 @@ export const GET_ACCOUNTS_ENDPOINT = {
 	}),
 } satisfies EndpointDefinition;
 
+export const GET_ACCOUNT = {
+	getPath: (params) => [params.id],
+	paramsMapping: {
+		id: "accountId",
+	},
+	responseDto: z.object({
+		...ACCOUNT_SCHEMA.shape,
+	}),
+} satisfies EndpointDefinition<{ id: string }>;
+
 // Controller
 
 export const MY_ACCOUNTS_CONTROLLER = {
@@ -25,5 +35,6 @@ export const MY_ACCOUNTS_CONTROLLER = {
 	paramsMapping: {},
 	endpoints: {
 		getAccounts: GET_ACCOUNTS_ENDPOINT,
+		getAccount: GET_ACCOUNT,
 	},
 } satisfies ControllerDefinition;

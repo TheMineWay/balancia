@@ -1,7 +1,13 @@
 import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
-import { Controller } from "@nestjs/common";
+import {
+	Controller,
+	NotFoundException,
+	Param,
+	ParseIntPipe,
+} from "@nestjs/common";
 import {
 	getController,
+	getParamName,
 	InferQueryDto,
 	InferResponseDto,
 	MY_ACCOUNTS_CONTROLLER,
@@ -25,5 +31,23 @@ export class MyAccountsController {
 			userId,
 			query,
 		);
+	}
+
+	@Endpoint(MY_ACCOUNTS_CONTROLLER, "getAccount")
+	async getAccount(
+		@UserId() userId: UserModel["id"],
+		@Param(
+			getParamName(MY_ACCOUNTS_CONTROLLER, "getAccount", "id"),
+			ParseIntPipe,
+		)
+		accountId: number,
+	): Promise<InferResponseDto<typeof MY_ACCOUNTS_CONTROLLER, "getAccount">> {
+		const account = await this.accountsService.getUserAccountById(
+			userId,
+			accountId,
+		);
+		if (!account) throw new NotFoundException();
+
+		return account;
 	}
 }

@@ -1,0 +1,2 @@
+DROP INDEX "finances"."account_id_and_performed_at_IDX";--> statement-breakpoint
+CREATE INDEX "account_id_and_performed_at_and_id_IDX" ON "finances"."transactions" USING btree ("accountId","performedAt" DESC,"id" DESC);
