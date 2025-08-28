@@ -6,7 +6,6 @@ import { useDebouncedSearch } from "@common/extended-ui/form/components/search/u
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useMyAccountsQuery } from "@fts/finances/accounts/api/use-my-accounts.query";
 import type { AccountModel } from "@shared/models";
-import { getPreferredAccount } from "@shared/utils";
 import { useEffect, useMemo, useState } from "react";
 
 type Props = {
@@ -62,9 +61,8 @@ export const MyAccountsSelector: FC<Props> = ({
 /* Internal */
 
 const autoPick = (accounts: AccountModel[]): AccountModel | null => {
-	if (accounts.length === 0) return null;
 	if (accounts.length === 1) {
 		return accounts[0];
 	}
-	return getPreferredAccount(accounts);
+	return null;
 };
