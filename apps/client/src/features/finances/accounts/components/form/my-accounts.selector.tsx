@@ -3,6 +3,7 @@ import {
 	type SelectSearchProps,
 } from "@common/extended-ui/form/components/search/select-search";
 import { useDebouncedSearch } from "@common/extended-ui/form/components/search/use-debounced-search";
+import { useMyUserPreferencesQuery } from "@common/user/preferences/api/use-my-user-preferences.query";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useMyAccountsQuery } from "@fts/finances/accounts/api/use-my-accounts.query";
 import type { AccountModel } from "@shared/models";
@@ -26,6 +27,7 @@ export const MyAccountsSelector: FC<Props> = ({
 	const search = useDebouncedSearch();
 
 	const [hasSetInitialAccount, setHasSetInitialAccount] = useState(false);
+	const { data: userPreferences } = useMyUserPreferencesQuery();
 	const { data: accounts = { items: [], total: 0 } } = useMyAccountsQuery({
 		pagination,
 		search: { search: search.debouncedValue },
@@ -41,11 +43,18 @@ export const MyAccountsSelector: FC<Props> = ({
 	);
 
 	useEffect(() => {
-		if (accounts.items.length > 0 && !hasSetInitialAccount) {
+		if (accounts.items.length > 0 && !hasSetInitialAccount && userPreferences) {
 			setHasSetInitialAccount(true);
-			onChange?.(autoPick(accounts.items)?.id ?? null);
+			if (accounts.items.length === 1) onChange?.(accounts.items[0].id);
+			else onChange?.(userPreferences?.preferences?.mainAccount ?? null);
 		}
-	}, [accounts, accounts.items, onChange, hasSetInitialAccount]);
+	}, [
+		accounts,
+		accounts.items,
+		onChange,
+		hasSetInitialAccount,
+		userPreferences,
+	]);
 
 	return (
 		<SelectSearch<AccountModel["id"]>
