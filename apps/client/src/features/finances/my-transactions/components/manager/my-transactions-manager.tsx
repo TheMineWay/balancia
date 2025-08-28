@@ -159,6 +159,7 @@ const Filters: FC<FilterOptions> = ({ search }) => {
 				onChange={(value) => setFilter("accountId", value)}
 				allowClear
 				size="xs"
+				autoFill={false}
 			/>
 		</InputWrapper>
 	);

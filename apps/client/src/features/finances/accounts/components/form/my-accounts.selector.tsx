@@ -16,6 +16,7 @@ type Props = {
 	onChange?: (accountId: AccountModel["id"] | null) => void;
 	value: AccountModel["id"] | null;
 	allowClear?: boolean;
+	autoFill?: boolean;
 } & Omit<
 	SelectSearchProps<AccountModel["id"]>,
 	"data" | "search" | "value" | "setValue"
@@ -24,6 +25,7 @@ type Props = {
 export const MyAccountsSelector: FC<Props> = ({
 	onChange,
 	value,
+	autoFill = true,
 	...props
 }) => {
 	const pagination = usePagination();
@@ -49,7 +51,12 @@ export const MyAccountsSelector: FC<Props> = ({
 	);
 
 	useEffect(() => {
-		if (accounts.items.length > 0 && !needsInitialAccount && userPreferences) {
+		if (
+			accounts.items.length > 0 &&
+			!needsInitialAccount &&
+			userPreferences &&
+			autoFill
+		) {
 			setNeedsInitialAccount(true);
 			if (accounts.items.length === 1) onChange?.(accounts.items[0].id);
 			else onChange?.(userPreferences?.preferences?.mainAccount ?? null);
@@ -60,6 +67,7 @@ export const MyAccountsSelector: FC<Props> = ({
 		onChange,
 		needsInitialAccount,
 		userPreferences,
+		autoFill,
 	]);
 
 	// Fetch account details by id. In case it has not been fetched
