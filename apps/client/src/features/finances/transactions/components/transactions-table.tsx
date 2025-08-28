@@ -26,6 +26,7 @@ type Props<T extends TransactionModel> = {
 	data?: T[];
 	loading?: boolean;
 	onDeleteClick?: (item: TransactionModel) => void;
+	onEditClick?: (item: TransactionModel) => void;
 
 	// Extensions
 	showAccount?: boolean;
@@ -37,6 +38,7 @@ export const TransactionsTable = <
 	data,
 	loading = false,
 	onDeleteClick,
+	onEditClick,
 	showAccount = false,
 }: Readonly<Props<T>>) => {
 	const { t } = useTranslation("finances");
@@ -83,9 +85,14 @@ export const TransactionsTable = <
 				label: commonT().expressions.Actions,
 				render: (item) => (
 					<Group>
-						<ActionIcon aria-label={commonT().expressions.Edit}>
-							<BiEdit />
-						</ActionIcon>
+						{onEditClick && (
+							<ActionIcon
+								onClick={() => onEditClick(item)}
+								aria-label={commonT().expressions.Edit}
+							>
+								<BiEdit />
+							</ActionIcon>
+						)}
 						{onDeleteClick && (
 							<ActionIcon
 								onClick={() => onDeleteClick(item)}

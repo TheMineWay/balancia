@@ -7,7 +7,7 @@ import {
 import type { TransactionCreateModel } from "@shared/models";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useCreateTransactionMutation = () => {
+export const useMyTransactionCreateMutation = () => {
 	const { request } = useAuthenticatedRequest();
 	const queryClient = useQueryClient();
 

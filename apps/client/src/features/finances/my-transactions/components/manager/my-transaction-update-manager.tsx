@@ -1,15 +1,15 @@
-import { useMyTransactionCreateMutation } from "@fts/finances/my-transactions/api/use-my-transaction-create.mutation";
+import { useMyTransactionUpdateMutation } from "@fts/finances/my-transactions/api/use-my-transaction-update.mutation";
 import { TransactionForm } from "@fts/finances/transactions/components/forms/transaction.form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "@i18n/use-translation";
 import {
 	TRANSACTION_CREATE_SCHEMA,
-	TRANSACTION_MODEL_VALUES,
 	type TransactionCreateModel,
+	type TransactionModel,
 } from "@shared/models";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { IoAddOutline } from "react-icons/io5";
+import { IoPencilOutline } from "react-icons/io5";
 import z from "zod";
 
 // Modify schema to deny zero amounts
@@ -21,40 +21,39 @@ const SCHEMA = z
 	.required();
 
 type Props = {
+	transaction: TransactionModel;
 	onSuccess?: CallableFunction;
 };
 
-export const MyTransactionCreateManager: FC<Props> = ({ onSuccess }) => {
+export const MyTransactionUpdateManager: FC<Props> = ({
+	onSuccess,
+	transaction: { id: transactionId, ...transaction },
+}) => {
 	const { t } = useTranslation("finances");
-	const { mutate: createTransaction, isPending: isCreating } =
-		useMyTransactionCreateMutation();
+	const { mutate: updateTransaction, isPending: isUpdating } =
+		useMyTransactionUpdateMutation(transactionId);
 
 	const createForm = useForm({
 		resolver: zodResolver(SCHEMA),
-		defaultValues: {
-			amount: 0,
-			performedAt: new Date(),
-			performedAtPrecision:
-				TRANSACTION_MODEL_VALUES.performedAtPrecision.default,
-		},
+		defaultValues: transaction,
 	});
 
 	const onFormSucess = useCallback(
 		(transaction: TransactionCreateModel) => {
-			createTransaction(transaction, {
+			updateTransaction(transaction, {
 				onSuccess: () => onSuccess?.(),
 			});
 		},
-		[createTransaction, onSuccess],
+		[updateTransaction, onSuccess],
 	);
 
 	return (
 		<TransactionForm
 			form={createForm}
-			submitText={t().transaction.create.Submit}
-			submitIcon={<IoAddOutline />}
+			submitText={t().transaction.update.Submit}
+			submitIcon={<IoPencilOutline />}
 			onSuccess={onFormSucess}
-			isMutating={isCreating}
+			isMutating={isUpdating}
 		/>
 	);
 };

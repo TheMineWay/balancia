@@ -22,6 +22,10 @@
 			"Title": "Create transaction",
 			"Submit": "Create transaction"
 		},
+		"update": {
+			"Title": "Update transaction {name}",
+			"Submit": "Update transaction"
+		},
 		"models": {
 			"transaction": {
 				"subject": {

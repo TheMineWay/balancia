@@ -30,7 +30,9 @@ export const MyAccountsSelector: FC<Props> = ({
 	const search = useDebouncedSearch();
 	const { request } = useAuthenticatedRequest();
 
-	const [hasSetInitialAccount, setHasSetInitialAccount] = useState(false);
+	const [needsInitialAccount, setNeedsInitialAccount] = useState(
+		Boolean(value),
+	);
 	const { data: userPreferences } = useMyUserPreferencesQuery();
 	const { data: accounts = { items: [], total: 0 } } = useMyAccountsQuery({
 		pagination,
@@ -47,8 +49,8 @@ export const MyAccountsSelector: FC<Props> = ({
 	);
 
 	useEffect(() => {
-		if (accounts.items.length > 0 && !hasSetInitialAccount && userPreferences) {
-			setHasSetInitialAccount(true);
+		if (accounts.items.length > 0 && !needsInitialAccount && userPreferences) {
+			setNeedsInitialAccount(true);
 			if (accounts.items.length === 1) onChange?.(accounts.items[0].id);
 			else onChange?.(userPreferences?.preferences?.mainAccount ?? null);
 		}
@@ -56,7 +58,7 @@ export const MyAccountsSelector: FC<Props> = ({
 		accounts,
 		accounts.items,
 		onChange,
-		hasSetInitialAccount,
+		needsInitialAccount,
 		userPreferences,
 	]);
 
