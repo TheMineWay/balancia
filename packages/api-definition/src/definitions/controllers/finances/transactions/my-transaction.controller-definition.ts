@@ -3,6 +3,7 @@ import {
 	CATEGORY_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_QUERY_SCHEMA,
+	SEARCH_SCHEMA,
 	TRANSACTION_CREATE_SCHEMA,
 	TRANSACTION_SCHEMA,
 } from "@shared/models";
@@ -16,6 +17,7 @@ const GET_TRANSACTIONS_LIST_ENDPOINT = {
 	paramsMapping: {},
 	queryDto: z.object({
 		...PAGINATED_QUERY_SCHEMA.shape,
+		search: SEARCH_SCHEMA.optional(),
 		filters: z
 			.object({
 				accountId: z.preprocess((val) => Number(val), z.number()).optional(),

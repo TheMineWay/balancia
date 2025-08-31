@@ -1,3 +1,4 @@
+import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { type UseSearch, useSearch } from "@core/search/hooks/use-search";
 import { MyAccountsSelector } from "@fts/finances/accounts/components/form/my-accounts.selector";
@@ -144,11 +145,17 @@ type FilterOptions = {
 
 const Filters: FC<FilterOptions> = ({ search }) => {
 	const { t } = useTranslation("finances");
+	const { t: commonT } = useTranslation("common");
 
-	const { filters, setFilter } = search;
+	const { filters, setFilter, debouncedSearchManager } = search;
 
 	return (
 		<>
+			<DebouncedSearch
+				manager={debouncedSearchManager}
+				size="xs"
+				placeholder={commonT().expressions.Search}
+			/>
 			<MyAccountsSelector
 				value={filters.accountId ?? null}
 				placeholder={t().account.expressions.Account}

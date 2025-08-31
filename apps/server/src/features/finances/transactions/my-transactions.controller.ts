@@ -23,6 +23,7 @@ export class MyTransactionsController {
 		@ValidatedQuery(MY_TRANSACTION_CONTROLLER, "getTransactionsList")
 		{
 			filters,
+			search,
 			...query
 		}: InferQueryDto<typeof MY_TRANSACTION_CONTROLLER, "getTransactionsList">,
 		@UserId() userId: UserModel["id"],
@@ -32,6 +33,7 @@ export class MyTransactionsController {
 		return await this.transactionsService.getTransactionsListByUserId(
 			userId,
 			query,
+			search,
 			filters,
 		);
 	}

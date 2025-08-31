@@ -9,7 +9,8 @@
 		"Reload": "Reload",
 		"Profile": "Profile",
 		"Created-at": "Created at",
-		"Clear": "Clear"
+		"Clear": "Clear",
+		"Search": "Search"
 	},
 	"templates": {
 		"confirm-modal": {

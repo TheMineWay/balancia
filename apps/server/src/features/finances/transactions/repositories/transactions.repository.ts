@@ -19,16 +19,18 @@ import { Injectable } from "@nestjs/common";
 import type {
 	PaginatedQuery,
 	PaginatedResponse,
+	SearchModel,
 	TransactionModel,
 	UserModel,
 } from "@shared/models";
-import { and, desc, eq, isNull } from "drizzle-orm";
+import { and, desc, eq, ilike, isNull } from "drizzle-orm";
 
 @Injectable()
 export class TransactionsRepository extends Repository {
 	async paginatedFindTransactionsListByUserId(
 		userId: UserModel["id"],
 		pagination: PaginatedQuery,
+		search?: SearchModel,
 		filters?: Partial<Pick<TransactionModel, "accountId" | "categoryId">>,
 		options?: QueryOptions,
 	): Promise<
@@ -55,6 +57,11 @@ export class TransactionsRepository extends Repository {
 				)
 			: undefined;
 
+		// Search
+		const searchFilters = search?.search
+			? ilike(transactionsTable.subject, `%${search.search}%`)
+			: undefined;
+
 		// Query
 		const query = this.query(options)
 			.select({
@@ -68,7 +75,7 @@ export class TransactionsRepository extends Repository {
 				categoryTable,
 				eq(transactionsTable.categoryId, categoryTable.id),
 			)
-			.where(and(eq(accountTable.userId, userId), queryFilters))
+			.where(and(eq(accountTable.userId, userId), queryFilters, searchFilters))
 			.orderBy(desc(transactionsTable.performedAt), desc(transactionsTable.id))
 			.$dynamic();
 

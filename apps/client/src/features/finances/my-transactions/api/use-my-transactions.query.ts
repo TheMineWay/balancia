@@ -7,16 +7,21 @@ import {
 	getController,
 	MY_TRANSACTION_CONTROLLER,
 } from "@shared/api-definition";
-import type { PaginatedQuery, TransactionModel } from "@shared/models";
+import type {
+	PaginatedQuery,
+	SearchModel,
+	TransactionModel,
+} from "@shared/models";
 import { useQuery } from "@tanstack/react-query";
 
 export const MY_TRANSACTIONS_QUERY_KEY: ParametrizedQueryKey<{
 	pagination: PaginatedQuery;
-	search: Partial<TransactionModel>;
-}> = ({ pagination, search: filters }) => [
+	filters: Partial<TransactionModel>;
+	search?: SearchModel;
+}> = ({ pagination, filters, search }) => [
 	getController(MY_TRANSACTION_CONTROLLER, {}),
 	"list",
-	{ pagination, filters },
+	{ pagination, filters, search },
 ];
 
 type Options = {
@@ -48,7 +53,8 @@ export const useMyTransactionsQuery = (options: Options) => {
 		},
 		queryKey: MY_TRANSACTIONS_QUERY_KEY({
 			pagination: options.pagination.requestData,
-			search: options.search.filters,
+			filters: options.search.filters,
+			search: { search: options.search.debouncedSearchManager.debouncedValue },
 		}),
 	});
 };
