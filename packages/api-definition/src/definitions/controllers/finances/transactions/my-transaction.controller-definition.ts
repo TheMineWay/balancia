@@ -19,6 +19,10 @@ const GET_TRANSACTIONS_LIST_ENDPOINT = {
 		filters: z
 			.object({
 				accountId: z.preprocess((val) => Number(val), z.number()).optional(),
+				categoryId: z
+					.preprocess((val) => Number(val), z.number())
+					.optional()
+					.nullable(),
 			})
 			.optional(),
 	}),

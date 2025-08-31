@@ -22,14 +22,14 @@ import type {
 	TransactionModel,
 	UserModel,
 } from "@shared/models";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 
 @Injectable()
 export class TransactionsRepository extends Repository {
 	async paginatedFindTransactionsListByUserId(
 		userId: UserModel["id"],
 		pagination: PaginatedQuery,
-		filters?: Partial<Pick<TransactionModel, "accountId">>,
+		filters?: Partial<Pick<TransactionModel, "accountId" | "categoryId">>,
 		options?: QueryOptions,
 	): Promise<
 		PaginatedResponse<
@@ -39,14 +39,23 @@ export class TransactionsRepository extends Repository {
 			}
 		>
 	> {
+		// Filters
 		const queryFilters = filters
 			? and(
+					// Account id
 					filters.accountId
 						? eq(transactionsTable.accountId, filters.accountId)
 						: undefined,
+					// Category id
+					filters.categoryId
+						? eq(transactionsTable.categoryId, filters.categoryId)
+						: filters.categoryId === null
+							? isNull(transactionsTable.categoryId)
+							: undefined,
 				)
 			: undefined;
 
+		// Query
 		const query = this.query(options)
 			.select({
 				...TRANSACTIONS_TABLE_COLUMNS,
