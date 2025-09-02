@@ -1,8 +1,16 @@
 {
+	"nav": {
+		"Label": "Finances",
+		"children": {
+			"transactions": {
+				"Label": "Transactions"
+			},
+			"accounts": {
+				"Label": "Accounts"
+			}
+		}
+	},
 	"transaction": {
-		"nav": {
-			"Label": "Transactions"
-		},
 		"my-transactions": {
 			"manager": {
 				"Title": "My transactions",

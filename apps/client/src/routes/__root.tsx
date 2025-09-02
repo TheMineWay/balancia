@@ -9,7 +9,9 @@ import { Permission } from "@shared/models";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
 import { FaHome } from "react-icons/fa";
+import { LuPiggyBank } from "react-icons/lu";
 import { MdAdminPanelSettings, MdDashboard } from "react-icons/md";
+import { PiMoneyWavy } from "react-icons/pi";
 
 const MyAvatar: FC = () => {
 	const { user } = useUserInfo();
@@ -20,8 +22,6 @@ const MyAvatar: FC = () => {
  * Contains links that are visible on the navbar
  */
 const Navigator: FC = () => {
-	const { t: transactionT } = useTranslation("finances");
-
 	return (
 		<Group gap="xs">
 			{/* HOME */}
@@ -31,16 +31,8 @@ const Navigator: FC = () => {
 				</ActionIcon>
 			</Link>
 
-			{/* TRANSACTIONS */}
-			<Link to="/transactions">
-				<Button
-					size="compact-sm"
-					leftSection={<MdDashboard />}
-					variant="subtle"
-				>
-					{transactionT().transaction.nav.Label}
-				</Button>
-			</Link>
+			{/* FINANCES */}
+			<FinancesMenu />
 
 			{/* ADMIN DASHBOARD */}
 			<Protected
@@ -49,6 +41,37 @@ const Navigator: FC = () => {
 				<AdminMenu />
 			</Protected>
 		</Group>
+	);
+};
+
+const FinancesMenu: FC = () => {
+	const { t } = useTranslation("finances");
+
+	return (
+		<Menu trigger="hover">
+			<Menu.Target>
+				<Button
+					size="compact-sm"
+					variant="subtle"
+					leftSection={<MdDashboard />}
+				>
+					{t().nav.Label}
+				</Button>
+			</Menu.Target>
+
+			<Menu.Dropdown>
+				<Link to="/finances/transactions">
+					<Menu.Item leftSection={<PiMoneyWavy />} variant="subtle">
+						{t().nav.children.transactions.Label}
+					</Menu.Item>
+				</Link>
+				<Link to="/finances/accounts">
+					<Menu.Item leftSection={<LuPiggyBank />} variant="subtle">
+						{t().nav.children.accounts.Label}
+					</Menu.Item>
+				</Link>
+			</Menu.Dropdown>
+		</Menu>
 	);
 };
 

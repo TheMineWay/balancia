@@ -78,7 +78,7 @@ export const MyAccountsSelector: FC<Props> = ({
 		async (id: AccountModel["id"]) => {
 			const selectedAccount = await endpointQuery(
 				MY_ACCOUNTS_CONTROLLER,
-				"getAccount",
+				"get",
 				{ id: id.toString() },
 				request,
 				{},
