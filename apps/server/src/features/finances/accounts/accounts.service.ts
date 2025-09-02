@@ -6,6 +6,7 @@ import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import type {
 	AccountCreateModel,
 	AccountModel,
+	OwnedModel,
 	PaginatedSearchModel,
 	TransactionModel,
 	UserModel,
@@ -30,11 +31,8 @@ export class AccountsService {
 
 	// #region Basic operations
 
-	async create(userId: UserModelId, account: AccountCreateModel) {
-		const created = await this.accountsRepository.create({
-			userId,
-			...account,
-		});
+	async create(account: OwnedModel<AccountCreateModel>) {
+		const created = await this.accountsRepository.create(account);
 
 		this.eventService.emit(new AccountCreatedEvent({ account: created }));
 
@@ -121,6 +119,13 @@ export class AccountsService {
 
 			if (!isOwner) throw new UnauthorizedException();
 			await this.accountsRepository.deleteById(account.id, { transaction });
+		});
+	}
+
+	async createUserAccount(userId: UserModelId, account: AccountCreateModel) {
+		return await this.create({
+			userId,
+			...account,
 		});
 	}
 

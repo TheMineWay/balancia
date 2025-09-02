@@ -1,15 +1,17 @@
 import {
+	ACCOUNT_CREATE_SCHEMA,
 	ACCOUNT_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_SEARCH_SCHEMA,
 } from "@shared/models";
 import { ControllerDefinition } from "@ts-types/controller-definition.type";
 import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
+import { EndpointMethod } from "@ts-types/endpoint-method.enum";
 import z from "zod";
 
 // Endpoints
 
-export const GET_ACCOUNTS_ENDPOINT = {
+const GET_ACCOUNTS_ENDPOINT = {
 	getPath: () => [],
 	paramsMapping: {},
 	responseDto: getPaginatedResponse(ACCOUNT_SCHEMA),
@@ -18,13 +20,41 @@ export const GET_ACCOUNTS_ENDPOINT = {
 	}),
 } satisfies EndpointDefinition;
 
-export const GET_ACCOUNT = {
+const GET_ACCOUNT_ENDPOINT = {
 	getPath: (params) => [params.id],
 	paramsMapping: {
 		id: "accountId",
 	},
 	responseDto: z.object({
 		...ACCOUNT_SCHEMA.shape,
+	}),
+} satisfies EndpointDefinition<{ id: string }>;
+
+const CREATE_ACCOUNT_ENDPOINT = {
+	getPath: () => [],
+	paramsMapping: {},
+	method: EndpointMethod.POST,
+	bodyDto: z.object({
+		...ACCOUNT_CREATE_SCHEMA.shape,
+	}),
+} satisfies EndpointDefinition;
+
+const DELETE_ACCOUNT_ENDPOINT = {
+	getPath: (params) => [params.id],
+	method: EndpointMethod.DELETE,
+	paramsMapping: {
+		id: "accountId",
+	},
+} satisfies EndpointDefinition<{ id: string }>;
+
+const UPDATE_ACCOUNT_ENDPOINT = {
+	getPath: (params) => [params.id],
+	paramsMapping: {
+		id: "accountId",
+	},
+	method: EndpointMethod.PUT,
+	bodyDto: z.object({
+		...ACCOUNT_CREATE_SCHEMA.shape,
 	}),
 } satisfies EndpointDefinition<{ id: string }>;
 
@@ -35,6 +65,9 @@ export const MY_ACCOUNTS_CONTROLLER = {
 	paramsMapping: {},
 	endpoints: {
 		getAccounts: GET_ACCOUNTS_ENDPOINT,
-		getAccount: GET_ACCOUNT,
+		get: GET_ACCOUNT_ENDPOINT,
+		create: CREATE_ACCOUNT_ENDPOINT,
+		delete: DELETE_ACCOUNT_ENDPOINT,
+		update: UPDATE_ACCOUNT_ENDPOINT,
 	},
 } satisfies ControllerDefinition;
