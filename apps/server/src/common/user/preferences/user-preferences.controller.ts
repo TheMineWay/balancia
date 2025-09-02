@@ -1,5 +1,6 @@
 import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
 import { Controller } from "@nestjs/common";
+import { ApiOperation } from "@nestjs/swagger";
 import {
 	getController,
 	InferResponseDto,
@@ -15,6 +16,7 @@ export class UserPreferencesController {
 		private readonly userPreferencesService: UserPreferencesService,
 	) {}
 
+	@ApiOperation({ summary: "Get preferences for the current user" })
 	@Endpoint(USER_PREFERENCES_CONTROLLER, "getMyPreferences")
 	async getMyPreferences(
 		@UserId() userId: UserModelId,

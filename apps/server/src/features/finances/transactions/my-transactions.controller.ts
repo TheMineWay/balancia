@@ -1,5 +1,6 @@
 import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
 import { Controller, Param, ParseIntPipe } from "@nestjs/common";
+import { ApiOperation } from "@nestjs/swagger";
 import {
 	getController,
 	getParamName,
@@ -18,6 +19,7 @@ import { TransactionsService } from "src/features/finances/transactions/transact
 export class MyTransactionsController {
 	constructor(private readonly transactionsService: TransactionsService) {}
 
+	@ApiOperation({ summary: "Get paginated list of user transactions" })
 	@Endpoint(MY_TRANSACTION_CONTROLLER, "getTransactionsList")
 	async getTransactionsList(
 		@ValidatedQuery(MY_TRANSACTION_CONTROLLER, "getTransactionsList")
@@ -38,6 +40,7 @@ export class MyTransactionsController {
 		);
 	}
 
+	@ApiOperation({ summary: "Create a new user transaction" })
 	@Endpoint(MY_TRANSACTION_CONTROLLER, "createTransaction")
 	async createTransaction(
 		@ValidatedBody(MY_TRANSACTION_CONTROLLER, "createTransaction")
@@ -49,6 +52,7 @@ export class MyTransactionsController {
 		await this.transactionsService.create(userId, body);
 	}
 
+	@ApiOperation({ summary: "Update an existing user transaction" })
 	@Endpoint(MY_TRANSACTION_CONTROLLER, "updateTransaction")
 	async updateTransaction(
 		@ValidatedBody(MY_TRANSACTION_CONTROLLER, "updateTransaction")
@@ -69,6 +73,7 @@ export class MyTransactionsController {
 		);
 	}
 
+	@ApiOperation({ summary: "Delete a user transaction" })
 	@Endpoint(MY_TRANSACTION_CONTROLLER, "deleteTransaction")
 	async deleteTransaction(
 		@UserId()

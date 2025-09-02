@@ -5,6 +5,7 @@ import {
 	Param,
 	ParseIntPipe,
 } from "@nestjs/common";
+import { ApiOperation } from "@nestjs/swagger";
 import {
 	getController,
 	getParamName,
@@ -23,6 +24,7 @@ import { CategoriesService } from "src/features/finances/categories/categories.s
 export class MyCategoriesController {
 	constructor(private readonly categoriesService: CategoriesService) {}
 
+	@ApiOperation({ summary: "Get paginated list of user categories" })
 	@Endpoint(MY_CATEGORY_CONTROLLER, "getCategories")
 	async getCategories(
 		@ValidatedQuery(MY_CATEGORY_CONTROLLER, "getCategories")
@@ -35,6 +37,7 @@ export class MyCategoriesController {
 		);
 	}
 
+	@ApiOperation({ summary: "Get details of a specific user category" })
 	@Endpoint(MY_CATEGORY_CONTROLLER, "getCategory")
 	async getCategory(
 		@Param(
@@ -53,6 +56,7 @@ export class MyCategoriesController {
 		return category;
 	}
 
+	@ApiOperation({ summary: "Create a new user category" })
 	@Endpoint(MY_CATEGORY_CONTROLLER, "createCategory")
 	async createCategory(
 		@UserId() userId: UserModel["id"],
@@ -66,6 +70,7 @@ export class MyCategoriesController {
 		await this.categoriesService.create(userId, body);
 	}
 
+	@ApiOperation({ summary: "Delete a user category" })
 	@Endpoint(MY_CATEGORY_CONTROLLER, "deleteCategory")
 	async deleteCategory(
 		@Param(
@@ -80,6 +85,7 @@ export class MyCategoriesController {
 		await this.categoriesService.deleteByUserIdAndId(userId, categoryId);
 	}
 
+	@ApiOperation({ summary: "Update an existing user category" })
 	@Endpoint(MY_CATEGORY_CONTROLLER, "updateCategory")
 	async updateCategory(
 		@Param(

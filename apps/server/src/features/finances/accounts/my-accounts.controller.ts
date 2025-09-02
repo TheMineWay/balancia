@@ -5,6 +5,7 @@ import {
 	Param,
 	ParseIntPipe,
 } from "@nestjs/common";
+import { ApiOperation } from "@nestjs/swagger";
 import {
 	getController,
 	getParamName,
@@ -23,6 +24,7 @@ import { AccountsService } from "src/features/finances/accounts/accounts.service
 export class MyAccountsController {
 	constructor(private readonly accountsService: AccountsService) {}
 
+	@ApiOperation({ summary: "Get paginated list of user accounts" })
 	@Endpoint(MY_ACCOUNTS_CONTROLLER, "getAccounts")
 	async getAccounts(
 		@UserId() userId: UserModel["id"],
@@ -35,6 +37,7 @@ export class MyAccountsController {
 		);
 	}
 
+	@ApiOperation({ summary: "Get details of a specific user account" })
 	@Endpoint(MY_ACCOUNTS_CONTROLLER, "get")
 	async getAccount(
 		@UserId() userId: UserModel["id"],
@@ -50,6 +53,7 @@ export class MyAccountsController {
 		return account;
 	}
 
+	@ApiOperation({ summary: "Create a new user account" })
 	@Endpoint(MY_ACCOUNTS_CONTROLLER, "create")
 	async create(
 		@UserId() userId: UserModel["id"],
@@ -61,6 +65,7 @@ export class MyAccountsController {
 		await this.accountsService.createUserAccount(userId, body);
 	}
 
+	@ApiOperation({ summary: "Update an existing user account" })
 	@Endpoint(MY_ACCOUNTS_CONTROLLER, "update")
 	async update(
 		@UserId() userId: UserModel["id"],
@@ -74,6 +79,7 @@ export class MyAccountsController {
 		await this.accountsService.updateUserAccountById(userId, accountId, body);
 	}
 
+	@ApiOperation({ summary: "Delete a user account" })
 	@Endpoint(MY_ACCOUNTS_CONTROLLER, "delete")
 	async delete(
 		@UserId() userId: UserModel["id"],
