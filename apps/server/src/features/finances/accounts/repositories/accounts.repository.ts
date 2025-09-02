@@ -1,6 +1,10 @@
 import { type QueryOptions, Repository } from "@database/repository/repository";
 import { accountTable, transactionsTable } from "@database/schemas/main.schema";
-import { AccountSelect } from "@database/schemas/main/tables/finances/account.table";
+import {
+	AccountInsert,
+	AccountSelect,
+	AccountUpdate,
+} from "@database/schemas/main/tables/finances/account.table";
 import { Injectable } from "@nestjs/common";
 import type {
 	AccountModel,
@@ -89,5 +93,33 @@ export class AccountsRepository extends Repository {
 					.limit(1)
 			)?.[0] ?? null
 		);
+	}
+
+	async create(data: AccountInsert, options?: QueryOptions) {
+		return (
+			await this.query(options).insert(accountTable).values(data).returning()
+		)[0];
+	}
+
+	async updateById(
+		accountId: AccountModel["id"],
+		data: AccountUpdate,
+		options?: QueryOptions,
+	): Promise<AccountSelect | null> {
+		return (
+			(
+				await this.query(options)
+					.update(accountTable)
+					.set(data)
+					.where(eq(accountTable.id, accountId))
+					.returning()
+			)?.[0] ?? null
+		);
+	}
+
+	async deleteById(accountId: AccountModel["id"], options?: QueryOptions) {
+		return await this.query(options)
+			.delete(accountTable)
+			.where(eq(accountTable.id, accountId));
 	}
 }

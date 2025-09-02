@@ -1,32 +1,66 @@
+import { DATABASE_PROVIDERS } from "@database/database.provider";
 import type { QueryOptions } from "@database/repository/repository";
 import { AccountSelect } from "@database/schemas/main/tables/finances/account.table";
-import { Injectable } from "@nestjs/common";
+import { DatabaseService } from "@database/services/database.service";
+import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import type {
+	AccountCreateModel,
 	AccountModel,
 	PaginatedSearchModel,
 	TransactionModel,
 	UserModel,
 	UserModelId,
 } from "@shared/models";
+import { EventService } from "src/events/event.service";
+import {
+	AccountCreatedEvent,
+	AccountDeletedEvent,
+	AccountUpdatedEvent,
+} from "src/features/finances/accounts/accounts.events";
 import { AccountsRepository } from "src/features/finances/accounts/repositories/accounts.repository";
 
 @Injectable()
 export class AccountsService {
-	constructor(private readonly accountsRepository: AccountsRepository) {}
+	constructor(
+		private readonly accountsRepository: AccountsRepository,
+		private readonly eventService: EventService,
+		@Inject(DATABASE_PROVIDERS.main)
+		private readonly databaseService: DatabaseService,
+	) {}
 
-	async getPaginatedAccountsByUserId(
-		userId: UserModel["id"],
-		paginatedSearch: PaginatedSearchModel,
-	) {
-		return await this.accountsRepository.paginatedFindByUserId(
+	// #region Basic operations
+
+	async create(userId: UserModelId, account: AccountCreateModel) {
+		const created = await this.accountsRepository.create({
 			userId,
-			paginatedSearch,
-		);
+			...account,
+		});
+
+		this.eventService.emit(new AccountCreatedEvent({ account: created }));
+
+		return created;
 	}
 
-	async getUserAccountById(userId: UserModelId, accountId: AccountModel["id"]) {
-		return await this.accountsRepository.findByUserIdAndId(userId, accountId);
+	async updateById(accountId: AccountModel["id"], account: AccountCreateModel) {
+		const updated = await this.accountsRepository.updateById(
+			accountId,
+			account,
+		);
+
+		if (updated)
+			this.eventService.emit(new AccountUpdatedEvent({ account: updated }));
+
+		return updated;
 	}
+
+	async deleteById(accountId: AccountModel["id"]) {
+		await this.accountsRepository.deleteById(accountId);
+
+		this.eventService.emit(new AccountDeletedEvent({ accountId }));
+	}
+
+	// #endregion
+	// #region User oriented
 
 	async checkAccountOwnership(
 		userId: UserModel["id"],
@@ -45,6 +79,54 @@ export class AccountsService {
 		} as CheckAccountOwnershipResponse;
 	}
 
+	// CRUD
+
+	async getPaginatedAccountsByUserId(
+		userId: UserModel["id"],
+		paginatedSearch: PaginatedSearchModel,
+	) {
+		return await this.accountsRepository.paginatedFindByUserId(
+			userId,
+			paginatedSearch,
+		);
+	}
+
+	async getUserAccountById(userId: UserModelId, accountId: AccountModel["id"]) {
+		return await this.accountsRepository.findByUserIdAndId(userId, accountId);
+	}
+
+	async updateUserAccountById(
+		userId: UserModelId,
+		accountId: AccountModel["id"],
+		account: AccountCreateModel,
+	) {
+		const { isOwner } = await this.checkAccountOwnership(userId, accountId);
+
+		if (!isOwner) throw new UnauthorizedException();
+		return await this.accountsRepository.updateById(accountId, account);
+	}
+
+	async deleteUserAccountById(
+		userId: UserModelId,
+		accountId: AccountModel["id"],
+	) {
+		await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner, account } = await this.checkAccountOwnership(
+				userId,
+				accountId,
+				{
+					transaction,
+				},
+			);
+
+			if (!isOwner) throw new UnauthorizedException();
+			await this.accountsRepository.deleteById(account.id, { transaction });
+		});
+	}
+
+	// #endregion
+	// #region Transaction oriented
+
 	async getAccountByTransactionId(
 		transactionId: TransactionModel["id"],
 		queryOptions?: QueryOptions,
@@ -54,6 +136,8 @@ export class AccountsService {
 			queryOptions,
 		);
 	}
+
+	// #endregion
 }
 
 /* Internal */

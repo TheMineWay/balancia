@@ -27,7 +27,7 @@ export class CategoryCreatedEvent extends Event<CategoryCreatedEventPayload> {
 	}
 }
 
-type CategoryDeletedEventPayload = { categoryId: number };
+type CategoryDeletedEventPayload = { categoryId: CategoryModel["id"] };
 
 /**
  * Event emitted when a category is deleted.
