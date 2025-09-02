@@ -29,6 +29,20 @@
       "when": 1756383373581,
       "tag": "0003_perfect_nekra",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1756838982262,
+      "tag": "0004_safe_the_renegades",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1756839931393,
+      "tag": "0005_slippery_donald_blake",
+      "breakpoints": true
     }
   ]
 }
