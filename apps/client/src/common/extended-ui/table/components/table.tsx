@@ -132,11 +132,9 @@ const Row = <TData extends TableValue>({
 				const value = column.accessorKey ? item[column.accessorKey] : null;
 
 				// Custom render or default rendering
-				const content = column.render ? (
-					column.render(item)
-				) : (
-					<Text>{`${value}`}</Text>
-				);
+				const content = column.render
+					? column.render(item)
+					: value && <Text>{`${value}`}</Text>;
 
 				return (
 					<MTable.Td
