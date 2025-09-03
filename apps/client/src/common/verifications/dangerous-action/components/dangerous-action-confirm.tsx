@@ -1,5 +1,5 @@
 import { Button, Flex, Group, Input, Modal, Text } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoWarning } from "react-icons/io5";
 
 type Texts = {
@@ -43,6 +43,10 @@ export const DangerousActionConfirm: FC<Props> = ({
 	confirmIcon,
 }) => {
 	const [writeToDeleteValue, setWriteToDeleteValue] = useState("");
+
+	useEffect(() => {
+		if (!open) setWriteToDeleteValue("");
+	}, [open]);
 
 	const canDelete =
 		!writeToDelete || writeToDeleteValue !== writeToDelete.confirmValue;
