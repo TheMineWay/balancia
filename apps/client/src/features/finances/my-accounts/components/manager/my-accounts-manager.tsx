@@ -103,7 +103,9 @@ export const MyAccountsManager: FC = () => {
 				position="right"
 				opened={Boolean(accountToUpdate)}
 				onClose={() => setAccountToUpdate(null)}
-				title={t().account.update.Title}
+				title={interpolated((t) => t.account.update.Title, {
+					name: accountToUpdate?.name ?? "",
+				})}
 			>
 				{accountToUpdate && (
 					<MyAccountUpdateManager
