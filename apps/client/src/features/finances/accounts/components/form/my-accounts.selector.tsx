@@ -2,12 +2,12 @@ import {
 	SelectSearch,
 	type SelectSearchProps,
 } from "@common/extended-ui/form/components/search/select-search";
-import { useDebouncedSearch } from "@common/extended-ui/form/components/search/use-debounced-search";
 import { useMyUserPreferencesQuery } from "@common/user/preferences/api/use-my-user-preferences.query";
 import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authenticated-request.util";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
-import { useMyAccountsQuery } from "@fts/finances/accounts/api/use-my-accounts.query";
+import { useSearch } from "@core/search/hooks/use-search";
+import { useMyAccountsQuery } from "@fts/finances/my-accounts/api/use-my-accounts.query";
 import { useTranslation } from "@i18n/use-translation";
 import { MY_ACCOUNTS_CONTROLLER } from "@shared/api-definition";
 import type { AccountModel } from "@shared/models";
@@ -32,7 +32,7 @@ export const MyAccountsSelector: FC<Props> = ({
 }) => {
 	const { t } = useTranslation("finances");
 	const pagination = usePagination();
-	const search = useDebouncedSearch();
+	const search = useSearch<AccountModel>({});
 	const { request } = useAuthenticatedRequest();
 
 	const [needsInitialAccount, setNeedsInitialAccount] = useState(
@@ -41,7 +41,7 @@ export const MyAccountsSelector: FC<Props> = ({
 	const { data: userPreferences } = useMyUserPreferencesQuery();
 	const { data: accounts = { items: [], total: 0 } } = useMyAccountsQuery({
 		pagination,
-		search: { search: search.debouncedValue },
+		search,
 	});
 
 	const options = useMemo(
@@ -95,7 +95,7 @@ export const MyAccountsSelector: FC<Props> = ({
 	return (
 		<SelectSearch<AccountModel["id"]>
 			data={options}
-			search={search}
+			search={search.debouncedSearchManager}
 			setValue={(v) => onChange?.(v)}
 			value={value}
 			valueFetch={valueFetch}

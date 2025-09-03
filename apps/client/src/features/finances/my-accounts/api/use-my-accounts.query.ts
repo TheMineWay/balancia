@@ -2,22 +2,23 @@ import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authentica
 import type { UsePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
 import type { ParametrizedQueryKey } from "@core/requests/types/query-key.type";
+import { UseSearch } from "@core/search/hooks/use-search";
 import { getController, MY_ACCOUNTS_CONTROLLER } from "@shared/api-definition";
-import type { PaginatedQuery, SearchModel } from "@shared/models";
+import type { AccountModel, PaginatedQuery } from "@shared/models";
 import { useQuery } from "@tanstack/react-query";
 
 export const USE_MY_ACCOUNTS_QUERY_KEY: ParametrizedQueryKey<{
 	pagination: PaginatedQuery;
-	search: SearchModel;
+	search: UseSearch<AccountModel>;
 }> = ({ pagination, search }) => [
 	getController(MY_ACCOUNTS_CONTROLLER, {}),
 	"list",
-	{ pagination, search },
+	{ pagination, search: search.requestData },
 ];
 
 type Options = {
 	pagination: UsePagination;
-	search: SearchModel;
+	search: UseSearch<AccountModel>;
 };
 
 export const useMyAccountsQuery = ({ pagination, search }: Options) => {
@@ -31,7 +32,7 @@ export const useMyAccountsQuery = ({ pagination, search }: Options) => {
 				{},
 				request,
 				{
-					query: { pagination: pagination.requestData, search },
+					query: { pagination: pagination.requestData, ...search.requestData },
 				},
 			)();
 

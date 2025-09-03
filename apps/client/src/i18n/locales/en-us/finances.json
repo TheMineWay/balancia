@@ -56,6 +56,32 @@
 	"account": {
 		"expressions": {
 			"Account": "Account"
+		},
+		"my-accounts": {
+			"manager": {
+				"Title": "My accounts",
+				"Actions": {
+					"Create": "Create account"
+				}
+			}
+		},
+		"create": {
+			"Title": "Create account",
+			"Submit": "Create account"
+		},
+		"update": {
+			"Title": "Update account {name}",
+			"Submit": "Update account"
+		},
+		"models": {
+			"account": {
+				"name": {
+					"Label": "Name"
+				},
+				"description": {
+					"Label": "Description"
+				}
+			}
 		}
 	}
 }

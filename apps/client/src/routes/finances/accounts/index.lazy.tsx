@@ -1,3 +1,4 @@
+import { MyAccountsDashboard } from "@fts/finances/my-accounts/components/dashboard/my-accounts-dashboard";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/finances/accounts/")({
@@ -5,5 +6,5 @@ export const Route = createLazyFileRoute("/finances/accounts/")({
 });
 
 function RouteComponent() {
-	return <div>Hello "/accounts/"!</div>;
+	return <MyAccountsDashboard />;
 }
