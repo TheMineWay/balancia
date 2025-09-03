@@ -1,4 +1,5 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
+import { DangerousActionConfirm } from "@common/verifications/dangerous-action/components/dangerous-action-confirm";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useSearch } from "@core/search/hooks/use-search";
 import { AccountsTable } from "@fts/finances/accounts/components/accounts.table";
@@ -12,12 +13,13 @@ import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
 import { ActionIcon, Button, Drawer, Pagination } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { AccountModel } from "@shared/models";
-import { useCallback, useState } from "react";
+import type { AccountModel } from "@shared/models";
+import { useState } from "react";
 import { IoAddOutline, IoReload } from "react-icons/io5";
+import { MdDeleteOutline } from "react-icons/md";
 
 export const MyAccountsManager: FC = () => {
-	const { t } = useTranslation("finances");
+	const { t, interpolated } = useTranslation("finances");
 	const { t: commonT } = useTranslation("common");
 
 	const search = useSearch({});
@@ -35,14 +37,9 @@ export const MyAccountsManager: FC = () => {
 	const [accountToUpdate, setAccountToUpdate] = useState<AccountModel | null>(
 		null,
 	);
-
-	const onDeleteClick = useCallback(
-		(account: AccountModel) => {
-			deleteAccount(account.id);
-		},
-		[deleteAccount],
+	const [accountToDelete, setAccountToDelete] = useState<AccountModel | null>(
+		null,
 	);
-
 	return (
 		<>
 			<ManagerLayout.Root>
@@ -82,7 +79,7 @@ export const MyAccountsManager: FC = () => {
 								data={accounts?.items}
 								loading={isLoadingAccounts}
 								onEditClick={setAccountToUpdate}
-								onDeleteClick={onDeleteClick}
+								onDeleteClick={setAccountToDelete}
 							/>
 						</TableLayout.Table>
 						<TableLayout.Pagination>
@@ -115,6 +112,27 @@ export const MyAccountsManager: FC = () => {
 					/>
 				)}
 			</Drawer>
+
+			<DangerousActionConfirm
+				open={Boolean(accountToDelete)}
+				onClose={() => setAccountToDelete(null)}
+				texts={{
+					title: interpolated((t) => t.account.delete.confirm.Title, {
+						name: accountToDelete?.name ?? "",
+					}),
+					description: t().account.delete.confirm.Message,
+					confirm: t().account.delete.confirm.Action,
+				}}
+				writeToDelete={{
+					label: t().account.delete.confirm["Write-to-delete"],
+					confirmValue: accountToDelete?.name ?? null,
+				}}
+				confirmIcon={<MdDeleteOutline />}
+				onConfirm={() => {
+					if (accountToDelete) deleteAccount(accountToDelete.id);
+					setAccountToDelete(null);
+				}}
+			/>
 		</>
 	);
 };

@@ -73,6 +73,14 @@
 			"Title": "Update account {name}",
 			"Submit": "Update account"
 		},
+		"delete": {
+			"confirm": {
+				"Title": "Delete account \"{name}\"",
+				"Message": "Are you sure you want to delete this account? Account details will be lost. Also, transactions associated with this account will be deleted. This action cannot be undone.",
+				"Action": "Delete account",
+				"Write-to-delete": "Write account name to confirm"
+			}
+		},
 		"models": {
 			"account": {
 				"name": {
