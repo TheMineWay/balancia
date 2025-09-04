@@ -19,6 +19,9 @@ const SysRoleIndexLazyRouteImport = createFileRoute('/sys/role/')()
 const FinancesTransactionsIndexLazyRouteImport = createFileRoute(
   '/finances/transactions/',
 )()
+const FinancesCategoriesIndexLazyRouteImport = createFileRoute(
+  '/finances/categories/',
+)()
 const FinancesAccountsIndexLazyRouteImport = createFileRoute(
   '/finances/accounts/',
 )()
@@ -53,6 +56,14 @@ const FinancesTransactionsIndexLazyRoute =
   } as any).lazy(() =>
     import('./routes/finances/transactions/index.lazy').then((d) => d.Route),
   )
+const FinancesCategoriesIndexLazyRoute =
+  FinancesCategoriesIndexLazyRouteImport.update({
+    id: '/finances/categories/',
+    path: '/finances/categories/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/finances/categories/index.lazy').then((d) => d.Route),
+  )
 const FinancesAccountsIndexLazyRoute =
   FinancesAccountsIndexLazyRouteImport.update({
     id: '/finances/accounts/',
@@ -67,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/sys': typeof SysLazyRouteWithChildren
   '/sys/': typeof SysIndexLazyRoute
   '/finances/accounts': typeof FinancesAccountsIndexLazyRoute
+  '/finances/categories': typeof FinancesCategoriesIndexLazyRoute
   '/finances/transactions': typeof FinancesTransactionsIndexLazyRoute
   '/sys/role': typeof SysRoleIndexLazyRoute
 }
@@ -74,6 +86,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/sys': typeof SysIndexLazyRoute
   '/finances/accounts': typeof FinancesAccountsIndexLazyRoute
+  '/finances/categories': typeof FinancesCategoriesIndexLazyRoute
   '/finances/transactions': typeof FinancesTransactionsIndexLazyRoute
   '/sys/role': typeof SysRoleIndexLazyRoute
 }
@@ -83,6 +96,7 @@ export interface FileRoutesById {
   '/sys': typeof SysLazyRouteWithChildren
   '/sys/': typeof SysIndexLazyRoute
   '/finances/accounts/': typeof FinancesAccountsIndexLazyRoute
+  '/finances/categories/': typeof FinancesCategoriesIndexLazyRoute
   '/finances/transactions/': typeof FinancesTransactionsIndexLazyRoute
   '/sys/role/': typeof SysRoleIndexLazyRoute
 }
@@ -93,6 +107,7 @@ export interface FileRouteTypes {
     | '/sys'
     | '/sys/'
     | '/finances/accounts'
+    | '/finances/categories'
     | '/finances/transactions'
     | '/sys/role'
   fileRoutesByTo: FileRoutesByTo
@@ -100,6 +115,7 @@ export interface FileRouteTypes {
     | '/'
     | '/sys'
     | '/finances/accounts'
+    | '/finances/categories'
     | '/finances/transactions'
     | '/sys/role'
   id:
@@ -108,6 +124,7 @@ export interface FileRouteTypes {
     | '/sys'
     | '/sys/'
     | '/finances/accounts/'
+    | '/finances/categories/'
     | '/finances/transactions/'
     | '/sys/role/'
   fileRoutesById: FileRoutesById
@@ -116,6 +133,7 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   SysLazyRoute: typeof SysLazyRouteWithChildren
   FinancesAccountsIndexLazyRoute: typeof FinancesAccountsIndexLazyRoute
+  FinancesCategoriesIndexLazyRoute: typeof FinancesCategoriesIndexLazyRoute
   FinancesTransactionsIndexLazyRoute: typeof FinancesTransactionsIndexLazyRoute
 }
 
@@ -156,6 +174,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinancesTransactionsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finances/categories/': {
+      id: '/finances/categories/'
+      path: '/finances/categories'
+      fullPath: '/finances/categories'
+      preLoaderRoute: typeof FinancesCategoriesIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/finances/accounts/': {
       id: '/finances/accounts/'
       path: '/finances/accounts'
@@ -183,6 +208,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   SysLazyRoute: SysLazyRouteWithChildren,
   FinancesAccountsIndexLazyRoute: FinancesAccountsIndexLazyRoute,
+  FinancesCategoriesIndexLazyRoute: FinancesCategoriesIndexLazyRoute,
   FinancesTransactionsIndexLazyRoute: FinancesTransactionsIndexLazyRoute,
 }
 export const routeTree = rootRouteImport

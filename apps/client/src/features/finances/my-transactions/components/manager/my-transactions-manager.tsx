@@ -2,7 +2,7 @@ import { DebouncedSearch } from "@common/extended-ui/form/components/search/debo
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { type UseSearch, useSearch } from "@core/search/hooks/use-search";
 import { MyAccountsSelector } from "@fts/finances/accounts/components/form/my-accounts.selector";
-import { MyCategoriesSelector } from "@fts/finances/categories/components/form/my-categories.selector";
+import { MyCategoriesSelector } from "@fts/finances/my-categories/components/form/my-categories.selector";
 import { useMyTransactionDeleteByIdMutation } from "@fts/finances/my-transactions/api/use-my-transaction-delete-by-id.mutation";
 import { useMyTransactionsQuery } from "@fts/finances/my-transactions/api/use-my-transactions.query";
 import { MyTransactionCreateManager } from "@fts/finances/my-transactions/components/manager/my-transaction-create-manager";

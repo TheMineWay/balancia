@@ -1,7 +1,10 @@
 // Identity
 
 export { timePrecisionEnum } from "@database/schemas/main/enums/time-precision.db-enum";
-export { accountStatsMaterializedView } from "@database/schemas/main/tables/finances/account-stats.materialized-view";
+export {
+	accountMonthlyStatsMaterializedView,
+	accountStatsMaterializedView,
+} from "@database/schemas/main/tables/finances/account-stats.materialized-views";
 export { accountTable } from "@database/schemas/main/tables/finances/account.table";
 export { categoryTable } from "@database/schemas/main/tables/finances/category.table";
 export { financesSchema } from "@database/schemas/main/tables/finances/finances.schema";

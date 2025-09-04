@@ -2,7 +2,7 @@ import { TimePrecisionSelector } from "@common/extended-ui/form/components/date/
 import { CashInputField } from "@common/extended-ui/form/components/finances/cash.input-field";
 import { Form } from "@common/extended-ui/form/components/form";
 import { MyAccountsSelector } from "@fts/finances/accounts/components/form/my-accounts.selector";
-import { MyCategoriesSelector } from "@fts/finances/categories/components/form/my-categories.selector";
+import { MyCategoriesSelector } from "@fts/finances/my-categories/components/form/my-categories.selector";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Input } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";

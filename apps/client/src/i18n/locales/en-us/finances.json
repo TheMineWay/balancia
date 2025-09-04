@@ -7,6 +7,9 @@
 			},
 			"accounts": {
 				"Label": "Accounts"
+			},
+			"categories": {
+				"Label": "Categories"
 			}
 		}
 	},
@@ -51,6 +54,39 @@
 	"category": {
 		"expressions": {
 			"Category": "Category"
+		},
+		"my-categories": {
+			"manager": {
+				"Title": "My categories",
+				"Actions": {
+					"Create": "Create category"
+				}
+			}
+		},
+		"create": {
+			"Title": "Create category",
+			"Submit": "Create category"
+		},
+		"update": {
+			"Title": "Update category {name}",
+			"Submit": "Update category"
+		},
+		"delete": {
+			"confirm": {
+				"Title": "Delete category \"{name}\"",
+				"Message": "Are you sure you want to delete this category? This action cannot be undone.",
+				"Action": "Delete category"
+			}
+		},
+		"models": {
+			"category": {
+				"name": {
+					"Label": "Name"
+				},
+				"description": {
+					"Label": "Description"
+				}
+			}
 		}
 	},
 	"account": {

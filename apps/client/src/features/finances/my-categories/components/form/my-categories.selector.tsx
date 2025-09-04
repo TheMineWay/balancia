@@ -2,14 +2,14 @@ import {
 	SelectSearch,
 	type SelectSearchProps,
 } from "@common/extended-ui/form/components/search/select-search";
-import { useDebouncedSearch } from "@common/extended-ui/form/components/search/use-debounced-search";
 import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authenticated-request.util";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
-import { useMyCategoriesQuery } from "@fts/finances/categories/api/use-my-categories.query";
+import { useSearch } from "@core/search/hooks/use-search";
+import { useMyCategoriesQuery } from "@fts/finances/my-categories/api/use-my-categories.query";
 import { useTranslation } from "@i18n/use-translation";
 import { MY_CATEGORY_CONTROLLER } from "@shared/api-definition";
-import type { CategoryModel } from "@shared/models";
+import type { AccountModel, CategoryModel } from "@shared/models";
 import { useCallback, useMemo } from "react";
 import { FaRegFolder } from "react-icons/fa6";
 
@@ -28,12 +28,12 @@ export const MyCategoriesSelector: FC<Props> = ({
 }) => {
 	const { t } = useTranslation("finances");
 	const pagination = usePagination();
-	const search = useDebouncedSearch();
+	const search = useSearch<AccountModel>({});
 	const { request } = useAuthenticatedRequest();
 
 	const { data: categories = { items: [], total: 0 } } = useMyCategoriesQuery({
 		pagination,
-		search: { search: search.debouncedValue },
+		search,
 	});
 
 	const options = useMemo(
@@ -66,7 +66,7 @@ export const MyCategoriesSelector: FC<Props> = ({
 	return (
 		<SelectSearch<CategoryModel["id"]>
 			data={options}
-			search={search}
+			search={search.debouncedSearchManager}
 			setValue={(v) => onChange?.(v)}
 			value={value}
 			valueFetch={valueFetch}

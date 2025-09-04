@@ -63,7 +63,7 @@ export const MyAccountsManager: FC = () => {
 									onClick={openCreate}
 									leftSection={<IoAddOutline />}
 								>
-									{t().transaction["my-transactions"].manager.Actions.Register}
+									{t().account["my-accounts"].manager.Actions.Create}
 								</Button>
 								<ActionIcon
 									loading={isFetchingAccounts}
