@@ -1,5 +1,9 @@
-type Props = {};
+import type { AccountMonthlyStatsModel } from "@shared/models";
 
-export const MonthlySpensesChart: FC = () => {
+type Props = {
+	data: AccountMonthlyStatsModel[];
+};
+
+export const MonthlySpensesChart: FC<Props> = ({ data = [] }) => {
 	return <></>;
 };

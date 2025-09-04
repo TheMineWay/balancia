@@ -1,4 +1,5 @@
 import { DATABASE_PROVIDERS } from "@database/database.provider";
+import type { QueryOptions } from "@database/repository/repository";
 import { UserPreferencesSelect } from "@database/schemas/main/tables/identity/user-preferences.table";
 import { DatabaseService } from "@database/services/database.service";
 import {
@@ -21,8 +22,14 @@ export class UserPreferencesService {
 		private readonly databaseService: DatabaseService,
 	) {}
 
-	async getByUserId(userId: UserModelId): Promise<UserPreferencesModel | null> {
-		return await this.userPreferencesRepository.findByUserId(userId);
+	async getByUserId(
+		userId: UserModelId,
+		queryOptions?: QueryOptions,
+	): Promise<UserPreferencesModel | null> {
+		return await this.userPreferencesRepository.findByUserId(
+			userId,
+			queryOptions,
+		);
 	}
 
 	async upsertByUserId(

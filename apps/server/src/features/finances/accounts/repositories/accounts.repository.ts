@@ -1,5 +1,9 @@
 import { type QueryOptions, Repository } from "@database/repository/repository";
-import { accountTable, transactionsTable } from "@database/schemas/main.schema";
+import {
+	accountMonthlyStatsMaterializedView,
+	accountTable,
+	transactionsTable,
+} from "@database/schemas/main.schema";
 import {
 	AccountInsert,
 	AccountSelect,
@@ -122,4 +126,18 @@ export class AccountsRepository extends Repository {
 			.delete(accountTable)
 			.where(eq(accountTable.id, accountId));
 	}
+
+	// #region Stats
+
+	async findAccountMonthlyStats(
+		accountId: AccountModel["id"],
+		options?: QueryOptions,
+	) {
+		return await this.query(options)
+			.select()
+			.from(accountMonthlyStatsMaterializedView)
+			.where(eq(accountMonthlyStatsMaterializedView.accountId, accountId));
+	}
+
+	// #endregion
 }

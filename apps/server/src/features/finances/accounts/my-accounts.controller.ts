@@ -88,4 +88,25 @@ export class MyAccountsController {
 	): Promise<InferResponseDto<typeof MY_ACCOUNTS_CONTROLLER, "delete">> {
 		await this.accountsService.deleteUserAccountById(userId, accountId);
 	}
+
+	// Stats
+
+	@Endpoint(MY_ACCOUNTS_CONTROLLER, "getMonthlyStats")
+	async getMonthlyStats(
+		@UserId() userId: UserModel["id"],
+		@Param(
+			getParamName(MY_ACCOUNTS_CONTROLLER, "getMonthlyStats", "id"),
+			ParseIntPipe,
+		)
+		accountId: number,
+	): Promise<
+		InferResponseDto<typeof MY_ACCOUNTS_CONTROLLER, "getMonthlyStats">
+	> {
+		return {
+			stats: await this.accountsService.getUserAccountMonthlyStats(
+				userId,
+				accountId,
+			),
+		};
+	}
 }

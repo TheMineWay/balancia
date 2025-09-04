@@ -12,6 +12,7 @@ import type {
 	UserModel,
 	UserModelId,
 } from "@shared/models";
+import { UserPreferencesService } from "src/common/user/preferences/user-preferences.service";
 import { EventService } from "src/events/event.service";
 import {
 	AccountCreatedEvent,
@@ -25,6 +26,7 @@ export class AccountsService {
 	constructor(
 		private readonly accountsRepository: AccountsRepository,
 		private readonly eventService: EventService,
+		private readonly userPreferencesService: UserPreferencesService,
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
 	) {}
@@ -75,6 +77,23 @@ export class AccountsService {
 			account,
 			isOwner: account?.userId === userId,
 		} as CheckAccountOwnershipResponse;
+	}
+
+	async getUserMainAccount(userId: UserModelId): Promise<AccountModel | null> {
+		return await this.databaseService.db.transaction(async (transaction) => {
+			const userPreferences = await this.userPreferencesService.getByUserId(
+				userId,
+				{ transaction },
+			);
+
+			if (!userPreferences?.mainAccount) return null;
+
+			return await this.accountsRepository.findByUserIdAndId(
+				userId,
+				userPreferences.mainAccount,
+				{ transaction },
+			);
+		});
 	}
 
 	// CRUD
@@ -140,6 +159,31 @@ export class AccountsService {
 			transactionId,
 			queryOptions,
 		);
+	}
+
+	// #endregion
+
+	// #region Stats
+
+	async getUserAccountMonthlyStats(
+		userId: UserModelId,
+		accountId: AccountModel["id"],
+	) {
+		return await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner, account } = await this.checkAccountOwnership(
+				userId,
+				accountId,
+				{
+					transaction,
+				},
+			);
+
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.accountsRepository.findAccountMonthlyStats(account.id, {
+				transaction,
+			});
+		});
 	}
 
 	// #endregion

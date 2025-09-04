@@ -1,5 +1,6 @@
 import {
 	ACCOUNT_CREATE_SCHEMA,
+	ACCOUNT_MONTHLY_STATS_SCHEMA,
 	ACCOUNT_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_SEARCH_SCHEMA,
@@ -58,6 +59,16 @@ const UPDATE_ACCOUNT_ENDPOINT = {
 	}),
 } satisfies EndpointDefinition<{ id: string }>;
 
+// Stats
+
+const GET_ACCOUNT_MONTHLY_STATS_ENDPOINT = {
+	getPath: (params) => [params.id, "stats", "monthly"],
+	paramsMapping: { id: "accountId" },
+	responseDto: z.object({
+		stats: z.array(ACCOUNT_MONTHLY_STATS_SCHEMA),
+	}),
+} satisfies EndpointDefinition<{ id: string }>;
+
 // Controller
 
 export const MY_ACCOUNTS_CONTROLLER = {
@@ -69,5 +80,6 @@ export const MY_ACCOUNTS_CONTROLLER = {
 		create: CREATE_ACCOUNT_ENDPOINT,
 		delete: DELETE_ACCOUNT_ENDPOINT,
 		update: UPDATE_ACCOUNT_ENDPOINT,
+		getMonthlyStats: GET_ACCOUNT_MONTHLY_STATS_ENDPOINT,
 	},
 } satisfies ControllerDefinition;
