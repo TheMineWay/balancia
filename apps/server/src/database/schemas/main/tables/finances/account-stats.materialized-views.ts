@@ -40,11 +40,14 @@ export const accountMonthlyStatsMaterializedView = financesSchema
 	.as((db) => {
 		const monthField =
 			sql`EXTRACT(MONTH FROM ${transactionsTable.performedAt})`.as("month");
+		const yearField =
+			sql`EXTRACT(YEAR FROM ${transactionsTable.performedAt})`.as("year");
 
 		const query = db
 			.select({
 				accountId: accountTable.id,
 				userId: accountTable.userId,
+				year: yearField,
 				month: monthField,
 				monthlyBalance: sum(transactionsTable.amount).as("monthlyBalance"),
 				income: sum(
@@ -59,7 +62,7 @@ export const accountMonthlyStatsMaterializedView = financesSchema
 				transactionsTable,
 				eq(transactionsTable.accountId, accountTable.id),
 			)
-			.groupBy(accountTable.id, monthField);
+			.groupBy(accountTable.id, yearField, monthField);
 
 		return query;
 	});

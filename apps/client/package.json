@@ -34,6 +34,8 @@
     "@mantine/hooks": "^8.2.7",
     "@mantine/modals": "^8.2.7",
     "@mantine/notifications": "^8.2.7",
+    "@nivo/core": "^0.99.0",
+    "@nivo/line": "^0.99.0",
     "@shared/api-definition": "workspace:*",
     "@shared/constants": "workspace:*",
     "@shared/models": "workspace:*",

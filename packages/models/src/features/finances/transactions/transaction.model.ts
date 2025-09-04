@@ -1,7 +1,7 @@
 import { ID_SCHEMA } from "@/common/__system/id.model";
 import { TimePrecision } from "@/common/time/time-precision.enum";
-import { ACCOUNT_SCHEMA } from "@/money/transactions/account.model";
-import { CATEGORY_SCHEMA } from "@/money/transactions/category/category.model";
+import { ACCOUNT_SCHEMA } from "@/features/finances/accounts/account.model";
+import { CATEGORY_SCHEMA } from "@/features/finances/category/category.model";
 import { DATE_SCHEMA } from "@/utils/date.model";
 import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
 import type { ModelValues } from "@ts-types/model-values.type";

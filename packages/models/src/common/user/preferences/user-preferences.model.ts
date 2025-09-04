@@ -1,5 +1,5 @@
 import { USER_SCHEMA } from "@/core/user/user.model";
-import { ACCOUNT_SCHEMA } from "@/money/transactions/account.model";
+import { ACCOUNT_SCHEMA } from "@/features/finances/accounts/account.model";
 import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
 import z from "zod";
 
