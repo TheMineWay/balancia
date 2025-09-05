@@ -1,1 +1,0 @@
-ALTER TABLE "identity"."user_preferences" ADD CONSTRAINT "user_preferences_mainAccount_accounts_id_fk" FOREIGN KEY ("mainAccount") REFERENCES "finances"."accounts"("id") ON DELETE no action ON UPDATE no action;

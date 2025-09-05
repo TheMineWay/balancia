@@ -1,1 +1,0 @@
-CREATE MATERIALIZED VIEW "finances"."account_stats" AS (select "finances"."accounts"."userId", "finances"."accounts"."id", "balance" from "finances"."accounts" inner join (select sum("amount") as "balance", "accountId" from "finances"."transactions" group by "finances"."transactions"."accountId") "agg_balance" on "agg_balance"."accountId" = "finances"."accounts"."id");

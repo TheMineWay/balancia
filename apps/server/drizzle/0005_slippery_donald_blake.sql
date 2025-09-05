@@ -1,1 +1,0 @@
-ALTER MATERIALIZED VIEW "finances"."account_stats" SET (autovacuum_enabled = true);
