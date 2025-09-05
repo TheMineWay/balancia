@@ -133,10 +133,17 @@ export class AccountsRepository extends Repository {
 		accountId: AccountModel["id"],
 		options?: QueryOptions,
 	) {
-		return await this.query(options)
+		const rows = await this.query(options)
 			.select()
 			.from(accountMonthlyStatsMaterializedView)
 			.where(eq(accountMonthlyStatsMaterializedView.accountId, accountId));
+
+		return rows.map((row) => ({
+			...row,
+			monthlyBalance: Number(row.monthlyBalance),
+			income: Number(row.income),
+			outcome: Number(row.outcome),
+		}));
 	}
 
 	// #endregion

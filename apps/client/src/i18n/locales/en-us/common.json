@@ -10,7 +10,14 @@
 		"Profile": "Profile",
 		"Created-at": "Created at",
 		"Clear": "Clear",
-		"Search": "Search"
+		"Search": "Search",
+		"Income": "Income",
+		"Outcome": "Outcome",
+		"Amount": "Amount",
+		"dates": {
+			"Month": "Month",
+			"Year": "Year"
+		}
 	},
 	"templates": {
 		"confirm-modal": {

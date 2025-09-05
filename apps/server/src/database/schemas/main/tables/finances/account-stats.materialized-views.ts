@@ -39,11 +39,11 @@ export const accountMonthlyStatsMaterializedView = financesSchema
 	.with({ autovacuumEnabled: true })
 	.as((db) => {
 		const monthField =
-			sql<number>`EXTRACT(MONTH FROM ${transactionsTable.performedAt})`.as(
+			sql<number>`EXTRACT(MONTH FROM ${transactionsTable.performedAt})::integer`.as(
 				"month",
 			);
 		const yearField =
-			sql<number>`EXTRACT(YEAR FROM ${transactionsTable.performedAt})`.as(
+			sql<number>`EXTRACT(YEAR FROM ${transactionsTable.performedAt})::integer`.as(
 				"year",
 			);
 
@@ -53,15 +53,18 @@ export const accountMonthlyStatsMaterializedView = financesSchema
 				userId: accountTable.userId,
 				year: yearField,
 				month: monthField,
-				monthlyBalance: sql<number>`${sum(transactionsTable.amount)}`.as(
-					"monthlyBalance",
-				),
-				income: sql<number>`${sum(
-					sql<number>`CASE WHEN ${transactionsTable.amount} > 0 THEN ${transactionsTable.amount} ELSE 0 END`,
-				)}`.as("income"),
-				outcome: sql<number>`${sum(
-					sql<number>`CASE WHEN ${transactionsTable.amount} < 0 THEN abs(${transactionsTable.amount}) ELSE 0 END`,
-				)}`.as("outcome"),
+				monthlyBalance:
+					sql<string>`${sum(transactionsTable.amount)}::numeric`.as(
+						"monthlyBalance",
+					),
+				income:
+					sql<string>`SUM(CASE WHEN ${transactionsTable.amount} > 0 THEN ${transactionsTable.amount} ELSE 0 END)::numeric`.as(
+						"income",
+					),
+				outcome:
+					sql<string>`SUM(CASE WHEN ${transactionsTable.amount} < 0 THEN abs(${transactionsTable.amount}) ELSE 0 END)::numeric`.as(
+						"outcome",
+					),
 			})
 			.from(accountTable)
 			.innerJoin(
