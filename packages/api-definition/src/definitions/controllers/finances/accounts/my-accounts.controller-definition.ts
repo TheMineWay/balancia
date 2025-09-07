@@ -2,6 +2,7 @@ import {
 	ACCOUNT_CREATE_SCHEMA,
 	ACCOUNT_MONTHLY_STATS_SCHEMA,
 	ACCOUNT_SCHEMA,
+	DATE_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_SEARCH_SCHEMA,
 } from "@shared/models";
@@ -66,6 +67,13 @@ const GET_ACCOUNT_MONTHLY_STATS_ENDPOINT = {
 	paramsMapping: { id: "accountId" },
 	responseDto: z.object({
 		stats: z.array(ACCOUNT_MONTHLY_STATS_SCHEMA),
+	}),
+	queryDto: z.object({
+		periodEnd: DATE_SCHEMA,
+		months: z.preprocess(
+			(val) => Number(val),
+			z.number().min(1).max(36).default(6),
+		),
 	}),
 } satisfies EndpointDefinition<{ id: string }>;
 

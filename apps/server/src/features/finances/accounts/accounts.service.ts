@@ -12,6 +12,7 @@ import type {
 	UserModel,
 	UserModelId,
 } from "@shared/models";
+import { sub } from "date-fns";
 import { UserPreferencesService } from "src/common/user/preferences/user-preferences.service";
 import { EventService } from "src/events/event.service";
 import {
@@ -168,6 +169,7 @@ export class AccountsService {
 	async getUserAccountMonthlyStats(
 		userId: UserModelId,
 		accountId: AccountModel["id"],
+		options: { periodEnd: Date; months: number },
 	) {
 		return await this.databaseService.db.transaction(async (transaction) => {
 			const { isOwner, account } = await this.checkAccountOwnership(
@@ -181,6 +183,9 @@ export class AccountsService {
 			if (!isOwner) throw new UnauthorizedException();
 
 			return await this.accountsRepository.findAccountMonthlyStats(account.id, {
+				endDate: options.periodEnd,
+				startDate: sub(options.periodEnd, { months: options.months - 1})
+			}, {
 				transaction,
 			});
 		});

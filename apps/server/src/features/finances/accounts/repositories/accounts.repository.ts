@@ -18,7 +18,8 @@ import type {
 	TransactionModel,
 	UserModel,
 } from "@shared/models";
-import { and, desc, eq, ilike } from "drizzle-orm";
+import { getMonth } from "date-fns/getMonth";
+import { and, desc, eq, gte, ilike, lte } from "drizzle-orm";
 
 @Injectable()
 export class AccountsRepository extends Repository {
@@ -131,12 +132,33 @@ export class AccountsRepository extends Repository {
 
 	async findAccountMonthlyStats(
 		accountId: AccountModel["id"],
+		filters: { startDate?: Date; endDate?: Date } = {},
 		options?: QueryOptions,
 	) {
+		const where = and(
+			filters.startDate
+				? gte(
+						accountMonthlyStatsMaterializedView.month,
+						getMonth(filters.startDate) + 1,
+					)
+				: undefined,
+			filters.endDate
+				? lte(
+						accountMonthlyStatsMaterializedView.month,
+						getMonth(filters.endDate) + 1,
+					)
+				: undefined,
+		);
+
 		const rows = await this.query(options)
 			.select()
 			.from(accountMonthlyStatsMaterializedView)
-			.where(eq(accountMonthlyStatsMaterializedView.accountId, accountId));
+			.where(
+				and(
+					eq(accountMonthlyStatsMaterializedView.accountId, accountId),
+					where,
+				),
+			);
 
 		return rows.map((row) => ({
 			...row,

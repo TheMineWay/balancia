@@ -20,7 +20,12 @@ export const useMyAccountMonthlyStatsQuery = (
 			"getMonthlyStats",
 			{ id: accountId.toString() },
 			request,
-			{},
+			{
+				query: {
+					periodEnd: new Date(),
+					months: 6,
+				},
+			},
 		),
 		queryKey: GET_MY_ACCOUNT_MONTHLY_STATS_QUERY_KEY({ id: accountId }),
 	});

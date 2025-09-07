@@ -99,6 +99,11 @@ export class MyAccountsController {
 			ParseIntPipe,
 		)
 		accountId: number,
+		@ValidatedQuery(MY_ACCOUNTS_CONTROLLER, "getMonthlyStats")
+		{
+			periodEnd,
+			months,
+		}: InferQueryDto<typeof MY_ACCOUNTS_CONTROLLER, "getMonthlyStats">,
 	): Promise<
 		InferResponseDto<typeof MY_ACCOUNTS_CONTROLLER, "getMonthlyStats">
 	> {
@@ -106,6 +111,7 @@ export class MyAccountsController {
 			stats: await this.accountsService.getUserAccountMonthlyStats(
 				userId,
 				accountId,
+				{ periodEnd, months },
 			),
 		};
 	}
