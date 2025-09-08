@@ -1,3 +1,4 @@
+import { MyTagsDashboard } from "@fts/finances/tags/my-tags/components/dashboard/my-tags-dashboard";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/finances/tags/")({
@@ -5,5 +6,5 @@ export const Route = createLazyFileRoute("/finances/tags/")({
 });
 
 function RouteComponent() {
-	return <div>Hello "/finances/tags/"!</div>;
+	return <MyTagsDashboard />;
 }

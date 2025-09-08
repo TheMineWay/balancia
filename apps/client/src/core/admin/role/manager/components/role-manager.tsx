@@ -24,7 +24,8 @@ export const RoleManager: FC = () => {
 	const queryClient = useQueryClient();
 
 	const { mutate: deleteRole } = useRoleDeleteMutation();
-	const [createOpened, { open, close }] = useDisclosure(false);
+	const [createOpened, { open: openCreate, close: closeCreate }] =
+		useDisclosure(false);
 	const [selectedToEditRole, setSelectedToEditRole] =
 		useState<RoleModel | null>(null);
 	const [selectedToManageUsersRole, setSelectedToManageUsersRole] =
@@ -60,7 +61,7 @@ export const RoleManager: FC = () => {
 						{/* Table actions */}
 						<TableLayout.Actions>
 							<ActionsLayout.Row>
-								<Button leftSection={<IoAddOutline />} onClick={open}>
+								<Button leftSection={<IoAddOutline />} onClick={openCreate}>
 									{t().admin.managers.create.Action}
 								</Button>
 							</ActionsLayout.Row>
@@ -94,10 +95,10 @@ export const RoleManager: FC = () => {
 			<Drawer
 				position="right"
 				opened={createOpened}
-				onClose={close}
+				onClose={closeCreate}
 				title={t().admin.managers.create.Title}
 			>
-				<RoleCreateManager onSuccess={close} />
+				<RoleCreateManager onSuccess={closeCreate} />
 			</Drawer>
 
 			<Drawer

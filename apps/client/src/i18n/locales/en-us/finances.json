@@ -130,5 +130,43 @@
 				}
 			}
 		}
+	},
+	"tag": {
+		"expressions": {
+			"Tag": "Tag"
+		},
+		"my-tags": {
+			"manager": {
+				"Title": "My tags",
+				"Actions": {
+					"Create": "Create tag"
+				}
+			}
+		},
+		"create": {
+			"Title": "Create tag",
+			"Submit": "Create tag"
+		},
+		"update": {
+			"Title": "Update tag {name}",
+			"Submit": "Update tag"
+		},
+		"delete": {
+			"confirm": {
+				"Title": "Delete tag \"{name}\"",
+				"Message": "Are you sure you want to delete this tag? This action cannot be undone.",
+				"Action": "Delete tag"
+			}
+		},
+		"models": {
+			"tag": {
+				"name": {
+					"Label": "Name"
+				},
+				"description": {
+					"Label": "Description"
+				}
+			}
+		}
 	}
 }
