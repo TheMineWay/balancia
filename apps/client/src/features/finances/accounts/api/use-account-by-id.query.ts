@@ -19,7 +19,7 @@ export const useAccountByIdQuery = (accountId: AccountModel["id"]) => {
 	return useQuery({
 		queryFn: endpointQuery(
 			MY_ACCOUNTS_CONTROLLER,
-			"getAccount",
+			"get",
 			{ id: accountId.toString() },
 			request,
 			{},
