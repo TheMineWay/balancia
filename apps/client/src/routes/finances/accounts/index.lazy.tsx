@@ -1,4 +1,4 @@
-import { MyAccountsDashboard } from "@fts/finances/my-accounts/components/dashboard/my-accounts-dashboard";
+import { MyAccountsDashboard } from "@fts/finances/accounts/my-accounts/components/dashboard/my-accounts-dashboard";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/finances/accounts/")({

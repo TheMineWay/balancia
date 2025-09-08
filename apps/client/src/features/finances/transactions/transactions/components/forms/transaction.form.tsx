@@ -1,0 +1,154 @@
+import { TimePrecisionSelector } from "@common/extended-ui/form/components/date/time-precision.selector";
+import { CashInputField } from "@common/extended-ui/form/components/finances/cash.input-field";
+import { Form } from "@common/extended-ui/form/components/form";
+import { MyAccountsSelector } from "@fts/finances/accounts/accounts/components/form/my-accounts.selector";
+import { MyCategoriesSelector } from "@fts/finances/categories/my-categories/components/form/my-categories.selector";
+import { useTranslation } from "@i18n/use-translation";
+import { Button, Input } from "@mantine/core";
+import { DateTimePicker } from "@mantine/dates";
+import {
+	TimePrecision,
+	TRANSACTION_MODEL_VALUES,
+	type TransactionCreateModel,
+} from "@shared/models";
+import { startOfDay } from "date-fns";
+import { useId } from "react";
+import { Controller, type UseFormReturn } from "react-hook-form";
+
+type Props = {
+	form: UseFormReturn<TransactionCreateModel>;
+	onSuccess?: (transaction: TransactionCreateModel) => void;
+	submitText: string;
+	submitIcon?: React.ReactNode;
+	isMutating?: boolean;
+};
+
+export const TransactionForm: FC<Props> = ({
+	form,
+	onSuccess,
+	submitText,
+	submitIcon,
+	isMutating,
+}) => {
+	const { t } = useTranslation("finances");
+
+	const amountFieldId = useId();
+	const performedAtFieldId = useId();
+	const categoryFieldId = useId();
+	const accountIdFieldId = useId();
+
+	const { handleSubmit, watch, register, control, formState } = form;
+
+	const formValues = watch();
+
+	return (
+		<Form onSubmit={handleSubmit((transaction) => onSuccess?.(transaction))}>
+			{/* Subject */}
+			<Input.Wrapper label={t().transaction.models.transaction.subject.Label}>
+				<Input
+					maxLength={TRANSACTION_MODEL_VALUES.subject.maxLength}
+					{...register("subject")}
+				/>
+			</Input.Wrapper>
+
+			{/* Amount */}
+			<Input.Wrapper
+				label={t().transaction.models.transaction.amount.Label}
+				labelProps={{ htmlFor: amountFieldId }}
+			>
+				<Controller
+					control={control}
+					name="amount"
+					render={({ field: { ref: _, ...restField } }) => (
+						<CashInputField {...restField} id={amountFieldId} />
+					)}
+				/>
+			</Input.Wrapper>
+
+			{/* Performed at & time precision */}
+			<Input.Wrapper
+				label={t().transaction.models.transaction.performedAt.Label}
+				labelProps={{ htmlFor: performedAtFieldId }}
+				classNames={{ root: "flex flex-col gap-1" }}
+			>
+				<Controller
+					control={control}
+					name="performedAtPrecision"
+					render={({ field }) => (
+						<TimePrecisionSelector
+							{...field}
+							onChange={(tp) => {
+								field.onChange(tp);
+								if (tp === TimePrecision.DATE) {
+									// If switching to date only, remove the time part
+									const currentDate = form.getValues("performedAt");
+									form.setValue("performedAt", startOfDay(currentDate));
+								}
+							}}
+						/>
+					)}
+				/>
+				<Controller
+					control={control}
+					name="performedAt"
+					render={({ field: { ref: _, ...restField } }) => (
+						<DateTimePicker
+							{...restField}
+							id={performedAtFieldId}
+							timePickerProps={{
+								disabled:
+									formValues.performedAtPrecision === TimePrecision.DATE,
+							}}
+						/>
+					)}
+				/>
+			</Input.Wrapper>
+
+			{/* Category */}
+			<Input.Wrapper
+				label={t().category.expressions.Category}
+				labelProps={{ htmlFor: categoryFieldId }}
+			>
+				<Controller
+					control={control}
+					name="categoryId"
+					render={({ field: { value, onChange } }) => (
+						<MyCategoriesSelector
+							value={value}
+							onChange={onChange}
+							allowClear
+							triggerId={categoryFieldId}
+						/>
+					)}
+				/>
+			</Input.Wrapper>
+
+			{/* Account */}
+			<Input.Wrapper
+				label={t().account.expressions.Account}
+				labelProps={{ htmlFor: accountIdFieldId }}
+			>
+				<Controller
+					control={control}
+					name="accountId"
+					render={({ field: { value, onChange } }) => (
+						<MyAccountsSelector
+							value={value}
+							onChange={onChange}
+							triggerId={accountIdFieldId}
+						/>
+					)}
+				/>
+			</Input.Wrapper>
+
+			<Button
+				disabled={!formState.isValid}
+				loading={isMutating}
+				leftSection={submitIcon}
+				type="submit"
+			>
+				{submitText}
+			</Button>
+		</Form>
+	);
+};
