@@ -10,6 +10,9 @@
 			},
 			"categories": {
 				"Label": "Categories"
+			},
+			"tags": {
+				"Label": "Tags"
 			}
 		}
 	},

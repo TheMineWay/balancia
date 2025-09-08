@@ -9,7 +9,7 @@ import { Permission } from "@shared/models";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
 import { FaHome } from "react-icons/fa";
-import { FaRegFolder } from "react-icons/fa6";
+import { FaRegFolder, FaTag } from "react-icons/fa6";
 import { LuPiggyBank } from "react-icons/lu";
 import { MdAdminPanelSettings, MdDashboard } from "react-icons/md";
 import { PiMoneyWavy } from "react-icons/pi";
@@ -74,6 +74,11 @@ const FinancesMenu: FC = () => {
 				<Link to="/finances/categories">
 					<Menu.Item leftSection={<FaRegFolder />} variant="subtle">
 						{t().nav.children.categories.Label}
+					</Menu.Item>
+				</Link>
+				<Link to="/finances/tags">
+					<Menu.Item leftSection={<FaTag />} variant="subtle">
+						{t().nav.children.tags.Label}
 					</Menu.Item>
 				</Link>
 			</Menu.Dropdown>
