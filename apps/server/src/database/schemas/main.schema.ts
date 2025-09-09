@@ -9,7 +9,7 @@ export { accountTable } from "@database/schemas/main/tables/finances/account.tab
 export { categoryTable } from "@database/schemas/main/tables/finances/category.table";
 export { financesSchema } from "@database/schemas/main/tables/finances/finances.schema";
 export { tagTable } from "@database/schemas/main/tables/finances/tag.table";
-export { transactionTag } from "@database/schemas/main/tables/finances/transaction-tag.table";
+export { transactionTagTable as transactionTag } from "@database/schemas/main/tables/finances/transaction-tag.table";
 export { transactionsTable } from "@database/schemas/main/tables/finances/transaction.table";
 export { identitySchema } from "@database/schemas/main/tables/identity/identity.schema";
 export { permissionTable } from "@database/schemas/main/tables/identity/permission.table";

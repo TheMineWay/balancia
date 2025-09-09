@@ -4,7 +4,7 @@ import { financesSchema } from "@database/schemas/main/tables/finances/finances.
 import { tagTable } from "@database/schemas/main/tables/finances/tag.table";
 import { integer, primaryKey } from "drizzle-orm/pg-core";
 
-export const transactionTag = financesSchema.table(
+export const transactionTagTable = financesSchema.table(
 	"transaction_tags",
 	{
 		transactionId: integer()
@@ -21,6 +21,6 @@ export const transactionTag = financesSchema.table(
 );
 
 /* Types */
-export type TransactionTagSelect = typeof transactionTag.$inferSelect;
-export type TransactionTagInsert = typeof transactionTag.$inferInsert;
+export type TransactionTagSelect = typeof transactionTagTable.$inferSelect;
+export type TransactionTagInsert = typeof transactionTagTable.$inferInsert;
 export type TransactionTagUpdate = Partial<TransactionTagInsert>;

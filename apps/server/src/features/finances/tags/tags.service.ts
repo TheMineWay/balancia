@@ -2,26 +2,42 @@ import { DATABASE_PROVIDERS } from "@database/database.provider";
 import type { QueryOptions } from "@database/repository/repository";
 import type { TagSelect } from "@database/schemas/main/tables/finances/tag.table";
 import { DatabaseService } from "@database/services/database.service";
-import { Inject, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import {
+	Inject,
+	Injectable,
+	NotFoundException,
+	UnauthorizedException,
+} from "@nestjs/common";
 import type {
 	OwnedModel,
 	PaginatedSearchModel,
 	TagCreateModel,
 	TagModel,
+	TransactionModel,
 	UserModel,
 	UserModelId,
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
 import { TagsRepository } from "src/features/finances/tags/repositories/tags.repository";
-import { TagCreatedEvent, TagDeletedEvent, TagUpdatedEvent } from "src/features/finances/tags/tags.events";
+import {
+	TagCreatedEvent,
+	TagDeletedEvent,
+	TagUpdatedEvent,
+} from "src/features/finances/tags/tags.events";
+import { TransactionsService } from "src/features/finances/transactions/transactions.service";
 
 @Injectable()
 export class TagsService {
-
-	constructor (private readonly eventService: EventService, private readonly tagsRepository: TagsRepository, @Inject(DATABASE_PROVIDERS.main) private readonly databaseService: DatabaseService) {}
+	constructor(
+		private readonly eventService: EventService,
+		private readonly tagsRepository: TagsRepository,
+		@Inject(DATABASE_PROVIDERS.main)
+		private readonly databaseService: DatabaseService,
+		private readonly transactionsService: TransactionsService,
+	) {}
 
 	async getPaginatedTagsByUserId(
-		userId: UserModel["id"],
+		userId: UserModelId,
 		{ pagination, search }: PaginatedSearchModel,
 	) {
 		return await this.tagsRepository.paginatedFindByUserId(
@@ -38,10 +54,7 @@ export class TagsService {
 		return await this.tagsRepository.findById(tagId, options);
 	}
 
-	async create(
-		userId: UserModel["id"],
-		tag: TagCreateModel,
-	): Promise<TagModel> {
+	async create(userId: UserModelId, tag: TagCreateModel): Promise<TagModel> {
 		const created = await this.tagsRepository.create({ ...tag, userId });
 
 		this.eventService.emit(new TagCreatedEvent({ tag: created }));
@@ -52,7 +65,7 @@ export class TagsService {
 	async updateById(
 		tagId: TagModel["id"],
 		data: Partial<OwnedModel<TagCreateModel>>,
-		options?: QueryOptions
+		options?: QueryOptions,
 	) {
 		const updated = await this.tagsRepository.updateById(tagId, data, options);
 
@@ -76,16 +89,16 @@ export class TagsService {
 	}
 
 	async updateUserTag(
-		userId: UserModel["id"],
+		userId: UserModelId,
 		tagId: TagModel["id"],
 		data: Partial<TagCreateModel>,
 	) {
 		return await this.databaseService.db.transaction(async (transaction) => {
-			const tag = await this.getById(tagId, { transaction});
-		if (!tag || tag.userId !== userId) throw new UnauthorizedException();
+			const tag = await this.getById(tagId, { transaction });
+			if (!tag || tag.userId !== userId) throw new UnauthorizedException();
 
-		return await this.updateById(tagId, data, { transaction });
-		})
+			return await this.updateById(tagId, data, { transaction });
+		});
 	}
 
 	async deleteUserTag(userId: UserModel["id"], tagId: TagModel["id"]) {
@@ -94,6 +107,27 @@ export class TagsService {
 			if (!tag || tag.userId !== userId) throw new UnauthorizedException();
 
 			await this.deleteById(tagId, { transaction });
+		});
+	}
+
+	// Other
+
+	async getUserTagsByTransactionId(
+		userId: UserModelId,
+		transactionId: TransactionModel["id"],
+	): Promise<TagModel[]> {
+		return await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner } =
+				await this.transactionsService.checkTransactionOwnership(
+					userId,
+					transactionId,
+					{ transaction },
+				);
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.tagsRepository.findTagsByTransactionId(transactionId, {
+				transaction,
+			});
 		});
 	}
 }

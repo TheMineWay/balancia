@@ -1,16 +1,19 @@
 import { QueryOptions, Repository } from "@database/repository/repository";
 import {
+	TAG_TABLE_COLUMNS,
 	TagInsert,
 	TagSelect,
 	TagUpdate,
 	tagTable,
 } from "@database/schemas/main/tables/finances/tag.table";
+import { transactionTagTable } from "@database/schemas/main/tables/finances/transaction-tag.table";
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import {
 	PaginatedQuery,
 	PaginatedResponse,
 	SearchModel,
 	TagModel,
+	TransactionModel,
 	UserModelId,
 } from "@shared/models";
 import { and, desc, eq, ilike } from "drizzle-orm";
@@ -41,6 +44,8 @@ export class TagsRepository extends Repository {
 
 		return { items, total };
 	}
+
+	// #region CRUD
 
 	async findById(
 		id: TagModel["id"],
@@ -85,5 +90,21 @@ export class TagsRepository extends Repository {
 
 	async deleteById(id: TagModel["id"], options?: QueryOptions): Promise<void> {
 		await this.query(options).delete(tagTable).where(eq(tagTable.id, id));
+	}
+
+	// #endregion
+
+	async findTagsByTransactionId(
+		transactionId: TransactionModel["id"],
+		options?: QueryOptions,
+	): Promise<TagSelect[]> {
+		return await this.query(options)
+			.select(TAG_TABLE_COLUMNS)
+			.from(tagTable)
+			.innerJoin(
+				transactionTagTable,
+				eq(transactionTagTable.transactionId, tagTable.id),
+			)
+			.where(eq(transactionTagTable.transactionId, transactionId));
 	}
 }

@@ -7,6 +7,7 @@ import {
 	type CategoryCreateModel,
 } from "@shared/models";
 import { useForm } from "react-hook-form";
+import { IoAddOutline } from "react-icons/io5";
 import z from "zod";
 
 const SCHEMA = z
@@ -38,6 +39,7 @@ export const MyCategoryCreateManager: FC<Props> = ({ onSuccess }) => {
 					onSuccess: () => onSuccess?.(),
 				});
 			}}
+			submitIcon={<IoAddOutline />}
 			submitText={t().category.create.Submit}
 		/>
 	);

@@ -38,6 +38,8 @@ export const MyTransactionsManager: FC = () => {
 		useDisclosure();
 	const [transactionToUpdate, setTransactionToUpdate] =
 		useState<TransactionModel | null>(null);
+	const [transactionToManageTags, setTransactionToManageTags] =
+		useState<TransactionModel | null>(null);
 
 	const onDeleteClick = useCallback(
 		(item: TransactionModel) => {
@@ -96,6 +98,7 @@ export const MyTransactionsManager: FC = () => {
 								loading={isLoadingTransactions}
 								onDeleteClick={onDeleteClick}
 								onEditClick={setTransactionToUpdate}
+								onTagsManageClick={setTransactionToManageTags}
 								showAccount
 							/>
 						</TableLayout.Table>

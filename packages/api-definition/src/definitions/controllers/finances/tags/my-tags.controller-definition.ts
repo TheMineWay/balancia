@@ -9,6 +9,8 @@ import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
 import z from "zod";
 
+// List
+
 const GET_TAGS_LIST_ENDPOINT = {
 	getPath: () => [],
 	paramsMapping: {},
@@ -22,8 +24,10 @@ const GET_TAGS_LIST_ENDPOINT = {
 	),
 } satisfies EndpointDefinition;
 
+// CRUD
+
 const GET_TAG = {
-	getPath: (options) => [options.id],
+	getPath: (options) => ["tag", options.id],
 	paramsMapping: { id: "tagId" },
 	responseDto: z.object({
 		...TAG_SCHEMA.shape,
@@ -31,7 +35,7 @@ const GET_TAG = {
 } satisfies EndpointDefinition<{ id: string }>;
 
 const CREATE_TAG = {
-	getPath: () => [],
+	getPath: () => ["tag"],
 	paramsMapping: {},
 	method: EndpointMethod.POST,
 	bodyDto: z.object({
@@ -40,7 +44,7 @@ const CREATE_TAG = {
 } satisfies EndpointDefinition;
 
 const UPDATE_TAG = {
-	getPath: (options) => [options.id],
+	getPath: (options) => ["tag", options.id],
 	paramsMapping: { id: "tagId" },
 	method: EndpointMethod.PUT,
 	bodyDto: z.object({
@@ -49,10 +53,20 @@ const UPDATE_TAG = {
 } satisfies EndpointDefinition<{ id: string }>;
 
 const DELETE_TAG = {
-	getPath: (options) => [options.id],
+	getPath: (options) => ["tag", options.id],
 	paramsMapping: { id: "tagId" },
 	method: EndpointMethod.DELETE,
 } satisfies EndpointDefinition<{ id: string }>;
+
+// Other
+
+const GET_TAGS_BY_TRANSACTION = {
+	getPath: (params) => ["transaction", params.transactionId],
+	paramsMapping: { transactionId: "transactionId" },
+	responseDto: z.object({
+		tags: z.array(TAG_SCHEMA),
+	}),
+} satisfies EndpointDefinition<{ transactionId: string }>;
 
 // Controller
 
@@ -65,5 +79,6 @@ export const MY_TAGS_CONTROLLER = {
 		createTag: CREATE_TAG,
 		updateTag: UPDATE_TAG,
 		deleteTag: DELETE_TAG,
+		getTagsByTransaction: GET_TAGS_BY_TRANSACTION,
 	},
 } satisfies ControllerDefinition;

@@ -12,7 +12,7 @@ import {
 	type TransactionModel as RawTransactionModel,
 	TimePrecision,
 } from "@shared/models";
-import { BiEdit, BiTrash } from "react-icons/bi";
+import { BiEdit, BiTag, BiTrash } from "react-icons/bi";
 
 /**
  * As this component accepts transactions with account and category, its type is extended
@@ -27,6 +27,7 @@ type Props<T extends TransactionModel> = {
 	loading?: boolean;
 	onDeleteClick?: (item: TransactionModel) => void;
 	onEditClick?: (item: TransactionModel) => void;
+	onTagsManageClick?: (item: TransactionModel) => void;
 
 	// Extensions
 	showAccount?: boolean;
@@ -39,6 +40,7 @@ export const TransactionsTable = <
 	loading = false,
 	onDeleteClick,
 	onEditClick,
+	onTagsManageClick,
 	showAccount = false,
 }: Readonly<Props<T>>) => {
 	const { t } = useTranslation("finances");
@@ -91,6 +93,14 @@ export const TransactionsTable = <
 								aria-label={commonT().expressions.Edit}
 							>
 								<BiEdit />
+							</ActionIcon>
+						)}
+						{onTagsManageClick && (
+							<ActionIcon
+								onClick={() => onTagsManageClick(item)}
+								aria-label={t().transaction.managers.tags.Trigger}
+							>
+								<BiTag />
 							</ActionIcon>
 						)}
 						{onDeleteClick && (

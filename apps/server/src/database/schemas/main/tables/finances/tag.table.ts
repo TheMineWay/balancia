@@ -29,6 +29,15 @@ export const tagTable = financesSchema.table(
 	(table) => [index().on(table.userId)],
 );
 
+export const TAG_TABLE_COLUMNS = {
+	id: tagTable.id,
+	name: tagTable.name,
+	description: tagTable.description,
+	userId: tagTable.userId,
+	createdAt: tagTable.createdAt,
+	updatedAt: tagTable.updatedAt,
+};
+
 /* Types */
 export type TagSelect = typeof tagTable.$inferSelect;
 export type TagInsert = typeof tagTable.$inferInsert;

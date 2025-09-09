@@ -8,6 +8,7 @@ import {
 	type CategoryModel,
 } from "@shared/models";
 import { useForm } from "react-hook-form";
+import { IoPencilOutline } from "react-icons/io5";
 import z from "zod";
 
 const SCHEMA = z
@@ -41,6 +42,7 @@ export const MyCategoryUpdateManager: FC<Props> = ({ onSuccess, category }) => {
 					onSuccess: () => onSuccess?.(),
 				});
 			}}
+			submitIcon={<IoPencilOutline />}
 			submitText={t().category.update.Submit}
 		/>
 	);

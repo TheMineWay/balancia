@@ -14,7 +14,7 @@ export const TAG_MODEL_VALUES = {
 
 export const TAG_SCHEMA = z.object({
 	id: ID_SCHEMA,
-	name: z.string().max(TAG_MODEL_VALUES.name.maxLength),
+	name: z.string().nonempty().max(TAG_MODEL_VALUES.name.maxLength),
 	description: z
 		.string()
 		.max(TAG_MODEL_VALUES.description.maxLength)

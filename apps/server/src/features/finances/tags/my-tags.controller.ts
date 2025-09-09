@@ -15,7 +15,7 @@ import { TagsService } from "src/features/finances/tags/tags.service";
 
 @Controller(getController(MY_TAGS_CONTROLLER, {}))
 export class MyTagsController {
-	constructor (private readonly tagsService: TagsService) {}
+	constructor(private readonly tagsService: TagsService) {}
 
 	@Endpoint(MY_TAGS_CONTROLLER, "getTagsList")
 	async getTagsList(
@@ -28,33 +28,62 @@ export class MyTagsController {
 		return await this.tagsService.getPaginatedTagsByUserId(userId, query);
 	}
 
-	@Endpoint(MY_TAGS_CONTROLLER, 'getTag')
+	// CRUD
+
+	@Endpoint(MY_TAGS_CONTROLLER, "getTag")
 	async getTag(
-		@Param(getParamName(MY_TAGS_CONTROLLER, 'getTag', 'id'), ParseIntPipe) id: number,
+		@Param(getParamName(MY_TAGS_CONTROLLER, "getTag", "id"), ParseIntPipe)
+		id: number,
 		@UserId() userId: UserModelId,
-	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, 'getTag'>> {
+	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, "getTag">> {
 		return await this.tagsService.getUserTagById(userId, id);
 	}
 
-	@Endpoint(MY_TAGS_CONTROLLER, 'createTag')
-	async createTag(@ValidatedBody(MY_TAGS_CONTROLLER, 'createTag') body, @UserId() userId: UserModelId): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, 'createTag'>> {
+	@Endpoint(MY_TAGS_CONTROLLER, "createTag")
+	async createTag(
+		@ValidatedBody(MY_TAGS_CONTROLLER, "createTag") body,
+		@UserId() userId: UserModelId,
+	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, "createTag">> {
 		await this.tagsService.create(userId, body);
 	}
 
-	@Endpoint(MY_TAGS_CONTROLLER, 'updateTag')
+	@Endpoint(MY_TAGS_CONTROLLER, "updateTag")
 	async updateTag(
-		@Param(getParamName(MY_TAGS_CONTROLLER, 'updateTag', 'id'), ParseIntPipe) id: number,
-		@ValidatedBody(MY_TAGS_CONTROLLER, 'updateTag') body,
+		@Param(getParamName(MY_TAGS_CONTROLLER, "updateTag", "id"), ParseIntPipe)
+		id: number,
+		@ValidatedBody(MY_TAGS_CONTROLLER, "updateTag") body,
 		@UserId() userId: UserModelId,
-	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, 'updateTag'>> {
+	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, "updateTag">> {
 		await this.tagsService.updateUserTag(userId, id, body);
 	}
 
-	@Endpoint(MY_TAGS_CONTROLLER, 'deleteTag')
+	@Endpoint(MY_TAGS_CONTROLLER, "deleteTag")
 	async deleteTag(
-		@Param(getParamName(MY_TAGS_CONTROLLER, 'deleteTag', 'id'), ParseIntPipe) id: number,
+		@Param(getParamName(MY_TAGS_CONTROLLER, "deleteTag", "id"), ParseIntPipe)
+		id: number,
 		@UserId() userId: UserModelId,
-	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, 'deleteTag'>> {
+	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, "deleteTag">> {
 		await this.tagsService.deleteUserTag(userId, id);
+	}
+
+	// Other
+
+	@Endpoint(MY_TAGS_CONTROLLER, "getTagsByTransaction")
+	async getTransactionTags(
+		@UserId() userId: UserModelId,
+		@Param(
+			getParamName(MY_TAGS_CONTROLLER, "getTagsByTransaction", "transactionId"),
+			ParseIntPipe,
+		)
+		transactionId: number,
+	): Promise<
+		InferResponseDto<typeof MY_TAGS_CONTROLLER, "getTagsByTransaction">
+	> {
+		return {
+			tags: await this.tagsService.getUserTagsByTransactionId(
+				userId,
+				transactionId,
+			),
+		};
 	}
 }

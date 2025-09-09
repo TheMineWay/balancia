@@ -52,6 +52,12 @@
 					"Label": "Amount"
 				}
 			}
+		},
+		"managers": {
+			"tags": {
+				"Trigger": "Manage tags",
+				"Title": "Manage tags for transaction \"{name}\""
+			}
 		}
 	},
 	"category": {
@@ -138,7 +144,7 @@
 		"my-tags": {
 			"manager": {
 				"Title": "My tags",
-				"Actions": {
+				"actions": {
 					"Create": "Create tag"
 				}
 			}
