@@ -182,12 +182,16 @@ export class AccountsService {
 
 			if (!isOwner) throw new UnauthorizedException();
 
-			return await this.accountsRepository.findAccountMonthlyStats(account.id, {
-				endDate: options.periodEnd,
-				startDate: sub(options.periodEnd, { months: options.months - 1})
-			}, {
-				transaction,
-			});
+			return await this.accountsRepository.findAccountMonthlyStats(
+				account.id,
+				{
+					endDate: options.periodEnd,
+					startDate: sub(options.periodEnd, { months: options.months - 1 }),
+				},
+				{
+					transaction,
+				},
+			);
 		});
 	}
 

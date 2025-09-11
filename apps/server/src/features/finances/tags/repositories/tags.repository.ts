@@ -94,6 +94,8 @@ export class TagsRepository extends Repository {
 
 	// #endregion
 
+	// #region Transaction related
+
 	async findTagsByTransactionId(
 		transactionId: TransactionModel["id"],
 		options?: QueryOptions,
@@ -107,4 +109,31 @@ export class TagsRepository extends Repository {
 			)
 			.where(eq(transactionTagTable.transactionId, transactionId));
 	}
+
+	async addTagToTransaction(
+		tagId: TagModel["id"],
+		transactionId: TransactionModel["id"],
+		options?: QueryOptions,
+	) {
+		await this.query(options)
+			.insert(transactionTagTable)
+			.values({ tagId, transactionId });
+	}
+
+	async removeTagFromTransaction(
+		tagId: TagModel["id"],
+		transactionId: TransactionModel["id"],
+		options?: QueryOptions,
+	) {
+		await this.query(options)
+			.delete(transactionTagTable)
+			.where(
+				and(
+					eq(transactionTagTable.tagId, tagId),
+					eq(transactionTagTable.transactionId, transactionId),
+				),
+			);
+	}
+
+	// #endregion
 }

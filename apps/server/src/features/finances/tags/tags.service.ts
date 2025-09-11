@@ -47,6 +47,8 @@ export class TagsService {
 		);
 	}
 
+	// #region Basic CRUD
+
 	async getById(
 		tagId: TagModel["id"],
 		options?: QueryOptions,
@@ -79,10 +81,16 @@ export class TagsService {
 		this.eventService.emit(new TagDeletedEvent({ tagId }));
 	}
 
+	// #endregion
+
 	// User related
 
-	async getUserTagById(userId: UserModelId, tagId: TagModel["id"]) {
-		const tag = await this.getById(tagId);
+	async getUserTagById(
+		userId: UserModelId,
+		tagId: TagModel["id"],
+		options?: QueryOptions,
+	) {
+		const tag = await this.getById(tagId, options);
 		if (!tag || tag.userId !== userId) throw new NotFoundException();
 
 		return tag;
@@ -110,7 +118,7 @@ export class TagsService {
 		});
 	}
 
-	// Other
+	// #region Transaction related
 
 	async getUserTagsByTransactionId(
 		userId: UserModelId,
@@ -130,4 +138,54 @@ export class TagsService {
 			});
 		});
 	}
+
+	async addTagToTransaction(
+		userId: UserModelId,
+		tagId: TagModel["id"],
+		transactionId: TransactionModel["id"],
+	) {
+		return await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner } =
+				await this.transactionsService.checkTransactionOwnership(
+					userId,
+					transactionId,
+					{ transaction },
+				);
+			if (!isOwner) throw new UnauthorizedException();
+
+			const userTag = await this.getUserTagById(userId, tagId, { transaction });
+
+			return await this.tagsRepository.addTagToTransaction(
+				userTag.id,
+				transactionId,
+				{ transaction },
+			);
+		});
+	}
+
+	async removeTagFromTransaction(
+		userId: UserModelId,
+		tagId: TagModel["id"],
+		transactionId: TransactionModel["id"],
+	) {
+		return await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner } =
+				await this.transactionsService.checkTransactionOwnership(
+					userId,
+					transactionId,
+					{ transaction },
+				);
+			if (!isOwner) throw new UnauthorizedException();
+
+			const userTag = await this.getUserTagById(userId, tagId, { transaction });
+
+			return await this.tagsRepository.removeTagFromTransaction(
+				userTag.id,
+				transactionId,
+				{ transaction },
+			);
+		});
+	}
+
+	// #endregion
 }

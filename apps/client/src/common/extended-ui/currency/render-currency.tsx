@@ -1,9 +1,9 @@
 import { Text } from "@mantine/core";
 
 type Props = {
-    amount: number;
-}
+	amount: number;
+};
 
 export const RenderCurrency: FC<Props> = ({ amount }) => {
-    return <Text>{amount.toFixed(2)}€</Text>
-}
+	return <Text>{amount.toFixed(2)}€</Text>;
+};

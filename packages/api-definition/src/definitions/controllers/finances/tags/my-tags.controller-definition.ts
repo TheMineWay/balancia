@@ -58,6 +58,32 @@ const DELETE_TAG = {
 	method: EndpointMethod.DELETE,
 } satisfies EndpointDefinition<{ id: string }>;
 
+// Transaction related
+
+const ADD_TAG_TO_TRANSACTION = {
+	getPath: (options) => [
+		"tag",
+		options.tagId,
+		"transaction",
+		options.transactionId,
+		"assignation",
+	],
+	paramsMapping: { transactionId: "transactionId", tagId: "tagId" },
+	method: EndpointMethod.POST,
+} satisfies EndpointDefinition<{ transactionId: string; tagId: string }>;
+
+const REMOVE_TAG_FROM_TRANSACTION = {
+	getPath: (options) => [
+		"tag",
+		options.tagId,
+		"transaction",
+		options.transactionId,
+		"assignation",
+	],
+	paramsMapping: { transactionId: "transactionId", tagId: "tagId" },
+	method: EndpointMethod.DELETE,
+} satisfies EndpointDefinition<{ transactionId: string; tagId: string }>;
+
 // Other
 
 const GET_TAGS_BY_TRANSACTION = {
@@ -75,10 +101,18 @@ export const MY_TAGS_CONTROLLER = {
 	paramsMapping: {},
 	endpoints: {
 		getTagsList: GET_TAGS_LIST_ENDPOINT,
+
+		// CRUD
 		getTag: GET_TAG,
 		createTag: CREATE_TAG,
 		updateTag: UPDATE_TAG,
 		deleteTag: DELETE_TAG,
+
+		// Transaction related
+		addTagToTransaction: ADD_TAG_TO_TRANSACTION,
+		removeTagFromTransaction: REMOVE_TAG_FROM_TRANSACTION,
+
+		// Other
 		getTagsByTransaction: GET_TAGS_BY_TRANSACTION,
 	},
 } satisfies ControllerDefinition;

@@ -1,5 +1,6 @@
 import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
 import { Controller, Param, ParseIntPipe } from "@nestjs/common";
+import { ApiOperation } from "@nestjs/swagger";
 import {
 	getController,
 	getParamName,
@@ -64,6 +65,59 @@ export class MyTagsController {
 		@UserId() userId: UserModelId,
 	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, "deleteTag">> {
 		await this.tagsService.deleteUserTag(userId, id);
+	}
+
+	// Transaction related
+	@ApiOperation({ summary: "Add a tag to a transaction" })
+	@Endpoint(MY_TAGS_CONTROLLER, "addTagToTransaction")
+	async addTagToTransaction(
+		@UserId() userId: UserModelId,
+		@Param(
+			getParamName(MY_TAGS_CONTROLLER, "addTagToTransaction", "tagId"),
+			ParseIntPipe,
+		)
+		tagId: number,
+		@Param(
+			getParamName(MY_TAGS_CONTROLLER, "addTagToTransaction", "transactionId"),
+			ParseIntPipe,
+		)
+		transactionId: number,
+	): Promise<
+		InferResponseDto<typeof MY_TAGS_CONTROLLER, "addTagToTransaction">
+	> {
+		return await this.tagsService.addTagToTransaction(
+			userId,
+			tagId,
+			transactionId,
+		);
+	}
+
+	@ApiOperation({ summary: "Remove a tag from a transaction" })
+	@Endpoint(MY_TAGS_CONTROLLER, "removeTagFromTransaction")
+	async removeTagFromTransaction(
+		@UserId() userId: UserModelId,
+		@Param(
+			getParamName(MY_TAGS_CONTROLLER, "removeTagFromTransaction", "tagId"),
+			ParseIntPipe,
+		)
+		tagId: number,
+		@Param(
+			getParamName(
+				MY_TAGS_CONTROLLER,
+				"removeTagFromTransaction",
+				"transactionId",
+			),
+			ParseIntPipe,
+		)
+		transactionId: number,
+	): Promise<
+		InferResponseDto<typeof MY_TAGS_CONTROLLER, "removeTagFromTransaction">
+	> {
+		return await this.tagsService.removeTagFromTransaction(
+			userId,
+			tagId,
+			transactionId,
+		);
 	}
 
 	// Other

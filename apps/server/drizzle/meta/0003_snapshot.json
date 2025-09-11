@@ -1,1031 +1,956 @@
 {
-  "id": "fef83de8-0b07-44e1-b0ad-b68803698f9e",
-  "prevId": "695ee2a4-bed0-4f35-9bd8-533e8c85db73",
-  "version": "7",
-  "dialect": "postgresql",
-  "tables": {
-    "finances.accounts": {
-      "name": "accounts",
-      "schema": "finances",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(64)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "varchar(512)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "userId": {
-          "name": "userId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "accounts_userId_users_id_fk": {
-          "name": "accounts_userId_users_id_fk",
-          "tableFrom": "accounts",
-          "tableTo": "users",
-          "schemaTo": "identity",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "finances.categories": {
-      "name": "categories",
-      "schema": "finances",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(100)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "varchar(512)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "userId": {
-          "name": "userId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "categories_userId_index": {
-          "name": "categories_userId_index",
-          "columns": [
-            {
-              "expression": "userId",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "categories_userId_users_id_fk": {
-          "name": "categories_userId_users_id_fk",
-          "tableFrom": "categories",
-          "tableTo": "users",
-          "schemaTo": "identity",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "social.contacts": {
-      "name": "contacts",
-      "schema": "social",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "code": {
-          "name": "code",
-          "type": "varchar(36)",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(64)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "lastName": {
-          "name": "lastName",
-          "type": "varchar(128)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "phone": {
-          "name": "phone",
-          "type": "varchar(16)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "userId": {
-          "name": "userId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "contacts_userId_users_id_fk": {
-          "name": "contacts_userId_users_id_fk",
-          "tableFrom": "contacts",
-          "tableTo": "users",
-          "schemaTo": "identity",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "contacts_userId_code_unique": {
-          "name": "contacts_userId_code_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "userId",
-            "code"
-          ]
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "identity.permissions": {
-      "name": "permissions",
-      "schema": "identity",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "identity": {
-            "type": "always",
-            "name": "permissions_id_seq",
-            "schema": "identity",
-            "increment": "1",
-            "startWith": "1",
-            "minValue": "1",
-            "maxValue": "2147483647",
-            "cache": "1",
-            "cycle": false
-          }
-        },
-        "code": {
-          "name": "code",
-          "type": "varchar(64)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "permissions_code_unique": {
-          "name": "permissions_code_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "code"
-          ]
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "identity.role_permissions": {
-      "name": "role_permissions",
-      "schema": "identity",
-      "columns": {
-        "roleId": {
-          "name": "roleId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "permissionId": {
-          "name": "permissionId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "role_permissions_roleId_idx": {
-          "name": "role_permissions_roleId_idx",
-          "columns": [
-            {
-              "expression": "roleId",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "role_permissions_permissionId_idx": {
-          "name": "role_permissions_permissionId_idx",
-          "columns": [
-            {
-              "expression": "permissionId",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "role_permissions_roleId_roles_id_fk": {
-          "name": "role_permissions_roleId_roles_id_fk",
-          "tableFrom": "role_permissions",
-          "tableTo": "roles",
-          "schemaTo": "identity",
-          "columnsFrom": [
-            "roleId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "role_permissions_permissionId_permissions_id_fk": {
-          "name": "role_permissions_permissionId_permissions_id_fk",
-          "tableFrom": "role_permissions",
-          "tableTo": "permissions",
-          "schemaTo": "identity",
-          "columnsFrom": [
-            "permissionId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "role_permissions_roleId_permissionId_pk": {
-          "name": "role_permissions_roleId_permissionId_pk",
-          "columns": [
-            "roleId",
-            "permissionId"
-          ]
-        }
-      },
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "identity.roles": {
-      "name": "roles",
-      "schema": "identity",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "identity": {
-            "type": "always",
-            "name": "roles_id_seq",
-            "schema": "identity",
-            "increment": "1",
-            "startWith": "1",
-            "minValue": "1",
-            "maxValue": "2147483647",
-            "cache": "1",
-            "cycle": false
-          }
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(64)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "finances.tags": {
-      "name": "tags",
-      "schema": "finances",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(64)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "userId": {
-          "name": "userId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "tags_userId_index": {
-          "name": "tags_userId_index",
-          "columns": [
-            {
-              "expression": "userId",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "tags_userId_users_id_fk": {
-          "name": "tags_userId_users_id_fk",
-          "tableFrom": "tags",
-          "tableTo": "users",
-          "schemaTo": "identity",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "finances.transaction_tags": {
-      "name": "transaction_tags",
-      "schema": "finances",
-      "columns": {
-        "transactionId": {
-          "name": "transactionId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "tagId": {
-          "name": "tagId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "transaction_tags_transactionId_transactions_id_fk": {
-          "name": "transaction_tags_transactionId_transactions_id_fk",
-          "tableFrom": "transaction_tags",
-          "tableTo": "transactions",
-          "schemaTo": "finances",
-          "columnsFrom": [
-            "transactionId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "transaction_tags_tagId_tags_id_fk": {
-          "name": "transaction_tags_tagId_tags_id_fk",
-          "tableFrom": "transaction_tags",
-          "tableTo": "tags",
-          "schemaTo": "finances",
-          "columnsFrom": [
-            "tagId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "transaction_tags_transactionId_tagId_pk": {
-          "name": "transaction_tags_transactionId_tagId_pk",
-          "columns": [
-            "transactionId",
-            "tagId"
-          ]
-        }
-      },
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "finances.transactions": {
-      "name": "transactions",
-      "schema": "finances",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "amount": {
-          "name": "amount",
-          "type": "numeric(10, 2)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "subject": {
-          "name": "subject",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "performedAt": {
-          "name": "performedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "performedAtPrecision": {
-          "name": "performedAtPrecision",
-          "type": "time_precision",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'datetime'"
-        },
-        "categoryId": {
-          "name": "categoryId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "accountId": {
-          "name": "accountId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "account_id_and_performed_at_and_id_IDX": {
-          "name": "account_id_and_performed_at_and_id_IDX",
-          "columns": [
-            {
-              "expression": "accountId",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "\"performedAt\" DESC",
-              "asc": true,
-              "isExpression": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "\"id\" DESC",
-              "asc": true,
-              "isExpression": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "category_id_IDX": {
-          "name": "category_id_IDX",
-          "columns": [
-            {
-              "expression": "categoryId",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "transactions_categoryId_categories_id_fk": {
-          "name": "transactions_categoryId_categories_id_fk",
-          "tableFrom": "transactions",
-          "tableTo": "categories",
-          "schemaTo": "finances",
-          "columnsFrom": [
-            "categoryId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        },
-        "transactions_accountId_accounts_id_fk": {
-          "name": "transactions_accountId_accounts_id_fk",
-          "tableFrom": "transactions",
-          "tableTo": "accounts",
-          "schemaTo": "finances",
-          "columnsFrom": [
-            "accountId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "identity.user_preferences": {
-      "name": "user_preferences",
-      "schema": "identity",
-      "columns": {
-        "userId": {
-          "name": "userId",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "mainAccount": {
-          "name": "mainAccount",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "user_preferences_userId_users_id_fk": {
-          "name": "user_preferences_userId_users_id_fk",
-          "tableFrom": "user_preferences",
-          "tableTo": "users",
-          "schemaTo": "identity",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "user_preferences_mainAccount_accounts_id_fk": {
-          "name": "user_preferences_mainAccount_accounts_id_fk",
-          "tableFrom": "user_preferences",
-          "tableTo": "accounts",
-          "schemaTo": "finances",
-          "columnsFrom": [
-            "mainAccount"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "identity.user_roles": {
-      "name": "user_roles",
-      "schema": "identity",
-      "columns": {
-        "userId": {
-          "name": "userId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "roleId": {
-          "name": "roleId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "user_roles_userId_users_id_fk": {
-          "name": "user_roles_userId_users_id_fk",
-          "tableFrom": "user_roles",
-          "tableTo": "users",
-          "schemaTo": "identity",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "user_roles_roleId_roles_id_fk": {
-          "name": "user_roles_roleId_roles_id_fk",
-          "tableFrom": "user_roles",
-          "tableTo": "roles",
-          "schemaTo": "identity",
-          "columnsFrom": [
-            "roleId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "user_roles_userId_roleId_pk": {
-          "name": "user_roles_userId_roleId_pk",
-          "columns": [
-            "userId",
-            "roleId"
-          ]
-        }
-      },
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "identity.users": {
-      "name": "users",
-      "schema": "identity",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "identity": {
-            "type": "always",
-            "name": "users_id_seq",
-            "schema": "identity",
-            "increment": "1",
-            "startWith": "1",
-            "minValue": "1",
-            "maxValue": "2147483647",
-            "cache": "1",
-            "cycle": false
-          }
-        },
-        "code": {
-          "name": "code",
-          "type": "varchar(64)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "username": {
-          "name": "username",
-          "type": "varchar(128)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "users_code_unique": {
-          "name": "users_code_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "code"
-          ]
-        }
-      },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    }
-  },
-  "enums": {
-    "public.time_precision": {
-      "name": "time_precision",
-      "schema": "public",
-      "values": [
-        "date",
-        "datetime"
-      ]
-    }
-  },
-  "schemas": {
-    "finances": "finances",
-    "identity": "identity",
-    "social": "social"
-  },
-  "sequences": {},
-  "roles": {},
-  "policies": {},
-  "views": {
-    "finances.account_monthly_stats": {
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "userId": {
-          "name": "userId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "definition": "select \"finances\".\"accounts\".\"id\", \"finances\".\"accounts\".\"userId\", EXTRACT(YEAR FROM \"finances\".\"transactions\".\"performedAt\")::integer as \"year\", EXTRACT(MONTH FROM \"finances\".\"transactions\".\"performedAt\")::integer as \"month\", sum(\"finances\".\"transactions\".\"amount\")::numeric as \"monthlyBalance\", SUM(CASE WHEN \"finances\".\"transactions\".\"amount\" > 0 THEN \"finances\".\"transactions\".\"amount\" ELSE 0 END)::numeric as \"income\", SUM(CASE WHEN \"finances\".\"transactions\".\"amount\" < 0 THEN abs(\"finances\".\"transactions\".\"amount\") ELSE 0 END)::numeric as \"outcome\" from \"finances\".\"accounts\" inner join \"finances\".\"transactions\" on \"finances\".\"transactions\".\"accountId\" = \"finances\".\"accounts\".\"id\" group by \"finances\".\"accounts\".\"id\", \"year\", \"month\"",
-      "name": "account_monthly_stats",
-      "schema": "finances",
-      "isExisting": false,
-      "with": {
-        "autovacuumEnabled": true
-      },
-      "materialized": true
-    },
-    "finances.account_stats": {
-      "columns": {
-        "userId": {
-          "name": "userId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        }
-      },
-      "definition": "select \"finances\".\"accounts\".\"userId\", \"finances\".\"accounts\".\"id\", \"balance\" from \"finances\".\"accounts\" inner join (select sum(\"amount\") as \"balance\", \"accountId\" from \"finances\".\"transactions\" group by \"finances\".\"transactions\".\"accountId\") \"agg_balance\" on \"agg_balance\".\"accountId\" = \"finances\".\"accounts\".\"id\"",
-      "name": "account_stats",
-      "schema": "finances",
-      "isExisting": false,
-      "with": {
-        "autovacuumEnabled": true
-      },
-      "materialized": true
-    }
-  },
-  "_meta": {
-    "columns": {},
-    "schemas": {},
-    "tables": {}
-  }
+	"id": "fef83de8-0b07-44e1-b0ad-b68803698f9e",
+	"prevId": "695ee2a4-bed0-4f35-9bd8-533e8c85db73",
+	"version": "7",
+	"dialect": "postgresql",
+	"tables": {
+		"finances.accounts": {
+			"name": "accounts",
+			"schema": "finances",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(64)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "varchar(512)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"accounts_userId_users_id_fk": {
+					"name": "accounts_userId_users_id_fk",
+					"tableFrom": "accounts",
+					"tableTo": "users",
+					"schemaTo": "identity",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"finances.categories": {
+			"name": "categories",
+			"schema": "finances",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(100)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "varchar(512)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {
+				"categories_userId_index": {
+					"name": "categories_userId_index",
+					"columns": [
+						{
+							"expression": "userId",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				}
+			},
+			"foreignKeys": {
+				"categories_userId_users_id_fk": {
+					"name": "categories_userId_users_id_fk",
+					"tableFrom": "categories",
+					"tableTo": "users",
+					"schemaTo": "identity",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"social.contacts": {
+			"name": "contacts",
+			"schema": "social",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"code": {
+					"name": "code",
+					"type": "varchar(36)",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(64)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"lastName": {
+					"name": "lastName",
+					"type": "varchar(128)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"email": {
+					"name": "email",
+					"type": "varchar(256)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"phone": {
+					"name": "phone",
+					"type": "varchar(16)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"contacts_userId_users_id_fk": {
+					"name": "contacts_userId_users_id_fk",
+					"tableFrom": "contacts",
+					"tableTo": "users",
+					"schemaTo": "identity",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"contacts_userId_code_unique": {
+					"name": "contacts_userId_code_unique",
+					"nullsNotDistinct": false,
+					"columns": ["userId", "code"]
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"identity.permissions": {
+			"name": "permissions",
+			"schema": "identity",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"identity": {
+						"type": "always",
+						"name": "permissions_id_seq",
+						"schema": "identity",
+						"increment": "1",
+						"startWith": "1",
+						"minValue": "1",
+						"maxValue": "2147483647",
+						"cache": "1",
+						"cycle": false
+					}
+				},
+				"code": {
+					"name": "code",
+					"type": "varchar(64)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"permissions_code_unique": {
+					"name": "permissions_code_unique",
+					"nullsNotDistinct": false,
+					"columns": ["code"]
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"identity.role_permissions": {
+			"name": "role_permissions",
+			"schema": "identity",
+			"columns": {
+				"roleId": {
+					"name": "roleId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"permissionId": {
+					"name": "permissionId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {
+				"role_permissions_roleId_idx": {
+					"name": "role_permissions_roleId_idx",
+					"columns": [
+						{
+							"expression": "roleId",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				},
+				"role_permissions_permissionId_idx": {
+					"name": "role_permissions_permissionId_idx",
+					"columns": [
+						{
+							"expression": "permissionId",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				}
+			},
+			"foreignKeys": {
+				"role_permissions_roleId_roles_id_fk": {
+					"name": "role_permissions_roleId_roles_id_fk",
+					"tableFrom": "role_permissions",
+					"tableTo": "roles",
+					"schemaTo": "identity",
+					"columnsFrom": ["roleId"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"role_permissions_permissionId_permissions_id_fk": {
+					"name": "role_permissions_permissionId_permissions_id_fk",
+					"tableFrom": "role_permissions",
+					"tableTo": "permissions",
+					"schemaTo": "identity",
+					"columnsFrom": ["permissionId"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {
+				"role_permissions_roleId_permissionId_pk": {
+					"name": "role_permissions_roleId_permissionId_pk",
+					"columns": ["roleId", "permissionId"]
+				}
+			},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"identity.roles": {
+			"name": "roles",
+			"schema": "identity",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"identity": {
+						"type": "always",
+						"name": "roles_id_seq",
+						"schema": "identity",
+						"increment": "1",
+						"startWith": "1",
+						"minValue": "1",
+						"maxValue": "2147483647",
+						"cache": "1",
+						"cycle": false
+					}
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(64)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"finances.tags": {
+			"name": "tags",
+			"schema": "finances",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(64)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "varchar(256)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {
+				"tags_userId_index": {
+					"name": "tags_userId_index",
+					"columns": [
+						{
+							"expression": "userId",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				}
+			},
+			"foreignKeys": {
+				"tags_userId_users_id_fk": {
+					"name": "tags_userId_users_id_fk",
+					"tableFrom": "tags",
+					"tableTo": "users",
+					"schemaTo": "identity",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"finances.transaction_tags": {
+			"name": "transaction_tags",
+			"schema": "finances",
+			"columns": {
+				"transactionId": {
+					"name": "transactionId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"tagId": {
+					"name": "tagId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"transaction_tags_transactionId_transactions_id_fk": {
+					"name": "transaction_tags_transactionId_transactions_id_fk",
+					"tableFrom": "transaction_tags",
+					"tableTo": "transactions",
+					"schemaTo": "finances",
+					"columnsFrom": ["transactionId"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"transaction_tags_tagId_tags_id_fk": {
+					"name": "transaction_tags_tagId_tags_id_fk",
+					"tableFrom": "transaction_tags",
+					"tableTo": "tags",
+					"schemaTo": "finances",
+					"columnsFrom": ["tagId"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {
+				"transaction_tags_transactionId_tagId_pk": {
+					"name": "transaction_tags_transactionId_tagId_pk",
+					"columns": ["transactionId", "tagId"]
+				}
+			},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"finances.transactions": {
+			"name": "transactions",
+			"schema": "finances",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"amount": {
+					"name": "amount",
+					"type": "numeric(10, 2)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"subject": {
+					"name": "subject",
+					"type": "varchar(255)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"performedAt": {
+					"name": "performedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"performedAtPrecision": {
+					"name": "performedAtPrecision",
+					"type": "time_precision",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'datetime'"
+				},
+				"categoryId": {
+					"name": "categoryId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"accountId": {
+					"name": "accountId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {
+				"account_id_and_performed_at_and_id_IDX": {
+					"name": "account_id_and_performed_at_and_id_IDX",
+					"columns": [
+						{
+							"expression": "accountId",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						},
+						{
+							"expression": "\"performedAt\" DESC",
+							"asc": true,
+							"isExpression": true,
+							"nulls": "last"
+						},
+						{
+							"expression": "\"id\" DESC",
+							"asc": true,
+							"isExpression": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				},
+				"category_id_IDX": {
+					"name": "category_id_IDX",
+					"columns": [
+						{
+							"expression": "categoryId",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				}
+			},
+			"foreignKeys": {
+				"transactions_categoryId_categories_id_fk": {
+					"name": "transactions_categoryId_categories_id_fk",
+					"tableFrom": "transactions",
+					"tableTo": "categories",
+					"schemaTo": "finances",
+					"columnsFrom": ["categoryId"],
+					"columnsTo": ["id"],
+					"onDelete": "set null",
+					"onUpdate": "no action"
+				},
+				"transactions_accountId_accounts_id_fk": {
+					"name": "transactions_accountId_accounts_id_fk",
+					"tableFrom": "transactions",
+					"tableTo": "accounts",
+					"schemaTo": "finances",
+					"columnsFrom": ["accountId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"identity.user_preferences": {
+			"name": "user_preferences",
+			"schema": "identity",
+			"columns": {
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"mainAccount": {
+					"name": "mainAccount",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"user_preferences_userId_users_id_fk": {
+					"name": "user_preferences_userId_users_id_fk",
+					"tableFrom": "user_preferences",
+					"tableTo": "users",
+					"schemaTo": "identity",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"user_preferences_mainAccount_accounts_id_fk": {
+					"name": "user_preferences_mainAccount_accounts_id_fk",
+					"tableFrom": "user_preferences",
+					"tableTo": "accounts",
+					"schemaTo": "finances",
+					"columnsFrom": ["mainAccount"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"identity.user_roles": {
+			"name": "user_roles",
+			"schema": "identity",
+			"columns": {
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"roleId": {
+					"name": "roleId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"user_roles_userId_users_id_fk": {
+					"name": "user_roles_userId_users_id_fk",
+					"tableFrom": "user_roles",
+					"tableTo": "users",
+					"schemaTo": "identity",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"user_roles_roleId_roles_id_fk": {
+					"name": "user_roles_roleId_roles_id_fk",
+					"tableFrom": "user_roles",
+					"tableTo": "roles",
+					"schemaTo": "identity",
+					"columnsFrom": ["roleId"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {
+				"user_roles_userId_roleId_pk": {
+					"name": "user_roles_userId_roleId_pk",
+					"columns": ["userId", "roleId"]
+				}
+			},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"identity.users": {
+			"name": "users",
+			"schema": "identity",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"identity": {
+						"type": "always",
+						"name": "users_id_seq",
+						"schema": "identity",
+						"increment": "1",
+						"startWith": "1",
+						"minValue": "1",
+						"maxValue": "2147483647",
+						"cache": "1",
+						"cycle": false
+					}
+				},
+				"code": {
+					"name": "code",
+					"type": "varchar(64)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(256)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"username": {
+					"name": "username",
+					"type": "varchar(128)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"email": {
+					"name": "email",
+					"type": "varchar(256)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"users_code_unique": {
+					"name": "users_code_unique",
+					"nullsNotDistinct": false,
+					"columns": ["code"]
+				}
+			},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		}
+	},
+	"enums": {
+		"public.time_precision": {
+			"name": "time_precision",
+			"schema": "public",
+			"values": ["date", "datetime"]
+		}
+	},
+	"schemas": {
+		"finances": "finances",
+		"identity": "identity",
+		"social": "social"
+	},
+	"sequences": {},
+	"roles": {},
+	"policies": {},
+	"views": {
+		"finances.account_monthly_stats": {
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"definition": "select \"finances\".\"accounts\".\"id\", \"finances\".\"accounts\".\"userId\", EXTRACT(YEAR FROM \"finances\".\"transactions\".\"performedAt\")::integer as \"year\", EXTRACT(MONTH FROM \"finances\".\"transactions\".\"performedAt\")::integer as \"month\", sum(\"finances\".\"transactions\".\"amount\")::numeric as \"monthlyBalance\", SUM(CASE WHEN \"finances\".\"transactions\".\"amount\" > 0 THEN \"finances\".\"transactions\".\"amount\" ELSE 0 END)::numeric as \"income\", SUM(CASE WHEN \"finances\".\"transactions\".\"amount\" < 0 THEN abs(\"finances\".\"transactions\".\"amount\") ELSE 0 END)::numeric as \"outcome\" from \"finances\".\"accounts\" inner join \"finances\".\"transactions\" on \"finances\".\"transactions\".\"accountId\" = \"finances\".\"accounts\".\"id\" group by \"finances\".\"accounts\".\"id\", \"year\", \"month\"",
+			"name": "account_monthly_stats",
+			"schema": "finances",
+			"isExisting": false,
+			"with": {
+				"autovacuumEnabled": true
+			},
+			"materialized": true
+		},
+		"finances.account_stats": {
+			"columns": {
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				}
+			},
+			"definition": "select \"finances\".\"accounts\".\"userId\", \"finances\".\"accounts\".\"id\", \"balance\" from \"finances\".\"accounts\" inner join (select sum(\"amount\") as \"balance\", \"accountId\" from \"finances\".\"transactions\" group by \"finances\".\"transactions\".\"accountId\") \"agg_balance\" on \"agg_balance\".\"accountId\" = \"finances\".\"accounts\".\"id\"",
+			"name": "account_stats",
+			"schema": "finances",
+			"isExisting": false,
+			"with": {
+				"autovacuumEnabled": true
+			},
+			"materialized": true
+		}
+	},
+	"_meta": {
+		"columns": {},
+		"schemas": {},
+		"tables": {}
+	}
 }

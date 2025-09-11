@@ -1,34 +1,34 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1757079299621,
-      "tag": "0000_regular_shen",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1757318060549,
-      "tag": "0001_luxuriant_sheva_callister",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1757318100219,
-      "tag": "0002_cultured_pete_wisdom",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1757347653961,
-      "tag": "0003_confused_hydra",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "7",
+			"when": 1757079299621,
+			"tag": "0000_regular_shen",
+			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1757318060549,
+			"tag": "0001_luxuriant_sheva_callister",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1757318100219,
+			"tag": "0002_cultured_pete_wisdom",
+			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "7",
+			"when": 1757347653961,
+			"tag": "0003_confused_hydra",
+			"breakpoints": true
+		}
+	]
 }
