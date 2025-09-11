@@ -84,8 +84,6 @@ const REMOVE_TAG_FROM_TRANSACTION = {
 	method: EndpointMethod.DELETE,
 } satisfies EndpointDefinition<{ transactionId: string; tagId: string }>;
 
-// Other
-
 const GET_TAGS_BY_TRANSACTION = {
 	getPath: (params) => ["transaction", params.transactionId],
 	paramsMapping: { transactionId: "transactionId" },
@@ -111,8 +109,6 @@ export const MY_TAGS_CONTROLLER = {
 		// Transaction related
 		addTagToTransaction: ADD_TAG_TO_TRANSACTION,
 		removeTagFromTransaction: REMOVE_TAG_FROM_TRANSACTION,
-
-		// Other
 		getTagsByTransaction: GET_TAGS_BY_TRANSACTION,
 	},
 } satisfies ControllerDefinition;

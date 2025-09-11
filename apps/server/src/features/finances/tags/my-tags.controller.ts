@@ -120,8 +120,7 @@ export class MyTagsController {
 		);
 	}
 
-	// Other
-
+	@ApiOperation({ summary: "Get all tags assigned to a transaction" })
 	@Endpoint(MY_TAGS_CONTROLLER, "getTagsByTransaction")
 	async getTransactionTags(
 		@UserId() userId: UserModelId,
