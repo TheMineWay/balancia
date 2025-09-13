@@ -105,7 +105,7 @@ export class TagsRepository extends Repository {
 			.from(tagTable)
 			.innerJoin(
 				transactionTagTable,
-				eq(transactionTagTable.transactionId, tagTable.id),
+				eq(transactionTagTable.tagId, tagTable.id),
 			)
 			.where(eq(transactionTagTable.transactionId, transactionId));
 	}

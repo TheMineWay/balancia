@@ -1,12 +1,13 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { type UseSearch, useSearch } from "@core/search/hooks/use-search";
-import { MyAccountsSelector } from "@fts/finances/accounts/accounts/components/form/my-accounts.selector";
+import { MyAccountsSelector } from "@fts/finances/accounts/my-accounts/components/form/my-accounts.selector";
 import { MyCategoriesSelector } from "@fts/finances/categories/my-categories/components/form/my-categories.selector";
 import { useMyTransactionDeleteByIdMutation } from "@fts/finances/transactions/my-transactions/api/use-my-transaction-delete-by-id.mutation";
 import { useMyTransactionsQuery } from "@fts/finances/transactions/my-transactions/api/use-my-transactions.query";
 import { MyTransactionCreateManager } from "@fts/finances/transactions/my-transactions/components/manager/my-transaction-create-manager";
 import { MyTransactionUpdateManager } from "@fts/finances/transactions/my-transactions/components/manager/my-transaction-update-manager";
+import { MyTransactionTagsManager } from "@fts/finances/transactions/my-transactions/components/manager/tags/my-transaction-tags-manager";
 import { TransactionsTable } from "@fts/finances/transactions/transactions/components/transactions-table";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
@@ -111,6 +112,7 @@ export const MyTransactionsManager: FC = () => {
 
 			{/* Modals & Drawers */}
 
+			{/* Create transaction */}
 			<Drawer
 				position="right"
 				opened={isCreateOpen}
@@ -120,21 +122,37 @@ export const MyTransactionsManager: FC = () => {
 				<MyTransactionCreateManager onSuccess={closeCreate} />
 			</Drawer>
 
+			{/* Update transaction */}
 			<Drawer
 				position="right"
 				opened={Boolean(transactionToUpdate)}
 				onClose={() => setTransactionToUpdate(null)}
 				title={interpolated((t) => t.transaction.update.Title, {
-					name:
-						transactionToUpdate?.subject ??
-						transactionToUpdate?.id.toString() ??
-						"",
+					name: transactionToUpdate?.subject || `${transactionToUpdate?.id}`,
 				})}
 			>
 				{transactionToUpdate && (
 					<MyTransactionUpdateManager
 						transaction={transactionToUpdate}
 						onSuccess={() => setTransactionToUpdate(null)}
+					/>
+				)}
+			</Drawer>
+
+			{/* Manage transaction tags */}
+			<Drawer
+				position="right"
+				opened={Boolean(transactionToManageTags)}
+				onClose={() => setTransactionToManageTags(null)}
+				title={interpolated((t) => t.transaction.managers.tags.Title, {
+					name:
+						transactionToManageTags?.subject ||
+						`${transactionToManageTags?.id}`,
+				})}
+			>
+				{transactionToManageTags && (
+					<MyTransactionTagsManager
+						transactionId={transactionToManageTags.id}
 					/>
 				)}
 			</Drawer>

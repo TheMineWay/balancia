@@ -56,7 +56,12 @@
 		"managers": {
 			"tags": {
 				"Trigger": "Manage tags",
-				"Title": "Manage tags for transaction \"{name}\""
+				"Title": "Manage tags for transaction \"{name}\"",
+				"form": {
+					"search": {
+						"Placeholder": "Search tags to add"
+					}
+				}
 			}
 		}
 	},
@@ -171,6 +176,13 @@
 				},
 				"description": {
 					"Label": "Description"
+				}
+			}
+		},
+		"components": {
+			"tags-select-list": {
+				"actions": {
+					"Unassign-tag": "Unassign tag"
 				}
 			}
 		}
