@@ -2,6 +2,16 @@ import type { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
 	{
+		code: "@nivo/core",
+		name: "@nivo/core",
+		url: "https://www.npmjs.com/package/@nivo/core",
+	},
+	{
+		code: "@nivo/line",
+		name: "@nivo/line",
+		url: "https://www.npmjs.com/package/@nivo/line",
+	},
+	{
 		code: "nodemon",
 		name: "Nodemon",
 		url: "https://www.npmjs.com/package/nodemon",
