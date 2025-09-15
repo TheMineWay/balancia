@@ -8,6 +8,7 @@ export {
 export { accountTable } from "@database/schemas/main/tables/finances/account.table";
 export { categoryTable } from "@database/schemas/main/tables/finances/category.table";
 export { financesSchema } from "@database/schemas/main/tables/finances/finances.schema";
+export { tagAutomatcherTable } from "@database/schemas/main/tables/finances/tag-automatcher.table";
 export { tagTable } from "@database/schemas/main/tables/finances/tag.table";
 export { transactionTagTable as transactionTag } from "@database/schemas/main/tables/finances/transaction-tag.table";
 export { transactionsTable } from "@database/schemas/main/tables/finances/transaction.table";
