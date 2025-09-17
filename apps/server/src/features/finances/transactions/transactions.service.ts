@@ -89,7 +89,7 @@ export class TransactionsService {
 			);
 
 			this.eventService.emit(
-				new TransactionCreatedEvent({ transaction: created }),
+				new TransactionCreatedEvent({ transaction: { ...created, userId } }),
 			);
 
 			return created;
@@ -127,7 +127,7 @@ export class TransactionsService {
 
 			if (updated)
 				this.eventService.emit(
-					new TransactionUpdatedEvent({ transaction: updated }),
+					new TransactionUpdatedEvent({ transaction: { ...updated, userId } }),
 				);
 
 			return updated;

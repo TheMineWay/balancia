@@ -1,7 +1,9 @@
-import type { TransactionModel } from "@shared/models";
+import type { OwnedModel, TransactionModel } from "@shared/models";
 import { Event } from "src/events/event.abstract";
 
-type TransactionUpdatedEventPayload = { transaction: TransactionModel };
+type TransactionUpdatedEventPayload = {
+	transaction: OwnedModel<TransactionModel>;
+};
 
 /**
  * Event emitted when a transaction is updated
@@ -14,7 +16,9 @@ export class TransactionUpdatedEvent extends Event<TransactionUpdatedEventPayloa
 	}
 }
 
-type TransactionCreatedEventPayload = { transaction: TransactionModel };
+type TransactionCreatedEventPayload = {
+	transaction: OwnedModel<TransactionModel>;
+};
 
 /**
  * Event emitted when a transaction is created

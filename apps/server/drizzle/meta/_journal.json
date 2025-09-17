@@ -36,6 +36,13 @@
       "when": 1757960500103,
       "tag": "0004_volatile_spot",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1758110746836,
+      "tag": "0005_spooky_the_fallen",
+      "breakpoints": true
     }
   ]
 }

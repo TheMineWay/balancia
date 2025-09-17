@@ -13,13 +13,13 @@ export const tagAutomatcherTable = financesSchema.table(
 	{
 		tagId: integer()
 			.notNull()
-			.references(() => tagTable.id),
+			.references(() => tagTable.id, { onDelete: "cascade" }),
 		criteria: json().$type<TagAutomatcherModel["criteria"]>().notNull(),
 
 		// Owner
 		userId: integer()
 			.notNull()
-			.references(() => userTable.id),
+			.references(() => userTable.id, { onDelete: "cascade" }),
 
 		// Timestamps
 		...timestamps,
