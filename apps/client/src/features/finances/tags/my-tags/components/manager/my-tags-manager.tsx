@@ -3,6 +3,7 @@ import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useSearch } from "@core/search/hooks/use-search";
 import { useMyTagDeleteMutation } from "@fts/finances/tags/my-tags/api/use-my-tag-delete.mutation";
 import { useMyTagsListQuery } from "@fts/finances/tags/my-tags/api/use-my-tags-list.query";
+import { MyTagAutoMatchManager } from "@fts/finances/tags/my-tags/components/manager/auto-match/my-tag-auto-match-create-manager";
 import { MyTagCreateManager } from "@fts/finances/tags/my-tags/components/manager/my-tag-create-manager";
 import { MyTagUpdateManager } from "@fts/finances/tags/my-tags/components/manager/my-tag-update-manager";
 import { TagsTable } from "@fts/finances/tags/tags/components/tags.table";
@@ -19,7 +20,8 @@ import { IoAddOutline, IoReload, IoTrash } from "react-icons/io5";
 
 export const MyTagsManager: FC = () => {
 	const { t, interpolated } = useTranslation("finances");
-	const { t: commonT } = useTranslation("common");
+	const { t: commonT, interpolated: commonInterpolated } =
+		useTranslation("common");
 
 	const pagination = usePagination();
 	const search = useSearch<TagModel>({});
@@ -38,6 +40,9 @@ export const MyTagsManager: FC = () => {
 	const [tagToEdit, setTagToEdit] = useState<TagModel | null>(null);
 	const [isCreateOpen, { open: openCreate, close: closeCreate }] =
 		useDisclosure();
+	const [tagToAutomatchEdit, setTagToAutomatchEdit] = useState<TagModel | null>(
+		null,
+	);
 
 	const onDeleteClick = useCallback(
 		(item: TagModel) => {
@@ -97,6 +102,7 @@ export const MyTagsManager: FC = () => {
 								loading={isLoadingTags}
 								onEditClick={setTagToEdit}
 								onDeleteClick={onDeleteClick}
+								onTriggerManagerClick={setTagToAutomatchEdit}
 							/>
 						</TableLayout.Table>
 						<TableLayout.Pagination>
@@ -130,6 +136,20 @@ export const MyTagsManager: FC = () => {
 						tag={tagToEdit}
 						onSuccess={() => setTagToEdit(null)}
 					/>
+				)}
+			</Drawer>
+
+			<Drawer
+				position="right"
+				opened={Boolean(tagToAutomatchEdit)}
+				onClose={() => setTagToAutomatchEdit(null)}
+				title={commonInterpolated(
+					(t) => t.components.automatisms["auto-matcher"]["Entity-title"],
+					{ name: tagToAutomatchEdit?.name ?? "" },
+				)}
+			>
+				{tagToAutomatchEdit && (
+					<MyTagAutoMatchManager tag={tagToAutomatchEdit} />
 				)}
 			</Drawer>
 		</>

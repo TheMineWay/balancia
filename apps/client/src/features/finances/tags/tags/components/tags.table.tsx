@@ -4,6 +4,7 @@ import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Group } from "@mantine/core";
 import type { TagModel } from "@shared/models";
 import { BiEdit, BiTrash } from "react-icons/bi";
+import { RiRobot3Line } from "react-icons/ri";
 
 type Props = {
 	tags?: TagModel[];
@@ -11,13 +12,17 @@ type Props = {
 
 	onEditClick?: (tag: TagModel) => void;
 	onDeleteClick?: (tag: TagModel) => void;
+	onTriggerManagerClick?: (tag: TagModel) => void;
 };
 
 export const TagsTable: FC<Props> = ({
 	tags = [],
 	loading = false,
+
+	// Events
 	onEditClick,
 	onDeleteClick,
+	onTriggerManagerClick,
 }) => {
 	const { t } = useTranslation("finances");
 	const { t: commonT } = useTranslation("common");
@@ -38,6 +43,16 @@ export const TagsTable: FC<Props> = ({
 				label: commonT().expressions.Actions,
 				render: (item) => (
 					<Group>
+						{onTriggerManagerClick && (
+							<ActionIcon
+								onClick={() => onTriggerManagerClick(item)}
+								aria-label={
+									commonT().components.automatisms["auto-matcher"].Title
+								}
+							>
+								<RiRobot3Line />
+							</ActionIcon>
+						)}
 						{onEditClick && (
 							<ActionIcon
 								onClick={() => onEditClick(item)}

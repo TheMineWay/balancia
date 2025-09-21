@@ -62,3 +62,7 @@ export const AUTO_ASSIGN_CRITERIA_SCHEMA = z.discriminatedUnion("type", [
 export type AutoAssignCriteriaModel = z.infer<
 	typeof AUTO_ASSIGN_CRITERIA_SCHEMA
 >;
+
+export type AutoAssignTriggerTypes = {
+	field: AutoAssignTriggerFieldModel;
+};

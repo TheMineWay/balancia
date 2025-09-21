@@ -93,6 +93,38 @@
 					"Description": "The client version ({current}) does not match the required version ({required}). Reload the page to update."
 				}
 			}
+		},
+		"automatisms": {
+			"auto-matcher": {
+				"Title": "Auto matcher",
+				"Entity-title": "\"{name}\" auto matcher",
+				"forms": {
+					"trigger-types": {
+						"Label": "Trigger types",
+						"options": {
+							"field": {
+								"Label": "Field"
+							}
+						}
+					},
+					"field-based": {
+						"field": {
+							"Label": "Field"
+						},
+						"match-mode": {
+							"Label": "Match mode",
+							"options": {
+								"eq": {
+									"Label": "Equals"
+								},
+								"contains": {
+									"Label": "Contains"
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
