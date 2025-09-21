@@ -1,17 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-	AUTO_ASSIGN_CRITERIA_SCHEMA,
-	AutoAssignTriggerType,
-} from "@shared/models";
+import { AUTO_ASSIGN_SCHEMA, AutoAssignTriggerType } from "@shared/models";
 import { useForm } from "react-hook-form";
+import z from "zod";
 
-const SCHEMA = AUTO_ASSIGN_CRITERIA_SCHEMA;
+const SCHEMA = z.object({ ...AUTO_ASSIGN_SCHEMA.shape });
 
 export const useAutoassignForm = () => {
 	const form = useForm({
 		resolver: zodResolver(SCHEMA),
 		defaultValues: {
-			type: AutoAssignTriggerType.FIELD,
+			criteria: {
+				type: AutoAssignTriggerType.FIELD,
+			},
 		},
 	});
 

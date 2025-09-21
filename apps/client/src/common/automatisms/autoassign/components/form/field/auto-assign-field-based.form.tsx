@@ -1,4 +1,3 @@
-import { Form } from "@common/extended-ui/form/components/form";
 import { useTranslation } from "@i18n/use-translation";
 import { Combobox, InputBase, InputWrapper, useCombobox } from "@mantine/core";
 import {
@@ -11,22 +10,28 @@ import { Controller, type UseFormReturn } from "react-hook-form";
 type Props = {
 	form: UseFormReturn<AutoAssignTriggerTypes["field"]>;
 	fields: AutoAssignFieldItem[];
-
-	onSuccess?: (data: AutoAssignTriggerTypes["field"]) => void;
 };
 
-export const AutoAssignFieldBasedForm: FC<Props> = ({ form }) => {
+export const AutoAssignFieldBasedForm: FC<Props> = ({ form, fields }) => {
 	const { t } = useTranslation("common");
 
 	return (
-		<Form>
+		<>
 			{/* Field */}
 			<InputWrapper
 				label={
 					t().components.automatisms["auto-matcher"].forms["field-based"].field
 						.Label
 				}
-			></InputWrapper>
+			>
+				<Controller
+					control={form.control}
+					name="field"
+					render={({ field: { ref: _, ...restField } }) => (
+						<FieldSelector {...restField} fields={fields} />
+					)}
+				/>
+			</InputWrapper>
 
 			{/* Match mode */}
 			<InputWrapper
@@ -44,11 +49,75 @@ export const AutoAssignFieldBasedForm: FC<Props> = ({ form }) => {
 					)}
 				/>
 			</InputWrapper>
-		</Form>
+		</>
 	);
 };
 
 /* Internal */
+
+type FieldSelectorProps = {
+	value: string;
+	onChange: (value: string) => void;
+	fields: AutoAssignFieldItem[];
+};
+
+const FieldSelector: FC<FieldSelectorProps> = ({ value, onChange, fields }) => {
+	const { t } = useTranslation("common");
+	const combobox = useCombobox({});
+
+	const options = useMemo(
+		() =>
+			fields.map((field) => ({
+				value: field.field,
+				label: field.label,
+			})),
+		[fields],
+	);
+
+	const selected = useMemo(
+		() => options.find((i) => i.value === value),
+		[options, value],
+	);
+
+	return (
+		<Combobox
+			store={combobox}
+			onOptionSubmit={(v) => {
+				onChange(v as string);
+				combobox.closeDropdown();
+			}}
+		>
+			<Combobox.Target>
+				<InputBase
+					component="button"
+					type="button"
+					pointer
+					rightSection={<Combobox.Chevron />}
+					rightSectionPointerEvents="none"
+					onClick={() => combobox.toggleDropdown()}
+				>
+					{selected?.label ||
+						t().components.automatisms["auto-matcher"].forms["field-based"]
+							.field.Placeholder}
+				</InputBase>
+			</Combobox.Target>
+
+			<Combobox.Dropdown>
+				<Combobox.Options>
+					{options.map((option) => (
+						<Combobox.Option
+							key={option.value}
+							value={option.value}
+							selected={option.value === value}
+						>
+							<p>{option.label}</p>
+						</Combobox.Option>
+					))}
+				</Combobox.Options>
+			</Combobox.Dropdown>
+		</Combobox>
+	);
+};
 
 type MatchModeSelectorProps = {
 	value: AutoAssignTriggerTypes["field"]["matchMode"];

@@ -66,3 +66,39 @@ export type AutoAssignCriteriaModel = z.infer<
 export type AutoAssignTriggerTypes = {
 	field: AutoAssignTriggerFieldModel;
 };
+
+/* Metadata */
+
+export const AUTO_ASSIGN_METADATA_MODEL_VALUES = {
+	name: {
+		maxLength: 128,
+	},
+	description: {
+		maxLength: 1024,
+	},
+} satisfies ModelValues;
+
+const AUTO_ASSIGN_METADATA_SCHEMA = z.object({
+	name: z
+		.string()
+		.nonempty()
+		.max(AUTO_ASSIGN_METADATA_MODEL_VALUES.name.maxLength),
+	description: z
+		.string()
+		.max(AUTO_ASSIGN_METADATA_MODEL_VALUES.description.maxLength)
+		.nullable()
+		.default(null),
+});
+
+export type AutoAssignMetadataModel = z.infer<
+	typeof AUTO_ASSIGN_METADATA_SCHEMA
+>;
+
+/* Complete models */
+
+export const AUTO_ASSIGN_SCHEMA = z.object({
+	...AUTO_ASSIGN_METADATA_SCHEMA.shape,
+	criteria: AUTO_ASSIGN_CRITERIA_SCHEMA,
+});
+
+export type AutoAssignModel = z.infer<typeof AUTO_ASSIGN_SCHEMA>;

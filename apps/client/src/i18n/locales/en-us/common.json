@@ -107,9 +107,18 @@
 							}
 						}
 					},
+					"metadata": {
+						"name": {
+							"Label": "Name"
+						},
+						"description": {
+							"Label": "Description"
+						}
+					},
 					"field-based": {
 						"field": {
-							"Label": "Field"
+							"Label": "Field",
+							"Placeholder": "Select a field"
 						},
 						"match-mode": {
 							"Label": "Match mode",
@@ -123,6 +132,10 @@
 							}
 						}
 					}
+				},
+				"actions": {
+					"Create": "Create auto matcher",
+					"Edit": "Edit auto matcher"
 				}
 			}
 		}
