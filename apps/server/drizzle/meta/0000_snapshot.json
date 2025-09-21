@@ -1,9 +1,149 @@
 {
-	"id": "3aa4cbfb-b02e-4fd3-a67d-880ea735ab0c",
+	"id": "dc035d45-7c51-4c23-97f9-a8b2085b6bc2",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"version": "7",
 	"dialect": "postgresql",
 	"tables": {
+		"finances.accounts": {
+			"name": "accounts",
+			"schema": "finances",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(64)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "varchar(512)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"accounts_userId_users_id_fk": {
+					"name": "accounts_userId_users_id_fk",
+					"tableFrom": "accounts",
+					"tableTo": "users",
+					"schemaTo": "identity",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"finances.categories": {
+			"name": "categories",
+			"schema": "finances",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(100)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "varchar(512)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {
+				"categories_userId_index": {
+					"name": "categories_userId_index",
+					"columns": [
+						{
+							"expression": "userId",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				}
+			},
+			"foreignKeys": {
+				"categories_userId_users_id_fk": {
+					"name": "categories_userId_users_id_fk",
+					"tableFrom": "categories",
+					"tableTo": "users",
+					"schemaTo": "identity",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
 		"identity.permissions": {
 			"name": "permissions",
 			"schema": "identity",
@@ -192,6 +332,201 @@
 			"checkConstraints": {},
 			"isRLSEnabled": false
 		},
+		"finances.transactions": {
+			"name": "transactions",
+			"schema": "finances",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"amount": {
+					"name": "amount",
+					"type": "numeric(10, 2)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"subject": {
+					"name": "subject",
+					"type": "varchar(255)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"performedAt": {
+					"name": "performedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"performedAtPrecision": {
+					"name": "performedAtPrecision",
+					"type": "time_precision",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'datetime'"
+				},
+				"categoryId": {
+					"name": "categoryId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"accountId": {
+					"name": "accountId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {
+				"account_id_and_performed_at_and_id_IDX": {
+					"name": "account_id_and_performed_at_and_id_IDX",
+					"columns": [
+						{
+							"expression": "accountId",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						},
+						{
+							"expression": "\"performedAt\" DESC",
+							"asc": true,
+							"isExpression": true,
+							"nulls": "last"
+						},
+						{
+							"expression": "\"id\" DESC",
+							"asc": true,
+							"isExpression": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				},
+				"category_id_IDX": {
+					"name": "category_id_IDX",
+					"columns": [
+						{
+							"expression": "categoryId",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				}
+			},
+			"foreignKeys": {
+				"transactions_categoryId_categories_id_fk": {
+					"name": "transactions_categoryId_categories_id_fk",
+					"tableFrom": "transactions",
+					"tableTo": "categories",
+					"schemaTo": "finances",
+					"columnsFrom": ["categoryId"],
+					"columnsTo": ["id"],
+					"onDelete": "set null",
+					"onUpdate": "no action"
+				},
+				"transactions_accountId_accounts_id_fk": {
+					"name": "transactions_accountId_accounts_id_fk",
+					"tableFrom": "transactions",
+					"tableTo": "accounts",
+					"schemaTo": "finances",
+					"columnsFrom": ["accountId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"identity.user_preferences": {
+			"name": "user_preferences",
+			"schema": "identity",
+			"columns": {
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"mainAccount": {
+					"name": "mainAccount",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"user_preferences_userId_users_id_fk": {
+					"name": "user_preferences_userId_users_id_fk",
+					"tableFrom": "user_preferences",
+					"tableTo": "users",
+					"schemaTo": "identity",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"user_preferences_mainAccount_accounts_id_fk": {
+					"name": "user_preferences_mainAccount_accounts_id_fk",
+					"tableFrom": "user_preferences",
+					"tableTo": "accounts",
+					"schemaTo": "finances",
+					"columnsFrom": ["mainAccount"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
 		"identity.user_roles": {
 			"name": "user_roles",
 			"schema": "identity",
@@ -325,14 +660,70 @@
 			"isRLSEnabled": false
 		}
 	},
-	"enums": {},
+	"enums": {
+		"public.time_precision": {
+			"name": "time_precision",
+			"schema": "public",
+			"values": ["date", "datetime"]
+		}
+	},
 	"schemas": {
+		"finances": "finances",
 		"identity": "identity"
 	},
 	"sequences": {},
 	"roles": {},
 	"policies": {},
-	"views": {},
+	"views": {
+		"finances.account_monthly_stats": {
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"definition": "select \"finances\".\"accounts\".\"id\", \"finances\".\"accounts\".\"userId\", EXTRACT(YEAR FROM \"finances\".\"transactions\".\"performedAt\")::integer as \"year\", EXTRACT(MONTH FROM \"finances\".\"transactions\".\"performedAt\")::integer as \"month\", sum(\"finances\".\"transactions\".\"amount\")::numeric as \"monthlyBalance\", SUM(CASE WHEN \"finances\".\"transactions\".\"amount\" > 0 THEN \"finances\".\"transactions\".\"amount\" ELSE 0 END)::numeric as \"income\", SUM(CASE WHEN \"finances\".\"transactions\".\"amount\" < 0 THEN abs(\"finances\".\"transactions\".\"amount\") ELSE 0 END)::numeric as \"outcome\" from \"finances\".\"accounts\" inner join \"finances\".\"transactions\" on \"finances\".\"transactions\".\"accountId\" = \"finances\".\"accounts\".\"id\" group by \"finances\".\"accounts\".\"id\", \"year\", \"month\"",
+			"name": "account_monthly_stats",
+			"schema": "finances",
+			"isExisting": false,
+			"with": {
+				"autovacuumEnabled": true
+			},
+			"materialized": true
+		},
+		"finances.account_stats": {
+			"columns": {
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				}
+			},
+			"definition": "select \"finances\".\"accounts\".\"userId\", \"finances\".\"accounts\".\"id\", \"balance\" from \"finances\".\"accounts\" inner join (select sum(\"amount\") as \"balance\", \"accountId\" from \"finances\".\"transactions\" group by \"finances\".\"transactions\".\"accountId\") \"agg_balance\" on \"agg_balance\".\"accountId\" = \"finances\".\"accounts\".\"id\"",
+			"name": "account_stats",
+			"schema": "finances",
+			"isExisting": false,
+			"with": {
+				"autovacuumEnabled": true
+			},
+			"materialized": true
+		}
+	},
 	"_meta": {
 		"columns": {},
 		"schemas": {},

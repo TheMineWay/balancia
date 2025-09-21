@@ -9,7 +9,10 @@ import { Permission } from "@shared/models";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
 import { FaHome } from "react-icons/fa";
+import { FaRegFolder, FaTag } from "react-icons/fa6";
+import { LuPiggyBank } from "react-icons/lu";
 import { MdAdminPanelSettings, MdDashboard } from "react-icons/md";
+import { PiMoneyWavy } from "react-icons/pi";
 
 const MyAvatar: FC = () => {
 	const { user } = useUserInfo();
@@ -29,6 +32,9 @@ const Navigator: FC = () => {
 				</ActionIcon>
 			</Link>
 
+			{/* FINANCES */}
+			<FinancesMenu />
+
 			{/* ADMIN DASHBOARD */}
 			<Protected
 				condition={{ type: "simple", permissions: [Permission.ADMIN] }}
@@ -36,6 +42,47 @@ const Navigator: FC = () => {
 				<AdminMenu />
 			</Protected>
 		</Group>
+	);
+};
+
+const FinancesMenu: FC = () => {
+	const { t } = useTranslation("finances");
+
+	return (
+		<Menu trigger="hover">
+			<Menu.Target>
+				<Button
+					size="compact-sm"
+					variant="subtle"
+					leftSection={<MdDashboard />}
+				>
+					{t().nav.Label}
+				</Button>
+			</Menu.Target>
+
+			<Menu.Dropdown>
+				<Link to="/finances/transactions">
+					<Menu.Item leftSection={<PiMoneyWavy />} variant="subtle">
+						{t().nav.children.transactions.Label}
+					</Menu.Item>
+				</Link>
+				<Link to="/finances/accounts">
+					<Menu.Item leftSection={<LuPiggyBank />} variant="subtle">
+						{t().nav.children.accounts.Label}
+					</Menu.Item>
+				</Link>
+				<Link to="/finances/categories">
+					<Menu.Item leftSection={<FaRegFolder />} variant="subtle">
+						{t().nav.children.categories.Label}
+					</Menu.Item>
+				</Link>
+				<Link to="/finances/tags">
+					<Menu.Item leftSection={<FaTag />} variant="subtle">
+						{t().nav.children.tags.Label}
+					</Menu.Item>
+				</Link>
+			</Menu.Dropdown>
+		</Menu>
 	);
 };
 
@@ -48,7 +95,11 @@ const AdminMenu: FC = () => {
 	return (
 		<Menu trigger="hover">
 			<Menu.Target>
-				<Button variant="subtle" leftSection={<MdAdminPanelSettings />}>
+				<Button
+					size="compact-sm"
+					variant="subtle"
+					leftSection={<MdAdminPanelSettings />}
+				>
 					{t()["nav-actions"].Label}
 				</Button>
 			</Menu.Target>

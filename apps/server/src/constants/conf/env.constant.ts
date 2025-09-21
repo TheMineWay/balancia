@@ -33,6 +33,7 @@ const ENV_SCHEMA = z.object({
 		.refine(refinedMin(1)),
 	DATABASE_URL: z.string(),
 	DATABASE_SSL_REJECT_UNAUTHORIZED: z.stringbool().default(true),
+	REFRESH_MVIEWS_ON_STARTUP: z.stringbool().default(false),
 
 	// DEBUG
 	LOG_ENV_VALUES: z.stringbool().default(false),
@@ -83,6 +84,9 @@ const ENV_SCHEMA = z.object({
 		.default("600000")
 		.transform((val) => +val)
 		.refine((val) => isFinite(val) && val >= 0),
+
+	// Finances
+	DATABASE_FINANCES_MVIEWS_UPDATE_CRON: z.string().default("0,30 * * * *"),
 });
 
 const TEST_VALUES: Partial<z.infer<typeof ENV_SCHEMA>> = {
@@ -113,6 +117,7 @@ export const ENV = (() => {
 			connectionLimit: values.DATABASE_CONNECTION_LIMIT,
 			logQueries: values.LOG_QUERIES,
 			sslRejectUnauthorized: values.DATABASE_SSL_REJECT_UNAUTHORIZED,
+			refreshMaterializedViewsOnStartup: values.REFRESH_MVIEWS_ON_STARTUP,
 		},
 		cors: {
 			allowedDomains: values.CORS_ONLY_ALLOW_DOMAINS,
@@ -140,6 +145,10 @@ export const ENV = (() => {
 		},
 		docs: {
 			openApiDocs: values.OPEN_API_DOCS,
+		},
+		finances: {
+			databaseMaterializedViewsUpdateCron:
+				values.DATABASE_FINANCES_MVIEWS_UPDATE_CRON,
 		},
 		env: values.NODE_ENV,
 	};

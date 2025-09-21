@@ -43,7 +43,7 @@ export const RolesTable: FC<Props> = ({
 				accessorKey: "name",
 			},
 			{
-				label: commonT().models.fields["created-at"].Name,
+				label: commonT().expressions["Created-at"],
 				accessorKey: "createdAt",
 				render: (item) => <DatetimeRender mode="long" date={item.createdAt} />,
 			},

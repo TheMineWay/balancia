@@ -18,3 +18,7 @@
 	padding-left: var(--title-x-padding);
 	padding-right: var(--title-x-padding);
 }
+
+:root {
+	--ifm-color-primary: #66bb6a;
+}

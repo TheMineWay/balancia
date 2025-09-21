@@ -1,0 +1,58 @@
+import { ID_SCHEMA } from "@/common/__system/id.model";
+import { TimePrecision } from "@/common/time/time-precision.enum";
+import { ACCOUNT_SCHEMA } from "@/features/finances/accounts/account.model";
+import { CATEGORY_SCHEMA } from "@/features/finances/category/category.model";
+import { DATE_SCHEMA } from "@/utils/date.model";
+import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
+import type { ModelValues } from "@ts-types/model-values.type";
+import z from "zod";
+
+export const TRANSACTION_MODEL_VALUES = {
+	subject: {
+		maxLength: 255,
+	},
+	amount: {
+		min: -99_999_999.99,
+		max: 99_999_999.99,
+	},
+	performedAtPrecision: {
+		default: TimePrecision.DATETIME,
+	},
+} satisfies ModelValues;
+
+export const TRANSACTION_SCHEMA = z.object({
+	id: ID_SCHEMA,
+	amount: z
+		.number()
+		.multipleOf(0.01)
+		.min(TRANSACTION_MODEL_VALUES.amount.min)
+		.max(TRANSACTION_MODEL_VALUES.amount.max),
+	subject: z
+		.string()
+		.max(TRANSACTION_MODEL_VALUES.subject.maxLength)
+		.nullable()
+		.default(null),
+
+	// When the transaction has been performed
+	performedAt: DATE_SCHEMA,
+	performedAtPrecision: z
+		.enum(TimePrecision)
+		.default(TRANSACTION_MODEL_VALUES.performedAtPrecision.default),
+
+	// Links
+	accountId: ACCOUNT_SCHEMA.shape.id,
+	categoryId: CATEGORY_SCHEMA.shape.id.nullable().default(null),
+
+	// Timestamps
+	...TIMESTAMPS_SCHEMA.shape,
+});
+
+export type TransactionModel = z.infer<typeof TRANSACTION_SCHEMA>;
+
+/* Create */
+export const TRANSACTION_CREATE_SCHEMA = TRANSACTION_SCHEMA.omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true,
+});
+export type TransactionCreateModel = z.infer<typeof TRANSACTION_CREATE_SCHEMA>;

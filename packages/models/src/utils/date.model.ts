@@ -10,6 +10,6 @@ export const DATE_SCHEMA = z
 		["string", "number"].includes(typeof value)
 			? new Date(value)
 			: (value as Date),
-	);
+	) as z.ZodType<Date, Date>;
 
 export type DateModel = z.infer<typeof DATE_SCHEMA>;

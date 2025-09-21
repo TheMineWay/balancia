@@ -4,7 +4,7 @@ import type { WithChildren } from "@common/extended-ui/general/types/component.t
  * Represents a single actions row.
  */
 const Row: FC<WithChildren> = ({ children }) => {
-	return <div className="flex gap-2 items-center">{children}</div>;
+	return <div className="flex gap-2 items-center flex-wrap">{children}</div>;
 };
 
 /**

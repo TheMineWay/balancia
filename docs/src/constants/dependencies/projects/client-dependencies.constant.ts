@@ -4,6 +4,12 @@ import { DevProp } from "@site/src/types/dependencies/with-dev-prop.type";
 
 const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 	{
+		dep: "@nivo/core",
+	},
+	{
+		dep: "@nivo/line",
+	},
+	{
 		dep: "vite-plugin-pwa",
 		isDevelopment: true,
 	},
