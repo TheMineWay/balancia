@@ -1,3 +1,4 @@
+import { ID_SCHEMA } from "@/common/__system/id.model";
 import {
 	AUTO_ASSIGN_CRITERIA_SCHEMA,
 	AUTO_ASSIGN_METADATA_MODEL_VALUES,
@@ -6,6 +7,8 @@ import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
 import z from "zod";
 
 export const TAG_AUTOMATCHER_SCHEMA = z.object({
+	id: ID_SCHEMA,
+
 	// Metadata
 	name: z
 		.string()

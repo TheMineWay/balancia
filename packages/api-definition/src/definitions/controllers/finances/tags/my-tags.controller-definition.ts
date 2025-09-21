@@ -1,8 +1,10 @@
 import {
+	AUTO_ASSIGN_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_SEARCH_SCHEMA,
 	TAG_CREATE_SCHEMA,
 	TAG_SCHEMA,
+	TransactionModel,
 } from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
 import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
@@ -92,6 +94,57 @@ const GET_TAGS_BY_TRANSACTION = {
 	}),
 } satisfies EndpointDefinition<{ transactionId: string }>;
 
+// Auto match
+
+const ALLOWED_TAG_AUTO_MATCH_FIELDS = [
+	"subject",
+] satisfies (keyof TransactionModel)[];
+
+const TAG_AUTO_MATCH_DTO = z.object({
+	...AUTO_ASSIGN_SCHEMA.shape,
+	criteria: {
+		...AUTO_ASSIGN_SCHEMA.shape.criteria,
+		fields: z.enum(ALLOWED_TAG_AUTO_MATCH_FIELDS),
+	},
+});
+
+const GET_TAG_AUTO_MATCHS_LIST_ENDPOINT = {
+	getPath: (options) => ["tag", options.tagId, "automatch"],
+	paramsMapping: { tagId: "tagId" },
+	queryDto: z.object({
+		...PAGINATED_SEARCH_SCHEMA.shape,
+	}),
+	responseDto: getPaginatedResponse(
+		z.object({
+			...TAG_AUTO_MATCH_DTO.shape,
+		}),
+	),
+} satisfies EndpointDefinition<{ tagId: string }>;
+
+const ADD_TAG_AUTO_MATCH_ENDPOINT = {
+	getPath: (options) => ["tag", options.tagId, "automatch"],
+	paramsMapping: { tagId: "tagId" },
+	method: EndpointMethod.POST,
+	bodyDto: z.object({
+		...TAG_AUTO_MATCH_DTO.shape,
+	}),
+} satisfies EndpointDefinition<{ tagId: string }>;
+
+const UPDATE_TAG_AUTO_MATCH_ENDPOINT = {
+	getPath: (options) => ["auto-match", options.autoMatchId],
+	paramsMapping: { autoMatchId: "autoMatchId" },
+	method: EndpointMethod.PUT,
+	bodyDto: z.object({
+		...TAG_AUTO_MATCH_DTO.shape,
+	}),
+} satisfies EndpointDefinition<{ autoMatchId: string }>;
+
+const REMOVE_TAG_AUTO_MATCH_ENDPOINT = {
+	getPath: (options) => ["auto-match", options.autoMatchId],
+	paramsMapping: { autoMatchId: "autoMatchId" },
+	method: EndpointMethod.DELETE,
+} satisfies EndpointDefinition<{ autoMatchId: string }>;
+
 // Controller
 
 export const MY_TAGS_CONTROLLER = {
@@ -110,5 +163,10 @@ export const MY_TAGS_CONTROLLER = {
 		addTagToTransaction: ADD_TAG_TO_TRANSACTION,
 		removeTagFromTransaction: REMOVE_TAG_FROM_TRANSACTION,
 		getTagsByTransaction: GET_TAGS_BY_TRANSACTION,
+
+		// Auto match
+		getTagAutoMatchsList: GET_TAG_AUTO_MATCHS_LIST_ENDPOINT,
+		addTagAutoMatch: ADD_TAG_AUTO_MATCH_ENDPOINT,
+		removeTagAutoMatch: REMOVE_TAG_AUTO_MATCH_ENDPOINT,
 	},
 } satisfies ControllerDefinition;

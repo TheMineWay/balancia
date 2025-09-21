@@ -8,13 +8,15 @@ import {
 	type OwnedModel,
 	type TagAutomatcherModel,
 } from "@shared/models";
-import { index, integer, json, varchar } from "drizzle-orm/pg-core";
+import { index, integer, json, serial, varchar } from "drizzle-orm/pg-core";
 
 type ColumnsModel = DbModeledColumnsDefinition<OwnedModel<TagAutomatcherModel>>;
 
 export const tagAutomatcherTable = financesSchema.table(
 	"tag_automatchers",
 	{
+		id: serial().primaryKey(),
+
 		// Metadata
 		name: varchar({
 			length: AUTO_ASSIGN_METADATA_MODEL_VALUES.name.maxLength,
