@@ -5,6 +5,8 @@ import { Inject, Injectable } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import type {
 	OwnedModel,
+	PaginatedQuery,
+	SearchModel,
 	TagModel,
 	TransactionCreateModel,
 	TransactionModel,
@@ -37,6 +39,15 @@ export class TagAutomatcherService {
 			tagId,
 			options,
 		);
+	}
+
+	async getUserMatchersListByTagId(
+		userId: UserModelId,
+		tagId: TagModel["id"],
+		pagination?: PaginatedQuery,
+		search?: SearchModel,
+	) {
+		return { items: [], total: 0 };
 	}
 
 	async getUserMatchers() {}

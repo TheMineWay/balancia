@@ -168,5 +168,6 @@ export const MY_TAGS_CONTROLLER = {
 		getTagAutoMatchsList: GET_TAG_AUTO_MATCHS_LIST_ENDPOINT,
 		addTagAutoMatch: ADD_TAG_AUTO_MATCH_ENDPOINT,
 		removeTagAutoMatch: REMOVE_TAG_AUTO_MATCH_ENDPOINT,
+		updateTagAutoMatch: UPDATE_TAG_AUTO_MATCH_ENDPOINT,
 	},
 } satisfies ControllerDefinition;

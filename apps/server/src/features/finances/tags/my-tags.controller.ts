@@ -12,11 +12,15 @@ import { UserModelId } from "@shared/models";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
 import { ValidatedBody } from "src/decorators/validation/validated-body.decorator";
 import { ValidatedQuery } from "src/decorators/validation/validated-query.decorator";
+import { TagAutomatcherService } from "src/features/finances/tags/tag-automatcher.service";
 import { TagsService } from "src/features/finances/tags/tags.service";
 
 @Controller(getController(MY_TAGS_CONTROLLER, {}))
 export class MyTagsController {
-	constructor(private readonly tagsService: TagsService) {}
+	constructor(
+		private readonly tagsService: TagsService,
+		private readonly tagAutomatcherService: TagAutomatcherService,
+	) {}
 
 	@Endpoint(MY_TAGS_CONTROLLER, "getTagsList")
 	async getTagsList(
@@ -139,4 +143,29 @@ export class MyTagsController {
 			),
 		};
 	}
+
+	// #region Auto matchers
+
+	@Endpoint(MY_TAGS_CONTROLLER, "getTagAutoMatchsList")
+	async getTagAutoMatchsList(
+		@ValidatedQuery(MY_TAGS_CONTROLLER, "getTagAutoMatchsList")
+		query: InferQueryDto<typeof MY_TAGS_CONTROLLER, "getTagAutoMatchsList">,
+		@Param(
+			getParamName(MY_TAGS_CONTROLLER, "getTagAutoMatchsList", "tagId"),
+			ParseIntPipe,
+		)
+		tagId: number,
+		@UserId() userId: UserModelId,
+	): Promise<
+		InferResponseDto<typeof MY_TAGS_CONTROLLER, "getTagAutoMatchsList">
+	> {
+		return await this.tagAutomatcherService.getUserMatchersListByTagId(
+			userId,
+			tagId,
+			query.pagination,
+			query.search,
+		);
+	}
+
+	// @endregion
 }

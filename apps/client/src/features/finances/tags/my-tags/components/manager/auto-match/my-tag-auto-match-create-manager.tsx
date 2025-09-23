@@ -8,7 +8,7 @@ type Props = {
 	tag: TagModel;
 };
 
-export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
+export const MyTagAutoMatchCreateManager: FC<Props> = ({ tag }) => {
 	const { t: commonT } = useTranslation("common");
 
 	const { form } = useAutoassignForm();
