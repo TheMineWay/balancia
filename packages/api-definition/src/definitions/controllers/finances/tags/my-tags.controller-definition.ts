@@ -1,4 +1,5 @@
 import {
+	AUTO_ASSIGN_CREATE_SCHEMA,
 	AUTO_ASSIGN_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_SEARCH_SCHEMA,
@@ -108,6 +109,14 @@ const TAG_AUTO_MATCH_DTO = z.object({
 	},
 });
 
+const TAG_AUTO_MATCH_CREATE_DTO = z.object({
+	...AUTO_ASSIGN_CREATE_SCHEMA.shape,
+	criteria: {
+		...AUTO_ASSIGN_CREATE_SCHEMA.shape.criteria,
+		fields: z.enum(ALLOWED_TAG_AUTO_MATCH_FIELDS),
+	},
+});
+
 const GET_TAG_AUTO_MATCHS_LIST_ENDPOINT = {
 	getPath: (options) => ["tag", options.tagId, "automatch"],
 	paramsMapping: { tagId: "tagId" },
@@ -126,7 +135,7 @@ const ADD_TAG_AUTO_MATCH_ENDPOINT = {
 	paramsMapping: { tagId: "tagId" },
 	method: EndpointMethod.POST,
 	bodyDto: z.object({
-		...TAG_AUTO_MATCH_DTO.shape,
+		...TAG_AUTO_MATCH_CREATE_DTO.shape,
 	}),
 } satisfies EndpointDefinition<{ tagId: string }>;
 
@@ -135,7 +144,7 @@ const UPDATE_TAG_AUTO_MATCH_ENDPOINT = {
 	paramsMapping: { autoMatchId: "autoMatchId" },
 	method: EndpointMethod.PUT,
 	bodyDto: z.object({
-		...TAG_AUTO_MATCH_DTO.shape,
+		...TAG_AUTO_MATCH_CREATE_DTO.shape,
 	}),
 } satisfies EndpointDefinition<{ autoMatchId: string }>;
 

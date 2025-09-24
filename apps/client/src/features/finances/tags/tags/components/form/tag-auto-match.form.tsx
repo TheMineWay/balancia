@@ -1,13 +1,14 @@
 import { AutoAssignForm } from "@common/automatisms/autoassign/components/form/auto-assign.form";
 import type { AutoAssignFieldItem } from "@common/automatisms/autoassign/components/form/field/auto-assign-field-based.form";
 import { useTranslation } from "@i18n/use-translation";
-import type { AutoAssignModel } from "@shared/models";
+import type { AutoAssignCreateModel } from "@shared/models";
 import { useMemo } from "react";
 import type { UseFormReturn } from "react-hook-form";
 
 type Props = {
-	form: UseFormReturn<AutoAssignModel>;
-	onSuccess?: (data: AutoAssignModel) => void;
+	form: UseFormReturn<AutoAssignCreateModel>;
+	onSuccess?: (data: AutoAssignCreateModel) => void;
+	loading?: boolean;
 
 	/* Submit */
 	submitText: string;
@@ -19,6 +20,7 @@ export const TagAutoMatchForm: FC<Props> = ({
 	onSuccess,
 	submitText,
 	submitIcon,
+	loading = false,
 }) => {
 	const { t } = useTranslation("finances");
 
@@ -47,6 +49,7 @@ export const TagAutoMatchForm: FC<Props> = ({
 			onSuccess={onSuccess}
 			submitText={submitText}
 			submitIcon={submitIcon}
+			loading={loading}
 		/>
 	);
 };

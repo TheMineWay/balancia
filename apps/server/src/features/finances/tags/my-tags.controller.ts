@@ -167,5 +167,5 @@ export class MyTagsController {
 		);
 	}
 
-	// @endregion
+	// #endregion
 }

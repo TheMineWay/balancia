@@ -130,6 +130,10 @@
 									"Label": "Contains"
 								}
 							}
+						},
+						"value": {
+							"Label": "Value",
+							"Placeholder": "Enter a value"
 						}
 					}
 				},

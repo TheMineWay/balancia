@@ -7,18 +7,18 @@ import { useTranslation } from "@i18n/use-translation";
 import { Button, Input, InputWrapper } from "@mantine/core";
 import {
 	AUTO_ASSIGN_METADATA_MODEL_VALUES,
-	type AutoAssignModel,
+	type AutoAssignCreateModel,
 	AutoAssignTriggerType,
-	type AutoAssignTriggerTypes,
 } from "@shared/models";
 import { type UseFormReturn, useWatch } from "react-hook-form";
 
 type Props = {
-	form: UseFormReturn<AutoAssignModel>;
+	form: UseFormReturn<AutoAssignCreateModel>;
+	loading?: boolean;
 
 	// Field based
 	fields: AutoAssignFieldItem[];
-	onSuccess?: (data: AutoAssignModel) => void;
+	onSuccess?: (data: AutoAssignCreateModel) => void;
 
 	/* Submit */
 	submitText: string;
@@ -30,6 +30,7 @@ type Props = {
  */
 export const AutoAssignForm: FC<Props> = ({
 	form,
+	loading = false,
 	fields,
 	onSuccess,
 	submitText,
@@ -68,7 +69,7 @@ export const AutoAssignForm: FC<Props> = ({
 			{/* Extend fields by match mode */}
 			<MatchModeForm form={form} fields={fields} />
 
-			<Button type="submit" leftSection={submitIcon}>
+			<Button loading={loading} type="submit" leftSection={submitIcon}>
 				{submitText}
 			</Button>
 		</Form>
@@ -76,7 +77,7 @@ export const AutoAssignForm: FC<Props> = ({
 };
 
 type MatchModeFormProps = {
-	form: UseFormReturn<AutoAssignModel>;
+	form: UseFormReturn<AutoAssignCreateModel>;
 	fields: AutoAssignFieldItem[];
 };
 
@@ -84,12 +85,7 @@ const MatchModeForm: FC<MatchModeFormProps> = ({ form, fields }) => {
 	const formState = useWatch(form);
 
 	if (formState.criteria?.type === AutoAssignTriggerType.FIELD)
-		return (
-			<AutoAssignFieldBasedForm
-				form={form as unknown as UseFormReturn<AutoAssignTriggerTypes["field"]>}
-				fields={fields}
-			/>
-		);
+		return <AutoAssignFieldBasedForm form={form} fields={fields} />;
 
 	return null;
 };

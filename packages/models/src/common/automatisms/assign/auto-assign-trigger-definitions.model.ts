@@ -1,3 +1,5 @@
+import { ID_SCHEMA } from "@/common/__system/id.model";
+import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
 import { ModelValues } from "@ts-types/model-values.type";
 import z from "zod";
 
@@ -51,7 +53,7 @@ export enum AutoAssignTriggerType {
 }
 
 const FIELD_BASED = z.object({
-	type: AutoAssignTriggerType.FIELD,
+	type: z.literal(AutoAssignTriggerType.FIELD),
 	...AUTO_ASSIGN_TRIGGER_FIELD_SCHEMA.shape,
 });
 
@@ -97,8 +99,18 @@ export type AutoAssignMetadataModel = z.infer<
 /* Complete models */
 
 export const AUTO_ASSIGN_SCHEMA = z.object({
+	id: ID_SCHEMA,
 	...AUTO_ASSIGN_METADATA_SCHEMA.shape,
 	criteria: AUTO_ASSIGN_CRITERIA_SCHEMA,
+	...TIMESTAMPS_SCHEMA.shape,
 });
 
 export type AutoAssignModel = z.infer<typeof AUTO_ASSIGN_SCHEMA>;
+
+export const AUTO_ASSIGN_CREATE_SCHEMA = AUTO_ASSIGN_SCHEMA.omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true,
+});
+
+export type AutoAssignCreateModel = z.infer<typeof AUTO_ASSIGN_CREATE_SCHEMA>;

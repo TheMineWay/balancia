@@ -59,7 +59,12 @@ export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
 			</ManagerLayout.Root>
 
 			{/* Managers */}
-			<Drawer position="right" opened={isCreateOpen} onClose={closeCreate}>
+			<Drawer
+				title={commonT().components.automatisms["auto-matcher"].Title}
+				position="right"
+				opened={isCreateOpen}
+				onClose={closeCreate}
+			>
 				<MyTagAutoMatchCreateManager tag={tag} />
 			</Drawer>
 		</>

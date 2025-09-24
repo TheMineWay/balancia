@@ -28,3 +28,13 @@ export const TAG_AUTOMATCHER_SCHEMA = z.object({
 });
 
 export type TagAutomatcherModel = z.infer<typeof TAG_AUTOMATCHER_SCHEMA>;
+
+export const TAG_AUTOMATCHER_CREATE_SCHEMA = TAG_AUTOMATCHER_SCHEMA.omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true,
+});
+
+export type TagAutomatcherCreateModel = z.infer<
+	typeof TAG_AUTOMATCHER_CREATE_SCHEMA
+>;
