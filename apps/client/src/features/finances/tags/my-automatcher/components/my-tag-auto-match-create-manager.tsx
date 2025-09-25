@@ -1,4 +1,4 @@
-import { useMyTagAutoMatcherCreateMutation } from "@fts/finances/tags/my-tags/api/auto-match/use-my-tag-auto-matcher-create.mutation";
+import { useMyTagAutoMatcherCreateMutation } from "@fts/finances/tags/my-automatcher/api/use-my-tag-auto-matcher-create.mutation";
 import { TagAutoMatchForm } from "@fts/finances/tags/tags/components/form/tag-auto-match.form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "@i18n/use-translation";

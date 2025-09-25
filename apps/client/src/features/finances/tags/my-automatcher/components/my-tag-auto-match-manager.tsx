@@ -1,7 +1,8 @@
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useSearch } from "@core/search/hooks/use-search";
-import { useMyTagAutoMatchersListQuery } from "@fts/finances/tags/my-tags/api/auto-match/use-my-tag-auto-matchers-list.query";
-import { MyTagAutoMatchCreateManager } from "@fts/finances/tags/my-tags/components/manager/auto-match/my-tag-auto-match-create-manager";
+import { TagsAutomatchersTable } from "@fts/finances/tags/automatcher/components/tags-automatchers.table";
+import { useMyTagAutoMatchersListQuery } from "@fts/finances/tags/my-automatcher/api/use-my-tag-auto-matchers-list.query";
+import { MyTagAutoMatchCreateManager } from "@fts/finances/tags/my-automatcher/components/my-tag-auto-match-create-manager";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
@@ -54,6 +55,10 @@ export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
 								</ActionIcon>
 							</ActionsLayout.Row>
 						</TableLayout.Actions>
+						{/* Table */}
+						<TableLayout.Table>
+							<TagsAutomatchersTable />
+						</TableLayout.Table>
 					</TableLayout.Root>
 				</ManagerLayout.Content>
 			</ManagerLayout.Root>

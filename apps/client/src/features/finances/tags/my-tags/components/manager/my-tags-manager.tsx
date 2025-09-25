@@ -27,7 +27,7 @@ import { IoAddOutline, IoReload, IoTrash } from "react-icons/io5";
 
 const MyTagAutoMatchManager = lazy(() =>
 	import(
-		"@fts/finances/tags/my-tags/components/manager/auto-match/my-tag-auto-match-manager"
+		"@fts/finances/tags/my-automatcher/components/my-tag-auto-match-manager"
 	).then((m) => ({ default: m.MyTagAutoMatchManager })),
 );
 
