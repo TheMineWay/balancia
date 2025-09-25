@@ -100,20 +100,7 @@
 				"Entity-title": "\"{name}\" auto matcher",
 				"forms": {
 					"trigger-types": {
-						"Label": "Trigger types",
-						"options": {
-							"field": {
-								"Label": "Field"
-							}
-						}
-					},
-					"metadata": {
-						"name": {
-							"Label": "Name"
-						},
-						"description": {
-							"Label": "Description"
-						}
+						"Label": "Trigger types"
 					},
 					"field-based": {
 						"field": {
@@ -121,15 +108,7 @@
 							"Placeholder": "Select a field"
 						},
 						"match-mode": {
-							"Label": "Match mode",
-							"options": {
-								"eq": {
-									"Label": "Equals"
-								},
-								"contains": {
-									"Label": "Contains"
-								}
-							}
+							"Label": "Match mode"
 						},
 						"value": {
 							"Label": "Value",
@@ -137,9 +116,44 @@
 						}
 					}
 				},
+				"table": {
+					"columns": {
+						"name": {
+							"Title": "Name"
+						},
+						"description": {
+							"Title": "Description"
+						}
+					}
+				},
 				"actions": {
 					"Create": "Create auto matcher",
 					"Edit": "Edit auto matcher"
+				},
+				"models": {
+					"automatcher": {
+						"name": {
+							"Label": "Name"
+						},
+						"description": {
+							"Label": "Description"
+						}
+					}
+				},
+				"metadata": {
+					"trigger-type-options": {
+						"field": {
+							"Label": "Field"
+						}
+					},
+					"match-mode-options": {
+						"eq": {
+							"Label": "Equals"
+						},
+						"contains": {
+							"Label": "Contains"
+						}
+					}
 				}
 			}
 		}

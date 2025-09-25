@@ -44,7 +44,8 @@ export const AutoAssignForm: FC<Props> = ({
 			{/* Name */}
 			<InputWrapper
 				label={
-					t().components.automatisms["auto-matcher"].forms.metadata.name.Label
+					t().components.automatisms["auto-matcher"].models.automatcher.name
+						.Label
 				}
 			>
 				<Input
@@ -56,8 +57,8 @@ export const AutoAssignForm: FC<Props> = ({
 			{/* Description */}
 			<InputWrapper
 				label={
-					t().components.automatisms["auto-matcher"].forms.metadata.description
-						.Label
+					t().components.automatisms["auto-matcher"].models.automatcher
+						.description.Label
 				}
 			>
 				<Input

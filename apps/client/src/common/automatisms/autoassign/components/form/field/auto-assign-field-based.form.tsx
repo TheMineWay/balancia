@@ -161,16 +161,16 @@ const MatchModeSelector: FC<MatchModeSelectorProps> = ({
 			{
 				value: AutoAssignTriggerMatchOption.EQUALS,
 				label:
-					t().components.automatisms["auto-matcher"].forms["field-based"][
-						"match-mode"
-					].options.eq.Label,
+					t().components.automatisms["auto-matcher"].metadata[
+						"match-mode-options"
+					].eq.Label,
 			},
 			{
 				value: AutoAssignTriggerMatchOption.CONTAINS,
 				label:
-					t().components.automatisms["auto-matcher"].forms["field-based"][
-						"match-mode"
-					].options.contains.Label,
+					t().components.automatisms["auto-matcher"].metadata[
+						"match-mode-options"
+					].contains.Label,
 			},
 		],
 		[t],
