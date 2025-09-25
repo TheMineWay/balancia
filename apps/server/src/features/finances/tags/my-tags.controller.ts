@@ -4,6 +4,7 @@ import { ApiOperation } from "@nestjs/swagger";
 import {
 	getController,
 	getParamName,
+	InferBodyDto,
 	type InferQueryDto,
 	type InferResponseDto,
 	MY_TAGS_CONTROLLER,
@@ -165,6 +166,17 @@ export class MyTagsController {
 			query.pagination,
 			query.search,
 		);
+	}
+
+	@Endpoint(MY_TAGS_CONTROLLER, "addTagAutoMatch")
+	async addTagAutoMatch(
+		@ValidatedBody(MY_TAGS_CONTROLLER, "addTagAutoMatch") body: InferBodyDto<
+			typeof MY_TAGS_CONTROLLER,
+			"addTagAutoMatch"
+		>,
+		@UserId() userId: UserModelId,
+	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, "addTagAutoMatch">> {
+		await this.tagAutomatcherService.createUserTagAutomatcher(userId, body);
 	}
 
 	// #endregion

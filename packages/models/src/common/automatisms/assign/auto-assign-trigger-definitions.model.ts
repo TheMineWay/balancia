@@ -30,20 +30,18 @@ export const AUTO_ASSIGN_TRIGGER_FIELD_MODEL_VALUES = {
  * Schema to validate the field based trigger definition.
  * It defines the field to check, the match mode and the value to compare against.
  */
-export const AUTO_ASSIGN_TRIGGER_FIELD_SCHEMA = z.object({
-	field: z
-		.string()
-		.nonempty()
-		.max(AUTO_ASSIGN_TRIGGER_FIELD_MODEL_VALUES.field.maxLength),
-	matchMode: z.enum(AutoAssignTriggerMatchOption),
-	value: z
-		.string()
-		.nonempty()
-		.max(AUTO_ASSIGN_TRIGGER_FIELD_MODEL_VALUES.value.maxLength),
-});
+export const GET_AUTO_ASSIGN_TRIGGER_FIELD_SCHEMA = (fields: string[]) =>
+	z.object({
+		field: z.enum(fields),
+		matchMode: z.enum(AutoAssignTriggerMatchOption),
+		value: z
+			.string()
+			.nonempty()
+			.max(AUTO_ASSIGN_TRIGGER_FIELD_MODEL_VALUES.value.maxLength),
+	});
 
 export type AutoAssignTriggerFieldModel = z.infer<
-	typeof AUTO_ASSIGN_TRIGGER_FIELD_SCHEMA
+	ReturnType<typeof GET_AUTO_ASSIGN_TRIGGER_FIELD_SCHEMA>
 >;
 
 // #endregion
@@ -52,17 +50,21 @@ export enum AutoAssignTriggerType {
 	FIELD = "field",
 }
 
-const FIELD_BASED = z.object({
-	type: z.literal(AutoAssignTriggerType.FIELD),
-	...AUTO_ASSIGN_TRIGGER_FIELD_SCHEMA.shape,
-});
+const GET_FIELD_BASED = (fields: string[]) =>
+	z.object({
+		type: z.literal(AutoAssignTriggerType.FIELD),
+		...GET_AUTO_ASSIGN_TRIGGER_FIELD_SCHEMA(fields).shape,
+	});
 
-export const AUTO_ASSIGN_CRITERIA_SCHEMA = z.discriminatedUnion("type", [
-	FIELD_BASED,
-]);
+type CriteriaOptions = {
+	fields: string[];
+};
+
+export const GET_AUTO_ASSIGN_CRITERIA_SCHEMA = ({ fields }: CriteriaOptions) =>
+	z.discriminatedUnion("type", [GET_FIELD_BASED(fields)]);
 
 export type AutoAssignCriteriaModel = z.infer<
-	typeof AUTO_ASSIGN_CRITERIA_SCHEMA
+	ReturnType<typeof GET_AUTO_ASSIGN_CRITERIA_SCHEMA>
 >;
 
 export type AutoAssignTriggerTypes = {
@@ -98,19 +100,25 @@ export type AutoAssignMetadataModel = z.infer<
 
 /* Complete models */
 
-export const AUTO_ASSIGN_SCHEMA = z.object({
-	id: ID_SCHEMA,
-	...AUTO_ASSIGN_METADATA_SCHEMA.shape,
-	criteria: AUTO_ASSIGN_CRITERIA_SCHEMA,
-	...TIMESTAMPS_SCHEMA.shape,
-});
+export const GET_AUTO_ASSIGN_SCHEMA = (options: CriteriaOptions) =>
+	z.object({
+		id: ID_SCHEMA,
+		...AUTO_ASSIGN_METADATA_SCHEMA.shape,
+		criteria: GET_AUTO_ASSIGN_CRITERIA_SCHEMA(options),
+		...TIMESTAMPS_SCHEMA.shape,
+	});
 
-export type AutoAssignModel = z.infer<typeof AUTO_ASSIGN_SCHEMA>;
+export type AutoAssignModel = z.infer<
+	ReturnType<typeof GET_AUTO_ASSIGN_SCHEMA>
+>;
 
-export const AUTO_ASSIGN_CREATE_SCHEMA = AUTO_ASSIGN_SCHEMA.omit({
-	id: true,
-	createdAt: true,
-	updatedAt: true,
-});
+export const GET_AUTO_ASSIGN_CREATE_SCHEMA = (options: CriteriaOptions) =>
+	GET_AUTO_ASSIGN_SCHEMA(options).omit({
+		id: true,
+		createdAt: true,
+		updatedAt: true,
+	});
 
-export type AutoAssignCreateModel = z.infer<typeof AUTO_ASSIGN_CREATE_SCHEMA>;
+export type AutoAssignCreateModel = z.infer<
+	ReturnType<typeof GET_AUTO_ASSIGN_CREATE_SCHEMA>
+>;

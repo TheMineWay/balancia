@@ -64,6 +64,13 @@
       "when": 1758476472740,
       "tag": "0008_omniscient_the_stranger",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1758704048616,
+      "tag": "0009_cool_zaladane",
+      "breakpoints": true
     }
   ]
 }

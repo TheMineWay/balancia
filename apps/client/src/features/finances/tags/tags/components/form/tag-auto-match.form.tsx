@@ -1,13 +1,16 @@
 import { AutoAssignForm } from "@common/automatisms/autoassign/components/form/auto-assign.form";
 import type { AutoAssignFieldItem } from "@common/automatisms/autoassign/components/form/field/auto-assign-field-based.form";
 import { useTranslation } from "@i18n/use-translation";
-import type { AutoAssignCreateModel } from "@shared/models";
+import type {
+	AutoAssignCreateModel,
+	TagAutomatcherCreateModel,
+} from "@shared/models";
 import { useMemo } from "react";
 import type { UseFormReturn } from "react-hook-form";
 
 type Props = {
-	form: UseFormReturn<AutoAssignCreateModel>;
-	onSuccess?: (data: AutoAssignCreateModel) => void;
+	form: UseFormReturn<TagAutomatcherCreateModel>;
+	onSuccess?: (data: TagAutomatcherCreateModel) => void;
 	loading?: boolean;
 
 	/* Submit */
@@ -32,7 +35,7 @@ export const TagAutoMatchForm: FC<Props> = ({
 		() => [
 			{
 				label: t().transaction.models.transaction.subject.Label,
-				field: "name",
+				field: "subject",
 			},
 			{
 				label: t().transaction.models.transaction.amount.Label,
@@ -44,9 +47,11 @@ export const TagAutoMatchForm: FC<Props> = ({
 
 	return (
 		<AutoAssignForm
-			form={form}
+			form={form as unknown as UseFormReturn<AutoAssignCreateModel>}
 			fields={fields}
-			onSuccess={onSuccess}
+			onSuccess={(data) =>
+				onSuccess?.(data as unknown as TagAutomatcherCreateModel)
+			}
 			submitText={submitText}
 			submitIcon={submitIcon}
 			loading={loading}

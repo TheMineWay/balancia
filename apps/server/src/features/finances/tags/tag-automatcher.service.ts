@@ -1,12 +1,13 @@
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { QueryOptions } from "@database/repository/repository";
 import { DatabaseService } from "@database/services/database.service";
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import type {
 	OwnedModel,
 	PaginatedQuery,
 	SearchModel,
+	TagAutomatcherCreateModel,
 	TagModel,
 	TransactionCreateModel,
 	TransactionModel,
@@ -14,6 +15,7 @@ import type {
 } from "@shared/models";
 import { autoAssignMatch } from "@shared/utils";
 import { TagAutomatcherRepository } from "src/features/finances/tags/repositories/tag-automatcher.repository";
+import { TagsService } from "src/features/finances/tags/tags.service";
 import {
 	TransactionCreatedEvent,
 	TransactionUpdatedEvent,
@@ -24,6 +26,7 @@ const MAX_MATCHERS_PER_RUN = 2000;
 @Injectable()
 export class TagAutomatcherService {
 	constructor(
+		private readonly tagsService: TagsService,
 		private readonly tagAutomatcherRepository: TagAutomatcherRepository,
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
@@ -51,6 +54,19 @@ export class TagAutomatcherService {
 	}
 
 	async getUserMatchers() {}
+
+	async createUserTagAutomatcher(
+		userId: UserModelId,
+		data: TagAutomatcherCreateModel,
+	) {
+		const { isOwner } = await this.tagsService.checkTagOwnership(
+			userId,
+			data.tagId,
+		);
+		if (!isOwner) throw new UnauthorizedException();
+
+		return await this.tagAutomatcherRepository.create(data);
+	}
 
 	// Matchers
 

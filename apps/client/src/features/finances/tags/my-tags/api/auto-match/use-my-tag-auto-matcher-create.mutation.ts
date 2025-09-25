@@ -14,7 +14,7 @@ export const useMyTagAutoMatcherCreateMutation = () => {
 			endpointMutation(
 				MY_TAGS_CONTROLLER,
 				"addTagAutoMatch",
-				{ tagId: String(tagAutomatcher.tagId) },
+				{},
 				request,
 			)({ body: tagAutomatcher }),
 		onSuccess: (_, vars) => {

@@ -65,7 +65,7 @@ export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
 				opened={isCreateOpen}
 				onClose={closeCreate}
 			>
-				<MyTagAutoMatchCreateManager tag={tag} />
+				<MyTagAutoMatchCreateManager tag={tag} onSuccess={closeCreate} />
 			</Drawer>
 		</>
 	);

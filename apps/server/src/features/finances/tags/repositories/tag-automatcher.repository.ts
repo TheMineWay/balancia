@@ -1,5 +1,10 @@
 import { QueryOptions, Repository } from "@database/repository/repository";
-import { tagAutomatcherTable } from "@database/schemas/main/tables/finances/tag-automatcher.table";
+import { tagTable } from "@database/schemas/main.schema";
+import {
+	TAG_AUTOMATCHER_TABLE_COLUMNS,
+	TagAutomatcherInsert,
+	tagAutomatcherTable,
+} from "@database/schemas/main/tables/finances/tag-automatcher.table";
 import { transactionTagTable } from "@database/schemas/main/tables/finances/transaction-tag.table";
 import { Injectable } from "@nestjs/common";
 import {
@@ -18,13 +23,11 @@ export class TagAutomatcherRepository extends Repository {
 		options?: QueryOptions,
 	) {
 		return await this.query(options)
-			.select()
+			.select(TAG_AUTOMATCHER_TABLE_COLUMNS)
 			.from(tagAutomatcherTable)
+			.innerJoin(tagTable, eq(tagTable.id, tagAutomatcherTable.tagId))
 			.where(
-				and(
-					eq(tagAutomatcherTable.userId, userId),
-					eq(tagAutomatcherTable.tagId, tagId),
-				),
+				and(eq(tagTable.userId, userId), eq(tagAutomatcherTable.tagId, tagId)),
 			);
 	}
 
@@ -34,9 +37,10 @@ export class TagAutomatcherRepository extends Repository {
 		options?: QueryOptions,
 	) {
 		const query = this.query(options)
-			.select()
+			.select(TAG_AUTOMATCHER_TABLE_COLUMNS)
 			.from(tagAutomatcherTable)
-			.where(eq(tagAutomatcherTable.userId, userId))
+			.innerJoin(tagTable, eq(tagTable.id, tagAutomatcherTable.tagId))
+			.where(eq(tagTable.userId, userId))
 			.orderBy(desc(tagAutomatcherTable.tagId))
 			.$dynamic();
 
@@ -57,5 +61,12 @@ export class TagAutomatcherRepository extends Repository {
 		return await this.query(options)
 			.insert(transactionTagTable)
 			.values(payload);
+	}
+
+	async create(data: TagAutomatcherInsert, options?: QueryOptions) {
+		return await this.query(options)
+			.insert(tagAutomatcherTable)
+			.values(data)
+			.returning();
 	}
 }
