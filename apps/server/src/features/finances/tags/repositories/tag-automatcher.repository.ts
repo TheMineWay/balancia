@@ -9,11 +9,12 @@ import { transactionTagTable } from "@database/schemas/main/tables/finances/tran
 import { Injectable } from "@nestjs/common";
 import {
 	PaginatedQuery,
+	SearchModel,
 	TagModel,
 	TransactionModel,
 	UserModelId,
 } from "@shared/models";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, ilike, or } from "drizzle-orm";
 
 @Injectable()
 export class TagAutomatcherRepository extends Repository {
@@ -31,17 +32,40 @@ export class TagAutomatcherRepository extends Repository {
 			);
 	}
 
-	async paginatedFindAllByUserId(
-		userId: UserModelId,
+	async paginatedFindAllByTagId(
+		tagId: TagModel["id"],
 		pagination: PaginatedQuery,
+		search: SearchModel,
 		options?: QueryOptions,
 	) {
+		const searchCondition = this.getSearchCondition(search);
 		const query = this.query(options)
 			.select(TAG_AUTOMATCHER_TABLE_COLUMNS)
 			.from(tagAutomatcherTable)
-			.innerJoin(tagTable, eq(tagTable.id, tagAutomatcherTable.tagId))
-			.where(eq(tagTable.userId, userId))
+			.where(and(searchCondition, eq(tagAutomatcherTable.tagId, tagId)))
 			.orderBy(desc(tagAutomatcherTable.tagId))
+			.$dynamic();
+
+		const { rows: items, count: total } = await this.paginated(
+			pagination,
+			query,
+		);
+
+		return { items, total };
+	}
+
+	async paginatedFindAllByUserId(
+		userId: UserModelId,
+		pagination: PaginatedQuery,
+		search: SearchModel,
+		options?: QueryOptions,
+	) {
+		const searchCondition = this.getSearchCondition(search);
+		const query = this.query(options)
+			.select(TAG_AUTOMATCHER_TABLE_COLUMNS)
+			.from(tagAutomatcherTable)
+			.orderBy(desc(tagAutomatcherTable.tagId))
+			.where(and(searchCondition, eq(tagTable.userId, userId)))
 			.$dynamic();
 
 		const { rows: items, count: total } = await this.paginated(
@@ -68,5 +92,17 @@ export class TagAutomatcherRepository extends Repository {
 			.insert(tagAutomatcherTable)
 			.values(data)
 			.returning();
+	}
+
+	/* Internal */
+	private getSearchCondition(search: SearchModel) {
+		const searchCondition = search.search
+			? or(
+					ilike(tagAutomatcherTable.name, `%${search.search}%`),
+					ilike(tagAutomatcherTable.description, `%${search.search}%`),
+				)
+			: undefined;
+
+		return searchCondition;
 	}
 }

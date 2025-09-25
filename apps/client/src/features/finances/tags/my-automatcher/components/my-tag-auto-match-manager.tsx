@@ -1,3 +1,4 @@
+import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useSearch } from "@core/search/hooks/use-search";
 import { TagsAutomatchersTable } from "@fts/finances/tags/automatcher/components/tags-automatchers.table";
@@ -24,8 +25,11 @@ export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
 	const search = useSearch<AutoAssignMetadataModel>({});
 	const pagination = usePagination();
 
-	const { isFetching: isFetchingTags, refetch: refetchTags } =
-		useMyTagAutoMatchersListQuery({ tagId: tag.id, search, pagination });
+	const {
+		data: tagAutoMatchers,
+		isFetching: isFetchingTags,
+		refetch: refetchTags,
+	} = useMyTagAutoMatchersListQuery({ tagId: tag.id, search, pagination });
 
 	return (
 		<>
@@ -34,6 +38,11 @@ export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
 					{/* Table */}
 					<TableLayout.Root>
 						<TableLayout.Actions>
+							{/* Search */}
+							<ActionsLayout.Row>
+								<DebouncedSearch manager={search.debouncedSearchManager} />
+							</ActionsLayout.Row>
+
 							{/* Table actions */}
 							<ActionsLayout.Row>
 								<Button
@@ -57,7 +66,7 @@ export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
 						</TableLayout.Actions>
 						{/* Table */}
 						<TableLayout.Table>
-							<TagsAutomatchersTable />
+							<TagsAutomatchersTable automatchers={tagAutoMatchers?.items} />
 						</TableLayout.Table>
 					</TableLayout.Root>
 				</ManagerLayout.Content>

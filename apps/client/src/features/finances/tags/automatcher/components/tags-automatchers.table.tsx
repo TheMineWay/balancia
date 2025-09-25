@@ -1,3 +1,4 @@
+import { DatetimeRender } from "@common/extended-ui/date/components/datetime-render";
 import { Table } from "@common/extended-ui/table/components/table";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
 import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
@@ -28,6 +29,11 @@ export const TagsAutomatchersTable: FC<Props> = ({
 				label:
 					t().components.automatisms["auto-matcher"].table.columns.description
 						.Title,
+			},
+			{
+				accessorKey: "createdAt",
+				label: t().expressions["Created-at"],
+				render: (row) => <DatetimeRender date={row.createdAt} />,
 			},
 		],
 		[t],

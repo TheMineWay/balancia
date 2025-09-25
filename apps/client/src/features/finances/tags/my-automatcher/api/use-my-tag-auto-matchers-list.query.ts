@@ -13,9 +13,16 @@ import { useQuery } from "@tanstack/react-query";
 export const MY_TAG_AUTOMATCHERS_BASE_QUERY_KEY: QueryKey = () => [
 	"my-tag-auto-matchers",
 ];
-export const USE_MY_TAG_AUTO_MATCHERS_QUERY_KEY: ParametrizedQueryKey<{
-	tagId: TagModel["id"];
-}> = (options) => [...MY_TAG_AUTOMATCHERS_BASE_QUERY_KEY(), options.tagId];
+export const USE_MY_TAG_AUTO_MATCHERS_QUERY_KEY: ParametrizedQueryKey<
+	Options
+> = (options) => [
+	...MY_TAG_AUTOMATCHERS_BASE_QUERY_KEY(),
+	{
+		tagId: options.tagId,
+		pagination: options.pagination.requestData,
+		search: options.search.requestData,
+	},
+];
 
 type Options = {
 	tagId: TagModel["id"];
@@ -31,13 +38,21 @@ export const useMyTagAutoMatchersListQuery = ({
 	const { request } = useAuthenticatedRequest();
 
 	return useQuery({
-		queryFn: endpointQuery(
-			MY_TAGS_CONTROLLER,
-			"getTagAutoMatchsList",
-			{ tagId: tagId.toString() },
-			request,
-			{ query: { pagination: pagination.requestData, ...search.requestData } },
-		),
-		queryKey: USE_MY_TAG_AUTO_MATCHERS_QUERY_KEY({ tagId }),
+		queryFn: async () => {
+			const response = await endpointQuery(
+				MY_TAGS_CONTROLLER,
+				"getTagAutoMatchsList",
+				{ tagId: tagId.toString() },
+				request,
+				{
+					query: { pagination: pagination.requestData, ...search.requestData },
+				},
+			)();
+
+			pagination.setTotal(response.total);
+
+			return response;
+		},
+		queryKey: USE_MY_TAG_AUTO_MATCHERS_QUERY_KEY({ tagId, search, pagination }),
 	});
 };

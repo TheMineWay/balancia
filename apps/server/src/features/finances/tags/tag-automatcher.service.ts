@@ -47,10 +47,17 @@ export class TagAutomatcherService {
 	async getUserMatchersListByTagId(
 		userId: UserModelId,
 		tagId: TagModel["id"],
-		pagination?: PaginatedQuery,
-		search?: SearchModel,
+		pagination: PaginatedQuery,
+		search: SearchModel,
 	) {
-		return { items: [], total: 0 };
+		const { isOwner } = await this.tagsService.checkTagOwnership(userId, tagId);
+		if (!isOwner) throw new UnauthorizedException();
+
+		return await this.tagAutomatcherRepository.paginatedFindAllByTagId(
+			tagId,
+			pagination,
+			search,
+		);
 	}
 
 	async getUserMatchers() {}
@@ -82,6 +89,7 @@ export class TagAutomatcherService {
 			await this.tagAutomatcherRepository.paginatedFindAllByUserId(
 				transaction.userId,
 				{ page: 1, limit: MAX_MATCHERS_PER_RUN },
+				{ search: null },
 				options,
 			);
 
