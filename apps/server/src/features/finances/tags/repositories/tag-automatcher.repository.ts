@@ -64,6 +64,7 @@ export class TagAutomatcherRepository extends Repository {
 		const query = this.query(options)
 			.select(TAG_AUTOMATCHER_TABLE_COLUMNS)
 			.from(tagAutomatcherTable)
+			.innerJoin(tagTable, eq(tagTable.id, tagAutomatcherTable.tagId))
 			.orderBy(desc(tagAutomatcherTable.tagId))
 			.where(and(searchCondition, eq(tagTable.userId, userId)))
 			.$dynamic();
