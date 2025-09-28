@@ -179,5 +179,37 @@ export class MyTagsController {
 		await this.tagAutomatcherService.createUserTagAutomatcher(userId, body);
 	}
 
+	@Endpoint(MY_TAGS_CONTROLLER, "removeTagAutoMatch")
+	async removeTagAutoMatch(
+		@UserId() userId: UserModelId,
+		@Param(
+			getParamName(MY_TAGS_CONTROLLER, "removeTagAutoMatch", "autoMatchId"),
+			ParseIntPipe,
+		)
+		id: number,
+	): Promise<
+		InferResponseDto<typeof MY_TAGS_CONTROLLER, "removeTagAutoMatch">
+	> {
+		await this.tagAutomatcherService.deleteUserTagAutomatcher(userId, id);
+	}
+
+	@Endpoint(MY_TAGS_CONTROLLER, "updateTagAutoMatch")
+	async updateTagAutoMatch(
+		@UserId() userId: UserModelId,
+		@Param(
+			getParamName(MY_TAGS_CONTROLLER, "updateTagAutoMatch", "autoMatchId"),
+			ParseIntPipe,
+		)
+		id: number,
+		@ValidatedBody(MY_TAGS_CONTROLLER, "updateTagAutoMatch") body: InferBodyDto<
+			typeof MY_TAGS_CONTROLLER,
+			"updateTagAutoMatch"
+		>,
+	): Promise<
+		InferResponseDto<typeof MY_TAGS_CONTROLLER, "updateTagAutoMatch">
+	> {
+		await this.tagAutomatcherService.updateUserTagAutomatcher(userId, id, body);
+	}
+
 	// #endregion
 }

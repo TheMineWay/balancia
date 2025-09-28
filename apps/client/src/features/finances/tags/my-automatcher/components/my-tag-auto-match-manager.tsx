@@ -2,23 +2,31 @@ import { DebouncedSearch } from "@common/extended-ui/form/components/search/debo
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useSearch } from "@core/search/hooks/use-search";
 import { TagsAutomatchersTable } from "@fts/finances/tags/automatcher/components/tags-automatchers.table";
+import { useMyAutoMatcherDeleteByIdMutation } from "@fts/finances/tags/my-automatcher/api/use-my-auto-matcher-delete-by-id.mutation";
 import { useMyTagAutoMatchersListQuery } from "@fts/finances/tags/my-automatcher/api/use-my-tag-auto-matchers-list.query";
 import { MyTagAutoMatchCreateManager } from "@fts/finances/tags/my-automatcher/components/my-tag-auto-match-create-manager";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer } from "@mantine/core";
+import { ActionIcon, Button, Drawer, Pagination, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import type { AutoAssignMetadataModel, TagModel } from "@shared/models";
-import { IoAddOutline, IoReload } from "react-icons/io5";
+import { modals } from "@mantine/modals";
+import type {
+	AutoAssignMetadataModel,
+	TagAutomatcherModel,
+	TagModel,
+} from "@shared/models";
+import { useCallback } from "react";
+import { IoAddOutline, IoReload, IoTrash } from "react-icons/io5";
 
 type Props = {
 	tag: TagModel;
 };
 
 export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
-	const { t: commonT } = useTranslation("common");
+	const { t: commonT, interpolated: commonInterpolated } =
+		useTranslation("common");
 	const [isCreateOpen, { open: openCreate, close: closeCreate }] =
 		useDisclosure();
 
@@ -30,6 +38,35 @@ export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
 		isFetching: isFetchingTags,
 		refetch: refetchTags,
 	} = useMyTagAutoMatchersListQuery({ tagId: tag.id, search, pagination });
+	const { mutate: deleteAutomatcher } = useMyAutoMatcherDeleteByIdMutation();
+
+	const onDeleteClick = useCallback(
+		(automatcher: TagAutomatcherModel) => {
+			modals.openConfirmModal({
+				title: commonInterpolated(
+					(t) => t.components.automatisms["auto-matcher"].managers.delete.Title,
+					{ name: automatcher.name },
+				),
+				children: (
+					<Text>
+						{
+							commonT().components.automatisms["auto-matcher"].managers.delete
+								.Description
+						}
+					</Text>
+				),
+				labels: {
+					cancel: commonT().templates["confirm-modal"].Cancel,
+					confirm:
+						commonT().components.automatisms["auto-matcher"].managers.delete
+							.Confirm,
+				},
+				confirmProps: { color: "red", leftSection: <IoTrash /> },
+				onConfirm: () => deleteAutomatcher(automatcher.id),
+			});
+		},
+		[commonT, commonInterpolated, deleteAutomatcher],
+	);
 
 	return (
 		<>
@@ -66,8 +103,15 @@ export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
 						</TableLayout.Actions>
 						{/* Table */}
 						<TableLayout.Table>
-							<TagsAutomatchersTable automatchers={tagAutoMatchers?.items} />
+							<TagsAutomatchersTable
+								automatchers={tagAutoMatchers?.items}
+								onDeleteClick={onDeleteClick}
+							/>
 						</TableLayout.Table>
+
+						<TableLayout.Pagination>
+							<Pagination {...pagination.control} />
+						</TableLayout.Pagination>
 					</TableLayout.Root>
 				</ManagerLayout.Content>
 			</ManagerLayout.Root>

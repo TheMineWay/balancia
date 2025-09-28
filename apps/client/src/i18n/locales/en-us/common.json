@@ -154,6 +154,13 @@
 							"Label": "Contains"
 						}
 					}
+				},
+				"managers": {
+					"delete": {
+						"Title": "Delete \"{name}\" auto matcher?",
+						"Description": "Are you sure you want to delete the auto matcher? This action cannot be undone.",
+						"Confirm": "Delete auto matcher"
+					}
 				}
 			}
 		}

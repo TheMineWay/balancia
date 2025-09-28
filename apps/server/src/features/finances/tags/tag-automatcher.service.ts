@@ -60,7 +60,7 @@ export class TagAutomatcherService {
 		);
 	}
 
-	async getUserMatchers() {}
+	// #region CRUD
 
 	async createUserTagAutomatcher(
 		userId: UserModelId,
@@ -75,7 +75,54 @@ export class TagAutomatcherService {
 		return await this.tagAutomatcherRepository.create(data);
 	}
 
-	// Matchers
+	async deleteUserTagAutomatcher(
+		userId: UserModelId,
+		automatcherId: TagModel["id"],
+	) {
+		return await this.databaseService.db.transaction(async (tx) => {
+			const automatcher = await this.tagAutomatcherRepository.findById(
+				automatcherId,
+				{ transaction: tx },
+			);
+			const { isOwner } = await this.tagsService.checkTagOwnership(
+				userId,
+				automatcher.tagId,
+			);
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.tagAutomatcherRepository.deleteById(automatcherId, {
+				transaction: tx,
+			});
+		});
+	}
+
+	async updateUserTagAutomatcher(
+		userId: UserModelId,
+		automatcherId: TagModel["id"],
+		data: Partial<TagAutomatcherCreateModel>,
+	) {
+		return await this.databaseService.db.transaction(async (tx) => {
+			const automatcher = await this.tagAutomatcherRepository.findById(
+				automatcherId,
+				{ transaction: tx },
+			);
+			const { isOwner } = await this.tagsService.checkTagOwnership(
+				userId,
+				automatcher.tagId,
+			);
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.tagAutomatcherRepository.updateById(
+				automatcherId,
+				data,
+				{ transaction: tx },
+			);
+		});
+	}
+
+	// #endregion CRUD
+
+	// #region Matchers
 
 	/**
 	 * Given a transaction, it checks all the user's automatchers to see if any match the transaction.
@@ -124,6 +171,8 @@ export class TagAutomatcherService {
 			);
 		});
 	}
+
+	// #endregion
 
 	// Events
 

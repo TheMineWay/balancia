@@ -3,6 +3,7 @@ import { tagTable } from "@database/schemas/main.schema";
 import {
 	TAG_AUTOMATCHER_TABLE_COLUMNS,
 	TagAutomatcherInsert,
+	TagAutomatcherUpdate,
 	tagAutomatcherTable,
 } from "@database/schemas/main/tables/finances/tag-automatcher.table";
 import { transactionTagTable } from "@database/schemas/main/tables/finances/transaction-tag.table";
@@ -10,6 +11,7 @@ import { Injectable } from "@nestjs/common";
 import {
 	PaginatedQuery,
 	SearchModel,
+	TagAutomatcherModel,
 	TagModel,
 	TransactionModel,
 	UserModelId,
@@ -18,6 +20,14 @@ import { and, desc, eq, ilike, or } from "drizzle-orm";
 
 @Injectable()
 export class TagAutomatcherRepository extends Repository {
+	async findById(id: TagAutomatcherModel["id"], options?: QueryOptions) {
+		const [item] = await this.query(options)
+			.select()
+			.from(tagAutomatcherTable)
+			.where(eq(tagAutomatcherTable.id, id));
+		return item;
+	}
+
 	async findAllByUserIdAndTagId(
 		userId: UserModelId,
 		tagId: TagModel["id"],
@@ -92,6 +102,25 @@ export class TagAutomatcherRepository extends Repository {
 		return await this.query(options)
 			.insert(tagAutomatcherTable)
 			.values(data)
+			.returning();
+	}
+
+	async deleteById(id: TagAutomatcherModel["id"], options?: QueryOptions) {
+		return await this.query(options)
+			.delete(tagAutomatcherTable)
+			.where(eq(tagAutomatcherTable.id, id))
+			.returning();
+	}
+
+	async updateById(
+		id: TagAutomatcherModel["id"],
+		data: TagAutomatcherUpdate,
+		options?: QueryOptions,
+	) {
+		return await this.query(options)
+			.update(tagAutomatcherTable)
+			.set(data)
+			.where(eq(tagAutomatcherTable.id, id))
 			.returning();
 	}
 
