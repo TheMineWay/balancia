@@ -43,6 +43,6 @@ export const TAG_AUTOMATCHER_CREATE_SCHEMA = TAG_AUTOMATCHER_SCHEMA.omit({
 	updatedAt: true,
 });
 
-export type TagAutomatcherCreateModel = z.infer<
+export type TagAutoMatcherCreateModel = z.infer<
 	typeof TAG_AUTOMATCHER_CREATE_SCHEMA
 >;

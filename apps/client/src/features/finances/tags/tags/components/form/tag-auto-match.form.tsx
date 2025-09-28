@@ -1,11 +1,11 @@
 import { AutoAssignForm } from "@common/automatisms/autoassign/components/form/auto-assign.form";
 import type { AutoAssignFieldItem } from "@common/automatisms/autoassign/components/form/field/auto-assign-field-based.form";
 import { useTranslation } from "@i18n/use-translation";
-import type { TagAutomatcherCreateModel } from "@shared/models";
+import type { TagAutoMatcherCreateModel } from "@shared/models";
 import { useMemo } from "react";
 import type { UseFormReturn } from "react-hook-form";
 
-type Model = Omit<TagAutomatcherCreateModel, "tagId">;
+type Model = Omit<TagAutoMatcherCreateModel, "tagId">;
 
 type Props = {
 	form: UseFormReturn<Model>;

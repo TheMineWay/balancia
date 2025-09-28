@@ -7,7 +7,7 @@ import type {
 	OwnedModel,
 	PaginatedQuery,
 	SearchModel,
-	TagAutomatcherCreateModel,
+	TagAutoMatcherCreateModel,
 	TagModel,
 	TransactionCreateModel,
 	TransactionModel,
@@ -64,7 +64,7 @@ export class TagAutoMatcherService {
 
 	async createUserTagAutoMatcher(
 		userId: UserModelId,
-		data: TagAutomatcherCreateModel,
+		data: TagAutoMatcherCreateModel,
 	) {
 		const { isOwner } = await this.tagsService.checkTagOwnership(
 			userId,
@@ -99,7 +99,7 @@ export class TagAutoMatcherService {
 	async updateUserTagAutoMatcher(
 		userId: UserModelId,
 		automatcherId: TagModel["id"],
-		data: Partial<TagAutomatcherCreateModel>,
+		data: Partial<TagAutoMatcherCreateModel>,
 	) {
 		return await this.databaseService.db.transaction(async (tx) => {
 			const automatcher = await this.tagAutoMatcherRepository.findById(
