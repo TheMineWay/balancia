@@ -77,11 +77,11 @@ export class TagAutoMatcherService {
 
 	async deleteUserTagAutoMatcher(
 		userId: UserModelId,
-		automatcherId: TagModel["id"],
+		autoMatcherId: TagModel["id"],
 	) {
 		return await this.databaseService.db.transaction(async (tx) => {
 			const automatcher = await this.tagAutoMatcherRepository.findById(
-				automatcherId,
+				autoMatcherId,
 				{ transaction: tx },
 			);
 			const { isOwner } = await this.tagsService.checkTagOwnership(
@@ -90,7 +90,7 @@ export class TagAutoMatcherService {
 			);
 			if (!isOwner) throw new UnauthorizedException();
 
-			return await this.tagAutoMatcherRepository.deleteById(automatcherId, {
+			return await this.tagAutoMatcherRepository.deleteById(autoMatcherId, {
 				transaction: tx,
 			});
 		});
@@ -98,22 +98,22 @@ export class TagAutoMatcherService {
 
 	async updateUserTagAutoMatcher(
 		userId: UserModelId,
-		automatcherId: TagModel["id"],
+		autoMatcherId: TagModel["id"],
 		data: Partial<TagAutoMatcherCreateModel>,
 	) {
 		return await this.databaseService.db.transaction(async (tx) => {
-			const automatcher = await this.tagAutoMatcherRepository.findById(
-				automatcherId,
+			const autoMatcher = await this.tagAutoMatcherRepository.findById(
+				autoMatcherId,
 				{ transaction: tx },
 			);
 			const { isOwner } = await this.tagsService.checkTagOwnership(
 				userId,
-				automatcher.tagId,
+				autoMatcher.tagId,
 			);
 			if (!isOwner) throw new UnauthorizedException();
 
 			return await this.tagAutoMatcherRepository.updateById(
-				automatcherId,
+				autoMatcherId,
 				data,
 				{ transaction: tx },
 			);
