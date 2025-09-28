@@ -16,7 +16,7 @@ import {
 	TransactionModel,
 	UserModelId,
 } from "@shared/models";
-import { and, desc, eq, ilike, or } from "drizzle-orm";
+import { and, countDistinct, desc, eq, ilike, or } from "drizzle-orm";
 
 @Injectable()
 export class TagAutoMatcherRepository extends Repository {
@@ -98,6 +98,8 @@ export class TagAutoMatcherRepository extends Repository {
 			.values(payload);
 	}
 
+	// #region CRUD
+
 	async create(data: TagAutomatcherInsert, options?: QueryOptions) {
 		return await this.query(options)
 			.insert(tagAutomatcherTable)
@@ -123,6 +125,20 @@ export class TagAutoMatcherRepository extends Repository {
 			.where(eq(tagAutomatcherTable.id, id))
 			.returning();
 	}
+
+	// #endregion
+
+	// #region Statistics
+
+	async countTagAutoMatchers(tagId: TagModel["id"], options?: QueryOptions) {
+		const [{ count }] = await this.query(options)
+			.select({ count: countDistinct(tagAutomatcherTable.id) })
+			.from(tagAutomatcherTable)
+			.where(eq(tagAutomatcherTable.tagId, tagId));
+		return Number(count);
+	}
+
+	// #endregion
 
 	/* Internal */
 	private getSearchCondition(search: SearchModel) {

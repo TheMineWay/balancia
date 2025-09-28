@@ -72,7 +72,7 @@ export class TagAutoMatcherService {
 		);
 		if (!isOwner) throw new UnauthorizedException();
 
-		return await this.tagAutoMatcherRepository.create(data);
+		await this.tagAutoMatcherRepository.create(data);
 	}
 
 	async deleteUserTagAutoMatcher(
