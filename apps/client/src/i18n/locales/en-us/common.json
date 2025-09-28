@@ -14,9 +14,13 @@
 		"Income": "Income",
 		"Outcome": "Outcome",
 		"Amount": "Amount",
+		"Import": "Import",
 		"dates": {
 			"Month": "Month",
 			"Year": "Year"
+		},
+		"files": {
+			"Selected-file": "Selected file: {name}"
 		}
 	},
 	"templates": {

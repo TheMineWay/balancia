@@ -62,6 +62,16 @@
 						"Placeholder": "Search tags to add"
 					}
 				}
+			},
+			"import": {
+				"Title": "Import transactions",
+				"form": {
+					"fields": {
+						"file": {
+							"Label": "Select transactions file"
+						}
+					}
+				}
 			}
 		}
 	},

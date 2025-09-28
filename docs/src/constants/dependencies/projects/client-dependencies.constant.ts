@@ -34,6 +34,7 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 		isDevelopment: true,
 	},
 	{ dep: "@mantine/modals" },
+	{ dep: "@mantine/dropzone" },
 	{ dep: "@mantine/notifications" },
 	{ dep: "@mantine/core" },
 	{ dep: "@mantine/dates" },

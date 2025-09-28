@@ -262,6 +262,12 @@ export const DEPENDENCIES = [
 		docsUrl: "https://mantine.dev/",
 	},
 	{
+		code: "@mantine/dropzone",
+		name: "Mantine Dropzone",
+		url: "https://www.npmjs.com/package/@mantine/dropzone",
+		docsUrl: "https://mantine.dev/",
+	},
+	{
 		code: "@mantine/hooks",
 		name: "Mantine Hooks",
 		url: "https://www.npmjs.com/package/@mantine/hooks",

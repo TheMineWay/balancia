@@ -5,6 +5,7 @@ import { MyAccountsSelector } from "@fts/finances/accounts/my-accounts/component
 import { MyCategoriesSelector } from "@fts/finances/categories/my-categories/components/form/my-categories.selector";
 import { useMyTransactionDeleteByIdMutation } from "@fts/finances/transactions/my-transactions/api/use-my-transaction-delete-by-id.mutation";
 import { useMyTransactionsQuery } from "@fts/finances/transactions/my-transactions/api/use-my-transactions.query";
+import { MyTransactionsImportManager } from "@fts/finances/transactions/my-transactions/components/manager/import/my-transactions-import-manager";
 import { MyTransactionCreateManager } from "@fts/finances/transactions/my-transactions/components/manager/my-transaction-create-manager";
 import { MyTransactionUpdateManager } from "@fts/finances/transactions/my-transactions/components/manager/my-transaction-update-manager";
 import { MyTransactionTagsManager } from "@fts/finances/transactions/my-transactions/components/manager/tags/my-transaction-tags-manager";
@@ -18,6 +19,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { TransactionModel } from "@shared/models";
 import { useCallback, useState } from "react";
+import { CiImport } from "react-icons/ci";
 import { IoAddOutline, IoReload, IoTrash } from "react-icons/io5";
 
 export const MyTransactionsManager: FC = () => {
@@ -37,6 +39,8 @@ export const MyTransactionsManager: FC = () => {
 
 	const [isCreateOpen, { open: openCreate, close: closeCreate }] =
 		useDisclosure();
+	const [isImportOpen, { open: openImport, close: closeImport }] =
+		useDisclosure();
 	const [transactionToUpdate, setTransactionToUpdate] =
 		useState<TransactionModel | null>(null);
 	const [transactionToManageTags, setTransactionToManageTags] =
@@ -45,13 +49,13 @@ export const MyTransactionsManager: FC = () => {
 	const onDeleteClick = useCallback(
 		(item: TransactionModel) => {
 			modals.openConfirmModal({
-				title: interpolated((t) => t.transaction["delete"].confirm.Title, {
+				title: interpolated((t) => t.transaction.delete.confirm.Title, {
 					name: item.subject || item.id.toString(),
 				}),
-				children: <Text>{t().transaction["delete"].confirm.Message}</Text>,
+				children: <Text>{t().transaction.delete.confirm.Message}</Text>,
 				labels: {
 					cancel: commonT().templates["confirm-modal"].Cancel,
-					confirm: t().transaction["delete"].confirm.Action,
+					confirm: t().transaction.delete.confirm.Action,
 				},
 				confirmProps: { color: "red", leftSection: <IoTrash /> },
 				onConfirm: () => deleteTransaction(item.id),
@@ -75,6 +79,14 @@ export const MyTransactionsManager: FC = () => {
 								<Filters search={search} />
 							</ActionsLayout.Row>
 							<ActionsLayout.Row>
+								<Button
+									size="xs"
+									onClick={openImport}
+									leftSection={<CiImport />}
+									variant="outline"
+								>
+									{commonT().expressions.Import}
+								</Button>
 								<Button
 									size="xs"
 									onClick={openCreate}
@@ -155,6 +167,17 @@ export const MyTransactionsManager: FC = () => {
 						transactionId={transactionToManageTags.id}
 					/>
 				)}
+			</Drawer>
+
+			{/* Import transactions */}
+			<Drawer
+				position="right"
+				opened={isImportOpen}
+				onClose={closeImport}
+				title={t().transaction.managers.import.Title}
+				size="xl"
+			>
+				<MyTransactionsImportManager />
 			</Drawer>
 		</>
 	);
