@@ -17,7 +17,7 @@ export const useMyTagAutoMatcherCreateMutation = () => {
 				{},
 				request,
 			)({ body: tagAutomatcher }),
-		onSuccess: (_, vars) => {
+		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: MY_TAG_AUTOMATCHERS_BASE_QUERY_KEY(),
 			});

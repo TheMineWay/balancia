@@ -14,7 +14,7 @@ import type {
 	UserModelId,
 } from "@shared/models";
 import { autoAssignMatch } from "@shared/utils";
-import { TagAutomatcherRepository } from "src/features/finances/tags/repositories/tag-automatcher.repository";
+import { TagAutoMatcherRepository } from "src/features/finances/tags/repositories/tag-auto-matcher.repository";
 import { TagsService } from "src/features/finances/tags/tags.service";
 import {
 	TransactionCreatedEvent,
@@ -24,10 +24,10 @@ import {
 const MAX_MATCHERS_PER_RUN = 2000;
 
 @Injectable()
-export class TagAutomatcherService {
+export class TagAutoMatcherService {
 	constructor(
 		private readonly tagsService: TagsService,
-		private readonly tagAutomatcherRepository: TagAutomatcherRepository,
+		private readonly tagAutoMatcherRepository: TagAutoMatcherRepository,
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
 	) {}
@@ -37,7 +37,7 @@ export class TagAutomatcherService {
 		tagId: TagModel["id"],
 		options?: QueryOptions,
 	) {
-		return await this.tagAutomatcherRepository.findAllByUserIdAndTagId(
+		return await this.tagAutoMatcherRepository.findAllByUserIdAndTagId(
 			userId,
 			tagId,
 			options,
@@ -53,7 +53,7 @@ export class TagAutomatcherService {
 		const { isOwner } = await this.tagsService.checkTagOwnership(userId, tagId);
 		if (!isOwner) throw new UnauthorizedException();
 
-		return await this.tagAutomatcherRepository.paginatedFindAllByTagId(
+		return await this.tagAutoMatcherRepository.paginatedFindAllByTagId(
 			tagId,
 			pagination,
 			search,
@@ -62,7 +62,7 @@ export class TagAutomatcherService {
 
 	// #region CRUD
 
-	async createUserTagAutomatcher(
+	async createUserTagAutoMatcher(
 		userId: UserModelId,
 		data: TagAutomatcherCreateModel,
 	) {
@@ -72,15 +72,15 @@ export class TagAutomatcherService {
 		);
 		if (!isOwner) throw new UnauthorizedException();
 
-		return await this.tagAutomatcherRepository.create(data);
+		return await this.tagAutoMatcherRepository.create(data);
 	}
 
-	async deleteUserTagAutomatcher(
+	async deleteUserTagAutoMatcher(
 		userId: UserModelId,
 		automatcherId: TagModel["id"],
 	) {
 		return await this.databaseService.db.transaction(async (tx) => {
-			const automatcher = await this.tagAutomatcherRepository.findById(
+			const automatcher = await this.tagAutoMatcherRepository.findById(
 				automatcherId,
 				{ transaction: tx },
 			);
@@ -90,19 +90,19 @@ export class TagAutomatcherService {
 			);
 			if (!isOwner) throw new UnauthorizedException();
 
-			return await this.tagAutomatcherRepository.deleteById(automatcherId, {
+			return await this.tagAutoMatcherRepository.deleteById(automatcherId, {
 				transaction: tx,
 			});
 		});
 	}
 
-	async updateUserTagAutomatcher(
+	async updateUserTagAutoMatcher(
 		userId: UserModelId,
 		automatcherId: TagModel["id"],
 		data: Partial<TagAutomatcherCreateModel>,
 	) {
 		return await this.databaseService.db.transaction(async (tx) => {
-			const automatcher = await this.tagAutomatcherRepository.findById(
+			const automatcher = await this.tagAutoMatcherRepository.findById(
 				automatcherId,
 				{ transaction: tx },
 			);
@@ -112,7 +112,7 @@ export class TagAutomatcherService {
 			);
 			if (!isOwner) throw new UnauthorizedException();
 
-			return await this.tagAutomatcherRepository.updateById(
+			return await this.tagAutoMatcherRepository.updateById(
 				automatcherId,
 				data,
 				{ transaction: tx },
@@ -133,7 +133,7 @@ export class TagAutomatcherService {
 		options?: QueryOptions,
 	) {
 		const { items: matchers } =
-			await this.tagAutomatcherRepository.paginatedFindAllByUserId(
+			await this.tagAutoMatcherRepository.paginatedFindAllByUserId(
 				transaction.userId,
 				{ page: 1, limit: MAX_MATCHERS_PER_RUN },
 				{ search: null },
@@ -164,7 +164,7 @@ export class TagAutomatcherService {
 			if (tagIds.length === 0) return;
 
 			// Assign tags to transaction. We cannot use the transaction service here as it would trigger an infinite loop.
-			await this.tagAutomatcherRepository.matchTransactionTags(
+			await this.tagAutoMatcherRepository.matchTransactionTags(
 				transaction.id,
 				tagIds,
 				{ transaction: tx },

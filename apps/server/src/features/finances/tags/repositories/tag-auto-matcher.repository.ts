@@ -19,7 +19,7 @@ import {
 import { and, desc, eq, ilike, or } from "drizzle-orm";
 
 @Injectable()
-export class TagAutomatcherRepository extends Repository {
+export class TagAutoMatcherRepository extends Repository {
 	async findById(id: TagAutomatcherModel["id"], options?: QueryOptions) {
 		const [item] = await this.query(options)
 			.select()

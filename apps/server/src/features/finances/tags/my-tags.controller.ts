@@ -13,14 +13,14 @@ import { UserModelId } from "@shared/models";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
 import { ValidatedBody } from "src/decorators/validation/validated-body.decorator";
 import { ValidatedQuery } from "src/decorators/validation/validated-query.decorator";
-import { TagAutomatcherService } from "src/features/finances/tags/tag-automatcher.service";
+import { TagAutoMatcherService } from "src/features/finances/tags/tag-auto-matcher.service";
 import { TagsService } from "src/features/finances/tags/tags.service";
 
 @Controller(getController(MY_TAGS_CONTROLLER, {}))
 export class MyTagsController {
 	constructor(
 		private readonly tagsService: TagsService,
-		private readonly tagAutomatcherService: TagAutomatcherService,
+		private readonly tagAutoMatcherService: TagAutoMatcherService,
 	) {}
 
 	@Endpoint(MY_TAGS_CONTROLLER, "getTagsList")
@@ -160,7 +160,7 @@ export class MyTagsController {
 	): Promise<
 		InferResponseDto<typeof MY_TAGS_CONTROLLER, "getTagAutoMatchsList">
 	> {
-		return await this.tagAutomatcherService.getUserMatchersListByTagId(
+		return await this.tagAutoMatcherService.getUserMatchersListByTagId(
 			userId,
 			tagId,
 			query.pagination,
@@ -176,7 +176,7 @@ export class MyTagsController {
 		>,
 		@UserId() userId: UserModelId,
 	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, "addTagAutoMatch">> {
-		await this.tagAutomatcherService.createUserTagAutomatcher(userId, body);
+		await this.tagAutoMatcherService.createUserTagAutoMatcher(userId, body);
 	}
 
 	@Endpoint(MY_TAGS_CONTROLLER, "removeTagAutoMatch")
@@ -190,7 +190,7 @@ export class MyTagsController {
 	): Promise<
 		InferResponseDto<typeof MY_TAGS_CONTROLLER, "removeTagAutoMatch">
 	> {
-		await this.tagAutomatcherService.deleteUserTagAutomatcher(userId, id);
+		await this.tagAutoMatcherService.deleteUserTagAutoMatcher(userId, id);
 	}
 
 	@Endpoint(MY_TAGS_CONTROLLER, "updateTagAutoMatch")
@@ -208,7 +208,7 @@ export class MyTagsController {
 	): Promise<
 		InferResponseDto<typeof MY_TAGS_CONTROLLER, "updateTagAutoMatch">
 	> {
-		await this.tagAutomatcherService.updateUserTagAutomatcher(userId, id, body);
+		await this.tagAutoMatcherService.updateUserTagAutoMatcher(userId, id, body);
 	}
 
 	// #endregion
