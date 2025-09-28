@@ -47,6 +47,7 @@
     "@themineway/smart-storage-react": "1.0.0-alpha.15",
     "axios": "^1.11.0",
     "clsx": "^2.1.1",
+    "csv-parser": "^3.2.0",
     "date-fns": "^4.1.0",
     "lodash": "^4.17.21",
     "oidc-client-ts": "^3.3.0",

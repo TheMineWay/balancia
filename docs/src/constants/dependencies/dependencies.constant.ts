@@ -2,6 +2,11 @@ import type { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
 	{
+		code: "csv-parser",
+		name: "csv-parser",
+		url: "https://www.npmjs.com/package/csv-parser",
+	},
+	{
 		code: "@nivo/core",
 		name: "@nivo/core",
 		url: "https://www.npmjs.com/package/@nivo/core",
