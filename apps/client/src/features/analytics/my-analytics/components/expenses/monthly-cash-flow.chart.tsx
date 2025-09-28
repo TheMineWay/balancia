@@ -1,7 +1,8 @@
-import { TFunction } from "@i18n/types/t-function.type";
+import { ChartWrapper } from "@common/extended-ui/chart/wrapper/chart-wrapper";
+import type { TFunction } from "@i18n/types/t-function.type";
 import { useTranslation } from "@i18n/use-translation";
-import { LineSeries, ResponsiveLine } from "@nivo/line";
-import { MonthlyCashFlowModel } from "@shared/models";
+import { type LineSeries, ResponsiveLine } from "@nivo/line";
+import type { MonthlyCashFlowModel } from "@shared/models";
 import { useMemo } from "react";
 
 type Props = {
@@ -16,36 +17,38 @@ export const MonthlyCashFlowChart: FC<Props> = ({ data: rawData = [] }) => {
 	);
 
 	return (
-		<ResponsiveLine
-			data={data}
-			margin={{ top: 50, right: 100, bottom: 50, left: 60 }}
-			yScale={{
-				type: "linear",
-				min: "auto",
-				max: "auto",
-				stacked: false,
-				reverse: false,
-			}}
-			axisBottom={{ legend: t().expressions.dates.Month, legendOffset: 36 }}
-			axisLeft={{
-				legend: t().expressions.Amount,
-				legendOffset: -40,
-				format: (value) => `${value} €`,
-			}}
-			pointSize={10}
-			pointBorderWidth={1}
-			useMesh={true}
-			legends={[
-				{
-					anchor: "right",
-					direction: "column",
-					translateX: 100,
-					itemWidth: 80,
-					itemHeight: 22,
-					symbolShape: "circle",
-				},
-			]}
-		/>
+		<ChartWrapper>
+			<ResponsiveLine
+				data={data}
+				margin={{ top: 50, right: 100, bottom: 50, left: 60 }}
+				yScale={{
+					type: "linear",
+					min: "auto",
+					max: "auto",
+					stacked: false,
+					reverse: false,
+				}}
+				axisBottom={{ legend: t().expressions.dates.Month, legendOffset: 36 }}
+				axisLeft={{
+					legend: t().expressions.Amount,
+					legendOffset: -40,
+					format: (value) => `${value} €`,
+				}}
+				pointSize={10}
+				pointBorderWidth={1}
+				useMesh={true}
+				legends={[
+					{
+						anchor: "right",
+						direction: "column",
+						translateX: 100,
+						itemWidth: 80,
+						itemHeight: 22,
+						symbolShape: "circle",
+					},
+				]}
+			/>
+		</ChartWrapper>
 	);
 };
 
