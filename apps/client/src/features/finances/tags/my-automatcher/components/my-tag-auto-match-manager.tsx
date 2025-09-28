@@ -81,7 +81,11 @@ export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
 						<TableLayout.Actions>
 							{/* Search */}
 							<ActionsLayout.Row>
-								<DebouncedSearch manager={search.debouncedSearchManager} />
+								<DebouncedSearch
+									size="xs"
+									manager={search.debouncedSearchManager}
+									placeholder={commonT().expressions.Search}
+								/>
 							</ActionsLayout.Row>
 
 							{/* Table actions */}
