@@ -127,8 +127,7 @@
 					}
 				},
 				"actions": {
-					"Create": "Create auto matcher",
-					"Edit": "Edit auto matcher"
+					"Create": "Create auto matcher"
 				},
 				"models": {
 					"automatcher": {
@@ -160,6 +159,10 @@
 						"Title": "Delete \"{name}\" auto matcher?",
 						"Description": "Are you sure you want to delete the auto matcher? This action cannot be undone.",
 						"Confirm": "Delete auto matcher"
+					},
+					"edit": {
+						"Title": "Edit auto matcher \"{name}\"",
+						"Submit": "Edit auto matcher"
 					}
 				}
 			}

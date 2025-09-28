@@ -14,13 +14,13 @@ export const MY_TAG_AUTOMATCHERS_BASE_QUERY_KEY: QueryKey = () => [
 	"my-tag-auto-matchers",
 ];
 export const USE_MY_TAG_AUTO_MATCHERS_QUERY_KEY: ParametrizedQueryKey<
-	Options
+	Partial<Options> & { tagId: Options["tagId"] }
 > = (options) => [
 	...MY_TAG_AUTOMATCHERS_BASE_QUERY_KEY(),
+	options.tagId.toString(),
 	{
-		tagId: options.tagId,
-		pagination: options.pagination.requestData,
-		search: options.search.requestData,
+		pagination: options.pagination?.requestData,
+		search: options.search?.requestData,
 	},
 ];
 

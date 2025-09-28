@@ -5,6 +5,7 @@ import { TagsAutomatchersTable } from "@fts/finances/tags/automatcher/components
 import { useMyAutoMatcherDeleteByIdMutation } from "@fts/finances/tags/my-automatcher/api/use-my-auto-matcher-delete-by-id.mutation";
 import { useMyTagAutoMatchersListQuery } from "@fts/finances/tags/my-automatcher/api/use-my-tag-auto-matchers-list.query";
 import { MyTagAutoMatchCreateManager } from "@fts/finances/tags/my-automatcher/components/my-tag-auto-match-create-manager";
+import { MyTagAutoMatchUpdateManager } from "@fts/finances/tags/my-automatcher/components/my-tag-auto-match-update-manager";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
@@ -17,7 +18,7 @@ import type {
 	TagAutomatcherModel,
 	TagModel,
 } from "@shared/models";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { IoAddOutline, IoReload, IoTrash } from "react-icons/io5";
 
 type Props = {
@@ -32,6 +33,9 @@ export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
 
 	const search = useSearch<AutoAssignMetadataModel>({});
 	const pagination = usePagination();
+
+	const [autoMatcherToEdit, setTagToAutomatchEdit] =
+		useState<TagAutomatcherModel | null>(null);
 
 	const {
 		data: tagAutoMatchers,
@@ -106,6 +110,7 @@ export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
 							<TagsAutomatchersTable
 								automatchers={tagAutoMatchers?.items}
 								onDeleteClick={onDeleteClick}
+								onEditClick={setTagToAutomatchEdit}
 							/>
 						</TableLayout.Table>
 
@@ -124,6 +129,24 @@ export const MyTagAutoMatchManager: FC<Props> = ({ tag }) => {
 				onClose={closeCreate}
 			>
 				<MyTagAutoMatchCreateManager tag={tag} onSuccess={closeCreate} />
+			</Drawer>
+
+			<Drawer
+				position="right"
+				opened={Boolean(autoMatcherToEdit)}
+				title={commonInterpolated(
+					(t) => t.components.automatisms["auto-matcher"].managers.edit.Title,
+					{ name: autoMatcherToEdit?.name ?? "" },
+				)}
+				onClose={() => setTagToAutomatchEdit(null)}
+			>
+				{autoMatcherToEdit && (
+					<MyTagAutoMatchUpdateManager
+						tag={tag}
+						autoMatcher={autoMatcherToEdit}
+						onSuccess={() => setTagToAutomatchEdit(null)}
+					/>
+				)}
 			</Drawer>
 		</>
 	);
