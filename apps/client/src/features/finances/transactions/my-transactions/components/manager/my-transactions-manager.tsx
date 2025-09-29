@@ -14,7 +14,14 @@ import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer, Pagination, Text } from "@mantine/core";
+import {
+	ActionIcon,
+	Button,
+	Drawer,
+	Modal,
+	Pagination,
+	Text,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { TransactionModel } from "@shared/models";
@@ -170,15 +177,14 @@ export const MyTransactionsManager: FC = () => {
 			</Drawer>
 
 			{/* Import transactions */}
-			<Drawer
-				position="right"
+			<Modal
 				opened={isImportOpen}
 				onClose={closeImport}
 				title={t().transaction.managers.import.Title}
 				size="xl"
 			>
 				<MyTransactionsImportManager />
-			</Drawer>
+			</Modal>
 		</>
 	);
 };

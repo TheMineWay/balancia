@@ -65,11 +65,22 @@
 			},
 			"import": {
 				"Title": "Import transactions",
-				"form": {
-					"fields": {
-						"file": {
-							"Label": "Select transactions file"
+				"steps": {
+					"select-file": {
+						"Title": "Select file",
+						"form": {
+							"fields": {
+								"file": {
+									"Label": "Transactions file"
+								}
+							}
 						}
+					},
+					"review-transactions": {
+						"Title": "Review transactions"
+					},
+					"import": {
+						"Title": "Import"
 					}
 				}
 			}
