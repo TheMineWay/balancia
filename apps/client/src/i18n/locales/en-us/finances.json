@@ -79,8 +79,9 @@
 					"review-transactions": {
 						"Title": "Review transactions"
 					},
-					"import": {
-						"Title": "Import"
+					"target": {
+						"Title": "Target",
+						"Message": "Select the target account for the imported transactions"
 					}
 				}
 			}

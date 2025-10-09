@@ -99,6 +99,13 @@ export class TransactionsRepository extends Repository {
 		)[0];
 	}
 
+	async bulkCreate(transactions: TransactionInsert[], options?: QueryOptions) {
+		return await this.query(options)
+			.insert(transactionsTable)
+			.values(transactions)
+			.returning(TRANSACTIONS_TABLE_COLUMNS);
+	}
+
 	async updateById(
 		transactionId: TransactionModel["id"],
 		transaction: TransactionsUpdate,

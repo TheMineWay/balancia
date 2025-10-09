@@ -183,7 +183,7 @@ export const MyTransactionsManager: FC = () => {
 				title={t().transaction.managers.import.Title}
 				size="xl"
 			>
-				<MyTransactionsImportManager />
+				<MyTransactionsImportManager onSuccess={closeImport} />
 			</Modal>
 		</>
 	);

@@ -1,11 +1,29 @@
+import { RenderCurrency } from "@common/extended-ui/currency/render-currency";
+import { DateRender } from "@common/extended-ui/date/components/date-render";
+import { Table } from "@common/extended-ui/table/components/table";
+import { useTable } from "@common/extended-ui/table/hooks/use-table";
+import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
 import { readFile } from "@common/file/lib/read-file.util";
+import { MyAccountsSelector } from "@fts/finances/accounts/my-accounts/components/form/my-accounts.selector";
+import { useMyTransactionsBulkCreateByAccountMutation } from "@fts/finances/transactions/my-transactions/api/use-my-transactions-bulk-create-by-account.mutation";
 import { useTranslation } from "@i18n/use-translation";
-import { Flex, Stepper } from "@mantine/core";
+import { Button, Flex, Stepper, Text } from "@mantine/core";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
-import { TimePrecision, type TransactionCreateModel } from "@shared/models";
+import {
+	AccountModel,
+	TimePrecision,
+	type TransactionCreateModel,
+} from "@shared/models";
 import Papa from "papaparse";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+	useTransition,
+} from "react";
 import { BsFiletypeCsv } from "react-icons/bs";
+import { CiImport } from "react-icons/ci";
 import z from "zod";
 
 type ImportRow = Omit<TransactionCreateModel, "accountId">;
@@ -25,15 +43,31 @@ const CSV_ROW_SCHEMA = z.object({
 		.transform((v) => (v ? parseInt(v.trim(), 10) : null)),
 });
 
-export const MyTransactionsImportManager: FC = () => {
+type Props = {
+	onSuccess?: CallableFunction;
+};
+
+export const MyTransactionsImportManager: FC<Props> = ({ onSuccess }) => {
 	const { t } = useTranslation("finances");
+
+	const [, startTransition] = useTransition();
 	const [transactions, setTransactions] = useState<ImportRow[]>([]);
+	const [reviewed, setReviewed] = useState(false);
 
 	const step = useMemo(() => {
-		if (transactions.length > 0) return 1;
+		if (transactions.length === 0) return 0;
+		if (!reviewed) return 1;
 
-		return 0;
-	}, [transactions]);
+		return 2;
+	}, [transactions, reviewed]);
+
+	const onImportComplete = useCallback(() => {
+		startTransition(() => {
+			setTransactions([]);
+			setReviewed(false);
+		});
+		onSuccess?.();
+	}, [onSuccess]);
 
 	return (
 		<Flex direction="column" gap="md">
@@ -47,11 +81,23 @@ export const MyTransactionsImportManager: FC = () => {
 					}
 				/>
 				<Stepper.Step
-					label={t().transaction.managers.import.steps.import.Title}
+					label={t().transaction.managers.import.steps["target"].Title}
 				/>
 			</Stepper>
 
 			{step === 0 && <FileSelect setTransactions={setTransactions} />}
+			{step === 1 && (
+				<ReviewTransactions
+					transactions={transactions}
+					onComplete={() => setReviewed(true)}
+				/>
+			)}
+			{step === 2 && (
+				<AccountSelect
+					transactions={transactions}
+					onComplete={onImportComplete}
+				/>
+			)}
 		</Flex>
 	);
 };
@@ -91,7 +137,6 @@ const FileSelect: FC<FileSelectProps> = ({ setTransactions }) => {
 			// Parse each row
 			return rows.data.map((row) => {
 				const parsed = CSV_ROW_SCHEMA.safeParse(row);
-				console.log({ parsed, row });
 				if (!parsed.data) return null;
 				return parseRow(parsed.data);
 			});
@@ -134,6 +179,99 @@ const FileSelect: FC<FileSelectProps> = ({ setTransactions }) => {
 					</small>
 				</Flex>
 			</Dropzone>
+		</Flex>
+	);
+};
+
+/* 2. Review transactions */
+
+type ReviewTransactionsProps = {
+	transactions: ImportRow[];
+	onComplete: CallableFunction;
+};
+
+const ReviewTransactions: FC<ReviewTransactionsProps> = ({
+	transactions = [],
+	onComplete,
+}) => {
+	const { t } = useTranslation("finances");
+	const { t: commonT } = useTranslation("common");
+
+	const columns = useMemo<TableColumn<ImportRow>[]>(
+		() => [
+			{
+				label: t().transaction.models.transaction.subject.Label,
+				accessorKey: "subject",
+			},
+			{
+				label: t().transaction.models.transaction.amount.Label,
+				accessorKey: "amount",
+				render: (row) => <RenderCurrency amount={row.amount} />,
+			},
+			{
+				label: t().transaction.models.transaction.performedAt.Label,
+				accessorKey: "performedAt",
+				render: (row) => <DateRender date={row.performedAt} />,
+			},
+		],
+		[t],
+	);
+
+	const table = useTable<ImportRow>({
+		rowKey: "subject",
+		data: transactions,
+		columns,
+	});
+
+	return (
+		<Flex direction="column" gap="md">
+			<Table table={table} />
+			<Button onClick={() => onComplete()}>{commonT().expressions.Next}</Button>
+		</Flex>
+	);
+};
+
+/* 3. Define target account */
+
+type AccountSelectProps = {
+	transactions: ImportRow[];
+	onComplete: CallableFunction;
+};
+
+const AccountSelect: FC<AccountSelectProps> = ({
+	transactions,
+	onComplete,
+}) => {
+	const { t: commonT } = useTranslation("common");
+	const { t } = useTranslation("finances");
+
+	const [accountId, setAccountId] = useState<AccountModel["id"] | null>(null);
+
+	const { mutate: createTransactions, isPending: isImporting } =
+		useMyTransactionsBulkCreateByAccountMutation();
+
+	const handleImport = useCallback(() => {
+		if (!accountId) return;
+		createTransactions(
+			{ transactions, accountId },
+			{
+				onSuccess: () => onComplete(),
+			},
+		);
+	}, [createTransactions, transactions, accountId, onComplete]);
+
+	return (
+		<Flex direction="column" gap="md">
+			<MyAccountsSelector value={accountId} onChange={setAccountId} />
+			<Text>{t().transaction.managers.import.steps.target.Message}</Text>
+			<Button
+				loading={isImporting}
+				leftSection={<CiImport />}
+				onClick={handleImport}
+				disabled={!accountId}
+			>
+				{commonT().expressions.Import}
+			</Button>
 		</Flex>
 	);
 };
