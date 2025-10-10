@@ -4,7 +4,7 @@ import type { TFunction } from "@i18n/types/t-function.type";
 import { useTranslation } from "@i18n/use-translation";
 import { type LineSeries, ResponsiveLine } from "@nivo/line";
 import type { MonthlyCashFlowModel } from "@shared/models";
-import { format } from "date-fns";
+import { format, isAfter } from "date-fns";
 import { useMemo } from "react";
 
 type Props = {
@@ -70,9 +70,17 @@ const getChartData = (
 	const incomeSeries: LineSeriesItem[] = [];
 	const outcomeSeries: LineSeriesItem[] = [];
 
-	items.forEach((entry) => {
-		const date = new Date(entry.year, entry.month - 1);
-		const label = format(date, "MMM yyyy");
+	const parsedItems = items
+		.map(({ month, year, ...item }) => {
+			return {
+				...item,
+				date: new Date(year, month - 1),
+			};
+		})
+		.sort((a, b) => (isAfter(a.date, b.date) ? 1 : -1));
+
+	parsedItems.forEach((entry) => {
+		const label = format(entry.date, "MMM yyyy");
 		incomeSeries.push({ x: label, y: entry.income });
 		outcomeSeries.push({ x: label, y: entry.outcome });
 	});
