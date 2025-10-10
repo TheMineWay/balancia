@@ -3,6 +3,7 @@ import type { TFunction } from "@i18n/types/t-function.type";
 import { useTranslation } from "@i18n/use-translation";
 import { type LineSeries, ResponsiveLine } from "@nivo/line";
 import type { MonthlyCashFlowModel } from "@shared/models";
+import { format } from "date-fns";
 import { useMemo } from "react";
 
 type Props = {
@@ -66,7 +67,8 @@ const getChartData = (
 	const outcomeSeries: LineSeriesItem[] = [];
 
 	items.forEach((entry) => {
-		const label = `${entry.year}-${String(entry.month).padStart(2, "0")}`;
+		const date = new Date(entry.year, entry.month - 1);
+		const label = format(date, "MMM yyyy");
 		incomeSeries.push({ x: label, y: entry.income });
 		outcomeSeries.push({ x: label, y: entry.outcome });
 	});
