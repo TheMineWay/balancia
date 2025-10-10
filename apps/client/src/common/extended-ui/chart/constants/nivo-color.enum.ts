@@ -43,3 +43,5 @@ export enum NivoColor {
 	YELLOW_ORANGE_BROWN = "yellow_orange_brown",
 	YELLOW_ORANGE_RED = "yellow_orange_red",
 }
+
+export const NIVO_COLORS = Object.values(NivoColor);
