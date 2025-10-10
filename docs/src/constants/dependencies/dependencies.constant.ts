@@ -8,6 +8,12 @@ export const DEPENDENCIES = [
 		docsUrl: "https://www.papaparse.com/",
 	},
 	{
+		code: "@types/papaparse",
+		name: "Papa parse types",
+		url: "https://www.npmjs.com/package/@types/papaparse",
+		docsUrl: "https://www.papaparse.com/",
+	},
+	{
 		code: "@nivo/core",
 		name: "@nivo/core",
 		url: "https://www.npmjs.com/package/@nivo/core",

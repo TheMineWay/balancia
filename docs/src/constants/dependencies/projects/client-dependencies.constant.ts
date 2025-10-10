@@ -7,6 +7,9 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 		dep: "papaparse",
 	},
 	{
+		dep: "@types/papaparse",
+	},
+	{
 		dep: "@nivo/core",
 	},
 	{
