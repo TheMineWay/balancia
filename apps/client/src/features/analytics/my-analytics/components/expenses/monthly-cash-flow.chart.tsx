@@ -1,4 +1,5 @@
-import { ChartWrapper } from "@common/extended-ui/chart/wrapper/chart-wrapper";
+import { ChartWrapper } from "@common/extended-ui/chart/components/wrapper/chart-wrapper";
+import { useChart } from "@common/extended-ui/chart/hooks/use-chart";
 import type { TFunction } from "@i18n/types/t-function.type";
 import { useTranslation } from "@i18n/use-translation";
 import { type LineSeries, ResponsiveLine } from "@nivo/line";
@@ -12,6 +13,8 @@ type Props = {
 
 export const MonthlyCashFlowChart: FC<Props> = ({ data: rawData = [] }) => {
 	const { t } = useTranslation("common");
+
+	const { control } = useChart();
 	const data = useMemo<LineSeries[]>(
 		() => getChartData(rawData, t),
 		[rawData, t],
@@ -20,6 +23,7 @@ export const MonthlyCashFlowChart: FC<Props> = ({ data: rawData = [] }) => {
 	return (
 		<ChartWrapper>
 			<ResponsiveLine
+				{...control}
 				data={data}
 				margin={{ top: 50, right: 100, bottom: 50, left: 60 }}
 				yScale={{
