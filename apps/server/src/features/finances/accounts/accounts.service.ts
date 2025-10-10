@@ -186,7 +186,7 @@ export class AccountsService {
 				account.id,
 				{
 					endDate: options.periodEnd,
-					startDate: sub(options.periodEnd, { months: options.months - 1 }),
+					startDate: sub(options.periodEnd, { months: options.months }),
 				},
 				{
 					transaction,
