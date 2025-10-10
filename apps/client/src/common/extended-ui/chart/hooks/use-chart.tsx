@@ -10,7 +10,12 @@ export const useChart = () => {
 
 	const control = useMemo(() => {
 		return {
-			scheme: theme,
+			colors: {
+				scheme: theme,
+			},
+			borderColor: {
+				from: "color",
+			},
 		};
 	}, [theme]);
 
