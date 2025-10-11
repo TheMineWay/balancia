@@ -1,6 +1,8 @@
 import { useTranslation } from "@i18n/use-translation";
 import { Combobox, InputBase, InputWrapper, useCombobox } from "@mantine/core";
 import {
+	AUTO_ASSIGN_TRIGGER_FIELD_MODEL_VALUES,
+	type AutoAssignCreateModel,
 	AutoAssignTriggerMatchOption,
 	type AutoAssignTriggerTypes,
 } from "@shared/models";
@@ -8,7 +10,7 @@ import { useMemo } from "react";
 import { Controller, type UseFormReturn } from "react-hook-form";
 
 type Props = {
-	form: UseFormReturn<AutoAssignTriggerTypes["field"]>;
+	form: UseFormReturn<AutoAssignCreateModel>;
 	fields: AutoAssignFieldItem[];
 };
 
@@ -26,8 +28,8 @@ export const AutoAssignFieldBasedForm: FC<Props> = ({ form, fields }) => {
 			>
 				<Controller
 					control={form.control}
-					name="field"
-					render={({ field: { ref: _, ...restField } }) => (
+					name="criteria.field"
+					render={({ field: { ...restField } }) => (
 						<FieldSelector {...restField} fields={fields} />
 					)}
 				/>
@@ -43,9 +45,32 @@ export const AutoAssignFieldBasedForm: FC<Props> = ({ form, fields }) => {
 			>
 				<Controller
 					control={form.control}
-					name="matchMode"
-					render={({ field: { ref: _, ...restField } }) => (
+					name="criteria.matchMode"
+					render={({ field: { ...restField } }) => (
 						<MatchModeSelector {...restField} />
+					)}
+				/>
+			</InputWrapper>
+
+			{/* Value */}
+			<InputWrapper
+				label={
+					t().components.automatisms["auto-matcher"].forms["field-based"].value
+						.Label
+				}
+			>
+				<Controller
+					control={form.control}
+					name="criteria.value"
+					render={({ field: { ...restField } }) => (
+						<InputBase
+							{...restField}
+							placeholder={
+								t().components.automatisms["auto-matcher"].forms["field-based"]
+									.value.Placeholder
+							}
+							maxLength={AUTO_ASSIGN_TRIGGER_FIELD_MODEL_VALUES.value.maxLength}
+						/>
 					)}
 				/>
 			</InputWrapper>
@@ -83,7 +108,7 @@ const FieldSelector: FC<FieldSelectorProps> = ({ value, onChange, fields }) => {
 		<Combobox
 			store={combobox}
 			onOptionSubmit={(v) => {
-				onChange(v as string);
+				onChange(v);
 				combobox.closeDropdown();
 			}}
 		>
@@ -136,16 +161,16 @@ const MatchModeSelector: FC<MatchModeSelectorProps> = ({
 			{
 				value: AutoAssignTriggerMatchOption.EQUALS,
 				label:
-					t().components.automatisms["auto-matcher"].forms["field-based"][
-						"match-mode"
-					].options.eq.Label,
+					t().components.automatisms["auto-matcher"].metadata[
+						"match-mode-options"
+					].eq.Label,
 			},
 			{
 				value: AutoAssignTriggerMatchOption.CONTAINS,
 				label:
-					t().components.automatisms["auto-matcher"].forms["field-based"][
-						"match-mode"
-					].options.contains.Label,
+					t().components.automatisms["auto-matcher"].metadata[
+						"match-mode-options"
+					].contains.Label,
 			},
 		],
 		[t],

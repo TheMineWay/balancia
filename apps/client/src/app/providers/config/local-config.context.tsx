@@ -1,3 +1,4 @@
+import { NivoColor } from "@common/extended-ui/chart/constants/nivo-color.enum";
 import { UI_COLORS } from "@constants/env/env.constant";
 import { MASTER_LOCALE } from "@i18n/locales/locales";
 import { Language } from "@i18n/types/language.enum";
@@ -11,6 +12,9 @@ export const LOCAL_CONFIG_SCHEMA = z.object({
 		primaryColor: z.enum(UI_COLORS).optional().default("grape"),
 	}),
 	language: z.enum(Language).default(MASTER_LOCALE),
+	charts: z.object({
+		theme: z.enum(NivoColor),
+	}),
 });
 
 export type LocalConfig = z.infer<typeof LOCAL_CONFIG_SCHEMA>;

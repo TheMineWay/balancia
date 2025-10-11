@@ -4,6 +4,7 @@ import { ApiOperation } from "@nestjs/swagger";
 import {
 	getController,
 	getParamName,
+	InferBodyDto,
 	type InferQueryDto,
 	type InferResponseDto,
 	MY_TAGS_CONTROLLER,
@@ -12,11 +13,15 @@ import { UserModelId } from "@shared/models";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
 import { ValidatedBody } from "src/decorators/validation/validated-body.decorator";
 import { ValidatedQuery } from "src/decorators/validation/validated-query.decorator";
+import { TagAutoMatcherService } from "src/features/finances/tags/tag-auto-matcher.service";
 import { TagsService } from "src/features/finances/tags/tags.service";
 
 @Controller(getController(MY_TAGS_CONTROLLER, {}))
 export class MyTagsController {
-	constructor(private readonly tagsService: TagsService) {}
+	constructor(
+		private readonly tagsService: TagsService,
+		private readonly tagAutoMatcherService: TagAutoMatcherService,
+	) {}
 
 	@Endpoint(MY_TAGS_CONTROLLER, "getTagsList")
 	async getTagsList(
@@ -139,4 +144,72 @@ export class MyTagsController {
 			),
 		};
 	}
+
+	// #region Auto matchers
+
+	@Endpoint(MY_TAGS_CONTROLLER, "getTagAutoMatchsList")
+	async getTagAutoMatchsList(
+		@ValidatedQuery(MY_TAGS_CONTROLLER, "getTagAutoMatchsList")
+		query: InferQueryDto<typeof MY_TAGS_CONTROLLER, "getTagAutoMatchsList">,
+		@Param(
+			getParamName(MY_TAGS_CONTROLLER, "getTagAutoMatchsList", "tagId"),
+			ParseIntPipe,
+		)
+		tagId: number,
+		@UserId() userId: UserModelId,
+	): Promise<
+		InferResponseDto<typeof MY_TAGS_CONTROLLER, "getTagAutoMatchsList">
+	> {
+		return await this.tagAutoMatcherService.getUserMatchersListByTagId(
+			userId,
+			tagId,
+			query.pagination,
+			query.search,
+		);
+	}
+
+	@Endpoint(MY_TAGS_CONTROLLER, "addTagAutoMatch")
+	async addTagAutoMatch(
+		@ValidatedBody(MY_TAGS_CONTROLLER, "addTagAutoMatch") body: InferBodyDto<
+			typeof MY_TAGS_CONTROLLER,
+			"addTagAutoMatch"
+		>,
+		@UserId() userId: UserModelId,
+	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, "addTagAutoMatch">> {
+		await this.tagAutoMatcherService.createUserTagAutoMatcher(userId, body);
+	}
+
+	@Endpoint(MY_TAGS_CONTROLLER, "removeTagAutoMatch")
+	async removeTagAutoMatch(
+		@UserId() userId: UserModelId,
+		@Param(
+			getParamName(MY_TAGS_CONTROLLER, "removeTagAutoMatch", "autoMatchId"),
+			ParseIntPipe,
+		)
+		id: number,
+	): Promise<
+		InferResponseDto<typeof MY_TAGS_CONTROLLER, "removeTagAutoMatch">
+	> {
+		await this.tagAutoMatcherService.deleteUserTagAutoMatcher(userId, id);
+	}
+
+	@Endpoint(MY_TAGS_CONTROLLER, "updateTagAutoMatch")
+	async updateTagAutoMatch(
+		@UserId() userId: UserModelId,
+		@Param(
+			getParamName(MY_TAGS_CONTROLLER, "updateTagAutoMatch", "autoMatchId"),
+			ParseIntPipe,
+		)
+		id: number,
+		@ValidatedBody(MY_TAGS_CONTROLLER, "updateTagAutoMatch") body: InferBodyDto<
+			typeof MY_TAGS_CONTROLLER,
+			"updateTagAutoMatch"
+		>,
+	): Promise<
+		InferResponseDto<typeof MY_TAGS_CONTROLLER, "updateTagAutoMatch">
+	> {
+		await this.tagAutoMatcherService.updateUserTagAutoMatcher(userId, id, body);
+	}
+
+	// #endregion
 }

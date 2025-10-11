@@ -1,0 +1,6 @@
+html[data-mantine-color-scheme="dark"] .wrapper {
+	p,
+	text {
+		fill: white !important;
+	}
+}

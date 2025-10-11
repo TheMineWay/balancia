@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { MyTagsController } from "src/features/finances/tags/my-tags.controller";
-import { TagAutomatcherRepository } from "src/features/finances/tags/repositories/tag-automatcher.repository";
+import { TagAutoMatcherRepository } from "src/features/finances/tags/repositories/tag-auto-matcher.repository";
 import { TagsRepository } from "src/features/finances/tags/repositories/tags.repository";
-import { TagAutomatcherService } from "src/features/finances/tags/tag-automatcher.service";
+import { TagAutoMatcherService } from "src/features/finances/tags/tag-auto-matcher.service";
 import { TagsService } from "src/features/finances/tags/tags.service";
 import { TransactionsModule } from "src/features/finances/transactions/transactions.module";
 
@@ -13,10 +13,10 @@ import { TransactionsModule } from "src/features/finances/transactions/transacti
 		TagsRepository,
 
 		// Automatcher
-		TagAutomatcherService,
-		TagAutomatcherRepository,
+		TagAutoMatcherService,
+		TagAutoMatcherRepository,
 	],
-	exports: [TagsService, TagAutomatcherService],
+	exports: [TagsService, TagAutoMatcherService],
 	imports: [TransactionsModule],
 })
 export class TagsModule {}

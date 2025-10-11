@@ -36,6 +36,15 @@ export class TagsService {
 		private readonly transactionsService: TransactionsService,
 	) {}
 
+	async checkTagOwnership(
+		userId: UserModelId,
+		tagId: TagModel["id"],
+		options?: QueryOptions,
+	) {
+		const tag = await this.getById(tagId, options);
+		return { isOwner: tag?.userId === userId, tag };
+	}
+
 	async getPaginatedTagsByUserId(
 		userId: UserModelId,
 		{ pagination, search }: PaginatedSearchModel,

@@ -1,3 +1,4 @@
+import { NivoColor } from "@common/extended-ui/chart/constants/nivo-color.enum";
 import type { WithChildren } from "@common/extended-ui/general/types/component.types";
 import { WAREHOUSES } from "@constants/device-storage/warehouses.constant";
 import { MASTER_LOCALE } from "@i18n/locales/locales";
@@ -17,6 +18,9 @@ const DEFAULT_LOCAL_CONFIG: LocalConfig = {
 		primaryColor: "grape",
 	},
 	language: MASTER_LOCALE,
+	charts: {
+		theme: NivoColor.NIVO,
+	},
 };
 
 type Props = WithChildren;

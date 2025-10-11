@@ -1,11 +1,17 @@
+import type { NivoColor } from "@common/extended-ui/chart/constants/nivo-color.enum";
 import { ENV } from "@constants/env/env.constant";
+import { ChartThemeSelector } from "@core/config/local-config/components/chart/chart-theme-selector";
 import { LanguageChanger } from "@core/config/local-config/components/language/language-changer";
 import { PrimaryColorChanger } from "@core/config/local-config/components/theme/primary-color-changer";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Divider } from "@mantine/core";
 import * as pkg from "@pkg";
+import {
+	type LocalConfig,
+	useLocalConfig,
+} from "@providers/config/local-config.context";
 import clsx from "clsx";
-import { type ReactNode, useId, useMemo } from "react";
+import { type ReactNode, useCallback, useId, useMemo } from "react";
 
 /**
  * Local configuration manager component.
@@ -22,6 +28,10 @@ export const LocalConfigManager: FC = () => {
 
 			{/* Language */}
 			<Language />
+			<Divider />
+
+			{/* Charts */}
+			<Charts />
 			<Divider />
 
 			{/* Version indicator */}
@@ -83,6 +93,38 @@ const Version: FC = () => {
 			</a>
 		);
 	return <small className={className}>{text}</small>;
+};
+
+const Charts: FC = () => {
+	const { t } = useTranslation("common");
+	const { config, setConfig } = useLocalConfig();
+
+	const onChartThemeChange = useCallback(
+		(newTheme: NivoColor) => {
+			const newConfig: LocalConfig = { ...config };
+			newConfig.charts.theme = newTheme;
+			setConfig(newConfig);
+		},
+		[setConfig, config],
+	);
+
+	return (
+		<div className="flex flex-col gap-2">
+			<h3 className="font-bold text-xl">
+				{t().components["local-config"].sections.charts.Title}
+			</h3>
+			<Item
+				label={t().components["local-config"].configs["chart-theme"].Name}
+				render={(id) => (
+					<ChartThemeSelector
+						id={id}
+						value={config.charts.theme}
+						onChange={onChartThemeChange}
+					/>
+				)}
+			/>
+		</div>
+	);
 };
 
 /* Utils */

@@ -3,7 +3,6 @@ import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useSearch } from "@core/search/hooks/use-search";
 import { useMyTagDeleteMutation } from "@fts/finances/tags/my-tags/api/use-my-tag-delete.mutation";
 import { useMyTagsListQuery } from "@fts/finances/tags/my-tags/api/use-my-tags-list.query";
-import { MyTagAutoMatchManager } from "@fts/finances/tags/my-tags/components/manager/auto-match/my-tag-auto-match-create-manager";
 import { MyTagCreateManager } from "@fts/finances/tags/my-tags/components/manager/my-tag-create-manager";
 import { MyTagUpdateManager } from "@fts/finances/tags/my-tags/components/manager/my-tag-update-manager";
 import { TagsTable } from "@fts/finances/tags/tags/components/tags.table";
@@ -11,12 +10,26 @@ import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer, Pagination, Text } from "@mantine/core";
+import {
+	ActionIcon,
+	Button,
+	Drawer,
+	Loader,
+	Modal,
+	Pagination,
+	Text,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { TagModel } from "@shared/models";
-import { useCallback, useState } from "react";
+import { lazy, Suspense, useCallback, useState } from "react";
 import { IoAddOutline, IoReload, IoTrash } from "react-icons/io5";
+
+const MyTagAutoMatchManager = lazy(() =>
+	import(
+		"@fts/finances/tags/my-automatcher/components/my-tag-auto-match-manager"
+	).then((m) => ({ default: m.MyTagAutoMatchManager })),
+);
 
 export const MyTagsManager: FC = () => {
 	const { t, interpolated } = useTranslation("finances");
@@ -139,19 +152,27 @@ export const MyTagsManager: FC = () => {
 				)}
 			</Drawer>
 
-			<Drawer
-				position="right"
+			<Modal
 				opened={Boolean(tagToAutomatchEdit)}
 				onClose={() => setTagToAutomatchEdit(null)}
 				title={commonInterpolated(
 					(t) => t.components.automatisms["auto-matcher"]["Entity-title"],
 					{ name: tagToAutomatchEdit?.name ?? "" },
 				)}
+				size="xl"
 			>
 				{tagToAutomatchEdit && (
-					<MyTagAutoMatchManager tag={tagToAutomatchEdit} />
+					<Suspense
+						fallback={
+							<div className="w-full h-24 flex justify-center items-center">
+								<Loader />
+							</div>
+						}
+					>
+						<MyTagAutoMatchManager tag={tagToAutomatchEdit} />
+					</Suspense>
 				)}
-			</Drawer>
+			</Modal>
 		</>
 	);
 };

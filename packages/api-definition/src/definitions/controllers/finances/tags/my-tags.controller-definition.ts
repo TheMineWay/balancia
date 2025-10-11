@@ -1,6 +1,8 @@
 import {
 	getPaginatedResponse,
 	PAGINATED_SEARCH_SCHEMA,
+	TAG_AUTOMATCHER_CREATE_SCHEMA,
+	TAG_AUTOMATCHER_SCHEMA,
 	TAG_CREATE_SCHEMA,
 	TAG_SCHEMA,
 } from "@shared/models";
@@ -24,7 +26,7 @@ const GET_TAGS_LIST_ENDPOINT = {
 	),
 } satisfies EndpointDefinition;
 
-// CRUD
+// #region CRUD
 
 const GET_TAG = {
 	getPath: (options) => ["tag", options.id],
@@ -58,7 +60,9 @@ const DELETE_TAG = {
 	method: EndpointMethod.DELETE,
 } satisfies EndpointDefinition<{ id: string }>;
 
-// Transaction related
+// #endregion
+
+// #region Transaction related
 
 const ADD_TAG_TO_TRANSACTION = {
 	getPath: (options) => [
@@ -92,6 +96,49 @@ const GET_TAGS_BY_TRANSACTION = {
 	}),
 } satisfies EndpointDefinition<{ transactionId: string }>;
 
+// #endregion
+
+// #region Auto match
+
+const GET_TAG_AUTO_MATCHS_LIST_ENDPOINT = {
+	getPath: (options) => ["tag", options.tagId, "automatch"],
+	paramsMapping: { tagId: "tagId" },
+	queryDto: z.object({
+		...PAGINATED_SEARCH_SCHEMA.shape,
+	}),
+	responseDto: getPaginatedResponse(
+		z.object({
+			...TAG_AUTOMATCHER_SCHEMA.shape,
+		}),
+	),
+} satisfies EndpointDefinition<{ tagId: string }>;
+
+const ADD_TAG_AUTO_MATCH_ENDPOINT = {
+	getPath: () => ["automatch"],
+	paramsMapping: {},
+	method: EndpointMethod.POST,
+	bodyDto: z.object({
+		...TAG_AUTOMATCHER_CREATE_SCHEMA.shape,
+	}),
+} satisfies EndpointDefinition;
+
+const UPDATE_TAG_AUTO_MATCH_ENDPOINT = {
+	getPath: (options) => ["auto-match", options.autoMatchId],
+	paramsMapping: { autoMatchId: "autoMatchId" },
+	method: EndpointMethod.PUT,
+	bodyDto: z.object({
+		...TAG_AUTOMATCHER_CREATE_SCHEMA.shape,
+	}),
+} satisfies EndpointDefinition<{ autoMatchId: string }>;
+
+const REMOVE_TAG_AUTO_MATCH_ENDPOINT = {
+	getPath: (options) => ["auto-match", options.autoMatchId],
+	paramsMapping: { autoMatchId: "autoMatchId" },
+	method: EndpointMethod.DELETE,
+} satisfies EndpointDefinition<{ autoMatchId: string }>;
+
+// #endregion
+
 // Controller
 
 export const MY_TAGS_CONTROLLER = {
@@ -110,5 +157,11 @@ export const MY_TAGS_CONTROLLER = {
 		addTagToTransaction: ADD_TAG_TO_TRANSACTION,
 		removeTagFromTransaction: REMOVE_TAG_FROM_TRANSACTION,
 		getTagsByTransaction: GET_TAGS_BY_TRANSACTION,
+
+		// Auto match
+		getTagAutoMatchsList: GET_TAG_AUTO_MATCHS_LIST_ENDPOINT,
+		addTagAutoMatch: ADD_TAG_AUTO_MATCH_ENDPOINT,
+		removeTagAutoMatch: REMOVE_TAG_AUTO_MATCH_ENDPOINT,
+		updateTagAutoMatch: UPDATE_TAG_AUTO_MATCH_ENDPOINT,
 	},
 } satisfies ControllerDefinition;

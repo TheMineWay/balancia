@@ -2,6 +2,18 @@ import type { Dependency } from "@site/src/types/dependencies/dependency.type";
 
 export const DEPENDENCIES = [
 	{
+		code: "papaparse",
+		name: "Papa Parse",
+		url: "https://www.npmjs.com/package/papaparse",
+		docsUrl: "https://www.papaparse.com/",
+	},
+	{
+		code: "@types/papaparse",
+		name: "Papa parse types",
+		url: "https://www.npmjs.com/package/@types/papaparse",
+		docsUrl: "https://www.papaparse.com/",
+	},
+	{
 		code: "@nivo/core",
 		name: "@nivo/core",
 		url: "https://www.npmjs.com/package/@nivo/core",
@@ -259,6 +271,12 @@ export const DEPENDENCIES = [
 		code: "@mantine/core",
 		name: "Mantine Core",
 		url: "https://www.npmjs.com/package/@mantine/core",
+		docsUrl: "https://mantine.dev/",
+	},
+	{
+		code: "@mantine/dropzone",
+		name: "Mantine Dropzone",
+		url: "https://www.npmjs.com/package/@mantine/dropzone",
 		docsUrl: "https://mantine.dev/",
 	},
 	{

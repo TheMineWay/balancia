@@ -47,19 +47,29 @@ const CREATE_TRANSACTION = {
 } satisfies EndpointDefinition;
 
 const DELETE_TRANSACTION_ENDPOINT = {
-	getPath: (params) => [params.id],
+	getPath: (params) => ["transaction", params.id],
 	paramsMapping: { id: "transactionId" },
 	method: EndpointMethod.DELETE,
 } satisfies EndpointDefinition<{ id: string }>;
 
 const UPDATE_TRANSACTION = {
-	getPath: (options) => [options.id],
+	getPath: (options) => ["transaction", options.id],
 	paramsMapping: { id: "transactionId" },
 	method: EndpointMethod.PUT,
 	bodyDto: z.object({
 		...TRANSACTION_CREATE_SCHEMA.shape,
 	}),
 } satisfies EndpointDefinition<{ id: string }>;
+
+// Import
+const BULK_CREATE_TRANSACTIONS = {
+	getPath: (options) => ["bulk", options.accountId],
+	paramsMapping: { accountId: "accountId" },
+	method: EndpointMethod.POST,
+	bodyDto: z.object({
+		transactions: z.array(TRANSACTION_CREATE_SCHEMA.omit({ accountId: true })),
+	}),
+} satisfies EndpointDefinition<{ accountId: string }>;
 
 // Controller
 
@@ -71,5 +81,8 @@ export const MY_TRANSACTION_CONTROLLER = {
 		createTransaction: CREATE_TRANSACTION,
 		deleteTransaction: DELETE_TRANSACTION_ENDPOINT,
 		updateTransaction: UPDATE_TRANSACTION,
+
+		// Import
+		bulkCreateTransactions: BULK_CREATE_TRANSACTIONS,
 	},
 } satisfies ControllerDefinition;

@@ -88,4 +88,32 @@ export class MyTransactionsController {
 	> {
 		await this.transactionsService.deleteByUserIdAndId(userId, transactionId);
 	}
+
+	// Import
+	@Endpoint(MY_TRANSACTION_CONTROLLER, "bulkCreateTransactions")
+	async bulkCreateTransactions(
+		@ValidatedBody(MY_TRANSACTION_CONTROLLER, "bulkCreateTransactions")
+		body: InferBodyDto<
+			typeof MY_TRANSACTION_CONTROLLER,
+			"bulkCreateTransactions"
+		>,
+		@UserId() userId: UserModel["id"],
+		@Param(
+			getParamName(
+				MY_TRANSACTION_CONTROLLER,
+				"bulkCreateTransactions",
+				"accountId",
+			),
+			ParseIntPipe,
+		)
+		accountId: number,
+	): Promise<
+		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "bulkCreateTransactions">
+	> {
+		await this.transactionsService.accountBulkCreate(
+			userId,
+			accountId,
+			body.transactions,
+		);
+	}
 }
