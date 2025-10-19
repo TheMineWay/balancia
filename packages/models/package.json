@@ -40,6 +40,7 @@
 		"pnpm": ">=10"
 	},
 	"dependencies": {
+		"date-fns": "^4.1.0",
 		"zod": "^4.1.3"
 	}
 }

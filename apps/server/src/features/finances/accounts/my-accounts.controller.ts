@@ -101,8 +101,8 @@ export class MyAccountsController {
 		accountId: number,
 		@ValidatedQuery(MY_ACCOUNTS_CONTROLLER, "getMonthlyStats")
 		{
-			periodEnd,
-			months,
+			from: fromDate,
+			to: toDate,
 		}: InferQueryDto<typeof MY_ACCOUNTS_CONTROLLER, "getMonthlyStats">,
 	): Promise<
 		InferResponseDto<typeof MY_ACCOUNTS_CONTROLLER, "getMonthlyStats">
@@ -111,7 +111,7 @@ export class MyAccountsController {
 			stats: await this.accountsService.getUserAccountMonthlyStats(
 				userId,
 				accountId,
-				{ periodEnd, months },
+				{ from: fromDate, to: toDate },
 			),
 		};
 	}

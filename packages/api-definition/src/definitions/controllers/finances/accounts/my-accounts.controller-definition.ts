@@ -9,6 +9,13 @@ import {
 import { ControllerDefinition } from "@ts-types/controller-definition.type";
 import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
+import {
+	differenceInMonths,
+	endOfMonth,
+	isBefore,
+	startOfMonth,
+	subMonths,
+} from "date-fns";
 import z from "zod";
 
 // Endpoints
@@ -68,13 +75,19 @@ const GET_ACCOUNT_MONTHLY_STATS_ENDPOINT = {
 	responseDto: z.object({
 		stats: z.array(ACCOUNT_MONTHLY_STATS_SCHEMA),
 	}),
-	queryDto: z.object({
-		periodEnd: DATE_SCHEMA,
-		months: z.preprocess(
-			(val) => Number(val),
-			z.number().min(1).max(36).default(6),
-		),
-	}),
+	queryDto: z
+		.object({
+			from: DATE_SCHEMA.default(subMonths(new Date(), 6)).transform((d) =>
+				startOfMonth(d),
+			),
+			to: DATE_SCHEMA.default(new Date()).transform((d) => endOfMonth(d)),
+		})
+		.refine((obj) => isBefore(obj.from, obj.to), {
+			error: "From date must be before to date",
+		})
+		.refine((obj) => differenceInMonths(obj.from, obj.to) <= 24, {
+			error: "Date range must not exceed 24 months",
+		}),
 } satisfies EndpointDefinition<{ id: string }>;
 
 // Controller
