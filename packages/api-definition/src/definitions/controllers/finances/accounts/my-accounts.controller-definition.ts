@@ -9,13 +9,7 @@ import {
 import { ControllerDefinition } from "@ts-types/controller-definition.type";
 import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
-import {
-	differenceInMonths,
-	endOfMonth,
-	isBefore,
-	startOfMonth,
-	subMonths,
-} from "date-fns";
+import { differenceInMonths, isBefore, subMonths } from "date-fns";
 import z from "zod";
 
 // Endpoints
@@ -77,10 +71,8 @@ const GET_ACCOUNT_MONTHLY_STATS_ENDPOINT = {
 	}),
 	queryDto: z
 		.object({
-			from: DATE_SCHEMA.default(subMonths(new Date(), 6)).transform((d) =>
-				startOfMonth(d),
-			),
-			to: DATE_SCHEMA.default(new Date()).transform((d) => endOfMonth(d)),
+			from: DATE_SCHEMA.default(subMonths(new Date(), 6)),
+			to: DATE_SCHEMA.default(new Date()),
 		})
 		.refine((obj) => isBefore(obj.from, obj.to), {
 			error: "From date must be before to date",
