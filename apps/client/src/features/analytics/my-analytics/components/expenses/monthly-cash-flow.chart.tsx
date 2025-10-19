@@ -25,7 +25,7 @@ export const MonthlyCashFlowChart: FC<Props> = ({ data: rawData = [] }) => {
 			<ResponsiveLine
 				{...control}
 				data={data}
-				margin={{ top: 50, right: 100, bottom: 50, left: 60 }}
+				margin={{ top: 50, right: 100, bottom: 50, left: 50 }}
 				yScale={{
 					type: "linear",
 					min: "auto",

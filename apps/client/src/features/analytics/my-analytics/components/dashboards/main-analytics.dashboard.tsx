@@ -1,12 +1,10 @@
 import { MonthRangePicker } from "@common/extended-ui/date/components/range/month-range-picker";
-import {
-	DateRange,
-	useDateRange,
-} from "@common/extended-ui/date/hooks/use-date-range";
+import { DateRange } from "@common/extended-ui/date/hooks/use-date-range";
+import { useMonthDateRange } from "@common/extended-ui/date/hooks/use-month-date-range";
 import { useMyAccountMonthlyStatsQuery } from "@fts/analytics/my-analytics/api/use-my-account-monthly-stats.query";
 import { MonthlyCashFlowChart } from "@fts/analytics/my-analytics/components/expenses/monthly-cash-flow.chart";
 import type { AccountModel } from "@shared/models";
-import { addMonths } from "date-fns";
+import { addMonths, subMonths } from "date-fns";
 
 const DEFAULT_RANGE: DateRange = {
 	from: addMonths(new Date(), -6),
@@ -18,13 +16,15 @@ type Props = {
 };
 
 export const MainAnalyticsDashboard: FC<Props> = ({ mainAccountId }) => {
-	const monthlyStatsRange = useDateRange();
+	const monthlyStatsRange = useMonthDateRange({
+		initialRange: { from: subMonths(new Date(), 6), to: new Date() },
+	});
 	const { data: monthlyStats } = useMyAccountMonthlyStatsQuery(mainAccountId, {
 		range: monthlyStatsRange.range,
 	});
 
 	return (
-		<div className="flex flex-col gap-2 h-100">
+		<div className="flex flex-col h-100">
 			<MonthRangePicker
 				value={monthlyStatsRange.range}
 				onChange={monthlyStatsRange.setRange}
