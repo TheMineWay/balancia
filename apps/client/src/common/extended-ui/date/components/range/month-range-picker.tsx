@@ -23,6 +23,7 @@ export const MonthRangePicker: FC<Props> = ({ value, onChange, className }) => {
 				value={fromDate}
 				onChange={(raw) => onChange?.({ from: datePipe(raw), to: toDate })}
 				size="xs"
+				maxDate={value?.to || undefined}
 			/>
 			<BsArrowRight />
 			<MonthPickerInput
@@ -30,6 +31,7 @@ export const MonthRangePicker: FC<Props> = ({ value, onChange, className }) => {
 				value={toDate}
 				onChange={(raw) => onChange?.({ from: fromDate, to: datePipe(raw) })}
 				size="xs"
+				minDate={value?.from || undefined}
 			/>
 		</Group>
 	);
