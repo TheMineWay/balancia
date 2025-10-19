@@ -28,6 +28,7 @@ export const MainAnalyticsDashboard: FC<Props> = ({ mainAccountId }) => {
 			<MonthRangePicker
 				value={monthlyStatsRange.range}
 				onChange={monthlyStatsRange.setRange}
+				maxDiff={24}
 			/>
 			<MonthlyCashFlowChart data={monthlyStats?.stats} />
 		</div>
