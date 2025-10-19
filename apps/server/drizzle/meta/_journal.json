@@ -1,76 +1,83 @@
 {
-	"version": "7",
-	"dialect": "postgresql",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "7",
-			"when": 1757079299621,
-			"tag": "0000_regular_shen",
-			"breakpoints": true
-		},
-		{
-			"idx": 1,
-			"version": "7",
-			"when": 1757318060549,
-			"tag": "0001_luxuriant_sheva_callister",
-			"breakpoints": true
-		},
-		{
-			"idx": 2,
-			"version": "7",
-			"when": 1757318100219,
-			"tag": "0002_cultured_pete_wisdom",
-			"breakpoints": true
-		},
-		{
-			"idx": 3,
-			"version": "7",
-			"when": 1757347653961,
-			"tag": "0003_confused_hydra",
-			"breakpoints": true
-		},
-		{
-			"idx": 4,
-			"version": "7",
-			"when": 1757960500103,
-			"tag": "0004_volatile_spot",
-			"breakpoints": true
-		},
-		{
-			"idx": 5,
-			"version": "7",
-			"when": 1758110746836,
-			"tag": "0005_spooky_the_fallen",
-			"breakpoints": true
-		},
-		{
-			"idx": 6,
-			"version": "7",
-			"when": 1758458451244,
-			"tag": "0006_nice_stryfe",
-			"breakpoints": true
-		},
-		{
-			"idx": 7,
-			"version": "7",
-			"when": 1758458464189,
-			"tag": "0007_tearful_mach_iv",
-			"breakpoints": true
-		},
-		{
-			"idx": 8,
-			"version": "7",
-			"when": 1758476472740,
-			"tag": "0008_omniscient_the_stranger",
-			"breakpoints": true
-		},
-		{
-			"idx": 9,
-			"version": "7",
-			"when": 1758704048616,
-			"tag": "0009_cool_zaladane",
-			"breakpoints": true
-		}
-	]
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1757079299621,
+      "tag": "0000_regular_shen",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1757318060549,
+      "tag": "0001_luxuriant_sheva_callister",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1757318100219,
+      "tag": "0002_cultured_pete_wisdom",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1757347653961,
+      "tag": "0003_confused_hydra",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1757960500103,
+      "tag": "0004_volatile_spot",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1758110746836,
+      "tag": "0005_spooky_the_fallen",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1758458451244,
+      "tag": "0006_nice_stryfe",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1758458464189,
+      "tag": "0007_tearful_mach_iv",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1758476472740,
+      "tag": "0008_omniscient_the_stranger",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1758704048616,
+      "tag": "0009_cool_zaladane",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1760884909914,
+      "tag": "0010_cold_the_renegades",
+      "breakpoints": true
+    }
+  ]
 }

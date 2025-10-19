@@ -181,6 +181,7 @@ export class AccountsService {
 
 			if (!isOwner) throw new UnauthorizedException();
 
+			console.log({ options });
 			return await this.accountsRepository.findAccountMonthlyStats(
 				account.id,
 				{

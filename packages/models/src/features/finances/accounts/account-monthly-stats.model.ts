@@ -1,10 +1,11 @@
 import { ID_SCHEMA } from "@/common/__system/id.model";
+import { DATE_SCHEMA } from "@/utils/date.model";
 import z from "zod";
 
 export const ACCOUNT_MONTHLY_STATS_SCHEMA = z.object({
 	accountId: ID_SCHEMA,
-	year: z.number().positive(),
-	month: z.number().min(1).max(12),
+	userId: ID_SCHEMA,
+	date: DATE_SCHEMA,
 	monthlyBalance: z.number(),
 	income: z.number(),
 	outcome: z.number(),

@@ -18,7 +18,6 @@ import type {
 	TransactionModel,
 	UserModel,
 } from "@shared/models";
-import { getMonth } from "date-fns/getMonth";
 import { and, desc, eq, gte, ilike, lte } from "drizzle-orm";
 
 @Injectable()
@@ -137,16 +136,10 @@ export class AccountsRepository extends Repository {
 	) {
 		const where = and(
 			filters.startDate
-				? gte(
-						accountMonthlyStatsMaterializedView.month,
-						getMonth(filters.startDate) + 1,
-					)
+				? gte(accountMonthlyStatsMaterializedView.date, filters.startDate)
 				: undefined,
 			filters.endDate
-				? lte(
-						accountMonthlyStatsMaterializedView.month,
-						getMonth(filters.endDate) + 1,
-					)
+				? lte(accountMonthlyStatsMaterializedView.date, filters.endDate)
 				: undefined,
 		);
 
