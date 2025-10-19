@@ -70,20 +70,15 @@ const getChartData = (
 	const incomeSeries: LineSeriesItem[] = [];
 	const outcomeSeries: LineSeriesItem[] = [];
 
-	const parsedItems = items
-		.map(({ month, year, ...item }) => {
-			return {
-				...item,
-				date: new Date(year, month - 1),
-			};
-		})
-		.sort((a, b) => (isAfter(a.date, b.date) ? 1 : -1));
+	const parsedItems = [...items].sort((a, b) =>
+		isAfter(a.date, b.date) ? 1 : -1,
+	);
 
-	parsedItems.forEach((entry) => {
+	for (const entry of parsedItems) {
 		const label = format(entry.date, "MMM yyyy");
 		incomeSeries.push({ x: label, y: entry.income });
 		outcomeSeries.push({ x: label, y: entry.outcome });
-	});
+	}
 
 	return [
 		{ id: t().expressions.Income, data: incomeSeries },

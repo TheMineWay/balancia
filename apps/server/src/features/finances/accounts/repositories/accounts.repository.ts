@@ -155,6 +155,7 @@ export class AccountsRepository extends Repository {
 
 		return rows.map((row) => ({
 			...row,
+			date: new Date(row.date),
 			monthlyBalance: Number(row.monthlyBalance),
 			income: Number(row.income),
 			outcome: Number(row.outcome),
