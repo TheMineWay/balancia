@@ -78,6 +78,13 @@
       "when": 1760884909914,
       "tag": "0010_cold_the_renegades",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1760893306886,
+      "tag": "0011_furry_ronan",
+      "breakpoints": true
     }
   ]
 }

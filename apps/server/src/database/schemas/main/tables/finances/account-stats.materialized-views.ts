@@ -39,7 +39,7 @@ export const accountMonthlyStatsMaterializedView = financesSchema
 	.with({ autovacuumEnabled: true })
 	.as((db) => {
 		const dateField =
-			sql<Date>`date_trunc('month', ${transactionsTable.performedAt})::timestamp`.as(
+			sql<Date>`date_trunc('month', ${transactionsTable.performedAt})::date`.as(
 				"date",
 			);
 
