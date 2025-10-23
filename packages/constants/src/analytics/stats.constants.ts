@@ -1,0 +1,1 @@
+export const MAX_STATS_MONTH_DATE_DIFF = 48;

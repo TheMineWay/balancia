@@ -45,6 +45,7 @@ export const MonthRangePicker: FC<Props> = ({
 				size="xs"
 				minDate={startMonthMinDate || undefined}
 				maxDate={value?.to || undefined}
+				allowDeselect
 			/>
 			<BsArrowRight />
 			<MonthPickerInput
@@ -54,6 +55,7 @@ export const MonthRangePicker: FC<Props> = ({
 				size="xs"
 				minDate={value?.from || undefined}
 				maxDate={endMonthMaxDate || undefined}
+				allowDeselect
 			/>
 		</Group>
 	);

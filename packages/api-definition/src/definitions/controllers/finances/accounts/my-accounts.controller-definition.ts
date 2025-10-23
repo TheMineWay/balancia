@@ -1,3 +1,4 @@
+import { MAX_STATS_MONTH_DATE_DIFF } from "@shared/constants";
 import {
 	ACCOUNT_CREATE_SCHEMA,
 	ACCOUNT_MONTHLY_STATS_SCHEMA,
@@ -77,9 +78,13 @@ const GET_ACCOUNT_MONTHLY_STATS_ENDPOINT = {
 		.refine((obj) => isBefore(obj.from, obj.to), {
 			error: "From date must be before to date",
 		})
-		.refine((obj) => differenceInMonths(obj.from, obj.to) <= 24, {
-			error: "Date range must not exceed 24 months",
-		}),
+		.refine(
+			(obj) =>
+				differenceInMonths(obj.from, obj.to) <= MAX_STATS_MONTH_DATE_DIFF,
+			{
+				error: `Date range must not exceed ${MAX_STATS_MONTH_DATE_DIFF} months`,
+			},
+		),
 } satisfies EndpointDefinition<{ id: string }>;
 
 // Controller
