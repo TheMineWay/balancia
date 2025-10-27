@@ -22,7 +22,7 @@ import type {
 	TransactionModel,
 	UserModel,
 } from "@shared/models";
-import { and, desc, eq, gte, ilike, lte } from "drizzle-orm";
+import { and, desc, eq, gte, ilike, lte, sum } from "drizzle-orm";
 
 @Injectable()
 export class AccountsRepository extends Repository {
@@ -171,8 +171,7 @@ export class AccountsRepository extends Repository {
 		filters: { startDate?: Date; endDate?: Date } = {},
 		options?: QueryOptions,
 	): Promise<CategoryExpensesModel[]> {
-		const condition = and(
-			eq(accountCategoryExpensesStatsMaterializedView.accountId, accountId),
+		const statsCondition = and(
 			filters.startDate
 				? gte(
 						accountCategoryExpensesStatsMaterializedView.date,
@@ -186,21 +185,34 @@ export class AccountsRepository extends Repository {
 					)
 				: undefined,
 		);
+		const statsQuery = this.query(options)
+			.select({
+				accountId: accountCategoryExpensesStatsMaterializedView.accountId,
+				categoryId: accountCategoryExpensesStatsMaterializedView.categoryId,
+				income: sum(accountCategoryExpensesStatsMaterializedView.income).as(
+					"income",
+				),
+				outcome: sum(accountCategoryExpensesStatsMaterializedView.outcome).as(
+					"outcome",
+				),
+			})
+			.from(accountCategoryExpensesStatsMaterializedView)
+			.where(statsCondition)
+			.groupBy(
+				accountCategoryExpensesStatsMaterializedView.accountId,
+				accountCategoryExpensesStatsMaterializedView.categoryId,
+			)
+			.as("stats");
 
+		const condition = and(eq(statsQuery.accountId, accountId));
 		const data = await this.query(options)
 			.select({
 				category: CATEGORY_TABLE_COLUMNS,
-				income: accountCategoryExpensesStatsMaterializedView.income,
-				outcome: accountCategoryExpensesStatsMaterializedView.outcome,
+				income: statsQuery.income,
+				outcome: statsQuery.outcome,
 			})
-			.from(accountCategoryExpensesStatsMaterializedView)
-			.leftJoin(
-				categoryTable,
-				eq(
-					accountCategoryExpensesStatsMaterializedView.categoryId,
-					categoryTable.id,
-				),
-			)
+			.from(statsQuery)
+			.leftJoin(categoryTable, eq(statsQuery.categoryId, categoryTable.id))
 			.where(condition);
 
 		return data.map((row) => ({
