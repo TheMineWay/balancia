@@ -9,11 +9,11 @@ import { useQuery } from "@tanstack/react-query";
 import { subMonths } from "date-fns";
 import { useMemo } from "react";
 
-export const GET_MY_ACCOUNT_MONTHLY_STATS_QUERY_KEY: ParametrizedQueryKey<{
+const GET_MY_ACCOUNT_CATEGORY_EXPENSES_STATS_QUERY_KEY: ParametrizedQueryKey<{
 	id: AccountModel["id"];
-	range?: DateRange;
+	range?: DateRange | null;
 }> = (params) => [
-	"my-account-monthly-stats",
+	"my-account-category-expenses-stats",
 	params.id,
 	{ range: params.range ?? null },
 ];
@@ -22,9 +22,9 @@ type Options = {
 	range?: DateRange | null;
 };
 
-export const useMyAccountMonthlyStatsQuery = (
+export const useMyAccountCategoryExpensesStats = (
 	accountId: AccountModel["id"],
-	{ range = null }: Options = {},
+	{ range }: Options = {},
 ) => {
 	const { request } = useAuthenticatedRequest();
 
@@ -44,14 +44,16 @@ export const useMyAccountMonthlyStatsQuery = (
 	return useQuery({
 		queryFn: endpointQuery(
 			MY_ACCOUNTS_CONTROLLER,
-			"getMonthlyStats",
-			{ id: accountId.toString() },
+			"getCategoryExpensesStats",
+			{
+				id: accountId.toString(),
+			},
 			request,
 			{
 				query: rangeFilter,
 			},
 		),
-		queryKey: GET_MY_ACCOUNT_MONTHLY_STATS_QUERY_KEY({
+		queryKey: GET_MY_ACCOUNT_CATEGORY_EXPENSES_STATS_QUERY_KEY({
 			id: accountId,
 			range: rangeFilter,
 		}),

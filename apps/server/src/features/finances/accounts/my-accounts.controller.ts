@@ -115,4 +115,29 @@ export class MyAccountsController {
 			),
 		};
 	}
+
+	@Endpoint(MY_ACCOUNTS_CONTROLLER, "getCategoryExpensesStats")
+	async getCategoryExpensesStats(
+		@UserId() userId: UserModel["id"],
+		@Param(
+			getParamName(MY_ACCOUNTS_CONTROLLER, "getCategoryExpensesStats", "id"),
+			ParseIntPipe,
+		)
+		accountId: number,
+		@ValidatedQuery(MY_ACCOUNTS_CONTROLLER, "getCategoryExpensesStats")
+		{
+			from: fromDate,
+			to: toDate,
+		}: InferQueryDto<typeof MY_ACCOUNTS_CONTROLLER, "getCategoryExpensesStats">,
+	): Promise<
+		InferResponseDto<typeof MY_ACCOUNTS_CONTROLLER, "getCategoryExpensesStats">
+	> {
+		return {
+			stats: await this.accountsService.getUserAccountCategoryExpensesStats(
+				userId,
+				accountId,
+				{ from: fromDate, to: toDate },
+			),
+		};
+	}
 }

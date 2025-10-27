@@ -194,6 +194,35 @@ export class AccountsService {
 		});
 	}
 
+	async getUserAccountCategoryExpensesStats(
+		userId: UserModelId,
+		accountId: AccountModel["id"],
+		options: { from?: Date; to: Date },
+	) {
+		return await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner, account } = await this.checkAccountOwnership(
+				userId,
+				accountId,
+				{
+					transaction,
+				},
+			);
+
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.accountsRepository.findAccountCategoryExpensesStats(
+				account.id,
+				{
+					endDate: options.to,
+					startDate: options.from,
+				},
+				{
+					transaction,
+				},
+			);
+		});
+	}
+
 	// #endregion
 }
 

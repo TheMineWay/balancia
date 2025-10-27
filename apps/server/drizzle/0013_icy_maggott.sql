@@ -1,0 +1,2 @@
+DROP MATERIALIZED VIEW "finances"."account_category_expenses_stats";--> statement-breakpoint
+CREATE MATERIALIZED VIEW "finances"."account_category_expenses_stats" WITH (autovacuum_enabled = true) AS (select "accountId", "categoryId", date_trunc('month', "performedAt")::date as "date", SUM(CASE WHEN "amount" > 0 THEN "amount" ELSE 0 END)::numeric as "income", SUM(CASE WHEN "amount" < 0 THEN abs("amount") ELSE 0 END)::numeric as "outcome" from "finances"."transactions" group by "finances"."transactions"."accountId", "finances"."transactions"."categoryId", "date");

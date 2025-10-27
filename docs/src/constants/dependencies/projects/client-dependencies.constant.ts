@@ -17,6 +17,9 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 		dep: "@nivo/line",
 	},
 	{
+		dep: "@nivo/pie",
+	},
+	{
 		dep: "vite-plugin-pwa",
 		isDevelopment: true,
 	},

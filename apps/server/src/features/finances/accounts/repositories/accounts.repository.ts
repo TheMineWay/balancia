@@ -1,7 +1,9 @@
 import { type QueryOptions, Repository } from "@database/repository/repository";
 import {
+	accountCategoryExpensesStatsMaterializedView,
 	accountMonthlyStatsMaterializedView,
 	accountTable,
+	categoryTable,
 	transactionsTable,
 } from "@database/schemas/main.schema";
 import {
@@ -9,9 +11,11 @@ import {
 	AccountSelect,
 	AccountUpdate,
 } from "@database/schemas/main/tables/finances/account.table";
+import { CATEGORY_TABLE_COLUMNS } from "@database/schemas/main/tables/finances/category.table";
 import { Injectable } from "@nestjs/common";
 import type {
 	AccountModel,
+	CategoryExpensesModel,
 	OwnedModel,
 	PaginatedResponse,
 	PaginatedSearchModel,
@@ -157,6 +161,50 @@ export class AccountsRepository extends Repository {
 			...row,
 			date: new Date(row.date),
 			monthlyBalance: Number(row.monthlyBalance),
+			income: Number(row.income),
+			outcome: Number(row.outcome),
+		}));
+	}
+
+	async findAccountCategoryExpensesStats(
+		accountId: AccountModel["id"],
+		filters: { startDate?: Date; endDate?: Date } = {},
+		options?: QueryOptions,
+	): Promise<CategoryExpensesModel[]> {
+		const condition = and(
+			eq(accountCategoryExpensesStatsMaterializedView.accountId, accountId),
+			filters.startDate
+				? gte(
+						accountCategoryExpensesStatsMaterializedView.date,
+						filters.startDate,
+					)
+				: undefined,
+			filters.endDate
+				? lte(
+						accountCategoryExpensesStatsMaterializedView.date,
+						filters.endDate,
+					)
+				: undefined,
+		);
+
+		const data = await this.query(options)
+			.select({
+				category: CATEGORY_TABLE_COLUMNS,
+				income: accountCategoryExpensesStatsMaterializedView.income,
+				outcome: accountCategoryExpensesStatsMaterializedView.outcome,
+			})
+			.from(accountCategoryExpensesStatsMaterializedView)
+			.leftJoin(
+				categoryTable,
+				eq(
+					accountCategoryExpensesStatsMaterializedView.categoryId,
+					categoryTable.id,
+				),
+			)
+			.where(condition);
+
+		return data.map((row) => ({
+			...row,
 			income: Number(row.income),
 			outcome: Number(row.outcome),
 		}));

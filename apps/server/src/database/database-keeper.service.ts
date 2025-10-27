@@ -1,6 +1,7 @@
 import { ENV } from "@constants/conf/env.constant";
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import {
+	accountCategoryExpensesStatsMaterializedView,
 	accountMonthlyStatsMaterializedView,
 	accountStatsMaterializedView,
 } from "@database/schemas/main.schema";
@@ -33,6 +34,11 @@ export class DatabaseKeeperService {
 		// Update monthly stats
 		await this.databaseService.db.refreshMaterializedView(
 			accountMonthlyStatsMaterializedView,
+		);
+
+		// Update category expenses stats
+		await this.databaseService.db.refreshMaterializedView(
+			accountCategoryExpensesStatsMaterializedView,
 		);
 	}
 }

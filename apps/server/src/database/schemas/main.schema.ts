@@ -2,6 +2,7 @@
 
 export { timePrecisionEnum } from "@database/schemas/main/enums/time-precision.db-enum";
 export {
+	accountCategoryExpensesStatsMaterializedView,
 	accountMonthlyStatsMaterializedView,
 	accountStatsMaterializedView,
 } from "@database/schemas/main/tables/finances/account-stats.materialized-views";
