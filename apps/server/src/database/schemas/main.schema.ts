@@ -1,6 +1,9 @@
 // Identity
 
 export { timePrecisionEnum } from "@database/schemas/main/enums/time-precision.db-enum";
+export { debtPaymentTable } from "@database/schemas/main/tables/debt/debt-payments.table";
+export { debtSchema } from "@database/schemas/main/tables/debt/debt.schema";
+export { debtTable } from "@database/schemas/main/tables/debt/debt.table";
 export {
 	accountCategoryExpensesStatsMaterializedView,
 	accountMonthlyStatsMaterializedView,

@@ -30,10 +30,10 @@ export const CONTACT_SCHEMA = z.object({
 		.max(CONTACT_MODEL_VALUES.lastName.maxLength)
 		.nullable()
 		.default(null),
-	email: z.string().max(CONTACT_MODEL_VALUES.email.maxLength).optional(),
+	email: z.string().max(CONTACT_MODEL_VALUES.email.maxLength).nullable(),
 	phone: PHONE_NUMBER_SCHEMA.max(
 		CONTACT_MODEL_VALUES.phone.maxLength,
-	).optional(),
+	).nullable(),
 });
 
 export type ContactModel = z.infer<typeof CONTACT_SCHEMA>;

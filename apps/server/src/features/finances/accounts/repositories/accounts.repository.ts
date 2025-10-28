@@ -16,7 +16,6 @@ import { Injectable } from "@nestjs/common";
 import type {
 	AccountModel,
 	CategoryExpensesModel,
-	OwnedModel,
 	PaginatedResponse,
 	PaginatedSearchModel,
 	TransactionModel,
@@ -30,7 +29,7 @@ export class AccountsRepository extends Repository {
 		userId: UserModel["id"],
 		{ pagination, search }: PaginatedSearchModel,
 		options?: QueryOptions,
-	): Promise<PaginatedResponse<OwnedModel<AccountSelect>>> {
+	): Promise<PaginatedResponse<AccountSelect>> {
 		const query = this.query(options)
 			.select()
 			.from(accountTable)
