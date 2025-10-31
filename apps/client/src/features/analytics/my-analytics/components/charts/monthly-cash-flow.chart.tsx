@@ -13,15 +13,21 @@ type Props = {
 
 export const MonthlyCashFlowChart: FC<Props> = ({ data: rawData = [] }) => {
 	const { t } = useTranslation("common");
+	const { t: tCharts } = useTranslation("charts");
 
 	const { control } = useChart();
-	const data = useMemo<LineSeries[]>(
-		() => getChartData(rawData, t),
-		[rawData, t],
-	);
+	const { data, isEmpty } = useMemo(() => {
+		const data: LineSeries[] = getChartData(rawData, t);
+		const isEmpty = data.every((series) => series.data.length === 0);
+
+		return { data, isEmpty };
+	}, [rawData, t]);
 
 	return (
-		<ChartWrapper>
+		<ChartWrapper
+			empty={isEmpty}
+			title={tCharts().charts["monthly-cash-flow"].Title}
+		>
 			<ResponsiveLine
 				{...control}
 				data={data}

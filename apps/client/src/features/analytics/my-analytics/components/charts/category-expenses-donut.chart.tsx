@@ -1,5 +1,6 @@
 import { ChartWrapper } from "@common/extended-ui/chart/components/wrapper/chart-wrapper";
 import { useChart } from "@common/extended-ui/chart/hooks/use-chart";
+import { useTranslation } from "@i18n/use-translation";
 import { ResponsivePie } from "@nivo/pie";
 import type { CategoryExpensesModel } from "@shared/models";
 import { useMemo } from "react";
@@ -11,6 +12,7 @@ type Props = {
 export const CategoryExpensesDonutChart: FC<Props> = ({
 	data: rawData = [],
 }) => {
+	const { t } = useTranslation("charts");
 	const { control } = useChart();
 
 	const data = useMemo(() => {
@@ -22,7 +24,10 @@ export const CategoryExpensesDonutChart: FC<Props> = ({
 	}, [rawData]);
 
 	return (
-		<ChartWrapper>
+		<ChartWrapper
+			empty={data.length === 0}
+			title={t().charts["category-expenses-donut"].Title}
+		>
 			<ResponsivePie
 				{...control}
 				margin={{ top: 40, right: 80, bottom: 80, left: 80 }}

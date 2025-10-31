@@ -1,3 +1,4 @@
+import charts from "./charts.json";
 import common from "./common.json";
 import admin from "./core/admin.json";
 import auth from "./core/auth.json";
@@ -16,6 +17,7 @@ const EN_US = {
 	// End core
 
 	finances,
+	charts,
 };
 
 export default EN_US;
