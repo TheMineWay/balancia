@@ -1,5 +1,6 @@
 import { useTranslation } from "@i18n/use-translation";
 import clsx from "clsx";
+import { useId } from "react";
 import { PiEmpty } from "react-icons/pi";
 import styles from "./chart-wrapper.module.css";
 
@@ -32,12 +33,15 @@ const Content = ({
 	empty: boolean;
 }) => {
 	const { t } = useTranslation("common");
+	const iconDescriptionId = useId();
 
 	if (empty) {
 		return (
 			<div className="flex flex-col gap-1 justify-center items-center text-muted">
-				<PiEmpty size={32} />
-				<small>{t().components.status["no-data"].Title}</small>
+				<PiEmpty size={32} aria-describedby={iconDescriptionId} />
+				<small id={iconDescriptionId}>
+					{t().components.status["no-data"].Title}
+				</small>
 			</div>
 		);
 	}
