@@ -1,13 +1,21 @@
 import { ID_SCHEMA } from "@/common/__system/id.model";
+import { MONEY_SCHEMA } from "@/common/finances/money.model";
 import { DEBT_SCHEMA } from "@/features/debts/debt.model";
 import { TRANSACTION_SCHEMA } from "@/features/finances/transactions/transaction.model";
+import { CONTACT_SCHEMA } from "@/features/social/contact/contact.model";
+import { DATE_SCHEMA } from "@/utils/date.model";
 import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
 import z from "zod";
 
 export const DEBT_PAYMENT_SCHEMA = z.object({
 	id: ID_SCHEMA,
-	transactionId: TRANSACTION_SCHEMA.shape.id,
+	transactionId: TRANSACTION_SCHEMA.shape.id.nullable(),
 	debtId: DEBT_SCHEMA.shape.id,
+	debtorId: CONTACT_SCHEMA.shape.id,
+
+	// Metadata
+	amount: MONEY_SCHEMA.positive(),
+	paidAt: DATE_SCHEMA,
 
 	// Timestamps
 	...TIMESTAMPS_SCHEMA.shape,

@@ -18,9 +18,9 @@ export const debtTable = debtSchema.table(
 	"debts",
 	{
 		id: serial().primaryKey(),
-		transactionId: integer()
-			.references(() => transactionsTable.id, { onDelete: "cascade" })
-			.notNull(),
+		transactionId: integer().references(() => transactionsTable.id, {
+			onDelete: "cascade",
+		}),
 		debtorId: integer()
 			.references(() => contactTable.id, { onDelete: "cascade" })
 			.notNull(),
