@@ -211,5 +211,31 @@
 				}
 			}
 		}
+	},
+	"debt": {
+		"my-debts": {
+			"manager": {
+				"Title": "My debts",
+				"Actions": {
+					"Create": "Create debt"
+				}
+			}
+		},
+		"models": {
+			"debt": {
+				"debtorId": {
+					"Label": "Debtor"
+				},
+				"amount": {
+					"Label": "Amount"
+				},
+				"reason": {
+					"Label": "Reason"
+				},
+				"notifiedAt": {
+					"Label": "Notified at"
+				}
+			}
+		}
 	}
 }
