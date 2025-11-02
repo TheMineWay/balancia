@@ -13,6 +13,9 @@
 			},
 			"tags": {
 				"Label": "Tags"
+			},
+			"debts": {
+				"Label": "Debts"
 			}
 		}
 	},

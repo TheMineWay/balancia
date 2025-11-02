@@ -8,11 +8,13 @@ import { useUserInfo } from "@providers/auth/user-info.context";
 import { Permission } from "@shared/models";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
+import { BiPurchaseTagAlt } from "react-icons/bi";
 import { FaHome } from "react-icons/fa";
-import { FaRegFolder, FaTag } from "react-icons/fa6";
+import { FaRegFolder } from "react-icons/fa6";
 import { LuPiggyBank } from "react-icons/lu";
 import { MdAdminPanelSettings, MdDashboard } from "react-icons/md";
 import { PiMoneyWavy } from "react-icons/pi";
+import { RiFilePaper2Line } from "react-icons/ri";
 
 const MyAvatar: FC = () => {
 	const { user } = useUserInfo();
@@ -77,8 +79,13 @@ const FinancesMenu: FC = () => {
 					</Menu.Item>
 				</Link>
 				<Link to="/finances/tags">
-					<Menu.Item leftSection={<FaTag />} variant="subtle">
+					<Menu.Item leftSection={<BiPurchaseTagAlt />} variant="subtle">
 						{t().nav.children.tags.Label}
+					</Menu.Item>
+				</Link>
+				<Link to="/finances/debts">
+					<Menu.Item leftSection={<RiFilePaper2Line />} variant="subtle">
+						{t().nav.children.debts.Label}
 					</Menu.Item>
 				</Link>
 			</Menu.Dropdown>
