@@ -1,4 +1,5 @@
 import { ID_SCHEMA } from "@/common/__system/id.model";
+import { MONEY_SCHEMA } from "@/common/finances/money.model";
 import { TRANSACTION_SCHEMA } from "@/features/finances/transactions/transaction.model";
 import { CONTACT_SCHEMA } from "@/features/social/contact/contact.model";
 import { DATE_SCHEMA } from "@/utils/date.model";
@@ -18,7 +19,7 @@ export const DEBT_SCHEMA = z.object({
 	transactionId: TRANSACTION_SCHEMA.shape.id,
 
 	// Metadata
-	amount: z.number().positive(),
+	amount: MONEY_SCHEMA.positive(),
 	reason: z.string().max(DEBT_MODEL_VALUES.reason.maxLength).nullable(),
 
 	notifiedAt: DATE_SCHEMA.nullable(), // Indicates when has the debt been communicated. If null, it means it has not been communicated yet
