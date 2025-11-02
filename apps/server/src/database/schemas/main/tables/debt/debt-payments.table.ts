@@ -1,5 +1,5 @@
 import { timestamps } from "@database/common/timestamps";
-import { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
+import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
 import { contactTable, transactionsTable } from "@database/schemas/main.schema";
 import { debtSchema } from "@database/schemas/main/tables/debt/debt.schema";
 import { debtTable } from "@database/schemas/main/tables/debt/debt.table";
