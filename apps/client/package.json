@@ -42,7 +42,7 @@
     "@tanstack/react-router": "^1.131.27",
     "@themineway/smart-storage-js": "1.0.0-alpha.19",
     "@themineway/smart-storage-react": "1.0.0-alpha.15",
-    "axios": "^1.11.0",
+    "axios": "^1.12.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "lodash": "^4.17.21",
