@@ -5,6 +5,7 @@ import { debtSchema } from "@database/schemas/main/tables/debt/debt.schema";
 import { DEBT_MODEL_VALUES, type DebtModel } from "@shared/models";
 import {
 	decimal,
+	index,
 	integer,
 	serial,
 	timestamp,
@@ -24,6 +25,7 @@ export const debtTable = debtSchema.table(
 		debtorId: integer()
 			.references(() => contactTable.id, { onDelete: "cascade" })
 			.notNull(),
+		userId: integer().notNull(),
 
 		// Meta
 		amount: decimal({ precision: 10, scale: 2, mode: "number" }).notNull(),
@@ -35,11 +37,22 @@ export const debtTable = debtSchema.table(
 		// Timestamps
 		...timestamps,
 	} satisfies ColumnsModel,
-	(table) => [unique().on(table.debtorId, table.transactionId)],
+	(table) => [
+		unique().on(table.debtorId, table.transactionId),
+		index().on(table.userId, table.notifiedAt),
+	],
 );
 
 export const DEBT_TABLE_COLUMNS = {
 	id: debtTable.id,
+	transactionId: debtTable.transactionId,
+	debtorId: debtTable.debtorId,
+	userId: debtTable.userId,
+	amount: debtTable.amount,
+	reason: debtTable.reason,
+	notifiedAt: debtTable.notifiedAt,
+	createdAt: debtTable.createdAt,
+	updatedAt: debtTable.updatedAt,
 };
 
 /* Types */

@@ -4,13 +4,13 @@ import { Table } from "@common/extended-ui/table/components/table";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
 import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
 import { useTranslation } from "@i18n/use-translation";
-import type { ContactModel, DebtModel } from "@shared/models";
+import { Text } from "@mantine/core";
+import type { DebtListModel } from "@shared/models";
+import { getContactName } from "@shared/utils";
 import { useMemo } from "react";
 
-type DebtListModel = DebtModel & { debtor: ContactModel };
-
 type Props = {
-	data: DebtListModel[];
+	data?: DebtListModel[];
 	loading?: boolean;
 };
 
@@ -22,6 +22,7 @@ export const DebtsTable: FC<Props> = ({ data = [], loading = false }) => {
 			{
 				label: t().debt.models.debt.debtorId.Label,
 				accessorKey: "debtorId",
+				render: (row) => <Text>{getContactName(row.debtor)}</Text>,
 			},
 			{
 				label: t().debt.models.debt.amount.Label,

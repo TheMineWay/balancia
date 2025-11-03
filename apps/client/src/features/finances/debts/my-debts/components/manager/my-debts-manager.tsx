@@ -2,6 +2,7 @@ import { DebouncedSearch } from "@common/extended-ui/form/components/search/debo
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { type UseSearch, useSearch } from "@core/search/hooks/use-search";
 import { DebtsTable } from "@fts/finances/debts/debts/components/debts-table";
+import { useMyDebtsListQuery } from "@fts/finances/debts/my-debts/api/use-my-debts.query";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
@@ -18,8 +19,11 @@ export const MyDebtsManager: FC = () => {
 	const search = useSearch<DebtModel>({});
 
 	// TODO: Implement query to fetch debts
-	const isFetchingDebts = false;
-	const refetchDebts = () => {};
+	const {
+		data: debts,
+		isFetching: isFetchingDebts,
+		refetch: refetchDebts,
+	} = useMyDebtsListQuery({ pagination, search });
 
 	return (
 		<>
@@ -48,7 +52,7 @@ export const MyDebtsManager: FC = () => {
 
 						{/* Table */}
 						<TableLayout.Table>
-							<DebtsTable data={[]} />
+							<DebtsTable data={debts?.items} />
 						</TableLayout.Table>
 						<TableLayout.Pagination>
 							<Pagination {...pagination.control} />

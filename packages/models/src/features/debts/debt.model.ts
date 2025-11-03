@@ -16,7 +16,8 @@ export const DEBT_MODEL_VALUES = {
 export const DEBT_SCHEMA = z.object({
 	id: ID_SCHEMA,
 	debtorId: CONTACT_SCHEMA.shape.id, // Who owes the money
-	transactionId: TRANSACTION_SCHEMA.shape.id,
+	userId: ID_SCHEMA, // Owner of the debt
+	transactionId: TRANSACTION_SCHEMA.shape.id.nullable(),
 
 	// Metadata
 	amount: MONEY_SCHEMA.positive(),
@@ -37,3 +38,12 @@ export const DEBT_CREATE_SCHEMA = DEBT_SCHEMA.omit({
 });
 
 export type DebtCreateModel = z.infer<typeof DEBT_CREATE_SCHEMA>;
+
+/* List */
+
+export const DEBT_LIST_SCHEMA = z.object({
+	...DEBT_SCHEMA.shape,
+	debtor: CONTACT_SCHEMA.required(),
+});
+
+export type DebtListModel = z.infer<typeof DEBT_LIST_SCHEMA>;

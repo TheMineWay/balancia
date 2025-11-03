@@ -3,32 +3,31 @@ import type { UsePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
 import type { ParametrizedQueryKey } from "@core/requests/types/query-key.type";
 import type { UseSearch } from "@core/search/hooks/use-search";
-import { getController, MY_ACCOUNTS_CONTROLLER } from "@shared/api-definition";
-import type { AccountModel, PaginatedQuery } from "@shared/models";
+import { getController, MY_DEBTS_CONTROLLER } from "@shared/api-definition";
+import type { DebtListModel } from "@shared/models";
 import { useQuery } from "@tanstack/react-query";
 
-export const USE_MY_ACCOUNTS_QUERY_KEY: ParametrizedQueryKey<{
-	pagination: PaginatedQuery;
-	search: UseSearch<AccountModel>;
+export const GET_MY_DEBTS_LIST_QUERY_KEY: ParametrizedQueryKey<{
+	pagination: UsePagination;
+	search: UseSearch<DebtListModel>;
 }> = ({ pagination, search }) => [
-	getController(MY_ACCOUNTS_CONTROLLER, {}),
-	"list",
-	{ pagination, search: search.requestData },
+	getController(MY_DEBTS_CONTROLLER, {}),
+	{ pagination: pagination.requestData, search: search.requestData },
 ];
 
 type Options = {
 	pagination: UsePagination;
-	search: UseSearch<AccountModel>;
+	search: UseSearch<DebtListModel>;
 };
 
-export const useMyAccountsQuery = ({ pagination, search }: Options) => {
+export const useMyDebtsListQuery = ({ pagination, search }: Options) => {
 	const { request } = useAuthenticatedRequest();
 
 	return useQuery({
 		queryFn: async () => {
 			const response = await endpointQuery(
-				MY_ACCOUNTS_CONTROLLER,
-				"getAccounts",
+				MY_DEBTS_CONTROLLER,
+				"getDebts",
 				{},
 				request,
 				{
@@ -40,8 +39,8 @@ export const useMyAccountsQuery = ({ pagination, search }: Options) => {
 
 			return response;
 		},
-		queryKey: USE_MY_ACCOUNTS_QUERY_KEY({
-			pagination: pagination.requestData,
+		queryKey: GET_MY_DEBTS_LIST_QUERY_KEY({
+			pagination,
 			search,
 		}),
 	});
