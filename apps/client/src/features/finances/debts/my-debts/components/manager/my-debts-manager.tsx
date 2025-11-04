@@ -3,17 +3,22 @@ import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { type UseSearch, useSearch } from "@core/search/hooks/use-search";
 import { DebtsTable } from "@fts/finances/debts/debts/components/debts-table";
 import { useMyDebtsListQuery } from "@fts/finances/debts/my-debts/api/use-my-debts.query";
+import { MyDebtCreateManager } from "@fts/finances/debts/my-debts/components/manager/my-debt-create-manager";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Pagination } from "@mantine/core";
+import { ActionIcon, Button, Drawer, Pagination } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import type { DebtModel } from "@shared/models";
-import { IoReload } from "react-icons/io5";
+import { IoAddOutline, IoReload } from "react-icons/io5";
 
 export const MyDebtsManager: FC = () => {
 	const { t } = useTranslation("finances");
 	const { t: commonT } = useTranslation("common");
+
+	const [isCreateOpen, { open: openCreate, close: closeCreate }] =
+		useDisclosure();
 
 	const pagination = usePagination();
 	const search = useSearch<DebtModel>({});
@@ -40,6 +45,13 @@ export const MyDebtsManager: FC = () => {
 								<Filters search={search} />
 							</ActionsLayout.Row>
 							<ActionsLayout.Row>
+								<Button
+									size="xs"
+									onClick={openCreate}
+									leftSection={<IoAddOutline />}
+								>
+									{t().debt["my-debts"].manager.Actions.Create}
+								</Button>
 								<ActionIcon
 									loading={isFetchingDebts}
 									onClick={() => refetchDebts()}
@@ -62,6 +74,14 @@ export const MyDebtsManager: FC = () => {
 			</ManagerLayout.Root>
 
 			{/* Managers */}
+			<Drawer
+				opened={isCreateOpen}
+				onClose={closeCreate}
+				title={t().debt.create.Title}
+				position="right"
+			>
+				<MyDebtCreateManager />
+			</Drawer>
 		</>
 	);
 };

@@ -236,6 +236,10 @@
 					"Label": "Notified at"
 				}
 			}
+		},
+		"create": {
+			"Title": "Create debt",
+			"Submit": "Create debt"
 		}
 	}
 }
