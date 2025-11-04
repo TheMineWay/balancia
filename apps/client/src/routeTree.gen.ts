@@ -16,6 +16,8 @@ const SysLazyRouteImport = createFileRoute('/sys')()
 const IndexLazyRouteImport = createFileRoute('/')()
 const SysIndexLazyRouteImport = createFileRoute('/sys/')()
 const SysRoleIndexLazyRouteImport = createFileRoute('/sys/role/')()
+const SocialContactsIndexLazyRouteImport =
+  createFileRoute('/social/contacts/')()
 const FinancesTransactionsIndexLazyRouteImport = createFileRoute(
   '/finances/transactions/',
 )()
@@ -49,6 +51,13 @@ const SysRoleIndexLazyRoute = SysRoleIndexLazyRouteImport.update({
   getParentRoute: () => SysLazyRoute,
 } as any).lazy(() =>
   import('./routes/sys/role/index.lazy').then((d) => d.Route),
+)
+const SocialContactsIndexLazyRoute = SocialContactsIndexLazyRouteImport.update({
+  id: '/social/contacts/',
+  path: '/social/contacts/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/social/contacts/index.lazy').then((d) => d.Route),
 )
 const FinancesTransactionsIndexLazyRoute =
   FinancesTransactionsIndexLazyRouteImport.update({
@@ -98,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/finances/debts': typeof FinancesDebtsIndexLazyRoute
   '/finances/tags': typeof FinancesTagsIndexLazyRoute
   '/finances/transactions': typeof FinancesTransactionsIndexLazyRoute
+  '/social/contacts': typeof SocialContactsIndexLazyRoute
   '/sys/role': typeof SysRoleIndexLazyRoute
 }
 export interface FileRoutesByTo {
@@ -108,6 +118,7 @@ export interface FileRoutesByTo {
   '/finances/debts': typeof FinancesDebtsIndexLazyRoute
   '/finances/tags': typeof FinancesTagsIndexLazyRoute
   '/finances/transactions': typeof FinancesTransactionsIndexLazyRoute
+  '/social/contacts': typeof SocialContactsIndexLazyRoute
   '/sys/role': typeof SysRoleIndexLazyRoute
 }
 export interface FileRoutesById {
@@ -120,6 +131,7 @@ export interface FileRoutesById {
   '/finances/debts/': typeof FinancesDebtsIndexLazyRoute
   '/finances/tags/': typeof FinancesTagsIndexLazyRoute
   '/finances/transactions/': typeof FinancesTransactionsIndexLazyRoute
+  '/social/contacts/': typeof SocialContactsIndexLazyRoute
   '/sys/role/': typeof SysRoleIndexLazyRoute
 }
 export interface FileRouteTypes {
@@ -133,6 +145,7 @@ export interface FileRouteTypes {
     | '/finances/debts'
     | '/finances/tags'
     | '/finances/transactions'
+    | '/social/contacts'
     | '/sys/role'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -143,6 +156,7 @@ export interface FileRouteTypes {
     | '/finances/debts'
     | '/finances/tags'
     | '/finances/transactions'
+    | '/social/contacts'
     | '/sys/role'
   id:
     | '__root__'
@@ -154,6 +168,7 @@ export interface FileRouteTypes {
     | '/finances/debts/'
     | '/finances/tags/'
     | '/finances/transactions/'
+    | '/social/contacts/'
     | '/sys/role/'
   fileRoutesById: FileRoutesById
 }
@@ -165,6 +180,7 @@ export interface RootRouteChildren {
   FinancesDebtsIndexLazyRoute: typeof FinancesDebtsIndexLazyRoute
   FinancesTagsIndexLazyRoute: typeof FinancesTagsIndexLazyRoute
   FinancesTransactionsIndexLazyRoute: typeof FinancesTransactionsIndexLazyRoute
+  SocialContactsIndexLazyRoute: typeof SocialContactsIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -196,6 +212,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/sys/role'
       preLoaderRoute: typeof SysRoleIndexLazyRouteImport
       parentRoute: typeof SysLazyRoute
+    }
+    '/social/contacts/': {
+      id: '/social/contacts/'
+      path: '/social/contacts'
+      fullPath: '/social/contacts'
+      preLoaderRoute: typeof SocialContactsIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/finances/transactions/': {
       id: '/finances/transactions/'
@@ -256,6 +279,7 @@ const rootRouteChildren: RootRouteChildren = {
   FinancesDebtsIndexLazyRoute: FinancesDebtsIndexLazyRoute,
   FinancesTagsIndexLazyRoute: FinancesTagsIndexLazyRoute,
   FinancesTransactionsIndexLazyRoute: FinancesTransactionsIndexLazyRoute,
+  SocialContactsIndexLazyRoute: SocialContactsIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

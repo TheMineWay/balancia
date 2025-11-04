@@ -1,0 +1,10 @@
+{
+    "nav": {
+		"Label": "Social",
+		"children": {
+			"contacts": {
+				"Label": "Contacts"
+			}
+		}
+	}
+}
