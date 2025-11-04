@@ -1,6 +1,6 @@
 import { timestamps } from "@database/common/timestamps";
 import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
-import { contactTable, transactionsTable } from "@database/schemas/main.schema";
+import { contactTable } from "@database/schemas/main.schema";
 import { debtSchema } from "@database/schemas/main/tables/debt/debt.schema";
 import { DEBT_MODEL_VALUES, type DebtModel } from "@shared/models";
 import {
@@ -9,7 +9,6 @@ import {
 	integer,
 	serial,
 	timestamp,
-	unique,
 	varchar,
 } from "drizzle-orm/pg-core";
 
@@ -19,9 +18,6 @@ export const debtTable = debtSchema.table(
 	"debts",
 	{
 		id: serial().primaryKey(),
-		transactionId: integer().references(() => transactionsTable.id, {
-			onDelete: "cascade",
-		}),
 		debtorId: integer()
 			.references(() => contactTable.id, { onDelete: "cascade" })
 			.notNull(),
@@ -38,14 +34,13 @@ export const debtTable = debtSchema.table(
 		...timestamps,
 	} satisfies ColumnsModel,
 	(table) => [
-		unique().on(table.debtorId, table.transactionId),
+		index().on(table.debtorId),
 		index().on(table.userId, table.notifiedAt),
 	],
 );
 
 export const DEBT_TABLE_COLUMNS = {
 	id: debtTable.id,
-	transactionId: debtTable.transactionId,
 	debtorId: debtTable.debtorId,
 	userId: debtTable.userId,
 	amount: debtTable.amount,

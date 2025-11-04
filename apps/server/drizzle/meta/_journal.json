@@ -127,6 +127,27 @@
       "when": 1762173570449,
       "tag": "0017_high_molecule_man",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1762290040115,
+      "tag": "0018_lonely_thunderbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1762290151840,
+      "tag": "0019_mute_sprite",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1762290187200,
+      "tag": "0020_graceful_senator_kelly",
+      "breakpoints": true
     }
   ]
 }
