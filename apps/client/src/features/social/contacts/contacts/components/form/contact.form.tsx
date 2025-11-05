@@ -26,7 +26,7 @@ export const ContactForm: FC<Props> = ({
 	return (
 		<Form onSubmit={handleSubmit((contact) => onSuccess?.(contact))}>
 			{/* Code */}
-			<Input.Wrapper label={t().contact.models.contact.code.Label} required>
+			<Input.Wrapper label={t().contact.models.contact.code.Label}>
 				<Input
 					{...form.register("code", { required: "Code is required" })}
 					maxLength={CONTACT_MODEL_VALUES.code.maxLength}
@@ -34,7 +34,7 @@ export const ContactForm: FC<Props> = ({
 			</Input.Wrapper>
 
 			{/* Name */}
-			<Input.Wrapper label={t().contact.models.contact.name.Label} required>
+			<Input.Wrapper label={t().contact.models.contact.name.Label}>
 				<Input
 					{...form.register("name", { required: "Name is required" })}
 					maxLength={CONTACT_MODEL_VALUES.name.maxLength}

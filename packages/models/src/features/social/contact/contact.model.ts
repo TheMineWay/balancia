@@ -1,5 +1,6 @@
 import { ID_SCHEMA } from "@/common/__system/id.model";
 import { PHONE_NUMBER_SCHEMA } from "@/common/social/phone-number.model";
+import { nullableStringTransform } from "@/utils/nullable-string.model";
 import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
 import type { ModelValues } from "@ts-types/model-values.type";
 import z from "zod";
@@ -25,16 +26,19 @@ export const CONTACT_MODEL_VALUES = {
 export const CONTACT_SCHEMA = z.object({
 	id: ID_SCHEMA,
 	code: z.string().max(CONTACT_MODEL_VALUES.code.maxLength),
-	name: z.string().max(CONTACT_MODEL_VALUES.name.maxLength),
-	lastName: z
-		.string()
-		.max(CONTACT_MODEL_VALUES.lastName.maxLength)
-		.nullable()
-		.default(null),
-	email: z.string().max(CONTACT_MODEL_VALUES.email.maxLength).nullable(),
-	phone: PHONE_NUMBER_SCHEMA.max(
-		CONTACT_MODEL_VALUES.phone.maxLength,
-	).nullable(),
+	name: z.string().max(CONTACT_MODEL_VALUES.name.maxLength).nonempty(),
+	lastName: z.preprocess(
+		nullableStringTransform,
+		z.string().max(CONTACT_MODEL_VALUES.lastName.maxLength).nullable(),
+	),
+	email: z.preprocess(
+		nullableStringTransform,
+		z.string().max(CONTACT_MODEL_VALUES.email.maxLength).nullable(),
+	),
+	phone: z.preprocess(
+		nullableStringTransform,
+		PHONE_NUMBER_SCHEMA.max(CONTACT_MODEL_VALUES.phone.maxLength).nullable(),
+	),
 
 	// Timestamps
 	...TIMESTAMPS_SCHEMA.shape,
@@ -43,9 +47,16 @@ export const CONTACT_SCHEMA = z.object({
 export type ContactModel = z.infer<typeof CONTACT_SCHEMA>;
 
 /* Create */
-export const CONTACT_CREATE_SCHEMA = CONTACT_SCHEMA.omit({
-	id: true,
-	createdAt: true,
-	updatedAt: true,
+export const CONTACT_CREATE_SCHEMA = z.object({
+	...CONTACT_SCHEMA.omit({
+		id: true,
+		code: true,
+		createdAt: true,
+		updatedAt: true,
+	}).shape,
+	code: z.preprocess(
+		nullableStringTransform,
+		CONTACT_SCHEMA.shape.code.nullable(),
+	),
 });
 export type ContactCreateModel = z.infer<typeof CONTACT_CREATE_SCHEMA>;

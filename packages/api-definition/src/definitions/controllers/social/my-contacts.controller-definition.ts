@@ -33,7 +33,8 @@ const CREATE_CONTACT = {
 	method: EndpointMethod.POST,
 	bodyDto: z
 		.object({
-			...CONTACT_CREATE_SCHEMA.shape,
+			...CONTACT_CREATE_SCHEMA.omit({ code: true }).shape,
+			code: CONTACT_CREATE_SCHEMA.shape.code.nullable(),
 		})
 		.required(),
 } satisfies EndpointDefinition;

@@ -34,7 +34,8 @@
 			"manager": {
 				"Title": "My Contacts",
 				"Actions": {
-					"Create": "Add Contact"
+					"Create": "Add Contact",
+					"Edit": "Edit Contact"
 				}
 			}
 		},

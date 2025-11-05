@@ -46,7 +46,7 @@ export class ContactsService {
 		return contact;
 	}
 
-	async create(userId: UserModelId, contact: ContactCreateModel) {
+	async create(userId: UserModelId, contact: Omit<ContactCreateModel, "code">) {
 		return await this.contactsRepository.create({
 			...contact,
 			userId,
@@ -76,7 +76,7 @@ export class ContactsService {
 	async update(
 		userId: UserModelId,
 		contactId: ContactModel["id"],
-		contact: ContactCreateModel,
+		{ code: contactCode, ...contact }: ContactCreateModel,
 	) {
 		return await this.databaseService.db.transaction(async (transaction) => {
 			const { isOwner } = await this.checkOwnership(userId, contactId, {
@@ -84,9 +84,13 @@ export class ContactsService {
 			});
 			if (!isOwner) throw new UnauthorizedException();
 
-			return await this.contactsRepository.updateById(contactId, contact, {
-				transaction,
-			});
+			return await this.contactsRepository.updateById(
+				contactId,
+				{ ...contact, code: contactCode ? contactCode : undefined },
+				{
+					transaction,
+				},
+			);
 		});
 	}
 }

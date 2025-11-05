@@ -45,7 +45,7 @@ export const MyContactUpdateManager: FC<Props> = ({ onSuccess, contact }) => {
 	return (
 		<ContactForm
 			form={updateForm}
-			submitText={t().contact.update.Title}
+			submitText={t().contact["my-contacts"].manager.Actions.Edit}
 			onSuccess={onFormSuccess}
 			submitIcon={<IoPencilOutline />}
 			isMutating={isUpdating}
