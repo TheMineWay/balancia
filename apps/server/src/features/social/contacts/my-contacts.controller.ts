@@ -29,6 +29,15 @@ export class MyContactsController {
 		return await this.contactsService.findList(userId, query);
 	}
 
+	@Endpoint(MY_CONTACTS_CONTROLLER, "getById")
+	async getContactById(
+		@UserId() userId: UserModelId,
+		@Param(getParamName(MY_CONTACTS_CONTROLLER, "getById", "id"), ParseIntPipe)
+		contactId: number,
+	): Promise<InferResponseDto<typeof MY_CONTACTS_CONTROLLER, "getById">> {
+		return await this.contactsService.getUserContactById(userId, contactId);
+	}
+
 	@Endpoint(MY_CONTACTS_CONTROLLER, "createContact")
 	async createContact(
 		@UserId() userId: UserModelId,

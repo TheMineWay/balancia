@@ -1,5 +1,6 @@
 import { ID_SCHEMA } from "@/common/__system/id.model";
 import { PHONE_NUMBER_SCHEMA } from "@/common/social/phone-number.model";
+import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
 import type { ModelValues } from "@ts-types/model-values.type";
 import z from "zod";
 
@@ -34,10 +35,17 @@ export const CONTACT_SCHEMA = z.object({
 	phone: PHONE_NUMBER_SCHEMA.max(
 		CONTACT_MODEL_VALUES.phone.maxLength,
 	).nullable(),
+
+	// Timestamps
+	...TIMESTAMPS_SCHEMA.shape,
 });
 
 export type ContactModel = z.infer<typeof CONTACT_SCHEMA>;
 
 /* Create */
-export const CONTACT_CREATE_SCHEMA = CONTACT_SCHEMA.omit({ id: true });
+export const CONTACT_CREATE_SCHEMA = CONTACT_SCHEMA.omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true,
+});
 export type ContactCreateModel = z.infer<typeof CONTACT_CREATE_SCHEMA>;

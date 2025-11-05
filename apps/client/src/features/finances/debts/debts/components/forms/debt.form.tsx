@@ -1,9 +1,10 @@
 import { CashInputField } from "@common/extended-ui/form/components/finances/cash.input-field";
 import { Form } from "@common/extended-ui/form/components/form";
+import { MyContactsSelector } from "@fts/social/contacts/my-contacts/components/form/my-contacts.selector";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Input, Textarea } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
-import { DebtCreateModel } from "@shared/models";
+import type { DebtCreateModel } from "@shared/models";
 import { useId } from "react";
 import { Controller, type UseFormReturn } from "react-hook-form";
 
@@ -33,7 +34,15 @@ export const DebtForm: FC<Props> = ({
 	return (
 		<Form onSubmit={handleSubmit((debt) => onSuccess?.(debt))}>
 			{/* Debtor */}
-			<p>TODO: DEBTOR SELECTOR</p>
+			<Input.Wrapper label={t().debt.models.debt.debtorId.Label} required>
+				<Controller
+					control={control}
+					name="debtorId"
+					render={({ field: { value, onChange } }) => (
+						<MyContactsSelector value={value} onChange={onChange} />
+					)}
+				/>
+			</Input.Wrapper>
 
 			{/* Amount */}
 			<Input.Wrapper

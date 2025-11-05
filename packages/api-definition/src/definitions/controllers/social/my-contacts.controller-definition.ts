@@ -18,6 +18,15 @@ const GET_CONTACTS_LIST = {
 	}),
 } satisfies EndpointDefinition;
 
+const GET_BY_ID = {
+	getPath: (params) => [params.id],
+	paramsMapping: {
+		id: "contactId",
+	},
+	method: EndpointMethod.GET,
+	responseDto: CONTACT_SCHEMA,
+} satisfies EndpointDefinition<{ id: string }>;
+
 const CREATE_CONTACT = {
 	getPath: () => [],
 	paramsMapping: {},
@@ -55,6 +64,7 @@ export const MY_CONTACTS_CONTROLLER = {
 	paramsMapping: {},
 	endpoints: {
 		getContactsList: GET_CONTACTS_LIST,
+		getById: GET_BY_ID,
 		createContact: CREATE_CONTACT,
 		updateContact: UPDATE_CONTACT,
 		deleteContact: DELETE_CONTACT,

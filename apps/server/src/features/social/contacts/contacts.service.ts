@@ -36,6 +36,16 @@ export class ContactsService {
 		} as CheckContactOwnershipResponse;
 	}
 
+	async getUserContactById(
+		userId: UserModelId,
+		contactId: ContactModel["id"],
+	): Promise<ContactModel> {
+		const { isOwner, contact } = await this.checkOwnership(userId, contactId);
+		if (!isOwner || !contact) throw new UnauthorizedException();
+
+		return contact;
+	}
+
 	async create(userId: UserModelId, contact: ContactCreateModel) {
 		return await this.contactsRepository.create({
 			...contact,
