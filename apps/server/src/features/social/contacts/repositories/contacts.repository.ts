@@ -12,7 +12,7 @@ import type {
 	PaginatedSearchModel,
 	UserModelId,
 } from "@shared/models";
-import { and, desc, eq, ilike } from "drizzle-orm";
+import { and, desc, eq, ilike, or } from "drizzle-orm";
 
 @Injectable()
 export class ContactsRepository extends Repository {
@@ -21,17 +21,19 @@ export class ContactsRepository extends Repository {
 		{ pagination, search }: PaginatedSearchModel,
 		options?: QueryOptions,
 	): Promise<PaginatedResponse<ContactModel>> {
+		const searchCondition = search?.search
+			? or(
+					ilike(contactTable.name, `%${search.search}%`),
+					ilike(contactTable.lastName, `%${search.search}%`),
+					ilike(contactTable.email, `%${search.search}%`),
+					ilike(contactTable.phone, `%${search.search}%`),
+				)
+			: undefined;
+
 		const query = this.query(options)
 			.select()
 			.from(contactTable)
-			.where(
-				and(
-					eq(contactTable.userId, userId),
-					search?.search
-						? ilike(contactTable.name, `%${search.search}%`)
-						: undefined,
-				),
-			)
+			.where(and(eq(contactTable.userId, userId), searchCondition))
 			.orderBy(desc(contactTable.id))
 			.$dynamic();
 
@@ -74,7 +76,9 @@ export class ContactsRepository extends Repository {
 	}
 
 	async create(contact: ContactInsert, options?: QueryOptions) {
-		return await this.query(options).insert(contactTable).values(contact);
+		const newContact = { ...contact };
+		if (!newContact.code) delete newContact.code;
+		return await this.query(options).insert(contactTable).values(newContact);
 	}
 
 	async updateById(

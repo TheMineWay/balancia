@@ -43,6 +43,8 @@ export const CONTACT_TABLE_COLUMNS = {
 	phone: contactTable.phone,
 	code: contactTable.code,
 	userId: contactTable.userId,
+	createdAt: contactTable.createdAt,
+	updatedAt: contactTable.updatedAt,
 };
 
 /* Types */
