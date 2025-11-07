@@ -4,18 +4,31 @@ import { Table } from "@common/extended-ui/table/components/table";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
 import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
 import { useTranslation } from "@i18n/use-translation";
-import { Text } from "@mantine/core";
+import { ActionIcon, Group, Text } from "@mantine/core";
 import type { DebtListModel } from "@shared/models";
 import { getContactName } from "@shared/utils";
 import { useMemo } from "react";
+import { BiEdit, BiTrash } from "react-icons/bi";
 
 type Props = {
 	data?: DebtListModel[];
 	loading?: boolean;
+
+	// Events
+	onEditClick?: (item: DebtListModel) => void;
+	onDeleteClick?: (item: DebtListModel) => void;
 };
 
-export const DebtsTable: FC<Props> = ({ data = [], loading = false }) => {
+export const DebtsTable: FC<Props> = ({
+	data = [],
+	loading = false,
+
+	// Events
+	onEditClick,
+	onDeleteClick,
+}) => {
 	const { t } = useTranslation("finances");
+	const { t: commonT } = useTranslation("common");
 
 	const columns = useMemo<TableColumn<DebtListModel>[]>(
 		() => [
@@ -39,8 +52,32 @@ export const DebtsTable: FC<Props> = ({ data = [], loading = false }) => {
 				render: (row) =>
 					row.notifiedAt ? <DateRender date={row.notifiedAt} /> : null,
 			},
+			{
+				label: commonT().expressions.Actions,
+				render: (item) => (
+					<Group>
+						{onEditClick && (
+							<ActionIcon
+								onClick={() => onEditClick(item)}
+								aria-label={commonT().expressions.Edit}
+							>
+								<BiEdit />
+							</ActionIcon>
+						)}
+						{onDeleteClick && (
+							<ActionIcon
+								onClick={() => onDeleteClick(item)}
+								color="red"
+								aria-label={commonT().expressions.Delete}
+							>
+								<BiTrash />
+							</ActionIcon>
+						)}
+					</Group>
+				),
+			},
 		],
-		[t],
+		[t, commonT, onEditClick, onDeleteClick],
 	);
 	const table = useTable<DebtListModel>({ data, rowKey: "id", columns });
 

@@ -1,7 +1,7 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { type UseSearch, useSearch } from "@core/search/hooks/use-search";
-import { DebtsTable } from "@fts/finances/debts/debts/components/debts-table";
+import { DebtsTable } from "@fts/finances/debts/debts/components/debts.table";
 import { useMyDebtsListQuery } from "@fts/finances/debts/my-debts/api/use-my-debts.query";
 import { MyDebtCreateManager } from "@fts/finances/debts/my-debts/components/manager/my-debt-create-manager";
 import { useTranslation } from "@i18n/use-translation";
