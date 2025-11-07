@@ -23,7 +23,7 @@ const CREATE = {
 	paramsMapping: {},
 	method: EndpointMethod.POST,
 	bodyDto: z.object({
-		...DEBT_CREATE_SCHEMA.shape,
+		...DEBT_CREATE_SCHEMA.omit({ userId: true }).shape,
 	}),
 } satisfies EndpointDefinition;
 
@@ -32,7 +32,7 @@ const UPDATE = {
 	paramsMapping: { id: "debtId" },
 	method: EndpointMethod.PUT,
 	bodyDto: z.object({
-		...DEBT_CREATE_SCHEMA.shape,
+		...DEBT_CREATE_SCHEMA.omit({ userId: true }).shape,
 	}),
 } satisfies EndpointDefinition<{ id: string }>;
 

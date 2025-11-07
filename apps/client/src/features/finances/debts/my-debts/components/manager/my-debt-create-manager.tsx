@@ -8,7 +8,7 @@ import z from "zod";
 
 const SCHEMA = z
 	.object({
-		...DEBT_CREATE_SCHEMA.shape,
+		...DEBT_CREATE_SCHEMA.omit({ userId: true }).shape,
 	})
 	.required();
 

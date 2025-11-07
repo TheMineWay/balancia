@@ -8,9 +8,11 @@ import type { DebtCreateModel } from "@shared/models";
 import { useId } from "react";
 import { Controller, type UseFormReturn } from "react-hook-form";
 
+type CreateModel = Omit<DebtCreateModel, "userId">;
+
 type Props = {
-	form: UseFormReturn<DebtCreateModel>;
-	onSuccess?: (debt: DebtCreateModel) => void;
+	form: UseFormReturn<CreateModel>;
+	onSuccess?: (debt: CreateModel) => void;
 	submitText: string;
 	submitIcon?: React.ReactNode;
 	isMutating?: boolean;
