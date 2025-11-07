@@ -11,6 +11,12 @@ import type {
 	PaginatedSearchModel,
 	UserModelId,
 } from "@shared/models";
+import { EventService } from "src/events/event.service";
+import {
+	DebtCreatedEvent,
+	DebtDeletedEvent,
+	DebtUpdatedEvent,
+} from "src/features/debts/debts.events";
 import { DebtsRepository } from "src/features/debts/repositories/debts.repository";
 
 @Injectable()
@@ -19,6 +25,7 @@ export class DebtsService {
 		private readonly debtsRepository: DebtsRepository,
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
+		private readonly eventService: EventService,
 	) {}
 
 	async checkOwnership(
@@ -32,24 +39,38 @@ export class DebtsService {
 	}
 
 	async create(
-		userId: UserModelId,
-		debt: Omit<DebtCreateModel, "userId">,
+		debt: DebtCreateModel,
+		options?: QueryOptions,
 	): Promise<DebtSelect> {
-		return await this.debtsRepository.create({
-			...debt,
-			userId,
-		});
+		const created = await this.debtsRepository.create(debt, options);
+
+		// Trigger created event
+		this.eventService.emit(new DebtCreatedEvent({ debt: created }));
+
+		return created;
 	}
 
-	async delete(debtId: DebtModel["id"]): Promise<void> {
-		await this.debtsRepository.deleteById(debtId);
+	async delete(debtId: DebtModel["id"], options?: QueryOptions): Promise<void> {
+		await this.debtsRepository.deleteById(debtId, options);
+
+		// Trigger deleted event
+		this.eventService.emit(new DebtDeletedEvent({ debtId }));
 	}
 
 	async update(
 		debtId: DebtModel["id"],
-		debt: Omit<DebtCreateModel, "userId">,
+		debt: Partial<DebtCreateModel>,
+		options?: QueryOptions,
 	): Promise<void> {
-		await this.debtsRepository.updateById(debtId, debt);
+		const [updated] = await this.debtsRepository.updateById(
+			debtId,
+			debt,
+			options,
+		);
+
+		// Trigger updated event
+		if (updated)
+			this.eventService.emit(new DebtUpdatedEvent({ debt: updated }));
 	}
 
 	/* User */
@@ -75,7 +96,7 @@ export class DebtsService {
 			});
 			if (!isOwner) throw new UnauthorizedException();
 
-			await this.debtsRepository.updateById(debtId, debt, { transaction });
+			await this.update(debtId, debt, { transaction });
 		});
 	}
 
@@ -89,7 +110,7 @@ export class DebtsService {
 			});
 			if (!isOwner) throw new UnauthorizedException();
 
-			await this.debtsRepository.deleteById(debtId, { transaction });
+			await this.delete(debtId, { transaction });
 		});
 	}
 }

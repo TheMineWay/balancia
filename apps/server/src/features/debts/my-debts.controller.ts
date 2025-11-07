@@ -40,7 +40,7 @@ export class MyDebtsController {
 			"createDebt"
 		>,
 	): Promise<InferResponseDto<typeof MY_DEBTS_CONTROLLER, "createDebt">> {
-		await this.debtsService.create(userId, body);
+		await this.debtsService.create({ ...body, userId });
 	}
 
 	@ApiOperation({ summary: "Update an existing debt" })

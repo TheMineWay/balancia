@@ -87,7 +87,8 @@ export class DebtsRepository extends Repository {
 		return await this.query(options)
 			.update(debtTable)
 			.set(data)
-			.where(eq(debtTable.id, debtId));
+			.where(eq(debtTable.id, debtId))
+			.returning();
 	}
 
 	async deleteById(debtId: DebtModel["id"], options?: QueryOptions) {
