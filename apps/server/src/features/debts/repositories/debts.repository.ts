@@ -73,8 +73,10 @@ export class DebtsRepository extends Repository {
 		};
 	}
 
-	async create(data: DebtInsert, options?: QueryOptions) {
-		return await this.query(options).insert(debtTable).values(data);
+	async create(data: DebtInsert, options?: QueryOptions): Promise<DebtSelect> {
+		return (
+			await this.query(options).insert(debtTable).values(data).returning()
+		)[0];
 	}
 
 	async updateById(

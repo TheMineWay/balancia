@@ -2,7 +2,7 @@ import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { QueryOptions } from "@database/repository/repository";
 import { DebtSelect } from "@database/schemas/main/tables/debt/debt.table";
 import { DatabaseService } from "@database/services/database.service";
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import type {
 	DebtCreateModel,
 	DebtListModel,
@@ -12,13 +12,11 @@ import type {
 	UserModelId,
 } from "@shared/models";
 import { DebtsRepository } from "src/features/debts/repositories/debts.repository";
-import { AccountsService } from "src/features/finances/accounts/accounts.service";
 
 @Injectable()
 export class DebtsService {
 	constructor(
 		private readonly debtsRepository: DebtsRepository,
-		private readonly accountsService: AccountsService,
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
 	) {}
@@ -33,11 +31,30 @@ export class DebtsService {
 		return { isOwner: false, debt: null };
 	}
 
-	async create(userId: UserModelId, debt: DebtCreateModel) {}
+	async create(
+		userId: UserModelId,
+		debt: Omit<DebtCreateModel, "userId">,
+	): Promise<DebtSelect> {
+		return await this.debtsRepository.create({
+			...debt,
+			userId,
+		});
+	}
 
-	async delete(userId: UserModelId, debtId: DebtModel["id"]) {}
+	async delete(debtId: DebtModel["id"]): Promise<void> {
+		await this.debtsRepository.deleteById(debtId);
+	}
 
-	async findList(
+	async update(
+		debtId: DebtModel["id"],
+		debt: Omit<DebtCreateModel, "userId">,
+	): Promise<void> {
+		await this.debtsRepository.updateById(debtId, debt);
+	}
+
+	/* User */
+
+	async findUserDebtsList(
 		userId: UserModelId,
 		{ pagination, search }: PaginatedSearchModel,
 	): Promise<PaginatedResponse<DebtListModel>> {
@@ -47,11 +64,34 @@ export class DebtsService {
 		});
 	}
 
-	async update(
+	async userDebtUpdate(
 		userId: UserModelId,
 		debtId: DebtModel["id"],
-		debt: DebtCreateModel,
-	) {}
+		debt: Partial<DebtCreateModel>,
+	): Promise<void> {
+		await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner } = await this.checkOwnership(debtId, userId, {
+				transaction,
+			});
+			if (!isOwner) throw new UnauthorizedException();
+
+			await this.debtsRepository.updateById(debtId, debt, { transaction });
+		});
+	}
+
+	async userDebtDelete(
+		userId: UserModelId,
+		debtId: DebtModel["id"],
+	): Promise<void> {
+		await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner } = await this.checkOwnership(debtId, userId, {
+				transaction,
+			});
+			if (!isOwner) throw new UnauthorizedException();
+
+			await this.debtsRepository.deleteById(debtId, { transaction });
+		});
+	}
 }
 
 /* Internal */

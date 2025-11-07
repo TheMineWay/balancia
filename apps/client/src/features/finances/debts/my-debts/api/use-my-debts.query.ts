@@ -7,11 +7,13 @@ import { getController, MY_DEBTS_CONTROLLER } from "@shared/api-definition";
 import type { DebtListModel } from "@shared/models";
 import { useQuery } from "@tanstack/react-query";
 
+export const MY_DEBTS_BASE_QUERY_KEY = getController(MY_DEBTS_CONTROLLER, {});
+
 export const GET_MY_DEBTS_LIST_QUERY_KEY: ParametrizedQueryKey<{
 	pagination: UsePagination;
 	search: UseSearch<DebtListModel>;
 }> = ({ pagination, search }) => [
-	getController(MY_DEBTS_CONTROLLER, {}),
+	MY_DEBTS_BASE_QUERY_KEY,
 	{ pagination: pagination.requestData, search: search.requestData },
 ];
 

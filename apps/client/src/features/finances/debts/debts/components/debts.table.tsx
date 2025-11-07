@@ -1,5 +1,5 @@
 import { RenderCurrency } from "@common/extended-ui/currency/render-currency";
-import { DateRender } from "@common/extended-ui/date/components/date-render";
+import { DatetimeRender } from "@common/extended-ui/date/components/datetime-render";
 import { Table } from "@common/extended-ui/table/components/table";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
 import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
@@ -50,7 +50,7 @@ export const DebtsTable: FC<Props> = ({
 				label: t().debt.models.debt.notifiedAt.Label,
 				accessorKey: "notifiedAt",
 				render: (row) =>
-					row.notifiedAt ? <DateRender date={row.notifiedAt} /> : null,
+					row.notifiedAt ? <DatetimeRender date={row.notifiedAt} /> : null,
 			},
 			{
 				label: commonT().expressions.Actions,

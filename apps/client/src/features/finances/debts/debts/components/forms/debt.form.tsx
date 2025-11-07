@@ -15,14 +15,14 @@ type Props = {
 	onSuccess?: (debt: CreateModel) => void;
 	submitText: string;
 	submitIcon?: React.ReactNode;
-	isMutating?: boolean;
+	loading?: boolean;
 };
 
 export const DebtForm: FC<Props> = ({
 	submitText,
 	submitIcon,
 	form,
-	isMutating,
+	loading,
 	onSuccess,
 }) => {
 	const { t } = useTranslation("finances");
@@ -97,7 +97,7 @@ export const DebtForm: FC<Props> = ({
 
 			<Button
 				disabled={!formState.isValid}
-				loading={isMutating}
+				loading={loading}
 				leftSection={submitIcon}
 				type="submit"
 			>

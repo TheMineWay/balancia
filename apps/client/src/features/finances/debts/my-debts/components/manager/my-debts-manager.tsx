@@ -80,7 +80,7 @@ export const MyDebtsManager: FC = () => {
 				title={t().debt.create.Title}
 				position="right"
 			>
-				<MyDebtCreateManager />
+				<MyDebtCreateManager onSuccess={closeCreate} />
 			</Drawer>
 		</>
 	);

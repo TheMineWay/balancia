@@ -9,9 +9,9 @@ import { ApiOperation } from "@nestjs/swagger";
 import {
 	getController,
 	getParamName,
-	InferBodyDto,
-	InferQueryDto,
-	InferResponseDto,
+	type InferBodyDto,
+	type InferQueryDto,
+	type InferResponseDto,
 	MY_CATEGORY_CONTROLLER,
 } from "@shared/api-definition";
 import { UserModel } from "@shared/models";
