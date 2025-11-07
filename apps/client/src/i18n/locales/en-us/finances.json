@@ -240,6 +240,17 @@
 		"create": {
 			"Title": "Create debt",
 			"Submit": "Create debt"
+		},
+		"update": {
+			"Title": "Edit {{debtor}}",
+			"Submit": "Update debt"
+		},
+		"delete": {
+			"confirm": {
+				"Title": "Delete debt {name}",
+				"Message": "Are you sure you want to delete this debt? This action cannot be undone.",
+				"Action": "Delete Debt"
+			}
 		}
 	}
 }
