@@ -17,6 +17,7 @@
 		"Import": "Import",
 		"Next": "Next",
 		"Back": "Back",
+		"Add" : "Add",
 		"dates": {
 			"Month": "Month",
 			"Year": "Year"

@@ -8,7 +8,7 @@ import { ActionIcon, Group, Text } from "@mantine/core";
 import type { DebtListModel } from "@shared/models";
 import { getContactName } from "@shared/utils";
 import { useMemo } from "react";
-import { BiEdit, BiTrash } from "react-icons/bi";
+import { BiEdit, BiLink, BiTrash } from "react-icons/bi";
 
 type Props = {
 	data?: DebtListModel[];
@@ -17,6 +17,7 @@ type Props = {
 	// Events
 	onEditClick?: (item: DebtListModel) => void;
 	onDeleteClick?: (item: DebtListModel) => void;
+	onLinkClick?: (item: DebtListModel) => void;
 };
 
 export const DebtsTable: FC<Props> = ({
@@ -26,6 +27,7 @@ export const DebtsTable: FC<Props> = ({
 	// Events
 	onEditClick,
 	onDeleteClick,
+	onLinkClick,
 }) => {
 	const { t } = useTranslation("finances");
 	const { t: commonT } = useTranslation("common");
@@ -56,6 +58,14 @@ export const DebtsTable: FC<Props> = ({
 				label: commonT().expressions.Actions,
 				render: (item) => (
 					<Group>
+						{onLinkClick && (
+							<ActionIcon
+								onClick={() => onLinkClick(item)}
+								aria-label={t().debt.link.Title}
+							>
+								<BiLink />
+							</ActionIcon>
+						)}
 						{onEditClick && (
 							<ActionIcon
 								onClick={() => onEditClick(item)}
@@ -77,7 +87,7 @@ export const DebtsTable: FC<Props> = ({
 				),
 			},
 		],
-		[t, commonT, onEditClick, onDeleteClick],
+		[t, commonT, onEditClick, onDeleteClick, onLinkClick],
 	);
 	const table = useTable<DebtListModel>({ data, rowKey: "id", columns });
 

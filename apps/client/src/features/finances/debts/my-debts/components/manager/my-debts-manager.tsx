@@ -1,22 +1,39 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { type UseSearch, useSearch } from "@core/search/hooks/use-search";
+import {
+	DebtLinker,
+	DebtLinkers,
+} from "@fts/finances/debts/debts/components/debt-linkers";
 import { DebtsTable } from "@fts/finances/debts/debts/components/debts.table";
 import { useMyDebtDeleteMutation } from "@fts/finances/debts/my-debts/api/use-my-debt-delete.mutation";
 import { useMyDebtsListQuery } from "@fts/finances/debts/my-debts/api/use-my-debts.query";
+import { MyDebtOriginLinkManager } from "@fts/finances/debts/my-debts/components/manager/links/my-debt-origin-link-manager";
 import { MyDebtCreateManager } from "@fts/finances/debts/my-debts/components/manager/my-debt-create-manager";
 import { MyDebtUpdateManager } from "@fts/finances/debts/my-debts/components/manager/my-debt-update-manager";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer, Pagination, Text } from "@mantine/core";
+import {
+	ActionIcon,
+	Button,
+	Drawer,
+	Modal,
+	Pagination,
+	Text,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { DebtListModel, DebtModel } from "@shared/models";
 import { getContactName } from "@shared/utils";
 import { useCallback, useState } from "react";
 import { IoAddOutline, IoReload, IoTrash } from "react-icons/io5";
+
+type DebtLinkState = {
+	debt: DebtModel;
+	linker: DebtLinker;
+};
 
 export const MyDebtsManager: FC = () => {
 	const { t, interpolated } = useTranslation("finances");
@@ -27,6 +44,11 @@ export const MyDebtsManager: FC = () => {
 	const [debtToUpdate, setDebtToUpdate] = useState<DebtListModel | null>(null);
 
 	const { mutate: deleteDebt } = useMyDebtDeleteMutation();
+
+	const [debtToLink, setDebtToLink] = useState<DebtModel | null>(null);
+	const [debtLinkState, setDebtLinkState] = useState<DebtLinkState | null>(
+		null,
+	);
 
 	const onDeleteClick = useCallback(
 		(item: DebtModel) => {
@@ -94,6 +116,7 @@ export const MyDebtsManager: FC = () => {
 								data={debts?.items}
 								onEditClick={setDebtToUpdate}
 								onDeleteClick={onDeleteClick}
+								onLinkClick={setDebtToLink}
 							/>
 						</TableLayout.Table>
 						<TableLayout.Pagination>
@@ -128,6 +151,35 @@ export const MyDebtsManager: FC = () => {
 					/>
 				)}
 			</Drawer>
+
+			{/* Linkers */}
+			<Modal
+				title={t().debt.link.Title}
+				opened={Boolean(debtToLink)}
+				onClose={() => setDebtToLink(null)}
+			>
+				<DebtLinkers
+					onSelect={(linker) => {
+						if (debtToLink) {
+							setDebtLinkState({
+								linker,
+								debt: debtToLink,
+							});
+						}
+						setDebtToLink(null);
+					}}
+				/>
+			</Modal>
+
+			<Modal
+				opened={Boolean(debtLinkState)}
+				onClose={() => setDebtLinkState(null)}
+			>
+				{debtLinkState &&
+					(debtLinkState?.linker === DebtLinker.ORIGIN ? (
+						<MyDebtOriginLinkManager debt={debtLinkState.debt} />
+					) : null)}
+			</Modal>
 		</>
 	);
 };

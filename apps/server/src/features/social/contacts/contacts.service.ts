@@ -9,6 +9,12 @@ import type {
 	PaginatedSearchModel,
 	UserModelId,
 } from "@shared/models";
+import { EventService } from "src/events/event.service";
+import {
+	ContactCreatedEvent,
+	ContactDeletedEvent,
+	ContactUpdatedEvent,
+} from "src/features/social/contacts/contacts.events";
 import { ContactsRepository } from "src/features/social/contacts/repositories/contacts.repository";
 
 @Injectable()
@@ -17,6 +23,7 @@ export class ContactsService {
 		private readonly contactsRepository: ContactsRepository,
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
+		private readonly eventService: EventService,
 	) {}
 
 	async checkOwnership(
@@ -47,10 +54,14 @@ export class ContactsService {
 	}
 
 	async create(userId: UserModelId, contact: Omit<ContactCreateModel, "code">) {
-		return await this.contactsRepository.create({
+		const created = await this.contactsRepository.create({
 			...contact,
 			userId,
 		});
+
+		this.eventService.emit(new ContactCreatedEvent({ contact: created }));
+
+		return created;
 	}
 
 	async delete(userId: UserModelId, contactId: ContactModel["id"]) {
@@ -60,9 +71,13 @@ export class ContactsService {
 			});
 			if (!isOwner) throw new UnauthorizedException();
 
-			return await this.contactsRepository.deleteById(contactId, {
+			const deleted = await this.contactsRepository.deleteById(contactId, {
 				transaction,
 			});
+
+			this.eventService.emit(new ContactDeletedEvent({ contactId }));
+
+			return deleted;
 		});
 	}
 
@@ -84,13 +99,18 @@ export class ContactsService {
 			});
 			if (!isOwner) throw new UnauthorizedException();
 
-			return await this.contactsRepository.updateById(
+			const updated = await this.contactsRepository.updateById(
 				contactId,
 				{ ...contact, code: contactCode ? contactCode : undefined },
 				{
 					transaction,
 				},
 			);
+
+			if (updated)
+				this.eventService.emit(new ContactUpdatedEvent({ contact: updated }));
+
+			return updated;
 		});
 	}
 }

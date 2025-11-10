@@ -251,6 +251,21 @@
 				"Message": "Are you sure you want to delete this debt? This action cannot be undone.",
 				"Action": "Delete Debt"
 			}
+		},
+		"link": {
+			"Title": "Link transactions",
+			"linkers": {
+				"origin": {
+					"Title": "Origins",
+					"Description": "Select transactions that represents the debt being given.",
+					"Pick": "Manage origins"
+				},
+				"payment": {
+					"Title": "Payments",
+					"Description": "Select transactions that represents the payment of the debt.",
+					"Pick": "Manage payments"
+				}
+			}
 		}
 	}
 }
