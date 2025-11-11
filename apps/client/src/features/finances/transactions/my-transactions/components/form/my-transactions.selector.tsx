@@ -1,4 +1,4 @@
-import { DatetimeRender } from "@common/extended-ui/date/components/datetime-render";
+import { useDateFormat } from "@common/extended-ui/date/hooks/use-date-format";
 import {
 	SelectSearch,
 	type SelectSearchProps,
@@ -9,7 +9,6 @@ import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
 import { useSearch } from "@core/search/hooks/use-search";
 import { useMyTransactionsQuery } from "@fts/finances/transactions/my-transactions/api/use-my-transactions.query";
 import { useTranslation } from "@i18n/use-translation";
-import { Group, Text } from "@mantine/core";
 import { MY_TRANSACTION_CONTROLLER } from "@shared/api-definition";
 import type { TransactionModel } from "@shared/models";
 import { useCallback, useMemo } from "react";
@@ -30,6 +29,8 @@ export const MyTransactionsSelector: FC<Props> = ({
 	...props
 }) => {
 	const { t } = useTranslation("finances");
+	const { formatDateTime } = useDateFormat();
+
 	const pagination = usePagination();
 	const search = useSearch<TransactionModel>({});
 	const { request } = useAuthenticatedRequest();
@@ -43,15 +44,10 @@ export const MyTransactionsSelector: FC<Props> = ({
 	const options = useMemo(
 		() =>
 			transactions.items.map((item) => ({
-				label: (
-					<Group>
-						<Text>{`${item.subject} | ${item.amount}€ | `}</Text>
-						<DatetimeRender date={item.createdAt} />
-					</Group>
-				),
+				label: `${item.subject} | ${item.amount}€ | ${formatDateTime(item.performedAt, "short")}`,
 				value: item.id,
 			})),
-		[transactions],
+		[transactions, formatDateTime],
 	);
 
 	// Fetch transaction details by id. In case it has not been fetched
