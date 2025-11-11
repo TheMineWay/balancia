@@ -175,6 +175,11 @@ export const MyDebtsManager: FC = () => {
 				opened={Boolean(debtLinkState)}
 				onClose={() => setDebtLinkState(null)}
 				size="xl"
+				title={
+					debtLinkState?.linker === DebtLinker.ORIGIN
+						? t().debt.link.linkers.origin.Title
+						: t().debt.link.linkers.payment.Title
+				}
 			>
 				{debtLinkState &&
 					(debtLinkState?.linker === DebtLinker.ORIGIN ? (

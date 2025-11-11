@@ -43,17 +43,19 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 	);
 
 	return (
-		<div>
+		<div className="flex flex-col gap-4">
 			<InputWrapper label={t().debt.link.form.fields.transaction.Label}>
 				<MyTransactionsSelector onChange={onSelect} />
 			</InputWrapper>
-			{items?.map((item, index) => (
-				<TransactionLink
-					key={item.transaction.id}
-					item={item}
-					setItem={(newItem) => onItemChange(index, newItem)}
-				/>
-			))}
+			<div className="flex flex-col gap-2">
+				{items?.map((item, index) => (
+					<TransactionLink
+						key={item.transaction.id}
+						item={item}
+						setItem={(newItem) => onItemChange(index, newItem)}
+					/>
+				))}
+			</div>
 		</div>
 	);
 };
