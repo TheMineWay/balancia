@@ -10,20 +10,21 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 
-type Data<T extends string | number> = {
+type Data<V> = {
 	label: string;
-	value: T;
+	value: V;
 };
 
-export type SelectSearchProps<T extends string | number> = {
-	data: Data<T>[];
+export type SelectSearchProps<T extends string | number, V = T> = {
+	data: Data<V>[];
 	search: UseDebouncedSearch;
-	valueFetch?: (value: T) => Promise<Data<T> | null>;
+	valueFetch?: (value: T) => Promise<Data<V> | null>;
+	getKey: (item: V) => T;
 
 	// Input
 	placeholder?: string;
 	value?: T | null;
-	setValue?: (value: T | null) => void;
+	setValue?: (value: V | null) => void;
 	allowClear?: boolean;
 	triggerId?: string | number;
 } & Pick<
@@ -42,12 +43,13 @@ export type SelectSearchProps<T extends string | number> = {
  * This component is a search-select input that allows users to select an item from a dropdown list.
  * It includes a search functionality that debounces input changes. As you need to provide the `useDebouncedSearch` hook, you can manage the search state externally.
  */
-export function SelectSearch<T extends string | number>({
+export function SelectSearch<T extends string | number, V = T>({
 	data: rawData,
 	placeholder,
 	search,
 	value,
 	valueFetch,
+	getKey,
 	allowClear = false,
 	setValue,
 	onBlur,
@@ -55,11 +57,11 @@ export function SelectSearch<T extends string | number>({
 	onFocus,
 	triggerId,
 	...props
-}: Readonly<SelectSearchProps<T>>) {
+}: Readonly<SelectSearchProps<T, V>>) {
 	const { t } = useTranslation("common");
 	const combobox = useCombobox({});
 
-	const [fetchedData, setFetchedData] = useState<Data<T> | null>(null);
+	const [fetchedData, setFetchedData] = useState<Data<V> | null>(null);
 
 	// Fetch data for the selected value.
 	// In case the selected item is not fetched in the options
@@ -81,7 +83,7 @@ export function SelectSearch<T extends string | number>({
 	// As the Combobox cannot operate with non-string values directly,
 	// we create a mapping of index to value for the options.
 	const valueMap = useMemo(() => {
-		return data.reduce<[string, T][]>((acc, item, idx) => {
+		return data.reduce<[string, V][]>((acc, item, idx) => {
 			acc.push([idx.toString(), item.value]);
 			return acc;
 		}, []);
@@ -89,16 +91,16 @@ export function SelectSearch<T extends string | number>({
 
 	const options = useMemo(() => {
 		return data
-			.filter((item): item is Data<T> => item !== null)
+			.filter((item): item is Data<V> => item !== null)
 			.map((item) => (
 				<Combobox.Option
-					key={item.value}
+					key={getKey(item.value)}
 					value={valueMap.find((v) => v[1] === item.value)?.[0] ?? ""}
 				>
 					{item.label}
 				</Combobox.Option>
 			));
-	}, [data, valueMap]);
+	}, [data, valueMap, getKey]);
 
 	const onValueChanged = useCallback(
 		(value: string) => {
@@ -111,8 +113,8 @@ export function SelectSearch<T extends string | number>({
 
 	const selectedOption = useMemo(() => {
 		if (value === undefined || value === null) return null;
-		return data.find((option) => option.value === value) || null;
-	}, [data, value]);
+		return data.find((option) => getKey(option.value) === value) || null;
+	}, [data, value, getKey]);
 
 	const closeComponent = useMemo(
 		() =>

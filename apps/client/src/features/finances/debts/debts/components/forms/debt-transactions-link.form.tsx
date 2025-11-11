@@ -1,5 +1,6 @@
 import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactions/components/form/my-transactions.selector";
 import { useTranslation } from "@i18n/use-translation";
+import { InputWrapper } from "@mantine/core";
 import type { TransactionModel } from "@shared/models";
 import { useCallback } from "react";
 
@@ -14,7 +15,7 @@ type Props = {
 };
 
 export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
-	const { t: commonT } = useTranslation("common");
+	const { t } = useTranslation("finances");
 
 	const onItemChange = useCallback(
 		(index: number, newItem: DebtLinkFormItem) => {
@@ -26,9 +27,15 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 		[items, onChange],
 	);
 
+	const onSelect = useCallback((transaction: TransactionModel | null) => {
+		console.log(transaction);
+	}, []);
+
 	return (
 		<div>
-			<MyTransactionsSelector />
+			<InputWrapper label={t().debt.link.form.fields.transaction.Label}>
+				<MyTransactionsSelector onChange={onSelect} />
+			</InputWrapper>
 			{items?.map((item, index) => (
 				<TransactionLink
 					key={item.transactionId}

@@ -265,6 +265,13 @@
 					"Description": "Select transactions that represents the payment of the debt.",
 					"Pick": "Manage payments"
 				}
+			},
+			"form": {
+				"fields": {
+					"transaction": {
+						"Label": "Transaction to link"
+					}
+				}
 			}
 		}
 	}

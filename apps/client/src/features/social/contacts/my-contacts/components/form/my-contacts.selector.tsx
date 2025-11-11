@@ -20,7 +20,7 @@ type Props = {
 	allowClear?: boolean;
 } & Omit<
 	SelectSearchProps<ContactModel["id"]>,
-	"data" | "search" | "value" | "setValue" | "valueFetch"
+	"data" | "search" | "value" | "setValue" | "valueFetch" | "getKey"
 >;
 
 export const MyContactsSelector: FC<Props> = ({
@@ -69,6 +69,7 @@ export const MyContactsSelector: FC<Props> = ({
 	return (
 		<SelectSearch<ContactModel["id"]>
 			data={options}
+			getKey={(v) => v}
 			search={search.debouncedSearchManager}
 			setValue={(v) => onChange?.(v)}
 			value={value}

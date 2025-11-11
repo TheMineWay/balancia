@@ -18,7 +18,7 @@ type Props = {
 	value: CategoryModel["id"] | null;
 } & Omit<
 	SelectSearchProps<CategoryModel["id"]>,
-	"data" | "search" | "value" | "setValue"
+	"data" | "search" | "value" | "setValue" | "getKey"
 >;
 
 export const MyCategoriesSelector: FC<Props> = ({
@@ -66,6 +66,7 @@ export const MyCategoriesSelector: FC<Props> = ({
 	return (
 		<SelectSearch<CategoryModel["id"]>
 			data={options}
+			getKey={(v) => v}
 			search={search.debouncedSearchManager}
 			setValue={(v) => onChange?.(v)}
 			value={value}

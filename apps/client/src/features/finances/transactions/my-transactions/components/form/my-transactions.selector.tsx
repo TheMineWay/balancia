@@ -15,12 +15,12 @@ import { useCallback, useMemo } from "react";
 import { BiTransfer } from "react-icons/bi";
 
 type Props = {
-	onChange?: (transactionId: TransactionModel["id"] | null) => void;
+	onChange?: (transactionId: TransactionModel | null) => void;
 	value?: TransactionModel["id"] | null;
 	allowClear?: boolean;
 } & Omit<
-	SelectSearchProps<TransactionModel["id"]>,
-	"data" | "search" | "value" | "setValue"
+	SelectSearchProps<TransactionModel["id"], TransactionModel>,
+	"data" | "search" | "value" | "setValue" | "getKey"
 >;
 
 export const MyTransactionsSelector: FC<Props> = ({
@@ -45,7 +45,7 @@ export const MyTransactionsSelector: FC<Props> = ({
 		() =>
 			transactions.items.map((item) => ({
 				label: `${item.subject} | ${item.amount}€ | ${formatDateTime(item.performedAt, "short")}`,
-				value: item.id,
+				value: item,
 			})),
 		[transactions, formatDateTime],
 	);
@@ -69,14 +69,11 @@ export const MyTransactionsSelector: FC<Props> = ({
 			const selectedTransaction = response.items.find((item) => item.id === id);
 
 			if (!selectedTransaction) {
-				return {
-					value: id,
-					label: `Transaction #${id}`,
-				};
+				return null;
 			}
 
 			return {
-				value: selectedTransaction.id,
+				value: selectedTransaction,
 				label: `${selectedTransaction.subject} - ${selectedTransaction.amount}€`,
 			};
 		},
@@ -84,8 +81,9 @@ export const MyTransactionsSelector: FC<Props> = ({
 	);
 
 	return (
-		<SelectSearch<TransactionModel["id"]>
+		<SelectSearch<TransactionModel["id"], TransactionModel>
 			data={options}
+			getKey={(v) => v.id}
 			search={search.debouncedSearchManager}
 			setValue={(v) => onChange?.(v)}
 			value={value}

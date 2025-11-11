@@ -18,7 +18,7 @@ type Props = {
 	value: TagModel["id"] | null;
 } & Omit<
 	SelectSearchProps<TagModel["id"]>,
-	"data" | "search" | "value" | "setValue"
+	"data" | "search" | "value" | "setValue" | "getKey"
 >;
 
 export const MyTagsSelector: FC<Props> = ({ onChange, value, ...props }) => {
@@ -62,6 +62,7 @@ export const MyTagsSelector: FC<Props> = ({ onChange, value, ...props }) => {
 	return (
 		<SelectSearch<TagModel["id"]>
 			data={options}
+			getKey={(v) => v}
 			search={search.debouncedSearchManager}
 			setValue={(v) => onChange?.(v)}
 			value={value}

@@ -174,6 +174,7 @@ export const MyDebtsManager: FC = () => {
 			<Modal
 				opened={Boolean(debtLinkState)}
 				onClose={() => setDebtLinkState(null)}
+				size="xl"
 			>
 				{debtLinkState &&
 					(debtLinkState?.linker === DebtLinker.ORIGIN ? (
