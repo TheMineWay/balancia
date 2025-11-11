@@ -5,7 +5,7 @@ import type { TransactionModel } from "@shared/models";
 import { useCallback } from "react";
 
 export type DebtLinkFormItem = {
-	transactionId: TransactionModel["id"];
+	transaction: TransactionModel;
 	amount: number;
 };
 
@@ -27,9 +27,20 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 		[items, onChange],
 	);
 
-	const onSelect = useCallback((transaction: TransactionModel | null) => {
-		console.log(transaction);
-	}, []);
+	const onSelect = useCallback(
+		(transaction: TransactionModel | null) => {
+			if (!transaction || !onChange) return;
+			if (items?.some((item) => item.transaction.id === transaction.id)) return;
+
+			const newItem: DebtLinkFormItem = {
+				transaction,
+				amount: transaction.amount,
+			};
+			const updatedItems = items ? [...items, newItem] : [newItem];
+			onChange(updatedItems);
+		},
+		[items, onChange],
+	);
 
 	return (
 		<div>
@@ -38,7 +49,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 			</InputWrapper>
 			{items?.map((item, index) => (
 				<TransactionLink
-					key={item.transactionId}
+					key={item.transaction.id}
 					item={item}
 					setItem={(newItem) => onItemChange(index, newItem)}
 				/>
@@ -54,5 +65,5 @@ type TransactionLinkProps = {
 };
 
 const TransactionLink: FC<TransactionLinkProps> = ({ item, setItem }) => {
-	return <div className="flex flex-col gap-2"></div>;
+	return <div className="flex flex-col gap-2">{item.transaction.subject}</div>;
 };
