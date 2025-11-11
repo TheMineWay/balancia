@@ -273,6 +273,10 @@
 					}
 				}
 			}
+		},
+		"expressions": {
+			"Debt": "Debt",
+			"Debt-coverage": "Debt coverage"
 		}
 	}
 }

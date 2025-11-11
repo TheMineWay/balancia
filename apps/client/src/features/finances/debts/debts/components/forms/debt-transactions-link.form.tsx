@@ -1,8 +1,11 @@
+import { RenderCurrency } from "@common/extended-ui/currency/render-currency";
+import { CashInputField } from "@common/extended-ui/form/components/finances/cash.input-field";
 import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactions/components/form/my-transactions.selector";
 import { useTranslation } from "@i18n/use-translation";
-import { InputWrapper } from "@mantine/core";
+import { ActionIcon, Card, InputWrapper, Text } from "@mantine/core";
 import type { TransactionModel } from "@shared/models";
 import { useCallback } from "react";
+import { IoTrash } from "react-icons/io5";
 
 export type DebtLinkFormItem = {
 	transaction: TransactionModel;
@@ -27,6 +30,15 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 		[items, onChange],
 	);
 
+	const onDeleteItem = useCallback(
+		(index: number) => {
+			if (!items || !onChange) return;
+			const updatedItems = items.filter((_, i) => i !== index);
+			onChange(updatedItems);
+		},
+		[items, onChange],
+	);
+
 	const onSelect = useCallback(
 		(transaction: TransactionModel | null) => {
 			if (!transaction || !onChange) return;
@@ -34,7 +46,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 
 			const newItem: DebtLinkFormItem = {
 				transaction,
-				amount: transaction.amount,
+				amount: Math.abs(transaction.amount),
 			};
 			const updatedItems = items ? [...items, newItem] : [newItem];
 			onChange(updatedItems);
@@ -53,6 +65,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 						key={item.transaction.id}
 						item={item}
 						setItem={(newItem) => onItemChange(index, newItem)}
+						onDelete={() => onDeleteItem(index)}
 					/>
 				))}
 			</div>
@@ -64,8 +77,42 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 type TransactionLinkProps = {
 	item: Omit<DebtLinkFormItem, "amount"> & { amount?: number };
 	setItem: (item: DebtLinkFormItem) => void;
+	onDelete: CallableFunction;
 };
 
-const TransactionLink: FC<TransactionLinkProps> = ({ item, setItem }) => {
-	return <div className="flex flex-col gap-2">{item.transaction.subject}</div>;
+const TransactionLink: FC<TransactionLinkProps> = ({
+	item: { transaction, amount },
+	setItem,
+	onDelete,
+}) => {
+	return (
+		<Card withBorder>
+			<div className="flex flex-col gap-4">
+				<div className="flex justify-between items-center">
+					<div className="flex-1">
+						<div className="flex gap-2">
+							<RenderCurrency amount={Math.abs(transaction.amount)} />
+							{transaction.subject && (
+								<Text>
+									<b>{transaction.subject}</b>
+								</Text>
+							)}
+						</div>
+					</div>
+					<ActionIcon color="red" onClick={() => onDelete()}>
+						<IoTrash />
+					</ActionIcon>
+				</div>
+				<CashInputField
+					max={Math.abs(transaction.amount)}
+					min={0}
+					value={amount ? Math.abs(amount) : 0}
+					onChange={(value) => {
+						if (value === null) return;
+						setItem({ transaction, amount: Math.abs(value) });
+					}}
+				/>
+			</div>
+		</Card>
+	);
 };
