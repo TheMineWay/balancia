@@ -14,10 +14,17 @@ import type { TransactionModel } from "@shared/models";
 import { useCallback, useMemo } from "react";
 import { BiTransfer } from "react-icons/bi";
 
+type Option = {
+	label: string;
+	value: TransactionModel;
+	disabled?: boolean;
+};
+
 type Props = {
 	onChange?: (transactionId: TransactionModel | null) => void;
 	value?: TransactionModel["id"] | null;
 	allowClear?: boolean;
+	mapOption?: (option: Option) => Option;
 } & Omit<
 	SelectSearchProps<TransactionModel["id"], TransactionModel>,
 	"data" | "search" | "value" | "setValue" | "getKey"
@@ -26,6 +33,7 @@ type Props = {
 export const MyTransactionsSelector: FC<Props> = ({
 	onChange,
 	value = null,
+	mapOption,
 	...props
 }) => {
 	const { t } = useTranslation("finances");
@@ -41,14 +49,18 @@ export const MyTransactionsSelector: FC<Props> = ({
 			search,
 		});
 
-	const options = useMemo(
-		() =>
-			transactions.items.map((item) => ({
-				label: `${item.subject} | ${item.amount}€ | ${formatDateTime(item.performedAt, "short")}`,
-				value: item,
-			})),
-		[transactions, formatDateTime],
-	);
+	const options: Option[] = useMemo(() => {
+		const options = transactions.items.map((item) => ({
+			label: `${item.subject} | ${item.amount}€ | ${formatDateTime(item.performedAt, "short")}`,
+			value: item,
+		}));
+
+		if (mapOption) {
+			return options.map(mapOption);
+		}
+
+		return options;
+	}, [transactions, formatDateTime, mapOption]);
 
 	// Fetch transaction details by id. In case it has not been fetched
 	const valueFetch = useCallback(

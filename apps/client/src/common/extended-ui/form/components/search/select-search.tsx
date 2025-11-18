@@ -13,6 +13,7 @@ import { IoCloseOutline } from "react-icons/io5";
 type Data<V> = {
 	label: string;
 	value: V;
+	disabled?: boolean;
 };
 
 export type SelectSearchProps<T extends string | number, V = T> = {
@@ -96,6 +97,7 @@ export function SelectSearch<T extends string | number, V = T>({
 				<Combobox.Option
 					key={getKey(item.value)}
 					value={valueMap.find((v) => v[1] === item.value)?.[0] ?? ""}
+					disabled={item.disabled}
 				>
 					{item.label}
 				</Combobox.Option>

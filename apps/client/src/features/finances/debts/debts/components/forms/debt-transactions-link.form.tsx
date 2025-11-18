@@ -57,7 +57,10 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 	return (
 		<div className="flex flex-col gap-4">
 			<InputWrapper label={t().debt.link.form.fields.transaction.Label}>
-				<MyTransactionsSelector onChange={onSelect} />
+				<MyTransactionsSelector
+					onChange={onSelect}
+					mapOption={(o) => ({ ...o, disabled: o.value.amount >= 0 })}
+				/>
 			</InputWrapper>
 			<div className="flex flex-col gap-2">
 				{items?.map((item, index) => (
