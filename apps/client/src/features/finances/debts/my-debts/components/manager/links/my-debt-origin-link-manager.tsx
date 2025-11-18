@@ -7,7 +7,7 @@ import { useTranslation } from "@i18n/use-translation";
 import { Divider, Group, Text } from "@mantine/core";
 import type { DebtModel } from "@shared/models";
 import { useMemo, useState } from "react";
-import { FiAlertTriangle } from "react-icons/fi";
+import { FiArrowDown, FiArrowUp, FiCheckCircle } from "react-icons/fi";
 
 const DEBT_STAT_CLASSNAME = "flex-1 flex flex-col items-center justify-center";
 
@@ -19,12 +19,18 @@ export const MyDebtOriginLinkManager: FC<Props> = ({ debt }) => {
 	const { t } = useTranslation("finances");
 	const [items, setItems] = useState<DebtLinkFormItem[]>([]);
 
-	const { debtCoverage, overCoverage } = useMemo(() => {
+	const { debtCoverage, debtState } = useMemo(() => {
 		const debtCoverage = items.reduce((total, item) => total + item.amount, 0);
-		const overCoverage = debtCoverage > debt.amount;
-
-		return { debtCoverage, overCoverage };
+		const debtState =
+			debtCoverage === debt.amount
+				? DebtState.COVERED
+				: debtCoverage < debt.amount
+					? DebtState.UNCOVERED
+					: DebtState.OVER_COVERED;
+		return { debtCoverage, debtState };
 	}, [items, debt.amount]);
+
+	const debtCovered = debtState === DebtState.COVERED;
 
 	return (
 		<div className="flex flex-col gap-4">
@@ -41,7 +47,15 @@ export const MyDebtOriginLinkManager: FC<Props> = ({ debt }) => {
 						<b>{t().debt.expressions["Debt-coverage"]}</b>
 					</Text>
 					<Group gap="xs">
-						{overCoverage && <FiAlertTriangle color="red" />}
+						{/* Debt state representation */}
+						{debtCovered ? (
+							<FiCheckCircle color="green" />
+						) : debtState === DebtState.UNCOVERED ? (
+							<FiArrowDown color="red" />
+						) : (
+							<FiArrowUp color="red" />
+						)}
+
 						<RenderCurrency size="xl" amount={debtCoverage} />
 					</Group>
 				</div>
@@ -50,3 +64,9 @@ export const MyDebtOriginLinkManager: FC<Props> = ({ debt }) => {
 		</div>
 	);
 };
+
+enum DebtState {
+	COVERED = "COVERED",
+	UNCOVERED = "UNCOVERED",
+	OVER_COVERED = "OVER_COVERED",
+}

@@ -2,9 +2,10 @@ import { RenderCurrency } from "@common/extended-ui/currency/render-currency";
 import { CashInputField } from "@common/extended-ui/form/components/finances/cash.input-field";
 import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactions/components/form/my-transactions.selector";
 import { useTranslation } from "@i18n/use-translation";
-import { ActionIcon, Card, InputWrapper, Text } from "@mantine/core";
+import { ActionIcon, Button, Card, InputWrapper, Text } from "@mantine/core";
 import type { TransactionModel } from "@shared/models";
 import { useCallback } from "react";
+import { BiLink } from "react-icons/bi";
 import { IoTrash } from "react-icons/io5";
 
 export type DebtLinkFormItem = {
@@ -56,13 +57,13 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 
 	return (
 		<div className="flex flex-col gap-4">
-			<InputWrapper label={t().debt.link.form.fields.transaction.Label}>
-				<MyTransactionsSelector
-					onChange={onSelect}
-					mapOption={(o) => ({ ...o, disabled: o.value.amount >= 0 })}
-				/>
-			</InputWrapper>
 			<div className="flex flex-col gap-2">
+				<InputWrapper label={t().debt.link.form.fields.transaction.Label}>
+					<MyTransactionsSelector
+						onChange={onSelect}
+						mapOption={(o) => ({ ...o, disabled: o.value.amount >= 0 })}
+					/>
+				</InputWrapper>
 				{items?.map((item, index) => (
 					<TransactionLink
 						key={item.transaction.id}
@@ -72,6 +73,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 					/>
 				))}
 			</div>
+			<Button leftSection={<BiLink />}>{t().debt.link.form.Submit}</Button>
 		</div>
 	);
 };

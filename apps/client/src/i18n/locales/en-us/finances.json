@@ -267,6 +267,7 @@
 				}
 			},
 			"form": {
+				"Submit": "Link transactions",
 				"fields": {
 					"transaction": {
 						"Label": "Transaction to link"
