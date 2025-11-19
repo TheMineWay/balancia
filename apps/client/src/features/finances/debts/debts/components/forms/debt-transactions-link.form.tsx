@@ -16,14 +16,21 @@ export type DebtLinkFormItem = {
 type Props = {
 	items?: DebtLinkFormItem[];
 	onChange?: (data: DebtLinkFormItem[]) => void;
+	onSubmit?: (items: DebtLinkFormItem[]) => void;
+	loading?: boolean;
 };
 
-export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
+export const DebtTransactionsLinkForm: FC<Props> = ({
+	items = [],
+	onChange,
+	onSubmit,
+	loading = false,
+}) => {
 	const { t } = useTranslation("finances");
 
 	const onItemChange = useCallback(
 		(index: number, newItem: DebtLinkFormItem) => {
-			if (!items || !onChange) return;
+			if (!onChange) return;
 			const updatedItems = [...items];
 			updatedItems[index] = newItem;
 			onChange(updatedItems);
@@ -33,7 +40,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 
 	const onDeleteItem = useCallback(
 		(index: number) => {
-			if (!items || !onChange) return;
+			if (!onChange) return;
 			const updatedItems = items.filter((_, i) => i !== index);
 			onChange(updatedItems);
 		},
@@ -43,7 +50,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 	const onSelect = useCallback(
 		(transaction: TransactionModel | null) => {
 			if (!transaction || !onChange) return;
-			if (items?.some((item) => item.transaction.id === transaction.id)) return;
+			if (items.some((item) => item.transaction.id === transaction.id)) return;
 
 			const newItem: DebtLinkFormItem = {
 				transaction,
@@ -64,7 +71,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 						mapOption={(o) => ({ ...o, disabled: o.value.amount >= 0 })}
 					/>
 				</InputWrapper>
-				{items?.map((item, index) => (
+				{items.map((item, index) => (
 					<TransactionLink
 						key={item.transaction.id}
 						item={item}
@@ -73,7 +80,13 @@ export const DebtTransactionsLinkForm: FC<Props> = ({ items, onChange }) => {
 					/>
 				))}
 			</div>
-			<Button leftSection={<BiLink />}>{t().debt.link.form.Submit}</Button>
+			<Button
+				loading={loading}
+				onClick={() => onSubmit?.(items)}
+				leftSection={<BiLink />}
+			>
+				{t().debt.link.form.Submit}
+			</Button>
 		</div>
 	);
 };

@@ -17,12 +17,14 @@ import {
 	DebtDeletedEvent,
 	DebtUpdatedEvent,
 } from "src/features/debts/debts.events";
+import { DebtOriginRepository } from "src/features/debts/repositories/debt-origin.repository";
 import { DebtsRepository } from "src/features/debts/repositories/debts.repository";
 
 @Injectable()
 export class DebtsService {
 	constructor(
 		private readonly debtsRepository: DebtsRepository,
+		private readonly debtOriginRepository: DebtOriginRepository,
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
 		private readonly eventService: EventService,
@@ -111,6 +113,33 @@ export class DebtsService {
 			if (!isOwner) throw new UnauthorizedException();
 
 			await this.delete(debtId, { transaction });
+		});
+	}
+
+	async userSetOriginTransactionsToDebt(
+		userId: UserModelId,
+		debtId: DebtModel["id"],
+		transactions: { id: number; amount: number }[],
+	): Promise<void> {
+		await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner } = await this.checkOwnership(debtId, userId, {
+				transaction,
+			});
+			if (!isOwner) throw new UnauthorizedException();
+
+			await this.debtOriginRepository.removeByDebt(debtId, {
+				transaction,
+			});
+			await this.debtOriginRepository.bulkCreate(
+				transactions.map((t) => ({
+					transactionId: t.id,
+					amount: t.amount,
+					debtId,
+				})),
+				{
+					transaction,
+				},
+			);
 		});
 	}
 }

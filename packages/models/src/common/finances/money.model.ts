@@ -1,4 +1,4 @@
-import { ModelValues } from "@ts-types/model-values.type";
+import type { ModelValues } from "@ts-types/model-values.type";
 import z from "zod";
 
 export const MONEY_MODEL_VALUES = {

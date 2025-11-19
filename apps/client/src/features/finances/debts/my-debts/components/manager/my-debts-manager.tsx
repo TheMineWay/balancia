@@ -183,7 +183,10 @@ export const MyDebtsManager: FC = () => {
 			>
 				{debtLinkState &&
 					(debtLinkState?.linker === DebtLinker.ORIGIN ? (
-						<MyDebtOriginLinkManager debt={debtLinkState.debt} />
+						<MyDebtOriginLinkManager
+							debt={debtLinkState.debt}
+							onSuccess={() => setDebtLinkState(null)}
+						/>
 					) : null)}
 			</Modal>
 		</>

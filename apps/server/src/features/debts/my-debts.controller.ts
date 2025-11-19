@@ -69,4 +69,27 @@ export class MyDebtsController {
 	): Promise<InferResponseDto<typeof MY_DEBTS_CONTROLLER, "deleteDebt">> {
 		await this.debtsService.userDebtDelete(userId, debtId);
 	}
+
+	// Assign origin transactions
+
+	@ApiOperation({ summary: "Assign origin transactions to a debt" })
+	@Endpoint(MY_DEBTS_CONTROLLER, "assignOriginTransactions")
+	async assignOriginTransactions(
+		@Param(
+			getParamName(MY_DEBTS_CONTROLLER, "assignOriginTransactions", "debtId"),
+			ParseIntPipe,
+		)
+		debtId: number,
+		@ValidatedBody(MY_DEBTS_CONTROLLER, "assignOriginTransactions")
+		body: InferBodyDto<typeof MY_DEBTS_CONTROLLER, "assignOriginTransactions">,
+		@UserId() userId: UserModelId,
+	): Promise<
+		InferResponseDto<typeof MY_DEBTS_CONTROLLER, "assignOriginTransactions">
+	> {
+		await this.debtsService.userSetOriginTransactionsToDebt(
+			userId,
+			debtId,
+			body.transactions,
+		);
+	}
 }
