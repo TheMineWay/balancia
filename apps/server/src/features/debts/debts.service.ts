@@ -1,6 +1,5 @@
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { QueryOptions } from "@database/repository/repository";
-import { DebtOriginInsert } from "@database/schemas/main/tables/debt/debt-origin.table";
 import { DebtSelect } from "@database/schemas/main/tables/debt/debt.table";
 import { DatabaseService } from "@database/services/database.service";
 import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
@@ -8,6 +7,7 @@ import type {
 	DebtCreateModel,
 	DebtListModel,
 	DebtModel,
+	DebtOriginModel,
 	PaginatedResponse,
 	PaginatedSearchModel,
 	UserModelId,
@@ -120,7 +120,7 @@ export class DebtsService {
 	async userSetOriginTransactionsToDebt(
 		userId: UserModelId,
 		debtId: DebtModel["id"],
-		transactions: Omit<DebtOriginInsert, "debtId">[],
+		transactions: DebtOriginModel[],
 	): Promise<void> {
 		await this.databaseService.db.transaction(async (transaction) => {
 			const { isOwner } = await this.checkOwnership(debtId, userId, {
@@ -133,7 +133,7 @@ export class DebtsService {
 			});
 			await this.debtOriginRepository.bulkCreate(
 				transactions.map((t) => ({
-					transactionId: t.id,
+					transactionId: t.transactionId,
 					amount: t.amount,
 					debtId,
 				})),
