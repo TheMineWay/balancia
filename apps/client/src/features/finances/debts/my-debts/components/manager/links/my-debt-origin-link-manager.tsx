@@ -3,10 +3,15 @@ import {
 	type DebtLinkFormItem,
 	DebtTransactionsLinkForm,
 } from "@fts/finances/debts/debts/components/forms/debt-transactions-link.form";
+import { useMyDebtOriginGetTransactionsQuery } from "@fts/finances/debts/my-debts/api/origins/use-my-debt-origin-get-transactions.query";
 import { useMyDebtOriginSetTransactionsMutation } from "@fts/finances/debts/my-debts/api/origins/use-my-debt-origin-set-transactions.mutation";
 import { useTranslation } from "@i18n/use-translation";
-import { Divider, Group, Text } from "@mantine/core";
-import type { DebtModel } from "@shared/models";
+import { Divider, Group, Loader, Text } from "@mantine/core";
+import type {
+	DebtModel,
+	DebtOriginModel,
+	TransactionModel,
+} from "@shared/models";
 import { useCallback, useMemo, useState } from "react";
 import { FiArrowDown, FiArrowUp, FiCheckCircle } from "react-icons/fi";
 
@@ -17,9 +22,24 @@ type Props = {
 	onSuccess?: CallableFunction;
 };
 
-export const MyDebtOriginLinkManager: FC<Props> = ({ debt, onSuccess }) => {
+export const MyDebtOriginLinkManager: FC<Props> = (props) => {
+	const { data: debtOrigins, isLoading: isLoadingOrigins } =
+		useMyDebtOriginGetTransactionsQuery(props.debt.id);
+
+	if (isLoadingOrigins) return <Loader />;
+
+	return <Component {...props} debtOrigins={debtOrigins?.transactions} />;
+};
+
+const Component: FC<
+	Props & {
+		debtOrigins?: (DebtOriginModel & {
+			transaction: TransactionModel | null;
+		})[];
+	}
+> = ({ debt, onSuccess, debtOrigins = [] }) => {
 	const { t } = useTranslation("finances");
-	const [items, setItems] = useState<DebtLinkFormItem[]>([]);
+	const [items, setItems] = useState<DebtLinkFormItem[]>(debtOrigins);
 
 	const { mutate: setTransactions, isPending: isSettingTransactions } =
 		useMyDebtOriginSetTransactionsMutation();
@@ -30,7 +50,7 @@ export const MyDebtOriginLinkManager: FC<Props> = ({ debt, onSuccess }) => {
 				{
 					debtId: debt.id,
 					transactions: transactions.map((t) => ({
-						id: t.transaction.id,
+						transactionId: t.transaction?.id || null,
 						amount: t.amount,
 					})),
 				},

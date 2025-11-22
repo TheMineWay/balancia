@@ -92,4 +92,36 @@ export class MyDebtsController {
 			body.transactions,
 		);
 	}
+
+	@ApiOperation({ summary: "Get assigned origin transactions for a debt" })
+	@Endpoint(MY_DEBTS_CONTROLLER, "getAssignedOriginTransactions")
+	async getAssignedOriginTransactions(
+		@Param(
+			getParamName(
+				MY_DEBTS_CONTROLLER,
+				"getAssignedOriginTransactions",
+				"debtId",
+			),
+			ParseIntPipe,
+		)
+		debtId: number,
+		@UserId() userId: UserModelId,
+	): Promise<
+		InferResponseDto<
+			typeof MY_DEBTS_CONTROLLER,
+			"getAssignedOriginTransactions"
+		>
+	> {
+		const origins = await this.debtsService.userGetOriginTransactionsOfDebt(
+			userId,
+			debtId,
+		);
+
+		return {
+			transactions: origins.map((origin) => ({
+				...origin,
+				transaction: origin.transaction,
+			})),
+		};
+	}
 }

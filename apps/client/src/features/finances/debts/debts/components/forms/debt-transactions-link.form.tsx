@@ -9,7 +9,7 @@ import { BiLink } from "react-icons/bi";
 import { IoTrash } from "react-icons/io5";
 
 export type DebtLinkFormItem = {
-	transaction: TransactionModel;
+	transaction: TransactionModel | null;
 	amount: number;
 };
 
@@ -50,7 +50,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({
 	const onSelect = useCallback(
 		(transaction: TransactionModel | null) => {
 			if (!transaction || !onChange) return;
-			if (items.some((item) => item.transaction.id === transaction.id)) return;
+			if (items.some((item) => item.transaction?.id === transaction.id)) return;
 
 			const newItem: DebtLinkFormItem = {
 				transaction,
@@ -73,7 +73,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({
 				</InputWrapper>
 				{items.map((item, index) => (
 					<TransactionLink
-						key={item.transaction.id}
+						key={item.transaction?.id || `_${index}`}
 						item={item}
 						setItem={(newItem) => onItemChange(index, newItem)}
 						onDelete={() => onDeleteItem(index)}
@@ -109,8 +109,8 @@ const TransactionLink: FC<TransactionLinkProps> = ({
 				<div className="flex justify-between items-center">
 					<div className="flex-1">
 						<div className="flex gap-2">
-							<RenderCurrency amount={Math.abs(transaction.amount)} />
-							{transaction.subject && (
+							<RenderCurrency amount={Math.abs(transaction?.amount || 0)} />
+							{transaction?.subject && (
 								<Text>
 									<b>{transaction.subject}</b>
 								</Text>
@@ -122,7 +122,7 @@ const TransactionLink: FC<TransactionLinkProps> = ({
 					</ActionIcon>
 				</div>
 				<CashInputField
-					max={Math.abs(transaction.amount)}
+					max={Math.abs(transaction?.amount || Infinity)}
 					min={0}
 					value={amount ? Math.abs(amount) : 0}
 					onChange={(value) => {

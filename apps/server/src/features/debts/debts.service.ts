@@ -1,5 +1,6 @@
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { QueryOptions } from "@database/repository/repository";
+import { DebtOriginInsert } from "@database/schemas/main/tables/debt/debt-origin.table";
 import { DebtSelect } from "@database/schemas/main/tables/debt/debt.table";
 import { DatabaseService } from "@database/services/database.service";
 import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
@@ -119,7 +120,7 @@ export class DebtsService {
 	async userSetOriginTransactionsToDebt(
 		userId: UserModelId,
 		debtId: DebtModel["id"],
-		transactions: { id: number; amount: number }[],
+		transactions: Omit<DebtOriginInsert, "debtId">[],
 	): Promise<void> {
 		await this.databaseService.db.transaction(async (transaction) => {
 			const { isOwner } = await this.checkOwnership(debtId, userId, {
@@ -136,6 +137,25 @@ export class DebtsService {
 					amount: t.amount,
 					debtId,
 				})),
+				{
+					transaction,
+				},
+			);
+		});
+	}
+
+	async userGetOriginTransactionsOfDebt(
+		userId: UserModelId,
+		debtId: DebtModel["id"],
+	) {
+		return await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner } = await this.checkOwnership(debtId, userId, {
+				transaction,
+			});
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.debtOriginRepository.findWithTransactionByDebtId(
+				debtId,
 				{
 					transaction,
 				},

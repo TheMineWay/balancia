@@ -8,11 +8,9 @@ export const debtOriginTable = debtSchema.table("debt_origin_transactions", {
 	debtId: integer()
 		.notNull()
 		.references(() => debtTable.id, { onDelete: "cascade" }),
-	transactionId: integer()
-		.notNull()
-		.references(() => transactionsTable.id, {
-			onDelete: "cascade",
-		}),
+	transactionId: integer().references(() => transactionsTable.id, {
+		onDelete: "set null",
+	}),
 
 	amount: integer().notNull(),
 
@@ -24,6 +22,7 @@ export const DEBT_ORIGIN_TABLE_COLUMNS = {
 	id: debtOriginTable.id,
 	debtId: debtOriginTable.debtId,
 	transactionId: debtOriginTable.transactionId,
+	amount: debtOriginTable.amount,
 	createdAt: debtOriginTable.createdAt,
 	updatedAt: debtOriginTable.updatedAt,
 };

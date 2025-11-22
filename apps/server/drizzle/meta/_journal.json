@@ -162,6 +162,20 @@
       "when": 1763584465066,
       "tag": "0022_minor_jocasta",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1763833285057,
+      "tag": "0023_aromatic_rawhide_kid",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1763833317135,
+      "tag": "0024_flat_microchip",
+      "breakpoints": true
     }
   ]
 }

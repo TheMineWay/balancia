@@ -1,8 +1,8 @@
 import {
 	DEBT_CREATE_SCHEMA,
 	DEBT_LIST_SCHEMA,
+	DEBT_ORIGIN_SCHEMA,
 	getPaginatedResponse,
-	MONEY_SCHEMA,
 	PAGINATED_SEARCH_SCHEMA,
 	TRANSACTION_SCHEMA,
 } from "@shared/models";
@@ -53,10 +53,19 @@ const ASSIGN_ORIGIN_TRANSACTIONS = {
 	paramsMapping: { debtId: "debtId" },
 	method: EndpointMethod.POST,
 	bodyDto: z.object({
+		transactions: z.array(DEBT_ORIGIN_SCHEMA),
+	}),
+} satisfies EndpointDefinition<{ debtId: string }>;
+
+const GET_ASSIGNED_ORIGIN_TRANSACTIONS = {
+	getPath: (params) => ["debt", params.debtId, "origin-transactions"],
+	paramsMapping: { debtId: "debtId" },
+	method: EndpointMethod.GET,
+	responseDto: z.object({
 		transactions: z.array(
 			z.object({
-				id: TRANSACTION_SCHEMA.shape.id,
-				amount: MONEY_SCHEMA,
+				...DEBT_ORIGIN_SCHEMA.shape,
+				transaction: TRANSACTION_SCHEMA.nullable(),
 			}),
 		),
 	}),
@@ -75,5 +84,6 @@ export const MY_DEBTS_CONTROLLER = {
 
 		// Assign transactions
 		assignOriginTransactions: ASSIGN_ORIGIN_TRANSACTIONS,
+		getAssignedOriginTransactions: GET_ASSIGNED_ORIGIN_TRANSACTIONS,
 	},
 } satisfies ControllerDefinition;
