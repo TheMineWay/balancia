@@ -280,6 +280,9 @@
 						},
 						"amount": {
 							"Label": "Amount"
+						},
+						"notes": {
+							"Label": "Notes"
 						}
 					}
 				}

@@ -3,8 +3,16 @@ import { MONEY_SCHEMA } from "@/common/finances/money.model";
 import { DEBT_SCHEMA } from "@/features/debts/debt.model";
 import { TRANSACTION_SCHEMA } from "@/features/finances/transactions/transaction.model";
 import { DATE_SCHEMA } from "@/utils/date.model";
+import { nullableStringTransform } from "@/utils/nullable-string.model";
 import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
+import type { ModelValues } from "@ts-types/model-values.type";
 import z from "zod";
+
+export const DEBT_PAYMENT_MODEL_VALUES = {
+	notes: {
+		maxLength: 512,
+	},
+} satisfies ModelValues;
 
 export const DEBT_PAYMENT_SCHEMA = z.object({
 	id: ID_SCHEMA,
@@ -14,6 +22,14 @@ export const DEBT_PAYMENT_SCHEMA = z.object({
 	// Metadata
 	amount: MONEY_SCHEMA.positive(),
 	paidAt: DATE_SCHEMA,
+	notes: z.preprocess(
+		nullableStringTransform,
+		z
+			.string()
+			.max(DEBT_PAYMENT_MODEL_VALUES.notes.maxLength)
+			.nullable()
+			.default(null),
+	),
 
 	// Timestamps
 	...TIMESTAMPS_SCHEMA.shape,

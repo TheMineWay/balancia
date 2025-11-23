@@ -93,6 +93,7 @@ export const DebtPaymentTransactionsLinkForm: FC<Props> = ({
 				transaction,
 				amount: Math.abs(transaction.amount),
 				paidAt: new Date(),
+				notes: null,
 			};
 			appendItem(newItem);
 		},
@@ -104,6 +105,7 @@ export const DebtPaymentTransactionsLinkForm: FC<Props> = ({
 			transaction: null,
 			amount: 0,
 			paidAt: new Date(),
+			notes: null,
 		};
 		appendItem(newItem);
 	}, [appendItem]);
@@ -188,6 +190,7 @@ const TransactionLink: FC<TransactionLinkProps> = ({
 				transaction: transaction || null,
 				amount: amount || 0,
 				paidAt: paidAt || new Date(),
+				notes: null,
 				[key]: value,
 			});
 		},

@@ -1,7 +1,8 @@
 import { timestamps } from "@database/common/timestamps";
 import { debtTable, transactionsTable } from "@database/schemas/main.schema";
 import { debtSchema } from "@database/schemas/main/tables/debt/debt.schema";
-import { integer, serial } from "drizzle-orm/pg-core";
+import { DEBT_ORIGIN_MODEL_VALUES } from "@shared/models";
+import { integer, serial, varchar } from "drizzle-orm/pg-core";
 
 export const debtOriginTable = debtSchema.table("debt_origin_transactions", {
 	id: serial().primaryKey(),
@@ -12,7 +13,9 @@ export const debtOriginTable = debtSchema.table("debt_origin_transactions", {
 		onDelete: "set null",
 	}),
 
+	// Metadata
 	amount: integer().notNull(),
+	notes: varchar({ length: DEBT_ORIGIN_MODEL_VALUES.notes.maxLength }),
 
 	// Timestamps
 	...timestamps,
@@ -23,6 +26,7 @@ export const DEBT_ORIGIN_TABLE_COLUMNS = {
 	debtId: debtOriginTable.debtId,
 	transactionId: debtOriginTable.transactionId,
 	amount: debtOriginTable.amount,
+	notes: debtOriginTable.notes,
 	createdAt: debtOriginTable.createdAt,
 	updatedAt: debtOriginTable.updatedAt,
 };
