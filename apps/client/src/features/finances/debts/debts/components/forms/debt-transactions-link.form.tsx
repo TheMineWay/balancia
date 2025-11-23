@@ -68,7 +68,12 @@ export const DebtTransactionsLinkForm: FC<Props> = ({
 				<InputWrapper label={t().debt.link.form.fields.transaction.Label}>
 					<MyTransactionsSelector
 						onChange={onSelect}
-						mapOption={(o) => ({ ...o, disabled: o.value.amount >= 0 })}
+						mapOption={(o) => ({
+							...o,
+							disabled:
+								o.value.amount >= 0 ||
+								items.some((item) => item.transaction?.id === o.value.id),
+						})}
 					/>
 				</InputWrapper>
 				{items.map((item, index) => (
