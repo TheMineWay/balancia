@@ -1,7 +1,9 @@
 import {
+	CREATE_DEBT_PAYMENT_SCHEMA,
 	DEBT_CREATE_SCHEMA,
 	DEBT_LIST_SCHEMA,
 	DEBT_ORIGIN_SCHEMA,
+	DEBT_PAYMENT_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_SEARCH_SCHEMA,
 	TRANSACTION_SCHEMA,
@@ -71,6 +73,29 @@ const GET_ASSIGNED_ORIGIN_TRANSACTIONS = {
 	}),
 } satisfies EndpointDefinition<{ debtId: string }>;
 
+const ASSIGN_PAYMENT_TRANSACTIONS = {
+	getPath: (params) => ["debt", params.debtId, "payment-transactions"],
+	paramsMapping: { debtId: "debtId" },
+	method: EndpointMethod.POST,
+	bodyDto: z.object({
+		transactions: z.array(CREATE_DEBT_PAYMENT_SCHEMA.omit({ debtId: true })),
+	}),
+} satisfies EndpointDefinition<{ debtId: string }>;
+
+const GET_ASSIGNED_PAYMENT_TRANSACTIONS = {
+	getPath: (params) => ["debt", params.debtId, "payment-transactions"],
+	paramsMapping: { debtId: "debtId" },
+	method: EndpointMethod.GET,
+	responseDto: z.object({
+		transactions: z.array(
+			z.object({
+				...DEBT_PAYMENT_SCHEMA.shape,
+				transaction: TRANSACTION_SCHEMA.nullable(),
+			}),
+		),
+	}),
+} satisfies EndpointDefinition<{ debtId: string }>;
+
 /* Controller */
 
 export const MY_DEBTS_CONTROLLER = {
@@ -82,8 +107,12 @@ export const MY_DEBTS_CONTROLLER = {
 		updateDebt: UPDATE,
 		deleteDebt: DELETE,
 
-		// Assign transactions
+		// Assign origin transactions
 		assignOriginTransactions: ASSIGN_ORIGIN_TRANSACTIONS,
 		getAssignedOriginTransactions: GET_ASSIGNED_ORIGIN_TRANSACTIONS,
+
+		// Assign payment transactions
+		assignPaymentTransactions: ASSIGN_PAYMENT_TRANSACTIONS,
+		getAssignedPaymentTransactions: GET_ASSIGNED_PAYMENT_TRANSACTIONS,
 	},
 } satisfies ControllerDefinition;

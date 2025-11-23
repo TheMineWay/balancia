@@ -1,15 +1,15 @@
 import { RenderCurrency } from "@common/extended-ui/currency/render-currency";
 import {
-	type DebtOriginLinkFormItem,
-	DebtOriginTransactionsLinkForm,
-} from "@fts/finances/debts/debts/components/forms/debt-origin-transactions-link.form";
-import { useMyDebtOriginGetTransactionsQuery } from "@fts/finances/debts/my-debts/api/origins/use-my-debt-origin-get-transactions.query";
-import { useMyDebtOriginSetTransactionsMutation } from "@fts/finances/debts/my-debts/api/origins/use-my-debt-origin-set-transactions.mutation";
+	type DebtPaymentsLinkFormItem,
+	DebtPaymentTransactionsLinkForm,
+} from "@fts/finances/debts/debts/components/forms/debt-payment-transactions-link.form";
+import { useMyDebtPaymentGetTransactionsQuery } from "@fts/finances/debts/my-debts/api/payments/use-my-debt-payment-get-transactions.query";
+import { useMyDebtPaymentSetTransactionsMutation } from "@fts/finances/debts/my-debts/api/payments/use-my-debt-payment-set-transactions.mutation";
 import { useTranslation } from "@i18n/use-translation";
 import { Divider, Group, Loader, Text } from "@mantine/core";
 import type {
 	DebtModel,
-	DebtOriginModel,
+	DebtPaymentModel,
 	TransactionModel,
 } from "@shared/models";
 import { useCallback, useMemo, useState } from "react";
@@ -22,36 +22,37 @@ type Props = {
 	onSuccess?: CallableFunction;
 };
 
-export const MyDebtOriginLinkManager: FC<Props> = (props) => {
-	const { data: debtOrigins, isLoading: isLoadingOrigins } =
-		useMyDebtOriginGetTransactionsQuery(props.debt.id);
+export const MyDebtPaymentsLinkManager: FC<Props> = (props) => {
+	const { data: debtPayments, isLoading: isLoadingPayments } =
+		useMyDebtPaymentGetTransactionsQuery(props.debt.id);
 
-	if (isLoadingOrigins) return <Loader />;
+	if (isLoadingPayments) return <Loader />;
 
-	return <Component {...props} debtOrigins={debtOrigins?.transactions} />;
+	return <Component {...props} debtPayments={debtPayments?.transactions} />;
 };
 
 const Component: FC<
 	Props & {
-		debtOrigins?: (DebtOriginModel & {
+		debtPayments?: (DebtPaymentModel & {
 			transaction: TransactionModel | null;
 		})[];
 	}
-> = ({ debt, onSuccess, debtOrigins = [] }) => {
+> = ({ debt, onSuccess, debtPayments = [] }) => {
 	const { t } = useTranslation("finances");
-	const [items, setItems] = useState<DebtOriginLinkFormItem[]>(debtOrigins);
+	const [items, setItems] = useState<DebtPaymentsLinkFormItem[]>(debtPayments);
 
 	const { mutate: setTransactions, isPending: isSettingTransactions } =
-		useMyDebtOriginSetTransactionsMutation();
+		useMyDebtPaymentSetTransactionsMutation();
 
 	const onSubmit = useCallback(
-		(transactions: DebtOriginLinkFormItem[]) => {
+		(transactions: DebtPaymentsLinkFormItem[]) => {
 			setTransactions(
 				{
 					debtId: debt.id,
 					transactions: transactions.map((t) => ({
 						transactionId: t.transaction?.id || null,
 						amount: t.amount,
+						paidAt: t.paidAt,
 					})),
 				},
 				{
@@ -105,7 +106,7 @@ const Component: FC<
 					</Group>
 				</div>
 			</div>
-			<DebtOriginTransactionsLinkForm
+			<DebtPaymentTransactionsLinkForm
 				items={items}
 				onChange={setItems}
 				onSubmit={onSubmit}

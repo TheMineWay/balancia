@@ -8,8 +8,11 @@ import type {
 	DebtListModel,
 	DebtModel,
 	DebtOriginModel,
+	DebtPaymentCreateModel,
+	DebtPaymentModel,
 	PaginatedResponse,
 	PaginatedSearchModel,
+	TransactionModel,
 	UserModelId,
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
@@ -19,6 +22,7 @@ import {
 	DebtUpdatedEvent,
 } from "src/features/debts/debts.events";
 import { DebtOriginRepository } from "src/features/debts/repositories/debt-origin.repository";
+import { DebtPaymentsRepository } from "src/features/debts/repositories/debt-payments.repository";
 import { DebtsRepository } from "src/features/debts/repositories/debts.repository";
 
 @Injectable()
@@ -26,6 +30,7 @@ export class DebtsService {
 	constructor(
 		private readonly debtsRepository: DebtsRepository,
 		private readonly debtOriginRepository: DebtOriginRepository,
+		private readonly debtPaymentsRepository: DebtPaymentsRepository,
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
 		private readonly eventService: EventService,
@@ -76,7 +81,7 @@ export class DebtsService {
 			this.eventService.emit(new DebtUpdatedEvent({ debt: updated }));
 	}
 
-	/* User */
+	//#region User methods
 
 	async findUserDebtsList(
 		userId: UserModelId,
@@ -162,6 +167,43 @@ export class DebtsService {
 			);
 		});
 	}
+
+	async userSetPaymentTransactionsToDebt(userId: UserModelId, debtId: DebtModel['id'], transactions: Omit<DebtPaymentCreateModel, 'debtId'>[]): Promise<void> {
+		await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner } = await this.checkOwnership(debtId, userId, {
+				transaction,
+			});
+			if (!isOwner) throw new UnauthorizedException();
+
+			await this.debtPaymentsRepository.bulkCreate(
+				transactions.map((t) => ({
+					...t,
+					debtId,
+				})),
+				{
+					transaction,
+				},
+			);
+		});
+	}
+
+	async userGetPaymentTransactionsOfDebt(userId: UserModelId, debtId: DebtModel['id']): Promise<(DebtPaymentModel & { transaction: TransactionModel | null })[]> {
+		return await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner } = await this.checkOwnership(debtId, userId, {
+				transaction,
+			});
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.debtPaymentsRepository.findByDebtIdWithTransaction(
+				debtId,
+				{
+					transaction,
+				},
+			);
+		});
+	}
+
+	//#endregion
 }
 
 /* Internal */

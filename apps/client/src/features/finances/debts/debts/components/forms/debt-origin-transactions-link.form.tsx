@@ -7,19 +7,28 @@ import { useCallback, useId, useMemo } from "react";
 import { BiLink } from "react-icons/bi";
 import { IoAddOutline, IoTrash } from "react-icons/io5";
 
-export type DebtLinkFormItem = {
+const isOptionDisabled = ({
+	value,
+	items,
+}: {
+	value: TransactionModel;
+	items: DebtOriginLinkFormItem[];
+}) =>
+	value.amount >= 0 || items.some((item) => item.transaction?.id === value.id);
+
+export type DebtOriginLinkFormItem = {
 	transaction: TransactionModel | null;
 	amount: number;
 };
 
 type Props = {
-	items?: DebtLinkFormItem[];
-	onChange?: (data: DebtLinkFormItem[]) => void;
-	onSubmit?: (items: DebtLinkFormItem[]) => void;
+	items?: DebtOriginLinkFormItem[];
+	onChange?: (data: DebtOriginLinkFormItem[]) => void;
+	onSubmit?: (items: DebtOriginLinkFormItem[]) => void;
 	loading?: boolean;
 };
 
-export const DebtTransactionsLinkForm: FC<Props> = ({
+export const DebtOriginTransactionsLinkForm: FC<Props> = ({
 	items = [],
 	onChange,
 	onSubmit,
@@ -37,7 +46,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({
 	);
 
 	const onItemChange = useCallback(
-		(index: number, newItem: DebtLinkFormItem) => {
+		(index: number, newItem: DebtOriginLinkFormItem) => {
 			if (!onChange) return;
 			const updatedItems = [...items];
 			updatedItems[index] = newItem;
@@ -56,7 +65,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({
 	);
 
 	const appendItem = useCallback(
-		(newItem: DebtLinkFormItem) => {
+		(newItem: DebtOriginLinkFormItem) => {
 			if (!onChange) return;
 			if (
 				items.some(
@@ -77,7 +86,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({
 		(transaction: TransactionModel | null) => {
 			if (!transaction) return;
 
-			const newItem: DebtLinkFormItem = {
+			const newItem: DebtOriginLinkFormItem = {
 				transaction,
 				amount: Math.abs(transaction.amount),
 			};
@@ -87,7 +96,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({
 	);
 
 	const onAddEmptyClick = useCallback(() => {
-		const newItem: DebtLinkFormItem = {
+		const newItem: DebtOriginLinkFormItem = {
 			transaction: null,
 			amount: 0,
 		};
@@ -106,9 +115,7 @@ export const DebtTransactionsLinkForm: FC<Props> = ({
 							onChange={onSelect}
 							mapOption={(o) => ({
 								...o,
-								disabled:
-									o.value.amount >= 0 ||
-									items.some((item) => item.transaction?.id === o.value.id),
+								disabled: isOptionDisabled({ value: o.value, items }),
 							})}
 							triggerId={transactionToLinkId}
 							className="flex-1"
@@ -145,9 +152,9 @@ export const DebtTransactionsLinkForm: FC<Props> = ({
 
 /* Internal */
 type TransactionLinkProps = {
-	items: DebtLinkFormItem[];
-	item: Partial<DebtLinkFormItem>;
-	setItem: (item: DebtLinkFormItem) => void;
+	items: DebtOriginLinkFormItem[];
+	item: Partial<DebtOriginLinkFormItem>;
+	setItem: (item: DebtOriginLinkFormItem) => void;
 	onDelete: CallableFunction;
 };
 
@@ -174,9 +181,7 @@ const TransactionLink: FC<TransactionLinkProps> = ({
 							value={transaction?.id}
 							mapOption={(o) => ({
 								...o,
-								disabled:
-									o.value.amount >= 0 ||
-									items.some((item) => item.transaction?.id === o.value.id),
+								disabled: isOptionDisabled({ value: o.value, items }),
 							})}
 						/>
 					</div>

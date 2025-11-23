@@ -70,7 +70,7 @@ export class MyDebtsController {
 		await this.debtsService.userDebtDelete(userId, debtId);
 	}
 
-	// Assign origin transactions
+	// #region Origin transactions
 
 	@ApiOperation({ summary: "Assign origin transactions to a debt" })
 	@Endpoint(MY_DEBTS_CONTROLLER, "assignOriginTransactions")
@@ -124,4 +124,62 @@ export class MyDebtsController {
 			})),
 		};
 	}
+
+	// #endregion
+
+	// #region Payment transactions
+	@ApiOperation({ summary: "Assign payment transactions to a debt" })
+	@Endpoint(MY_DEBTS_CONTROLLER, "assignPaymentTransactions")
+	async assignPaymentTransactions(
+		@Param(
+			getParamName(MY_DEBTS_CONTROLLER, "assignPaymentTransactions", "debtId"),
+			ParseIntPipe,
+		)
+		debtId: number,
+		@ValidatedBody(MY_DEBTS_CONTROLLER, "assignPaymentTransactions")
+		body: InferBodyDto<typeof MY_DEBTS_CONTROLLER, "assignPaymentTransactions">,
+		@UserId() userId: UserModelId,
+	): Promise<
+		InferResponseDto<typeof MY_DEBTS_CONTROLLER, "assignPaymentTransactions">
+	> {
+		await this.debtsService.userSetPaymentTransactionsToDebt(
+			userId,
+			debtId,
+			body.transactions,
+		);
+	}
+
+	@ApiOperation({ summary: "Get assigned payment transactions for a debt" })
+	@Endpoint(MY_DEBTS_CONTROLLER, "getAssignedPaymentTransactions")
+	async getAssignedPaymentTransactions(
+		@Param(
+			getParamName(
+				MY_DEBTS_CONTROLLER,
+				"getAssignedPaymentTransactions",
+				"debtId",
+			),
+			ParseIntPipe,
+		)
+		debtId: number,
+		@UserId() userId: UserModelId,
+	): Promise<
+		InferResponseDto<
+			typeof MY_DEBTS_CONTROLLER,
+			"getAssignedPaymentTransactions"
+		>
+	> {
+		const payments = await this.debtsService.userGetPaymentTransactionsOfDebt(
+			userId,
+			debtId,
+		);
+
+		return {
+			transactions: payments.map((payment) => ({
+				...payment,
+				transaction: payment.transaction,
+			})),
+		};
+	}
+
+	// #endregion
 }

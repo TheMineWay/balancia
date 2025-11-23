@@ -7,9 +7,11 @@ import {
 	debtOriginTable,
 } from "@database/schemas/main/tables/debt/debt-origin.table";
 import { TRANSACTIONS_TABLE_COLUMNS } from "@database/schemas/main/tables/finances/transaction.table";
+import { Injectable } from "@nestjs/common";
 import type { DebtModel } from "@shared/models";
 import { eq } from "drizzle-orm";
 
+@Injectable()
 export class DebtOriginRepository extends Repository {
 	async findByDebtId(
 		debtId: DebtModel["id"],

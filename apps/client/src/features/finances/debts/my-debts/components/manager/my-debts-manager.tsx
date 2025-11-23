@@ -9,6 +9,7 @@ import { DebtsTable } from "@fts/finances/debts/debts/components/debts.table";
 import { useMyDebtDeleteMutation } from "@fts/finances/debts/my-debts/api/use-my-debt-delete.mutation";
 import { useMyDebtsListQuery } from "@fts/finances/debts/my-debts/api/use-my-debts.query";
 import { MyDebtOriginLinkManager } from "@fts/finances/debts/my-debts/components/manager/links/my-debt-origin-link-manager";
+import { MyDebtPaymentsLinkManager } from "@fts/finances/debts/my-debts/components/manager/links/my-debt-payments-link-manager";
 import { MyDebtCreateManager } from "@fts/finances/debts/my-debts/components/manager/my-debt-create-manager";
 import { MyDebtUpdateManager } from "@fts/finances/debts/my-debts/components/manager/my-debt-update-manager";
 import { useTranslation } from "@i18n/use-translation";
@@ -187,7 +188,12 @@ export const MyDebtsManager: FC = () => {
 							debt={debtLinkState.debt}
 							onSuccess={() => setDebtLinkState(null)}
 						/>
-					) : null)}
+					) : (
+						<MyDebtPaymentsLinkManager
+							debt={debtLinkState.debt}
+							onSuccess={() => setDebtLinkState(null)}
+						/>
+					))}
 			</Modal>
 		</>
 	);

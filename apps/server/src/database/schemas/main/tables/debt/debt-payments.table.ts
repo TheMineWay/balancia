@@ -1,6 +1,6 @@
 import { timestamps } from "@database/common/timestamps";
 import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
-import { contactTable, transactionsTable } from "@database/schemas/main.schema";
+import { transactionsTable } from "@database/schemas/main.schema";
 import { debtSchema } from "@database/schemas/main/tables/debt/debt.schema";
 import { debtTable } from "@database/schemas/main/tables/debt/debt.table";
 import { DebtPaymentModel } from "@shared/models";
@@ -25,9 +25,6 @@ export const debtPaymentTable = debtSchema.table(
 		transactionId: integer().references(() => transactionsTable.id, {
 			onDelete: "cascade",
 		}),
-		debtorId: integer()
-			.references(() => contactTable.id)
-			.notNull(),
 
 		// Metadata
 		amount: decimal({ precision: 10, scale: 2, mode: "number" }).notNull(),
@@ -44,6 +41,7 @@ export const DEBT_PAYMENTS_TABLE_COLUMNS = {
 	debtId: debtPaymentTable.debtId,
 	transactionId: debtPaymentTable.transactionId,
 	amount: debtPaymentTable.amount,
+	paidAt: debtPaymentTable.paidAt,
 	createdAt: debtPaymentTable.createdAt,
 	updatedAt: debtPaymentTable.updatedAt,
 };
