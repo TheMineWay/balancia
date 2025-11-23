@@ -158,6 +158,7 @@ export const MyDebtsManager: FC = () => {
 				title={t().debt.link.Title}
 				opened={Boolean(debtToLink)}
 				onClose={() => setDebtToLink(null)}
+				size="lg"
 			>
 				<DebtLinkers
 					onSelect={(linker) => {

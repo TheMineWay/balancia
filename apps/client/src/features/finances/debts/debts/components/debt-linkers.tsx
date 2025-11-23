@@ -7,7 +7,7 @@ type Props = {
 
 export const DebtLinkers: FC<Props> = ({ onSelect }) => {
 	return (
-		<div className="flex gap-2">
+		<div className="flex flex-col sm:flex-row gap-4">
 			<Item linker={DebtLinker.ORIGIN} onSelect={onSelect} />
 			<Item linker={DebtLinker.PAYMENT} onSelect={onSelect} />
 		</div>
@@ -24,7 +24,7 @@ const Item: FC<ItemProps> = ({ linker, onSelect }) => {
 	const { t } = useTranslation("finances");
 
 	return (
-		<Card withBorder className="flex flex-col gap-2">
+		<Card withBorder className="flex flex-col gap-2 flex-1">
 			<Text className="text-center">
 				<b>{t().debt.link.linkers[linker].Title}</b>
 			</Text>
