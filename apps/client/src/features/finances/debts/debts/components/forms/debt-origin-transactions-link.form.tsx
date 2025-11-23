@@ -133,7 +133,10 @@ export const DebtOriginTransactionsLinkForm: FC<Props> = ({
 				</InputWrapper>
 				{items.map((item, index) => (
 					<TransactionLink
-						key={`x${item.transaction?.id}` || `_${index}`}
+						key={`_${
+							// biome-ignore lint/suspicious/noArrayIndexKey: I cannot use any id
+							index
+						}`}
 						items={items}
 						item={item}
 						setItem={(newItem) => onItemChange(index, newItem)}
