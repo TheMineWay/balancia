@@ -1,7 +1,7 @@
 import { CashInputField } from "@common/extended-ui/form/components/finances/cash.input-field";
 import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactions/components/form/my-transactions.selector";
 import { useTranslation } from "@i18n/use-translation";
-import { Button, Card, Group, InputWrapper } from "@mantine/core";
+import { Button, Card, Group, InputWrapper, Textarea } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
 import type { DebtPaymentCreateModel, TransactionModel } from "@shared/models";
 import { useCallback, useId, useMemo } from "react";
@@ -170,7 +170,7 @@ type TransactionLinkProps = {
 
 const TransactionLink: FC<TransactionLinkProps> = ({
 	items,
-	item: { transaction, amount, paidAt },
+	item: { transaction, amount, paidAt, notes },
 	setItem,
 	onDelete,
 }) => {
@@ -180,6 +180,7 @@ const TransactionLink: FC<TransactionLinkProps> = ({
 	const transactionFieldId = useId();
 	const cashInputFieldId = useId();
 	const paidAtFieldId = useId();
+	const notesFieldId = useId();
 
 	const setField = useCallback(
 		(
@@ -190,11 +191,11 @@ const TransactionLink: FC<TransactionLinkProps> = ({
 				transaction: transaction || null,
 				amount: amount || 0,
 				paidAt: paidAt || new Date(),
-				notes: null,
+				notes: notes || null,
 				[key]: value,
 			});
 		},
-		[transaction, amount, paidAt, setItem],
+		[transaction, amount, paidAt, notes, setItem],
 	);
 
 	return (
@@ -244,6 +245,16 @@ const TransactionLink: FC<TransactionLinkProps> = ({
 						/>
 					</InputWrapper>
 				</Group>
+				<InputWrapper
+					label={t().debt.link.forms.general.fields.notes.Label}
+					labelProps={{ htmlFor: notesFieldId }}
+				>
+					<Textarea
+						id={notesFieldId}
+						value={notes || ""}
+						onChange={(e) => setField("notes", e.target.value)}
+					/>
+				</InputWrapper>
 				<Button
 					color="red"
 					leftSection={<IoTrash />}

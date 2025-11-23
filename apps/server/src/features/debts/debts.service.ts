@@ -7,13 +7,13 @@ import type {
 	DebtCreateModel,
 	DebtListModel,
 	DebtModel,
-	DebtOriginModel,
+	DebtOriginCreateModel,
 	DebtPaymentCreateModel,
 	DebtPaymentModel,
 	PaginatedResponse,
 	PaginatedSearchModel,
 	TransactionModel,
-	UserModelId,
+	UserModelId
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
 import {
@@ -125,7 +125,7 @@ export class DebtsService {
 	async userSetOriginTransactionsToDebt(
 		userId: UserModelId,
 		debtId: DebtModel["id"],
-		transactions: DebtOriginModel[],
+		transactions: DebtOriginCreateModel[],
 	): Promise<void> {
 		await this.databaseService.db.transaction(async (transaction) => {
 			const { isOwner } = await this.checkOwnership(debtId, userId, {
@@ -141,6 +141,7 @@ export class DebtsService {
 					transactionId: t.transactionId,
 					amount: t.amount,
 					debtId,
+					notes: t.notes,
 				})),
 				{
 					transaction,

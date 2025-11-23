@@ -53,6 +53,7 @@ const Component: FC<
 						transactionId: t.transaction?.id || null,
 						amount: t.amount,
 						paidAt: t.paidAt,
+						notes: t.notes,
 					})),
 				},
 				{

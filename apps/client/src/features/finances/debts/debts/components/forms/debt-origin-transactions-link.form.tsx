@@ -1,8 +1,8 @@
 import { CashInputField } from "@common/extended-ui/form/components/finances/cash.input-field";
 import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactions/components/form/my-transactions.selector";
 import { useTranslation } from "@i18n/use-translation";
-import { Button, Card, Group, InputWrapper } from "@mantine/core";
-import type { TransactionModel } from "@shared/models";
+import { Button, Card, Group, InputWrapper, Textarea } from "@mantine/core";
+import type { DebtOriginCreateModel, TransactionModel } from "@shared/models";
 import { useCallback, useId, useMemo } from "react";
 import { BiLink } from "react-icons/bi";
 import { IoAddOutline, IoTrash } from "react-icons/io5";
@@ -16,10 +16,10 @@ const isOptionDisabled = ({
 }) =>
 	value.amount >= 0 || items.some((item) => item.transaction?.id === value.id);
 
-export type DebtOriginLinkFormItem = {
-	transaction: TransactionModel | null;
-	amount: number;
-};
+export type DebtOriginLinkFormItem = Omit<
+	DebtOriginCreateModel,
+	"transactionId"
+> & { transaction: TransactionModel | null };
 
 type Props = {
 	items?: DebtOriginLinkFormItem[];
@@ -91,6 +91,7 @@ export const DebtOriginTransactionsLinkForm: FC<Props> = ({
 			const newItem: DebtOriginLinkFormItem = {
 				transaction,
 				amount: Math.abs(transaction.amount),
+				notes: null,
 			};
 			appendItem(newItem);
 		},
@@ -101,6 +102,7 @@ export const DebtOriginTransactionsLinkForm: FC<Props> = ({
 		const newItem: DebtOriginLinkFormItem = {
 			transaction: null,
 			amount: 0,
+			notes: null,
 		};
 		appendItem(newItem);
 	}, [appendItem]);
@@ -166,7 +168,7 @@ type TransactionLinkProps = {
 
 const TransactionLink: FC<TransactionLinkProps> = ({
 	items,
-	item: { transaction, amount },
+	item: { transaction, amount, notes },
 	setItem,
 	onDelete,
 }) => {
@@ -175,6 +177,7 @@ const TransactionLink: FC<TransactionLinkProps> = ({
 
 	const transactionFieldId = useId();
 	const cashInputFieldId = useId();
+	const notesFieldId = useId();
 
 	const setField = useCallback(
 		(
@@ -184,10 +187,11 @@ const TransactionLink: FC<TransactionLinkProps> = ({
 			setItem({
 				transaction: transaction || null,
 				amount: amount || 0,
+				notes: notes || null,
 				[key]: value,
 			});
 		},
-		[transaction, amount, setItem],
+		[transaction, amount, notes, setItem],
 	);
 
 	return (
@@ -219,6 +223,16 @@ const TransactionLink: FC<TransactionLinkProps> = ({
 							if (value === null) return;
 							setField("amount", value);
 						}}
+					/>
+				</InputWrapper>
+				<InputWrapper
+					label={t().debt.link.forms.general.fields.notes.Label}
+					labelProps={{ htmlFor: notesFieldId }}
+				>
+					<Textarea
+						id={notesFieldId}
+						value={notes || ""}
+						onChange={(e) => setField("notes", e.target.value)}
 					/>
 				</InputWrapper>
 				<Button

@@ -52,6 +52,7 @@ const Component: FC<
 					transactions: transactions.map((t) => ({
 						transactionId: t.transaction?.id || null,
 						amount: t.amount,
+						notes: t.notes,
 					})),
 				},
 				{
