@@ -64,4 +64,13 @@ export class DebtPaymentsRepository extends Repository {
 	): Promise<void> {
 		await this.query(options).insert(debtPaymentTable).values(debtPayments);
 	}
+
+	async removeByDebtId(
+		debtId: DebtPaymentModel["debtId"],
+		options?: QueryOptions,
+	): Promise<void> {
+		await this.query(options)
+			.delete(debtPaymentTable)
+			.where(eq(debtPaymentTable.debtId, debtId));
+	}
 }

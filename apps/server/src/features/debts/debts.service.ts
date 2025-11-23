@@ -175,6 +175,10 @@ export class DebtsService {
 			});
 			if (!isOwner) throw new UnauthorizedException();
 
+			await this.debtPaymentsRepository.removeByDebtId(debtId, {
+				transaction,
+			});
+
 			await this.debtPaymentsRepository.bulkCreate(
 				transactions.map((t) => ({
 					...t,

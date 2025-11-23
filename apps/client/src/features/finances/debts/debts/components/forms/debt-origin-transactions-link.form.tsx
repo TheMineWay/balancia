@@ -1,7 +1,7 @@
 import { CashInputField } from "@common/extended-ui/form/components/finances/cash.input-field";
 import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactions/components/form/my-transactions.selector";
 import { useTranslation } from "@i18n/use-translation";
-import { ActionIcon, Button, Card, Group, InputWrapper } from "@mantine/core";
+import { Button, Card, Group, InputWrapper } from "@mantine/core";
 import type { TransactionModel } from "@shared/models";
 import { useCallback, useId, useMemo } from "react";
 import { BiLink } from "react-icons/bi";
@@ -107,7 +107,7 @@ export const DebtOriginTransactionsLinkForm: FC<Props> = ({
 		<div className="flex flex-col gap-4">
 			<div className="flex flex-col gap-2">
 				<InputWrapper
-					label={t().debt.link.form.fields.transaction.Label}
+					label={t().debt.link.forms.general.fields.transaction.Label}
 					labelProps={{ htmlFor: transactionToLinkId }}
 				>
 					<Group gap="xs" justify="space-between">
@@ -144,7 +144,7 @@ export const DebtOriginTransactionsLinkForm: FC<Props> = ({
 				onClick={() => onSubmit?.(items)}
 				leftSection={<BiLink />}
 			>
-				{t().debt.link.form.Submit}
+				{t().debt.link.forms.general.Submit}
 			</Button>
 		</div>
 	);
@@ -164,43 +164,65 @@ const TransactionLink: FC<TransactionLinkProps> = ({
 	setItem,
 	onDelete,
 }) => {
-	const onSelect = useCallback(
-		(transaction: TransactionModel | null) => {
-			setItem({ transaction, amount: amount || 0 });
+	const { t } = useTranslation("finances");
+	const { t: commonT } = useTranslation("common");
+
+	const transactionFieldId = useId();
+	const cashInputFieldId = useId();
+
+	const setField = useCallback(
+		(
+			key: keyof DebtOriginLinkFormItem,
+			value: DebtOriginLinkFormItem[typeof key],
+		) => {
+			setItem({
+				transaction: transaction || null,
+				amount: amount || 0,
+				[key]: value,
+			});
 		},
-		[setItem, amount],
+		[transaction, amount, setItem],
 	);
 
 	return (
 		<Card withBorder>
-			<div className="flex flex-col gap-2">
-				<Group gap="sm" align="center" justify="space-between">
-					<div className="flex-1">
-						<MyTransactionsSelector
-							onChange={onSelect}
-							value={transaction?.id}
-							mapOption={(o) => ({
-								...o,
-								disabled: isOptionDisabled({ value: o.value, items }),
-							})}
-						/>
-					</div>
-					<ActionIcon color="red" onClick={() => onDelete()}>
-						<IoTrash />
-					</ActionIcon>
-				</Group>
-				<CashInputField
-					max={Math.abs(transaction?.amount || Infinity)}
-					min={0}
-					value={amount ? Math.abs(amount) : 0}
-					onChange={(value) => {
-						if (value === null) return;
-						setItem({
-							transaction: transaction || null,
-							amount: Math.abs(value),
-						});
-					}}
-				/>
+			<div className="flex flex-col gap-4">
+				<InputWrapper
+					label={t().debt.link.forms.general.fields.transaction.Label}
+					labelProps={{ htmlFor: transactionFieldId }}
+				>
+					<MyTransactionsSelector
+						onChange={(v) => setField("transaction", v)}
+						value={transaction?.id}
+						mapOption={(o) => ({
+							...o,
+							disabled: isOptionDisabled({ value: o.value, items }),
+						})}
+					/>
+				</InputWrapper>
+				<InputWrapper
+					label={t().debt.link.forms.general.fields.amount.Label}
+					labelProps={{ htmlFor: cashInputFieldId }}
+				>
+					<CashInputField
+						id={cashInputFieldId}
+						max={Math.abs(transaction?.amount || Infinity)}
+						min={0}
+						value={amount ? Math.abs(amount) : 0}
+						onChange={(value) => {
+							if (value === null) return;
+							setField("amount", value);
+						}}
+					/>
+				</InputWrapper>
+				<Button
+					color="red"
+					leftSection={<IoTrash />}
+					onClick={() => onDelete()}
+					size="xs"
+				>
+					{commonT().expressions.Delete}
+				</Button>
 			</div>
 		</Card>
 	);

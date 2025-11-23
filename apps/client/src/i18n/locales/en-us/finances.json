@@ -235,6 +235,11 @@
 				"notifiedAt": {
 					"Label": "Notified at"
 				}
+			},
+			"debt-payment": {
+				"paidAt": {
+					"Label": "Paid at"
+				}
 			}
 		},
 		"create": {
@@ -266,11 +271,16 @@
 					"Pick": "Manage payments"
 				}
 			},
-			"form": {
-				"Submit": "Link transactions",
-				"fields": {
-					"transaction": {
-						"Label": "Transaction to link"
+			"forms": {
+				"general": {
+					"Submit": "Link transactions",
+					"fields": {
+						"transaction": {
+							"Label": "Transaction to link"
+						},
+						"amount": {
+							"Label": "Amount"
+						}
 					}
 				}
 			}
