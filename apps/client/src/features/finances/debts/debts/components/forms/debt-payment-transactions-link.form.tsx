@@ -3,7 +3,11 @@ import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactio
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Card, Group, InputWrapper, Textarea } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
-import type { DebtPaymentCreateModel, TransactionModel } from "@shared/models";
+import {
+	DEBT_PAYMENT_MODEL_VALUES,
+	type DebtPaymentCreateModel,
+	type TransactionModel,
+} from "@shared/models";
 import { useCallback, useId, useMemo } from "react";
 import { BiLink } from "react-icons/bi";
 import { IoAddOutline, IoTrash } from "react-icons/io5";
@@ -253,6 +257,7 @@ const TransactionLink: FC<TransactionLinkProps> = ({
 						id={notesFieldId}
 						value={notes || ""}
 						onChange={(e) => setField("notes", e.target.value)}
+						maxLength={DEBT_PAYMENT_MODEL_VALUES.notes.maxLength}
 					/>
 				</InputWrapper>
 				<Button

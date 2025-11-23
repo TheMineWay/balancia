@@ -2,7 +2,11 @@ import { CashInputField } from "@common/extended-ui/form/components/finances/cas
 import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactions/components/form/my-transactions.selector";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Card, Group, InputWrapper, Textarea } from "@mantine/core";
-import type { DebtOriginCreateModel, TransactionModel } from "@shared/models";
+import {
+	DEBT_ORIGIN_MODEL_VALUES,
+	type DebtOriginCreateModel,
+	type TransactionModel,
+} from "@shared/models";
 import { useCallback, useId, useMemo } from "react";
 import { BiLink } from "react-icons/bi";
 import { IoAddOutline, IoTrash } from "react-icons/io5";
@@ -233,6 +237,7 @@ const TransactionLink: FC<TransactionLinkProps> = ({
 						id={notesFieldId}
 						value={notes || ""}
 						onChange={(e) => setField("notes", e.target.value)}
+						maxLength={DEBT_ORIGIN_MODEL_VALUES.notes.maxLength}
 					/>
 				</InputWrapper>
 				<Button
