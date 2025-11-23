@@ -1,12 +1,11 @@
-import { RenderCurrency } from "@common/extended-ui/currency/render-currency";
 import { CashInputField } from "@common/extended-ui/form/components/finances/cash.input-field";
 import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactions/components/form/my-transactions.selector";
 import { useTranslation } from "@i18n/use-translation";
-import { ActionIcon, Button, Card, InputWrapper, Text } from "@mantine/core";
+import { ActionIcon, Button, Card, Group, InputWrapper } from "@mantine/core";
 import type { TransactionModel } from "@shared/models";
-import { useCallback } from "react";
+import { useCallback, useId, useMemo } from "react";
 import { BiLink } from "react-icons/bi";
-import { IoTrash } from "react-icons/io5";
+import { IoAddOutline, IoTrash } from "react-icons/io5";
 
 export type DebtLinkFormItem = {
 	transaction: TransactionModel | null;
@@ -27,6 +26,15 @@ export const DebtTransactionsLinkForm: FC<Props> = ({
 	loading = false,
 }) => {
 	const { t } = useTranslation("finances");
+	const { t: tCommon } = useTranslation("common");
+
+	// IDs
+	const transactionToLinkId = useId();
+
+	const isAnyOptionEmpty = useMemo(
+		() => items.some((item) => !item.transaction && item.amount === 0),
+		[items],
+	);
 
 	const onItemChange = useCallback(
 		(index: number, newItem: DebtLinkFormItem) => {
@@ -47,38 +55,77 @@ export const DebtTransactionsLinkForm: FC<Props> = ({
 		[items, onChange],
 	);
 
-	const onSelect = useCallback(
-		(transaction: TransactionModel | null) => {
-			if (!transaction || !onChange) return;
-			if (items.some((item) => item.transaction?.id === transaction.id)) return;
+	const appendItem = useCallback(
+		(newItem: DebtLinkFormItem) => {
+			if (!onChange) return;
+			if (
+				items.some(
+					(item) =>
+						Boolean(newItem.transaction) &&
+						item.transaction?.id === newItem.transaction?.id,
+				)
+			)
+				return;
 
-			const newItem: DebtLinkFormItem = {
-				transaction,
-				amount: Math.abs(transaction.amount),
-			};
 			const updatedItems = items ? [...items, newItem] : [newItem];
 			onChange(updatedItems);
 		},
 		[items, onChange],
 	);
 
+	const onSelect = useCallback(
+		(transaction: TransactionModel | null) => {
+			if (!transaction) return;
+
+			const newItem: DebtLinkFormItem = {
+				transaction,
+				amount: Math.abs(transaction.amount),
+			};
+			appendItem(newItem);
+		},
+		[appendItem],
+	);
+
+	const onAddEmptyClick = useCallback(() => {
+		const newItem: DebtLinkFormItem = {
+			transaction: null,
+			amount: 0,
+		};
+		appendItem(newItem);
+	}, [appendItem]);
+
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="flex flex-col gap-2">
-				<InputWrapper label={t().debt.link.form.fields.transaction.Label}>
-					<MyTransactionsSelector
-						onChange={onSelect}
-						mapOption={(o) => ({
-							...o,
-							disabled:
-								o.value.amount >= 0 ||
-								items.some((item) => item.transaction?.id === o.value.id),
-						})}
-					/>
+				<InputWrapper
+					label={t().debt.link.form.fields.transaction.Label}
+					labelProps={{ htmlFor: transactionToLinkId }}
+				>
+					<Group gap="xs" justify="space-between">
+						<MyTransactionsSelector
+							onChange={onSelect}
+							mapOption={(o) => ({
+								...o,
+								disabled:
+									o.value.amount >= 0 ||
+									items.some((item) => item.transaction?.id === o.value.id),
+							})}
+							triggerId={transactionToLinkId}
+							className="flex-1"
+						/>
+						<Button
+							disabled={isAnyOptionEmpty}
+							leftSection={<IoAddOutline />}
+							onClick={onAddEmptyClick}
+						>
+							{tCommon().expressions["Add-empty"]}
+						</Button>
+					</Group>
 				</InputWrapper>
 				{items.map((item, index) => (
 					<TransactionLink
-						key={item.transaction?.id || `_${index}`}
+						key={`x${item.transaction?.id}` || `_${index}`}
+						items={items}
 						item={item}
 						setItem={(newItem) => onItemChange(index, newItem)}
 						onDelete={() => onDeleteItem(index)}
@@ -98,41 +145,55 @@ export const DebtTransactionsLinkForm: FC<Props> = ({
 
 /* Internal */
 type TransactionLinkProps = {
-	item: Omit<DebtLinkFormItem, "amount"> & { amount?: number };
+	items: DebtLinkFormItem[];
+	item: Partial<DebtLinkFormItem>;
 	setItem: (item: DebtLinkFormItem) => void;
 	onDelete: CallableFunction;
 };
 
 const TransactionLink: FC<TransactionLinkProps> = ({
+	items,
 	item: { transaction, amount },
 	setItem,
 	onDelete,
 }) => {
+	const onSelect = useCallback(
+		(transaction: TransactionModel | null) => {
+			setItem({ transaction, amount: amount || 0 });
+		},
+		[setItem, amount],
+	);
+
 	return (
 		<Card withBorder>
-			<div className="flex flex-col gap-4">
-				<div className="flex justify-between items-center">
+			<div className="flex flex-col gap-2">
+				<Group gap="sm" align="center" justify="space-between">
 					<div className="flex-1">
-						<div className="flex gap-2">
-							<RenderCurrency amount={Math.abs(transaction?.amount || 0)} />
-							{transaction?.subject && (
-								<Text>
-									<b>{transaction.subject}</b>
-								</Text>
-							)}
-						</div>
+						<MyTransactionsSelector
+							onChange={onSelect}
+							value={transaction?.id}
+							mapOption={(o) => ({
+								...o,
+								disabled:
+									o.value.amount >= 0 ||
+									items.some((item) => item.transaction?.id === o.value.id),
+							})}
+						/>
 					</div>
 					<ActionIcon color="red" onClick={() => onDelete()}>
 						<IoTrash />
 					</ActionIcon>
-				</div>
+				</Group>
 				<CashInputField
 					max={Math.abs(transaction?.amount || Infinity)}
 					min={0}
 					value={amount ? Math.abs(amount) : 0}
 					onChange={(value) => {
 						if (value === null) return;
-						setItem({ transaction, amount: Math.abs(value) });
+						setItem({
+							transaction: transaction || null,
+							amount: Math.abs(value),
+						});
 					}}
 				/>
 			</div>

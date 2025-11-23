@@ -61,6 +61,19 @@ export class TransactionsService {
 		);
 	}
 
+	async getUserDetailedTransactionById(userId: UserModelId, TransactionId: TransactionModel['id']) {
+		return await this.databaseService.db.transaction(async (tsx) => {
+			const { isOwner } = await this.checkTransactionOwnership(
+				userId,
+				TransactionId,
+				{ transaction: tsx },
+			);
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.transactionsRepository.findByIdWithCategoryAndAccount(TransactionId, { transaction: tsx });
+		});
+	}
+
 	async create(
 		userId: UserModel["id"],
 		{ categoryId, accountId, ...transaction }: TransactionCreateModel,

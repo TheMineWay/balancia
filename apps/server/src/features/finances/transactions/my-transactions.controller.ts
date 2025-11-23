@@ -1,5 +1,5 @@
 import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
-import { Controller, Param, ParseIntPipe } from "@nestjs/common";
+import { Controller, NotFoundException, Param, ParseIntPipe } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
 import {
 	getController,
@@ -38,6 +38,27 @@ export class MyTransactionsController {
 			search,
 			filters,
 		);
+	}
+
+	@ApiOperation({ summary: "Get a user transaction by ID" })
+	@Endpoint(MY_TRANSACTION_CONTROLLER, "getById")
+	async getById(
+		@UserId() userId: UserModel["id"],
+		@Param(
+			getParamName(MY_TRANSACTION_CONTROLLER, "getById", "id"),
+			ParseIntPipe,
+		)
+		transactionId: number,
+	): Promise<
+		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "getById">
+	> {
+		const transaction = await this.transactionsService.getUserDetailedTransactionById(
+			userId,
+			transactionId,
+		);
+		if (!transaction) throw new NotFoundException();
+
+		return transaction;
 	}
 
 	@ApiOperation({ summary: "Create a new user transaction" })

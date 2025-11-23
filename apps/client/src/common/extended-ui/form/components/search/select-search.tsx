@@ -67,19 +67,20 @@ export function SelectSearch<T extends string | number, V = T>({
 	// Fetch data for the selected value.
 	// In case the selected item is not fetched in the options
 	useEffect(() => {
-		if (fetchedData?.value === value) return;
-
 		if (!value) setFetchedData(null);
 		else valueFetch?.(value).then((v) => setFetchedData(v ?? null));
-	}, [value, valueFetch, fetchedData?.value]);
+	}, [value, valueFetch]);
 
 	// Add fetched value to the data array
 	const data = useMemo(() => {
 		const cleanData = [...rawData];
-		if (fetchedData && !rawData.find((d) => d.value === fetchedData.value))
+		if (
+			fetchedData &&
+			!rawData.find((d) => getKey(d.value) === getKey(fetchedData.value))
+		)
 			cleanData.push(fetchedData);
 		return cleanData;
-	}, [rawData, fetchedData]);
+	}, [rawData, fetchedData, getKey]);
 
 	// As the Combobox cannot operate with non-string values directly,
 	// we create a mapping of index to value for the options.

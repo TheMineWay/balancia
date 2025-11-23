@@ -67,26 +67,18 @@ export const MyTransactionsSelector: FC<Props> = ({
 		async (id: TransactionModel["id"]) => {
 			const response = await endpointQuery(
 				MY_TRANSACTION_CONTROLLER,
-				"getTransactionsList",
-				{},
-				request,
+				"getById",
 				{
-					query: {
-						page: 1,
-						limit: 1,
-					},
+					id: id.toString(),
 				},
+				request,
+				{},
 			)();
-
-			const selectedTransaction = response.items.find((item) => item.id === id);
-
-			if (!selectedTransaction) {
-				return null;
-			}
+			if (!response) return null;
 
 			return {
-				value: selectedTransaction,
-				label: `${selectedTransaction.subject} - ${selectedTransaction.amount}€`,
+				value: response,
+				label: `${response.subject} - ${response.amount}€`,
 			};
 		},
 		[request],
@@ -95,7 +87,7 @@ export const MyTransactionsSelector: FC<Props> = ({
 	return (
 		<SelectSearch<TransactionModel["id"], TransactionModel>
 			data={options}
-			getKey={(v) => v.id}
+			getKey={(v) => v.id ?? v.performedAt}
 			search={search.debouncedSearchManager}
 			setValue={(v) => onChange?.(v)}
 			value={value}

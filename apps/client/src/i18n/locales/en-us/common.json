@@ -18,6 +18,7 @@
 		"Next": "Next",
 		"Back": "Back",
 		"Add" : "Add",
+		"Add-empty": "Add empty",
 		"dates": {
 			"Month": "Month",
 			"Year": "Year"
