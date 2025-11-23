@@ -13,7 +13,7 @@ import type {
 	PaginatedResponse,
 	PaginatedSearchModel,
 	TransactionModel,
-	UserModelId
+	UserModelId,
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
 import {
@@ -169,7 +169,11 @@ export class DebtsService {
 		});
 	}
 
-	async userSetPaymentTransactionsToDebt(userId: UserModelId, debtId: DebtModel['id'], transactions: Omit<DebtPaymentCreateModel, 'debtId'>[]): Promise<void> {
+	async userSetPaymentTransactionsToDebt(
+		userId: UserModelId,
+		debtId: DebtModel["id"],
+		transactions: Omit<DebtPaymentCreateModel, "debtId">[],
+	): Promise<void> {
 		await this.databaseService.db.transaction(async (transaction) => {
 			const { isOwner } = await this.checkOwnership(debtId, userId, {
 				transaction,
@@ -192,7 +196,10 @@ export class DebtsService {
 		});
 	}
 
-	async userGetPaymentTransactionsOfDebt(userId: UserModelId, debtId: DebtModel['id']): Promise<(DebtPaymentModel & { transaction: TransactionModel | null })[]> {
+	async userGetPaymentTransactionsOfDebt(
+		userId: UserModelId,
+		debtId: DebtModel["id"],
+	): Promise<(DebtPaymentModel & { transaction: TransactionModel | null })[]> {
 		return await this.databaseService.db.transaction(async (transaction) => {
 			const { isOwner } = await this.checkOwnership(debtId, userId, {
 				transaction,

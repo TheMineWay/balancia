@@ -1,5 +1,10 @@
 import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
-import { Controller, NotFoundException, Param, ParseIntPipe } from "@nestjs/common";
+import {
+	Controller,
+	NotFoundException,
+	Param,
+	ParseIntPipe,
+} from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
 import {
 	getController,
@@ -49,13 +54,12 @@ export class MyTransactionsController {
 			ParseIntPipe,
 		)
 		transactionId: number,
-	): Promise<
-		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "getById">
-	> {
-		const transaction = await this.transactionsService.getUserDetailedTransactionById(
-			userId,
-			transactionId,
-		);
+	): Promise<InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "getById">> {
+		const transaction =
+			await this.transactionsService.getUserDetailedTransactionById(
+				userId,
+				transactionId,
+			);
 		if (!transaction) throw new NotFoundException();
 
 		return transaction;
