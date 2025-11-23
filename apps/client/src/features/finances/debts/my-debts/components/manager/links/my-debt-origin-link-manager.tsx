@@ -110,6 +110,7 @@ const Component: FC<
 				onChange={setItems}
 				onSubmit={onSubmit}
 				loading={isSettingTransactions}
+				disableSubmit={debtState === DebtState.OVER_COVERED}
 			/>
 		</div>
 	);

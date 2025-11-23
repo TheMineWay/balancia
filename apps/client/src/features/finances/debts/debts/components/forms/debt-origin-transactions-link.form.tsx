@@ -26,6 +26,7 @@ type Props = {
 	onChange?: (data: DebtOriginLinkFormItem[]) => void;
 	onSubmit?: (items: DebtOriginLinkFormItem[]) => void;
 	loading?: boolean;
+	disableSubmit?: boolean;
 };
 
 export const DebtOriginTransactionsLinkForm: FC<Props> = ({
@@ -33,6 +34,7 @@ export const DebtOriginTransactionsLinkForm: FC<Props> = ({
 	onChange,
 	onSubmit,
 	loading = false,
+	disableSubmit = false,
 }) => {
 	const { t } = useTranslation("finances");
 	const { t: tCommon } = useTranslation("common");
@@ -140,6 +142,7 @@ export const DebtOriginTransactionsLinkForm: FC<Props> = ({
 				))}
 			</div>
 			<Button
+				disabled={disableSubmit}
 				loading={loading}
 				onClick={() => onSubmit?.(items)}
 				leftSection={<BiLink />}
