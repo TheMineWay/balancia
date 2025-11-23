@@ -242,7 +242,7 @@
 			"Submit": "Create debt"
 		},
 		"update": {
-			"Title": "Edit {{debtor}}",
+			"Title": "Edit {debtor}",
 			"Submit": "Update debt"
 		},
 		"delete": {
