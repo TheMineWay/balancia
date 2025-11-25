@@ -9,7 +9,7 @@ import type {
 	DebtModel,
 	PaginatedResponse,
 	PaginatedSearchModel,
-	UserModelId
+	UserModelId,
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
 import {

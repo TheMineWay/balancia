@@ -2,12 +2,12 @@ import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
 import { Controller, Param, ParseIntPipe } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
 import {
-    getController,
-    getParamName,
-    type InferBodyDto,
-    type InferQueryDto,
-    type InferResponseDto,
-    MY_DEBTS_CONTROLLER,
+	getController,
+	getParamName,
+	type InferBodyDto,
+	type InferQueryDto,
+	type InferResponseDto,
+	MY_DEBTS_CONTROLLER,
 } from "@shared/api-definition";
 import type { UserModelId } from "@shared/models";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
@@ -19,7 +19,11 @@ import { DebtsService } from "src/features/debts/debts.service";
 
 @Controller(getController(MY_DEBTS_CONTROLLER, {}))
 export class MyDebtsController {
-	constructor(private readonly debtsService: DebtsService, private readonly debtOriginService: DebtOriginService, private readonly debtPaymentsService: DebtPaymentsService) {}
+	constructor(
+		private readonly debtsService: DebtsService,
+		private readonly debtOriginService: DebtOriginService,
+		private readonly debtPaymentsService: DebtPaymentsService,
+	) {}
 
 	@ApiOperation({ summary: "Get paginated list of user debts" })
 	@Endpoint(MY_DEBTS_CONTROLLER, "getDebts")
@@ -114,10 +118,7 @@ export class MyDebtsController {
 			"getAssignedOriginTransactions"
 		>
 	> {
-		const origins = await this.debtOriginService.userGetByDebt(
-			userId,
-			debtId,
-		);
+		const origins = await this.debtOriginService.userGetByDebt(userId, debtId);
 
 		return {
 			transactions: origins.map((origin) => ({
