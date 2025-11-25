@@ -25,6 +25,16 @@ export class DebtPaymentsRepository extends Repository {
 		);
 	}
 
+	async findByDebtId(
+		debtId: DebtPaymentModel["debtId"],
+		options?: QueryOptions,
+	): Promise<DebtPaymentSelect[]> {
+		return await this.query(options)
+			.select()
+			.from(debtPaymentTable)
+			.where(eq(debtPaymentTable.debtId, debtId));
+	}
+
 	async findByIdWithTransaction(
 		debtPaymentId: DebtPaymentModel["id"],
 		options?: QueryOptions,
@@ -61,8 +71,11 @@ export class DebtPaymentsRepository extends Repository {
 	async bulkCreate(
 		debtPayments: DebtPaymentInsert[],
 		options?: QueryOptions,
-	): Promise<void> {
-		await this.query(options).insert(debtPaymentTable).values(debtPayments);
+	): Promise<DebtPaymentSelect[]> {
+		return await this.query(options)
+			.insert(debtPaymentTable)
+			.values(debtPayments)
+			.returning(DEBT_PAYMENTS_TABLE_COLUMNS);
 	}
 
 	async removeByDebtId(

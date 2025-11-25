@@ -1,5 +1,7 @@
-import { DebtModel } from "@shared/models";
+import { DebtModel, DebtPaymentModel } from "@shared/models";
 import { Event } from "src/events/event.abstract";
+
+// #region Debt
 
 type DebtUpdatedEventPayload = {
 	debt: DebtModel;
@@ -43,3 +45,39 @@ export class DebtDeletedEvent extends Event<DebtDeletedEventPayload> {
 		super(DebtDeletedEvent.NAME, payload);
 	}
 }
+
+// #endregion
+
+// #region Debt Payment
+
+type DebtPaymentCreatedEventPayload = {
+	payment: DebtPaymentModel;
+};
+
+/**
+ * Event emitted when a debt payment is created
+ */
+export class DebtPaymentCreatedEvent extends Event<DebtPaymentCreatedEventPayload> {
+	public static readonly NAME = "debt.payment.created";
+
+	constructor(payload: DebtPaymentCreatedEventPayload) {
+		super(DebtPaymentCreatedEvent.NAME, payload);
+	}
+}
+
+type DebtPaymentDeletedEventPayload = {
+	payment: DebtPaymentModel;
+};
+
+/**
+ * Event emitted when a debt payment is deleted
+ */
+export class DebtPaymentDeletedEvent extends Event<DebtPaymentDeletedEventPayload> {
+	public static readonly NAME = "debt.payment.deleted";
+
+	constructor(payload: DebtPaymentDeletedEventPayload) {
+		super(DebtPaymentDeletedEvent.NAME, payload);
+	}
+}
+
+// #endregion
