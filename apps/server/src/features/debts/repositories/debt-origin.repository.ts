@@ -52,8 +52,11 @@ export class DebtOriginRepository extends Repository {
 	async bulkCreate(
 		items: DebtOriginInsert[],
 		options?: QueryOptions,
-	): Promise<void> {
-		if (items.length === 0) return;
-		await this.query(options).insert(debtOriginTable).values(items);
+	): Promise<DebtOriginSelect[]> {
+		if (items.length === 0) return [];
+		return await this.query(options)
+			.insert(debtOriginTable)
+			.values(items)
+			.returning(DEBT_ORIGIN_TABLE_COLUMNS);
 	}
 }
