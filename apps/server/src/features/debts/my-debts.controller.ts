@@ -2,22 +2,24 @@ import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
 import { Controller, Param, ParseIntPipe } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
 import {
-	getController,
-	getParamName,
-	type InferBodyDto,
-	type InferQueryDto,
-	type InferResponseDto,
-	MY_DEBTS_CONTROLLER,
+    getController,
+    getParamName,
+    type InferBodyDto,
+    type InferQueryDto,
+    type InferResponseDto,
+    MY_DEBTS_CONTROLLER,
 } from "@shared/api-definition";
 import type { UserModelId } from "@shared/models";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
 import { ValidatedBody } from "src/decorators/validation/validated-body.decorator";
 import { ValidatedQuery } from "src/decorators/validation/validated-query.decorator";
+import { DebtOriginService } from "src/features/debts/debt-origin.service";
+import { DebtPaymentsService } from "src/features/debts/debt-payments.service";
 import { DebtsService } from "src/features/debts/debts.service";
 
 @Controller(getController(MY_DEBTS_CONTROLLER, {}))
 export class MyDebtsController {
-	constructor(private readonly debtsService: DebtsService) {}
+	constructor(private readonly debtsService: DebtsService, private readonly debtOriginService: DebtOriginService, private readonly debtPaymentsService: DebtPaymentsService) {}
 
 	@ApiOperation({ summary: "Get paginated list of user debts" })
 	@Endpoint(MY_DEBTS_CONTROLLER, "getDebts")
@@ -86,7 +88,7 @@ export class MyDebtsController {
 	): Promise<
 		InferResponseDto<typeof MY_DEBTS_CONTROLLER, "assignOriginTransactions">
 	> {
-		await this.debtsService.userSetOriginTransactionsToDebt(
+		await this.debtOriginService.userSetToDebt(
 			userId,
 			debtId,
 			body.transactions,
@@ -112,7 +114,7 @@ export class MyDebtsController {
 			"getAssignedOriginTransactions"
 		>
 	> {
-		const origins = await this.debtsService.userGetOriginTransactionsOfDebt(
+		const origins = await this.debtOriginService.userGetByDebt(
 			userId,
 			debtId,
 		);
@@ -142,7 +144,7 @@ export class MyDebtsController {
 	): Promise<
 		InferResponseDto<typeof MY_DEBTS_CONTROLLER, "assignPaymentTransactions">
 	> {
-		await this.debtsService.userSetPaymentTransactionsToDebt(
+		await this.debtPaymentsService.userSetToDebt(
 			userId,
 			debtId,
 			body.transactions,
@@ -168,7 +170,7 @@ export class MyDebtsController {
 			"getAssignedPaymentTransactions"
 		>
 	> {
-		const payments = await this.debtsService.userGetPaymentTransactionsOfDebt(
+		const payments = await this.debtPaymentsService.userGetByDebt(
 			userId,
 			debtId,
 		);

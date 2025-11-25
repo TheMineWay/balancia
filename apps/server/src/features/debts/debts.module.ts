@@ -1,4 +1,6 @@
 import { Module } from "@nestjs/common";
+import { DebtOriginService } from "src/features/debts/debt-origin.service";
+import { DebtPaymentsService } from "src/features/debts/debt-payments.service";
 import { DebtsService } from "src/features/debts/debts.service";
 import { MyDebtsController } from "src/features/debts/my-debts.controller";
 import { DebtOriginRepository } from "src/features/debts/repositories/debt-origin.repository";
@@ -10,6 +12,8 @@ import { AccountsModule } from "src/features/finances/accounts/accounts.module";
 	controllers: [MyDebtsController],
 	providers: [
 		DebtsService,
+		DebtOriginService,
+		DebtPaymentsService,
 		DebtsRepository,
 		DebtOriginRepository,
 		DebtPaymentsRepository,

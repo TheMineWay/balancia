@@ -7,13 +7,9 @@ import type {
 	DebtCreateModel,
 	DebtListModel,
 	DebtModel,
-	DebtOriginCreateModel,
-	DebtPaymentCreateModel,
-	DebtPaymentModel,
 	PaginatedResponse,
 	PaginatedSearchModel,
-	TransactionModel,
-	UserModelId,
+	UserModelId
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
 import {
@@ -119,99 +115,6 @@ export class DebtsService {
 			if (!isOwner) throw new UnauthorizedException();
 
 			await this.delete(debtId, { transaction });
-		});
-	}
-
-	async userSetOriginTransactionsToDebt(
-		userId: UserModelId,
-		debtId: DebtModel["id"],
-		transactions: DebtOriginCreateModel[],
-	): Promise<void> {
-		await this.databaseService.db.transaction(async (transaction) => {
-			const { isOwner } = await this.checkOwnership(debtId, userId, {
-				transaction,
-			});
-			if (!isOwner) throw new UnauthorizedException();
-
-			await this.debtOriginRepository.removeByDebt(debtId, {
-				transaction,
-			});
-			await this.debtOriginRepository.bulkCreate(
-				transactions.map((t) => ({
-					transactionId: t.transactionId,
-					amount: t.amount,
-					debtId,
-					notes: t.notes,
-				})),
-				{
-					transaction,
-				},
-			);
-		});
-	}
-
-	async userGetOriginTransactionsOfDebt(
-		userId: UserModelId,
-		debtId: DebtModel["id"],
-	) {
-		return await this.databaseService.db.transaction(async (transaction) => {
-			const { isOwner } = await this.checkOwnership(debtId, userId, {
-				transaction,
-			});
-			if (!isOwner) throw new UnauthorizedException();
-
-			return await this.debtOriginRepository.findWithTransactionByDebtId(
-				debtId,
-				{
-					transaction,
-				},
-			);
-		});
-	}
-
-	async userSetPaymentTransactionsToDebt(
-		userId: UserModelId,
-		debtId: DebtModel["id"],
-		transactions: Omit<DebtPaymentCreateModel, "debtId">[],
-	): Promise<void> {
-		await this.databaseService.db.transaction(async (transaction) => {
-			const { isOwner } = await this.checkOwnership(debtId, userId, {
-				transaction,
-			});
-			if (!isOwner) throw new UnauthorizedException();
-
-			await this.debtPaymentsRepository.removeByDebtId(debtId, {
-				transaction,
-			});
-
-			await this.debtPaymentsRepository.bulkCreate(
-				transactions.map((t) => ({
-					...t,
-					debtId,
-				})),
-				{
-					transaction,
-				},
-			);
-		});
-	}
-
-	async userGetPaymentTransactionsOfDebt(
-		userId: UserModelId,
-		debtId: DebtModel["id"],
-	): Promise<(DebtPaymentModel & { transaction: TransactionModel | null })[]> {
-		return await this.databaseService.db.transaction(async (transaction) => {
-			const { isOwner } = await this.checkOwnership(debtId, userId, {
-				transaction,
-			});
-			if (!isOwner) throw new UnauthorizedException();
-
-			return await this.debtPaymentsRepository.findByDebtIdWithTransaction(
-				debtId,
-				{
-					transaction,
-				},
-			);
 		});
 	}
 
