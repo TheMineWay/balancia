@@ -33,8 +33,7 @@ const CREATE_CONTACT = {
 	method: EndpointMethod.POST,
 	bodyDto: z
 		.object({
-			...CONTACT_CREATE_SCHEMA.omit({ code: true }).shape,
-			code: CONTACT_CREATE_SCHEMA.shape.code.nullable(),
+			...CONTACT_CREATE_SCHEMA.shape,
 		})
 		.required(),
 } satisfies EndpointDefinition;
@@ -45,9 +44,11 @@ const UPDATE_CONTACT = {
 		id: "contactId",
 	},
 	method: EndpointMethod.PUT,
-	bodyDto: z.object({
-		...CONTACT_CREATE_SCHEMA.shape,
-	}),
+	bodyDto: z
+		.object({
+			...CONTACT_CREATE_SCHEMA.shape,
+		})
+		.required(),
 } satisfies EndpointDefinition<{ id: string }>;
 
 const DELETE_CONTACT = {

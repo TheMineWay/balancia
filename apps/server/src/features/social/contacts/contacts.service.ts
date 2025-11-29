@@ -53,7 +53,7 @@ export class ContactsService {
 		return contact;
 	}
 
-	async create(userId: UserModelId, contact: Omit<ContactCreateModel, "code">) {
+	async create(userId: UserModelId, contact: ContactCreateModel) {
 		const created = await this.contactsRepository.create({
 			...contact,
 			userId,
@@ -91,7 +91,7 @@ export class ContactsService {
 	async update(
 		userId: UserModelId,
 		contactId: ContactModel["id"],
-		{ code: contactCode, ...contact }: ContactCreateModel,
+		contact: ContactCreateModel,
 	) {
 		return await this.databaseService.db.transaction(async (transaction) => {
 			const { isOwner } = await this.checkOwnership(userId, contactId, {
@@ -101,7 +101,7 @@ export class ContactsService {
 
 			const updated = await this.contactsRepository.updateById(
 				contactId,
-				{ ...contact, code: contactCode ? contactCode : undefined },
+				contact,
 				{
 					transaction,
 				},
