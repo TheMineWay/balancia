@@ -10,20 +10,17 @@ import type {
 	UserModelId,
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
-import { SocialUserConfigService } from "src/features/social/config/social-user-config.service";
 import {
 	ContactCreatedEvent,
 	ContactDeletedEvent,
 	ContactUpdatedEvent,
 } from "src/features/social/contacts/contacts.events";
-import { generateContactCodeFromSocialConfig } from "src/features/social/contacts/lib/generate-contact-code-from-social-config.util";
 import { ContactsRepository } from "src/features/social/contacts/repositories/contacts.repository";
 
 @Injectable()
 export class ContactsService {
 	constructor(
 		private readonly contactsRepository: ContactsRepository,
-		private readonly socialUserConfigService: SocialUserConfigService,
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
 		private readonly eventService: EventService,
@@ -116,26 +113,6 @@ export class ContactsService {
 			return updated;
 		});
 	}
-
-	// #region User related
-
-	async userCreate(userId: UserModelId, contact: ContactCreateModel) {
-		const contactData = { ...contact };
-
-		// Fetch user social config
-		const config = await this.socialUserConfigService.getByUserId(userId);
-
-		if (config) {
-			contactData.code = generateContactCodeFromSocialConfig(
-				contactData,
-				config,
-			);
-		}
-
-		return this.create(userId, contactData);
-	}
-
-	// #endregion
 }
 
 type CheckContactOwnershipResponse =

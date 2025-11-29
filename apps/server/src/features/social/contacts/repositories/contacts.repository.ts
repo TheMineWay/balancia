@@ -78,7 +78,6 @@ export class ContactsRepository extends Repository {
 	async create(contact: ContactInsert, options?: QueryOptions) {
 		const newContact = { ...contact };
 		if (!newContact.code) delete newContact.code;
-
 		return (
 			await this.query(options)
 				.insert(contactTable)
