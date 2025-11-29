@@ -44,7 +44,7 @@ export class MyContactsController {
 		@ValidatedBody(MY_CONTACTS_CONTROLLER, "createContact")
 		body: InferBodyDto<typeof MY_CONTACTS_CONTROLLER, "createContact">,
 	): Promise<InferResponseDto<typeof MY_CONTACTS_CONTROLLER, "createContact">> {
-		await this.contactsService.create(userId, body);
+		await this.contactsService.userCreate(userId, body);
 	}
 
 	@Endpoint(MY_CONTACTS_CONTROLLER, "updateContact")
