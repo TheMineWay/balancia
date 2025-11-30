@@ -3,6 +3,7 @@ import { DangerousActionConfirm } from "@common/verifications/dangerous-action/c
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useSearch } from "@core/search/hooks/use-search";
 import { ContactsTable } from "@fts/social/contacts/contacts/components/contacts.table";
+import { DeviceContactsSelector } from "@fts/social/contacts/contacts/components/device/device-contacts-selector";
 import { useMyContactDeleteByIdMutation } from "@fts/social/contacts/my-contacts/api/use-my-contact-delete-by-id.mutation";
 import { useMyContactsQuery } from "@fts/social/contacts/my-contacts/api/use-my-contacts.query";
 import { MyContactCreateManager } from "@fts/social/contacts/my-contacts/components/managers/my-contact-create-manager";
@@ -60,6 +61,7 @@ export const MyContactsManager: FC = () => {
 								/>
 							</ActionsLayout.Row>
 							<ActionsLayout.Row>
+								<DeviceContactsSelector />
 								<Button
 									size="xs"
 									onClick={openCreate}

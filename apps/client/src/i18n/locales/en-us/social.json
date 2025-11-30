@@ -53,5 +53,8 @@
 				"Write-to-delete": "Type the contact name to confirm"
 			}
 		}
+	},
+	"device-contact-refiner": {
+		"Title": "Refine device contacts"
 	}
 }
