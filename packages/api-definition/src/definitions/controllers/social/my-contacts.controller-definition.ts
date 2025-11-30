@@ -59,6 +59,19 @@ const DELETE_CONTACT = {
 	},
 } satisfies EndpointDefinition<{ id: string }>;
 
+const BULK_CREATE_CONTACTS = {
+	getPath: () => ["bulk-create"],
+	paramsMapping: {},
+	method: EndpointMethod.POST,
+	bodyDto: z.object({
+		contacts: z.array(
+			z.object({
+				...CONTACT_CREATE_SCHEMA.shape,
+			}),
+		),
+	}),
+} satisfies EndpointDefinition;
+
 // Controller
 
 export const MY_CONTACTS_CONTROLLER = {
@@ -70,5 +83,6 @@ export const MY_CONTACTS_CONTROLLER = {
 		createContact: CREATE_CONTACT,
 		updateContact: UPDATE_CONTACT,
 		deleteContact: DELETE_CONTACT,
+		bulkCreateContacts: BULK_CREATE_CONTACTS,
 	},
 } satisfies ControllerDefinition;

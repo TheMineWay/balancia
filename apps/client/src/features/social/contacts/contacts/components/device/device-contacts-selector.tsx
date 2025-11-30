@@ -3,7 +3,8 @@ import {
 	generateDeviceContactPicker,
 } from "@fts/social/contacts/contacts/lib/device-contact-picker";
 import { useTranslation } from "@i18n/use-translation";
-import { ActionIcon, Modal } from "@mantine/core";
+import { ActionIcon, type ActionIconProps, Modal } from "@mantine/core";
+import type { ContactCreateModel } from "@shared/models";
 import { lazy, Suspense, useCallback, useMemo, useState } from "react";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 
@@ -14,7 +15,8 @@ const Refiner = lazy(() =>
 );
 
 type Props = {
-	buttonProps?: Omit<React.ComponentProps<typeof ActionIcon>, "onClick">;
+	buttonProps?: Omit<ActionIconProps, "onClick">;
+	onSelect?: (contacts: ContactCreateModel[]) => void;
 };
 
 export const DeviceContactsSelector: FC<Props> = (props) => {
@@ -34,6 +36,7 @@ type ComponentProps = Props & {
 const Component: FC<ComponentProps> = ({
 	buttonProps,
 	deviceContactPicker,
+	onSelect,
 }) => {
 	const { t } = useTranslation("social");
 
@@ -44,8 +47,6 @@ const Component: FC<ComponentProps> = ({
 		const contacts = await deviceContactPicker.pick();
 		setSelectedDeviceContacts(contacts);
 	}, [deviceContactPicker]);
-
-	// TODO: handle bulk create contacts
 
 	return (
 		<>
@@ -64,7 +65,13 @@ const Component: FC<ComponentProps> = ({
 				title={t()["device-contact-refiner"].Title}
 			>
 				<Suspense>
-					<Refiner contacts={selectedDeviceContacts} />
+					<Refiner
+						contacts={selectedDeviceContacts}
+						onSuccess={(contacts) => {
+							onSelect?.(contacts);
+							setSelectedDeviceContacts([]);
+						}}
+					/>
 				</Suspense>
 			</Modal>
 		</>
