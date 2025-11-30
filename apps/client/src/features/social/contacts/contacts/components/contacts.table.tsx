@@ -56,7 +56,10 @@ export const ContactsTable = <T extends ContactModel = ContactModel>({
 						{item.code}
 						<CopyButton value={item.code}>
 							{({ copied, copy }) => (
-								<ActionIcon onClick={copy}>
+								<ActionIcon
+									onClick={copy}
+									aria-label={commonT().expressions.Copy}
+								>
 									{copied ? <FaCheck /> : <IoCopyOutline />}
 								</ActionIcon>
 							)}
