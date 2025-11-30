@@ -36,6 +36,7 @@ const CREATE_CONTACT = {
 			...CONTACT_CREATE_SCHEMA.shape,
 		})
 		.required(),
+	responseDto: CONTACT_SCHEMA,
 } satisfies EndpointDefinition;
 
 const UPDATE_CONTACT = {
