@@ -33,10 +33,10 @@ const CREATE_CONTACT = {
 	method: EndpointMethod.POST,
 	bodyDto: z
 		.object({
-			...CONTACT_CREATE_SCHEMA.omit({ code: true }).shape,
-			code: CONTACT_CREATE_SCHEMA.shape.code.nullable(),
+			...CONTACT_CREATE_SCHEMA.shape,
 		})
 		.required(),
+	responseDto: CONTACT_SCHEMA,
 } satisfies EndpointDefinition;
 
 const UPDATE_CONTACT = {
@@ -45,9 +45,11 @@ const UPDATE_CONTACT = {
 		id: "contactId",
 	},
 	method: EndpointMethod.PUT,
-	bodyDto: z.object({
-		...CONTACT_CREATE_SCHEMA.shape,
-	}),
+	bodyDto: z
+		.object({
+			...CONTACT_CREATE_SCHEMA.shape,
+		})
+		.required(),
 } satisfies EndpointDefinition<{ id: string }>;
 
 const DELETE_CONTACT = {
@@ -57,6 +59,23 @@ const DELETE_CONTACT = {
 		id: "contactId",
 	},
 } satisfies EndpointDefinition<{ id: string }>;
+
+const MAX_BULK_CREATE_CONTACTS_PER_REQUEST = 2000;
+
+const BULK_CREATE_CONTACTS = {
+	getPath: () => ["bulk-create"],
+	paramsMapping: {},
+	method: EndpointMethod.POST,
+	bodyDto: z.object({
+		contacts: z
+			.array(
+				z.object({
+					...CONTACT_CREATE_SCHEMA.shape,
+				}),
+			)
+			.max(MAX_BULK_CREATE_CONTACTS_PER_REQUEST),
+	}),
+} satisfies EndpointDefinition;
 
 // Controller
 
@@ -69,5 +88,6 @@ export const MY_CONTACTS_CONTROLLER = {
 		createContact: CREATE_CONTACT,
 		updateContact: UPDATE_CONTACT,
 		deleteContact: DELETE_CONTACT,
+		bulkCreateContacts: BULK_CREATE_CONTACTS,
 	},
 } satisfies ControllerDefinition;

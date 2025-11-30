@@ -26,3 +26,4 @@ export { userRoleTable } from "@database/schemas/main/tables/identity/user-role.
 export { userTable } from "@database/schemas/main/tables/identity/user.table";
 export { contactTable } from "@database/schemas/main/tables/social/contact.table";
 export { socialSchema } from "@database/schemas/main/tables/social/social.schema";
+export { userSocialConfigTable } from "@database/schemas/main/tables/social/user-social-config.table";

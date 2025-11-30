@@ -3,7 +3,9 @@ import { DangerousActionConfirm } from "@common/verifications/dangerous-action/c
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useSearch } from "@core/search/hooks/use-search";
 import { ContactsTable } from "@fts/social/contacts/contacts/components/contacts.table";
+import { DeviceContactsSelector } from "@fts/social/contacts/contacts/components/device/device-contacts-selector";
 import { useMyContactDeleteByIdMutation } from "@fts/social/contacts/my-contacts/api/use-my-contact-delete-by-id.mutation";
+import { useMyContactsBulkCreateMutation } from "@fts/social/contacts/my-contacts/api/use-my-contacts-bulk-create.mutation";
 import { useMyContactsQuery } from "@fts/social/contacts/my-contacts/api/use-my-contacts.query";
 import { MyContactCreateManager } from "@fts/social/contacts/my-contacts/components/managers/my-contact-create-manager";
 import { MyContactUpdateManager } from "@fts/social/contacts/my-contacts/components/managers/my-contact-update-manager";
@@ -13,9 +15,10 @@ import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
 import { ActionIcon, Button, Drawer, Pagination } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import type { ContactModel } from "@shared/models";
+import { notifications } from "@mantine/notifications";
+import type { ContactCreateModel, ContactModel } from "@shared/models";
 import { getContactName } from "@shared/utils";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { IoAddOutline, IoReload } from "react-icons/io5";
 import { MdDeleteOutline } from "react-icons/md";
 
@@ -23,6 +26,7 @@ export const MyContactsManager: FC = () => {
 	const { t, interpolated } = useTranslation("social");
 	const { t: commonT } = useTranslation("common");
 
+	// #region List fetch & management
 	const search = useSearch({});
 	const pagination = usePagination();
 	const {
@@ -42,6 +46,46 @@ export const MyContactsManager: FC = () => {
 		null,
 	);
 
+	// #endregion
+
+	// #region Import from device
+	const { mutate: bulkCreateContacts, isPending: isCreatingContacts } =
+		useMyContactsBulkCreateMutation();
+
+	const onSelectDeviceContacts = useCallback(
+		(contacts: ContactCreateModel[]) => {
+			const notification = notifications.show({
+				message: t().contact.import.status.ongoing.Title,
+				loading: true,
+				autoClose: false,
+				withCloseButton: false,
+			});
+			bulkCreateContacts(contacts, {
+				onSuccess: () => {
+					notifications.update({
+						id: notification,
+						message: t().contact.import.status.completed.Title,
+						autoClose: 2000,
+						loading: false,
+					});
+				},
+				onError: () => {
+					notifications.update({
+						id: notification,
+						title: t().contact.import.status.failed.Title,
+						message: t().contact.import.status.failed.Message,
+						color: "red",
+						autoClose: 4000,
+						loading: false,
+					});
+				},
+			});
+		},
+		[bulkCreateContacts, t],
+	);
+
+	// #endregion
+
 	return (
 		<>
 			<ManagerLayout.Root>
@@ -60,6 +104,10 @@ export const MyContactsManager: FC = () => {
 								/>
 							</ActionsLayout.Row>
 							<ActionsLayout.Row>
+								<DeviceContactsSelector
+									onSelect={onSelectDeviceContacts}
+									buttonProps={{ loading: isCreatingContacts }}
+								/>
 								<Button
 									size="xs"
 									onClick={openCreate}

@@ -54,9 +54,5 @@ export const CONTACT_CREATE_SCHEMA = z.object({
 		createdAt: true,
 		updatedAt: true,
 	}).shape,
-	code: z.preprocess(
-		nullableStringTransform,
-		CONTACT_SCHEMA.shape.code.nullable(),
-	),
 });
 export type ContactCreateModel = z.infer<typeof CONTACT_CREATE_SCHEMA>;

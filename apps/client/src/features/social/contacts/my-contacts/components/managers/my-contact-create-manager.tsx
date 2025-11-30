@@ -2,7 +2,11 @@ import { ContactForm } from "@fts/social/contacts/contacts/components/form/conta
 import { useMyContactCreateMutation } from "@fts/social/contacts/my-contacts/api/use-my-contact-create.mutation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "@i18n/use-translation";
-import { CONTACT_CREATE_SCHEMA, type ContactCreateModel } from "@shared/models";
+import {
+	CONTACT_CREATE_SCHEMA,
+	type ContactCreateModel,
+	type ContactModel,
+} from "@shared/models";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { IoAddOutline } from "react-icons/io5";
@@ -15,7 +19,7 @@ const SCHEMA = z
 	.required();
 
 type Props = {
-	onSuccess?: (contact: ContactCreateModel) => void;
+	onSuccess?: (contact: ContactModel) => void;
 };
 
 export const MyContactCreateManager: FC<Props> = ({ onSuccess }) => {
@@ -30,7 +34,7 @@ export const MyContactCreateManager: FC<Props> = ({ onSuccess }) => {
 	const onFormSuccess = useCallback(
 		(newContact: ContactCreateModel) => {
 			createContact(newContact, {
-				onSuccess: () => onSuccess?.(newContact),
+				onSuccess: (createdContact) => onSuccess?.(createdContact),
 			});
 		},
 		[onSuccess, createContact],

@@ -52,6 +52,23 @@
 				"Action": "Delete Contact",
 				"Write-to-delete": "Type the contact name to confirm"
 			}
+		},
+		"import": {
+			"status": {
+				"ongoing": {
+					"Title": "Importing contacts..."
+				},
+				"completed": {
+					"Title": "Contacts imported successfully"
+				},
+				"failed": {
+					"Title": "Failed to import contacts",
+					"Message": "An error occurred while importing contacts. Please try again."
+				}
+			}
 		}
+	},
+	"device-contact-refiner": {
+		"Title": "Refine device contacts"
 	}
 }
