@@ -24,23 +24,18 @@ export const ContactForm: FC<Props> = ({
 }) => {
 	const { t } = useTranslation("social");
 
-	const { formState, handleSubmit, watch } = form;
-	const state = watch();
+	const { formState, handleSubmit } = form;
 
 	const onDeviceContactSelected = useCallback(
 		(contact: ContactCreateModel) => {
 			if (!contact) return;
 
-			if (!state.name)
-				form.setValue("name", contact.name, { shouldValidate: true });
-			if (!state.lastName)
-				form.setValue("lastName", contact.lastName, { shouldValidate: true });
-			if (!state.email)
-				form.setValue("email", contact.email, { shouldValidate: true });
-			if (!state.phone)
-				form.setValue("phone", contact.phone, { shouldValidate: true });
+			form.setValue("name", contact.name);
+			form.setValue("lastName", contact.lastName);
+			form.setValue("email", contact.email);
+			form.setValue("phone", contact.phone, { shouldValidate: true });
 		},
-		[form, state],
+		[form],
 	);
 
 	const { manager: deviceContactsManager } = useDeviceContactsPicker();
