@@ -59,16 +59,20 @@ const DELETE_CONTACT = {
 	},
 } satisfies EndpointDefinition<{ id: string }>;
 
+const MAX_BULK_CREATE_CONTACTS_PER_REQUEST = 2000;
+
 const BULK_CREATE_CONTACTS = {
 	getPath: () => ["bulk-create"],
 	paramsMapping: {},
 	method: EndpointMethod.POST,
 	bodyDto: z.object({
-		contacts: z.array(
-			z.object({
-				...CONTACT_CREATE_SCHEMA.shape,
-			}),
-		),
+		contacts: z
+			.array(
+				z.object({
+					...CONTACT_CREATE_SCHEMA.shape,
+				}),
+			)
+			.max(MAX_BULK_CREATE_CONTACTS_PER_REQUEST),
 	}),
 } satisfies EndpointDefinition;
 

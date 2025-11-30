@@ -64,6 +64,24 @@ export class ContactsService {
 		return created;
 	}
 
+	async bulkCreate(
+		userId: UserModelId,
+		contacts: ContactCreateModel[],
+	) {
+		const createdContacts = await this.contactsRepository.bulkCreate(
+			contacts.map((contact) => ({
+				...contact,
+				userId,
+			})),
+		);
+
+		for(const contact of createdContacts) {
+			this.eventService.emit(new ContactCreatedEvent({ contact }));
+		}
+
+		return createdContacts;
+	}
+
 	async delete(userId: UserModelId, contactId: ContactModel["id"]) {
 		return await this.databaseService.db.transaction(async (transaction) => {
 			const { isOwner } = await this.checkOwnership(userId, contactId, {

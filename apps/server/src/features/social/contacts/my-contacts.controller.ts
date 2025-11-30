@@ -72,4 +72,16 @@ export class MyContactsController {
 	): Promise<InferResponseDto<typeof MY_CONTACTS_CONTROLLER, "deleteContact">> {
 		await await this.contactsService.delete(userId, contactId);
 	}
+
+	@Endpoint(MY_CONTACTS_CONTROLLER, "bulkCreateContacts")
+	async bulkCreateContacts(
+		@UserId() userId: UserModelId,
+		@ValidatedBody(MY_CONTACTS_CONTROLLER, "bulkCreateContacts")
+		body: InferBodyDto<
+			typeof MY_CONTACTS_CONTROLLER,
+			"bulkCreateContacts"
+		>,
+	): Promise<InferResponseDto<typeof MY_CONTACTS_CONTROLLER, "bulkCreateContacts">> {
+		await this.contactsService.bulkCreate(userId, body.contacts);
+	}
 }

@@ -1,5 +1,6 @@
 import { QueryOptions, Repository } from "@database/repository/repository";
 import {
+	CONTACT_TABLE_COLUMNS,
 	type ContactInsert,
 	type ContactUpdate,
 	contactTable,
@@ -84,6 +85,19 @@ export class ContactsRepository extends Repository {
 				.values(newContact)
 				.returning()
 		)[0];
+	}
+
+	async bulkCreate(contacts: ContactInsert[], options?: QueryOptions) {
+		const cleanedContacts = contacts.map((contact) => {
+			const newContact = { ...contact };
+			if (!newContact.code) delete newContact.code;
+			return newContact;
+		});
+
+		return await this.query(options)
+			.insert(contactTable)
+			.values(cleanedContacts)
+			.returning(CONTACT_TABLE_COLUMNS);
 	}
 
 	async updateById(
