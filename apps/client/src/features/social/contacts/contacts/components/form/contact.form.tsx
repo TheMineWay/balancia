@@ -1,7 +1,10 @@
 import { Form } from "@common/extended-ui/form/components/form";
+import { DeviceContactsSelector } from "@fts/social/contacts/contacts/components/device/device-contacts-selector";
+import { useDeviceContactsPicker } from "@fts/social/contacts/contacts/hooks/use-device-contacts-picker";
 import { useTranslation } from "@i18n/use-translation";
-import { Button, Input } from "@mantine/core";
+import { Button, Divider, Input } from "@mantine/core";
 import { CONTACT_MODEL_VALUES, type ContactCreateModel } from "@shared/models";
+import { useCallback } from "react";
 import type { UseFormReturn } from "react-hook-form";
 
 type Props = {
@@ -21,10 +24,41 @@ export const ContactForm: FC<Props> = ({
 }) => {
 	const { t } = useTranslation("social");
 
-	const { formState, handleSubmit } = form;
+	const { formState, handleSubmit, watch } = form;
+	const state = watch();
+
+	const onDeviceContactSelected = useCallback(
+		(contact: ContactCreateModel) => {
+			if (!contact) return;
+
+			if (!state.name)
+				form.setValue("name", contact.name, { shouldValidate: true });
+			if (!state.lastName)
+				form.setValue("lastName", contact.lastName, { shouldValidate: true });
+			if (!state.email)
+				form.setValue("email", contact.email, { shouldValidate: true });
+			if (!state.phone)
+				form.setValue("phone", contact.phone, { shouldValidate: true });
+		},
+		[form, state],
+	);
+
+	const { manager: deviceContactsManager } = useDeviceContactsPicker();
 
 	return (
 		<Form onSubmit={handleSubmit((contact) => onSuccess?.(contact))}>
+			{deviceContactsManager && (
+				<>
+					<DeviceContactsSelector
+						maxSelectCount={1}
+						onSelect={([contact]) => {
+							if (!contact) return;
+							onDeviceContactSelected(contact);
+						}}
+					/>
+					<Divider />
+				</>
+			)}
 			{/* Name */}
 			<Input.Wrapper label={t().contact.models.contact.name.Label}>
 				<Input

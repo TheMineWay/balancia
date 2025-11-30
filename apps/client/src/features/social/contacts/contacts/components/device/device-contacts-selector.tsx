@@ -1,11 +1,12 @@
-import {
-	type DeviceContact,
+import { useDeviceContactsPicker } from "@fts/social/contacts/contacts/hooks/use-device-contacts-picker";
+import type {
+	DeviceContact,
 	generateDeviceContactPicker,
 } from "@fts/social/contacts/contacts/lib/device-contact-picker";
 import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, type ActionIconProps, Modal } from "@mantine/core";
 import type { ContactCreateModel } from "@shared/models";
-import { lazy, Suspense, useCallback, useMemo, useState } from "react";
+import { lazy, Suspense, useCallback, useState } from "react";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 
 const Refiner = lazy(() =>
@@ -17,10 +18,11 @@ const Refiner = lazy(() =>
 type Props = {
 	buttonProps?: Omit<ActionIconProps, "onClick">;
 	onSelect?: (contacts: ContactCreateModel[]) => void;
+	maxSelectCount?: number;
 };
 
 export const DeviceContactsSelector: FC<Props> = (props) => {
-	const deviceContactPicker = useMemo(() => generateDeviceContactPicker(), []);
+	const { manager: deviceContactPicker } = useDeviceContactsPicker();
 
 	if (!deviceContactPicker) return null;
 
@@ -37,6 +39,7 @@ const Component: FC<ComponentProps> = ({
 	buttonProps,
 	deviceContactPicker,
 	onSelect,
+	maxSelectCount,
 }) => {
 	const { t } = useTranslation("social");
 
@@ -44,9 +47,11 @@ const Component: FC<ComponentProps> = ({
 		DeviceContact[]
 	>([]);
 	const pickContactFromDevice = useCallback(async () => {
-		const contacts = await deviceContactPicker.pick();
+		const contacts = await deviceContactPicker.pick({
+			multiple: maxSelectCount !== 1,
+		});
 		setSelectedDeviceContacts(contacts);
-	}, [deviceContactPicker]);
+	}, [deviceContactPicker, maxSelectCount]);
 
 	return (
 		<>

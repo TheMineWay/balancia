@@ -6,10 +6,12 @@ interface ContactInfo {
 	tel: string[];
 }
 
+type ManagerSelectOptions = { multiple: boolean };
+
 interface ContactsManager {
 	select(
 		properties: (keyof ContactInfo)[],
-		options: { multiple: boolean },
+		options: ManagerSelectOptions,
 	): Promise<ContactInfo[]>;
 }
 
@@ -17,43 +19,27 @@ export type DeviceContact = ContactInfo;
 
 const pickDeviceContacts = async (
 	manager: ContactsManager,
+	options: ManagerSelectOptions,
 ): Promise<DeviceContact[] | null> => {
 	const selected = await manager.select(
 		["name", "email", "address", "tel", "icon"],
-		{
-			multiple: true,
-		},
+		options,
 	);
 	return selected;
 };
 
-// TODO: remove. This is a temporary implementation for development purposes.
-const manager: ContactsManager = {
-	async select() {
-		return [
-			{
-				address: "123 Main St, Anytown, USA",
-				email: [
-					"example@example.com",
-					"secondary@example.com",
-					"secondary@example.com",
-				],
-				icon: [],
-				name: ["John Doe"],
-				tel: ["123-456-7890", "098-765-4321"],
-			},
-		];
-	},
+type PickOptions = {
+	multiple?: boolean;
 };
 
 export const generateDeviceContactPicker = () => {
 	const contactsManager =
-		"contacts" in navigator ? (navigator.contacts as ContactsManager) : manager; // TODO: replace manager with null when implemented
+		"contacts" in navigator ? (navigator.contacts as ContactsManager) : null;
 	if (!contactsManager) return null;
 
 	return {
-		async pick() {
-			return (await pickDeviceContacts(contactsManager)) ?? [];
+		async pick({ multiple = true }: PickOptions = {}) {
+			return (await pickDeviceContacts(contactsManager, { multiple })) ?? [];
 		},
 	};
 };
