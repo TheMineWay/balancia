@@ -7,7 +7,6 @@ import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
 import { useSearch } from "@core/search/hooks/use-search";
 import { useMyContactsQuery } from "@fts/social/contacts/my-contacts/api/use-my-contacts.query";
-import { MyContactCreateManager } from "@fts/social/contacts/my-contacts/components/managers/my-contact-create-manager";
 import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Group, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -15,8 +14,14 @@ import { MY_CONTACTS_CONTROLLER } from "@shared/api-definition";
 import type { ContactModel } from "@shared/models";
 import { getContactName } from "@shared/utils";
 import clsx from "clsx";
-import { useCallback, useMemo } from "react";
+import { lazy, Suspense, useCallback, useMemo } from "react";
 import { IoAddOutline, IoPersonSharp } from "react-icons/io5";
+
+const MyContactCreateManager = lazy(() =>
+	import(
+		"@fts/social/contacts/my-contacts/components/managers/my-contact-create-manager"
+	).then((mod) => ({ default: mod.MyContactCreateManager })),
+);
 
 type Props = {
 	onChange?: (contactId: ContactModel["id"] | null) => void;
@@ -104,12 +109,14 @@ export const MyContactsSelector: FC<Props> = ({
 				opened={createContactOpened}
 				onClose={closeCreateContact}
 			>
-				<MyContactCreateManager
-					onSuccess={(contact) => {
-						onChange?.(contact.id);
-						closeCreateContact();
-					}}
-				/>
+				<Suspense>
+					<MyContactCreateManager
+						onSuccess={(contact) => {
+							onChange?.(contact.id);
+							closeCreateContact();
+						}}
+					/>
+				</Suspense>
 			</Modal>
 		</>
 	);
