@@ -1,0 +1,1 @@
+CREATE INDEX "debts_status_index" ON "debt"."debts" USING btree ("status");

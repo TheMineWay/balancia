@@ -50,6 +50,7 @@ export const debtTable = debtSchema.table(
 	(table) => [
 		index().on(table.debtorId),
 		index().on(table.userId, table.notifiedAt),
+		index().on(table.status),
 	],
 );
 
