@@ -202,6 +202,11 @@ export const DEPENDENCIES = [
 		docsUrl: "https://react-hook-form.com",
 	},
 	{
+		code: "@nestjs/cache-manager",
+		name: "@nestjs/cache-manager",
+		url: "https://www.npmjs.com/package/@nestjs/cache-manager",
+	},
+	{
 		code: "@nestjs/testing",
 		name: "@nestjs testing",
 		url: "https://www.npmjs.com/package/@nestjs/testing",

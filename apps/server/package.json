@@ -28,6 +28,7 @@
 	},
 	"license": "MIT",
 	"dependencies": {
+		"@nestjs/cache-manager": "^3.0.1",
 		"@nestjs/common": "^11.1.9",
 		"@nestjs/core": "^11.1.9",
 		"@nestjs/event-emitter": "^3.0.1",

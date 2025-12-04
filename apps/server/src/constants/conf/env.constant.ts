@@ -6,9 +6,12 @@ const toNum = (value) => Number(value);
 const refinedMin = (min: number) => (val: number) => val >= min;
 
 const ENV_SCHEMA = z.object({
-	//ENV
+	// ENV
 	NODE_ENV: z.string().default("production"),
 	OPEN_API_DOCS: z.stringbool().default(false),
+
+	// SERVER
+	SERVER_ROLE: z.enum(["main", "secondary"]).default("main"),
 
 	// MAX REQUESTS PER MINUTE
 	MAX_REQUESTS_PER_MINUTE: z
@@ -38,7 +41,6 @@ const ENV_SCHEMA = z.object({
 	LOG_ENV_VALUES: z.stringbool().default(false),
 
 	// CORS
-
 	CORS_ONLY_ALLOW_DOMAINS: z
 		.string()
 		.transform((val) => {
@@ -66,23 +68,35 @@ const ENV_SCHEMA = z.object({
 	// AUTH DIRECTORY
 	AUTH_DIRECTORY_API_URL: z.url(),
 	AUTH_DIRECTORY_API_KEY: z.string(),
+	AUTH_DIRECTORY_SYNC_BATCH_SIZE: z
+		.string()
+		.optional()
+		.default("200")
+		.transform(toNum)
+		.refine(refinedMin(1)),
+	AUTH_DIRECTORY_MAX_PARALLEL_SYNCS: z
+		.string()
+		.optional()
+		.default("5")
+		.transform(toNum)
+		.refine(refinedMin(1)),
 
 	// CACHE
 	USER_CACHE_TTL: z
 		.string()
 		.default("28800000")
 		.transform((val) => +val)
-		.refine((val) => isFinite(val) && val >= 0),
+		.refine((val) => Number.isFinite(val) && val >= 0),
 	USER_AUTH_INFO_CACHE_TTL: z
 		.string()
 		.default("1800000")
 		.transform((val) => +val)
-		.refine((val) => isFinite(val) && val >= 0),
+		.refine((val) => Number.isFinite(val) && val >= 0),
 	DATA_CACHE_TTL: z
 		.string()
 		.default("600000")
 		.transform((val) => +val)
-		.refine((val) => isFinite(val) && val >= 0),
+		.refine((val) => Number.isFinite(val) && val >= 0),
 });
 
 const TEST_VALUES: Partial<z.infer<typeof ENV_SCHEMA>> = {
@@ -107,6 +121,9 @@ export const ENV = (() => {
 	return {
 		rateLimit: {
 			maxRequestsPerMinute: values.MAX_REQUESTS_PER_MINUTE,
+		},
+		server: {
+			role: values.SERVER_ROLE,
 		},
 		database: {
 			url: values.DATABASE_URL,
@@ -137,6 +154,8 @@ export const ENV = (() => {
 		authDirectory: {
 			apiUrl: values.AUTH_DIRECTORY_API_URL,
 			apiKey: values.AUTH_DIRECTORY_API_KEY,
+			syncBatchSize: values.AUTH_DIRECTORY_SYNC_BATCH_SIZE,
+			maxParallelSyncs: values.AUTH_DIRECTORY_MAX_PARALLEL_SYNCS,
 		},
 		docs: {
 			openApiDocs: values.OPEN_API_DOCS,
