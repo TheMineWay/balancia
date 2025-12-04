@@ -15,7 +15,7 @@ export const MonthlyCashFlowChart: FC<Props> = ({ data: rawData = [] }) => {
 	const { t } = useTranslation("common");
 	const { t: tCharts } = useTranslation("charts");
 
-	const { control } = useChart();
+	const { control } = useChart("line");
 	const { data, isEmpty } = useMemo(() => {
 		const data: LineSeries[] = getChartData(rawData, t);
 		const isEmpty = data.every((series) => series.data.length === 0);

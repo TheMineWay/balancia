@@ -13,15 +13,18 @@ export const CategoryExpensesDonutChart: FC<Props> = ({
 	data: rawData = [],
 }) => {
 	const { t } = useTranslation("charts");
-	const { control } = useChart();
+	const { t: tFinances } = useTranslation("finances");
+	const { control } = useChart("pie");
 
 	const data = useMemo(() => {
 		return rawData.map((item) => ({
-			id: item.category?.id ?? "",
-			label: item.category?.name ?? "",
+			id: item.category?.id ?? "no-category",
+			label:
+				item.category?.name ??
+				tFinances().category.expressions["Without-category"],
 			value: item.outcome,
 		}));
-	}, [rawData]);
+	}, [rawData, tFinances]);
 
 	return (
 		<ChartWrapper
@@ -40,6 +43,7 @@ export const CategoryExpensesDonutChart: FC<Props> = ({
 				arcLinkLabelsThickness={2}
 				arcLinkLabelsColor={{ from: "color" }}
 				arcLabelsSkipAngle={10}
+				arcLabel={(d) => `${d.value} €`}
 			/>
 		</ChartWrapper>
 	);

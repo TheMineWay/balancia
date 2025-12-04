@@ -92,7 +92,8 @@
 	},
 	"category": {
 		"expressions": {
-			"Category": "Category"
+			"Category": "Category",
+			"Without-category": "Without category"
 		},
 		"my-categories": {
 			"manager": {

@@ -1,8 +1,6 @@
 import { useTranslation } from "@i18n/use-translation";
-import clsx from "clsx";
 import { useId } from "react";
 import { PiEmpty } from "react-icons/pi";
-import styles from "./chart-wrapper.module.css";
 
 type Props = {
 	children: React.ReactNode;
@@ -46,7 +44,5 @@ const Content = ({
 		);
 	}
 
-	return (
-		<div className={clsx(styles.wrapper, "w-full h-full")}>{children}</div>
-	);
+	return <div className={"w-full h-full"}>{children}</div>;
 };
