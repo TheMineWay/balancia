@@ -70,7 +70,6 @@
 			"@nestjs/core",
 			"@swc/core",
 			"@tailwindcss/oxide",
-			"bcrypt",
 			"esbuild"
 		]
 	}

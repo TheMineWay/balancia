@@ -128,16 +128,6 @@ export const DEPENDENCIES = [
 		url: "https://www.npmjs.com/package/date-fns",
 	},
 	{
-		code: "@types/bcrypt",
-		name: "@types bcrypt",
-		url: "https://www.npmjs.com/package/@types/bcrypt",
-	},
-	{
-		code: "bcrypt",
-		name: "bcrypt",
-		url: "https://www.npmjs.com/package/bcrypt",
-	},
-	{
 		code: "@tailwindcss/postcss",
 		name: "Tailwind CSS PostCSS",
 		url: "https://www.npmjs.com/package/@tailwindcss/postcss",

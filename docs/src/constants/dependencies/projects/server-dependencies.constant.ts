@@ -74,11 +74,6 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 	{
 		dep: "date-fns",
 	},
-	{ dep: "bcrypt" },
-	{
-		dep: "@types/bcrypt",
-		isDevelopment: true,
-	},
 	{
 		dep: "globals",
 		isDevelopment: true,
