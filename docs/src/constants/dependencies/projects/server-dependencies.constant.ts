@@ -79,6 +79,9 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 		isDevelopment: true,
 	},
 	{
+		dep: "@nestjs/cache-manager",
+	},
+	{
 		dep: "@nestjs/testing",
 		isDevelopment: true,
 	},
