@@ -1,4 +1,5 @@
 import { ENV } from "@constants/conf/env.constant";
+import { isMasterServer } from "@core/__lib__/global.utils";
 import { UserService } from "@core/auth/user/user.service";
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { DatabaseService } from "@database/services/database.service";
@@ -21,6 +22,8 @@ export class UserIntegrationService {
 
 	@Cron("0 3 * * *") // Runs every day at 3:00 AM
 	async syncUsersWithOidcDirectory() {
+		if (!isMasterServer()) return;
+
 		Logger.log("Syncing users with OIDC directory...", "User integration");
 
 		await this.databaseService.db.transaction(async (transaction) => {

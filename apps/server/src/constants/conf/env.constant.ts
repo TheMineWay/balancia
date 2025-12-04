@@ -6,9 +6,12 @@ const toNum = (value) => Number(value);
 const refinedMin = (min: number) => (val: number) => val >= min;
 
 const ENV_SCHEMA = z.object({
-	//ENV
+	// ENV
 	NODE_ENV: z.string().default("production"),
 	OPEN_API_DOCS: z.stringbool().default(false),
+
+	// SERVER
+	SERVER_ROLE: z.enum(["main", "secondary"]).default("main"),
 
 	// MAX REQUESTS PER MINUTE
 	MAX_REQUESTS_PER_MINUTE: z
@@ -38,7 +41,6 @@ const ENV_SCHEMA = z.object({
 	LOG_ENV_VALUES: z.stringbool().default(false),
 
 	// CORS
-
 	CORS_ONLY_ALLOW_DOMAINS: z
 		.string()
 		.transform((val) => {
@@ -119,6 +121,9 @@ export const ENV = (() => {
 	return {
 		rateLimit: {
 			maxRequestsPerMinute: values.MAX_REQUESTS_PER_MINUTE,
+		},
+		server: {
+			role: values.SERVER_ROLE,
 		},
 		database: {
 			url: values.DATABASE_URL,
