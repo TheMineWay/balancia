@@ -27,6 +27,7 @@ type Props = {
 	onChange?: (contactId: ContactModel["id"] | null) => void;
 	value: ContactModel["id"] | null;
 	allowClear?: boolean;
+	disableFastCreate?: boolean;
 } & Omit<
 	SelectSearchProps<ContactModel["id"]>,
 	"data" | "search" | "value" | "setValue" | "valueFetch" | "getKey"
@@ -35,6 +36,7 @@ type Props = {
 export const MyContactsSelector: FC<Props> = ({
 	onChange,
 	value,
+	disableFastCreate = false,
 	...props
 }) => {
 	const { t } = useTranslation("social");
@@ -95,12 +97,14 @@ export const MyContactsSelector: FC<Props> = ({
 					{...props}
 					className={clsx("flex-grow", props.className)}
 				/>
-				<ActionIcon
-					onClick={openCreateContact}
-					aria-label={t().contact.create.Title}
-				>
-					<IoAddOutline />
-				</ActionIcon>
+				{!disableFastCreate && (
+					<ActionIcon
+						onClick={openCreateContact}
+						aria-label={t().contact.create.Title}
+					>
+						<IoAddOutline />
+					</ActionIcon>
+				)}
 			</Group>
 
 			{/* Contact create */}

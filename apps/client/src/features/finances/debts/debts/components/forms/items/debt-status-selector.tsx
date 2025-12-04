@@ -1,5 +1,5 @@
 import { useTranslation } from "@i18n/use-translation";
-import { Select } from "@mantine/core";
+import { Select, type SelectProps } from "@mantine/core";
 import { DebtStatus } from "@shared/models";
 import { useMemo } from "react";
 
@@ -8,13 +8,13 @@ type Props = {
 	onChange: (value: DebtStatus | null) => void;
 	allowClear?: boolean;
 	id?: string;
-};
+} & Omit<SelectProps, "data" | "value" | "onChange">;
 
 export const DebtStatusSelector: FC<Props> = ({
-	value,
+	value = null,
 	onChange,
 	allowClear = false,
-	id,
+	...props
 }) => {
 	const { t } = useTranslation("finances");
 
@@ -30,9 +30,9 @@ export const DebtStatusSelector: FC<Props> = ({
 		<Select
 			data={options}
 			value={value}
-			onChange={(newValue) => onChange(newValue as DebtStatus | null)}
+			onChange={(newValue) => onChange?.(newValue as DebtStatus | null)}
 			allowDeselect={allowClear}
-			id={id}
+			{...props}
 		/>
 	);
 };

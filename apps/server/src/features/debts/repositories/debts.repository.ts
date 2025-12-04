@@ -3,8 +3,8 @@ import {
 	DEBT_TABLE_COLUMNS,
 	type DebtInsert,
 	type DebtSelect,
-	type DebtUpdate,
 	debtTable,
+	type DebtUpdate,
 } from "@database/schemas/main/tables/debt/debt.table";
 import {
 	CONTACT_TABLE_COLUMNS,
@@ -12,13 +12,20 @@ import {
 } from "@database/schemas/main/tables/social/contact.table";
 import { Injectable } from "@nestjs/common";
 import type {
+	ContactModel,
 	DebtListModel,
 	DebtModel,
+	DebtStatus,
 	PaginatedResponse,
 	PaginatedSearchModel,
 	UserModelId,
 } from "@shared/models";
-import { and, desc, eq, ilike, or } from "drizzle-orm";
+import { and, desc, eq, ilike, or, SQL } from "drizzle-orm";
+
+export type DebtListFilters = {
+	status?: DebtStatus;
+	debtorId?: ContactModel["id"];
+};
 
 @Injectable()
 export class DebtsRepository extends Repository {
@@ -40,6 +47,7 @@ export class DebtsRepository extends Repository {
 	async findListByUserId(
 		userId: UserModelId,
 		{ pagination, search: { search } }: PaginatedSearchModel,
+		filters: DebtListFilters = {},
 		options?: QueryOptions,
 	): Promise<PaginatedResponse<DebtListModel>> {
 		const searchCondition = search
@@ -51,13 +59,24 @@ export class DebtsRepository extends Repository {
 				)
 			: undefined;
 
+		const filtersCondition: SQL[] = [];
+		if (filters.status) {
+			filtersCondition.push(eq(debtTable.status, filters.status));
+		}
+
+		if (filters.debtorId) {
+			filtersCondition.push(eq(debtTable.debtorId, filters.debtorId));
+		}
+
 		const query = this.query(options)
 			.select({
 				...DEBT_TABLE_COLUMNS,
 				debtor: CONTACT_TABLE_COLUMNS,
 			})
 			.from(debtTable)
-			.where(and(eq(debtTable.userId, userId), searchCondition))
+			.where(
+				and(eq(debtTable.userId, userId), searchCondition, ...filtersCondition),
+			)
 			.innerJoin(contactTable, eq(debtTable.debtorId, contactTable.id))
 			.orderBy(desc(debtTable.notifiedAt))
 			.$dynamic();

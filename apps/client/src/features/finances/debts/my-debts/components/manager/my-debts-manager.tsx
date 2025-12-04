@@ -6,12 +6,14 @@ import {
 	DebtLinkers,
 } from "@fts/finances/debts/debts/components/debt-linkers";
 import { DebtsTable } from "@fts/finances/debts/debts/components/debts.table";
+import { DebtStatusSelector } from "@fts/finances/debts/debts/components/forms/items/debt-status-selector";
 import { useMyDebtDeleteMutation } from "@fts/finances/debts/my-debts/api/use-my-debt-delete.mutation";
 import { useMyDebtsListQuery } from "@fts/finances/debts/my-debts/api/use-my-debts.query";
 import { MyDebtOriginLinkManager } from "@fts/finances/debts/my-debts/components/manager/links/my-debt-origin-link-manager";
 import { MyDebtPaymentsLinkManager } from "@fts/finances/debts/my-debts/components/manager/links/my-debt-payments-link-manager";
 import { MyDebtCreateManager } from "@fts/finances/debts/my-debts/components/manager/my-debt-create-manager";
 import { MyDebtUpdateManager } from "@fts/finances/debts/my-debts/components/manager/my-debt-update-manager";
+import { MyContactsSelector } from "@fts/social/contacts/my-contacts/components/form/my-contacts.selector";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
@@ -206,6 +208,7 @@ type FilterOptions = {
 
 const Filters: FC<FilterOptions> = ({ search }) => {
 	const { t: commonT } = useTranslation("common");
+	const { t } = useTranslation("finances");
 
 	const { debouncedSearchManager } = search;
 
@@ -216,7 +219,22 @@ const Filters: FC<FilterOptions> = ({ search }) => {
 				size="xs"
 				placeholder={commonT().expressions.Search}
 			/>
-			{/* TODO: Contact selector */}
+			<MyContactsSelector
+				value={search.filters.debtorId ?? null}
+				onChange={(value) => search.setFilter("debtorId", value)}
+				disableFastCreate
+				size="xs"
+				allowClear
+				placeholder={t().debt.models.debt.debtorId.Label}
+			/>
+
+			<DebtStatusSelector
+				size="xs"
+				allowClear
+				value={search.filters.status ?? null}
+				onChange={(value) => search.setFilter("status", value)}
+				placeholder={t().debt.models.debt.status.Label}
+			/>
 		</>
 	);
 };

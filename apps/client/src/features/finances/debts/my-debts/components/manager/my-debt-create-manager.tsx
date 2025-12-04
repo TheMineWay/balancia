@@ -2,7 +2,11 @@ import { DebtForm } from "@fts/finances/debts/debts/components/forms/debt.form";
 import { useMyDebtCreateMutation } from "@fts/finances/debts/my-debts/api/use-my-debt-create.mutation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "@i18n/use-translation";
-import { DEBT_CREATE_SCHEMA, type DebtCreateModel } from "@shared/models";
+import {
+	DEBT_CREATE_SCHEMA,
+	DEBT_MODEL_VALUES,
+	type DebtCreateModel,
+} from "@shared/models";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { IoAddOutline } from "react-icons/io5";
@@ -28,6 +32,7 @@ export const MyDebtCreateManager: FC<Props> = ({ onSuccess }) => {
 		resolver: zodResolver(SCHEMA),
 		defaultValues: {
 			notifiedAt: new Date(),
+			status: DEBT_MODEL_VALUES.status.default,
 		},
 	});
 

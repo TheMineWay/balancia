@@ -4,6 +4,7 @@ import {
 	DEBT_LIST_SCHEMA,
 	DEBT_ORIGIN_SCHEMA,
 	DEBT_PAYMENT_SCHEMA,
+	DEBT_STATUS_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_SEARCH_SCHEMA,
 	TRANSACTION_SCHEMA,
@@ -20,6 +21,12 @@ const GET_LIST = {
 	paramsMapping: {},
 	queryDto: z.object({
 		...PAGINATED_SEARCH_SCHEMA.shape,
+		filters: z
+			.object({
+				status: DEBT_STATUS_SCHEMA.optional(),
+				debtorId: z.coerce.number().optional(),
+			})
+			.optional(),
 	}),
 	responseDto: getPaginatedResponse(DEBT_LIST_SCHEMA),
 } satisfies EndpointDefinition;

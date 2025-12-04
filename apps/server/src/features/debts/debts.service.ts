@@ -19,7 +19,10 @@ import {
 } from "src/features/debts/debts.events";
 import { DebtOriginRepository } from "src/features/debts/repositories/debt-origin.repository";
 import { DebtPaymentsRepository } from "src/features/debts/repositories/debt-payments.repository";
-import { DebtsRepository } from "src/features/debts/repositories/debts.repository";
+import {
+	DebtListFilters,
+	DebtsRepository,
+} from "src/features/debts/repositories/debts.repository";
 
 @Injectable()
 export class DebtsService {
@@ -82,11 +85,16 @@ export class DebtsService {
 	async findUserDebtsList(
 		userId: UserModelId,
 		{ pagination, search }: PaginatedSearchModel,
+		filters: DebtListFilters = {},
 	): Promise<PaginatedResponse<DebtListModel>> {
-		return await this.debtsRepository.findListByUserId(userId, {
-			pagination,
-			search,
-		});
+		return await this.debtsRepository.findListByUserId(
+			userId,
+			{
+				pagination,
+				search,
+			},
+			filters,
+		);
 	}
 
 	async userDebtUpdate(

@@ -29,12 +29,17 @@ export class MyDebtsController {
 	@Endpoint(MY_DEBTS_CONTROLLER, "getDebts")
 	async getDebtsList(
 		@UserId() userId: UserModelId,
-		@ValidatedQuery(MY_DEBTS_CONTROLLER, "getDebts") query: InferQueryDto<
-			typeof MY_DEBTS_CONTROLLER,
-			"getDebts"
-		>,
+		@ValidatedQuery(MY_DEBTS_CONTROLLER, "getDebts") {
+			pagination,
+			search,
+			filters,
+		}: InferQueryDto<typeof MY_DEBTS_CONTROLLER, "getDebts">,
 	): Promise<InferResponseDto<typeof MY_DEBTS_CONTROLLER, "getDebts">> {
-		return await this.debtsService.findUserDebtsList(userId, query);
+		return await this.debtsService.findUserDebtsList(
+			userId,
+			{ pagination, search },
+			filters,
+		);
 	}
 
 	@ApiOperation({ summary: "Create a new debt" })
