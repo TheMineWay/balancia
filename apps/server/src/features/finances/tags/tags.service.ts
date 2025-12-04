@@ -2,12 +2,7 @@ import { DATABASE_PROVIDERS } from "@database/database.provider";
 import type { QueryOptions } from "@database/repository/repository";
 import type { TagSelect } from "@database/schemas/main/tables/finances/tag.table";
 import { DatabaseService } from "@database/services/database.service";
-import {
-	Inject,
-	Injectable,
-	NotFoundException,
-	UnauthorizedException,
-} from "@nestjs/common";
+import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import type {
 	OwnedModel,
 	PaginatedSearchModel,
@@ -92,20 +87,24 @@ export class TagsService {
 
 	// #endregion
 
-	// User related
+	// #region User related CRUD
 
-	async getUserTagById(
+	async userGetById(
 		userId: UserModelId,
 		tagId: TagModel["id"],
 		options?: QueryOptions,
 	) {
-		const tag = await this.getById(tagId, options);
-		if (!tag || tag.userId !== userId) throw new NotFoundException();
+		const { tag, isOwner } = await this.checkTagOwnership(
+			userId,
+			tagId,
+			options,
+		);
+		if (!isOwner || !tag) throw new UnauthorizedException();
 
 		return tag;
 	}
 
-	async updateUserTag(
+	async userUpdateById(
 		userId: UserModelId,
 		tagId: TagModel["id"],
 		data: Partial<TagCreateModel>,
@@ -118,7 +117,7 @@ export class TagsService {
 		});
 	}
 
-	async deleteUserTag(userId: UserModel["id"], tagId: TagModel["id"]) {
+	async userDeleteById(userId: UserModel["id"], tagId: TagModel["id"]) {
 		return await this.databaseService.db.transaction(async (transaction) => {
 			const tag = await this.getById(tagId, { transaction });
 			if (!tag || tag.userId !== userId) throw new UnauthorizedException();
@@ -126,6 +125,8 @@ export class TagsService {
 			await this.deleteById(tagId, { transaction });
 		});
 	}
+
+	// #endregion
 
 	// #region Transaction related
 
@@ -162,7 +163,7 @@ export class TagsService {
 				);
 			if (!isOwner) throw new UnauthorizedException();
 
-			const userTag = await this.getUserTagById(userId, tagId, { transaction });
+			const userTag = await this.userGetById(userId, tagId, { transaction });
 
 			return await this.tagsRepository.addTagToTransaction(
 				userTag.id,
@@ -186,7 +187,7 @@ export class TagsService {
 				);
 			if (!isOwner) throw new UnauthorizedException();
 
-			const userTag = await this.getUserTagById(userId, tagId, { transaction });
+			const userTag = await this.userGetById(userId, tagId, { transaction });
 
 			return await this.tagsRepository.removeTagFromTransaction(
 				userTag.id,

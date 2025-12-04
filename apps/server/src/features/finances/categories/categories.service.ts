@@ -1,9 +1,13 @@
-import { Injectable } from "@nestjs/common";
+import { DATABASE_PROVIDERS } from "@database/database.provider";
+import { QueryOptions } from "@database/repository/repository";
+import { CategorySelect } from "@database/schemas/main/tables/finances/category.table";
+import { DatabaseService } from "@database/services/database.service";
+import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import {
 	CategoryCreateModel,
 	CategoryModel,
+	OwnedModel,
 	PaginatedSearchModel,
-	UserModel,
 	UserModelId,
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
@@ -19,10 +23,64 @@ export class CategoriesService {
 	constructor(
 		private readonly categoriesRepository: CategoriesRepository,
 		private readonly eventService: EventService,
+		@Inject(DATABASE_PROVIDERS.main)
+		private readonly databaseService: DatabaseService,
 	) {}
 
+	async checkCategoryOwnership(
+		userId: UserModelId,
+		categoryId: CategoryModel["id"],
+		options?: QueryOptions,
+	): Promise<CheckCategoryOwnershipResponse> {
+		const category = await this.categoriesRepository.findCategoryByUserId(
+			userId,
+			categoryId,
+			options,
+		);
+
+		if (category) {
+			return { isOwner: true, category };
+		} else {
+			return { isOwner: false, category: null };
+		}
+	}
+
+	async create(category: OwnedModel<CategoryCreateModel>) {
+		const created = await this.categoriesRepository.create(category);
+
+		this.eventService.emit(new CategoryCreatedEvent({ category: created }));
+
+		return created;
+	}
+
+	async updateById(
+		categoryId: CategoryModel["id"],
+		data: Partial<CategoryCreateModel>,
+		options?: QueryOptions,
+	) {
+		const updated = await this.categoriesRepository.updateById(
+			categoryId,
+			data,
+			options,
+		);
+
+		if (updated) {
+			this.eventService.emit(new CategoryUpdatedEvent({ category: updated }));
+		}
+
+		return updated;
+	}
+
+	async deleteById(categoryId: CategoryModel["id"], options?: QueryOptions) {
+		await this.categoriesRepository.deleteById(categoryId, options);
+
+		this.eventService.emit(new CategoryDeletedEvent({ categoryId }));
+	}
+
+	// #region User Methods
+
 	async getPaginatedCategoriesByUserId(
-		userId: UserModel["id"],
+		userId: UserModelId,
 		{ pagination, search }: PaginatedSearchModel,
 	) {
 		return await this.categoriesRepository.paginatedFindByUserId(
@@ -42,40 +100,42 @@ export class CategoriesService {
 		);
 	}
 
-	async create(userId: UserModel["id"], category: CategoryCreateModel) {
-		const created = await this.categoriesRepository.create({
+	async userCreate(userId: UserModelId, category: CategoryCreateModel) {
+		return await this.create({
 			...category,
 			userId,
 		});
-
-		this.eventService.emit(new CategoryCreatedEvent({ category: created }));
-
-		return created;
 	}
 
-	async deleteByUserIdAndId(
-		userId: UserModel["id"],
-		categoryId: CategoryModel["id"],
-	) {
-		await this.categoriesRepository.deleteByUserIdAndId(userId, categoryId);
-		this.eventService.emit(new CategoryDeletedEvent({ categoryId }));
+	async userDeleteById(userId: UserModelId, categoryId: CategoryModel["id"]) {
+		return await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner } = await this.checkCategoryOwnership(userId, categoryId, {
+				transaction,
+			});
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.deleteById(categoryId, { transaction });
+		});
 	}
 
-	async updateByUserIdAndId(
-		userId: UserModel["id"],
+	async userUpdateById(
+		userId: UserModelId,
 		categoryId: CategoryModel["id"],
 		data: Partial<CategoryCreateModel>,
 	) {
-		const updated = await this.categoriesRepository.updateByUserIdAndId(
-			userId,
-			categoryId,
-			data,
-		);
+		return await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner } = await this.checkCategoryOwnership(userId, categoryId);
+			if (!isOwner) throw new UnauthorizedException();
 
-		if (updated) {
-			this.eventService.emit(new CategoryUpdatedEvent({ category: updated }));
-		}
-
-		return updated;
+			return await this.updateById(categoryId, data, { transaction });
+		});
 	}
+
+	// #endregion
 }
+
+/* Internal */
+
+type CheckCategoryOwnershipResponse =
+	| { isOwner: true; category: CategorySelect }
+	| { isOwner: false; category: null };

@@ -1,18 +1,18 @@
 import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
 import {
-	Controller,
-	NotFoundException,
-	Param,
-	ParseIntPipe,
+    Controller,
+    NotFoundException,
+    Param,
+    ParseIntPipe,
 } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
 import {
-	getController,
-	getParamName,
-	InferBodyDto,
-	InferQueryDto,
-	InferResponseDto,
-	MY_TRANSACTION_CONTROLLER,
+    getController,
+    getParamName,
+    InferBodyDto,
+    InferQueryDto,
+    InferResponseDto,
+    MY_TRANSACTION_CONTROLLER,
 } from "@shared/api-definition";
 import { UserModel } from "@shared/models";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
@@ -74,7 +74,7 @@ export class MyTransactionsController {
 	): Promise<
 		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "createTransaction">
 	> {
-		await this.transactionsService.create(userId, body);
+		await this.transactionsService.userCreate(userId, body);
 	}
 
 	@ApiOperation({ summary: "Update an existing user transaction" })
@@ -91,7 +91,7 @@ export class MyTransactionsController {
 	): Promise<
 		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "updateTransaction">
 	> {
-		await this.transactionsService.updateByUserIdAndId(
+		await this.transactionsService.userUpdateById(
 			userId,
 			transactionId,
 			body,
@@ -111,7 +111,7 @@ export class MyTransactionsController {
 	): Promise<
 		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "deleteTransaction">
 	> {
-		await this.transactionsService.deleteByUserIdAndId(userId, transactionId);
+		await this.transactionsService.userDeleteById(userId, transactionId);
 	}
 
 	// Import
@@ -135,7 +135,7 @@ export class MyTransactionsController {
 	): Promise<
 		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "bulkCreateTransactions">
 	> {
-		await this.transactionsService.accountBulkCreate(
+		await this.transactionsService.userAccountBulkCreate(
 			userId,
 			accountId,
 			body.transactions,

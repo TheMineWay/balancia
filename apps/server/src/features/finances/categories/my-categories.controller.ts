@@ -1,18 +1,18 @@
 import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
 import {
-	Controller,
-	NotFoundException,
-	Param,
-	ParseIntPipe,
+    Controller,
+    NotFoundException,
+    Param,
+    ParseIntPipe,
 } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
 import {
-	getController,
-	getParamName,
-	type InferBodyDto,
-	type InferQueryDto,
-	type InferResponseDto,
-	MY_CATEGORY_CONTROLLER,
+    getController,
+    getParamName,
+    type InferBodyDto,
+    type InferQueryDto,
+    type InferResponseDto,
+    MY_CATEGORY_CONTROLLER,
 } from "@shared/api-definition";
 import { UserModel } from "@shared/models";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
@@ -67,7 +67,7 @@ export class MyCategoriesController {
 	): Promise<
 		InferResponseDto<typeof MY_CATEGORY_CONTROLLER, "createCategory">
 	> {
-		await this.categoriesService.create(userId, body);
+		await this.categoriesService.userCreate(userId, body);
 	}
 
 	@ApiOperation({ summary: "Delete a user category" })
@@ -82,7 +82,7 @@ export class MyCategoriesController {
 	): Promise<
 		InferResponseDto<typeof MY_CATEGORY_CONTROLLER, "deleteCategory">
 	> {
-		await this.categoriesService.deleteByUserIdAndId(userId, categoryId);
+		await this.categoriesService.userDeleteById(userId, categoryId);
 	}
 
 	@ApiOperation({ summary: "Update an existing user category" })
@@ -101,6 +101,6 @@ export class MyCategoriesController {
 	): Promise<
 		InferResponseDto<typeof MY_CATEGORY_CONTROLLER, "updateCategory">
 	> {
-		await this.categoriesService.updateByUserIdAndId(userId, categoryId, body);
+		await this.categoriesService.userUpdateById(userId, categoryId, body);
 	}
 }

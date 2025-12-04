@@ -63,7 +63,7 @@ export class AccountsService {
 	// #region User oriented
 
 	async checkAccountOwnership(
-		userId: UserModel["id"],
+		userId: UserModelId,
 		accountId: AccountModel["id"],
 		queryOptions?: QueryOptions,
 	): Promise<CheckAccountOwnershipResponse> {
