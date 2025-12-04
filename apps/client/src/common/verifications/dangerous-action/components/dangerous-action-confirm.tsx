@@ -62,7 +62,6 @@ export const DangerousActionConfirm: FC<Props> = ({
 			}
 			opened={open}
 			onClose={() => onClose?.()}
-			centered
 		>
 			<Flex direction="column" gap="1rem">
 				<Text>{description}</Text>
