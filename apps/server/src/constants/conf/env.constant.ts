@@ -72,6 +72,12 @@ const ENV_SCHEMA = z.object({
 		.default("200")
 		.transform(toNum)
 		.refine(refinedMin(1)),
+	AUTH_DIRECTORY_MAX_PARALLEL_SYNCS: z
+		.string()
+		.optional()
+		.default("5")
+		.transform(toNum)
+		.refine(refinedMin(1)),
 
 	// CACHE
 	USER_CACHE_TTL: z
@@ -144,6 +150,7 @@ export const ENV = (() => {
 			apiUrl: values.AUTH_DIRECTORY_API_URL,
 			apiKey: values.AUTH_DIRECTORY_API_KEY,
 			syncBatchSize: values.AUTH_DIRECTORY_SYNC_BATCH_SIZE,
+			maxParallelSyncs: values.AUTH_DIRECTORY_MAX_PARALLEL_SYNCS,
 		},
 		docs: {
 			openApiDocs: values.OPEN_API_DOCS,

@@ -8,6 +8,7 @@ import { Cron } from "@nestjs/schedule";
 
 // How many users will be fetched per request
 const SYNC_USERS_PER_REQUEST = ENV.authDirectory.syncBatchSize;
+const MAX_PARALLEL_SYNCS = ENV.authDirectory.maxParallelSyncs;
 
 @Injectable()
 export class UserIntegrationService {
@@ -23,7 +24,7 @@ export class UserIntegrationService {
 		Logger.log("Syncing users with OIDC directory...", "User integration");
 
 		await this.databaseService.db.transaction(async (transaction) => {
-			const pendingQueries: Promise<void>[] = []; // Stores promises for pending queries
+			let pendingQueries: Promise<void>[] = []; // Stores promises for pending queries
 
 			let nextPage: number | null = null;
 			while (nextPage !== 0) {
@@ -54,6 +55,12 @@ export class UserIntegrationService {
 						},
 					),
 				);
+
+				// If we have reached the max parallel syncs, wait for all to complete
+				if (pendingQueries.length >= MAX_PARALLEL_SYNCS) {
+					await Promise.all(pendingQueries);
+					pendingQueries = [];
+				}
 			}
 
 			// Wait for queries to complete
