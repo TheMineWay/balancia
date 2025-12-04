@@ -1,3 +1,4 @@
+import { ENV } from "@constants/conf/env.constant";
 import { UserService } from "@core/auth/user/user.service";
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { DatabaseService } from "@database/services/database.service";
@@ -6,7 +7,7 @@ import { Inject, Injectable, Logger } from "@nestjs/common";
 import { Cron } from "@nestjs/schedule";
 
 // How many users will be fetched per request
-const SYNC_USERS_PER_REQUEST = 200;
+const SYNC_USERS_PER_REQUEST = ENV.authDirectory.syncBatchSize;
 
 @Injectable()
 export class UserIntegrationService {

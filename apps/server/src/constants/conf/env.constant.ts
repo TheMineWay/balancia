@@ -66,23 +66,29 @@ const ENV_SCHEMA = z.object({
 	// AUTH DIRECTORY
 	AUTH_DIRECTORY_API_URL: z.url(),
 	AUTH_DIRECTORY_API_KEY: z.string(),
+	AUTH_DIRECTORY_SYNC_BATCH_SIZE: z
+		.string()
+		.optional()
+		.default("200")
+		.transform(toNum)
+		.refine(refinedMin(1)),
 
 	// CACHE
 	USER_CACHE_TTL: z
 		.string()
 		.default("28800000")
 		.transform((val) => +val)
-		.refine((val) => isFinite(val) && val >= 0),
+		.refine((val) => Number.isFinite(val) && val >= 0),
 	USER_AUTH_INFO_CACHE_TTL: z
 		.string()
 		.default("1800000")
 		.transform((val) => +val)
-		.refine((val) => isFinite(val) && val >= 0),
+		.refine((val) => Number.isFinite(val) && val >= 0),
 	DATA_CACHE_TTL: z
 		.string()
 		.default("600000")
 		.transform((val) => +val)
-		.refine((val) => isFinite(val) && val >= 0),
+		.refine((val) => Number.isFinite(val) && val >= 0),
 });
 
 const TEST_VALUES: Partial<z.infer<typeof ENV_SCHEMA>> = {
@@ -137,6 +143,7 @@ export const ENV = (() => {
 		authDirectory: {
 			apiUrl: values.AUTH_DIRECTORY_API_URL,
 			apiKey: values.AUTH_DIRECTORY_API_KEY,
+			syncBatchSize: values.AUTH_DIRECTORY_SYNC_BATCH_SIZE,
 		},
 		docs: {
 			openApiDocs: values.OPEN_API_DOCS,
