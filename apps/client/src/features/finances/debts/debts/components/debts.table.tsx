@@ -3,6 +3,7 @@ import { DatetimeRender } from "@common/extended-ui/date/components/datetime-ren
 import { Table } from "@common/extended-ui/table/components/table";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
 import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
+import { DebtStatusBadge } from "@fts/finances/debts/debts/components/status/debt-status-badge";
 import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Group, Text } from "@mantine/core";
 import type { DebtListModel } from "@shared/models";
@@ -47,6 +48,11 @@ export const DebtsTable: FC<Props> = ({
 			{
 				label: t().debt.models.debt.reason.Label,
 				accessorKey: "reason",
+			},
+			{
+				label: t().debt.models.debt.status.Label,
+				accessorKey: "status",
+				render: (row) => <DebtStatusBadge status={row.status} />,
 			},
 			{
 				label: t().debt.models.debt.notifiedAt.Label,

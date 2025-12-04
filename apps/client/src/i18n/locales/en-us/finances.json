@@ -235,11 +235,28 @@
 				},
 				"notifiedAt": {
 					"Label": "Notified at"
+				},
+				"status": {
+					"Label": "Status"
 				}
 			},
 			"debt-payment": {
 				"paidAt": {
 					"Label": "Paid at"
+				}
+			},
+			"debt-status": {
+				"pending": {
+					"Label": "Pending"
+				},
+				"paid": {
+					"Label": "Paid"
+				},
+				"wont-pay": {
+					"Label": "Won't pay"
+				},
+				"pardoned": {
+					"Label": "Pardoned"
 				}
 			}
 		},

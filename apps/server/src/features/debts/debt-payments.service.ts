@@ -5,6 +5,7 @@ import {
 	DebtModel,
 	DebtPaymentCreateModel,
 	DebtPaymentModel,
+	DebtStatus,
 	TransactionModel,
 	UserModelId,
 } from "@shared/models";
@@ -26,7 +27,7 @@ export class DebtPaymentsService {
 		private readonly databaseService: DatabaseService,
 	) {}
 
-	//#region User
+	// #region User
 	async userSetToDebt(
 		userId: UserModelId,
 		debtId: DebtModel["id"],
@@ -37,7 +38,7 @@ export class DebtPaymentsService {
 		let createdPayments: DebtPaymentModel[] = [];
 
 		await this.databaseService.db.transaction(async (transaction) => {
-			const { isOwner } = await this.debtsService.checkOwnership(
+			const { isOwner, debt } = await this.debtsService.checkOwnership(
 				debtId,
 				userId,
 				{
@@ -67,6 +68,23 @@ export class DebtPaymentsService {
 					transaction,
 				},
 			);
+
+			// Change status if needed
+			if (debt.status === DebtStatus.PENDING) {
+				const totalPaid =
+					await this.debtPaymentsRepository.findDebtPaymentsAggregation(
+						debtId,
+						{ transaction },
+					);
+
+				if (totalPaid >= debt.amount) {
+					await this.debtsService.update(
+						debtId,
+						{ status: DebtStatus.PAID },
+						{ transaction },
+					);
+				}
+			}
 
 			deletedPayments = existingPayments;
 		});
@@ -103,5 +121,5 @@ export class DebtPaymentsService {
 			);
 		});
 	}
-	//#endregion
+	// #endregion
 }

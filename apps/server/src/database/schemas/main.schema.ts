@@ -4,7 +4,10 @@ export { timePrecisionEnum } from "@database/schemas/main/enums/time-precision.d
 export { debtOriginTable as debtOriginalTransactionTable } from "@database/schemas/main/tables/debt/debt-origin.table";
 export { debtPaymentTable } from "@database/schemas/main/tables/debt/debt-payments.table";
 export { debtSchema } from "@database/schemas/main/tables/debt/debt.schema";
-export { debtTable } from "@database/schemas/main/tables/debt/debt.table";
+export {
+	debtStatusEnum,
+	debtTable,
+} from "@database/schemas/main/tables/debt/debt.table";
 export {
 	accountCategoryExpensesStatsMaterializedView,
 	accountMonthlyStatsMaterializedView,

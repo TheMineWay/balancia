@@ -1,5 +1,6 @@
 import { CashInputField } from "@common/extended-ui/form/components/finances/cash.input-field";
 import { Form } from "@common/extended-ui/form/components/form";
+import { DebtStatusSelector } from "@fts/finances/debts/debts/components/forms/items/debt-status-selector";
 import { MyContactsSelector } from "@fts/social/contacts/my-contacts/components/form/my-contacts.selector";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Input, Textarea } from "@mantine/core";
@@ -30,13 +31,14 @@ export const DebtForm: FC<Props> = ({
 	const amountFieldId = useId();
 	const reasonFieldId = useId();
 	const notifiedAtFieldId = useId();
+	const statusFieldId = useId();
 
 	const { handleSubmit, control, formState } = form;
 
 	return (
 		<Form onSubmit={handleSubmit((debt) => onSuccess?.(debt))}>
 			{/* Debtor */}
-			<Input.Wrapper label={t().debt.models.debt.debtorId.Label} required>
+			<Input.Wrapper label={t().debt.models.debt.debtorId.Label}>
 				<Controller
 					control={control}
 					name="debtorId"
@@ -91,6 +93,24 @@ export const DebtForm: FC<Props> = ({
 					name="notifiedAt"
 					render={({ field: { ref: _, ...restField } }) => (
 						<DateTimePicker {...restField} id={notifiedAtFieldId} />
+					)}
+				/>
+			</Input.Wrapper>
+
+			{/* Status */}
+			<Input.Wrapper
+				label={t().debt.models.debt.status.Label}
+				labelProps={{ htmlFor: statusFieldId }}
+			>
+				<Controller
+					control={control}
+					name="status"
+					render={({ field: { value, onChange } }) => (
+						<DebtStatusSelector
+							value={value}
+							onChange={onChange}
+							id={statusFieldId}
+						/>
 					)}
 				/>
 			</Input.Wrapper>

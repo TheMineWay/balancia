@@ -1,6 +1,6 @@
 {
-	"id": "2061a648-3924-402c-bd6e-9427099a7b14",
-	"prevId": "8b0e01b1-43ab-4b21-b4f8-8d2ed35d477e",
+	"id": "42361369-c430-4005-9f6e-e6e07f144d59",
+	"prevId": "2061a648-3924-402c-bd6e-9427099a7b14",
 	"version": "7",
 	"dialect": "postgresql",
 	"tables": {
@@ -455,6 +455,14 @@
 					"type": "timestamp",
 					"primaryKey": false,
 					"notNull": false
+				},
+				"status": {
+					"name": "status",
+					"type": "debt_status",
+					"typeSchema": "debt",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'pending'"
 				},
 				"createdAt": {
 					"name": "createdAt",
@@ -1198,14 +1206,6 @@
 					"primaryKey": true,
 					"notNull": true
 				},
-				"contactCodeGenerationStrategy": {
-					"name": "contactCodeGenerationStrategy",
-					"type": "contact_code_generation_strategy",
-					"typeSchema": "social",
-					"primaryKey": false,
-					"notNull": true,
-					"default": "'NAME-HASH'"
-				},
 				"createdAt": {
 					"name": "createdAt",
 					"type": "timestamp",
@@ -1316,10 +1316,10 @@
 		}
 	},
 	"enums": {
-		"social.contact_code_generation_strategy": {
-			"name": "contact_code_generation_strategy",
-			"schema": "social",
-			"values": ["UUID", "NAME-HASH"]
+		"debt.debt_status": {
+			"name": "debt_status",
+			"schema": "debt",
+			"values": ["pending", "paid", "wont-pay", "pardoned"]
 		},
 		"public.time_precision": {
 			"name": "time_precision",

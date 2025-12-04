@@ -1,5 +1,9 @@
 import { ID_SCHEMA } from "@/common/__system/id.model";
 import { MONEY_SCHEMA } from "@/common/finances/money.model";
+import {
+	DEBT_STATUS_SCHEMA,
+	DebtStatus,
+} from "@/features/debts/debt-status.model";
 import { CONTACT_SCHEMA } from "@/features/social/contact/contact.model";
 import { DATE_SCHEMA } from "@/utils/date.model";
 import { nullableStringTransform } from "@/utils/nullable-string.model";
@@ -10,6 +14,9 @@ import z from "zod";
 export const DEBT_MODEL_VALUES = {
 	reason: {
 		maxLength: 2048,
+	},
+	status: {
+		default: DebtStatus.PENDING,
 	},
 } satisfies ModelValues;
 
@@ -26,6 +33,7 @@ export const DEBT_SCHEMA = z.object({
 			z.string().max(DEBT_MODEL_VALUES.reason.maxLength).nullable(),
 		)
 		.default(null),
+	status: DEBT_STATUS_SCHEMA.default(DEBT_MODEL_VALUES.status.default),
 
 	notifiedAt: DATE_SCHEMA.nullable(), // Indicates when has the debt been communicated. If null, it means it has not been communicated yet
 	...TIMESTAMPS_SCHEMA.shape,

@@ -9,7 +9,7 @@ import {
 import { TRANSACTIONS_TABLE_COLUMNS } from "@database/schemas/main/tables/finances/transaction.table";
 import { Injectable } from "@nestjs/common";
 import { DebtPaymentModel } from "@shared/models";
-import { eq } from "drizzle-orm";
+import { eq, sum } from "drizzle-orm";
 
 @Injectable()
 export class DebtPaymentsRepository extends Repository {
@@ -86,4 +86,21 @@ export class DebtPaymentsRepository extends Repository {
 			.delete(debtPaymentTable)
 			.where(eq(debtPaymentTable.debtId, debtId));
 	}
+
+	// #region Statistics
+
+	async findDebtPaymentsAggregation(
+		debtId: DebtPaymentModel["debtId"],
+		options?: QueryOptions,
+	) {
+		const result = (
+			await this.query(options)
+				.select({ total: sum(debtPaymentTable.amount) })
+				.from(debtPaymentTable)
+				.where(eq(debtPaymentTable.debtId, debtId))
+		)[0];
+		return result.total ? Number(result.total) : 0;
+	}
+
+	// #endregion
 }

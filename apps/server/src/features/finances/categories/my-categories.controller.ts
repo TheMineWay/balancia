@@ -1,18 +1,18 @@
 import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
 import {
-    Controller,
-    NotFoundException,
-    Param,
-    ParseIntPipe,
+	Controller,
+	NotFoundException,
+	Param,
+	ParseIntPipe,
 } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
 import {
-    getController,
-    getParamName,
-    type InferBodyDto,
-    type InferQueryDto,
-    type InferResponseDto,
-    MY_CATEGORY_CONTROLLER,
+	getController,
+	getParamName,
+	type InferBodyDto,
+	type InferQueryDto,
+	type InferResponseDto,
+	MY_CATEGORY_CONTROLLER,
 } from "@shared/api-definition";
 import { UserModel } from "@shared/models";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";

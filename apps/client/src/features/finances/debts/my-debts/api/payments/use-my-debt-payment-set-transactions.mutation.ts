@@ -1,6 +1,7 @@
 import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authenticated-request.util";
 import { endpointMutation } from "@core/requests/lib/endpoint-mutation.util";
 import { USE_MY_DEBT_PAYMENT_GET_TRANSACTIONS_QUERY_KEY } from "@fts/finances/debts/my-debts/api/payments/use-my-debt-payment-get-transactions.query";
+import { MY_DEBTS_BASE_QUERY_KEY } from "@fts/finances/debts/my-debts/api/use-my-debts.query";
 import { MY_DEBTS_CONTROLLER } from "@shared/api-definition";
 import type { DebtModel, DebtPaymentCreateModel } from "@shared/models";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -27,6 +28,9 @@ export const useMyDebtPaymentSetTransactionsMutation = () => {
 		onSuccess: (_, { debtId }) => {
 			queryClient.invalidateQueries({
 				queryKey: USE_MY_DEBT_PAYMENT_GET_TRANSACTIONS_QUERY_KEY({ debtId }),
+			});
+			queryClient.invalidateQueries({
+				queryKey: [MY_DEBTS_BASE_QUERY_KEY],
 			});
 		},
 	});

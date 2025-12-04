@@ -109,9 +109,13 @@ export class CategoriesService {
 
 	async userDeleteById(userId: UserModelId, categoryId: CategoryModel["id"]) {
 		return await this.databaseService.db.transaction(async (transaction) => {
-			const { isOwner } = await this.checkCategoryOwnership(userId, categoryId, {
-				transaction,
-			});
+			const { isOwner } = await this.checkCategoryOwnership(
+				userId,
+				categoryId,
+				{
+					transaction,
+				},
+			);
 			if (!isOwner) throw new UnauthorizedException();
 
 			return await this.deleteById(categoryId, { transaction });

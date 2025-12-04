@@ -36,6 +36,7 @@ export const MyDebtUpdateManager: FC<Props> = ({ onSuccess, debt }) => {
 			amount: debt.amount,
 			reason: debt.reason,
 			notifiedAt: debt.notifiedAt,
+			status: debt.status,
 		},
 	});
 

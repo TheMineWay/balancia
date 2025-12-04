@@ -77,11 +77,10 @@ export class MyContactsController {
 	async bulkCreateContacts(
 		@UserId() userId: UserModelId,
 		@ValidatedBody(MY_CONTACTS_CONTROLLER, "bulkCreateContacts")
-		body: InferBodyDto<
-			typeof MY_CONTACTS_CONTROLLER,
-			"bulkCreateContacts"
-		>,
-	): Promise<InferResponseDto<typeof MY_CONTACTS_CONTROLLER, "bulkCreateContacts">> {
+		body: InferBodyDto<typeof MY_CONTACTS_CONTROLLER, "bulkCreateContacts">,
+	): Promise<
+		InferResponseDto<typeof MY_CONTACTS_CONTROLLER, "bulkCreateContacts">
+	> {
 		await this.contactsService.bulkCreate(userId, body.contacts);
 	}
 }

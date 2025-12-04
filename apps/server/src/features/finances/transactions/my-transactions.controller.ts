@@ -1,18 +1,18 @@
 import { UserId } from "@core/auth/auth/decorators/user/user-id.decorator";
 import {
-    Controller,
-    NotFoundException,
-    Param,
-    ParseIntPipe,
+	Controller,
+	NotFoundException,
+	Param,
+	ParseIntPipe,
 } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
 import {
-    getController,
-    getParamName,
-    InferBodyDto,
-    InferQueryDto,
-    InferResponseDto,
-    MY_TRANSACTION_CONTROLLER,
+	getController,
+	getParamName,
+	InferBodyDto,
+	InferQueryDto,
+	InferResponseDto,
+	MY_TRANSACTION_CONTROLLER,
 } from "@shared/api-definition";
 import { UserModel } from "@shared/models";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
@@ -91,11 +91,7 @@ export class MyTransactionsController {
 	): Promise<
 		InferResponseDto<typeof MY_TRANSACTION_CONTROLLER, "updateTransaction">
 	> {
-		await this.transactionsService.userUpdateById(
-			userId,
-			transactionId,
-			body,
-		);
+		await this.transactionsService.userUpdateById(userId, transactionId, body);
 	}
 
 	@ApiOperation({ summary: "Delete a user transaction" })

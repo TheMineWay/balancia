@@ -64,10 +64,7 @@ export class ContactsService {
 		return created;
 	}
 
-	async bulkCreate(
-		userId: UserModelId,
-		contacts: ContactCreateModel[],
-	) {
+	async bulkCreate(userId: UserModelId, contacts: ContactCreateModel[]) {
 		const createdContacts = await this.contactsRepository.bulkCreate(
 			contacts.map((contact) => ({
 				...contact,
@@ -75,7 +72,7 @@ export class ContactsService {
 			})),
 		);
 
-		for(const contact of createdContacts) {
+		for (const contact of createdContacts) {
 			this.eventService.emit(new ContactCreatedEvent({ contact }));
 		}
 
