@@ -12,9 +12,6 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 		isDevelopment: true,
 	},
 	{
-		dep: "body-parser",
-	},
-	{
 		dep: "@types/lodash",
 		isDevelopment: true,
 	},
