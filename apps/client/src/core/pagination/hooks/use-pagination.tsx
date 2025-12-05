@@ -1,3 +1,5 @@
+import { useLocalConfig } from "@providers/config/local-config.context";
+import { GLOBAL_CONFIGS } from "@shared/constants";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Options = {
@@ -18,13 +20,20 @@ type Pagination = {
  */
 export const usePagination = ({
 	total: initialTotal = 0,
-	initialPageSize = 20,
+	initialPageSize,
 	initialPage = 1,
 	onPaginationChange,
 }: Options = {}) => {
+	const {
+		config: { pagination: paginationConfig },
+	} = useLocalConfig();
+
 	const [pagination, setPagination] = useState<Pagination>({
 		page: initialPage,
-		limit: initialPageSize,
+		limit:
+			initialPageSize ??
+			paginationConfig?.pageSize ??
+			GLOBAL_CONFIGS.PAGINATION.DEFAULT_PAGE_SIZE,
 	});
 	const [totalState, setTotalState] = useState(initialTotal);
 
@@ -68,6 +77,12 @@ export const usePagination = ({
 		[totalState],
 	);
 
+	const setLimit = useCallback(
+		(newLimit: number) =>
+			setPagination((prev) => ({ ...prev, limit: newLimit })),
+		[],
+	);
+
 	return {
 		pagination,
 		setPagination,
@@ -77,6 +92,7 @@ export const usePagination = ({
 		requestData,
 		hasMore,
 		next,
+		setLimit,
 	};
 };
 
