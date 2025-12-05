@@ -26,7 +26,8 @@
     "Unassign-sth": "Unassign {name}",
     "Save": "Save",
     "Reload": "Reload",
-    "Profile": "Profile"
+    "Profile": "Profile",
+    "Clear": "Clear"
   },
   "templates": {
     "confirm-modal": {

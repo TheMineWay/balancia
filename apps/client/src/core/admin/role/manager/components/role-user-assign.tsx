@@ -55,6 +55,7 @@ export const RoleUserAssign: FC<Props> = ({ role, onSuccess }) => {
 				search={search}
 				value={selectedUserId}
 				setValue={setSelectedUserId}
+				getKey={(item) => item}
 			/>
 			<Button
 				leftSection={<LuUserCog />}

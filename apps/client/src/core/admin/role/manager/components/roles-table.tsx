@@ -103,5 +103,11 @@ export const RolesTable: FC<Props> = ({
 		],
 		rowKey: "id",
 	});
-	return <Table table={table} loading={isLoadingRoles} />;
+	return (
+		<Table
+			table={table}
+			loading={isLoadingRoles}
+			classNames={{ root: "max-h-[25rem]" }}
+		/>
+	);
 };
