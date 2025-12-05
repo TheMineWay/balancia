@@ -10,7 +10,7 @@ export const ValidatedBody = <
 	endpoint: E,
 ) =>
 	createParamDecorator((_, ctx: ExecutionContext) => {
-		const schema = controller.endpoints[endpoint as string].bodyDto;
+		const schema = controller.endpoints[endpoint as string]?.bodyDto;
 		if (!schema) return {};
 
 		const request: Request = ctx.switchToHttp().getRequest();

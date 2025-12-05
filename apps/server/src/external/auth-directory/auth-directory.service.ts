@@ -35,7 +35,8 @@ export class AuthDirectoryService {
 		// Then, perform integration
 		const { results: users } = await this.getUsers({}, { username });
 
-		if (users.length > 0) return users[0];
+		const foundUser = users[0];
+		if (foundUser) return foundUser;
 
 		await this.userIntegrationFailures.set(username, true);
 		return null;

@@ -43,7 +43,6 @@
 		"@shared/models": "workspace:*",
 		"@shared/utils": "workspace:*",
 		"axios": "^1.13.2",
-		"body-parser": "^2.2.1",
 		"cacheable": "^2.3.0",
 		"date-fns": "^4.1.0",
 		"drizzle-orm": "^0.45.0",
