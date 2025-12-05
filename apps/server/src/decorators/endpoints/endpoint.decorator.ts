@@ -45,6 +45,11 @@ export function Endpoint<
 >(controller: C, endpoint: E): MethodDecorator {
 	const e = controller.endpoints[endpoint as string];
 
+	if (!e)
+		throw new Error(
+			`Endpoint ${String(endpoint)} not found in controller ${controller.getPath({})}`,
+		);
+
 	const params = e.paramsMapping;
 	const mappedParams: Record<string, string> = {};
 

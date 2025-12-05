@@ -2,7 +2,7 @@ import { Logger } from "@nestjs/common";
 import "dotenv/config";
 import { z } from "zod";
 
-const toNum = (value) => Number(value);
+const toNum = (value: unknown) => Number(value);
 const refinedMin = (min: number) => (val: number) => val >= min;
 
 const ENV_SCHEMA = z.object({

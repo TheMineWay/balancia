@@ -38,7 +38,8 @@ export class JwtAuthGuard extends AuthGuard("jwt") implements CanActivate {
 		}
 	}
 
-	handleRequest(err, user) {
+	// biome-ignore lint/suspicious/noExplicitAny: this infers any type from the library
+	handleRequest(err: Error, user: any) {
 		if (err || !user) {
 			throw err || new UnauthorizedException();
 		}

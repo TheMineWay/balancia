@@ -3,7 +3,6 @@ import { NestFactory } from "@nestjs/core";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as pkg from "@pkg";
-import * as bodyParser from "body-parser";
 import * as fs from "fs";
 import helmet from "helmet";
 import { AppModule } from "./app.module";
@@ -45,13 +44,11 @@ async function bootstrap() {
 	app.use(helmet());
 
 	// Limit request sizes
-	app.use(bodyParser.json({ limit: ENV.requests.maxRequestBodySize }));
-	app.use(
-		bodyParser.urlencoded({
-			limit: ENV.requests.maxRequestQuerySize,
-			extended: true,
-		}),
-	);
+	app.useBodyParser("json", { limit: ENV.requests.maxRequestBodySize });
+	app.useBodyParser("urlencoded", {
+		limit: ENV.requests.maxRequestQuerySize,
+		extended: true,
+	});
 
 	// Documentation
 	if (ENV.docs.openApiDocs) {

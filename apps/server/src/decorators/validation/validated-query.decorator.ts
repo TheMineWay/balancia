@@ -12,7 +12,7 @@ export const ValidatedQuery = <
 	endpoint: E,
 ) =>
 	createParamDecorator((_, ctx: ExecutionContext) => {
-		const schema = controller.endpoints[endpoint as string].queryDto;
+		const schema = controller.endpoints[endpoint as string]?.queryDto;
 		if (!schema) return {};
 
 		const request: Request = ctx.switchToHttp().getRequest();
