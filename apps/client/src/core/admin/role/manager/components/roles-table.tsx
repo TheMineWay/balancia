@@ -1,7 +1,6 @@
 import { DatetimeRender } from "@common/extended-ui/date/components/datetime-render";
 import { Table } from "@common/extended-ui/table/components/table";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
-import { useAdminRolesWithStatsQuery } from "@core/admin/role/manager/api/use-admin-roles-with-stats.query";
 import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Group } from "@mantine/core";
 import type { RoleModel } from "@shared/models";
@@ -15,23 +14,24 @@ type RoleTableData = RoleModel & {
 };
 
 type Props = {
+	roles?: RoleTableData[];
 	onEditClick?: (role: RoleModel) => void;
 	onDeleteClick?: (role: RoleModel) => void;
 	onUserAssignClick?: (role: RoleModel) => void;
 	onPermissionAssignClick?: (role: RoleModel) => void;
+	loading?: boolean;
 	isDeleting?: boolean;
 };
 
 export const RolesTable: FC<Props> = ({
+	roles = [],
 	onEditClick,
 	onDeleteClick,
 	onUserAssignClick,
 	onPermissionAssignClick,
+	loading: isLoadingRoles = false,
 	isDeleting = false,
 }) => {
-	const { data: { roles } = {}, isLoading: isLoadingRoles } =
-		useAdminRolesWithStatsQuery();
-
 	const { t: commonT } = useTranslation("common");
 	const { t } = useTranslation("role");
 

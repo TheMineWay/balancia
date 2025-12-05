@@ -1,10 +1,15 @@
-import { ADMIN_ROLES_WITH_STATS_QUERY_KEY } from "@core/admin/role/manager/api/use-admin-roles-with-stats.query";
+import {
+	ADMIN_ROLES_WITH_STATS_QUERY_KEY,
+	useAdminRolesWithStatsQuery,
+} from "@core/admin/role/manager/api/use-admin-roles-with-stats.query";
 import { useRoleDeleteMutation } from "@core/admin/role/manager/api/use-role-delete.mutation";
 import { RoleCreateManager } from "@core/admin/role/manager/components/role-create-manager";
 import { RolePermissionAssign } from "@core/admin/role/manager/components/role-permission-assign";
 import { RoleUpdateManager } from "@core/admin/role/manager/components/role-update-manager";
 import { RoleUsersManager } from "@core/admin/role/manager/components/role-users-manager";
 import { RolesTable } from "@core/admin/role/manager/components/roles-table";
+import { Pagination } from "@core/pagination/components/pagination";
+import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
@@ -22,6 +27,9 @@ export const RoleManager: FC = () => {
 	const { t: commonT } = useTranslation("common");
 
 	const queryClient = useQueryClient();
+	const pagination = usePagination();
+	const { data: { roles } = {}, isLoading: isLoadingRoles } =
+		useAdminRolesWithStatsQuery();
 
 	const { mutate: deleteRole } = useRoleDeleteMutation();
 	const [createOpened, { open, close }] = useDisclosure(false);
@@ -81,12 +89,19 @@ export const RoleManager: FC = () => {
 						{/* Table component */}
 						<TableLayout.Table>
 							<RolesTable
+								roles={roles}
+								loading={isLoadingRoles}
 								onEditClick={setSelectedToEditRole}
 								onUserAssignClick={setSelectedToManageUsersRole}
 								onDeleteClick={onDeleteClick}
 								onPermissionAssignClick={setSelectedToAssignPermissionsRole}
 							/>
 						</TableLayout.Table>
+
+						{/* Pagination */}
+						<TableLayout.Pagination>
+							<Pagination pagination={pagination} />
+						</TableLayout.Pagination>
 					</TableLayout.Root>
 				</ManagerLayout.Content>
 			</ManagerLayout.Root>
