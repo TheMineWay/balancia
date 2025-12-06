@@ -1,5 +1,3 @@
-import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
-import { useSearch } from "@common/extended-ui/form/hooks/use-search";
 import {
 	ADMIN_ROLES_WITH_STATS_QUERY_KEY,
 	useAdminRolesWithStatsQuery,
@@ -58,8 +56,6 @@ export const RoleManager: FC = () => {
 		});
 	};
 
-	const search = useSearch<RoleModel>({});
-
 	return (
 		<>
 			<ManagerLayout.Root>
@@ -69,10 +65,6 @@ export const RoleManager: FC = () => {
 						{/* Table actions */}
 						<TableLayout.Actions>
 							<ActionsLayout.Row>
-								<DebouncedSearch
-									manager={search.debouncedSearchManager}
-									allowClear
-								/>
 								<Button leftSection={<IoAddOutline />} onClick={open}>
 									{t().admin.managers.create.Action}
 								</Button>
