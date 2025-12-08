@@ -2,28 +2,29 @@ import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { Transaction } from "@database/repository/repository";
 import { permissionTable } from "@database/schemas/main.schema";
 import { DatabaseService } from "@database/services/database.service";
-import {
-	Inject,
-	Injectable,
-	Logger,
-	OnApplicationBootstrap,
-} from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import { PERMISSIONS } from "@shared/models";
 import { inArray } from "drizzle-orm";
 
 @Injectable()
-export class DatabaseSeederService implements OnApplicationBootstrap {
+export class DatabaseSeederService {
+	private readonly logger = new Logger("DB Seeder");
+
 	constructor(
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
-	) {}
+	) {
+		this.seed();
+	}
 
-	async onApplicationBootstrap() {
-		Logger.log("Seeding database...", "DB Seeder");
+	async seed() {
+		this.logger.log("Seeding database...");
 
 		await this.databaseService.db.transaction(async (t: Transaction) => {
 			await seedPermissions(t);
 		});
+
+		this.logger.log("Database seeding completed.");
 	}
 }
 

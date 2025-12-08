@@ -1,4 +1,5 @@
 import { ENV } from "@constants/conf/env.constant";
+import { DatabaseKeeperService } from "@database/database-keeper.service";
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import type * as schema from "@database/schemas/main.schema";
 import { DatabaseService } from "@database/services/database.service";
@@ -34,6 +35,7 @@ import { Pool } from "pg";
 			},
 		},
 		DatabaseSeederService,
+		DatabaseKeeperService,
 	],
 	exports: [...Object.values(DATABASE_PROVIDERS)],
 })
