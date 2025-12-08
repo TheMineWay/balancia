@@ -2,7 +2,7 @@ import { ENV } from "@constants/env/env.constant";
 import { SignInButton } from "@core/auth/session/components/actions/sign-in-button";
 import { LocalConfigManager } from "@core/config/local-config/components/local-config-manager";
 import { useTranslation } from "@i18n/use-translation";
-import { ActionIcon, Container, Modal } from "@mantine/core";
+import { ActionIcon, Container, Drawer } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { FaGear } from "react-icons/fa6";
 
@@ -35,14 +35,14 @@ export const Auth: FC = () => {
 				</ActionIcon>
 			</Container>
 
-			<Modal
-				centered
+			<Drawer
+				position="right"
 				title={commonT().components["local-config"].Title}
 				opened={isLocalConfigOpened}
 				onClose={closeLocalConfig}
 			>
 				<LocalConfigManager />
-			</Modal>
+			</Drawer>
 		</>
 	);
 };

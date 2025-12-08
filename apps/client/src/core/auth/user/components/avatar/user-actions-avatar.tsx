@@ -2,7 +2,7 @@ import { ENV } from "@constants/env/env.constant";
 import { useLogout } from "@core/auth/session/hooks/use-logout";
 import { UserAvatar } from "@core/auth/user/components/avatar/user-avatar";
 import { useTranslation } from "@i18n/use-translation";
-import { ActionIcon, Group, Loader, Menu, Modal, Text } from "@mantine/core";
+import { ActionIcon, Drawer, Group, Loader, Menu, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import type { UserModel } from "@shared/models";
 import { lazy, Suspense } from "react";
@@ -76,8 +76,8 @@ export const UserActionsAvatar: FC<Props> = ({ user }) => {
 			</Menu>
 
 			{/* LOCAL CONFIG */}
-			<Modal
-				centered
+			<Drawer
+				position="right"
 				title={
 					<Group gap="xs">
 						<FaGear />
@@ -96,7 +96,7 @@ export const UserActionsAvatar: FC<Props> = ({ user }) => {
 				>
 					<LocalConfigManager />
 				</Suspense>
-			</Modal>
+			</Drawer>
 		</>
 	);
 };

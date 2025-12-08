@@ -9,7 +9,7 @@ import * as pkg from "@pkg";
 import { useLocalConfig } from "@providers/config/local-config.context";
 import { GLOBAL_CONFIGS } from "@shared/constants";
 import clsx from "clsx";
-import { type ReactNode, useCallback, useId, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 /**
  * Local configuration manager component.
@@ -50,10 +50,12 @@ const Theme: FC = () => {
 			<h3 className="font-bold text-xl">
 				{t().components["local-config"].sections.theme.Title}
 			</h3>
-			<Item
+
+			<InputWrapper
 				label={t().components["local-config"].configs["primary-color"].Name}
-				render={(id) => <PrimaryColorChanger id={id} />}
-			/>
+			>
+				<PrimaryColorChanger />
+			</InputWrapper>
 		</div>
 	);
 };
@@ -66,10 +68,12 @@ const Language: FC = () => {
 			<h3 className="font-bold text-xl">
 				{t().components["local-config"].sections.language.Title}
 			</h3>
-			<Item
+
+			<InputWrapper
 				label={t().components["local-config"].configs.language.Name}
-				render={(id) => <LanguageChanger id={id} />}
-			/>
+			>
+				<LanguageChanger />
+			</InputWrapper>
 		</div>
 	);
 };
@@ -121,6 +125,7 @@ const Pagination: FC = () => {
 			<h3 className="font-bold text-xl">
 				{t().components["local-config"].sections.pagination.Title}
 			</h3>
+
 			<InputWrapper
 				label={
 					t().components["local-config"].configs["page-size-selector-strategy"]
@@ -163,23 +168,4 @@ const Version: FC = () => {
 			</a>
 		);
 	return <small className={className}>{text}</small>;
-};
-
-/* Utils */
-
-type ItemProps = {
-	label: string;
-	render: (id: string) => ReactNode;
-};
-
-const Item: FC<ItemProps> = ({ label, render }) => {
-	const id = useId();
-	const component = useMemo(() => render(id), [id, render]);
-
-	return (
-		<div className="flex flex-col gap-2">
-			<label htmlFor={id}>{label}</label>
-			{component}
-		</div>
-	);
 };
