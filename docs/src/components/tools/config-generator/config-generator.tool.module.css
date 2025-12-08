@@ -1,7 +1,13 @@
-.tool, .config-form {
+.list {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+
+.item-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.25rem;
 }
 
 /* Style for the label associated with the select element */
@@ -41,4 +47,83 @@
 .tool select:hover:not(:disabled) {
     border-color: var(--ifm-color-emphasis-500);
     cursor: pointer;
+}
+
+.tool input {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--ifm-font-color-base);
+    background-color: var(--ifm-background-color);
+    background-clip: padding-box;
+    border: 1px solid var(--ifm-color-emphasis-300);
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    appearance: none;
+}
+
+.tool input:focus {
+    color: var(--ifm-font-color-base);
+    background-color: var(--ifm-background-color);
+    border-color: var(--ifm-color-primary);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem var(--ifm-color-primary-lighter);
+}
+
+.tool input:disabled {
+    background-color: var(--ifm-color-emphasis-100);
+    opacity: 0.6;
+}
+
+.tool input::placeholder {
+    color: var(--ifm-color-emphasis-600);
+    opacity: 1;
+}
+
+.tool input[type="checkbox"] {
+    display: inline-block;
+    width: 1.125rem;
+    height: 1.125rem;
+    padding: 0;
+    margin-top: 0.25rem;
+    vertical-align: top;
+    background-color: var(--ifm-background-color);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 1px solid var(--ifm-color-emphasis-400);
+    border-radius: 0.25rem;
+    appearance: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.tool input[type="checkbox"]:checked {
+    background-color: var(--ifm-color-primary);
+    border-color: var(--ifm-color-primary);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+
+.tool input[type="checkbox"]:focus {
+    border-color: var(--ifm-color-primary);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem var(--ifm-color-primary-lighter);
+}
+
+.tool input[type="checkbox"]:disabled {
+    background-color: var(--ifm-color-emphasis-100);
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.tool input[type="checkbox"]:disabled:checked {
+    background-color: var(--ifm-color-emphasis-400);
+    border-color: var(--ifm-color-emphasis-400);
+}
+
+.tool input[type="checkbox"]:hover:not(:disabled) {
+    border-color: var(--ifm-color-primary-dark);
 }
