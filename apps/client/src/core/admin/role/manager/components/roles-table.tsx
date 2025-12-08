@@ -1,5 +1,6 @@
 import { DatetimeRender } from "@common/extended-ui/date/components/datetime-render";
 import { Table } from "@common/extended-ui/table/components/table";
+import { TABLE_ACTION_PROPS } from "@common/extended-ui/table/constants/table.constants";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
 import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Group } from "@mantine/core";
@@ -62,6 +63,7 @@ export const RolesTable: FC<Props> = ({
 					<Group gap="sm">
 						{onEditClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS}
 								aria-label={commonT().expressions.Edit}
 								onClick={() => onEditClick(row)}
 							>
@@ -70,28 +72,28 @@ export const RolesTable: FC<Props> = ({
 						)}
 						{onUserAssignClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS}
 								aria-label={t().admin.managers["role-users"].Action}
 								onClick={() => onUserAssignClick(row)}
-								variant="outline"
 							>
 								<FaUserEdit />
 							</ActionIcon>
 						)}
 						{onPermissionAssignClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS}
 								aria-label={t().admin.managers["assign-permissions"].Action}
 								onClick={() => onPermissionAssignClick(row)}
-								variant="outline"
 							>
 								<MdKey />
 							</ActionIcon>
 						)}
 						{onDeleteClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS}
 								aria-label={t().admin.managers.delete.Action}
 								loading={isDeleting}
 								onClick={() => onDeleteClick(row)}
-								variant="outline"
 								color="red"
 							>
 								<IoTrash />
