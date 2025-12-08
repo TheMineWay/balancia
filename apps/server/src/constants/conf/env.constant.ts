@@ -36,6 +36,8 @@ const ENV_SCHEMA = z.object({
 		.refine(refinedMin(1)),
 	DATABASE_URL: z.string(),
 	DATABASE_SSL_REJECT_UNAUTHORIZED: z.stringbool().default(true),
+	REFRESH_MATERIALIZED_VIEWS_ON_STARTUP: z.stringbool().default(true),
+	MATERIALIZED_VIEWS_DEFAULT_REFRESH_CRON: z.string().default("0 */6 * * *"),
 
 	// DEBUG
 	LOG_ENV_VALUES: z.stringbool().default(false),
@@ -130,6 +132,10 @@ export const ENV = (() => {
 			connectionLimit: values.DATABASE_CONNECTION_LIMIT,
 			logQueries: values.LOG_QUERIES,
 			sslRejectUnauthorized: values.DATABASE_SSL_REJECT_UNAUTHORIZED,
+			refreshMaterializedViewsOnStartup:
+				values.REFRESH_MATERIALIZED_VIEWS_ON_STARTUP,
+			materializedViewsDefaultRefreshCron:
+				values.MATERIALIZED_VIEWS_DEFAULT_REFRESH_CRON,
 		},
 		cors: {
 			allowedDomains: values.CORS_ONLY_ALLOW_DOMAINS,
