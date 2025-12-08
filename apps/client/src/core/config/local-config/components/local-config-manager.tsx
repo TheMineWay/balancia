@@ -9,7 +9,7 @@ import * as pkg from "@pkg";
 import { useLocalConfig } from "@providers/config/local-config.context";
 import { GLOBAL_CONFIGS } from "@shared/constants";
 import clsx from "clsx";
-import { type ReactNode, useCallback, useId, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 /**
  * Local configuration manager component.
@@ -50,10 +50,12 @@ const Theme: FC = () => {
 			<h3 className="font-bold text-xl">
 				{t().components["local-config"].sections.theme.Title}
 			</h3>
-			<Item
+
+			<InputWrapper
 				label={t().components["local-config"].configs["primary-color"].Name}
-				render={(id) => <PrimaryColorChanger id={id} />}
-			/>
+			>
+				<PrimaryColorChanger />
+			</InputWrapper>
 		</div>
 	);
 };
@@ -66,10 +68,12 @@ const Language: FC = () => {
 			<h3 className="font-bold text-xl">
 				{t().components["local-config"].sections.language.Title}
 			</h3>
-			<Item
+
+			<InputWrapper
 				label={t().components["local-config"].configs.language.Name}
-				render={(id) => <LanguageChanger id={id} />}
-			/>
+			>
+				<LanguageChanger />
+			</InputWrapper>
 		</div>
 	);
 };
@@ -122,31 +126,27 @@ const Pagination: FC = () => {
 				{t().components["local-config"].sections.pagination.Title}
 			</h3>
 
-			<Item
+			<InputWrapper
 				label={
 					t().components["local-config"].configs["page-size-selector-strategy"]
 						.Name
 				}
-				render={(id) => (
-					<Select
-						data={pageSizeStrategyOptions}
-						value={config.pagination?.pageSizeSelectorStrategy}
-						onChange={onPageSizeStrategyChange}
-						id={id}
-					/>
-				)}
-			/>
+			>
+				<Select
+					data={pageSizeStrategyOptions}
+					value={config.pagination?.pageSizeSelectorStrategy}
+					onChange={onPageSizeStrategyChange}
+				/>
+			</InputWrapper>
 
-			<Item
+			<InputWrapper
 				label={t().components["local-config"].configs["default-page-size"].Name}
-				render={(id) => (
-					<PageSizeSelector
-						value={config.pagination.pageSize}
-						onChange={onDefaultPageSizeChange}
-						id={id}
-					/>
-				)}
-			/>
+			>
+				<PageSizeSelector
+					value={config.pagination.pageSize}
+					onChange={onDefaultPageSizeChange}
+				/>
+			</InputWrapper>
 		</div>
 	);
 };
@@ -168,22 +168,4 @@ const Version: FC = () => {
 			</a>
 		);
 	return <small className={className}>{text}</small>;
-};
-
-/* Utils */
-
-type ItemProps = {
-	label: string;
-	render: (id: string) => ReactNode;
-};
-
-const Item: FC<ItemProps> = ({ label, render }) => {
-	const id = useId();
-	const component = useMemo(() => render(id), [id, render]);
-
-	return (
-		<InputWrapper label={label} labelProps={{ htmlFor: id }}>
-			{component}
-		</InputWrapper>
-	);
 };
