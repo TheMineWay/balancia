@@ -63,7 +63,7 @@ export const RolesTable: FC<Props> = ({
 					<Group gap="sm">
 						{onEditClick && (
 							<ActionIcon
-								{...TABLE_ACTION_PROPS}
+								{...TABLE_ACTION_PROPS.default}
 								aria-label={commonT().expressions.Edit}
 								onClick={() => onEditClick(row)}
 							>
@@ -72,7 +72,7 @@ export const RolesTable: FC<Props> = ({
 						)}
 						{onUserAssignClick && (
 							<ActionIcon
-								{...TABLE_ACTION_PROPS}
+								{...TABLE_ACTION_PROPS.default}
 								aria-label={t().admin.managers["role-users"].Action}
 								onClick={() => onUserAssignClick(row)}
 							>
@@ -81,7 +81,7 @@ export const RolesTable: FC<Props> = ({
 						)}
 						{onPermissionAssignClick && (
 							<ActionIcon
-								{...TABLE_ACTION_PROPS}
+								{...TABLE_ACTION_PROPS.default}
 								aria-label={t().admin.managers["assign-permissions"].Action}
 								onClick={() => onPermissionAssignClick(row)}
 							>
@@ -90,11 +90,10 @@ export const RolesTable: FC<Props> = ({
 						)}
 						{onDeleteClick && (
 							<ActionIcon
-								{...TABLE_ACTION_PROPS}
+								{...TABLE_ACTION_PROPS.danger}
 								aria-label={t().admin.managers.delete.Action}
 								loading={isDeleting}
 								onClick={() => onDeleteClick(row)}
-								color="red"
 							>
 								<IoTrash />
 							</ActionIcon>
