@@ -90,6 +90,12 @@ const config: Config = {
 					label: "🩵 NestFlux documentation",
 				},
 				{
+					type: "docSidebar",
+					label: "🛠️ Tools",
+					sidebarId: "toolsSidebar",
+					position: "right",
+				},
+				{
 					href: pkg.repository.url,
 					label: "GitHub",
 					position: "right",
