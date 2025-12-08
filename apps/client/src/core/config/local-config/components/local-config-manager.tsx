@@ -121,27 +121,32 @@ const Pagination: FC = () => {
 			<h3 className="font-bold text-xl">
 				{t().components["local-config"].sections.pagination.Title}
 			</h3>
-			<InputWrapper
+
+			<Item
 				label={
 					t().components["local-config"].configs["page-size-selector-strategy"]
 						.Name
 				}
-			>
-				<Select
-					data={pageSizeStrategyOptions}
-					value={config.pagination?.pageSizeSelectorStrategy}
-					onChange={onPageSizeStrategyChange}
-				/>
-			</InputWrapper>
+				render={(id) => (
+					<Select
+						data={pageSizeStrategyOptions}
+						value={config.pagination?.pageSizeSelectorStrategy}
+						onChange={onPageSizeStrategyChange}
+						id={id}
+					/>
+				)}
+			/>
 
-			<InputWrapper
+			<Item
 				label={t().components["local-config"].configs["default-page-size"].Name}
-			>
-				<PageSizeSelector
-					value={config.pagination.pageSize}
-					onChange={onDefaultPageSizeChange}
-				/>
-			</InputWrapper>
+				render={(id) => (
+					<PageSizeSelector
+						value={config.pagination.pageSize}
+						onChange={onDefaultPageSizeChange}
+						id={id}
+					/>
+				)}
+			/>
 		</div>
 	);
 };
@@ -177,9 +182,8 @@ const Item: FC<ItemProps> = ({ label, render }) => {
 	const component = useMemo(() => render(id), [id, render]);
 
 	return (
-		<div className="flex flex-col gap-2">
-			<label htmlFor={id}>{label}</label>
+		<InputWrapper label={label} labelProps={{ htmlFor: id }}>
 			{component}
-		</div>
+		</InputWrapper>
 	);
 };
