@@ -93,6 +93,7 @@ const SectionRender: React.FC<{
 							config={config}
 							setConfig={setConfig}
 						/>
+						<hr />
 					</div>
 				))}
 			</div>
