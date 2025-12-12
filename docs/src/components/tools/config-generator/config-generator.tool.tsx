@@ -77,7 +77,7 @@ const Tool: React.FC<ToolProps> = ({ schema }) => {
 				))}
 			</div>
 			<div className="card">
-				<div className="card__body">
+				<div className={clsx("card__body", styles["env-output"])}>
 					{envContent.map((line, index) => (
 						// biome-ignore lint/suspicious/noArrayIndexKey: there is no more info, and it is always displayed the same way
 						<p key={index} className={styles["env-line"]}>
@@ -104,7 +104,14 @@ const SectionRender: React.FC<{
 				{items.map(([key, item]) => (
 					<div key={key}>
 						<div className={styles["item-header"]}>
-							<label htmlFor={key}>{item.name}</label>
+							<label htmlFor={key}>
+								{item.name}
+								{item.required ? (
+									<span className={styles.required}> *</span>
+								) : (
+									""
+								)}
+							</label>
 							<small>{item.description}</small>
 						</div>
 						<Item
