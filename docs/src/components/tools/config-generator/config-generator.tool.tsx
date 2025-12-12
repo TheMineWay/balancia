@@ -114,12 +114,26 @@ const SectionRender: React.FC<{
 							</label>
 							<small>{item.description}</small>
 						</div>
-						<Item
-							item={item}
-							itemKey={key}
-							config={config}
-							setConfig={setConfig}
-						/>
+						<div className={styles["item-input"]}>
+							<Item
+								item={item}
+								itemKey={key}
+								config={config}
+								setConfig={setConfig}
+							/>
+							<button
+								onClick={() =>
+									setConfig((prev) => ({ ...prev, [key]: item.default ?? "" }))
+								}
+								type="button"
+								className="button button--primary"
+								disabled={
+									config[key] === item.default || item.default === undefined
+								}
+							>
+								Reset
+							</button>
+						</div>
 						<hr />
 					</div>
 				))}
@@ -137,11 +151,19 @@ type ItemProps = {
 	setConfig: React.Dispatch<React.SetStateAction<EnvConfig>>;
 };
 const Item: React.FC<ItemProps> = ({ item, itemKey, config, setConfig }) => {
+	const common = {
+		placeholder: item.default ? `Default: ${item.default}` : undefined,
+		id: itemKey,
+		className: clsx({
+			[styles.pending]: !config[itemKey] && item.required,
+		}),
+	};
+
 	switch (item.type) {
 		case "free":
 			return (
 				<TextItem
-					id={itemKey}
+					{...common}
 					value={config[itemKey] as string}
 					onChange={(newValue) =>
 						setConfig((prev) => ({ ...prev, [itemKey]: newValue }))
@@ -151,7 +173,7 @@ const Item: React.FC<ItemProps> = ({ item, itemKey, config, setConfig }) => {
 		case "number":
 			return (
 				<NumberItem
-					id={itemKey}
+					{...common}
 					value={config[itemKey] as number}
 					onChange={(newValue) =>
 						setConfig((prev) => ({ ...prev, [itemKey]: newValue }))
@@ -161,8 +183,12 @@ const Item: React.FC<ItemProps> = ({ item, itemKey, config, setConfig }) => {
 		case "boolean":
 			return (
 				<BooleanItem
-					id={itemKey}
-					value={config[itemKey] as boolean}
+					{...common}
+					value={
+						itemKey in config
+							? (config[itemKey] as boolean)
+							: (item.default ?? false)
+					}
 					onChange={(newValue) =>
 						setConfig((prev) => ({ ...prev, [itemKey]: newValue }))
 					}
@@ -171,7 +197,7 @@ const Item: React.FC<ItemProps> = ({ item, itemKey, config, setConfig }) => {
 		case "enum":
 			return (
 				<SelectItem
-					id={itemKey}
+					{...common}
 					value={config[itemKey] as string}
 					options={item.options}
 					onChange={(newValue) =>
@@ -185,68 +211,69 @@ const Item: React.FC<ItemProps> = ({ item, itemKey, config, setConfig }) => {
 	return <p>Cannot render item {itemKey}.</p>;
 };
 
-type TextItemProps = {
-	value: string;
-	onChange: (newValue: string) => void;
+type CommonItemProps<T> = {
+	value: T;
+	onChange: (newValue: T) => void;
 	id: string;
+	placeholder?: string;
+	className?: string;
 };
-const TextItem: React.FC<TextItemProps> = ({ value, onChange, id }) => {
+
+type TextItemProps = CommonItemProps<string>;
+const TextItem: React.FC<TextItemProps> = ({ value, onChange, ...props }) => {
 	return (
 		<input
 			type="text"
 			value={value}
 			onChange={(e) => onChange(e.target.value)}
-			id={id}
+			{...props}
 		/>
 	);
 };
 
-type NumberItemProps = {
-	value: number;
-	onChange: (newValue: number) => void;
-	id: string;
-};
-const NumberItem: React.FC<NumberItemProps> = ({ value, onChange, id }) => {
+type NumberItemProps = CommonItemProps<number>;
+const NumberItem: React.FC<NumberItemProps> = ({
+	value,
+	onChange,
+	...props
+}) => {
 	return (
 		<input
 			type="number"
 			value={value}
 			onChange={(e) => onChange(Number(e.target.value))}
-			id={id}
+			{...props}
 		/>
 	);
 };
 
-type BooleanItemProps = {
-	value: boolean;
-	onChange: (newValue: boolean) => void;
-	id: string;
-};
-const BooleanItem: React.FC<BooleanItemProps> = ({ value, onChange, id }) => {
+type BooleanItemProps = CommonItemProps<boolean>;
+const BooleanItem: React.FC<BooleanItemProps> = ({
+	value,
+	onChange,
+	...props
+}) => {
 	return (
 		<input
 			type="checkbox"
 			checked={value}
 			onChange={(e) => onChange(e.target.checked)}
-			id={id}
+			{...props}
 		/>
 	);
 };
 
 type SelectItemProps = {
-	value: string;
-	onChange: (newValue: string) => void;
 	options: string[];
-	id: string;
-};
+} & CommonItemProps<string>;
 const SelectItem: React.FC<SelectItemProps> = ({
 	value,
 	onChange,
 	options,
-	id,
+	...props
 }) => {
 	return (
-		<select value={value} onChange={(e) => onChange(e.target.value)} id={id}>
+		<select value={value} onChange={(e) => onChange(e.target.value)} {...props}>
 			{options.map((option) => (
 				<option key={option} value={option}>
 					{option}
