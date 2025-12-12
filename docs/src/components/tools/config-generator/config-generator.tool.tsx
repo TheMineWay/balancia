@@ -1,9 +1,10 @@
+import { generateEnvFile } from "@site/src/components/tools/config-generator/generate-env-file.util";
 import { BACKEND_CONFIG } from "@site/src/constants/config/backend-config";
 import { Section } from "@site/src/constants/config/env-config.type";
 import { FRONTEND_CONFIG } from "@site/src/constants/config/frontend-config";
 import clsx from "clsx";
 import type React from "react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import styles from "./config-generator.tool.module.css";
 
 enum Project {
@@ -47,33 +48,52 @@ export const ConfigGeneratorTool: React.FC = () => {
 
 // #region Tool components
 
-type Config = Record<string, string | number | boolean | string[]>;
+export type EnvConfig = Record<string, string | number | boolean | string[]>;
 
 type ToolProps = {
 	schema: Section[];
 };
 
 const Tool: React.FC<ToolProps> = ({ schema }) => {
-	const [config, setConfig] = useState<Config>(generateDefaultConfig(schema));
+	const [config, setConfig] = useState<EnvConfig>(
+		generateDefaultConfig(schema),
+	);
+
+	const envContent = useMemo(
+		() => generateEnvFile(schema, config),
+		[schema, config],
+	);
 
 	return (
-		<div className={styles.list}>
-			{schema.map((section) => (
-				<SectionRender
-					key={section.name}
-					section={section}
-					config={config}
-					setConfig={setConfig}
-				/>
-			))}
-		</div>
+		<>
+			<div className={styles.list}>
+				{schema.map((section) => (
+					<SectionRender
+						key={section.name}
+						section={section}
+						config={config}
+						setConfig={setConfig}
+					/>
+				))}
+			</div>
+			<div className="card">
+				<div className="card__body">
+					{envContent.map((line, index) => (
+						// biome-ignore lint/suspicious/noArrayIndexKey: there is no more info, and it is always displayed the same way
+						<p key={index} className={styles["env-line"]}>
+							{line}
+						</p>
+					))}
+				</div>
+			</div>
+		</>
 	);
 };
 
 const SectionRender: React.FC<{
 	section: Section;
-	config: Config;
-	setConfig: React.Dispatch<React.SetStateAction<Config>>;
+	config: EnvConfig;
+	setConfig: React.Dispatch<React.SetStateAction<EnvConfig>>;
 }> = ({ section, config, setConfig }) => {
 	const items = Object.entries(section.items);
 
@@ -106,8 +126,8 @@ const SectionRender: React.FC<{
 type ItemProps = {
 	item: Section["items"][string];
 	itemKey: string;
-	config: Config;
-	setConfig: React.Dispatch<React.SetStateAction<Config>>;
+	config: EnvConfig;
+	setConfig: React.Dispatch<React.SetStateAction<EnvConfig>>;
 };
 const Item: React.FC<ItemProps> = ({ item, itemKey, config, setConfig }) => {
 	switch (item.type) {
@@ -233,8 +253,8 @@ const SelectItem: React.FC<SelectItemProps> = ({
 
 // #region Helper functions
 
-const generateDefaultConfig = (schema: Section[]): Config => {
-	const config: Config = {};
+const generateDefaultConfig = (schema: Section[]): EnvConfig => {
+	const config: EnvConfig = {};
 
 	for (const section of schema) {
 		const items = Object.entries(section.items);
