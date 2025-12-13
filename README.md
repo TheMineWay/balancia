@@ -92,11 +92,12 @@ NestFlux is a full-stack scaffold designed for building scalable applications wi
    ```
 
 4. **Configure environment**
-   ```bash
-   # Copy example environment files
-   cp apps/client/example.env apps/client/.env
-   cp apps/server/example.env apps/server/.env
-   ```
+   - Start the documentation: `pnpm start:docs`
+   - Navigate to the **Tools** section
+   - Use the `Configuration generator` tool to generate `.env` files
+   - Place the generated files in their respective project folders:
+     - `apps/client/.env` for the React application
+     - `apps/server/.env` for the NestJS API
 
 5. **Build packages**
     ```bash
