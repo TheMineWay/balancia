@@ -1,3 +1,4 @@
+import { isMasterServer } from "@core/__lib__/global.utils";
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { Transaction } from "@database/repository/repository";
 import { permissionTable } from "@database/schemas/main.schema";
@@ -14,6 +15,7 @@ export class DatabaseSeederService {
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
 	) {
+		if (!isMasterServer()) return;
 		this.seed();
 	}
 
