@@ -5,10 +5,22 @@ import { z } from "zod";
 const toNum = (value: unknown) => Number(value);
 const refinedMin = (min: number) => (val: number) => val >= min;
 
+const STRING_LIST = z
+	.string()
+	.transform((val) => JSON.parse(val.replaceAll('\\"', '"')))
+	.pipe(z.array(z.string()));
+
 const ENV_SCHEMA = z.object({
 	// ENV
 	NODE_ENV: z.string().default("production"),
 	OPEN_API_DOCS: z.stringbool().default(false),
+	HEALTH_SERVICES_ENABLED: z.stringbool().default(false),
+	HEALTH_SERVICES_API_KEYS: STRING_LIST.default([]),
+	HEALTH_SERVICES_CACHE_TTL: z
+		.string()
+		.default("5000")
+		.transform(toNum)
+		.refine(refinedMin(0)),
 
 	// SERVER
 	SERVER_ROLE: z.enum(["main", "secondary"]).default("main"),
@@ -165,6 +177,11 @@ export const ENV = (() => {
 		},
 		docs: {
 			openApiDocs: values.OPEN_API_DOCS,
+		},
+		health: {
+			enabled: values.HEALTH_SERVICES_ENABLED,
+			apiKeys: values.HEALTH_SERVICES_API_KEYS,
+			cacheTtl: values.HEALTH_SERVICES_CACHE_TTL,
 		},
 		env: values.NODE_ENV,
 	};

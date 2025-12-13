@@ -11,7 +11,7 @@ export const generateEnvFile = (
 			if (!value) return acc;
 
 			if (Array.isArray(value)) {
-				acc[key] = value.join(",");
+				acc[key] = JSON.stringify(value).replaceAll('"', '\\"');
 			} else {
 				acc[key] = String(value);
 			}
@@ -38,7 +38,8 @@ export const generateEnvFile = (
 			if (item.description || item.default) {
 				suffix = ` #`;
 				if (item.description) suffix += ` ${item.description}`;
-				if (item.default) suffix += ` (default: "${item.default}")`;
+				if (item.default !== null && item.default !== undefined)
+					suffix += ` (default: "${item.default}")`;
 			}
 
 			let value = parsedConfig[key] || null;

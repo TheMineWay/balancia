@@ -154,6 +154,17 @@
 	gap: 0.5rem;
 }
 
+/* Input list */
+.input-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+.input-list-item {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
 /* Output */
 .env-output {
 	background-color: var(--ifm-color-emphasis-100);
