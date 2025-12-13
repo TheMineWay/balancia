@@ -26,8 +26,13 @@ type BooleanItem = {
 	default?: boolean;
 };
 
+type StringListItem = {
+	type: "string_list";
+	default?: string[];
+};
+
 type Item = {
 	name: string;
 	description: string;
 	required?: boolean;
-} & (FreeItem | EnumItem | BooleanItem | NumberItem);
+} & (FreeItem | EnumItem | BooleanItem | NumberItem | StringListItem);

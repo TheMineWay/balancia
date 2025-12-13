@@ -205,6 +205,16 @@ const Item: React.FC<ItemProps> = ({ item, itemKey, config, setConfig }) => {
 					}
 				/>
 			);
+		case "string_list":
+			return (
+				<StringListItem
+					{...common}
+					value={config[itemKey] as string[]}
+					onChange={(newValue) =>
+						setConfig((prev) => ({ ...prev, [itemKey]: newValue }))
+					}
+				/>
+			);
 	}
 
 	/* Unhandled */
@@ -280,6 +290,54 @@ const SelectItem: React.FC<SelectItemProps> = ({
 				</option>
 			))}
 		</select>
+	);
+};
+
+type StringListItemProps = CommonItemProps<string[]>;
+const StringListItem: React.FC<StringListItemProps> = ({
+	value = [],
+	onChange,
+	placeholder: _,
+	...props
+}) => {
+	return (
+		<div className={styles["input-list"]}>
+			<button
+				className="button button--primary"
+				type="button"
+				onClick={() => {
+					const newList = [...value, ""];
+					onChange(newList);
+				}}
+			>
+				Add Item
+			</button>
+			{value.map((val, index) => (
+				// biome-ignore lint/suspicious/noArrayIndexKey: It is the only way to identify the item here
+				<div key={index} className={styles["input-list-item"]}>
+					<input
+						type="text"
+						value={val}
+						onChange={(e) => {
+							const newList = [...value];
+							newList[index] = e.target.value;
+							onChange(newList);
+						}}
+						{...props}
+					/>
+					<button
+						className="button button--danger"
+						type="button"
+						onClick={() => {
+							const newList = value.filter((_, i) => i !== index);
+							onChange(newList);
+						}}
+					>
+						Remove
+					</button>
+				</div>
+			))}
+		</div>
 	);
 };
 

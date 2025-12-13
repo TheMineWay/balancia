@@ -21,6 +21,18 @@ export const BACKEND_CONFIG = [
 					"Whether to provide Open API docs at /documentation endpoint.",
 				default: false,
 			},
+			health_services_enabled: {
+				type: "boolean",
+				name: "Health Services",
+				description: "Whether to enable health check services.",
+				default: false,
+			},
+			health_services_api_keys: {
+				type: "string_list",
+				name: "Health Services API Keys",
+				description:
+					"API keys allowed to access the health check endpoints. If empty, no authentication is required.",
+			},
 		},
 	},
 	{

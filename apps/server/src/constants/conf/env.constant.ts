@@ -9,6 +9,7 @@ const ENV_SCHEMA = z.object({
 	// ENV
 	NODE_ENV: z.string().default("production"),
 	OPEN_API_DOCS: z.stringbool().default(false),
+	HEALTH_SERVICES_ENABLED: z.stringbool().default(false),
 
 	// SERVER
 	SERVER_ROLE: z.enum(["main", "secondary"]).default("main"),
@@ -165,6 +166,9 @@ export const ENV = (() => {
 		},
 		docs: {
 			openApiDocs: values.OPEN_API_DOCS,
+		},
+		health: {
+			enabled: values.HEALTH_SERVICES_ENABLED,
 		},
 		env: values.NODE_ENV,
 	};
