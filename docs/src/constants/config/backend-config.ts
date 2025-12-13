@@ -14,6 +14,13 @@ export const BACKEND_CONFIG = [
 				options: ["development", "production"],
 				default: "production",
 			},
+			configuration_guard: {
+				type: "boolean",
+				name: "Configuration Guard",
+				description:
+					"Whether to enable configuration guard to prevent application startup if environment variables are misconfigured.",
+				default: true,
+			},
 			open_api_docs: {
 				type: "boolean",
 				name: "Open API Documentation",

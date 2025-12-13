@@ -14,6 +14,7 @@ const ENV_SCHEMA = z.object({
 	// ENV
 	NODE_ENV: z.string().default("production"),
 	OPEN_API_DOCS: z.stringbool().default(false),
+	CONFIGURATION_GUARD: z.stringbool().default(true),
 	HEALTH_SERVICES_ENABLED: z.stringbool().default(false),
 	HEALTH_SERVICES_API_KEYS: STRING_LIST.default([]),
 	HEALTH_SERVICES_CACHE_TTL: z
