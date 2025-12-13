@@ -16,6 +16,11 @@ const ENV_SCHEMA = z.object({
 	OPEN_API_DOCS: z.stringbool().default(false),
 	HEALTH_SERVICES_ENABLED: z.stringbool().default(false),
 	HEALTH_SERVICES_API_KEYS: STRING_LIST.default([]),
+	HEALTH_SERVICES_CACHE_TTL: z
+		.string()
+		.default("5000")
+		.transform(toNum)
+		.refine(refinedMin(0)),
 
 	// SERVER
 	SERVER_ROLE: z.enum(["main", "secondary"]).default("main"),
@@ -176,6 +181,7 @@ export const ENV = (() => {
 		health: {
 			enabled: values.HEALTH_SERVICES_ENABLED,
 			apiKeys: values.HEALTH_SERVICES_API_KEYS,
+			cacheTtl: values.HEALTH_SERVICES_CACHE_TTL,
 		},
 		env: values.NODE_ENV,
 	};

@@ -1,11 +1,13 @@
 import { ENV } from "@constants/conf/env.constant";
 import { Public } from "@core/auth/auth/guards/public.guard";
 import { HealthService } from "@core/health/health.service";
+import { CacheInterceptor } from "@nestjs/cache-manager";
 import {
 	Controller,
 	MethodNotAllowedException,
 	Req,
 	UnauthorizedException,
+	UseInterceptors,
 } from "@nestjs/common";
 import {
 	getController,
@@ -15,6 +17,7 @@ import {
 import type { Request } from "express";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
 
+@UseInterceptors(CacheInterceptor)
 @Controller(getController(HEALTH_CONTROLLER, {}))
 export class HealthController {
 	constructor(private readonly healthService: HealthService) {}

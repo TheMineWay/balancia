@@ -33,6 +33,14 @@ export const BACKEND_CONFIG = [
 				description:
 					"API keys allowed to access the health check endpoints. If empty, no authentication is required.",
 			},
+			health_services_cache_ttl: {
+				type: "number",
+				name: "Health Services Cache TTL",
+				description:
+					"Time-to-live for caching health check responses in seconds.",
+				default: 10,
+				min: 0,
+			},
 		},
 	},
 	{
