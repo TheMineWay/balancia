@@ -52,6 +52,11 @@ export const DEPENDENCIES = [
 		url: "https://www.npmjs.com/package/vite-plugin-dts",
 	},
 	{
+		code: "@nestjs/terminus",
+		name: "@nestjs/terminus",
+		url: "https://www.npmjs.com/package/@nestjs/terminus",
+	},
+	{
 		code: "@nestjs/schedule",
 		name: "@nestjs/schedule",
 		url: "https://www.npmjs.com/package/@nestjs/schedule",
