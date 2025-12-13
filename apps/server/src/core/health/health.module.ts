@@ -5,6 +5,7 @@ import { TerminusModule } from "@nestjs/terminus";
 
 @Module({
 	imports: [TerminusModule],
+	exports: [HealthService],
 	providers: [HealthService],
 	controllers: [HealthController],
 })
