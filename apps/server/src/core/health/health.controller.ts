@@ -1,3 +1,4 @@
+import { Public } from "@core/auth/auth/guards/public.guard";
 import { HealthService } from "@core/health/health.service";
 import { Controller } from "@nestjs/common";
 import {
@@ -11,6 +12,7 @@ import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
 export class HealthController {
 	constructor(private readonly healthService: HealthService) {}
 
+	@Public()
 	@Endpoint(HEALTH_CONTROLLER, "get")
 	async getHealth(): Promise<
 		InferResponseDto<typeof HEALTH_CONTROLLER, "get">
