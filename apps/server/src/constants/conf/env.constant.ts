@@ -5,15 +5,17 @@ import { z } from "zod";
 const toNum = (value: unknown) => Number(value);
 const refinedMin = (min: number) => (val: number) => val >= min;
 
+const STRING_LIST = z
+	.string()
+	.transform((val) => JSON.parse(val.replaceAll('\\"', '"')))
+	.pipe(z.array(z.string()));
+
 const ENV_SCHEMA = z.object({
 	// ENV
 	NODE_ENV: z.string().default("production"),
 	OPEN_API_DOCS: z.stringbool().default(false),
 	HEALTH_SERVICES_ENABLED: z.stringbool().default(false),
-	HEALTH_SERVICES_API_KEYS: z
-		.string()
-		.transform((val) => JSON.parse(val))
-		.default([]),
+	HEALTH_SERVICES_API_KEYS: STRING_LIST.default([]),
 
 	// SERVER
 	SERVER_ROLE: z.enum(["main", "secondary"]).default("main"),
