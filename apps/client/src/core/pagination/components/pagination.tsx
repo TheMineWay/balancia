@@ -9,7 +9,11 @@ type Props = {
 export const Pagination: FC<Props> = ({ pagination }) => {
 	return (
 		<Group>
-			<MantinePagination size="sm" {...pagination.control} total={200} />
+			<MantinePagination
+				size="sm"
+				{...pagination.control}
+				total={Math.ceil(pagination.total / pagination.pagination.limit)}
+			/>
 			<PageSizeSelector
 				size="sm"
 				value={pagination.pagination.limit}
