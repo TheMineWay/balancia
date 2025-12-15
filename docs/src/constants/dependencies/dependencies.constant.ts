@@ -49,11 +49,6 @@ export const DEPENDENCIES = [
 		url: "https://www.npmjs.com/package/tsx",
 	},
 	{
-		code: "body-parser",
-		name: "Body Parser",
-		url: "https://www.npmjs.com/package/body-parser",
-	},
-	{
 		code: "@biomejs/biome",
 		name: "@biomejs biome",
 		url: "https://www.npmjs.com/package/@biomejs/biome",
@@ -158,16 +153,6 @@ export const DEPENDENCIES = [
 		code: "date-fns",
 		name: "Date fns",
 		url: "https://www.npmjs.com/package/date-fns",
-	},
-	{
-		code: "@types/bcrypt",
-		name: "@types bcrypt",
-		url: "https://www.npmjs.com/package/@types/bcrypt",
-	},
-	{
-		code: "bcrypt",
-		name: "bcrypt",
-		url: "https://www.npmjs.com/package/bcrypt",
 	},
 	{
 		code: "@tailwindcss/postcss",
