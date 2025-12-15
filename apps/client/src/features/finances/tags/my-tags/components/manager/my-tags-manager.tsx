@@ -1,5 +1,6 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
 import { useSearch } from "@common/extended-ui/form/hooks/use-search";
+import { Pagination } from "@core/pagination/components/pagination";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useMyTagDeleteMutation } from "@fts/finances/tags/my-tags/api/use-my-tag-delete.mutation";
 import { useMyTagsListQuery } from "@fts/finances/tags/my-tags/api/use-my-tags-list.query";
@@ -10,15 +11,7 @@ import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import {
-	ActionIcon,
-	Button,
-	Drawer,
-	Loader,
-	Modal,
-	Pagination,
-	Text,
-} from "@mantine/core";
+import { ActionIcon, Button, Drawer, Loader, Modal, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { TagModel } from "@shared/models";
@@ -119,7 +112,7 @@ export const MyTagsManager: FC = () => {
 							/>
 						</TableLayout.Table>
 						<TableLayout.Pagination>
-							<Pagination {...pagination.control} />
+							<Pagination pagination={pagination} />
 						</TableLayout.Pagination>
 					</TableLayout.Root>
 				</ManagerLayout.Content>

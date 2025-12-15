@@ -1,6 +1,7 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
 import { useSearch } from "@common/extended-ui/form/hooks/use-search";
 import { DangerousActionConfirm } from "@common/verifications/dangerous-action/components/dangerous-action-confirm";
+import { Pagination } from "@core/pagination/components/pagination";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { ContactsTable } from "@fts/social/contacts/contacts/components/contacts.table";
 import { DeviceContactsSelector } from "@fts/social/contacts/contacts/components/device/device-contacts-selector";
@@ -13,7 +14,7 @@ import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer, Pagination } from "@mantine/core";
+import { ActionIcon, Button, Drawer } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import type { ContactCreateModel, ContactModel } from "@shared/models";
@@ -133,7 +134,7 @@ export const MyContactsManager: FC = () => {
 							/>
 						</TableLayout.Table>
 						<TableLayout.Pagination>
-							<Pagination {...pagination.control} />
+							<Pagination pagination={pagination} />
 						</TableLayout.Pagination>
 					</TableLayout.Root>
 				</ManagerLayout.Content>

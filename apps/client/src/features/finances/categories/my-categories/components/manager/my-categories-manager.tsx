@@ -1,5 +1,6 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
 import { useSearch } from "@common/extended-ui/form/hooks/use-search";
+import { Pagination } from "@core/pagination/components/pagination";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { CategoriesTable } from "@fts/finances/categories/categories/components/categories.table";
 import { useMyCategoriesQuery } from "@fts/finances/categories/my-categories/api/use-my-categories.query";
@@ -10,7 +11,7 @@ import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer, Pagination, Text } from "@mantine/core";
+import { ActionIcon, Button, Drawer, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { CategoryModel } from "@shared/models";
@@ -99,7 +100,7 @@ export const MyCategoriesManager: FC = () => {
 							/>
 						</TableLayout.Table>
 						<TableLayout.Pagination>
-							<Pagination {...pagination.control} />
+							<Pagination pagination={pagination} />
 						</TableLayout.Pagination>
 					</TableLayout.Root>
 				</ManagerLayout.Content>

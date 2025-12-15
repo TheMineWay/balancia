@@ -3,6 +3,7 @@ import {
 	type UseSearch,
 	useSearch,
 } from "@common/extended-ui/form/hooks/use-search";
+import { Pagination } from "@core/pagination/components/pagination";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import {
 	DebtLinker,
@@ -21,14 +22,7 @@ import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import {
-	ActionIcon,
-	Button,
-	Drawer,
-	Modal,
-	Pagination,
-	Text,
-} from "@mantine/core";
+import { ActionIcon, Button, Drawer, Modal, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { DebtListModel, DebtModel } from "@shared/models";
@@ -126,7 +120,7 @@ export const MyDebtsManager: FC = () => {
 							/>
 						</TableLayout.Table>
 						<TableLayout.Pagination>
-							<Pagination {...pagination.control} />
+							<Pagination pagination={pagination} />
 						</TableLayout.Pagination>
 					</TableLayout.Root>
 				</ManagerLayout.Content>

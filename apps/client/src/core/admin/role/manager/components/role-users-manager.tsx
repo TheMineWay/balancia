@@ -5,9 +5,10 @@ import { UserCard } from "@common/extended-ui/user/components/user-card";
 import { useRoleUserUnassignMutation } from "@core/admin/role/manager/api/role-user/use-role-user-unassign.mutation";
 import { useRoleUsersListQuery } from "@core/admin/role/manager/api/role-user/use-role-users-list.query";
 import { RoleUserAssign } from "@core/admin/role/manager/components/role-user-assign";
+import { Pagination } from "@core/pagination/components/pagination";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { useTranslation } from "@i18n/use-translation";
-import { ActionIcon, Modal, Pagination } from "@mantine/core";
+import { ActionIcon, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import type { RoleModel } from "@shared/models";
 import { useCallback } from "react";
@@ -68,7 +69,7 @@ export const RoleUsersManager: FC<Props> = ({ role }) => {
 							<IoAddOutline />
 						</ActionIcon>
 					</div>
-					<Pagination size="sm" {...pagination.control} />
+					<Pagination pagination={pagination} />
 				</List.Header>
 				<List.VerticalContent>
 					{users.map((user) => (
