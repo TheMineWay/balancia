@@ -97,24 +97,26 @@ const databaseChecks = checkFactory((marks) => {
 		});
 	}
 
-	if (ENV.database.logQueries) {
-		marks.push({
-			keys: ["LOG_QUERIES"],
-			message:
-				"Database query logging is enabled. This may expose sensitive information and impact performance",
-			severity: "warning",
-			type: "security",
-		});
-	}
+	if (ENV.env === "production") {
+		if (ENV.database.logQueries) {
+			marks.push({
+				keys: ["LOG_QUERIES"],
+				message:
+					"Database query logging is enabled. This may expose sensitive information and impact performance",
+				severity: "warning",
+				type: "security",
+			});
+		}
 
-	if (!ENV.database.sslRejectUnauthorized) {
-		marks.push({
-			keys: ["DATABASE_SSL_REJECT_UNAUTHORIZED"],
-			message:
-				"Database SSL certificate validation is disabled. This may expose the application to man-in-the-middle attacks",
-			severity: "critical",
-			type: "security",
-		});
+		if (!ENV.database.sslRejectUnauthorized) {
+			marks.push({
+				keys: ["DATABASE_SSL_REJECT_UNAUTHORIZED"],
+				message:
+					"Database SSL certificate validation is disabled. This may expose the application to man-in-the-middle attacks",
+				severity: "critical",
+				type: "security",
+			});
+		}
 	}
 });
 
