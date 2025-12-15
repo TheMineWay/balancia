@@ -46,7 +46,7 @@
 		"axios": "^1.13.2",
 		"cacheable": "^2.3.0",
 		"date-fns": "^4.1.0",
-		"drizzle-orm": "^0.45.0",
+		"drizzle-orm": "^0.45.1",
 		"helmet": "^8.1.0",
 		"jsonwebtoken": "^9.0.3",
 		"jwks-rsa": "^3.2.0",
@@ -57,7 +57,7 @@
 		"pg": "^8.16.3",
 		"qs": "^6.14.0",
 		"reflect-metadata": "~0.2.2",
-		"zod": "^4.1.13"
+		"zod": "^4.2.0"
 	},
 	"devDependencies": {
 		"@nestjs/cli": "^11.0.14",
@@ -68,10 +68,10 @@
 		"@types/express": "^5.0.6",
 		"@types/jsonwebtoken": "^9.0.10",
 		"@types/lodash": "^4.17.21",
-		"@types/node": "^24.10.1",
+		"@types/node": "^24.10.4",
 		"@types/openid-client": "^3.7.0",
 		"@types/passport-jwt": "^4.0.1",
-		"@types/pg": "^8.15.6",
+		"@types/pg": "^8.16.0",
 		"@types/qs": "^6.14.0",
 		"dotenv": "^17.2.3",
 		"drizzle-kit": "^0.31.8",
