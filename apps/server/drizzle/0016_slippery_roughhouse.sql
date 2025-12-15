@@ -1,0 +1,1 @@
+ALTER TABLE "debt"."debts" ALTER COLUMN "transactionId" DROP NOT NULL;

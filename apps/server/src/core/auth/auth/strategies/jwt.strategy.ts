@@ -34,7 +34,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
 		let userId = user?.id;
 		if (!user) {
-			userId = (await this.authService.checkIn(payload)).id;
+			userId = (await this.authService.checkIn(payload))?.id;
 		}
 
 		if (!userId) throw new BadRequestException();

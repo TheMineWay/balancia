@@ -16,6 +16,7 @@ import { DatabaseService } from "@database/services/database.service";
 import { Inject, Injectable } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import type {
+	IdModel,
 	PaginatedQuery,
 	PaginatedResponse,
 	Permission,
@@ -46,11 +47,15 @@ export class RoleService {
 	/**
 	 * Creates a new role with the provided data
 	 */
-	async create(role: RoleEditablePropsModel) {
+	async create(role: RoleEditablePropsModel): Promise<{ id: IdModel } | null> {
 		const [newRole] = await this.roleRepository.create(role);
 
-		this.eventService.emit(new RoleCreatedEvent({ roleId: newRole.id }));
-		return newRole;
+		if (newRole) {
+			this.eventService.emit(new RoleCreatedEvent({ roleId: newRole.id }));
+			return newRole;
+		}
+
+		return null;
 	}
 
 	/**

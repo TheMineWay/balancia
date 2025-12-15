@@ -38,21 +38,16 @@ export const accountMonthlyStatsMaterializedView = financesSchema
 	.materializedView("account_monthly_stats")
 	.with({ autovacuumEnabled: true })
 	.as((db) => {
-		const monthField =
-			sql<number>`EXTRACT(MONTH FROM ${transactionsTable.performedAt})::integer`.as(
-				"month",
-			);
-		const yearField =
-			sql<number>`EXTRACT(YEAR FROM ${transactionsTable.performedAt})::integer`.as(
-				"year",
+		const dateField =
+			sql<Date>`date_trunc('month', ${transactionsTable.performedAt})::date`.as(
+				"date",
 			);
 
 		const query = db
 			.select({
 				accountId: accountTable.id,
 				userId: accountTable.userId,
-				year: yearField,
-				month: monthField,
+				date: dateField,
 				monthlyBalance:
 					sql<string>`${sum(transactionsTable.amount)}::numeric`.as(
 						"monthlyBalance",
@@ -67,11 +62,45 @@ export const accountMonthlyStatsMaterializedView = financesSchema
 					),
 			})
 			.from(accountTable)
-			.innerJoin(
+			.leftJoin(
 				transactionsTable,
 				eq(transactionsTable.accountId, accountTable.id),
 			)
-			.groupBy(accountTable.id, yearField, monthField);
+			.groupBy(accountTable.id, accountTable.userId, dateField);
+
+		return query;
+	});
+
+// Stats by account and category
+export const accountCategoryExpensesStatsMaterializedView = financesSchema
+	.materializedView("account_category_expenses_stats")
+	.with({ autovacuumEnabled: true })
+	.as((db) => {
+		const dateField =
+			sql<Date>`date_trunc('month', ${transactionsTable.performedAt})::date`.as(
+				"date",
+			);
+
+		const query = db
+			.select({
+				accountId: transactionsTable.accountId,
+				categoryId: transactionsTable.categoryId,
+				date: dateField,
+				income:
+					sql<string>`SUM(CASE WHEN ${transactionsTable.amount} > 0 THEN ${transactionsTable.amount} ELSE 0 END)::numeric`.as(
+						"income",
+					),
+				outcome:
+					sql<string>`SUM(CASE WHEN ${transactionsTable.amount} < 0 THEN abs(${transactionsTable.amount}) ELSE 0 END)::numeric`.as(
+						"outcome",
+					),
+			})
+			.from(transactionsTable)
+			.groupBy(
+				transactionsTable.accountId,
+				transactionsTable.categoryId,
+				dateField,
+			);
 
 		return query;
 	});

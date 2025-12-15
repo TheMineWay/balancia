@@ -1,7 +1,9 @@
+import { MAX_STATS_MONTH_DATE_DIFF } from "@shared/constants";
 import {
 	ACCOUNT_CREATE_SCHEMA,
 	ACCOUNT_MONTHLY_STATS_SCHEMA,
 	ACCOUNT_SCHEMA,
+	CATEGORY_EXPENSES_MODEL_SCHEMA,
 	DATE_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_SEARCH_SCHEMA,
@@ -9,6 +11,7 @@ import {
 import { ControllerDefinition } from "@ts-types/controller-definition.type";
 import { EndpointDefinition } from "@ts-types/endpoint-definition.type";
 import { EndpointMethod } from "@ts-types/endpoint-method.enum";
+import { differenceInMonths, isBefore, subMonths } from "date-fns";
 import z from "zod";
 
 // Endpoints
@@ -62,19 +65,37 @@ const UPDATE_ACCOUNT_ENDPOINT = {
 
 // Stats
 
+const DATE_RANGE_SCHEMA = z
+	.object({
+		from: DATE_SCHEMA.default(subMonths(new Date(), 6)),
+		to: DATE_SCHEMA.default(new Date()),
+	})
+	.refine((obj) => isBefore(obj.from, obj.to), {
+		error: "From date must be before to date",
+	})
+	.refine(
+		(obj) => differenceInMonths(obj.from, obj.to) <= MAX_STATS_MONTH_DATE_DIFF,
+		{
+			error: `Date range must not exceed ${MAX_STATS_MONTH_DATE_DIFF} months`,
+		},
+	);
+
 const GET_ACCOUNT_MONTHLY_STATS_ENDPOINT = {
 	getPath: (params) => [params.id, "stats", "monthly"],
 	paramsMapping: { id: "accountId" },
 	responseDto: z.object({
 		stats: z.array(ACCOUNT_MONTHLY_STATS_SCHEMA),
 	}),
-	queryDto: z.object({
-		periodEnd: DATE_SCHEMA,
-		months: z.preprocess(
-			(val) => Number(val),
-			z.number().min(1).max(36).default(6),
-		),
+	queryDto: DATE_RANGE_SCHEMA,
+} satisfies EndpointDefinition<{ id: string }>;
+
+const GET_ACCOUNT_CATEGORY_EXPENSES_STATS_ENDPOINT = {
+	getPath: (params) => [params.id, "stats", "category-expenses"],
+	paramsMapping: { id: "accountId" },
+	responseDto: z.object({
+		stats: z.array(CATEGORY_EXPENSES_MODEL_SCHEMA),
 	}),
+	queryDto: DATE_RANGE_SCHEMA,
 } satisfies EndpointDefinition<{ id: string }>;
 
 // Controller
@@ -88,6 +109,9 @@ export const MY_ACCOUNTS_CONTROLLER = {
 		create: CREATE_ACCOUNT_ENDPOINT,
 		delete: DELETE_ACCOUNT_ENDPOINT,
 		update: UPDATE_ACCOUNT_ENDPOINT,
+
+		// Stats
 		getMonthlyStats: GET_ACCOUNT_MONTHLY_STATS_ENDPOINT,
+		getCategoryExpensesStats: GET_ACCOUNT_CATEGORY_EXPENSES_STATS_ENDPOINT,
 	},
 } satisfies ControllerDefinition;

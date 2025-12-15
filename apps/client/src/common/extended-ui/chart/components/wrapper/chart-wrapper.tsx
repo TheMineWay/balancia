@@ -1,12 +1,48 @@
-import clsx from "clsx";
-import styles from "./chart-wrapper.module.css";
+import { useTranslation } from "@i18n/use-translation";
+import { useId } from "react";
+import { PiEmpty } from "react-icons/pi";
 
 type Props = {
 	children: React.ReactNode;
+	empty?: boolean;
+	title?: string;
 };
 
-export const ChartWrapper: FC<Props> = ({ children }) => {
+export const ChartWrapper: FC<Props> = ({ children, empty = false, title }) => {
 	return (
-		<div className={clsx(styles.wrapper, "w-full h-full")}>{children}</div>
+		<div className="flex flex-col gap-1 w-full h-full">
+			{title && (
+				<h3 className="text-lg font-medium leading-tight tracking-tight">
+					{title}
+				</h3>
+			)}
+			<div className="w-full h-full flex flex-col justify-center items-center">
+				<Content empty={empty}>{children}</Content>
+			</div>
+		</div>
 	);
+};
+
+const Content = ({
+	children,
+	empty,
+}: {
+	children: React.ReactNode;
+	empty: boolean;
+}) => {
+	const { t } = useTranslation("common");
+	const iconDescriptionId = useId();
+
+	if (empty) {
+		return (
+			<div className="flex flex-col gap-1 justify-center items-center text-muted">
+				<PiEmpty size={32} aria-describedby={iconDescriptionId} />
+				<small id={iconDescriptionId}>
+					{t().components.status["no-data"].Title}
+				</small>
+			</div>
+		);
+	}
+
+	return <div className={"w-full h-full"}>{children}</div>;
 };

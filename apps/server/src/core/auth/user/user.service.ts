@@ -53,7 +53,10 @@ export class UserService {
 	create = async (data: UserInsert) => {
 		const user = await this.userRepository.create(data);
 
-		this.eventService.emit(new UserCreatedEvent({ userId: user.id }));
+		if (user?.id) {
+			this.eventService.emit(new UserCreatedEvent({ userId: user.id }));
+		}
+
 		return user;
 	};
 

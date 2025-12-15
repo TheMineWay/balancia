@@ -27,6 +27,46 @@ import { and, desc, eq, ilike, isNull } from "drizzle-orm";
 
 @Injectable()
 export class TransactionsRepository extends Repository {
+	async findById(
+		transactionId: TransactionModel["id"],
+		options?: QueryOptions,
+	): Promise<TransactionsSelect | null> {
+		return (
+			(
+				await this.query(options)
+					.select(TRANSACTIONS_TABLE_COLUMNS)
+					.from(transactionsTable)
+					.where(eq(transactionsTable.id, transactionId))
+			)?.[0] ?? null
+		);
+	}
+
+	async findByIdWithCategoryAndAccount(
+		transactionId: TransactionModel["id"],
+		options?: QueryOptions,
+	) {
+		return (
+			(
+				await this.query(options)
+					.select({
+						...TRANSACTIONS_TABLE_COLUMNS,
+						account: ACCOUNT_TABLE_COLUMNS,
+						category: CATEGORY_TABLE_COLUMNS,
+					})
+					.from(transactionsTable)
+					.leftJoin(
+						categoryTable,
+						eq(transactionsTable.categoryId, categoryTable.id),
+					)
+					.innerJoin(
+						accountTable,
+						eq(transactionsTable.accountId, accountTable.id),
+					)
+					.where(eq(transactionsTable.id, transactionId))
+			)?.[0] ?? null
+		);
+	}
+
 	async paginatedFindTransactionsListByUserId(
 		userId: UserModel["id"],
 		pagination: PaginatedQuery,

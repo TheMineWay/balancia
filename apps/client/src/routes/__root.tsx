@@ -8,11 +8,15 @@ import { useUserInfo } from "@providers/auth/user-info.context";
 import { Permission } from "@shared/models";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
+import { BiPurchaseTagAlt } from "react-icons/bi";
 import { FaHome } from "react-icons/fa";
-import { FaRegFolder, FaTag } from "react-icons/fa6";
+import { FaRegFolder } from "react-icons/fa6";
+import { IoPersonSharp } from "react-icons/io5";
 import { LuPiggyBank } from "react-icons/lu";
 import { MdAdminPanelSettings, MdDashboard } from "react-icons/md";
 import { PiMoneyWavy } from "react-icons/pi";
+import { RiFilePaper2Line } from "react-icons/ri";
+import { TiContacts } from "react-icons/ti";
 
 const MyAvatar: FC = () => {
 	const { user } = useUserInfo();
@@ -34,6 +38,9 @@ const Navigator: FC = () => {
 
 			{/* FINANCES */}
 			<FinancesMenu />
+
+			{/* SOCIAL */}
+			<SocialMenu />
 
 			{/* ADMIN DASHBOARD */}
 			<Protected
@@ -77,8 +84,39 @@ const FinancesMenu: FC = () => {
 					</Menu.Item>
 				</Link>
 				<Link to="/finances/tags">
-					<Menu.Item leftSection={<FaTag />} variant="subtle">
+					<Menu.Item leftSection={<BiPurchaseTagAlt />} variant="subtle">
 						{t().nav.children.tags.Label}
+					</Menu.Item>
+				</Link>
+				<Link to="/finances/debts">
+					<Menu.Item leftSection={<RiFilePaper2Line />} variant="subtle">
+						{t().nav.children.debts.Label}
+					</Menu.Item>
+				</Link>
+			</Menu.Dropdown>
+		</Menu>
+	);
+};
+
+const SocialMenu: FC = () => {
+	const { t } = useTranslation("social");
+
+	return (
+		<Menu trigger="hover">
+			<Menu.Target>
+				<Button
+					size="compact-sm"
+					variant="subtle"
+					leftSection={<IoPersonSharp />}
+				>
+					{t().nav.Label}
+				</Button>
+			</Menu.Target>
+
+			<Menu.Dropdown>
+				<Link to="/social/contacts">
+					<Menu.Item leftSection={<TiContacts />} variant="subtle">
+						{t().nav.children.contacts.Label}
 					</Menu.Item>
 				</Link>
 			</Menu.Dropdown>

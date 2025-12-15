@@ -12,9 +12,6 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 		isDevelopment: true,
 	},
 	{
-		dep: "body-parser",
-	},
-	{
 		dep: "@types/lodash",
 		isDevelopment: true,
 	},
@@ -74,14 +71,15 @@ const codes: Array<{ dep: (typeof DEPENDENCIES)[number]["code"] } & DevProp> = [
 	{
 		dep: "date-fns",
 	},
-	{ dep: "bcrypt" },
-	{
-		dep: "@types/bcrypt",
-		isDevelopment: true,
-	},
 	{
 		dep: "globals",
 		isDevelopment: true,
+	},
+	{
+		dep: "@nestjs/terminus",
+	},
+	{
+		dep: "@nestjs/cache-manager",
 	},
 	{
 		dep: "@nestjs/testing",

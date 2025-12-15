@@ -1,301 +1,338 @@
 {
-	"expressions": {
-		"Edit": "Edit",
-		"Delete": "Delete",
-		"Actions": "Actions",
-		"Unassign": "Unassign",
-		"Unassign-sth": "Unassign {name}",
-		"Save": "Save",
-		"Reload": "Reload",
-		"Profile": "Profile",
-		"Created-at": "Created at",
-		"Clear": "Clear",
-		"Search": "Search",
-		"Income": "Income",
-		"Outcome": "Outcome",
-		"Amount": "Amount",
-		"Import": "Import",
-		"Next": "Next",
-		"Back": "Back",
-		"dates": {
-			"Month": "Month",
-			"Year": "Year"
-		},
-		"files": {
-			"Selected-file": "Selected file: {name}"
-		}
-	},
-	"templates": {
-		"confirm-modal": {
-			"Cancel": "Cancel",
-			"Confirm": "Confirm"
-		},
-		"time-precision": {
-			"options": {
-				"date": {
-					"Label": "Date"
-				},
-				"datetime": {
-					"Label": "Date & time"
-				}
-			}
-		}
-	},
-	"components": {
-		"local-config": {
-			"Title": "Local config",
-			"configs": {
-				"primary-color": {
-					"Name": "Primary color",
-					"options": {
-						"red": "Red",
-						"pink": "Pink",
-						"grape": "Grape",
-						"violet": "Violet",
-						"indigo": "Indigo",
-						"blue": "Blue",
-						"cyan": "Cyan",
-						"teal": "Teal",
-						"green": "Green",
-						"lime": "Lime",
-						"yellow": "Yellow",
-						"orange": "Orange"
-					}
-				},
-				"language": {
-					"Name": "Language",
-					"options": {
-						"en-US": "English (US)"
-					}
-				},
-				"chart-theme": {
-					"Name": "Chart theme"
-				}
-			},
-			"sections": {
-				"theme": {
-					"Title": "Theme"
-				},
-				"language": {
-					"Title": "Language"
-				},
-				"charts": {
-					"Title": "Charts"
-				}
-			}
-		},
-		"status": {
-			"not-found": {
-				"Title": "Not found",
-				"Description": "The requested resource could not be found"
-			},
-			"internal-server-error": {
-				"Title": "Internal server error",
-				"Description": "An unexpected error occurred on the server"
-			},
-			"no-data": {
-				"Title": "No data",
-				"Description": "No data available"
-			}
-		},
-		"server-info": {
-			"notifications": {
-				"version-mismatch": {
-					"Title": "Version mismatch",
-					"Description": "The client version ({current}) does not match the required version ({required}). Reload the page to update."
-				}
-			}
-		},
-		"automatisms": {
-			"auto-matcher": {
-				"Title": "Auto matcher",
-				"Entity-title": "\"{name}\" auto matcher",
-				"forms": {
-					"trigger-types": {
-						"Label": "Trigger types"
-					},
-					"field-based": {
-						"field": {
-							"Label": "Field",
-							"Placeholder": "Select a field"
-						},
-						"match-mode": {
-							"Label": "Match mode"
-						},
-						"value": {
-							"Label": "Value",
-							"Placeholder": "Enter a value"
-						}
-					}
-				},
-				"table": {
-					"columns": {
-						"name": {
-							"Title": "Name"
-						},
-						"description": {
-							"Title": "Description"
-						}
-					}
-				},
-				"actions": {
-					"Create": "Create auto matcher"
-				},
-				"models": {
-					"automatcher": {
-						"name": {
-							"Label": "Name"
-						},
-						"description": {
-							"Label": "Description"
-						}
-					}
-				},
-				"metadata": {
-					"trigger-type-options": {
-						"field": {
-							"Label": "Field"
-						}
-					},
-					"match-mode-options": {
-						"eq": {
-							"Label": "Equals"
-						},
-						"contains": {
-							"Label": "Contains"
-						}
-					}
-				},
-				"managers": {
-					"delete": {
-						"Title": "Delete \"{name}\" auto matcher?",
-						"Description": "Are you sure you want to delete the auto matcher? This action cannot be undone.",
-						"Confirm": "Delete auto matcher"
-					},
-					"edit": {
-						"Title": "Edit auto matcher \"{name}\"",
-						"Submit": "Edit auto matcher"
-					}
-				}
-			}
-		},
-		"charts": {
-			"themes": {
-				"nivo": {
-					"Name": "Nivo"
-				},
-				"category10": {
-					"Name": "Category 10"
-				},
-				"accent": {
-					"Name": "Accent"
-				},
-				"dark2": {
-					"Name": "Dark 2"
-				},
-				"paired": {
-					"Name": "Paired"
-				},
-				"pastel1": {
-					"Name": "Pastel 1"
-				},
-				"pastel2": {
-					"Name": "Pastel 2"
-				},
-				"set1": {
-					"Name": "Set 1"
-				},
-				"set2": {
-					"Name": "Set 2"
-				},
-				"set3": {
-					"Name": "Set 3"
-				},
-				"tableau10": {
-					"Name": "Tableau 10"
-				},
-				"brown_blueGreen": {
-					"Name": "Brown Blue Green"
-				},
-				"purpleRed_green": {
-					"Name": "Purple Red Green"
-				},
-				"pink_yellowGreen": {
-					"Name": "Pink Yellow Green"
-				},
-				"purple_orange": {
-					"Name": "Purple Orange"
-				},
-				"red_blue": {
-					"Name": "Red Blue"
-				},
-				"red_grey": {
-					"Name": "Red Grey"
-				},
-				"red_yellow_blue": {
-					"Name": "Red Yellow Blue"
-				},
-				"red_yellow_green": {
-					"Name": "Red Yellow Green"
-				},
-				"spectral": {
-					"Name": "Spectral"
-				},
-				"blues": {
-					"Name": "Blues"
-				},
-				"greens": {
-					"Name": "Greens"
-				},
-				"greys": {
-					"Name": "Greys"
-				},
-				"oranges": {
-					"Name": "Oranges"
-				},
-				"purples": {
-					"Name": "Purples"
-				},
-				"reds": {
-					"Name": "Reds"
-				},
-				"blue_green": {
-					"Name": "Blue Green"
-				},
-				"blue_purple": {
-					"Name": "Blue Purple"
-				},
-				"green_blue": {
-					"Name": "Green Blue"
-				},
-				"orange_red": {
-					"Name": "Orange Red"
-				},
-				"purple_blue_green": {
-					"Name": "Purple Blue Green"
-				},
-				"purple_blue": {
-					"Name": "Purple Blue"
-				},
-				"purple_red": {
-					"Name": "Purple Red"
-				},
-				"red_purple": {
-					"Name": "Red Purple"
-				},
-				"yellow_green_blue": {
-					"Name": "Yellow Green Blue"
-				},
-				"yellow_green": {
-					"Name": "Yellow Green"
-				},
-				"yellow_orange_brown": {
-					"Name": "Yellow Orange Brown"
-				},
-				"yellow_orange_red": {
-					"Name": "Yellow Orange Red"
-				}
-			}
-		}
-	}
+    "expressions": {
+        "Edit": "Edit",
+        "Delete": "Delete",
+        "Actions": "Actions",
+        "Unassign": "Unassign",
+        "Unassign-sth": "Unassign {name}",
+        "Save": "Save",
+        "Reload": "Reload",
+        "Profile": "Profile",
+        "Created-at": "Created at",
+        "Clear": "Clear",
+        "Search": "Search",
+        "Income": "Income",
+        "Outcome": "Outcome",
+        "Amount": "Amount",
+        "Import": "Import",
+        "Next": "Next",
+        "Back": "Back",
+        "Add": "Add",
+        "Add-empty": "Add empty",
+        "Refine": "Refine",
+        "Code": "Code",
+        "Copy": "Copy",
+        "dates": {
+            "Month": "Month",
+            "Year": "Year"
+        },
+        "files": {
+            "Selected-file": "Selected file: {name}"
+        }
+    },
+    "templates": {
+        "confirm-modal": {
+            "Cancel": "Cancel",
+            "Confirm": "Confirm"
+        },
+        "time-precision": {
+            "options": {
+                "date": {
+                    "Label": "Date"
+                },
+                "datetime": {
+                    "Label": "Date & time"
+                }
+            }
+        }
+    },
+    "components": {
+        "local-config": {
+            "Title": "Local config",
+            "configs": {
+                "primary-color": {
+                    "Name": "Primary color",
+                    "options": {
+                        "red": "Red",
+                        "pink": "Pink",
+                        "grape": "Grape",
+                        "violet": "Violet",
+                        "indigo": "Indigo",
+                        "blue": "Blue",
+                        "cyan": "Cyan",
+                        "teal": "Teal",
+                        "green": "Green",
+                        "lime": "Lime",
+                        "yellow": "Yellow",
+                        "orange": "Orange"
+                    }
+                },
+                "language": {
+                    "Name": "Language",
+                    "options": {
+                        "en-US": "English (US)"
+                    }
+                },
+                "chart-theme": {
+                    "Name": "Chart theme"
+                },
+                "page-size-selector-strategy": {
+                    "Name": "Page size selector strategy",
+                    "options": {
+                        "double_every_step": "Double every step",
+                        "progressive": "Progressive"
+                    }
+                },
+                "default-page-size": {
+                    "Name": "Default page size"
+                }
+            },
+            "sections": {
+                "theme": {
+                    "Title": "Theme"
+                },
+                "language": {
+                    "Title": "Language"
+                },
+                "charts": {
+                    "Title": "Charts"
+                },
+                "pagination": {
+                    "Title": "Pagination"
+                }
+            }
+        },
+        "status": {
+            "not-found": {
+                "Title": "Not found",
+                "Description": "The requested resource could not be found"
+            },
+            "internal-server-error": {
+                "Title": "Internal server error",
+                "Description": "An unexpected error occurred on the server"
+            },
+            "no-data": {
+                "Title": "No data",
+                "Description": "No data available"
+            }
+        },
+        "server-info": {
+            "notifications": {
+                "version-mismatch": {
+                    "Title": "Version mismatch",
+                    "Description": "The client version ({current}) does not match the required version ({required}). Reload the page to update."
+                }
+            }
+        },
+        "automatisms": {
+            "auto-matcher": {
+                "Title": "Auto matcher",
+                "Entity-title": "\"{name}\" auto matcher",
+                "forms": {
+                    "trigger-types": {
+                        "Label": "Trigger types"
+                    },
+                    "field-based": {
+                        "field": {
+                            "Label": "Field",
+                            "Placeholder": "Select a field"
+                        },
+                        "match-mode": {
+                            "Label": "Match mode"
+                        },
+                        "value": {
+                            "Label": "Value",
+                            "Placeholder": "Enter a value"
+                        }
+                    }
+                },
+                "table": {
+                    "columns": {
+                        "name": {
+                            "Title": "Name"
+                        },
+                        "description": {
+                            "Title": "Description"
+                        }
+                    }
+                },
+                "actions": {
+                    "Create": "Create auto matcher"
+                },
+                "models": {
+                    "automatcher": {
+                        "name": {
+                            "Label": "Name"
+                        },
+                        "description": {
+                            "Label": "Description"
+                        }
+                    }
+                },
+                "metadata": {
+                    "trigger-type-options": {
+                        "field": {
+                            "Label": "Field"
+                        }
+                    },
+                    "match-mode-options": {
+                        "eq": {
+                            "Label": "Equals"
+                        },
+                        "contains": {
+                            "Label": "Contains"
+                        }
+                    }
+                },
+                "managers": {
+                    "delete": {
+                        "Title": "Delete \"{name}\" auto matcher?",
+                        "Description": "Are you sure you want to delete the auto matcher? This action cannot be undone.",
+                        "Confirm": "Delete auto matcher"
+                    },
+                    "edit": {
+                        "Title": "Edit auto matcher \"{name}\"",
+                        "Submit": "Edit auto matcher"
+                    }
+                }
+            }
+        },
+        "charts": {
+            "themes": {
+                "nivo": {
+                    "Name": "Nivo"
+                },
+                "category10": {
+                    "Name": "Category 10"
+                },
+                "accent": {
+                    "Name": "Accent"
+                },
+                "dark2": {
+                    "Name": "Dark 2"
+                },
+                "paired": {
+                    "Name": "Paired"
+                },
+                "pastel1": {
+                    "Name": "Pastel 1"
+                },
+                "pastel2": {
+                    "Name": "Pastel 2"
+                },
+                "set1": {
+                    "Name": "Set 1"
+                },
+                "set2": {
+                    "Name": "Set 2"
+                },
+                "set3": {
+                    "Name": "Set 3"
+                },
+                "tableau10": {
+                    "Name": "Tableau 10"
+                },
+                "brown_blueGreen": {
+                    "Name": "Brown Blue Green"
+                },
+                "purpleRed_green": {
+                    "Name": "Purple Red Green"
+                },
+                "pink_yellowGreen": {
+                    "Name": "Pink Yellow Green"
+                },
+                "purple_orange": {
+                    "Name": "Purple Orange"
+                },
+                "red_blue": {
+                    "Name": "Red Blue"
+                },
+                "red_grey": {
+                    "Name": "Red Grey"
+                },
+                "red_yellow_blue": {
+                    "Name": "Red Yellow Blue"
+                },
+                "red_yellow_green": {
+                    "Name": "Red Yellow Green"
+                },
+                "spectral": {
+                    "Name": "Spectral"
+                },
+                "blues": {
+                    "Name": "Blues"
+                },
+                "greens": {
+                    "Name": "Greens"
+                },
+                "greys": {
+                    "Name": "Greys"
+                },
+                "oranges": {
+                    "Name": "Oranges"
+                },
+                "purples": {
+                    "Name": "Purples"
+                },
+                "reds": {
+                    "Name": "Reds"
+                },
+                "blue_green": {
+                    "Name": "Blue Green"
+                },
+                "blue_purple": {
+                    "Name": "Blue Purple"
+                },
+                "green_blue": {
+                    "Name": "Green Blue"
+                },
+                "orange_red": {
+                    "Name": "Orange Red"
+                },
+                "purple_blue_green": {
+                    "Name": "Purple Blue Green"
+                },
+                "purple_blue": {
+                    "Name": "Purple Blue"
+                },
+                "purple_red": {
+                    "Name": "Purple Red"
+                },
+                "red_purple": {
+                    "Name": "Red Purple"
+                },
+                "yellow_green_blue": {
+                    "Name": "Yellow Green Blue"
+                },
+                "yellow_green": {
+                    "Name": "Yellow Green"
+                },
+                "yellow_orange_brown": {
+                    "Name": "Yellow Orange Brown"
+                },
+                "yellow_orange_red": {
+                    "Name": "Yellow Orange Red"
+                }
+            }
+        }
+    },
+    "models": {
+        "fields": {
+            "created-at": {
+                "Name": "Created at"
+            },
+            "updated-at": {
+                "Name": "Updated at"
+            },
+            "id": {
+                "Name": "ID"
+            },
+            "name": {
+                "Name": "Name"
+            },
+            "description": {
+                "Name": "Description"
+            }
+        }
+    }
 }

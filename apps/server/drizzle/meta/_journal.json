@@ -71,6 +71,146 @@
 			"when": 1758704048616,
 			"tag": "0009_cool_zaladane",
 			"breakpoints": true
+		},
+		{
+			"idx": 10,
+			"version": "7",
+			"when": 1760884909914,
+			"tag": "0010_cold_the_renegades",
+			"breakpoints": true
+		},
+		{
+			"idx": 11,
+			"version": "7",
+			"when": 1760893306886,
+			"tag": "0011_furry_ronan",
+			"breakpoints": true
+		},
+		{
+			"idx": 12,
+			"version": "7",
+			"when": 1761599159114,
+			"tag": "0012_silly_umar",
+			"breakpoints": true
+		},
+		{
+			"idx": 13,
+			"version": "7",
+			"when": 1761599750307,
+			"tag": "0013_icy_maggott",
+			"breakpoints": true
+		},
+		{
+			"idx": 14,
+			"version": "7",
+			"when": 1761664551805,
+			"tag": "0014_gorgeous_whirlwind",
+			"breakpoints": true
+		},
+		{
+			"idx": 15,
+			"version": "7",
+			"when": 1762115648442,
+			"tag": "0015_red_marvel_apes",
+			"breakpoints": true
+		},
+		{
+			"idx": 16,
+			"version": "7",
+			"when": 1762115817459,
+			"tag": "0016_slippery_roughhouse",
+			"breakpoints": true
+		},
+		{
+			"idx": 17,
+			"version": "7",
+			"when": 1762173570449,
+			"tag": "0017_high_molecule_man",
+			"breakpoints": true
+		},
+		{
+			"idx": 18,
+			"version": "7",
+			"when": 1762290040115,
+			"tag": "0018_lonely_thunderbird",
+			"breakpoints": true
+		},
+		{
+			"idx": 19,
+			"version": "7",
+			"when": 1762290151840,
+			"tag": "0019_mute_sprite",
+			"breakpoints": true
+		},
+		{
+			"idx": 20,
+			"version": "7",
+			"when": 1762290187200,
+			"tag": "0020_graceful_senator_kelly",
+			"breakpoints": true
+		},
+		{
+			"idx": 21,
+			"version": "7",
+			"when": 1763497006503,
+			"tag": "0021_orange_the_liberteens",
+			"breakpoints": true
+		},
+		{
+			"idx": 22,
+			"version": "7",
+			"when": 1763584465066,
+			"tag": "0022_minor_jocasta",
+			"breakpoints": true
+		},
+		{
+			"idx": 23,
+			"version": "7",
+			"when": 1763833285057,
+			"tag": "0023_aromatic_rawhide_kid",
+			"breakpoints": true
+		},
+		{
+			"idx": 24,
+			"version": "7",
+			"when": 1763833317135,
+			"tag": "0024_flat_microchip",
+			"breakpoints": true
+		},
+		{
+			"idx": 25,
+			"version": "7",
+			"when": 1763892557334,
+			"tag": "0025_aspiring_ser_duncan",
+			"breakpoints": true
+		},
+		{
+			"idx": 26,
+			"version": "7",
+			"when": 1763908106926,
+			"tag": "0026_hot_ikaris",
+			"breakpoints": true
+		},
+		{
+			"idx": 27,
+			"version": "7",
+			"when": 1764075379075,
+			"tag": "0027_previous_shape",
+			"breakpoints": true
+		},
+		{
+			"idx": 28,
+			"version": "7",
+			"when": 1764861618785,
+			"tag": "0028_last_mimic",
+			"breakpoints": true
+		},
+		{
+			"idx": 29,
+			"version": "7",
+			"when": 1764874263972,
+			"tag": "0029_colossal_butterfly",
+			"breakpoints": true
 		}
 	]
 }

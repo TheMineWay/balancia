@@ -2,13 +2,31 @@ import { Logger } from "@nestjs/common";
 import "dotenv/config";
 import { z } from "zod";
 
-const toNum = (value) => Number(value);
+const toNum = (value: unknown) => Number(value);
 const refinedMin = (min: number) => (val: number) => val >= min;
 
+const STRING_LIST = z
+	.string()
+	.transform((val) => JSON.parse(val.replaceAll('\\"', '"')))
+	.pipe(z.array(z.string()));
+
 const ENV_SCHEMA = z.object({
-	//ENV
-	NODE_ENV: z.string().default("production"),
+	// ENV
+	NODE_ENV: z.enum(["development", "production", "test"]).default("production"),
 	OPEN_API_DOCS: z.stringbool().default(false),
+	CONFIGURATION_GUARD: z.stringbool().default(true),
+
+	// HEALTH
+	HEALTH_SERVICES_ENABLED: z.stringbool().default(false),
+	HEALTH_SERVICES_API_KEYS: STRING_LIST.default([]),
+	HEALTH_SERVICES_CACHE_TTL: z
+		.string()
+		.default("5000")
+		.transform(toNum)
+		.refine(refinedMin(0)),
+
+	// SERVER
+	SERVER_ROLE: z.enum(["main", "secondary"]).default("main"),
 
 	// MAX REQUESTS PER MINUTE
 	MAX_REQUESTS_PER_MINUTE: z
@@ -33,13 +51,13 @@ const ENV_SCHEMA = z.object({
 		.refine(refinedMin(1)),
 	DATABASE_URL: z.string(),
 	DATABASE_SSL_REJECT_UNAUTHORIZED: z.stringbool().default(true),
-	REFRESH_MVIEWS_ON_STARTUP: z.stringbool().default(false),
+	REFRESH_MATERIALIZED_VIEWS_ON_STARTUP: z.stringbool().default(true),
+	MATERIALIZED_VIEWS_DEFAULT_REFRESH_CRON: z.string().default("0 */6 * * *"),
 
 	// DEBUG
 	LOG_ENV_VALUES: z.stringbool().default(false),
 
 	// CORS
-
 	CORS_ONLY_ALLOW_DOMAINS: z
 		.string()
 		.transform((val) => {
@@ -48,8 +66,14 @@ const ENV_SCHEMA = z.object({
 		.default(["*"]),
 
 	// REQUESTS
-	MAX_REQUEST_BODY_SIZE: z.string().transform(toNum).default(1048576), // 1 MB
-	MAX_REQUEST_QUERY_SIZE: z.string().transform(toNum).default(1048576), // 1 MB
+	MAX_REQUEST_BODY_SIZE: z
+		.string()
+		.transform(toNum)
+		.default(1 * 1024 * 1024), // 1 MB
+	MAX_REQUEST_QUERY_SIZE: z
+		.string()
+		.transform(toNum)
+		.default(10 * 1024), // 10 KB
 	REQUEST_TIMEOUT: z.string().transform(toNum).default(10000), // 10 seconds
 	HTTPS: z.stringbool().default(false),
 
@@ -67,27 +91,39 @@ const ENV_SCHEMA = z.object({
 	// AUTH DIRECTORY
 	AUTH_DIRECTORY_API_URL: z.url(),
 	AUTH_DIRECTORY_API_KEY: z.string(),
+	AUTH_DIRECTORY_SYNC_BATCH_SIZE: z
+		.string()
+		.optional()
+		.default("200")
+		.transform(toNum)
+		.refine(refinedMin(1)),
+	AUTH_DIRECTORY_MAX_PARALLEL_SYNCS: z
+		.string()
+		.optional()
+		.default("5")
+		.transform(toNum)
+		.refine(refinedMin(1)),
 
 	// CACHE
 	USER_CACHE_TTL: z
 		.string()
-		.default("28800000")
+		.default((8 * 1000 * 60 * 60).toString()) // 8 hours
 		.transform((val) => +val)
-		.refine((val) => isFinite(val) && val >= 0),
+		.refine((val) => Number.isFinite(val) && val >= 0),
 	USER_AUTH_INFO_CACHE_TTL: z
 		.string()
-		.default("1800000")
+		.default((30 * 1000 * 60).toString()) // 30 minutes
 		.transform((val) => +val)
-		.refine((val) => isFinite(val) && val >= 0),
+		.refine((val) => Number.isFinite(val) && val >= 0),
 	DATA_CACHE_TTL: z
 		.string()
-		.default("600000")
+		.default((10 * 1000 * 60).toString()) // 10 minutes
 		.transform((val) => +val)
-		.refine((val) => isFinite(val) && val >= 0),
-
-	// Finances
+		.refine((val) => Number.isFinite(val) && val >= 0),
 	DATABASE_FINANCES_MVIEWS_UPDATE_CRON: z.string().default("0,30 * * * *"),
 });
+
+export type RawEnv = z.infer<typeof ENV_SCHEMA>;
 
 const TEST_VALUES: Partial<z.infer<typeof ENV_SCHEMA>> = {
 	DATABASE_URL: "",
@@ -112,12 +148,18 @@ export const ENV = (() => {
 		rateLimit: {
 			maxRequestsPerMinute: values.MAX_REQUESTS_PER_MINUTE,
 		},
+		server: {
+			role: values.SERVER_ROLE,
+		},
 		database: {
 			url: values.DATABASE_URL,
 			connectionLimit: values.DATABASE_CONNECTION_LIMIT,
 			logQueries: values.LOG_QUERIES,
 			sslRejectUnauthorized: values.DATABASE_SSL_REJECT_UNAUTHORIZED,
-			refreshMaterializedViewsOnStartup: values.REFRESH_MVIEWS_ON_STARTUP,
+			refreshMaterializedViewsOnStartup:
+				values.REFRESH_MATERIALIZED_VIEWS_ON_STARTUP,
+			materializedViewsDefaultRefreshCron:
+				values.MATERIALIZED_VIEWS_DEFAULT_REFRESH_CRON,
 		},
 		cors: {
 			allowedDomains: values.CORS_ONLY_ALLOW_DOMAINS,
@@ -142,6 +184,8 @@ export const ENV = (() => {
 		authDirectory: {
 			apiUrl: values.AUTH_DIRECTORY_API_URL,
 			apiKey: values.AUTH_DIRECTORY_API_KEY,
+			syncBatchSize: values.AUTH_DIRECTORY_SYNC_BATCH_SIZE,
+			maxParallelSyncs: values.AUTH_DIRECTORY_MAX_PARALLEL_SYNCS,
 		},
 		docs: {
 			openApiDocs: values.OPEN_API_DOCS,
@@ -150,6 +194,12 @@ export const ENV = (() => {
 			databaseMaterializedViewsUpdateCron:
 				values.DATABASE_FINANCES_MVIEWS_UPDATE_CRON,
 		},
+		health: {
+			enabled: values.HEALTH_SERVICES_ENABLED,
+			apiKeys: values.HEALTH_SERVICES_API_KEYS,
+			cacheTtl: values.HEALTH_SERVICES_CACHE_TTL,
+		},
 		env: values.NODE_ENV,
+		configurationGuard: values.CONFIGURATION_GUARD,
 	};
 })();

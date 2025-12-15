@@ -28,13 +28,15 @@ export class UserPreferencesRepository extends Repository {
 	async create(
 		data: UserPreferencesInsert,
 		options?: QueryOptions,
-	): Promise<UserPreferencesSelect> {
+	): Promise<UserPreferencesSelect | null> {
 		return (
-			await this.query(options)
-				.insert(userPreferencesTable)
-				.values(data)
-				.returning()
-		)[0];
+			(
+				await this.query(options)
+					.insert(userPreferencesTable)
+					.values(data)
+					.returning()
+			)?.[0] || null
+		);
 	}
 
 	async updateByUserId(

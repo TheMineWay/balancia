@@ -1,4 +1,5 @@
 import { Table } from "@common/extended-ui/table/components/table";
+import { TABLE_ACTION_PROPS } from "@common/extended-ui/table/constants/table.constants";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
 import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Group } from "@mantine/core";
@@ -45,6 +46,7 @@ export const TagsTable: FC<Props> = ({
 					<Group>
 						{onTriggerManagerClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.default}
 								onClick={() => onTriggerManagerClick(item)}
 								aria-label={
 									commonT().components.automatisms["auto-matcher"].Title
@@ -55,6 +57,7 @@ export const TagsTable: FC<Props> = ({
 						)}
 						{onEditClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.default}
 								onClick={() => onEditClick(item)}
 								aria-label={commonT().expressions.Edit}
 							>
@@ -63,8 +66,8 @@ export const TagsTable: FC<Props> = ({
 						)}
 						{onDeleteClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.danger}
 								onClick={() => onDeleteClick(item)}
-								color="red"
 								aria-label={commonT().expressions.Delete}
 							>
 								<BiTrash />

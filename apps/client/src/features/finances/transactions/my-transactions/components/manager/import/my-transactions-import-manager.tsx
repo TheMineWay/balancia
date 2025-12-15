@@ -10,7 +10,7 @@ import { useTranslation } from "@i18n/use-translation";
 import { Button, Flex, Stepper, Text } from "@mantine/core";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import {
-	AccountModel,
+	type AccountModel,
 	TimePrecision,
 	type TransactionCreateModel,
 } from "@shared/models";
@@ -157,7 +157,12 @@ const FileSelect: FC<FileSelectProps> = ({ setTransactions }) => {
 	return (
 		<Flex direction="column" gap="md">
 			<Dropzone
-				onDrop={(file) => setFile(new File([file[0]], file[0].name))}
+				onDrop={(file) => {
+					const f = file[0];
+					if (!f) return;
+
+					setFile(new File([f], f.name));
+				}}
 				accept={[MIME_TYPES.csv, "application/vnd.ms-excel"]}
 				maxFiles={1}
 				maxSize={3 * 1024 ** 2}

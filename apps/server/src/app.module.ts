@@ -11,7 +11,9 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { UserPreferencesModule } from "src/common/user/preferences/user-preferences.module";
 import { EventModule } from "src/events/event.module";
+import { DebtsModule } from "src/features/debts/debts.module";
 import { FinancesModule } from "src/features/finances/finances.module";
+import { SocialModule } from "src/features/social/social.module";
 import { IntegrationModule } from "src/integrations/integration.module";
 
 @Module({
@@ -40,6 +42,8 @@ import { IntegrationModule } from "src/integrations/integration.module";
 
 		// App specific
 		FinancesModule,
+		DebtsModule,
+		SocialModule,
 	],
 	providers: [
 		{

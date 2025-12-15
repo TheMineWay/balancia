@@ -42,12 +42,15 @@ export class MyTagsController {
 		id: number,
 		@UserId() userId: UserModelId,
 	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, "getTag">> {
-		return await this.tagsService.getUserTagById(userId, id);
+		return await this.tagsService.userGetById(userId, id);
 	}
 
 	@Endpoint(MY_TAGS_CONTROLLER, "createTag")
 	async createTag(
-		@ValidatedBody(MY_TAGS_CONTROLLER, "createTag") body,
+		@ValidatedBody(MY_TAGS_CONTROLLER, "createTag") body: InferBodyDto<
+			typeof MY_TAGS_CONTROLLER,
+			"createTag"
+		>,
 		@UserId() userId: UserModelId,
 	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, "createTag">> {
 		await this.tagsService.create(userId, body);
@@ -57,10 +60,13 @@ export class MyTagsController {
 	async updateTag(
 		@Param(getParamName(MY_TAGS_CONTROLLER, "updateTag", "id"), ParseIntPipe)
 		id: number,
-		@ValidatedBody(MY_TAGS_CONTROLLER, "updateTag") body,
+		@ValidatedBody(MY_TAGS_CONTROLLER, "updateTag") body: InferBodyDto<
+			typeof MY_TAGS_CONTROLLER,
+			"updateTag"
+		>,
 		@UserId() userId: UserModelId,
 	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, "updateTag">> {
-		await this.tagsService.updateUserTag(userId, id, body);
+		await this.tagsService.userUpdateById(userId, id, body);
 	}
 
 	@Endpoint(MY_TAGS_CONTROLLER, "deleteTag")
@@ -69,7 +75,7 @@ export class MyTagsController {
 		id: number,
 		@UserId() userId: UserModelId,
 	): Promise<InferResponseDto<typeof MY_TAGS_CONTROLLER, "deleteTag">> {
-		await this.tagsService.deleteUserTag(userId, id);
+		await this.tagsService.userDeleteById(userId, id);
 	}
 
 	// Transaction related

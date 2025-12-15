@@ -24,6 +24,11 @@ export const DEPENDENCIES = [
 		url: "https://www.npmjs.com/package/@nivo/line",
 	},
 	{
+		code: "@nivo/pie",
+		name: "@nivo/pie",
+		url: "https://www.npmjs.com/package/@nivo/pie",
+	},
+	{
 		code: "nodemon",
 		name: "Nodemon",
 		url: "https://www.npmjs.com/package/nodemon",
@@ -42,11 +47,6 @@ export const DEPENDENCIES = [
 		code: "tsx",
 		name: "TSX",
 		url: "https://www.npmjs.com/package/tsx",
-	},
-	{
-		code: "body-parser",
-		name: "Body Parser",
-		url: "https://www.npmjs.com/package/body-parser",
 	},
 	{
 		code: "@biomejs/biome",
@@ -77,6 +77,11 @@ export const DEPENDENCIES = [
 		code: "vite-plugin-dts",
 		name: "Vite Plugin DTS",
 		url: "https://www.npmjs.com/package/vite-plugin-dts",
+	},
+	{
+		code: "@nestjs/terminus",
+		name: "@nestjs/terminus",
+		url: "https://www.npmjs.com/package/@nestjs/terminus",
 	},
 	{
 		code: "@nestjs/schedule",
@@ -148,16 +153,6 @@ export const DEPENDENCIES = [
 		code: "date-fns",
 		name: "Date fns",
 		url: "https://www.npmjs.com/package/date-fns",
-	},
-	{
-		code: "@types/bcrypt",
-		name: "@types bcrypt",
-		url: "https://www.npmjs.com/package/@types/bcrypt",
-	},
-	{
-		code: "bcrypt",
-		name: "bcrypt",
-		url: "https://www.npmjs.com/package/bcrypt",
 	},
 	{
 		code: "@tailwindcss/postcss",
@@ -232,6 +227,11 @@ export const DEPENDENCIES = [
 		name: "react-hook-form",
 		url: "https://www.npmjs.com/package/react-hook-form",
 		docsUrl: "https://react-hook-form.com",
+	},
+	{
+		code: "@nestjs/cache-manager",
+		name: "@nestjs/cache-manager",
+		url: "https://www.npmjs.com/package/@nestjs/cache-manager",
 	},
 	{
 		code: "@nestjs/testing",

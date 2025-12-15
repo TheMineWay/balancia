@@ -1,14 +1,21 @@
 {
 	"compilerOptions": {
 		"module": "NodeNext",
-		"target": "ESNext",
+		"target": "ES2023",
 		"strict": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"outDir": "./dist",
 		"declaration": true,
 		"declarationMap": true,
-		"moduleResolution": "nodenext"
+		"moduleResolution": "nodenext",
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true
 	},
 	"include": ["src/**/*.ts"],
 	"exclude": ["node_modules"]

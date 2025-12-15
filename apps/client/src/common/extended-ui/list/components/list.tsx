@@ -2,6 +2,8 @@ import type { WithChildren } from "@common/extended-ui/general/types/component.t
 import clsx from "clsx";
 import styles from "./list.module.pcss";
 
+const FULL_HEIGHT_CLASS = styles["full-height"] ?? "";
+
 type Common = {
 	className?: string;
 };
@@ -22,7 +24,7 @@ const Layout: FC<ListLayoutProps> = ({
 	return (
 		<div
 			className={clsx("flex flex-col gap-2", className, {
-				[styles["full-height"]]: fullHeight,
+				[FULL_HEIGHT_CLASS]: fullHeight,
 			})}
 		>
 			{children}

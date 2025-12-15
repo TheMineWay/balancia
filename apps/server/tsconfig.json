@@ -1,4 +1,5 @@
 {
+	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"module": "commonjs",
 		"declaration": true,
@@ -6,17 +7,17 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"allowSyntheticDefaultImports": true,
-		"forceConsistentCasingInFileNames": true,
-		"target": "ES2021",
-		"strictNullChecks": true,
+		"target": "ES2023",
+		"lib": ["ES2023"],
+		"strict": true,
 		"sourceMap": true,
 		"outDir": "./dist",
 		"rootDir": "./",
 		"baseUrl": "./",
-		"skipLibCheck": true,
 		"incremental": true,
-		"resolveJsonModule": true,
 		"types": ["vitest"],
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
 
 		"paths": {
 			"@pkg": ["./package.json"],

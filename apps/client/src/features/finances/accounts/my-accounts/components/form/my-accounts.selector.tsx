@@ -2,11 +2,11 @@ import {
 	SelectSearch,
 	type SelectSearchProps,
 } from "@common/extended-ui/form/components/search/select-search";
+import { useSearch } from "@common/extended-ui/form/hooks/use-search";
 import { useMyUserPreferencesQuery } from "@common/user/preferences/api/use-my-user-preferences.query";
 import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authenticated-request.util";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
-import { useSearch } from "@core/search/hooks/use-search";
 import { useMyAccountsQuery } from "@fts/finances/accounts/my-accounts/api/use-my-accounts.query";
 import { useTranslation } from "@i18n/use-translation";
 import { MY_ACCOUNTS_CONTROLLER } from "@shared/api-definition";
@@ -21,7 +21,7 @@ type Props = {
 	autoFill?: boolean;
 } & Omit<
 	SelectSearchProps<AccountModel["id"]>,
-	"data" | "search" | "value" | "setValue"
+	"data" | "search" | "value" | "setValue" | "getKey"
 >;
 
 export const MyAccountsSelector: FC<Props> = ({
@@ -61,7 +61,9 @@ export const MyAccountsSelector: FC<Props> = ({
 			autoFill
 		) {
 			setNeedsInitialAccount(true);
-			if (accounts.items.length === 1) onChange?.(accounts.items[0].id);
+			const id = accounts.items?.[0]?.id;
+
+			if (accounts.items.length === 1 && id !== undefined) onChange?.(id);
 			else onChange?.(userPreferences?.preferences?.mainAccount ?? null);
 		}
 	}, [
@@ -95,6 +97,7 @@ export const MyAccountsSelector: FC<Props> = ({
 	return (
 		<SelectSearch<AccountModel["id"]>
 			data={options}
+			getKey={(v) => v}
 			search={search.debouncedSearchManager}
 			setValue={(v) => onChange?.(v)}
 			value={value}

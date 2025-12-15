@@ -1,7 +1,9 @@
 import { type QueryOptions, Repository } from "@database/repository/repository";
 import {
+	accountCategoryExpensesStatsMaterializedView,
 	accountMonthlyStatsMaterializedView,
 	accountTable,
+	categoryTable,
 	transactionsTable,
 } from "@database/schemas/main.schema";
 import {
@@ -9,17 +11,17 @@ import {
 	AccountSelect,
 	AccountUpdate,
 } from "@database/schemas/main/tables/finances/account.table";
+import { CATEGORY_TABLE_COLUMNS } from "@database/schemas/main/tables/finances/category.table";
 import { Injectable } from "@nestjs/common";
 import type {
 	AccountModel,
-	OwnedModel,
+	CategoryExpensesModel,
 	PaginatedResponse,
 	PaginatedSearchModel,
 	TransactionModel,
 	UserModel,
 } from "@shared/models";
-import { getMonth } from "date-fns/getMonth";
-import { and, desc, eq, gte, ilike, lte } from "drizzle-orm";
+import { and, desc, eq, gte, ilike, lte, sum } from "drizzle-orm";
 
 @Injectable()
 export class AccountsRepository extends Repository {
@@ -27,7 +29,7 @@ export class AccountsRepository extends Repository {
 		userId: UserModel["id"],
 		{ pagination, search }: PaginatedSearchModel,
 		options?: QueryOptions,
-	): Promise<PaginatedResponse<OwnedModel<AccountSelect>>> {
+	): Promise<PaginatedResponse<AccountSelect>> {
 		const query = this.query(options)
 			.select()
 			.from(accountTable)
@@ -137,16 +139,10 @@ export class AccountsRepository extends Repository {
 	) {
 		const where = and(
 			filters.startDate
-				? gte(
-						accountMonthlyStatsMaterializedView.month,
-						getMonth(filters.startDate) + 1,
-					)
+				? gte(accountMonthlyStatsMaterializedView.date, filters.startDate)
 				: undefined,
 			filters.endDate
-				? lte(
-						accountMonthlyStatsMaterializedView.month,
-						getMonth(filters.endDate) + 1,
-					)
+				? lte(accountMonthlyStatsMaterializedView.date, filters.endDate)
 				: undefined,
 		);
 
@@ -162,7 +158,64 @@ export class AccountsRepository extends Repository {
 
 		return rows.map((row) => ({
 			...row,
+			date: new Date(row.date),
 			monthlyBalance: Number(row.monthlyBalance),
+			income: Number(row.income),
+			outcome: Number(row.outcome),
+		}));
+	}
+
+	async findAccountCategoryExpensesStats(
+		accountId: AccountModel["id"],
+		filters: { startDate?: Date; endDate?: Date } = {},
+		options?: QueryOptions,
+	): Promise<CategoryExpensesModel[]> {
+		const statsCondition = and(
+			filters.startDate
+				? gte(
+						accountCategoryExpensesStatsMaterializedView.date,
+						filters.startDate,
+					)
+				: undefined,
+			filters.endDate
+				? lte(
+						accountCategoryExpensesStatsMaterializedView.date,
+						filters.endDate,
+					)
+				: undefined,
+		);
+		const statsQuery = this.query(options)
+			.select({
+				accountId: accountCategoryExpensesStatsMaterializedView.accountId,
+				categoryId: accountCategoryExpensesStatsMaterializedView.categoryId,
+				income: sum(accountCategoryExpensesStatsMaterializedView.income).as(
+					"income",
+				),
+				outcome: sum(accountCategoryExpensesStatsMaterializedView.outcome).as(
+					"outcome",
+				),
+			})
+			.from(accountCategoryExpensesStatsMaterializedView)
+			.where(statsCondition)
+			.groupBy(
+				accountCategoryExpensesStatsMaterializedView.accountId,
+				accountCategoryExpensesStatsMaterializedView.categoryId,
+			)
+			.as("stats");
+
+		const condition = and(eq(statsQuery.accountId, accountId));
+		const data = await this.query(options)
+			.select({
+				category: CATEGORY_TABLE_COLUMNS,
+				income: statsQuery.income,
+				outcome: statsQuery.outcome,
+			})
+			.from(statsQuery)
+			.leftJoin(categoryTable, eq(statsQuery.categoryId, categoryTable.id))
+			.where(condition);
+
+		return data.map((row) => ({
+			...row,
 			income: Number(row.income),
 			outcome: Number(row.outcome),
 		}));

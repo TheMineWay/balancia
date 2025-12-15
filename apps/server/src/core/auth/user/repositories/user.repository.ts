@@ -1,6 +1,7 @@
 import { type QueryOptions, Repository } from "@database/repository/repository";
 import {
 	type UserInsert,
+	type UserSelect,
 	type UserUpdate,
 	userTable,
 } from "@database/schemas/main/tables/identity/user.table";
@@ -10,23 +11,29 @@ import { asc, eq, ilike, inArray } from "drizzle-orm";
 
 @Injectable()
 export class UserRepository extends Repository {
-	findByCode = async (code: string, options?: QueryOptions) =>
+	findByCode = async (
+		code: string,
+		options?: QueryOptions,
+	): Promise<UserSelect | null> =>
 		(
 			await this.query(options)
 				.select()
 				.from(userTable)
 				.where(eq(userTable.code, code))
 				.limit(1)
-		)?.[0];
+		)?.[0] ?? null;
 
-	findById = async (userId: DbUserModel["id"], options?: QueryOptions) =>
+	findById = async (
+		userId: DbUserModel["id"],
+		options?: QueryOptions,
+	): Promise<UserSelect | null> =>
 		(
 			await this.query(options)
 				.select()
 				.from(userTable)
 				.where(eq(userTable.id, userId))
 				.limit(1)
-		)?.[0];
+		)?.[0] ?? null;
 
 	findAndCount = async (
 		pagination: PaginatedQuery,
@@ -57,13 +64,16 @@ export class UserRepository extends Repository {
 			.from(userTable)
 			.where(inArray(userTable.code, codes));
 
-	create = async (user: UserInsert, options?: QueryOptions) =>
+	create = async (
+		user: UserInsert,
+		options?: QueryOptions,
+	): Promise<{ id: UserSelect["id"] } | null> =>
 		(
 			await this.query(options)
 				.insert(userTable)
 				.values([user])
 				.returning({ id: userTable.id })
-		)?.[0];
+		)?.[0] ?? null;
 
 	updateById = (
 		id: DbUserModel["id"],

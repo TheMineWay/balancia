@@ -2,7 +2,12 @@ import { DATABASE_PROVIDERS } from "@database/database.provider";
 import type { QueryOptions } from "@database/repository/repository";
 import { AccountSelect } from "@database/schemas/main/tables/finances/account.table";
 import { DatabaseService } from "@database/services/database.service";
-import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+	Inject,
+	Injectable,
+	InternalServerErrorException,
+	UnauthorizedException,
+} from "@nestjs/common";
 import type {
 	AccountCreateModel,
 	AccountModel,
@@ -12,7 +17,6 @@ import type {
 	UserModel,
 	UserModelId,
 } from "@shared/models";
-import { sub } from "date-fns";
 import { UserPreferencesService } from "src/common/user/preferences/user-preferences.service";
 import { EventService } from "src/events/event.service";
 import {
@@ -37,6 +41,8 @@ export class AccountsService {
 	async create(account: OwnedModel<AccountCreateModel>) {
 		const created = await this.accountsRepository.create(account);
 
+		if (!created)
+			throw new InternalServerErrorException("Account creation failed");
 		this.eventService.emit(new AccountCreatedEvent({ account: created }));
 
 		return created;
@@ -64,7 +70,7 @@ export class AccountsService {
 	// #region User oriented
 
 	async checkAccountOwnership(
-		userId: UserModel["id"],
+		userId: UserModelId,
 		accountId: AccountModel["id"],
 		queryOptions?: QueryOptions,
 	): Promise<CheckAccountOwnershipResponse> {
@@ -169,7 +175,7 @@ export class AccountsService {
 	async getUserAccountMonthlyStats(
 		userId: UserModelId,
 		accountId: AccountModel["id"],
-		options: { periodEnd: Date; months: number },
+		options: { from?: Date; to: Date },
 	) {
 		return await this.databaseService.db.transaction(async (transaction) => {
 			const { isOwner, account } = await this.checkAccountOwnership(
@@ -185,8 +191,37 @@ export class AccountsService {
 			return await this.accountsRepository.findAccountMonthlyStats(
 				account.id,
 				{
-					endDate: options.periodEnd,
-					startDate: sub(options.periodEnd, { months: options.months }),
+					endDate: options.to,
+					startDate: options.from,
+				},
+				{
+					transaction,
+				},
+			);
+		});
+	}
+
+	async getUserAccountCategoryExpensesStats(
+		userId: UserModelId,
+		accountId: AccountModel["id"],
+		options: { from?: Date; to: Date },
+	) {
+		return await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner, account } = await this.checkAccountOwnership(
+				userId,
+				accountId,
+				{
+					transaction,
+				},
+			);
+
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.accountsRepository.findAccountCategoryExpensesStats(
+				account.id,
+				{
+					endDate: options.to,
+					startDate: options.from,
 				},
 				{
 					transaction,

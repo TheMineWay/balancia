@@ -61,7 +61,26 @@ export class TransactionsService {
 		);
 	}
 
-	async create(
+	async getUserDetailedTransactionById(
+		userId: UserModelId,
+		TransactionId: TransactionModel["id"],
+	) {
+		return await this.databaseService.db.transaction(async (tsx) => {
+			const { isOwner } = await this.checkTransactionOwnership(
+				userId,
+				TransactionId,
+				{ transaction: tsx },
+			);
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.transactionsRepository.findByIdWithCategoryAndAccount(
+				TransactionId,
+				{ transaction: tsx },
+			);
+		});
+	}
+
+	async userCreate(
 		userId: UserModel["id"],
 		{ categoryId, accountId, ...transaction }: TransactionCreateModel,
 	) {
@@ -90,15 +109,16 @@ export class TransactionsService {
 				{ transaction: tsx },
 			);
 
-			this.eventService.emit(
-				new TransactionCreatedEvent({ transaction: { ...created, userId } }),
-			);
+			if (created)
+				this.eventService.emit(
+					new TransactionCreatedEvent({ transaction: { ...created, userId } }),
+				);
 
 			return created;
 		});
 	}
 
-	async updateByUserIdAndId(
+	async userUpdateById(
 		userId: UserModel["id"],
 		transactionId: TransactionModel["id"],
 		{ categoryId, ...transaction }: Partial<TransactionCreateModel>,
@@ -136,7 +156,7 @@ export class TransactionsService {
 		});
 	}
 
-	async deleteByUserIdAndId(
+	async userDeleteById(
 		userId: UserModel["id"],
 		transactionId: TransactionModel["id"],
 	) {
@@ -161,7 +181,7 @@ export class TransactionsService {
 		});
 	}
 
-	async accountBulkCreate(
+	async userAccountBulkCreate(
 		userId: UserModelId,
 		accountId: number,
 		transactions: Omit<TransactionCreateModel, "accountId">[],
