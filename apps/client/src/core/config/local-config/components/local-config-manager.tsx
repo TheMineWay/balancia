@@ -14,7 +14,7 @@ import {
 } from "@providers/config/local-config.context";
 import { GLOBAL_CONFIGS } from "@shared/constants";
 import clsx from "clsx";
-import { type ReactNode, useCallback, useId, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 /**
  * Local configuration manager component.
@@ -33,12 +33,12 @@ export const LocalConfigManager: FC = () => {
 			<Language />
 			<Divider />
 
-			{/* Charts */}
-			<Charts />
-			
 			{/* Pagination */}
 			<Pagination />
 			<Divider />
+
+			{/* Charts */}
+			<Charts />
 
 			{/* Version indicator */}
 			<div className="flex justify-center">
@@ -196,35 +196,15 @@ const Charts: FC = () => {
 			<h3 className="font-bold text-xl">
 				{t().components["local-config"].sections.charts.Title}
 			</h3>
-			<Item
+
+			<InputWrapper
 				label={t().components["local-config"].configs["chart-theme"].Name}
-				render={(id) => (
-					<ChartThemeSelector
-						id={id}
-						value={config.charts.theme}
-						onChange={onChartThemeChange}
-					/>
-				)}
-			/>
-		</div>
-	);
-};
-
-/* Utils */
-
-type ItemProps = {
-	label: string;
-	render: (id: string) => ReactNode;
-};
-
-const Item: FC<ItemProps> = ({ label, render }) => {
-	const id = useId();
-	const component = useMemo(() => render(id), [id, render]);
-
-	return (
-		<div className="flex flex-col gap-2">
-			<label htmlFor={id}>{label}</label>
-			{component}
+			>
+				<ChartThemeSelector
+					value={config.charts.theme}
+					onChange={onChartThemeChange}
+				/>
+			</InputWrapper>
 		</div>
 	);
 };
