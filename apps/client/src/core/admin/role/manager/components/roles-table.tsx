@@ -1,7 +1,7 @@
 import { DatetimeRender } from "@common/extended-ui/date/components/datetime-render";
 import { Table } from "@common/extended-ui/table/components/table";
+import { TABLE_ACTION_PROPS } from "@common/extended-ui/table/constants/table.constants";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
-import { useAdminRolesWithStatsQuery } from "@core/admin/role/manager/api/use-admin-roles-with-stats.query";
 import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Group } from "@mantine/core";
 import type { RoleModel } from "@shared/models";
@@ -15,23 +15,24 @@ type RoleTableData = RoleModel & {
 };
 
 type Props = {
+	roles?: RoleTableData[];
 	onEditClick?: (role: RoleModel) => void;
 	onDeleteClick?: (role: RoleModel) => void;
 	onUserAssignClick?: (role: RoleModel) => void;
 	onPermissionAssignClick?: (role: RoleModel) => void;
+	loading?: boolean;
 	isDeleting?: boolean;
 };
 
 export const RolesTable: FC<Props> = ({
+	roles = [],
 	onEditClick,
 	onDeleteClick,
 	onUserAssignClick,
 	onPermissionAssignClick,
+	loading: isLoadingRoles = false,
 	isDeleting = false,
 }) => {
-	const { data: { roles } = {}, isLoading: isLoadingRoles } =
-		useAdminRolesWithStatsQuery();
-
 	const { t: commonT } = useTranslation("common");
 	const { t } = useTranslation("role");
 
@@ -62,6 +63,7 @@ export const RolesTable: FC<Props> = ({
 					<Group gap="sm">
 						{onEditClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.default}
 								aria-label={commonT().expressions.Edit}
 								onClick={() => onEditClick(row)}
 							>
@@ -70,29 +72,28 @@ export const RolesTable: FC<Props> = ({
 						)}
 						{onUserAssignClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.default}
 								aria-label={t().admin.managers["role-users"].Action}
 								onClick={() => onUserAssignClick(row)}
-								variant="outline"
 							>
 								<FaUserEdit />
 							</ActionIcon>
 						)}
 						{onPermissionAssignClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.default}
 								aria-label={t().admin.managers["assign-permissions"].Action}
 								onClick={() => onPermissionAssignClick(row)}
-								variant="outline"
 							>
 								<MdKey />
 							</ActionIcon>
 						)}
 						{onDeleteClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.danger}
 								aria-label={t().admin.managers.delete.Action}
 								loading={isDeleting}
 								onClick={() => onDeleteClick(row)}
-								variant="outline"
-								color="red"
 							>
 								<IoTrash />
 							</ActionIcon>
@@ -103,5 +104,11 @@ export const RolesTable: FC<Props> = ({
 		],
 		rowKey: "id",
 	});
-	return <Table table={table} loading={isLoadingRoles} />;
+	return (
+		<Table
+			table={table}
+			loading={isLoadingRoles}
+			classNames={{ root: "max-h-[25rem]" }}
+		/>
+	);
 };

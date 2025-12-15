@@ -1,6 +1,7 @@
 import { Public } from "@core/auth/auth/guards/public.guard";
 import { ServerInfoService } from "@core/server/server-info.service";
-import { Controller } from "@nestjs/common";
+import { CacheInterceptor } from "@nestjs/cache-manager";
+import { Controller, UseInterceptors } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
 import {
 	getController,
@@ -9,6 +10,7 @@ import {
 } from "@shared/api-definition";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
 
+@UseInterceptors(CacheInterceptor)
 @Controller(getController(SERVER_INFO_CONTROLLER, {}))
 export class ServerInfoController {
 	constructor(private readonly serverInfoService: ServerInfoService) {}

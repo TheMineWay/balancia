@@ -1,0 +1,10 @@
+{
+	"label": "🛠️ Tools",
+	"link": {
+		"type": "generated-index",
+		"title": "Project tools"
+	},
+	"customProps": {
+		"description": "Tools to enhance your development workflow"
+	}
+}

@@ -26,7 +26,8 @@
     "Unassign-sth": "Unassign {name}",
     "Save": "Save",
     "Reload": "Reload",
-    "Profile": "Profile"
+    "Profile": "Profile",
+    "Clear": "Clear"
   },
   "templates": {
     "confirm-modal": {
@@ -60,6 +61,16 @@
           "options": {
             "en-US": "English (US)"
           }
+        },
+        "page-size-selector-strategy": {
+          "Name": "Page size selector strategy",
+          "options": {
+            "double_every_step": "Double every step",
+            "progressive": "Progressive"
+          }
+        },
+        "default-page-size": {
+          "Name": "Default page size"
         }
       },
       "sections": {
@@ -68,6 +79,9 @@
         },
         "language": {
           "Title": "Language"
+        },
+        "pagination": {
+          "Title": "Pagination"
         }
       }
     },

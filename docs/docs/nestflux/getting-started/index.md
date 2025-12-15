@@ -49,18 +49,14 @@ pnpm build:packages
 
 ### 4. Environment Configuration
 
-Set up your environment variables:
+Set up your environment variables using the built-in tool:
 
-```bash
-# Copy example environment files
-cp apps/client/example.env apps/client/.env
-cp apps/server/example.env apps/server/.env
-```
-
-**Important**: Edit the `.env` files with your actual configuration values, especially:
-- Database connection details
-- OIDC authentication provider settings
-- API URLs and endpoints
+1. Start the documentation server: `pnpm start:docs`
+2. Navigate to the **Tools** section
+3. Use the environment configuration tool to generate `.env` files
+4. Place the generated files in their respective project folders:
+   - `apps/client/.env` for the React application
+   - `apps/server/.env` for the NestJS API
 
 ### 5. Database Setup
 

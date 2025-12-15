@@ -1,11 +1,15 @@
 import { ENV } from "@constants/env/env.constant";
 import { LanguageChanger } from "@core/config/local-config/components/language/language-changer";
 import { PrimaryColorChanger } from "@core/config/local-config/components/theme/primary-color-changer";
+import { PageSizeSelector } from "@core/pagination/components/page-size-selector";
+import { PageSizeGenerationStrategy } from "@core/pagination/lib/generate-page-sizes-from-limits.util";
 import { useTranslation } from "@i18n/use-translation";
-import { Button, Divider } from "@mantine/core";
+import { Button, Divider, InputWrapper, Select } from "@mantine/core";
 import * as pkg from "@pkg";
+import { useLocalConfig } from "@providers/config/local-config.context";
+import { GLOBAL_CONFIGS } from "@shared/constants";
 import clsx from "clsx";
-import { type ReactNode, useId, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 /**
  * Local configuration manager component.
@@ -22,6 +26,10 @@ export const LocalConfigManager: FC = () => {
 
 			{/* Language */}
 			<Language />
+			<Divider />
+
+			{/* Pagination */}
+			<Pagination />
 			<Divider />
 
 			{/* Version indicator */}
@@ -42,10 +50,12 @@ const Theme: FC = () => {
 			<h3 className="font-bold text-xl">
 				{t().components["local-config"].sections.theme.Title}
 			</h3>
-			<Item
+
+			<InputWrapper
 				label={t().components["local-config"].configs["primary-color"].Name}
-				render={(id) => <PrimaryColorChanger id={id} />}
-			/>
+			>
+				<PrimaryColorChanger />
+			</InputWrapper>
 		</div>
 	);
 };
@@ -58,10 +68,85 @@ const Language: FC = () => {
 			<h3 className="font-bold text-xl">
 				{t().components["local-config"].sections.language.Title}
 			</h3>
-			<Item
+
+			<InputWrapper
 				label={t().components["local-config"].configs.language.Name}
-				render={(id) => <LanguageChanger id={id} />}
-			/>
+			>
+				<LanguageChanger />
+			</InputWrapper>
+		</div>
+	);
+};
+
+const Pagination: FC = () => {
+	const { t } = useTranslation("common");
+	const { config, setConfig } = useLocalConfig();
+
+	const pageSizeStrategyOptions = useMemo(() => {
+		return Object.values(PageSizeGenerationStrategy).map((strategy) => ({
+			value: strategy,
+			label:
+				t().components["local-config"].configs["page-size-selector-strategy"]
+					.options[strategy],
+		}));
+	}, [t]);
+
+	const onPageSizeStrategyChange = useCallback(
+		(value: string | null) => {
+			if (!value) return;
+
+			setConfig({
+				...config,
+				pagination: {
+					...config.pagination,
+					pageSize: GLOBAL_CONFIGS.PAGINATION.DEFAULT_PAGE_SIZE,
+					pageSizeSelectorStrategy: value as PageSizeGenerationStrategy,
+				},
+			});
+		},
+		[setConfig, config],
+	);
+
+	const onDefaultPageSizeChange = useCallback(
+		(newSize: number) => {
+			setConfig({
+				...config,
+				pagination: {
+					...config.pagination,
+					pageSize: newSize,
+				},
+			});
+		},
+		[setConfig, config],
+	);
+
+	return (
+		<div className="flex flex-col gap-2">
+			<h3 className="font-bold text-xl">
+				{t().components["local-config"].sections.pagination.Title}
+			</h3>
+
+			<InputWrapper
+				label={
+					t().components["local-config"].configs["page-size-selector-strategy"]
+						.Name
+				}
+			>
+				<Select
+					data={pageSizeStrategyOptions}
+					value={config.pagination?.pageSizeSelectorStrategy}
+					onChange={onPageSizeStrategyChange}
+				/>
+			</InputWrapper>
+
+			<InputWrapper
+				label={t().components["local-config"].configs["default-page-size"].Name}
+			>
+				<PageSizeSelector
+					value={config.pagination.pageSize}
+					onChange={onDefaultPageSizeChange}
+				/>
+			</InputWrapper>
 		</div>
 	);
 };
@@ -83,23 +168,4 @@ const Version: FC = () => {
 			</a>
 		);
 	return <small className={className}>{text}</small>;
-};
-
-/* Utils */
-
-type ItemProps = {
-	label: string;
-	render: (id: string) => ReactNode;
-};
-
-const Item: FC<ItemProps> = ({ label, render }) => {
-	const id = useId();
-	const component = useMemo(() => render(id), [id, render]);
-
-	return (
-		<div className="flex flex-col gap-2">
-			<label htmlFor={id}>{label}</label>
-			{component}
-		</div>
-	);
 };

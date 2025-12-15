@@ -1,4 +1,5 @@
 import type { WithChildren } from "@common/extended-ui/general/types/component.types";
+import type { Stylings } from "@common/extended-ui/general/types/stylings.type";
 import type { UseTable } from "@common/extended-ui/table/hooks/use-table";
 import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
 import type { TableValue } from "@common/extended-ui/table/types/table-value.type";
@@ -11,7 +12,7 @@ import styles from "./table.module.pcss";
 export type TableProps<TData extends TableValue> = {
 	table: UseTable<TData>;
 	loading?: boolean;
-};
+} & Styles;
 
 /**
  * Generic table component that renders data in a tabular format.
@@ -20,6 +21,8 @@ export type TableProps<TData extends TableValue> = {
 export const Table = <TData extends TableValue>({
 	table,
 	loading = false,
+	classNames,
+	styles: inlineStyles,
 }: TableProps<TData>): ReactNode => {
 	const { t } = useTranslation("common");
 
@@ -43,12 +46,24 @@ export const Table = <TData extends TableValue>({
 	}, [loading, table.data, table, t]);
 
 	return (
-		<div className="overflow-x-scroll">
-			<MTable className={styles.table} withColumnBorders>
-				<MTable.Thead className="h-12">
+		<div
+			className={clsx("overflow-x-scroll overflow-y-scroll", classNames?.root)}
+			style={inlineStyles?.root}
+		>
+			<MTable
+				className={clsx(styles.table)}
+				style={inlineStyles?.table}
+				withColumnBorders
+			>
+				<MTable.Thead
+					className={clsx("h-12", classNames?.header)}
+					style={inlineStyles?.header}
+				>
 					<Headers<TData> columns={columns} />
 				</MTable.Thead>
-				<MTable.Tbody>{content}</MTable.Tbody>
+				<MTable.Tbody className={classNames?.body} style={inlineStyles?.body}>
+					{content}
+				</MTable.Tbody>
 			</MTable>
 		</div>
 	);
@@ -117,11 +132,9 @@ const Row = <TData extends TableValue>({
 				const value = column.accessorKey ? item[column.accessorKey] : null;
 
 				// Custom render or default rendering
-				const content = column.render ? (
-					column.render(item)
-				) : (
-					<Text>{`${value}`}</Text>
-				);
+				const content = column.render
+					? column.render(item)
+					: value && <Text>{`${value}`}</Text>;
 
 				return (
 					<MTable.Td
@@ -179,3 +192,7 @@ const Status = <TData extends TableValue>({
 		</MTable.Tr>
 	);
 };
+
+/* Styles */
+
+type Styles = Stylings<"root" | "table" | "body" | "header">;

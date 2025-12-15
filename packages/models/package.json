@@ -20,10 +20,10 @@
 	"license": "MIT",
 	"devDependencies": {
 		"ts-node": "^10.9.2",
-		"typescript": "^5.9.2",
-		"vite": "^7.1.11",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.0",
 		"vite-plugin-dts": "^4.5.4",
-		"vitest": "^3.2.4"
+		"vitest": "^4.0.15"
 	},
 	"publishConfig": {
 		"access": "public"
@@ -40,6 +40,6 @@
 		"pnpm": ">=10"
 	},
 	"dependencies": {
-		"zod": "^4.0.17"
+		"zod": "^4.2.0"
 	}
 }
