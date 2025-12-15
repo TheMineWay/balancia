@@ -37,6 +37,17 @@ const GET_TRANSACTIONS_LIST_ENDPOINT = {
 	),
 } satisfies EndpointDefinition;
 
+const GET_BY_ID = {
+	getPath: (params) => ["transaction", params.id],
+	paramsMapping: { id: "transactionId" },
+	method: EndpointMethod.GET,
+	responseDto: z.object({
+		...TRANSACTION_SCHEMA.shape,
+		account: ACCOUNT_SCHEMA,
+		category: CATEGORY_SCHEMA.nullable(),
+	}),
+} satisfies EndpointDefinition<{ id: string }>;
+
 const CREATE_TRANSACTION = {
 	getPath: () => [],
 	paramsMapping: {},
@@ -78,6 +89,7 @@ export const MY_TRANSACTION_CONTROLLER = {
 	paramsMapping: {},
 	endpoints: {
 		getTransactionsList: GET_TRANSACTIONS_LIST_ENDPOINT,
+		getById: GET_BY_ID,
 		createTransaction: CREATE_TRANSACTION,
 		deleteTransaction: DELETE_TRANSACTION_ENDPOINT,
 		updateTransaction: UPDATE_TRANSACTION,

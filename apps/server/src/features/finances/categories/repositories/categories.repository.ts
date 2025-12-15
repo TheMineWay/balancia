@@ -70,8 +70,7 @@ export class CategoriesRepository extends Repository {
 		);
 	}
 
-	async updateByUserIdAndId(
-		userId: UserModel["id"],
+	async updateById(
 		categoryId: CategoryModel["id"],
 		data: CategoryUpdate,
 		options?: QueryOptions,
@@ -81,27 +80,16 @@ export class CategoriesRepository extends Repository {
 				await this.query(options)
 					.update(categoryTable)
 					.set(data)
-					.where(
-						and(
-							eq(categoryTable.id, categoryId),
-							eq(categoryTable.userId, userId),
-						),
-					)
+					.where(eq(categoryTable.id, categoryId))
 					.returning()
 			)?.[0] ?? null
 		);
 	}
 
-	async deleteByUserIdAndId(
-		userId: UserModel["id"],
-		categoryId: CategoryModel["id"],
-		options?: QueryOptions,
-	) {
+	async deleteById(categoryId: CategoryModel["id"], options?: QueryOptions) {
 		return await this.query(options)
 			.delete(categoryTable)
-			.where(
-				and(eq(categoryTable.id, categoryId), eq(categoryTable.userId, userId)),
-			);
+			.where(eq(categoryTable.id, categoryId));
 	}
 
 	async create(data: CategoryInsert, options?: QueryOptions) {

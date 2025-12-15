@@ -21,7 +21,7 @@ type Props = {
 	autoFill?: boolean;
 } & Omit<
 	SelectSearchProps<AccountModel["id"]>,
-	"data" | "search" | "value" | "setValue"
+	"data" | "search" | "value" | "setValue" | "getKey"
 >;
 
 export const MyAccountsSelector: FC<Props> = ({
@@ -95,6 +95,7 @@ export const MyAccountsSelector: FC<Props> = ({
 	return (
 		<SelectSearch<AccountModel["id"]>
 			data={options}
+			getKey={(v) => v}
 			search={search.debouncedSearchManager}
 			setValue={(v) => onChange?.(v)}
 			value={value}

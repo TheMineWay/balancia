@@ -1,4 +1,8 @@
 import { ID_SCHEMA } from "@/common/__system/id.model";
+import {
+	MONEY_MODEL_VALUES,
+	MONEY_SCHEMA,
+} from "@/common/finances/money.model";
 import { TimePrecision } from "@/common/time/time-precision.enum";
 import { ACCOUNT_SCHEMA } from "@/features/finances/accounts/account.model";
 import { CATEGORY_SCHEMA } from "@/features/finances/category/category.model";
@@ -12,8 +16,8 @@ export const TRANSACTION_MODEL_VALUES = {
 		maxLength: 255,
 	},
 	amount: {
-		min: -99_999_999.99,
-		max: 99_999_999.99,
+		min: MONEY_MODEL_VALUES.money.min,
+		max: MONEY_MODEL_VALUES.money.max,
 	},
 	performedAtPrecision: {
 		default: TimePrecision.DATETIME,
@@ -22,11 +26,7 @@ export const TRANSACTION_MODEL_VALUES = {
 
 export const TRANSACTION_SCHEMA = z.object({
 	id: ID_SCHEMA,
-	amount: z
-		.number()
-		.multipleOf(0.01)
-		.min(TRANSACTION_MODEL_VALUES.amount.min)
-		.max(TRANSACTION_MODEL_VALUES.amount.max),
+	amount: MONEY_SCHEMA,
 	subject: z
 		.string()
 		.max(TRANSACTION_MODEL_VALUES.subject.maxLength)

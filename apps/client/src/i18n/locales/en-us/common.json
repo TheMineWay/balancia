@@ -17,6 +17,11 @@
 		"Import": "Import",
 		"Next": "Next",
 		"Back": "Back",
+		"Add" : "Add",
+		"Add-empty": "Add empty",
+		"Refine": "Refine",
+		"Code": "Code",
+		"Copy": "Copy",
 		"dates": {
 			"Month": "Month",
 			"Year": "Year"

@@ -1,17 +1,13 @@
+import {
+	type DateModes,
+	useDateFormat,
+} from "@common/extended-ui/date/hooks/use-date-format";
 import { Text } from "@mantine/core";
-import { format } from "date-fns";
 import { useMemo } from "react";
-
-type DateModes = "short" | "long";
 
 type Props = {
 	date: Date;
 	mode?: DateModes;
-};
-
-const MODES: Record<DateModes, string> = {
-	short: "dd-MM-yyyy",
-	long: "EEEE, dd-MM-yyyy",
 };
 
 /**
@@ -19,7 +15,9 @@ const MODES: Record<DateModes, string> = {
  * Supports both short and long date display modes.
  */
 export const DateRender: FC<Props> = ({ date, mode = "short" }) => {
-	const value = useMemo(() => format(date, MODES[mode]), [date, mode]);
+	const { formatDate } = useDateFormat();
+
+	const value = useMemo(() => formatDate(date, mode), [date, mode, formatDate]);
 
 	return <Text>{value}</Text>;
 };

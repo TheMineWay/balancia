@@ -1,0 +1,1 @@
+ALTER TABLE "debt"."debt_origin_transactions" ADD COLUMN "amount" integer NOT NULL;

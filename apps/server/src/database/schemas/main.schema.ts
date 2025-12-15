@@ -1,6 +1,13 @@
 // Identity
 
 export { timePrecisionEnum } from "@database/schemas/main/enums/time-precision.db-enum";
+export { debtOriginTable as debtOriginalTransactionTable } from "@database/schemas/main/tables/debt/debt-origin.table";
+export { debtPaymentTable } from "@database/schemas/main/tables/debt/debt-payments.table";
+export { debtSchema } from "@database/schemas/main/tables/debt/debt.schema";
+export {
+	debtStatusEnum,
+	debtTable,
+} from "@database/schemas/main/tables/debt/debt.table";
 export {
 	accountCategoryExpensesStatsMaterializedView,
 	accountMonthlyStatsMaterializedView,
@@ -22,3 +29,4 @@ export { userRoleTable } from "@database/schemas/main/tables/identity/user-role.
 export { userTable } from "@database/schemas/main/tables/identity/user.table";
 export { contactTable } from "@database/schemas/main/tables/social/contact.table";
 export { socialSchema } from "@database/schemas/main/tables/social/social.schema";
+export { userSocialConfigTable } from "@database/schemas/main/tables/social/user-social-config.table";

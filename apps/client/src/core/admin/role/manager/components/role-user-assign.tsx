@@ -45,6 +45,7 @@ export const RoleUserAssign: FC<Props> = ({ role, onSuccess }) => {
 	return (
 		<div className="flex flex-col gap-2">
 			<SelectSearch
+				getKey={(v) => v}
 				data={users.map((user) => ({
 					label: user.name,
 					value: user.id,

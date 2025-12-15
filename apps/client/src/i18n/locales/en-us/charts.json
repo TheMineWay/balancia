@@ -1,0 +1,10 @@
+{
+    "charts": {
+        "category-expenses-donut": {
+            "Title": "Expenses per category"
+        },
+        "monthly-cash-flow": {
+            "Title": "Monthly cash flow"
+        }
+    }
+}

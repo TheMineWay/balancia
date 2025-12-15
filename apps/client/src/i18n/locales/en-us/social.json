@@ -1,0 +1,74 @@
+{
+    "nav": {
+		"Label": "Social",
+		"children": {
+			"contacts": {
+				"Label": "Contacts"
+			}
+		}
+	},
+	"contact": {
+		"models": {
+			"contact": {
+				"code": {
+					"Label": "Code"
+				},
+				"name": {
+					"Label": "Name"
+				},
+				"lastName": {
+					"Label": "Last Name"
+				},
+				"email": {
+					"Label": "Email"
+				},
+				"phone": {
+					"Label": "Phone"
+				},
+				"fullName": {
+					"Label": "Full Name"
+				}
+			}
+		},
+		"my-contacts": {
+			"manager": {
+				"Title": "My Contacts",
+				"Actions": {
+					"Create": "Add Contact",
+					"Edit": "Edit Contact"
+				}
+			}
+		},
+		"create": {
+			"Title": "Create Contact"
+		},
+		"update": {
+			"Title": "Edit {name}"
+		},
+		"delete": {
+			"confirm": {
+				"Title": "Delete {name}",
+				"Message": "Are you sure you want to delete this contact? This action cannot be undone.\nIf you have linked debts, they will be deleted as well.",
+				"Action": "Delete Contact",
+				"Write-to-delete": "Type the contact name to confirm"
+			}
+		},
+		"import": {
+			"status": {
+				"ongoing": {
+					"Title": "Importing contacts..."
+				},
+				"completed": {
+					"Title": "Contacts imported successfully"
+				},
+				"failed": {
+					"Title": "Failed to import contacts",
+					"Message": "An error occurred while importing contacts. Please try again."
+				}
+			}
+		}
+	},
+	"device-contact-refiner": {
+		"Title": "Refine device contacts"
+	}
+}

@@ -35,6 +35,18 @@ export const contactTable = socialSchema.table(
 	(table) => [unique().on(table.userId, table.code)],
 );
 
+export const CONTACT_TABLE_COLUMNS = {
+	id: contactTable.id,
+	name: contactTable.name,
+	lastName: contactTable.lastName,
+	email: contactTable.email,
+	phone: contactTable.phone,
+	code: contactTable.code,
+	userId: contactTable.userId,
+	createdAt: contactTable.createdAt,
+	updatedAt: contactTable.updatedAt,
+};
+
 /* Types */
 export type ContactSelect = typeof contactTable.$inferSelect;
 export type ContactInsert = typeof contactTable.$inferInsert;
