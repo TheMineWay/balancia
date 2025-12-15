@@ -61,7 +61,9 @@ export const MyAccountsSelector: FC<Props> = ({
 			autoFill
 		) {
 			setNeedsInitialAccount(true);
-			if (accounts.items.length === 1) onChange?.(accounts.items[0].id);
+			const id = accounts.items?.[0]?.id;
+
+			if (accounts.items.length === 1 && id !== undefined) onChange?.(id);
 			else onChange?.(userPreferences?.preferences?.mainAccount ?? null);
 		}
 	}, [

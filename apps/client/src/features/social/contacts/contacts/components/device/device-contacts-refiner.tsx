@@ -33,6 +33,8 @@ export const DeviceContactsRefiner: FC<DeviceContactsRefinerProps> = ({
 	const initialContacts = useMemo<Item[]>(() => {
 		return _initialContacts.map((deviceContact) => {
 			const [name, ...lastName] = (deviceContact.name?.[0] || "").split(" ");
+			if (!name) throw new Error("Device contact name is missing");
+
 			const contactCreateModel: ContactCreateModel = {
 				name,
 				lastName: lastName.join(" ") || null,
