@@ -2,10 +2,10 @@ import {
 	SelectSearch,
 	type SelectSearchProps,
 } from "@common/extended-ui/form/components/search/select-search";
+import { useSearch } from "@common/extended-ui/form/hooks/use-search";
 import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authenticated-request.util";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
-import { useSearch } from "@core/search/hooks/use-search";
 import { useMyTagsListQuery } from "@fts/finances/tags/my-tags/api/use-my-tags-list.query";
 import { useTranslation } from "@i18n/use-translation";
 import { MY_TAGS_CONTROLLER } from "@shared/api-definition";

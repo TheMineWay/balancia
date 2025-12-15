@@ -1,8 +1,8 @@
+import type { UseSearch } from "@common/extended-ui/form/hooks/use-search";
 import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authenticated-request.util";
 import type { UsePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
 import type { ParametrizedQueryKey } from "@core/requests/types/query-key.type";
-import type { UseSearch } from "@core/search/hooks/use-search";
 import { getController, MY_CONTACTS_CONTROLLER } from "@shared/api-definition";
 import type { ContactModel, PaginatedQuery } from "@shared/models";
 import { useQuery } from "@tanstack/react-query";

@@ -1,6 +1,9 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
+import {
+	type UseSearch,
+	useSearch,
+} from "@common/extended-ui/form/hooks/use-search";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
-import { type UseSearch, useSearch } from "@core/search/hooks/use-search";
 import { MyAccountsSelector } from "@fts/finances/accounts/my-accounts/components/form/my-accounts.selector";
 import { MyCategoriesSelector } from "@fts/finances/categories/my-categories/components/form/my-categories.selector";
 import { useMyTransactionDeleteByIdMutation } from "@fts/finances/transactions/my-transactions/api/use-my-transaction-delete-by-id.mutation";

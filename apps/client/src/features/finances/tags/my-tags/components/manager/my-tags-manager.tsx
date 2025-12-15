@@ -1,6 +1,6 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
+import { useSearch } from "@common/extended-ui/form/hooks/use-search";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
-import { useSearch } from "@core/search/hooks/use-search";
 import { useMyTagDeleteMutation } from "@fts/finances/tags/my-tags/api/use-my-tag-delete.mutation";
 import { useMyTagsListQuery } from "@fts/finances/tags/my-tags/api/use-my-tags-list.query";
 import { MyTagCreateManager } from "@fts/finances/tags/my-tags/components/manager/my-tag-create-manager";

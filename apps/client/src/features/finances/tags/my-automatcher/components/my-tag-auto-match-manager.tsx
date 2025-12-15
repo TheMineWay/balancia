@@ -1,6 +1,6 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
+import { useSearch } from "@common/extended-ui/form/hooks/use-search";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
-import { useSearch } from "@core/search/hooks/use-search";
 import { TagsAutomatchersTable } from "@fts/finances/tags/automatcher/components/tags-automatchers.table";
 import { useMyAutoMatcherDeleteByIdMutation } from "@fts/finances/tags/my-automatcher/api/use-my-auto-matcher-delete-by-id.mutation";
 import { useMyTagAutoMatchersListQuery } from "@fts/finances/tags/my-automatcher/api/use-my-tag-auto-matchers-list.query";

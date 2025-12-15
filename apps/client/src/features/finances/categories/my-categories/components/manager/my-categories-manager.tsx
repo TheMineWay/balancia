@@ -1,6 +1,6 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
+import { useSearch } from "@common/extended-ui/form/hooks/use-search";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
-import { useSearch } from "@core/search/hooks/use-search";
 import { CategoriesTable } from "@fts/finances/categories/categories/components/categories.table";
 import { useMyCategoriesQuery } from "@fts/finances/categories/my-categories/api/use-my-categories.query";
 import { useMyCategoryDeleteByIdMutation } from "@fts/finances/categories/my-categories/api/use-my-category-delete-by-id.mutation";

@@ -1,7 +1,7 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
+import { useSearch } from "@common/extended-ui/form/hooks/use-search";
 import { DangerousActionConfirm } from "@common/verifications/dangerous-action/components/dangerous-action-confirm";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
-import { useSearch } from "@core/search/hooks/use-search";
 import { AccountsTable } from "@fts/finances/accounts/accounts/components/accounts.table";
 import { useMyAccountDeleteByIdMutation } from "@fts/finances/accounts/my-accounts/api/use-my-account-delete-by-id.mutation";
 import { useMyAccountsQuery } from "@fts/finances/accounts/my-accounts/api/use-my-accounts.query";

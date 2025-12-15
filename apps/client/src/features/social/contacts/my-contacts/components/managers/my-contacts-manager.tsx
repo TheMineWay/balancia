@@ -1,7 +1,7 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
+import { useSearch } from "@common/extended-ui/form/hooks/use-search";
 import { DangerousActionConfirm } from "@common/verifications/dangerous-action/components/dangerous-action-confirm";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
-import { useSearch } from "@core/search/hooks/use-search";
 import { ContactsTable } from "@fts/social/contacts/contacts/components/contacts.table";
 import { DeviceContactsSelector } from "@fts/social/contacts/contacts/components/device/device-contacts-selector";
 import { useMyContactDeleteByIdMutation } from "@fts/social/contacts/my-contacts/api/use-my-contact-delete-by-id.mutation";

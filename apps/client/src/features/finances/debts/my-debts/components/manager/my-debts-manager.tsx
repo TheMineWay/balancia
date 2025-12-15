@@ -1,6 +1,9 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
+import {
+	type UseSearch,
+	useSearch,
+} from "@common/extended-ui/form/hooks/use-search";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
-import { type UseSearch, useSearch } from "@core/search/hooks/use-search";
 import {
 	DebtLinker,
 	DebtLinkers,

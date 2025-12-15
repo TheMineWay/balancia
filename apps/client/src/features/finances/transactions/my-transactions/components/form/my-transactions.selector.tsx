@@ -3,10 +3,10 @@ import {
 	SelectSearch,
 	type SelectSearchProps,
 } from "@common/extended-ui/form/components/search/select-search";
+import { useSearch } from "@common/extended-ui/form/hooks/use-search";
 import { useAuthenticatedRequest } from "@core/auth/session/hooks/use-authenticated-request.util";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
-import { useSearch } from "@core/search/hooks/use-search";
 import { useMyTransactionsQuery } from "@fts/finances/transactions/my-transactions/api/use-my-transactions.query";
 import { useTranslation } from "@i18n/use-translation";
 import { MY_TRANSACTION_CONTROLLER } from "@shared/api-definition";
