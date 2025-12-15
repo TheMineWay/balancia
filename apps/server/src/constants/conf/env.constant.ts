@@ -12,8 +12,11 @@ const STRING_LIST = z
 
 const ENV_SCHEMA = z.object({
 	// ENV
-	NODE_ENV: z.string().default("production"),
+	NODE_ENV: z.enum(["development", "production", "test"]).default("production"),
 	OPEN_API_DOCS: z.stringbool().default(false),
+	CONFIGURATION_GUARD: z.stringbool().default(true),
+
+	// HEALTH
 	HEALTH_SERVICES_ENABLED: z.stringbool().default(false),
 	HEALTH_SERVICES_API_KEYS: STRING_LIST.default([]),
 	HEALTH_SERVICES_CACHE_TTL: z
@@ -63,8 +66,14 @@ const ENV_SCHEMA = z.object({
 		.default(["*"]),
 
 	// REQUESTS
-	MAX_REQUEST_BODY_SIZE: z.string().transform(toNum).default(1048576), // 1 MB
-	MAX_REQUEST_QUERY_SIZE: z.string().transform(toNum).default(1048576), // 1 MB
+	MAX_REQUEST_BODY_SIZE: z
+		.string()
+		.transform(toNum)
+		.default(1 * 1024 * 1024), // 1 MB
+	MAX_REQUEST_QUERY_SIZE: z
+		.string()
+		.transform(toNum)
+		.default(10 * 1024), // 10 KB
 	REQUEST_TIMEOUT: z.string().transform(toNum).default(10000), // 10 seconds
 	HTTPS: z.stringbool().default(false),
 
@@ -98,20 +107,22 @@ const ENV_SCHEMA = z.object({
 	// CACHE
 	USER_CACHE_TTL: z
 		.string()
-		.default("28800000")
+		.default((8 * 1000 * 60 * 60).toString()) // 8 hours
 		.transform((val) => +val)
 		.refine((val) => Number.isFinite(val) && val >= 0),
 	USER_AUTH_INFO_CACHE_TTL: z
 		.string()
-		.default("1800000")
+		.default((30 * 1000 * 60).toString()) // 30 minutes
 		.transform((val) => +val)
 		.refine((val) => Number.isFinite(val) && val >= 0),
 	DATA_CACHE_TTL: z
 		.string()
-		.default("600000")
+		.default((10 * 1000 * 60).toString()) // 10 minutes
 		.transform((val) => +val)
 		.refine((val) => Number.isFinite(val) && val >= 0),
 });
+
+export type RawEnv = z.infer<typeof ENV_SCHEMA>;
 
 const TEST_VALUES: Partial<z.infer<typeof ENV_SCHEMA>> = {
 	DATABASE_URL: "",
@@ -184,5 +195,6 @@ export const ENV = (() => {
 			cacheTtl: values.HEALTH_SERVICES_CACHE_TTL,
 		},
 		env: values.NODE_ENV,
+		configurationGuard: values.CONFIGURATION_GUARD,
 	};
 })();
