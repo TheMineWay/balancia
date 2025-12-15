@@ -25,7 +25,7 @@ export class TagAutoMatcherRepository extends Repository {
 			.select()
 			.from(tagAutomatcherTable)
 			.where(eq(tagAutomatcherTable.id, id));
-		return item;
+		return item || null;
 	}
 
 	async findAllByUserIdAndTagId(
@@ -131,11 +131,11 @@ export class TagAutoMatcherRepository extends Repository {
 	// #region Statistics
 
 	async countTagAutoMatchers(tagId: TagModel["id"], options?: QueryOptions) {
-		const [{ count }] = await this.query(options)
+		const [result] = await this.query(options)
 			.select({ count: countDistinct(tagAutomatcherTable.id) })
 			.from(tagAutomatcherTable)
 			.where(eq(tagAutomatcherTable.tagId, tagId));
-		return Number(count);
+		return result ? Number(result.count) : 0;
 	}
 
 	// #endregion

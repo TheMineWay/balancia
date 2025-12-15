@@ -2,7 +2,12 @@ import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { QueryOptions } from "@database/repository/repository";
 import { DebtSelect } from "@database/schemas/main/tables/debt/debt.table";
 import { DatabaseService } from "@database/services/database.service";
-import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+	Inject,
+	Injectable,
+	InternalServerErrorException,
+	UnauthorizedException,
+} from "@nestjs/common";
 import type {
 	DebtCreateModel,
 	DebtListModel,
@@ -17,8 +22,6 @@ import {
 	DebtDeletedEvent,
 	DebtUpdatedEvent,
 } from "src/features/debts/debts.events";
-import { DebtOriginRepository } from "src/features/debts/repositories/debt-origin.repository";
-import { DebtPaymentsRepository } from "src/features/debts/repositories/debt-payments.repository";
 import {
 	DebtListFilters,
 	DebtsRepository,
@@ -28,8 +31,6 @@ import {
 export class DebtsService {
 	constructor(
 		private readonly debtsRepository: DebtsRepository,
-		private readonly debtOriginRepository: DebtOriginRepository,
-		private readonly debtPaymentsRepository: DebtPaymentsRepository,
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
 		private readonly eventService: EventService,
@@ -50,6 +51,8 @@ export class DebtsService {
 		options?: QueryOptions,
 	): Promise<DebtSelect> {
 		const created = await this.debtsRepository.create(debt, options);
+		if (!created)
+			throw new InternalServerErrorException("Failed to create debt");
 
 		// Trigger created event
 		this.eventService.emit(new DebtCreatedEvent({ debt: created }));

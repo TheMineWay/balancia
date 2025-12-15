@@ -109,9 +109,10 @@ export class TransactionsService {
 				{ transaction: tsx },
 			);
 
-			this.eventService.emit(
-				new TransactionCreatedEvent({ transaction: { ...created, userId } }),
-			);
+			if (created)
+				this.eventService.emit(
+					new TransactionCreatedEvent({ transaction: { ...created, userId } }),
+				);
 
 			return created;
 		});

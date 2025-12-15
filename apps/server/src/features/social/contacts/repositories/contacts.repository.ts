@@ -84,7 +84,7 @@ export class ContactsRepository extends Repository {
 				.insert(contactTable)
 				.values(newContact)
 				.returning()
-		)[0];
+		)?.[0] || null;
 	}
 
 	async bulkCreate(contacts: ContactInsert[], options?: QueryOptions) {

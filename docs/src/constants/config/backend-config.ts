@@ -193,6 +193,13 @@ export const BACKEND_CONFIG = [
 				description: "Default cron expression to refresh materialized views.",
 				default: "0 */6 * * *",
 			},
+			finances_materialized_views_refresh_cron: {
+				type: "free",
+				name: "Finances Materialized Views Refresh Cron",
+				description:
+					"Cron expression to refresh finances-related materialized views.",
+				default: "0,30 * * * *",
+			},
 		},
 	},
 	{

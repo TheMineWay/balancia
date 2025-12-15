@@ -1,7 +1,12 @@
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import { QueryOptions } from "@database/repository/repository";
 import { DatabaseService } from "@database/services/database.service";
-import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+	Inject,
+	Injectable,
+	NotFoundException,
+	UnauthorizedException,
+} from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import type {
 	OwnedModel,
@@ -84,6 +89,8 @@ export class TagAutoMatcherService {
 				autoMatcherId,
 				{ transaction: tx },
 			);
+			if (!automatcher) throw new NotFoundException();
+
 			const { isOwner } = await this.tagsService.checkTagOwnership(
 				userId,
 				automatcher.tagId,
@@ -106,6 +113,8 @@ export class TagAutoMatcherService {
 				autoMatcherId,
 				{ transaction: tx },
 			);
+			if (!autoMatcher) throw new NotFoundException();
+
 			const { isOwner } = await this.tagsService.checkTagOwnership(
 				userId,
 				autoMatcher.tagId,

@@ -60,10 +60,13 @@ export class UserPreferencesService {
 				throw new InternalServerErrorException();
 			}
 
-			return await this.userPreferencesRepository.create(
+			const created = await this.userPreferencesRepository.create(
 				{ userId, ...preferences },
 				{ transaction },
 			);
+
+			if (!created) throw new InternalServerErrorException();
+			return created;
 		});
 	}
 }

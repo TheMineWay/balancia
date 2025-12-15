@@ -2,7 +2,12 @@ import { DATABASE_PROVIDERS } from "@database/database.provider";
 import type { QueryOptions } from "@database/repository/repository";
 import { AccountSelect } from "@database/schemas/main/tables/finances/account.table";
 import { DatabaseService } from "@database/services/database.service";
-import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+	Inject,
+	Injectable,
+	InternalServerErrorException,
+	UnauthorizedException,
+} from "@nestjs/common";
 import type {
 	AccountCreateModel,
 	AccountModel,
@@ -36,6 +41,8 @@ export class AccountsService {
 	async create(account: OwnedModel<AccountCreateModel>) {
 		const created = await this.accountsRepository.create(account);
 
+		if (!created)
+			throw new InternalServerErrorException("Account creation failed");
 		this.eventService.emit(new AccountCreatedEvent({ account: created }));
 
 		return created;

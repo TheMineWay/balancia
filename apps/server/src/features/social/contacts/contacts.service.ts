@@ -2,7 +2,7 @@ import { DATABASE_PROVIDERS } from "@database/database.provider";
 import type { QueryOptions } from "@database/repository/repository";
 import { ContactSelect } from "@database/schemas/main/tables/social/contact.table";
 import { DatabaseService } from "@database/services/database.service";
-import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import type {
 	ContactCreateModel,
 	ContactModel,
@@ -59,7 +59,8 @@ export class ContactsService {
 			userId,
 		});
 
-		this.eventService.emit(new ContactCreatedEvent({ contact: created }));
+		if (created) this.eventService.emit(new ContactCreatedEvent({ contact: created }));
+		else throw new BadRequestException();
 
 		return created;
 	}

@@ -48,7 +48,8 @@ export class CategoriesService {
 	async create(category: OwnedModel<CategoryCreateModel>) {
 		const created = await this.categoriesRepository.create(category);
 
-		this.eventService.emit(new CategoryCreatedEvent({ category: created }));
+		if (created)
+			this.eventService.emit(new CategoryCreatedEvent({ category: created }));
 
 		return created;
 	}

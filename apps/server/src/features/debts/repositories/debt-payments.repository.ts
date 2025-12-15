@@ -17,12 +17,11 @@ export class DebtPaymentsRepository extends Repository {
 		debtPaymentId: DebtPaymentModel["id"],
 		options?: QueryOptions,
 	): Promise<DebtPaymentSelect | null> {
-		return (
-			(await this.query(options)
-				.select()
-				.from(debtPaymentTable)
-				.where(eq(debtPaymentTable.id, debtPaymentId))?.[0]) ?? null
-		);
+		const result = await this.query(options)
+			.select()
+			.from(debtPaymentTable)
+			.where(eq(debtPaymentTable.id, debtPaymentId));
+		return result?.[0] || null;
 	}
 
 	async findByDebtId(
@@ -39,16 +38,15 @@ export class DebtPaymentsRepository extends Repository {
 		debtPaymentId: DebtPaymentModel["id"],
 		options?: QueryOptions,
 	) {
-		return (
-			(await this.query(options)
-				.select()
-				.from(debtPaymentTable)
-				.leftJoin(
-					transactionsTable,
-					eq(debtPaymentTable.transactionId, transactionsTable.id),
-				)
-				.where(eq(debtPaymentTable.id, debtPaymentId))?.[0]) ?? null
-		);
+		const result = await this.query(options)
+			.select()
+			.from(debtPaymentTable)
+			.leftJoin(
+				transactionsTable,
+				eq(debtPaymentTable.transactionId, transactionsTable.id),
+			)
+			.where(eq(debtPaymentTable.id, debtPaymentId));
+		return result?.[0] || null;
 	}
 
 	async findByDebtIdWithTransaction(
@@ -93,13 +91,14 @@ export class DebtPaymentsRepository extends Repository {
 		debtId: DebtPaymentModel["debtId"],
 		options?: QueryOptions,
 	) {
-		const result = (
-			await this.query(options)
-				.select({ total: sum(debtPaymentTable.amount) })
-				.from(debtPaymentTable)
-				.where(eq(debtPaymentTable.debtId, debtId))
-		)[0];
-		return result.total ? Number(result.total) : 0;
+		const result =
+			(
+				await this.query(options)
+					.select({ total: sum(debtPaymentTable.amount) })
+					.from(debtPaymentTable)
+					.where(eq(debtPaymentTable.debtId, debtId))
+			)?.[0] || null;
+		return result?.total ? Number(result.total) : 0;
 	}
 
 	// #endregion
