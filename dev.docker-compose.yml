@@ -15,6 +15,7 @@ services:
       - server
     expose:
       - 3000
+    tty: true
 
   server:
     image: node:24-alpine

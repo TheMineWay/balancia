@@ -6,12 +6,12 @@ export { debtPaymentTable } from "@database/schemas/main/tables/debt/debt-paymen
 export { debtSchema } from "@database/schemas/main/tables/debt/debt.schema";
 export {
 	debtStatusEnum,
-	debtTable,
+	debtTable
 } from "@database/schemas/main/tables/debt/debt.table";
 export {
 	accountCategoryExpensesStatsMaterializedView,
 	accountMonthlyStatsMaterializedView,
-	accountStatsMaterializedView,
+	accountStatsMaterializedView
 } from "@database/schemas/main/tables/finances/account-stats.materialized-views";
 export { accountTable } from "@database/schemas/main/tables/finances/account.table";
 export { categoryTable } from "@database/schemas/main/tables/finances/category.table";
@@ -30,3 +30,4 @@ export { userTable } from "@database/schemas/main/tables/identity/user.table";
 export { contactTable } from "@database/schemas/main/tables/social/contact.table";
 export { socialSchema } from "@database/schemas/main/tables/social/social.schema";
 export { userSocialConfigTable } from "@database/schemas/main/tables/social/user-social-config.table";
+

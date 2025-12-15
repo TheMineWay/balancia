@@ -84,6 +84,11 @@ export const DEPENDENCIES = [
 		url: "https://www.npmjs.com/package/vite-plugin-dts",
 	},
 	{
+		code: "@nestjs/terminus",
+		name: "@nestjs/terminus",
+		url: "https://www.npmjs.com/package/@nestjs/terminus",
+	},
+	{
 		code: "@nestjs/schedule",
 		name: "@nestjs/schedule",
 		url: "https://www.npmjs.com/package/@nestjs/schedule",
@@ -237,6 +242,11 @@ export const DEPENDENCIES = [
 		name: "react-hook-form",
 		url: "https://www.npmjs.com/package/react-hook-form",
 		docsUrl: "https://react-hook-form.com",
+	},
+	{
+		code: "@nestjs/cache-manager",
+		name: "@nestjs/cache-manager",
+		url: "https://www.npmjs.com/package/@nestjs/cache-manager",
 	},
 	{
 		code: "@nestjs/testing",

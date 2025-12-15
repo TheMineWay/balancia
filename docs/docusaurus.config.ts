@@ -23,7 +23,6 @@ const config: Config = {
 	trailingSlash: false,
 
 	onBrokenLinks: "throw",
-	onBrokenMarkdownLinks: "warn",
 
 	// Even if you don't use internationalization, you can use this field to set
 	// useful metadata like html lang. For example, if your site is Chinese, you
@@ -86,9 +85,21 @@ const config: Config = {
 				},
 				{
 					type: "docSidebar",
+					sidebarId: "projectSidebar",
+					position: "left",
+					label: "📃 Project documentation",
+				},
+				{
+					type: "docSidebar",
 					sidebarId: "nestfluxSidebar",
 					position: "left",
 					label: "🩵 NestFlux documentation",
+				},
+				{
+					type: "docSidebar",
+					label: "🛠️ Tools",
+					sidebarId: "toolsSidebar",
+					position: "right",
 				},
 				{
 					href: pkg.repository.url,
@@ -119,6 +130,9 @@ const config: Config = {
 	} satisfies Preset.ThemeConfig,
 	markdown: {
 		mermaid: true,
+		hooks: {
+			onBrokenMarkdownLinks: "warn",
+		},
 	},
 };
 

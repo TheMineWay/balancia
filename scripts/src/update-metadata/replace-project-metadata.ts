@@ -40,6 +40,7 @@ const generatePackageJsonName = (path: string, name: string) => {
 	if (scope === "apps")
 		return name + "-" + transformPathToPackageJsonName(path);
 	if (scope === "docs") return "docs";
+	throw new Error("Unknown package.json path scope: " + scope);
 };
 
 function transformPathToPackageJsonName(inputPath: string): string {

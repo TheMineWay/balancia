@@ -1,4 +1,5 @@
 import { ENV } from "@constants/conf/env.constant";
+import { isMasterServer } from "@core/__lib__/global.utils";
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import {
 	accountCategoryExpensesStatsMaterializedView,
@@ -11,18 +12,36 @@ import { Cron } from "@nestjs/schedule";
 
 @Injectable()
 export class DatabaseKeeperService {
+	private readonly logger = new Logger("DB Keeper");
+
 	constructor(
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
 	) {
-		if (ENV.database.refreshMaterializedViewsOnStartup) {
-			Logger.log("Refreshing all materialized views...", "DatabaseKeeper");
+		if (ENV.database.refreshMaterializedViewsOnStartup && isMasterServer()) {
 			this.refreshAll();
 		}
 	}
 
-	refreshAll() {
-		this.updateFinancesMaterializedViews();
+	/**
+	 * Refresh all materialized views
+	 */
+	async refreshAll() {
+		this.logger.log("Refreshing all materialized views...");
+		// Invoke materialized views refresh
+
+		this.logger.log("All materialized views refreshed.");
+	}
+
+	// #region Materialized Views
+
+	/**
+	 * Cron job to refresh materialized views periodically
+	 */
+	@Cron(ENV.database.materializedViewsDefaultRefreshCron)
+	updateMaterializedViews() {
+		if (!isMasterServer()) return;
+		this.refreshAll();
 	}
 
 	@Cron(ENV.finances.databaseMaterializedViewsUpdateCron)
@@ -41,4 +60,6 @@ export class DatabaseKeeperService {
 			accountCategoryExpensesStatsMaterializedView,
 		);
 	}
+
+	// #endregion
 }
