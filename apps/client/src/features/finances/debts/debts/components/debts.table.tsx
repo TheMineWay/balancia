@@ -1,6 +1,7 @@
 import { RenderCurrency } from "@common/extended-ui/currency/render-currency";
 import { DatetimeRender } from "@common/extended-ui/date/components/datetime-render";
 import { Table } from "@common/extended-ui/table/components/table";
+import { TABLE_ACTION_PROPS } from "@common/extended-ui/table/constants/table.constants";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
 import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
 import { DebtStatusBadge } from "@fts/finances/debts/debts/components/status/debt-status-badge";
@@ -66,6 +67,7 @@ export const DebtsTable: FC<Props> = ({
 					<Group>
 						{onLinkClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.default}
 								onClick={() => onLinkClick(item)}
 								aria-label={t().debt.link.Title}
 							>
@@ -74,6 +76,7 @@ export const DebtsTable: FC<Props> = ({
 						)}
 						{onEditClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.default}
 								onClick={() => onEditClick(item)}
 								aria-label={commonT().expressions.Edit}
 							>
@@ -82,8 +85,8 @@ export const DebtsTable: FC<Props> = ({
 						)}
 						{onDeleteClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.danger}
 								onClick={() => onDeleteClick(item)}
-								color="red"
 								aria-label={commonT().expressions.Delete}
 							>
 								<BiTrash />

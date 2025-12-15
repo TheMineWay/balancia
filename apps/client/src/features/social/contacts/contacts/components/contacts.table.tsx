@@ -1,12 +1,12 @@
+import { CopyButton } from "@common/extended-ui/button/copy/components/copy-button";
 import { Table } from "@common/extended-ui/table/components/table";
+import { TABLE_ACTION_PROPS } from "@common/extended-ui/table/constants/table.constants";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
 import { useTranslation } from "@i18n/use-translation";
-import { ActionIcon, CopyButton, Group, Text } from "@mantine/core";
+import { ActionIcon, Group, Text } from "@mantine/core";
 import type { ContactModel } from "@shared/models";
 import { getContactName } from "@shared/utils";
 import { BiEdit, BiTrash } from "react-icons/bi";
-import { FaCheck } from "react-icons/fa6";
-import { IoCopyOutline } from "react-icons/io5";
 
 type Props<T extends ContactModel> = {
 	data?: T[];
@@ -54,16 +54,10 @@ export const ContactsTable = <T extends ContactModel = ContactModel>({
 				render: (item) => (
 					<Group>
 						{item.code}
-						<CopyButton value={item.code}>
-							{({ copied, copy }) => (
-								<ActionIcon
-									onClick={copy}
-									aria-label={commonT().expressions.Copy}
-								>
-									{copied ? <FaCheck /> : <IoCopyOutline />}
-								</ActionIcon>
-							)}
-						</CopyButton>
+						<CopyButton
+							value={item.code}
+							actionIconProps={TABLE_ACTION_PROPS.default}
+						/>
 					</Group>
 				),
 			},
@@ -73,6 +67,7 @@ export const ContactsTable = <T extends ContactModel = ContactModel>({
 					<Group>
 						{onEditClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.default}
 								onClick={() => onEditClick(item)}
 								aria-label={commonT().expressions.Edit}
 							>
@@ -81,8 +76,8 @@ export const ContactsTable = <T extends ContactModel = ContactModel>({
 						)}
 						{onDeleteClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.danger}
 								onClick={() => onDeleteClick(item)}
-								color="red"
 								aria-label={commonT().expressions.Delete}
 							>
 								<BiTrash />

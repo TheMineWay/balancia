@@ -2,6 +2,7 @@ import { RenderCurrency } from "@common/extended-ui/currency/render-currency";
 import { DateRender } from "@common/extended-ui/date/components/date-render";
 import { DatetimeRender } from "@common/extended-ui/date/components/datetime-render";
 import { Table } from "@common/extended-ui/table/components/table";
+import { TABLE_ACTION_PROPS } from "@common/extended-ui/table/constants/table.constants";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
 import type { TableColumn } from "@common/extended-ui/table/types/table-column.type";
 import { useTranslation } from "@i18n/use-translation";
@@ -89,6 +90,7 @@ export const TransactionsTable = <
 					<Group>
 						{onEditClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.default}
 								onClick={() => onEditClick(item)}
 								aria-label={commonT().expressions.Edit}
 							>
@@ -97,6 +99,7 @@ export const TransactionsTable = <
 						)}
 						{onTagsManageClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.default}
 								onClick={() => onTagsManageClick(item)}
 								aria-label={t().transaction.managers.tags.Trigger}
 							>
@@ -105,8 +108,8 @@ export const TransactionsTable = <
 						)}
 						{onDeleteClick && (
 							<ActionIcon
+								{...TABLE_ACTION_PROPS.danger}
 								onClick={() => onDeleteClick(item)}
-								color="red"
 								aria-label={commonT().expressions.Delete}
 							>
 								<BiTrash />
