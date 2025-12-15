@@ -80,11 +80,13 @@ export class ContactsRepository extends Repository {
 		const newContact = { ...contact };
 		if (!newContact.code) delete newContact.code;
 		return (
-			await this.query(options)
-				.insert(contactTable)
-				.values(newContact)
-				.returning()
-		)?.[0] || null;
+			(
+				await this.query(options)
+					.insert(contactTable)
+					.values(newContact)
+					.returning()
+			)?.[0] || null
+		);
 	}
 
 	async bulkCreate(contacts: ContactInsert[], options?: QueryOptions) {
