@@ -1,10 +1,21 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            customWorkspace '/__services/balancia'
+        }
+    }
 
     stages {
-        stage('Test') {
+        stage('Checkout') {
             steps {
-                echo "Cambio detectado en main"
+                checkout scm
+            }
+        }
+        
+        stage('Start Production') {
+            steps {
+                echo "Starting production environment..."
+                sh 'docker-compose -f prod.docker-compose.yml up -d'
             }
         }
     }
