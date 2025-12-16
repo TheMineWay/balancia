@@ -1,7 +1,8 @@
 pipeline {
     agent {
-        label 'any'
-        customWorkspace '/__services/balancia'
+        any {
+            customWorkspace '/__services/balancia'
+        }
     }
 
     stages {
