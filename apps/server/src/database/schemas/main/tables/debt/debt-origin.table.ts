@@ -1,3 +1,4 @@
+import { moneyColumn } from "@database/common/money";
 import { timestamps } from "@database/common/timestamps";
 import { debtTable, transactionsTable } from "@database/schemas/main.schema";
 import { debtSchema } from "@database/schemas/main/tables/debt/debt.schema";
@@ -14,7 +15,7 @@ export const debtOriginTable = debtSchema.table("debt_origin_transactions", {
 	}),
 
 	// Metadata
-	amount: integer().notNull(),
+	amount: moneyColumn.notNull(),
 	notes: varchar({ length: DEBT_ORIGIN_MODEL_VALUES.notes.maxLength }),
 
 	// Timestamps
