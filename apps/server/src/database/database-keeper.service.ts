@@ -29,6 +29,7 @@ export class DatabaseKeeperService {
 	async refreshAll() {
 		this.logger.log("Refreshing all materialized views...");
 		// Invoke materialized views refresh
+		await this.updateFinancesMaterializedViews();
 
 		this.logger.log("All materialized views refreshed.");
 	}
