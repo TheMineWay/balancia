@@ -1,9 +1,8 @@
 pipeline {
-    agent any
-    
-    options {
-        skipDefaultCheckout(true)
-        customWorkspace('/__services/balancia')
+    agent {
+        principal {
+            customWorkspace '/__services/balancia'
+        }
     }
 
     stages {
