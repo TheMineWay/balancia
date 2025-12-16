@@ -17,7 +17,7 @@ import z from "zod";
 // Endpoints
 
 const GET_ACCOUNTS_ENDPOINT = {
-	getPath: () => [],
+	getPath: () => ["list"],
 	paramsMapping: {},
 	responseDto: getPaginatedResponse(ACCOUNT_SCHEMA),
 	queryDto: z.object({
@@ -26,7 +26,7 @@ const GET_ACCOUNTS_ENDPOINT = {
 } satisfies EndpointDefinition;
 
 const GET_ACCOUNT_ENDPOINT = {
-	getPath: (params) => [params.id],
+	getPath: (params) => ["account", params.id],
 	paramsMapping: {
 		id: "accountId",
 	},
@@ -36,7 +36,7 @@ const GET_ACCOUNT_ENDPOINT = {
 } satisfies EndpointDefinition<{ id: string }>;
 
 const CREATE_ACCOUNT_ENDPOINT = {
-	getPath: () => [],
+	getPath: () => ["account"],
 	paramsMapping: {},
 	method: EndpointMethod.POST,
 	bodyDto: z.object({
@@ -45,7 +45,7 @@ const CREATE_ACCOUNT_ENDPOINT = {
 } satisfies EndpointDefinition;
 
 const DELETE_ACCOUNT_ENDPOINT = {
-	getPath: (params) => [params.id],
+	getPath: (params) => ["account", params.id],
 	method: EndpointMethod.DELETE,
 	paramsMapping: {
 		id: "accountId",
@@ -53,7 +53,7 @@ const DELETE_ACCOUNT_ENDPOINT = {
 } satisfies EndpointDefinition<{ id: string }>;
 
 const UPDATE_ACCOUNT_ENDPOINT = {
-	getPath: (params) => [params.id],
+	getPath: (params) => ["account", params.id],
 	paramsMapping: {
 		id: "accountId",
 	},
@@ -67,10 +67,10 @@ const UPDATE_ACCOUNT_ENDPOINT = {
 
 const SET_MAIN_ACCOUNT = {
 	getPath: () => ["main-account"],
-	method: EndpointMethod.PUT,
 	paramsMapping: {},
+	method: EndpointMethod.PUT,
 	bodyDto: z.object({
-		accountId: ACCOUNT_SCHEMA.shape.id.nullable(),
+		accountId: z.number().nullable(),
 	}),
 } satisfies EndpointDefinition;
 
@@ -92,7 +92,7 @@ const DATE_RANGE_SCHEMA = z
 	);
 
 const GET_ACCOUNT_MONTHLY_STATS_ENDPOINT = {
-	getPath: (params) => [params.id, "stats", "monthly"],
+	getPath: (params) => ["account", params.id, "stats", "monthly"],
 	paramsMapping: { id: "accountId" },
 	responseDto: z.object({
 		stats: z.array(ACCOUNT_MONTHLY_STATS_SCHEMA),
@@ -101,7 +101,7 @@ const GET_ACCOUNT_MONTHLY_STATS_ENDPOINT = {
 } satisfies EndpointDefinition<{ id: string }>;
 
 const GET_ACCOUNT_CATEGORY_EXPENSES_STATS_ENDPOINT = {
-	getPath: (params) => [params.id, "stats", "category-expenses"],
+	getPath: (params) => ["account", params.id, "stats", "category-expenses"],
 	paramsMapping: { id: "accountId" },
 	responseDto: z.object({
 		stats: z.array(CATEGORY_EXPENSES_MODEL_SCHEMA),
