@@ -47,6 +47,8 @@ export class DatabaseKeeperService {
 
 	@Cron(ENV.finances.databaseMaterializedViewsUpdateCron)
 	async updateFinancesMaterializedViews() {
+		if (!isMasterServer()) return;
+
 		// Update account stats materialized view
 		await this.databaseService.db.refreshMaterializedView(
 			accountStatsMaterializedView,
