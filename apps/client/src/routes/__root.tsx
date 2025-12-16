@@ -1,3 +1,4 @@
+import { GlobalFastActions } from "@common/layout/global/components/global-fast-actions";
 import { UserActionsAvatar } from "@core/auth/user/components/avatar/user-actions-avatar";
 import { ThemeSwitch } from "@core/config/local-config/components/theme/theme-switch";
 import { Protected } from "@core/permission/components/protected";
@@ -187,6 +188,8 @@ export const Route = createRootRoute({
 					<Outlet />
 				</NavigationLayout.Content>
 			</NavigationLayout.Root>
+			<GlobalFastActions />
+
 			<DevTools />
 		</>
 	),

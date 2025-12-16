@@ -315,6 +315,9 @@
                     "Name": "Yellow Orange Red"
                 }
             }
+        },
+        "global-fast-actions": {
+            "Name": "Global fast actions"
         }
     },
     "models": {
