@@ -169,7 +169,32 @@ export class AccountsService {
 	}
 
 	// #endregion
+	// #region Main account
+	async setUserMainAccount(
+		userId: UserModelId,
+		accountId: AccountModel["id"] | null,
+	) {
+		await this.databaseService.db.transaction(async (transaction) => {
+			// If an accountId is provided, check ownership
+			if (accountId !== null) {
+				const { isOwner } = await this.checkAccountOwnership(
+					userId,
+					accountId,
+					{ transaction },
+				);
+				if (!isOwner) throw new UnauthorizedException();
+			}
 
+			await this.userPreferencesService.upsertByUserId(
+				userId,
+				{
+					mainAccount: accountId,
+				},
+				{ transaction },
+			);
+		});
+	}
+	// #endregion
 	// #region Stats
 
 	async getUserAccountMonthlyStats(

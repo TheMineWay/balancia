@@ -9,12 +9,12 @@ import { ApiOperation } from "@nestjs/swagger";
 import {
 	getController,
 	getParamName,
-	InferBodyDto,
-	InferQueryDto,
-	InferResponseDto,
+	type InferBodyDto,
+	type InferQueryDto,
+	type InferResponseDto,
 	MY_ACCOUNTS_CONTROLLER,
 } from "@shared/api-definition";
-import type { UserModel } from "@shared/models";
+import type { UserModel, UserModelId } from "@shared/models";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
 import { ValidatedBody } from "src/decorators/validation/validated-body.decorator";
 import { ValidatedQuery } from "src/decorators/validation/validated-query.decorator";
@@ -82,18 +82,33 @@ export class MyAccountsController {
 	@ApiOperation({ summary: "Delete a user account" })
 	@Endpoint(MY_ACCOUNTS_CONTROLLER, "delete")
 	async delete(
-		@UserId() userId: UserModel["id"],
+		@UserId() userId: UserModelId,
 		@Param(getParamName(MY_ACCOUNTS_CONTROLLER, "delete", "id"), ParseIntPipe)
 		accountId: number,
 	): Promise<InferResponseDto<typeof MY_ACCOUNTS_CONTROLLER, "delete">> {
 		await this.accountsService.deleteUserAccountById(userId, accountId);
 	}
 
+	// Main account
+	@ApiOperation({ summary: "Set the main account for the user" })
+	@Endpoint(MY_ACCOUNTS_CONTROLLER, "setMainAccount")
+	async setMainAccount(
+		@UserId() userId: UserModelId,
+		@ValidatedBody(MY_ACCOUNTS_CONTROLLER, "setMainAccount") {
+			accountId,
+		}: InferBodyDto<typeof MY_ACCOUNTS_CONTROLLER, "setMainAccount">,
+	): Promise<
+		InferResponseDto<typeof MY_ACCOUNTS_CONTROLLER, "setMainAccount">
+	> {
+		await this.accountsService.setUserMainAccount(userId, accountId);
+	}
+
 	// Stats
 
+	@ApiOperation({ summary: "Get monthly stats for a user account" })
 	@Endpoint(MY_ACCOUNTS_CONTROLLER, "getMonthlyStats")
 	async getMonthlyStats(
-		@UserId() userId: UserModel["id"],
+		@UserId() userId: UserModelId,
 		@Param(
 			getParamName(MY_ACCOUNTS_CONTROLLER, "getMonthlyStats", "id"),
 			ParseIntPipe,
@@ -116,9 +131,10 @@ export class MyAccountsController {
 		};
 	}
 
+	@ApiOperation({ summary: "Get category expenses stats for a user account" })
 	@Endpoint(MY_ACCOUNTS_CONTROLLER, "getCategoryExpensesStats")
 	async getCategoryExpensesStats(
-		@UserId() userId: UserModel["id"],
+		@UserId() userId: UserModelId,
 		@Param(
 			getParamName(MY_ACCOUNTS_CONTROLLER, "getCategoryExpensesStats", "id"),
 			ParseIntPipe,
