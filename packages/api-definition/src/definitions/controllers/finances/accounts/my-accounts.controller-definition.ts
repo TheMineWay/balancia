@@ -63,6 +63,17 @@ const UPDATE_ACCOUNT_ENDPOINT = {
 	}),
 } satisfies EndpointDefinition<{ id: string }>;
 
+// Main account
+
+const SET_MAIN_ACCOUNT = {
+	getPath: () => ["main-account"],
+	method: EndpointMethod.PUT,
+	paramsMapping: {},
+	bodyDto: z.object({
+		accountId: ACCOUNT_SCHEMA.shape.id.nullable(),
+	}),
+} satisfies EndpointDefinition;
+
 // Stats
 
 const DATE_RANGE_SCHEMA = z
@@ -109,6 +120,9 @@ export const MY_ACCOUNTS_CONTROLLER = {
 		create: CREATE_ACCOUNT_ENDPOINT,
 		delete: DELETE_ACCOUNT_ENDPOINT,
 		update: UPDATE_ACCOUNT_ENDPOINT,
+
+		// Main account
+		setMainAccount: SET_MAIN_ACCOUNT,
 
 		// Stats
 		getMonthlyStats: GET_ACCOUNT_MONTHLY_STATS_ENDPOINT,
