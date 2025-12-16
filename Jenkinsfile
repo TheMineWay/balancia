@@ -1,21 +1,23 @@
 pipeline {
-    agent {
-        any {
-            customWorkspace '/__services/balancia'
-        }
-    }
+    agent any
 
     stages {
-        stage('Checkout') {
+        stage('Clone repository') {
             steps {
-                checkout scm
+                dir('__services/balancia') {
+                    // If this Jenkins job is already linked to a repo,
+                    // this will clone it. Otherwise replace with `git url: '...'
+                    checkout scm
+                }
             }
         }
         
         stage('Start Production') {
             steps {
-                echo "Starting production environment..."
-                sh 'docker-compose -f prod.docker-compose.yml up -d'
+                dir('__services/balancia') {
+                    echo "Starting production environment..."
+                    sh 'docker-compose -f prod.docker-compose.yml up -d'
+                }
             }
         }
     }
