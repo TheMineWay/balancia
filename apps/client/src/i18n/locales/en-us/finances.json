@@ -157,6 +157,13 @@
 				"Write-to-delete": "Write account name to confirm"
 			}
 		},
+		"main-account": {
+			"Title": "Main account",
+			"Description": "Your main account is used as the default account across the application (e.g., for new transactions).",
+			"actions": {
+				"Trigger-change": "Change main account"
+			}
+		},
 		"models": {
 			"account": {
 				"name": {

@@ -4,7 +4,7 @@ import { ApiOperation } from "@nestjs/swagger";
 import {
 	getController,
 	getParamName,
-	InferBodyDto,
+	type InferBodyDto,
 	type InferQueryDto,
 	type InferResponseDto,
 	MY_TAGS_CONTROLLER,

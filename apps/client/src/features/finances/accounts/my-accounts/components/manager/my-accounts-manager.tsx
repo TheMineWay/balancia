@@ -1,3 +1,4 @@
+import { ExtraActions } from "@common/extended-ui/button/actions/components/extra-actions/extra-actions";
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
 import { useSearch } from "@common/extended-ui/form/hooks/use-search";
 import { DangerousActionConfirm } from "@common/verifications/dangerous-action/components/dangerous-action-confirm";
@@ -8,16 +9,17 @@ import { useMyAccountDeleteByIdMutation } from "@fts/finances/accounts/my-accoun
 import { useMyAccountsQuery } from "@fts/finances/accounts/my-accounts/api/use-my-accounts.query";
 import { MyAccountCreateManager } from "@fts/finances/accounts/my-accounts/components/manager/my-acount-create-manager";
 import { MyAccountUpdateManager } from "@fts/finances/accounts/my-accounts/components/manager/my-acount-update-manager";
+import { MyMainAccountManager } from "@fts/finances/accounts/my-accounts/components/manager/my-main-account-manager";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer } from "@mantine/core";
+import { ActionIcon, Button, Drawer, Menu } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import type { AccountModel } from "@shared/models";
 import { useState } from "react";
 import { IoAddOutline, IoReload } from "react-icons/io5";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdAccountBalance, MdDeleteOutline } from "react-icons/md";
 
 export const MyAccountsManager: FC = () => {
 	const { t, interpolated } = useTranslation("finances");
@@ -32,6 +34,11 @@ export const MyAccountsManager: FC = () => {
 		isFetching: isFetchingAccounts,
 	} = useMyAccountsQuery({ pagination, search });
 	const { mutate: deleteAccount } = useMyAccountDeleteByIdMutation();
+
+	const [
+		isMainAccountOpen,
+		{ open: openMainAccount, close: closeMainAccount },
+	] = useDisclosure();
 
 	const [isCreateOpen, { open: openCreate, close: closeCreate }] =
 		useDisclosure();
@@ -73,6 +80,8 @@ export const MyAccountsManager: FC = () => {
 								>
 									<IoReload />
 								</ActionIcon>
+
+								<Extra onChangeMainAccountClick={openMainAccount} />
 							</ActionsLayout.Row>
 						</TableLayout.Actions>
 						<TableLayout.Table>
@@ -136,6 +145,34 @@ export const MyAccountsManager: FC = () => {
 					setAccountToDelete(null);
 				}}
 			/>
+
+			<Drawer
+				position="right"
+				title={t().account["main-account"].Title}
+				opened={isMainAccountOpen}
+				onClose={closeMainAccount}
+			>
+				<MyMainAccountManager onSuccess={closeMainAccount} />
+			</Drawer>
 		</>
+	);
+};
+
+type ExtraProps = {
+	onChangeMainAccountClick: CallableFunction;
+};
+
+const Extra: FC<ExtraProps> = ({ onChangeMainAccountClick }) => {
+	const { t } = useTranslation("finances");
+
+	return (
+		<ExtraActions>
+			<Menu.Item
+				leftSection={<MdAccountBalance />}
+				onClick={() => onChangeMainAccountClick()}
+			>
+				{t().account["main-account"].actions["Trigger-change"]}
+			</Menu.Item>
+		</ExtraActions>
 	);
 };

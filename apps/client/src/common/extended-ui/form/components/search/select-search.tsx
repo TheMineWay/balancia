@@ -28,6 +28,7 @@ export type SelectSearchProps<T extends string | number, V = T> = {
 	setValue?: (value: V | null) => void;
 	allowClear?: boolean;
 	triggerId?: string | number;
+	disabled?: boolean;
 } & Pick<
 	TextInputProps,
 	| "onBlur"
@@ -57,6 +58,7 @@ export function SelectSearch<T extends string | number, V = T>({
 	onClick,
 	onFocus,
 	triggerId,
+	disabled = false,
 	...props
 }: Readonly<SelectSearchProps<T, V>>) {
 	const { t } = useTranslation("common");
@@ -168,6 +170,7 @@ export function SelectSearch<T extends string | number, V = T>({
 						onBlur?.(e);
 					}}
 					id={triggerId?.toString()}
+					disabled={disabled}
 					{...props}
 				/>
 			</Combobox.Target>
