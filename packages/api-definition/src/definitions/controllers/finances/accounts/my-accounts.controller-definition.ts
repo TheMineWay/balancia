@@ -70,7 +70,7 @@ const SET_MAIN_ACCOUNT = {
 	paramsMapping: {},
 	method: EndpointMethod.PUT,
 	bodyDto: z.object({
-		accountId: z.number().nullable(),
+		accountId: ACCOUNT_SCHEMA.shape.id.nullable(),
 	}),
 } satisfies EndpointDefinition;
 
