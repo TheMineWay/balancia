@@ -2,9 +2,10 @@ pipeline {
     agent any
 
     stages {
-        stage('Test') {
+        stage('Start Production') {
             steps {
-                echo "Cambio detectado en main"
+                echo "Starting production environment..."
+                sh 'docker-compose -f prod.docker-compose.yml up -d'
             }
         }
     }
