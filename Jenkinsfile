@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        principal {
+        any {
             customWorkspace '/__services/balancia'
         }
     }
