@@ -23,7 +23,7 @@ COPY tsconfig.json ./
 RUN pnpm build:packages
 RUN pnpm build:client
 
-# Nginx-compatible stage - just the built files
-FROM busybox:latest AS static-files
-WORKDIR /app
-COPY --from=builder /app/apps/client/dist /app/dist
+# Production stage - lightweight nginx
+FROM nginx:alpine AS production
+COPY --from=builder /app/apps/client/dist /usr/share/nginx/html
+EXPOSE 80
