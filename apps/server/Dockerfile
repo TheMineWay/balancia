@@ -49,6 +49,8 @@ COPY --from=builder /app/apps/server/dist ./apps/server/dist
 COPY apps/server/drizzle ./apps/server/drizzle
 COPY apps/server/drizzle.config.ts ./apps/server/
 
+RUN pnpm build:packages
+
 # Expose port (adjust if needed)
 EXPOSE 8080
 
