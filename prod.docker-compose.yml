@@ -6,11 +6,11 @@ services:
     build:
       context: .
       dockerfile: apps/client/Dockerfile
-      target: static-files
+      target: builder
     image: balancia-client:latest
     volumes:
-      - ./apps/client/dist:/app/dist:ro
-    command: ["sleep", "infinity"]
+      - ./apps/client/dist:/output
+    command: sh -c "cp -r /app/apps/client/dist/* /output/ && sleep infinity"
     networks:
       - "balancia_network"
 
