@@ -10,7 +10,7 @@ services:
     image: balancia-client:latest
     volumes:
       - ./apps/client/dist:/output
-    command: sh -c "cp -r /app/apps/client/dist/* /output/ && sleep infinity"
+    command: sh -c "echo 'Checking dist folder...' && ls -la /app/apps/client/dist && echo 'Copying files...' && cp -r /app/apps/client/dist/. /output/ && echo 'Copy complete!' && ls -la /output && sleep infinity"
     networks:
       - "balancia_network"
 
