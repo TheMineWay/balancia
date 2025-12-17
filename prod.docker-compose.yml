@@ -13,6 +13,8 @@ services:
     tty: true
     networks:
       - "balancia_network"
+    environment:
+      CI: true
 
   balancia-server:
     image: node:24-alpine
@@ -22,6 +24,8 @@ services:
       - .:/app
     networks:
       - "balancia_network"
+    environment:
+      CI: true
 
 networks:
   balancia_network:
