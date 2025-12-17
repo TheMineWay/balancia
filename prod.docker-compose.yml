@@ -8,7 +8,7 @@ services:
       dockerfile: apps/client/Dockerfile
       target: builder
     volumes:
-      - ./apps/client/dist:/output
+      - balancia_client_dist:/output
     command: sh -c "echo 'Checking dist folder...' && ls -la /app/apps/client/dist && echo 'Copying files...' && cp -r /app/apps/client/dist/. /output/ && echo 'Copy complete!' && ls -la /output && sleep infinity"
     networks:
       - "balancia_network"
