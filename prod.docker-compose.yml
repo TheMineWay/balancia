@@ -3,25 +3,24 @@
 version: "3.9"
 services:
   balancia-client:
-    image: node:24-alpine
-    working_dir: /app
-    command: sh -c "npm install -g pnpm && pnpm i && pnpm build:packages && pnpm build:client && pnpm start:client"
+    build:
+      context: .
+      dockerfile: apps/client/Dockerfile
+      target: static-files
+    image: balancia-client:latest
     volumes:
-      - .:/app
-    depends_on:
-      - "balancia-server"
-    tty: true
+      - ./apps/client/dist:/app/dist:ro
+    command: ["sleep", "infinity"]
     networks:
       - "balancia_network"
-    environment:
-      CI: true
 
   balancia-server:
-    image: node:24-alpine
-    working_dir: /app
-    command: sh -c "npm install -g pnpm && pnpm i && pnpm build:packages && pnpm build:server && pnpm:db:migrate &&  pnpm start:server"
-    volumes:
-      - .:/app
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    image: balancia-server:latest
+    env_file:
+      - apps/server/.env
     networks:
       - "balancia_network"
     environment:
