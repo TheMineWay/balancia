@@ -9,8 +9,10 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - server
+      - "balancia-server"
     tty: true
+    networks:
+      - "balancia_network"
 
   balancia-server:
     image: node:24-alpine
@@ -18,3 +20,9 @@ services:
     command: sh -c "npm install -g pnpm && pnpm i && pnpm build:packages && pnpm build:server && pnpm:db:migrate &&  pnpm start:server"
     volumes:
       - .:/app
+    networks:
+      - "balancia_network"
+
+networks:
+  balancia_network:
+    external: true
