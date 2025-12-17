@@ -7,7 +7,6 @@ services:
       context: .
       dockerfile: apps/client/Dockerfile
       target: builder
-    image: balancia-client:latest
     volumes:
       - ./apps/client/dist:/output
     command: sh -c "echo 'Checking dist folder...' && ls -la /app/apps/client/dist && echo 'Copying files...' && cp -r /app/apps/client/dist/. /output/ && echo 'Copy complete!' && ls -la /output && sleep infinity"
@@ -18,7 +17,6 @@ services:
     build:
       context: .
       dockerfile: apps/server/Dockerfile
-    image: balancia-server:latest
     env_file:
       - apps/server/.env
     networks:
