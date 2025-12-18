@@ -29,6 +29,7 @@ export class DatabaseKeeperService {
 	async refreshAll() {
 		this.logger.log("Refreshing all materialized views...");
 		// Invoke materialized views refresh
+		await this.updateFinancesMaterializedViews();
 
 		this.logger.log("All materialized views refreshed.");
 	}
@@ -46,6 +47,8 @@ export class DatabaseKeeperService {
 
 	@Cron(ENV.finances.databaseMaterializedViewsUpdateCron)
 	async updateFinancesMaterializedViews() {
+		if (!isMasterServer()) return;
+
 		// Update account stats materialized view
 		await this.databaseService.db.refreshMaterializedView(
 			accountStatsMaterializedView,

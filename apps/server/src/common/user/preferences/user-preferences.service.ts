@@ -35,38 +35,41 @@ export class UserPreferencesService {
 	async upsertByUserId(
 		userId: UserModelId,
 		preferences: Omit<UserPreferencesCreateModel, "userId">,
+		options?: QueryOptions,
 	): Promise<UserPreferencesSelect> {
-		return await this.databaseService.db.transaction(async (transaction) => {
-			const existing = await this.userPreferencesRepository.findByUserId(
-				userId,
-				{ transaction },
-			);
-
-			if (existing) {
-				await this.userPreferencesRepository.updateByUserId(
+		return await (options?.transaction ?? this.databaseService.db).transaction(
+			async (transaction) => {
+				const existing = await this.userPreferencesRepository.findByUserId(
 					userId,
-					preferences,
 					{ transaction },
 				);
-				const updated = await this.userPreferencesRepository.findByUserId(
-					userId,
-					{
-						transaction,
-					},
+
+				if (existing) {
+					await this.userPreferencesRepository.updateByUserId(
+						userId,
+						preferences,
+						{ transaction },
+					);
+					const updated = await this.userPreferencesRepository.findByUserId(
+						userId,
+						{
+							transaction,
+						},
+					);
+					if (updated) return updated;
+
+					// If the updated preferences are not found, throw an error
+					throw new InternalServerErrorException();
+				}
+
+				const created = await this.userPreferencesRepository.create(
+					{ userId, ...preferences },
+					{ transaction },
 				);
-				if (updated) return updated;
 
-				// If the updated preferences are not found, throw an error
-				throw new InternalServerErrorException();
-			}
-
-			const created = await this.userPreferencesRepository.create(
-				{ userId, ...preferences },
-				{ transaction },
-			);
-
-			if (!created) throw new InternalServerErrorException();
-			return created;
-		});
+				if (!created) throw new InternalServerErrorException();
+				return created;
+			},
+		);
 	}
 }

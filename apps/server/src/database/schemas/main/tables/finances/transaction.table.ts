@@ -1,3 +1,4 @@
+import { moneyColumn } from "@database/common/money";
 import { timestamps } from "@database/common/timestamps";
 import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
 import { accountTable, timePrecisionEnum } from "@database/schemas/main.schema";
@@ -10,7 +11,6 @@ import {
 } from "@shared/models";
 import { sql } from "drizzle-orm";
 import {
-	decimal,
 	index,
 	integer,
 	serial,
@@ -24,7 +24,7 @@ export const transactionsTable = financesSchema.table(
 	"transactions",
 	{
 		id: serial().primaryKey(),
-		amount: decimal({ precision: 10, scale: 2, mode: "number" }).notNull(),
+		amount: moneyColumn.notNull(),
 		subject: varchar({ length: TRANSACTION_MODEL_VALUES.subject.maxLength }),
 
 		// Performed time

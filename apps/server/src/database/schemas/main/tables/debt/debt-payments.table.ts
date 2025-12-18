@@ -1,3 +1,4 @@
+import { moneyColumn } from "@database/common/money";
 import { timestamps } from "@database/common/timestamps";
 import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
 import { transactionsTable } from "@database/schemas/main.schema";
@@ -5,7 +6,6 @@ import { debtSchema } from "@database/schemas/main/tables/debt/debt.schema";
 import { debtTable } from "@database/schemas/main/tables/debt/debt.table";
 import { DEBT_PAYMENT_MODEL_VALUES, DebtPaymentModel } from "@shared/models";
 import {
-	decimal,
 	index,
 	integer,
 	serial,
@@ -28,7 +28,7 @@ export const debtPaymentTable = debtSchema.table(
 		}),
 
 		// Metadata
-		amount: decimal({ precision: 10, scale: 2, mode: "number" }).notNull(),
+		amount: moneyColumn.notNull(),
 		paidAt: timestamp().notNull().defaultNow(),
 		notes: varchar({ length: DEBT_PAYMENT_MODEL_VALUES.notes.maxLength }),
 

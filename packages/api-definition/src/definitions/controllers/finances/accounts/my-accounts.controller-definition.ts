@@ -17,7 +17,7 @@ import z from "zod";
 // Endpoints
 
 const GET_ACCOUNTS_ENDPOINT = {
-	getPath: () => [],
+	getPath: () => ["list"],
 	paramsMapping: {},
 	responseDto: getPaginatedResponse(ACCOUNT_SCHEMA),
 	queryDto: z.object({
@@ -26,7 +26,7 @@ const GET_ACCOUNTS_ENDPOINT = {
 } satisfies EndpointDefinition;
 
 const GET_ACCOUNT_ENDPOINT = {
-	getPath: (params) => [params.id],
+	getPath: (params) => ["account", params.id],
 	paramsMapping: {
 		id: "accountId",
 	},
@@ -36,7 +36,7 @@ const GET_ACCOUNT_ENDPOINT = {
 } satisfies EndpointDefinition<{ id: string }>;
 
 const CREATE_ACCOUNT_ENDPOINT = {
-	getPath: () => [],
+	getPath: () => ["account"],
 	paramsMapping: {},
 	method: EndpointMethod.POST,
 	bodyDto: z.object({
@@ -45,7 +45,7 @@ const CREATE_ACCOUNT_ENDPOINT = {
 } satisfies EndpointDefinition;
 
 const DELETE_ACCOUNT_ENDPOINT = {
-	getPath: (params) => [params.id],
+	getPath: (params) => ["account", params.id],
 	method: EndpointMethod.DELETE,
 	paramsMapping: {
 		id: "accountId",
@@ -53,7 +53,7 @@ const DELETE_ACCOUNT_ENDPOINT = {
 } satisfies EndpointDefinition<{ id: string }>;
 
 const UPDATE_ACCOUNT_ENDPOINT = {
-	getPath: (params) => [params.id],
+	getPath: (params) => ["account", params.id],
 	paramsMapping: {
 		id: "accountId",
 	},
@@ -62,6 +62,17 @@ const UPDATE_ACCOUNT_ENDPOINT = {
 		...ACCOUNT_CREATE_SCHEMA.shape,
 	}),
 } satisfies EndpointDefinition<{ id: string }>;
+
+// Main account
+
+const SET_MAIN_ACCOUNT = {
+	getPath: () => ["main-account"],
+	paramsMapping: {},
+	method: EndpointMethod.PUT,
+	bodyDto: z.object({
+		accountId: ACCOUNT_SCHEMA.shape.id.nullable(),
+	}),
+} satisfies EndpointDefinition;
 
 // Stats
 
@@ -81,7 +92,7 @@ const DATE_RANGE_SCHEMA = z
 	);
 
 const GET_ACCOUNT_MONTHLY_STATS_ENDPOINT = {
-	getPath: (params) => [params.id, "stats", "monthly"],
+	getPath: (params) => ["account", params.id, "stats", "monthly"],
 	paramsMapping: { id: "accountId" },
 	responseDto: z.object({
 		stats: z.array(ACCOUNT_MONTHLY_STATS_SCHEMA),
@@ -90,7 +101,7 @@ const GET_ACCOUNT_MONTHLY_STATS_ENDPOINT = {
 } satisfies EndpointDefinition<{ id: string }>;
 
 const GET_ACCOUNT_CATEGORY_EXPENSES_STATS_ENDPOINT = {
-	getPath: (params) => [params.id, "stats", "category-expenses"],
+	getPath: (params) => ["account", params.id, "stats", "category-expenses"],
 	paramsMapping: { id: "accountId" },
 	responseDto: z.object({
 		stats: z.array(CATEGORY_EXPENSES_MODEL_SCHEMA),
@@ -109,6 +120,9 @@ export const MY_ACCOUNTS_CONTROLLER = {
 		create: CREATE_ACCOUNT_ENDPOINT,
 		delete: DELETE_ACCOUNT_ENDPOINT,
 		update: UPDATE_ACCOUNT_ENDPOINT,
+
+		// Main account
+		setMainAccount: SET_MAIN_ACCOUNT,
 
 		// Stats
 		getMonthlyStats: GET_ACCOUNT_MONTHLY_STATS_ENDPOINT,
