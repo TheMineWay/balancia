@@ -1,3 +1,4 @@
+import { ID_SCHEMA } from "@/common/__system/id.model";
 import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
 import type { ModelValues } from "@ts-types/model-values.type";
 import z from "zod";
@@ -12,7 +13,7 @@ export const ACCOUNT_MODEL_VALUES = {
 } satisfies ModelValues;
 
 export const ACCOUNT_SCHEMA = z.object({
-	id: z.number().positive(),
+	id: ID_SCHEMA,
 	name: z.string().nonempty().max(ACCOUNT_MODEL_VALUES.name.maxLength),
 	description: z
 		.string()

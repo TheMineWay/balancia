@@ -21,7 +21,7 @@ import { TableLayout } from "@layouts/table/table.layout";
 import { ActionIcon, Button, Drawer, Modal, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
-import type { TransactionModel } from "@shared/models";
+import type { TransactionFiltersModel, TransactionModel } from "@shared/models";
 import { useCallback, useState } from "react";
 import { CiImport } from "react-icons/ci";
 import { IoAddOutline, IoReload, IoTrash } from "react-icons/io5";
@@ -31,7 +31,7 @@ export const MyTransactionsManager: FC = () => {
 	const { t: commonT } = useTranslation("common");
 
 	const pagination = usePagination();
-	const search = useSearch<TransactionModel>({});
+	const search = useSearch<TransactionFiltersModel>({});
 
 	const {
 		data: transactions,
@@ -187,7 +187,7 @@ export const MyTransactionsManager: FC = () => {
 };
 
 type FilterOptions = {
-	search: UseSearch<TransactionModel>;
+	search: UseSearch<TransactionFiltersModel>;
 };
 
 const Filters: FC<FilterOptions> = ({ search }) => {
@@ -212,12 +212,21 @@ const Filters: FC<FilterOptions> = ({ search }) => {
 				autoFill={false}
 			/>
 			<MyCategoriesSelector
+				noCategoryOption
 				value={filters.categoryId ?? null}
 				placeholder={t().category.expressions.Category}
 				onChange={(value) => setFilter("categoryId", value)}
 				allowClear
 				size="xs"
 			/>
+			{/* <DayRangePicker
+				onChange={(range) => {
+					if (range) {
+						setFilter("fromDate", range.from);
+						setFilter("toDate", range.to);
+					}
+				}}
+			/> */}
 		</>
 	);
 };

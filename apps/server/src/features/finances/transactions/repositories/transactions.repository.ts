@@ -20,10 +20,11 @@ import type {
 	PaginatedQuery,
 	PaginatedResponse,
 	SearchModel,
+	TransactionFiltersModel,
 	TransactionModel,
 	UserModel,
 } from "@shared/models";
-import { and, desc, eq, ilike, isNull } from "drizzle-orm";
+import { and, desc, eq, gte, ilike, isNull, lte } from "drizzle-orm";
 
 @Injectable()
 export class TransactionsRepository extends Repository {
@@ -71,7 +72,7 @@ export class TransactionsRepository extends Repository {
 		userId: UserModel["id"],
 		pagination: PaginatedQuery,
 		search?: SearchModel,
-		filters?: Partial<Pick<TransactionModel, "accountId" | "categoryId">>,
+		filters?: TransactionFiltersModel,
 		options?: QueryOptions,
 	): Promise<
 		PaginatedResponse<
@@ -94,6 +95,14 @@ export class TransactionsRepository extends Repository {
 						: filters.categoryId === null
 							? isNull(transactionsTable.categoryId)
 							: undefined,
+					// From date
+					filters.fromDate
+						? gte(transactionsTable.performedAt, filters.fromDate)
+						: undefined,
+					// To date
+					filters.toDate
+						? lte(transactionsTable.performedAt, filters.toDate)
+						: undefined,
 				)
 			: undefined;
 
