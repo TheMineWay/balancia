@@ -1,1 +1,0 @@
-ALTER TABLE "finances"."tag_automatchers" ALTER COLUMN "name" SET NOT NULL;

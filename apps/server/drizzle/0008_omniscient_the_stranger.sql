@@ -1,1 +1,0 @@
-ALTER TABLE "finances"."tag_automatchers" ADD COLUMN "id" serial PRIMARY KEY NOT NULL;
