@@ -23,7 +23,7 @@ export const accountStatsMaterializedView = financesSchema
 		return db
 			.select({
 				userId: accountTable.userId,
-				accountId: accountTable.id,
+				accountId: accountTable.id.getSQL().mapWith(Number).as("accountId"),
 				balance: aggregateBalance.balance,
 			})
 			.from(accountTable)
@@ -45,7 +45,7 @@ export const accountMonthlyStatsMaterializedView = financesSchema
 
 		const query = db
 			.select({
-				accountId: accountTable.id,
+				accountId: accountTable.id.getSQL().mapWith(Number).as("accountId"),
 				userId: accountTable.userId,
 				date: dateField,
 				monthlyBalance:
