@@ -18,6 +18,7 @@ export { categoryTable } from "@database/schemas/main/tables/finances/category.t
 export { financesSchema } from "@database/schemas/main/tables/finances/finances.schema";
 export { tagAutomatcherTable } from "@database/schemas/main/tables/finances/tag-automatcher.table";
 export { tagTable } from "@database/schemas/main/tables/finances/tag.table";
+export { transactionsReviewTable } from "@database/schemas/main/tables/finances/transaction-review.table";
 export { transactionTagTable as transactionTag } from "@database/schemas/main/tables/finances/transaction-tag.table";
 export { transactionsTable } from "@database/schemas/main/tables/finances/transaction.table";
 export { identitySchema } from "@database/schemas/main/tables/identity/identity.schema";

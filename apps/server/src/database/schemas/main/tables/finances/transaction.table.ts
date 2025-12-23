@@ -27,6 +27,11 @@ export const transactionsTable = financesSchema.table(
 		amount: moneyColumn.notNull(),
 		subject: varchar({ length: TRANSACTION_MODEL_VALUES.subject.maxLength }),
 
+		// Metadata
+		description: varchar({
+			length: TRANSACTION_MODEL_VALUES.description.maxLength,
+		}),
+
 		// Performed time
 		performedAt: timestamp().notNull(),
 		performedAtPrecision: timePrecisionEnum()
@@ -48,7 +53,7 @@ export const transactionsTable = financesSchema.table(
 	} satisfies ColumnsModel,
 	(table) => [
 		// Indexes
-		index("account_id_and_performed_at_and_id_IDX").on(
+		index("account_id_and_performed_at_and_id_idx").on(
 			table.accountId,
 			sql`${table.performedAt} DESC`,
 			sql`${table.id} DESC`,
@@ -61,6 +66,7 @@ export const TRANSACTIONS_TABLE_COLUMNS = {
 	id: transactionsTable.id,
 	amount: transactionsTable.amount,
 	subject: transactionsTable.subject,
+	description: transactionsTable.description,
 	performedAt: transactionsTable.performedAt,
 	performedAtPrecision: transactionsTable.performedAtPrecision,
 	categoryId: transactionsTable.categoryId,

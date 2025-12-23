@@ -15,6 +15,9 @@ export const TRANSACTION_MODEL_VALUES = {
 	subject: {
 		maxLength: 255,
 	},
+	description: {
+		maxLength: 2048,
+	},
 	amount: {
 		min: MONEY_MODEL_VALUES.money.min,
 		max: MONEY_MODEL_VALUES.money.max,
@@ -30,6 +33,12 @@ export const TRANSACTION_SCHEMA = z.object({
 	subject: z
 		.string()
 		.max(TRANSACTION_MODEL_VALUES.subject.maxLength)
+		.nullable()
+		.default(null),
+	// Metadata
+	description: z
+		.string()
+		.max(TRANSACTION_MODEL_VALUES.description.maxLength)
 		.nullable()
 		.default(null),
 
