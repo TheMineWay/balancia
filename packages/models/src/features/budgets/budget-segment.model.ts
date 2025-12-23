@@ -53,6 +53,6 @@ export const BUDGET_SEGMENT_CREATE_SCHEMA = BUDGET_SEGMENT_SCHEMA.omit({
 	updatedAt: true,
 });
 
-export type CreateBudgetSegmentModel = z.infer<
+export type BudgetSegmentCreateModel = z.infer<
 	typeof BUDGET_SEGMENT_CREATE_SCHEMA
 >;
