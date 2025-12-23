@@ -1,7 +1,8 @@
 import { moneyColumn } from "@database/common/money";
 import { timestamps } from "@database/common/timestamps";
 import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
-import { budgetSchema, userTable } from "@database/schemas/main.schema";
+import { budgetSchema } from "@database/schemas/main/tables/budget/budget.schema";
+import { userTable } from "@database/schemas/main/tables/identity/user.table";
 import { BUDGET_MODEL_VALUES, type BudgetModel } from "@shared/models";
 import { date, index, integer, serial, varchar } from "drizzle-orm/pg-core";
 

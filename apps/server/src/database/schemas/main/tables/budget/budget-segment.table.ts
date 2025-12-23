@@ -1,7 +1,8 @@
 import { percentColumn, percentColumnCheck } from "@database/common/percent";
 import { timestamps } from "@database/common/timestamps";
 import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
-import { budgetSchema, budgetTable } from "@database/schemas/main.schema";
+import { budgetSchema } from "@database/schemas/main/tables/budget/budget.schema";
+import { budgetTable } from "@database/schemas/main/tables/budget/budget.table";
 import {
 	BUDGET_SEGMENT_MODEL_VALUES,
 	type BudgetSegmentModel,
