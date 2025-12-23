@@ -1,12 +1,12 @@
-import { PERCENT_SCHEMA } from "@/common/numeric/percent.model";
-import { nullableStringTransform } from "@/utils/nullable-string.model";
 import {
 	BUDGET_SCHEMA,
 	ID_SCHEMA,
 	type ModelValues,
+	nullableStringTransform,
 	TIMESTAMPS_SCHEMA,
 } from "@shared/models";
 import z from "zod";
+import { PERCENT_SCHEMA } from "../../common/numeric/percent.model";
 
 export const BUDGET_SEGMENT_MODEL_VALUES = {
 	name: {

@@ -3,26 +3,30 @@ import { timestamps } from "@database/common/timestamps";
 import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
 import { budgetSchema, userTable } from "@database/schemas/main.schema";
 import { BUDGET_MODEL_VALUES, type BudgetModel } from "@shared/models";
-import { date, integer, serial, varchar } from "drizzle-orm/pg-core";
+import { date, index, integer, serial, varchar } from "drizzle-orm/pg-core";
 
 type ColumnsModel = DbModeledColumnsDefinition<BudgetModel>;
 
-export const budgetTable = budgetSchema.table("budget", {
-	id: serial().primaryKey(),
-	userId: integer()
-		.notNull()
-		.references(() => userTable.id),
+export const budgetTable = budgetSchema.table(
+	"budget",
+	{
+		id: serial().primaryKey(),
+		userId: integer()
+			.notNull()
+			.references(() => userTable.id),
 
-	// Essentials
-	fromDate: date().notNull(),
-	toDate: date().notNull(),
-	name: varchar({ length: BUDGET_MODEL_VALUES.name.maxLength }).notNull(),
-	description: varchar({ length: BUDGET_MODEL_VALUES.description.maxLength }),
-	amount: moneyColumn.notNull(),
+		// Essentials
+		fromDate: date().notNull(),
+		toDate: date().notNull(),
+		name: varchar({ length: BUDGET_MODEL_VALUES.name.maxLength }).notNull(),
+		description: varchar({ length: BUDGET_MODEL_VALUES.description.maxLength }),
+		amount: moneyColumn.notNull(),
 
-	// Timestamps
-	...timestamps,
-} satisfies ColumnsModel);
+		// Timestamps
+		...timestamps,
+	} satisfies ColumnsModel,
+	(table) => [index().on(table.userId)],
+);
 
 export const BUDGET_TABLE_COLUMNS = {
 	id: budgetTable.id,
@@ -37,6 +41,6 @@ export const BUDGET_TABLE_COLUMNS = {
 };
 
 /* Types */
-export type BudgetTableSelect = typeof budgetTable.$inferSelect;
-export type BudgetTableInsert = typeof budgetTable.$inferInsert;
-export type BudgetTableUpdate = Partial<BudgetTableInsert>;
+export type BudgetSelect = typeof budgetTable.$inferSelect;
+export type BudgetInsert = typeof budgetTable.$inferInsert;
+export type BudgetUpdate = Partial<BudgetInsert>;
