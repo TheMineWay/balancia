@@ -1,6 +1,6 @@
 {
-	"id": "5a53a9a8-c44a-4365-b440-b6b21db163cb",
-	"prevId": "00000000-0000-0000-0000-000000000000",
+	"id": "7b8657dd-89f5-4c75-ba01-dcc8e70d371b",
+	"prevId": "5a53a9a8-c44a-4365-b440-b6b21db163cb",
 	"version": "7",
 	"dialect": "postgresql",
 	"tables": {
@@ -52,6 +52,256 @@
 				"accounts_userId_users_id_fk": {
 					"name": "accounts_userId_users_id_fk",
 					"tableFrom": "accounts",
+					"tableTo": "users",
+					"schemaTo": "identity",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"budget.budget_segment_category": {
+			"name": "budget_segment_category",
+			"schema": "budget",
+			"columns": {
+				"categoryId": {
+					"name": "categoryId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"segmentId": {
+					"name": "segmentId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"budget_segment_category_categoryId_categories_id_fk": {
+					"name": "budget_segment_category_categoryId_categories_id_fk",
+					"tableFrom": "budget_segment_category",
+					"tableTo": "categories",
+					"schemaTo": "finances",
+					"columnsFrom": ["categoryId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"budget_segment_category_segmentId_budget_segment_id_fk": {
+					"name": "budget_segment_category_segmentId_budget_segment_id_fk",
+					"tableFrom": "budget_segment_category",
+					"tableTo": "budget_segment",
+					"schemaTo": "budget",
+					"columnsFrom": ["segmentId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {
+				"budget_segment_category_categoryId_segmentId_pk": {
+					"name": "budget_segment_category_categoryId_segmentId_pk",
+					"columns": ["categoryId", "segmentId"]
+				}
+			},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"budget.budget_segment": {
+			"name": "budget_segment",
+			"schema": "budget",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"budgetId": {
+					"name": "budgetId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(256)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "varchar(2048)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"percent": {
+					"name": "percent",
+					"type": "smallint",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {
+				"budget_segment_budgetId_index": {
+					"name": "budget_segment_budgetId_index",
+					"columns": [
+						{
+							"expression": "budgetId",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				}
+			},
+			"foreignKeys": {
+				"budget_segment_budgetId_budget_id_fk": {
+					"name": "budget_segment_budgetId_budget_id_fk",
+					"tableFrom": "budget_segment",
+					"tableTo": "budget",
+					"schemaTo": "budget",
+					"columnsFrom": ["budgetId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {
+				"budget_segment_percent_chk": {
+					"name": "budget_segment_percent_chk",
+					"value": "\"budget\".\"budget_segment\".\"percent\" >= 0 AND \"budget\".\"budget_segment\".\"percent\" <= 100"
+				}
+			},
+			"isRLSEnabled": false
+		},
+		"budget.budget": {
+			"name": "budget",
+			"schema": "budget",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"userId": {
+					"name": "userId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"fromDate": {
+					"name": "fromDate",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"toDate": {
+					"name": "toDate",
+					"type": "date",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(256)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"description": {
+					"name": "description",
+					"type": "varchar(4096)",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"amount": {
+					"name": "amount",
+					"type": "numeric(10, 2)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"updatedAt": {
+					"name": "updatedAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				}
+			},
+			"indexes": {
+				"budget_userId_index": {
+					"name": "budget_userId_index",
+					"columns": [
+						{
+							"expression": "userId",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "btree",
+					"with": {}
+				}
+			},
+			"foreignKeys": {
+				"budget_userId_users_id_fk": {
+					"name": "budget_userId_users_id_fk",
+					"tableFrom": "budget",
 					"tableTo": "users",
 					"schemaTo": "identity",
 					"columnsFrom": ["userId"],
@@ -1343,6 +1593,7 @@
 		}
 	},
 	"schemas": {
+		"budget": "budget",
 		"debt": "debt",
 		"finances": "finances",
 		"identity": "identity",
