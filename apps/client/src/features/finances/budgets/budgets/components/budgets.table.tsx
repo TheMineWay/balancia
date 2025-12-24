@@ -1,3 +1,4 @@
+import { RenderCurrency } from "@common/extended-ui/currency/render-currency";
 import { DateRender } from "@common/extended-ui/date/components/date-render";
 import { Table } from "@common/extended-ui/table/components/table";
 import { TABLE_ACTION_PROPS } from "@common/extended-ui/table/constants/table.constants";
@@ -42,6 +43,7 @@ export const BudgetsTable = <T extends BudgetModel = BudgetModel>({
 			{
 				label: t().models.budget.amount.Label,
 				accessorKey: "amount",
+				render: (item) => <RenderCurrency amount={item.amount} />,
 			},
 			{
 				label: t().models.budget.fromDate.Label,

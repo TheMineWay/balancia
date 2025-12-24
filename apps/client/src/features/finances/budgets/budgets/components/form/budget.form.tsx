@@ -4,6 +4,7 @@ import { useTranslation } from "@i18n/use-translation";
 import { Button, Input, Textarea } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { BUDGET_MODEL_VALUES, type BudgetCreateModel } from "@shared/models";
+import { addDays } from "date-fns";
 import { useId } from "react";
 import { Controller, type UseFormReturn } from "react-hook-form";
 
@@ -26,26 +27,43 @@ export const BudgetForm: FC<Props> = ({
 
 	const amountFieldId = useId();
 
-	const { formState, handleSubmit, control } = form;
+	const { formState, handleSubmit, control, watch } = form;
+
+	const fromDateValue = watch("fromDate");
+	const toDateValue = watch("toDate");
 
 	return (
 		<Form onSubmit={handleSubmit((budget) => onSuccess?.(budget))}>
 			{/* Name */}
-			<Input.Wrapper label={t().models.budget.name.Label}>
-				<Input
-					{...form.register("name")}
-					maxLength={BUDGET_MODEL_VALUES.name.maxLength}
-				/>
-			</Input.Wrapper>
+			<Controller
+				control={control}
+				name="name"
+				render={({ field, fieldState }) => (
+					<Input.Wrapper label={t().models.budget.name.Label}>
+						<Input
+							{...field}
+							maxLength={BUDGET_MODEL_VALUES.name.maxLength}
+							error={fieldState.error?.message}
+						/>
+					</Input.Wrapper>
+				)}
+			/>
 
 			{/* Description */}
-			<Input.Wrapper label={t().models.budget.description.Label}>
-				<Textarea
-					{...form.register("description")}
-					maxLength={BUDGET_MODEL_VALUES.description.maxLength}
-					minRows={3}
-				/>
-			</Input.Wrapper>
+			<Controller
+				control={control}
+				name="description"
+				render={({ field }) => (
+					<Input.Wrapper label={t().models.budget.description.Label}>
+						<Textarea
+							{...field}
+							value={field.value ?? ""}
+							maxLength={BUDGET_MODEL_VALUES.description.maxLength}
+							minRows={3}
+						/>
+					</Input.Wrapper>
+				)}
+			/>
 
 			{/* Amount */}
 			<Input.Wrapper
@@ -69,6 +87,8 @@ export const BudgetForm: FC<Props> = ({
 				onChange={(date) => {
 					if (date) form.setValue("fromDate", new Date(date));
 				}}
+				maxDate={toDateValue ? addDays(toDateValue, -1) : undefined}
+				error={Boolean(formState.errors.fromDate)}
 			/>
 
 			{/* To Date */}
@@ -79,6 +99,8 @@ export const BudgetForm: FC<Props> = ({
 				onChange={(date) => {
 					if (date) form.setValue("toDate", new Date(date));
 				}}
+				minDate={fromDateValue ? addDays(fromDateValue, 1) : undefined}
+				error={Boolean(formState.errors.toDate)}
 			/>
 
 			{/* Submit */}

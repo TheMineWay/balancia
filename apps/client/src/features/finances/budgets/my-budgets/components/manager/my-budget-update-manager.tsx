@@ -28,9 +28,10 @@ export const MyBudgetUpdateManager: FC<Props> = ({ onSuccess, budget }) => {
 	const { mutate: updateBudget, isPending: isUpdating } =
 		useMyBudgetUpdateMutation(budget.id);
 
-	const updateForm = useForm({
+	const updateForm = useForm<Omit<BudgetCreateModel, "userId">>({
 		resolver: zodResolver(SCHEMA),
 		defaultValues: budget,
+		mode: "onChange",
 	});
 
 	const onFormSuccess = useCallback(
