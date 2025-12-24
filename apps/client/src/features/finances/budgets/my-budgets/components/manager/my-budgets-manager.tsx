@@ -1,5 +1,8 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
-import { useSearch } from "@common/extended-ui/form/hooks/use-search";
+import {
+	type UseSearch,
+	useSearch,
+} from "@common/extended-ui/form/hooks/use-search";
 import { DangerousActionConfirm } from "@common/verifications/dangerous-action/components/dangerous-action-confirm";
 import { Pagination } from "@core/pagination/components/pagination";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
@@ -13,8 +16,10 @@ import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
 import { ActionIcon, Button, Drawer } from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
-import type { BudgetModel } from "@shared/models";
+import type { BudgetFiltersModel, BudgetModel } from "@shared/models";
+import { addDays } from "date-fns";
 import { useState } from "react";
 import { IoAddOutline, IoReload } from "react-icons/io5";
 import { MdDeleteOutline } from "react-icons/md";
@@ -53,11 +58,7 @@ export const MyBudgetsManager: FC = () => {
 					<TableLayout.Root>
 						<TableLayout.Actions>
 							<ActionsLayout.Row>
-								<DebouncedSearch
-									manager={search.debouncedSearchManager}
-									size="xs"
-									placeholder={commonT().expressions.Search}
-								/>
+								<Filters search={search} />
 							</ActionsLayout.Row>
 							<ActionsLayout.Row>
 								<Button
@@ -136,6 +137,50 @@ export const MyBudgetsManager: FC = () => {
 					if (budgetToDelete) deleteBudget(budgetToDelete.id);
 					setBudgetToDelete(null);
 				}}
+			/>
+		</>
+	);
+};
+
+type FilterProps = {
+	search: UseSearch<BudgetFiltersModel>;
+};
+
+const Filters: FC<FilterProps> = ({ search }) => {
+	const { t: commonT } = useTranslation("common");
+	const { t } = useTranslation("budget");
+
+	return (
+		<>
+			<DebouncedSearch
+				manager={search.debouncedSearchManager}
+				size="xs"
+				placeholder={commonT().expressions.Search}
+			/>
+
+			<DatePickerInput
+				size="xs"
+				placeholder={t().models.budget.fromDate.Label}
+				value={search.filters.fromDate || null}
+				onChange={(v) => search.setFilter("fromDate", v ? new Date(v) : null)}
+				className="min-w-24"
+				maxDate={
+					search.filters.toDate ? addDays(search.filters.toDate, -1) : undefined
+				}
+				allowDeselect
+			/>
+			<DatePickerInput
+				size="xs"
+				placeholder={t().models.budget.toDate.Label}
+				value={search.filters.toDate || null}
+				onChange={(v) => search.setFilter("toDate", v ? new Date(v) : null)}
+				className="min-w-24"
+				minDate={
+					search.filters.fromDate
+						? addDays(search.filters.fromDate, 1)
+						: undefined
+				}
+				allowDeselect
 			/>
 		</>
 	);

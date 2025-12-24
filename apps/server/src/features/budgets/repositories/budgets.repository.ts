@@ -14,7 +14,16 @@ import type {
 	PaginatedSearchModel,
 	UserModelId,
 } from "@shared/models";
-import { and, desc, eq, gte, ilike, lte, SQLWrapper } from "drizzle-orm";
+import {
+	and,
+	desc,
+	eq,
+	gte,
+	ilike,
+	lte,
+	or,
+	type SQLWrapper,
+} from "drizzle-orm";
 
 @Injectable()
 export class BudgetsRepository extends Repository {
@@ -24,10 +33,15 @@ export class BudgetsRepository extends Repository {
 		filters?: BudgetFiltersModel,
 		options?: QueryOptions,
 	): Promise<PaginatedResponse<BudgetSelect>> {
-		const conditions: SQLWrapper[] = [];
+		const conditions: (SQLWrapper | undefined)[] = [];
 
 		if (search?.search) {
-			conditions.push(ilike(budgetTable.name, `%${search.search}%`));
+			conditions.push(
+				or(
+					ilike(budgetTable.name, `%${search.search}%`),
+					ilike(budgetTable.description, `%${search.search}%`),
+				),
+			);
 		}
 
 		if (filters) {
