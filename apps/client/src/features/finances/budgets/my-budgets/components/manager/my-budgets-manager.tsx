@@ -15,7 +15,7 @@ import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer } from "@mantine/core";
+import { ActionIcon, Button, Drawer, Text } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import type { BudgetFiltersModel, BudgetModel } from "@shared/models";
@@ -28,7 +28,7 @@ export const MyBudgetsManager: FC = () => {
 	const { t, interpolated } = useTranslation("budget");
 	const { t: commonT } = useTranslation("common");
 
-	const search = useSearch({});
+	const search = useSearch<BudgetFiltersModel>({});
 	const pagination = usePagination();
 	const {
 		data: budgets,
@@ -56,6 +56,12 @@ export const MyBudgetsManager: FC = () => {
 				<ManagerLayout.Content>
 					{/* TABLE */}
 					<TableLayout.Root>
+						<TableLayout.Actions>
+							<ActionsLayout.Row>
+								<Text>{commonT().expressions["Fast-filters"]}:</Text>
+								<FastFilters search={search} />
+							</ActionsLayout.Row>
+						</TableLayout.Actions>
 						<TableLayout.Actions>
 							<ActionsLayout.Row>
 								<Filters search={search} />
@@ -182,6 +188,30 @@ const Filters: FC<FilterProps> = ({ search }) => {
 				}
 				allowDeselect
 			/>
+		</>
+	);
+};
+
+type FastFilterProps = {
+	search: UseSearch<BudgetFiltersModel>;
+};
+
+const FastFilters: FC<FastFilterProps> = ({ search }) => {
+	const { t } = useTranslation("budget");
+
+	return (
+		<>
+			{/* Past budgets */}
+			<Button
+				size="xs"
+				onClick={() => {
+					search.setFilter("toDate", addDays(new Date(), -1));
+					search.setFilter("fromDate", null);
+				}}
+				variant="outline"
+			>
+				{t().filters["past-budgets"].Label}
+			</Button>
 		</>
 	);
 };

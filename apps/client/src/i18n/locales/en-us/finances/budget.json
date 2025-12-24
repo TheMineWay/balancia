@@ -44,5 +44,10 @@
 				"Label": "To date"
 			}
 		}
+	},
+	"filters": {
+		"past-budgets": {
+			"Label": "Past budgets"
+		}
 	}
 }

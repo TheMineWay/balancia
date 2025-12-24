@@ -14,13 +14,15 @@ export const useSearch = <T extends object>({
 	const clear = useCallback(() => setFilters({}), []);
 
 	const setFilter = <K extends keyof T>(key: K, value: T[K] | null) => {
-		const newFilters = { ...filters };
-		if (value === null) {
-			delete newFilters[key];
-		} else {
-			newFilters[key] = value;
-		}
-		setFilters(newFilters);
+		setFilters((prev) => {
+			const newFilters = { ...prev };
+			if (value === null) {
+				delete newFilters[key];
+			} else {
+				newFilters[key] = value;
+			}
+			return newFilters;
+		});
 	};
 
 	const requestData = useMemo(() => {
