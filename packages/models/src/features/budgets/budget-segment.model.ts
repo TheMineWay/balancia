@@ -1,10 +1,8 @@
-import {
-	BUDGET_SCHEMA,
-	ID_SCHEMA,
-	type ModelValues,
-	nullableStringTransform,
-	TIMESTAMPS_SCHEMA,
-} from "@shared/models";
+import { ID_SCHEMA } from "@/common/__system/id.model";
+import { BUDGET_SCHEMA } from "@/features/budgets/budget.model";
+import { nullableStringTransform } from "@/utils/nullable-string.model";
+import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
+import type { ModelValues } from "@ts-types/model-values.type";
 import z from "zod";
 import { PERCENT_SCHEMA } from "../../common/numeric/percent.model";
 

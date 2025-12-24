@@ -1,12 +1,10 @@
-import {
-	DATE_SCHEMA,
-	ID_SCHEMA,
-	MONEY_SCHEMA,
-	nullableStringTransform,
-	TIMESTAMPS_SCHEMA,
-	USER_SCHEMA,
-	type ModelValues,
-} from "@shared/models";
+import { ID_SCHEMA } from "@/common/__system/id.model";
+import { MONEY_SCHEMA } from "@/common/finances/money.model";
+import { USER_SCHEMA } from "@/core/user/user.model";
+import { DATE_SCHEMA } from "@/utils/date.model";
+import { nullableStringTransform } from "@/utils/nullable-string.model";
+import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
+import type { ModelValues } from "@ts-types/model-values.type";
 import z from "zod";
 
 export const BUDGET_MODEL_VALUES = {
