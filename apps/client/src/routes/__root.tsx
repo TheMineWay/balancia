@@ -10,6 +10,7 @@ import { Permission } from "@shared/models";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
 import { BiPurchaseTagAlt } from "react-icons/bi";
+import { BsCardChecklist } from "react-icons/bs";
 import { FaHome } from "react-icons/fa";
 import { FaRegFolder } from "react-icons/fa6";
 import { IoPersonSharp } from "react-icons/io5";
@@ -92,6 +93,11 @@ const FinancesMenu: FC = () => {
 				<Link to="/finances/debts">
 					<Menu.Item leftSection={<RiFilePaper2Line />} variant="subtle">
 						{t().nav.children.debts.Label}
+					</Menu.Item>
+				</Link>
+				<Link to="/finances/budgets">
+					<Menu.Item leftSection={<BsCardChecklist />} variant="subtle">
+						{t().nav.children.budgets.Label}
 					</Menu.Item>
 				</Link>
 			</Menu.Dropdown>

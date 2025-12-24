@@ -40,7 +40,7 @@ const CREATE = {
 	paramsMapping: {},
 	method: EndpointMethod.POST,
 	bodyDto: z.object({
-		...BUDGET_CREATE_SCHEMA.shape,
+		...BUDGET_CREATE_SCHEMA.omit({ userId: true }).shape,
 	}),
 	responseDto: z.object({
 		...BUDGET_SCHEMA.shape,
@@ -54,7 +54,7 @@ const UPDATE = {
 	},
 	method: EndpointMethod.PUT,
 	bodyDto: z.object({
-		...BUDGET_CREATE_SCHEMA.shape,
+		...BUDGET_CREATE_SCHEMA.omit({ userId: true }).shape,
 	}),
 	responseDto: z.object({
 		...BUDGET_SCHEMA.shape,

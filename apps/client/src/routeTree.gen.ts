@@ -26,6 +26,8 @@ const FinancesDebtsIndexLazyRouteImport = createFileRoute('/finances/debts/')()
 const FinancesCategoriesIndexLazyRouteImport = createFileRoute(
   '/finances/categories/',
 )()
+const FinancesBudgetsIndexLazyRouteImport =
+  createFileRoute('/finances/budgets/')()
 const FinancesAccountsIndexLazyRouteImport = createFileRoute(
   '/finances/accounts/',
 )()
@@ -89,6 +91,14 @@ const FinancesCategoriesIndexLazyRoute =
   } as any).lazy(() =>
     import('./routes/finances/categories/index.lazy').then((d) => d.Route),
   )
+const FinancesBudgetsIndexLazyRoute =
+  FinancesBudgetsIndexLazyRouteImport.update({
+    id: '/finances/budgets/',
+    path: '/finances/budgets/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/finances/budgets/index.lazy').then((d) => d.Route),
+  )
 const FinancesAccountsIndexLazyRoute =
   FinancesAccountsIndexLazyRouteImport.update({
     id: '/finances/accounts/',
@@ -103,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/sys': typeof SysLazyRouteWithChildren
   '/sys/': typeof SysIndexLazyRoute
   '/finances/accounts': typeof FinancesAccountsIndexLazyRoute
+  '/finances/budgets': typeof FinancesBudgetsIndexLazyRoute
   '/finances/categories': typeof FinancesCategoriesIndexLazyRoute
   '/finances/debts': typeof FinancesDebtsIndexLazyRoute
   '/finances/tags': typeof FinancesTagsIndexLazyRoute
@@ -114,6 +125,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/sys': typeof SysIndexLazyRoute
   '/finances/accounts': typeof FinancesAccountsIndexLazyRoute
+  '/finances/budgets': typeof FinancesBudgetsIndexLazyRoute
   '/finances/categories': typeof FinancesCategoriesIndexLazyRoute
   '/finances/debts': typeof FinancesDebtsIndexLazyRoute
   '/finances/tags': typeof FinancesTagsIndexLazyRoute
@@ -127,6 +139,7 @@ export interface FileRoutesById {
   '/sys': typeof SysLazyRouteWithChildren
   '/sys/': typeof SysIndexLazyRoute
   '/finances/accounts/': typeof FinancesAccountsIndexLazyRoute
+  '/finances/budgets/': typeof FinancesBudgetsIndexLazyRoute
   '/finances/categories/': typeof FinancesCategoriesIndexLazyRoute
   '/finances/debts/': typeof FinancesDebtsIndexLazyRoute
   '/finances/tags/': typeof FinancesTagsIndexLazyRoute
@@ -141,6 +154,7 @@ export interface FileRouteTypes {
     | '/sys'
     | '/sys/'
     | '/finances/accounts'
+    | '/finances/budgets'
     | '/finances/categories'
     | '/finances/debts'
     | '/finances/tags'
@@ -152,6 +166,7 @@ export interface FileRouteTypes {
     | '/'
     | '/sys'
     | '/finances/accounts'
+    | '/finances/budgets'
     | '/finances/categories'
     | '/finances/debts'
     | '/finances/tags'
@@ -164,6 +179,7 @@ export interface FileRouteTypes {
     | '/sys'
     | '/sys/'
     | '/finances/accounts/'
+    | '/finances/budgets/'
     | '/finances/categories/'
     | '/finances/debts/'
     | '/finances/tags/'
@@ -176,6 +192,7 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   SysLazyRoute: typeof SysLazyRouteWithChildren
   FinancesAccountsIndexLazyRoute: typeof FinancesAccountsIndexLazyRoute
+  FinancesBudgetsIndexLazyRoute: typeof FinancesBudgetsIndexLazyRoute
   FinancesCategoriesIndexLazyRoute: typeof FinancesCategoriesIndexLazyRoute
   FinancesDebtsIndexLazyRoute: typeof FinancesDebtsIndexLazyRoute
   FinancesTagsIndexLazyRoute: typeof FinancesTagsIndexLazyRoute
@@ -248,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinancesCategoriesIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finances/budgets/': {
+      id: '/finances/budgets/'
+      path: '/finances/budgets'
+      fullPath: '/finances/budgets'
+      preLoaderRoute: typeof FinancesBudgetsIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/finances/accounts/': {
       id: '/finances/accounts/'
       path: '/finances/accounts'
@@ -275,6 +299,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   SysLazyRoute: SysLazyRouteWithChildren,
   FinancesAccountsIndexLazyRoute: FinancesAccountsIndexLazyRoute,
+  FinancesBudgetsIndexLazyRoute: FinancesBudgetsIndexLazyRoute,
   FinancesCategoriesIndexLazyRoute: FinancesCategoriesIndexLazyRoute,
   FinancesDebtsIndexLazyRoute: FinancesDebtsIndexLazyRoute,
   FinancesTagsIndexLazyRoute: FinancesTagsIndexLazyRoute,
