@@ -35,7 +35,7 @@ const CREATE = {
 	paramsMapping: {},
 	method: EndpointMethod.POST,
 	bodyDto: z.object({
-		...BUDGET_SEGMENT_CREATE_SCHEMA.omit({ budgetId: true }).shape,
+		...BUDGET_SEGMENT_CREATE_SCHEMA.shape,
 	}),
 	responseDto: z.object({
 		...BUDGET_SEGMENT_SCHEMA.shape,
