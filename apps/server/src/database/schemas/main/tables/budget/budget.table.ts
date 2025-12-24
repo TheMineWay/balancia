@@ -17,8 +17,8 @@ export const budgetTable = budgetSchema.table(
 			.references(() => userTable.id),
 
 		// Essentials
-		fromDate: date().notNull(),
-		toDate: date().notNull(),
+		fromDate: date({ mode: "date" }).notNull(),
+		toDate: date({ mode: "date" }).notNull(),
 		name: varchar({ length: BUDGET_MODEL_VALUES.name.maxLength }).notNull(),
 		description: varchar({ length: BUDGET_MODEL_VALUES.description.maxLength }),
 		amount: moneyColumn.notNull(),
@@ -43,5 +43,8 @@ export const BUDGET_TABLE_COLUMNS = {
 
 /* Types */
 export type BudgetSelect = typeof budgetTable.$inferSelect;
-export type BudgetInsert = typeof budgetTable.$inferInsert;
+export type BudgetInsert = Omit<
+	typeof budgetTable.$inferInsert,
+	"id" | "createdAt" | "updatedAt"
+>;
 export type BudgetUpdate = Partial<BudgetInsert>;

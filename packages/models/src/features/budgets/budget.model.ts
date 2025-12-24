@@ -52,7 +52,7 @@ export const BUDGET_SCHEMA = z
 export type BudgetModel = z.infer<typeof BUDGET_SCHEMA>;
 
 /* Create */
-export const BUDGET_CREATE_SCHEMA = BUDGET_SCHEMA.pick({
+export const BUDGET_CREATE_SCHEMA = BUDGET_SCHEMA.omit({
 	id: true,
 	createdAt: true,
 	updatedAt: true,
