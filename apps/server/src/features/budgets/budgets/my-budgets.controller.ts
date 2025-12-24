@@ -18,7 +18,7 @@ import type { UserModelId } from "@shared/models";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
 import { ValidatedBody } from "src/decorators/validation/validated-body.decorator";
 import { ValidatedQuery } from "src/decorators/validation/validated-query.decorator";
-import { UserBudgetsService } from "src/features/budgets/user-budgets.service";
+import { UserBudgetsService } from "src/features/budgets/budgets/user-budgets.service";
 
 @Controller(getController(MY_BUDGET_CONTROLLER_DEFINITION, {}))
 export class MyBudgetsController {

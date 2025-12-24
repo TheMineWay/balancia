@@ -11,8 +11,8 @@ import type {
 	PaginatedSearchModel,
 	UserModelId,
 } from "@shared/models";
-import { BudgetsService } from "src/features/budgets/budgets.service";
-import { BudgetsRepository } from "src/features/budgets/repositories/budgets.repository";
+import { BudgetsService } from "src/features/budgets/budgets/budgets.service";
+import { BudgetsRepository } from "src/features/budgets/budgets/repositories/budgets.repository";
 
 @Injectable()
 export class UserBudgetsService {

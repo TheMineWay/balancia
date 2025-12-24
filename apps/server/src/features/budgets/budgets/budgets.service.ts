@@ -6,8 +6,8 @@ import {
 	BudgetCreatedEvent,
 	BudgetDeletedEvent,
 	BudgetUpdatedEvent,
-} from "src/features/budgets/budgets.events";
-import { BudgetsRepository } from "src/features/budgets/repositories/budgets.repository";
+} from "src/features/budgets/budgets/budgets.events";
+import { BudgetsRepository } from "src/features/budgets/budgets/repositories/budgets.repository";
 
 @Injectable()
 export class BudgetsService {

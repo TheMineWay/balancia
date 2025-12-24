@@ -11,7 +11,7 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { UserPreferencesModule } from "src/common/user/preferences/user-preferences.module";
 import { EventModule } from "src/events/event.module";
-import { BudgetsModule } from "src/features/budgets/budgets.module";
+import { BudgetsModule } from "src/features/budgets/budgets/budgets.module";
 import { DebtsModule } from "src/features/debts/debts.module";
 import { FinancesModule } from "src/features/finances/finances.module";
 import { SocialModule } from "src/features/social/social.module";
