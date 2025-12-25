@@ -38,8 +38,9 @@ export class BudgetSegmentsService {
 					await this.hasBudgetReachedSegmentsLimit(data.budgetId, {
 						transaction,
 					})
-				)
+				) {
 					throw new BadRequestException();
+				}
 
 				if (created)
 					this.eventService.emit(
