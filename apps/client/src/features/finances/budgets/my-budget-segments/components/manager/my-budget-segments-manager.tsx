@@ -85,7 +85,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budgetId }) => {
 				position="right"
 				opened={isCreateOpen}
 				onClose={closeCreate}
-				title={t().create.Title}
+				title={t().budget.managers.create.Title}
 			>
 				<MyBudgetSegmentCreateManager
 					onSuccess={closeCreate}
@@ -97,7 +97,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budgetId }) => {
 				position="right"
 				opened={Boolean(segmentToUpdate)}
 				onClose={() => setSegmentToUpdate(null)}
-				title={interpolated((t) => t.update.Title, {
+				title={interpolated((t) => t.budget.managers.update.Title, {
 					name: segmentToUpdate?.name ?? "",
 				})}
 			>
@@ -113,14 +113,14 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budgetId }) => {
 				open={Boolean(segmentToDelete)}
 				onClose={() => setSegmentToDelete(null)}
 				texts={{
-					title: interpolated((t) => t.delete.confirm.Title, {
+					title: interpolated((t) => t.budget.managers.delete.confirm.Title, {
 						name: segmentToDelete?.name ?? "",
 					}),
-					description: t().delete.confirm.Message,
-					confirm: t().delete.confirm.Action,
+					description: t().budget.managers.delete.confirm.Message,
+					confirm: t().budget.managers.delete.confirm.Action,
 				}}
 				writeToDelete={{
-					label: t().delete.confirm["Write-to-delete"],
+					label: t().budget.managers.delete.confirm["Write-to-delete"],
 					confirmValue: segmentToDelete?.name ?? null,
 				}}
 				confirmIcon={<MdDeleteOutline />}

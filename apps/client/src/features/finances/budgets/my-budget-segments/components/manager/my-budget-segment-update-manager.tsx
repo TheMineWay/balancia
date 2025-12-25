@@ -49,7 +49,7 @@ export const MyBudgetSegmentUpdateManager: FC<Props> = ({
 	return (
 		<BudgetSegmentForm
 			form={updateForm}
-			submitText={t().update.Submit}
+			submitText={t().budget.managers.update.Submit}
 			onSuccess={onFormSuccess}
 			submitIcon={<IoPencilOutline />}
 			isMutating={isUpdating}

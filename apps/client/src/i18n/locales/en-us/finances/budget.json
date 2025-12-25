@@ -3,6 +3,26 @@
 		"Budget": "Budget",
 		"Budget-segment": "Budget segment"
 	},
+	"budget": {
+		"managers": {
+			"create": {
+				"Title": "Create budget",
+				"Submit": "Create budget"
+			},
+			"update": {
+				"Title": "Update budget {name}",
+				"Submit": "Update budget"
+			},
+			"delete": {
+				"confirm": {
+					"Title": "Delete budget \"{name}\"",
+					"Message": "Are you sure you want to delete this budget? This action cannot be undone.",
+					"Action": "Delete budget",
+					"Write-to-delete": "Write budget name to confirm"
+				}
+			}
+		}
+	},
 	"my-budgets": {
 		"manager": {
 			"Title": "My budgets",
@@ -18,22 +38,6 @@
 			"Actions": {
 				"Create": "Create segment"
 			}
-		}
-	},
-	"create": {
-		"Title": "Create budget",
-		"Submit": "Create budget"
-	},
-	"update": {
-		"Title": "Update budget {name}",
-		"Submit": "Update budget"
-	},
-	"delete": {
-		"confirm": {
-			"Title": "Delete budget \"{name}\"",
-			"Message": "Are you sure you want to delete this budget? This action cannot be undone.",
-			"Action": "Delete budget",
-			"Write-to-delete": "Write budget name to confirm"
 		}
 	},
 	"models": {

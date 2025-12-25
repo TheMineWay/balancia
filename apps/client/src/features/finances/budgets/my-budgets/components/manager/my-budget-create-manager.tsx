@@ -40,7 +40,7 @@ export const MyBudgetCreateManager: FC<Props> = ({ onSuccess }) => {
 	return (
 		<BudgetForm
 			form={createForm}
-			submitText={t().create.Submit}
+			submitText={t().budget.managers.create.Submit}
 			onSuccess={onFormSuccess}
 			submitIcon={<IoAddOutline />}
 			isMutating={isCreating}

@@ -103,7 +103,7 @@ export const MyBudgetsManager: FC = () => {
 				position="right"
 				opened={isCreateOpen}
 				onClose={closeCreate}
-				title={t().create.Title}
+				title={t().budget.managers.create.Title}
 			>
 				<MyBudgetCreateManager onSuccess={closeCreate} />
 			</Drawer>
@@ -112,7 +112,7 @@ export const MyBudgetsManager: FC = () => {
 				position="right"
 				opened={Boolean(budgetToUpdate)}
 				onClose={() => setBudgetToUpdate(null)}
-				title={interpolated((t) => t.update.Title, {
+				title={interpolated((t) => t.budget.managers.update.Title, {
 					name: budgetToUpdate?.name ?? "",
 				})}
 			>
@@ -128,14 +128,14 @@ export const MyBudgetsManager: FC = () => {
 				open={Boolean(budgetToDelete)}
 				onClose={() => setBudgetToDelete(null)}
 				texts={{
-					title: interpolated((t) => t.delete.confirm.Title, {
+					title: interpolated((t) => t.budget.managers.delete.confirm.Title, {
 						name: budgetToDelete?.name ?? "",
 					}),
-					description: t().delete.confirm.Message,
-					confirm: t().delete.confirm.Action,
+					description: t().budget.managers.delete.confirm.Message,
+					confirm: t().budget.managers.delete.confirm.Action,
 				}}
 				writeToDelete={{
-					label: t().delete.confirm["Write-to-delete"],
+					label: t().budget.managers.delete.confirm["Write-to-delete"],
 					confirmValue: budgetToDelete?.name ?? null,
 				}}
 				confirmIcon={<MdDeleteOutline />}
