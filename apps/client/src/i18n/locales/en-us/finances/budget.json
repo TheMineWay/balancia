@@ -1,6 +1,7 @@
 {
 	"expressions": {
-		"Budget": "Budget"
+		"Budget": "Budget",
+		"Budget-segment": "Budget segment"
 	},
 	"my-budgets": {
 		"manager": {
@@ -8,6 +9,14 @@
 			"Actions": {
 				"Create": "Create budget",
 				"Manage-segments": "Manage segments"
+			}
+		}
+	},
+	"my-budget-segments": {
+		"manager": {
+			"Title": "My budget segments",
+			"Actions": {
+				"Create": "Create segment"
 			}
 		}
 	},
@@ -43,6 +52,17 @@
 			},
 			"toDate": {
 				"Label": "To date"
+			}
+		},
+		"budget-segment": {
+			"name": {
+				"Label": "Name"
+			},
+			"description": {
+				"Label": "Description"
+			},
+			"percent": {
+				"Label": "Percent"
 			}
 		}
 	},
