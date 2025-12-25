@@ -28,7 +28,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 	const { t: commonT } = useTranslation("common");
 
 	const {
-		data: segmentsData = [],
+		data: segments = [],
 		isLoading: isLoadingSegments,
 		refetch: refetchSegments,
 		isFetching: isFetchingSegments,
@@ -43,26 +43,27 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 	const [segmentToDelete, setSegmentToDelete] =
 		useState<BudgetSegmentModel | null>(null);
 
-	const segments = useMemo(
+	const filteredSegments = useMemo(
 		() =>
-			segmentsData.filter((segment) =>
+			segments.filter((segment) =>
 				segment.name
 					.toLowerCase()
 					.includes(debouncedSearch.value.toLowerCase()),
 			),
-		[segmentsData, debouncedSearch.value],
+		[segments, debouncedSearch.value],
 	);
 
 	return (
 		<>
+			{/* SUMMARY */}
+			<BudgetSummary budget={budget} segments={segments} />
+
+			{/* SEGMENTS */}
 			<ManagerLayout.Root>
 				<ManagerLayout.Title>
 					{t()["my-budget-segments"].manager.Title}
 				</ManagerLayout.Title>
 				<ManagerLayout.Content>
-					{/* SUMMARY */}
-					<BudgetSummary budget={budget} />
-
 					{/* TABLE */}
 					<TableLayout.Root>
 						<TableLayout.Actions>
@@ -74,7 +75,9 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 									size="xs"
 									onClick={openCreate}
 									leftSection={<IoAddOutline />}
-									disabled={segments.length >= BUDGET_MAX_SEGMENTS_PER_BUDGET}
+									disabled={
+										filteredSegments.length >= BUDGET_MAX_SEGMENTS_PER_BUDGET
+									}
 								>
 									{t()["my-budget-segments"].manager.Actions.Create}
 								</Button>
@@ -89,7 +92,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 						</TableLayout.Actions>
 						<TableLayout.Table>
 							<BudgetSegmentsTable
-								data={segments}
+								data={filteredSegments}
 								loading={isLoadingSegments}
 								onEditClick={setSegmentToUpdate}
 								onDeleteClick={setSegmentToDelete}
