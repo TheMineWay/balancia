@@ -6,6 +6,7 @@ import { useTable } from "@common/extended-ui/table/hooks/use-table";
 import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Group } from "@mantine/core";
 import type { BudgetModel } from "@shared/models";
+import { Link } from "@tanstack/react-router";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import { MdOutlineCategory } from "react-icons/md";
 
@@ -16,7 +17,9 @@ type Props<T extends BudgetModel> = {
 	// Events
 	onEditClick?: (item: T) => void;
 	onDeleteClick?: (item: T) => void;
-	onSegmentClick?: (item: T) => void;
+
+	// Actions
+	segmentPlannerEnabled?: boolean;
 };
 
 export const BudgetsTable = <T extends BudgetModel = BudgetModel>({
@@ -26,7 +29,7 @@ export const BudgetsTable = <T extends BudgetModel = BudgetModel>({
 	// Events
 	onEditClick,
 	onDeleteClick,
-	onSegmentClick,
+	segmentPlannerEnabled = true,
 }: Readonly<Props<T>>) => {
 	const { t } = useTranslation("budget");
 	const { t: commonT } = useTranslation("common");
@@ -62,16 +65,20 @@ export const BudgetsTable = <T extends BudgetModel = BudgetModel>({
 				label: commonT().expressions.Actions,
 				render: (item) => (
 					<Group>
-						{onSegmentClick && (
-							<ActionIcon
-								{...TABLE_ACTION_PROPS.default}
-								onClick={() => onSegmentClick(item)}
-								aria-label={
-									t()["my-budgets"].manager.Actions["Manage-segments"]
-								}
+						{segmentPlannerEnabled && (
+							<Link
+								to="/finances/budgets/segments/$segment-id"
+								params={{ "segment-id": item.id.toString() }}
 							>
-								<MdOutlineCategory />
-							</ActionIcon>
+								<ActionIcon
+									{...TABLE_ACTION_PROPS.default}
+									aria-label={
+										t()["my-budgets"].manager.Actions["Manage-segments"]
+									}
+								>
+									<MdOutlineCategory />
+								</ActionIcon>
+							</Link>
 						)}
 						{onEditClick && (
 							<ActionIcon
