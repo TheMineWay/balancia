@@ -1,4 +1,4 @@
-import { BudgetSegmentsDistributionChart } from "@fts/finances/budgets/charts/budget-segments-distribution.chart";
+import { BudgetSegmentsUsageChart } from "@fts/finances/budgets/charts/budget-segments-usage.chart";
 import { Title } from "@mantine/core";
 import type { BudgetModel, BudgetSegmentModel } from "@shared/models";
 
@@ -14,7 +14,7 @@ export const BudgetSummary: FC<Props> = ({ budget, segments }) => {
 
 			{/* Segment usage chart */}
 			<div className="h-20">
-				<BudgetSegmentsDistributionChart segments={segments} />
+				<BudgetSegmentsUsageChart segments={segments} />
 			</div>
 		</div>
 	);

@@ -14,7 +14,7 @@ type Props = {
 	segments: BudgetSegmentModel[];
 };
 
-export const BudgetSegmentsDistributionChart: FC<Props> = ({ segments }) => {
+export const BudgetSegmentsUsageChart: FC<Props> = ({ segments }) => {
 	const { t } = useTranslation("charts");
 
 	const { control } = useChart("bar");
