@@ -13,7 +13,7 @@ import type {
 	BudgetSegmentModel,
 	UserModelId,
 } from "@shared/models";
-import { and, desc, eq } from "drizzle-orm";
+import { and, count, desc, eq } from "drizzle-orm";
 
 @Injectable()
 export class BudgetSegmentsRepository extends Repository {
@@ -93,5 +93,21 @@ export class BudgetSegmentsRepository extends Repository {
 			.limit(1);
 
 		return result?.[0] || null;
+	}
+
+	/**
+	 * Counts the number of segments for a given budget ID.
+	 */
+	async countyBudgetId(
+		budgetId: BudgetModel["id"],
+		options?: QueryOptions,
+	): Promise<number> {
+		const result = await this.query(options)
+			.select({ count: count() })
+			.from(budgetSegmentTable)
+			.where(eq(budgetSegmentTable.budgetId, budgetId))
+			.limit(1);
+
+		return result?.[0]?.count || 0;
 	}
 }

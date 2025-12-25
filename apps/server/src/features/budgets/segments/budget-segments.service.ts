@@ -1,6 +1,10 @@
+import { DATABASE_PROVIDERS } from "@database/database.provider";
 import type { QueryOptions } from "@database/repository/repository";
-import { Injectable } from "@nestjs/common";
+import { DatabaseService } from "@database/services/database.service";
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
+import { BUDGET_MAX_SEGMENTS_PER_BUDGET } from "@shared/constants";
 import type {
+	BudgetModel,
 	BudgetSegmentCreateModel,
 	BudgetSegmentModel,
 } from "@shared/models";
@@ -17,20 +21,34 @@ export class BudgetSegmentsService {
 	constructor(
 		private readonly budgetSegmentsRepository: BudgetSegmentsRepository,
 		private readonly eventService: EventService,
+		@Inject(DATABASE_PROVIDERS.main)
+		private readonly databaseService: DatabaseService,
 	) {}
 
 	async create(
 		data: BudgetSegmentCreateModel,
 		options?: QueryOptions,
 	): Promise<BudgetSegmentModel | null> {
-		const created = await this.budgetSegmentsRepository.create(data, options);
+		return await (options?.transaction ?? this.databaseService.db).transaction(
+			async (transaction) => {
+				const created = await this.budgetSegmentsRepository.create(data, {
+					transaction,
+				});
+				if (
+					await this.hasBudgetReachedSegmentsLimit(data.budgetId, {
+						transaction,
+					})
+				)
+					throw new BadRequestException();
 
-		if (created)
-			this.eventService.emit(
-				new BudgetSegmentCreatedEvent({ budgetSegment: created }),
-			);
+				if (created)
+					this.eventService.emit(
+						new BudgetSegmentCreatedEvent({ budgetSegment: created }),
+					);
 
-		return created;
+				return created;
+			},
+		);
 	}
 
 	async updateById(
@@ -60,4 +78,20 @@ export class BudgetSegmentsService {
 
 		this.eventService.emit(new BudgetSegmentDeletedEvent({ segmentId }));
 	}
+
+	// #region Checks
+
+	async hasBudgetReachedSegmentsLimit(
+		budgetId: BudgetModel["id"],
+		options?: QueryOptions,
+	) {
+		const segmentsCount = await this.budgetSegmentsRepository.countyBudgetId(
+			budgetId,
+			options,
+		);
+
+		return segmentsCount >= BUDGET_MAX_SEGMENTS_PER_BUDGET;
+	}
+
+	// #endregion
 }
