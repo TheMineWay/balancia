@@ -8,7 +8,7 @@ type Props = {
 export const MyBudgetSegmentsDashboard: FC<Props> = ({ budget }) => {
 	return (
 		<div>
-			<MyBudgetSegmentsManager budgetId={budget.id} />
+			<MyBudgetSegmentsManager budget={budget} />
 		</div>
 	);
 };

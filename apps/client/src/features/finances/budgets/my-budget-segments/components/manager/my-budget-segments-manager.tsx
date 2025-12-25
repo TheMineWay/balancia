@@ -1,6 +1,7 @@
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
 import { useDebouncedSearch } from "@common/extended-ui/form/components/search/use-debounced-search";
 import { DangerousActionConfirm } from "@common/verifications/dangerous-action/components/dangerous-action-confirm";
+import { BudgetSummary } from "@fts/finances/budgets/budgets/components/summary/budget-summary";
 import { useMyBudgetSegmentDeleteByIdMutation } from "@fts/finances/budgets/my-budget-segments/api/use-my-budget-segment-delete-by-id.mutation";
 import { useMyBudgetSegmentsByBudgetQuery } from "@fts/finances/budgets/my-budget-segments/api/use-my-budget-segments-by-budget.query";
 import { MyBudgetSegmentCreateManager } from "@fts/finances/budgets/my-budget-segments/components/manager/my-budget-segment-create-manager";
@@ -19,10 +20,10 @@ import { IoAddOutline, IoReload } from "react-icons/io5";
 import { MdDeleteOutline } from "react-icons/md";
 
 type Props = {
-	budgetId: BudgetModel["id"];
+	budget: BudgetModel;
 };
 
-export const MyBudgetSegmentsManager: FC<Props> = ({ budgetId }) => {
+export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 	const { t, interpolated } = useTranslation("budget");
 	const { t: commonT } = useTranslation("common");
 
@@ -31,7 +32,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budgetId }) => {
 		isLoading: isLoadingSegments,
 		refetch: refetchSegments,
 		isFetching: isFetchingSegments,
-	} = useMyBudgetSegmentsByBudgetQuery({ budgetId });
+	} = useMyBudgetSegmentsByBudgetQuery({ budgetId: budget.id });
 	const { mutate: deleteSegment } = useMyBudgetSegmentDeleteByIdMutation();
 	const debouncedSearch = useDebouncedSearch();
 
@@ -59,6 +60,9 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budgetId }) => {
 					{t()["my-budget-segments"].manager.Title}
 				</ManagerLayout.Title>
 				<ManagerLayout.Content>
+					{/* SUMMARY */}
+					<BudgetSummary budget={budget} />
+
 					{/* TABLE */}
 					<TableLayout.Root>
 						<TableLayout.Actions>
@@ -104,7 +108,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budgetId }) => {
 			>
 				<MyBudgetSegmentCreateManager
 					onSuccess={closeCreate}
-					budgetId={budgetId}
+					budgetId={budget.id}
 				/>
 			</Drawer>
 
