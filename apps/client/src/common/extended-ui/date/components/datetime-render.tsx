@@ -1,4 +1,4 @@
-import { Text } from "@mantine/core";
+import { Text, type TextProps } from "@mantine/core";
 import { format } from "date-fns";
 import { useMemo } from "react";
 
@@ -7,6 +7,7 @@ type DateModes = "short" | "long";
 type Props = {
 	date: Date;
 	mode?: DateModes;
+	textProps?: TextProps;
 };
 
 const MODES: Record<DateModes, string> = {
@@ -18,8 +19,12 @@ const MODES: Record<DateModes, string> = {
  * Component for rendering formatted datetime strings with predefined formats.
  * Supports both short and long date/time display modes.
  */
-export const DatetimeRender: FC<Props> = ({ date, mode = "short" }) => {
+export const DatetimeRender: FC<Props> = ({
+	date,
+	mode = "short",
+	textProps,
+}) => {
 	const value = useMemo(() => format(date, MODES[mode]), [date, mode]);
 
-	return <Text>{value}</Text>;
+	return <Text {...textProps}>{value}</Text>;
 };

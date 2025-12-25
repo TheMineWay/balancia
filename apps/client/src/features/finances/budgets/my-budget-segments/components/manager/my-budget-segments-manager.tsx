@@ -94,6 +94,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 							<BudgetSegmentsTable
 								data={filteredSegments}
 								loading={isLoadingSegments}
+								budget={budget}
 								onEditClick={setSegmentToUpdate}
 								onDeleteClick={setSegmentToDelete}
 							/>

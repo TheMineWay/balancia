@@ -1,14 +1,18 @@
+import { RenderCurrency } from "@common/extended-ui/currency/render-currency";
 import { Table } from "@common/extended-ui/table/components/table";
 import { TABLE_ACTION_PROPS } from "@common/extended-ui/table/constants/table.constants";
 import { useTable } from "@common/extended-ui/table/hooks/use-table";
 import { useTranslation } from "@i18n/use-translation";
-import { ActionIcon, Group } from "@mantine/core";
-import type { BudgetSegmentModel } from "@shared/models";
+import { ActionIcon, Badge, Group, Text } from "@mantine/core";
+import type { BudgetModel, BudgetSegmentModel } from "@shared/models";
 import { BiEdit, BiTrash } from "react-icons/bi";
 
 type Props<T extends BudgetSegmentModel> = {
 	data?: T[];
 	loading?: boolean;
+
+	// Budget
+	budget?: BudgetModel;
 
 	// Events
 	onEditClick?: (item: T) => void;
@@ -20,6 +24,9 @@ export const BudgetSegmentsTable = <
 >({
 	data = [],
 	loading = false,
+
+	// Budget
+	budget,
 
 	// Events
 	onEditClick,
@@ -43,7 +50,19 @@ export const BudgetSegmentsTable = <
 			{
 				label: t().models["budget-segment"].percent.Label,
 				accessorKey: "percent",
-				render: (item) => `${item.percent}%`,
+				render: (item) => (
+					<Group gap="xs">
+						<Text>{`${item.percent}%`}</Text>
+						{budget && (
+							<Badge variant="outline" size="sm">
+								<RenderCurrency
+									amount={(budget.amount * item.percent) / 100}
+									size="sm"
+								/>
+							</Badge>
+						)}
+					</Group>
+				),
 			},
 			{
 				label: commonT().expressions.Actions,

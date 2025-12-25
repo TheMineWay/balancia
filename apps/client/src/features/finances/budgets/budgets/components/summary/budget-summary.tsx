@@ -1,8 +1,17 @@
 import { RenderCurrency } from "@common/extended-ui/currency/render-currency";
 import { DateRender } from "@common/extended-ui/date/components/date-render";
 import { BudgetSegmentsUsageChart } from "@fts/finances/budgets/charts/budget-segments-usage.chart";
-import { Accordion, Badge, Divider, Flex, Text, Title } from "@mantine/core";
+import {
+	Accordion,
+	Badge,
+	Divider,
+	Flex,
+	Group,
+	Text,
+	Title,
+} from "@mantine/core";
 import type { BudgetModel, BudgetSegmentModel } from "@shared/models";
+import { BiMoney } from "react-icons/bi";
 import { IoArrowForward } from "react-icons/io5";
 
 type Props = {
@@ -17,21 +26,32 @@ export const BudgetSummary: FC<Props> = ({ budget, segments }) => {
 			<Accordion>
 				<Accordion.Item value="summary">
 					<Accordion.Control>
-						<Flex wrap="wrap" gap="sm" align="center">
+						<Flex wrap="wrap" gap="sm" align="center" className="mb-2">
 							<Title>{budget.name}</Title>
 							<Divider orientation="vertical" />
 
 							{/* Budget metadata */}
 							<Badge size="lg">
-								<RenderCurrency amount={budget.amount} />
+								<Group gap="xs">
+									<BiMoney />
+									<RenderCurrency amount={budget.amount} />
+								</Group>
 							</Badge>
-							<Badge variant="outline" size="lg">
+							<Badge variant="outline" size="sm">
 								<Flex align="center">
-									<DateRender date={budget.fromDate} mode="long" />
+									<DateRender
+										date={budget.fromDate}
+										mode="long"
+										textProps={{ size: "sm" }}
+									/>
 									<span className="mx-1">
 										<IoArrowForward />
 									</span>
-									<DateRender date={budget.toDate} mode="long" />
+									<DateRender
+										date={budget.toDate}
+										mode="long"
+										textProps={{ size: "sm" }}
+									/>
 								</Flex>
 							</Badge>
 						</Flex>
