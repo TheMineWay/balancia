@@ -6,7 +6,8 @@
 		"manager": {
 			"Title": "My budgets",
 			"Actions": {
-				"Create": "Create budget"
+				"Create": "Create budget",
+				"Manage-segments": "Manage segments"
 			}
 		}
 	},

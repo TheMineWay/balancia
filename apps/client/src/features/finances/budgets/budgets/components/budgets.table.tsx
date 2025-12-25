@@ -7,6 +7,7 @@ import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Group } from "@mantine/core";
 import type { BudgetModel } from "@shared/models";
 import { BiEdit, BiTrash } from "react-icons/bi";
+import { MdOutlineCategory } from "react-icons/md";
 
 type Props<T extends BudgetModel> = {
 	data?: T[];
@@ -15,6 +16,7 @@ type Props<T extends BudgetModel> = {
 	// Events
 	onEditClick?: (item: T) => void;
 	onDeleteClick?: (item: T) => void;
+	onSegmentClick?: (item: T) => void;
 };
 
 export const BudgetsTable = <T extends BudgetModel = BudgetModel>({
@@ -24,6 +26,7 @@ export const BudgetsTable = <T extends BudgetModel = BudgetModel>({
 	// Events
 	onEditClick,
 	onDeleteClick,
+	onSegmentClick,
 }: Readonly<Props<T>>) => {
 	const { t } = useTranslation("budget");
 	const { t: commonT } = useTranslation("common");
@@ -59,6 +62,17 @@ export const BudgetsTable = <T extends BudgetModel = BudgetModel>({
 				label: commonT().expressions.Actions,
 				render: (item) => (
 					<Group>
+						{onSegmentClick && (
+							<ActionIcon
+								{...TABLE_ACTION_PROPS.default}
+								onClick={() => onSegmentClick(item)}
+								aria-label={
+									t()["my-budgets"].manager.Actions["Manage-segments"]
+								}
+							>
+								<MdOutlineCategory />
+							</ActionIcon>
+						)}
 						{onEditClick && (
 							<ActionIcon
 								{...TABLE_ACTION_PROPS.default}
