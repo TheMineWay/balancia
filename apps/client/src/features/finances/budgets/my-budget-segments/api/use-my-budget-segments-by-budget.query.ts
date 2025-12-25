@@ -35,7 +35,7 @@ export const useMyBudgetSegmentsByBudgetQuery = ({ budgetId }: Options) => {
 				{},
 			)();
 
-			return response;
+			return response.segments;
 		},
 		queryKey: USE_MY_BUDGET_SEGMENTS_BY_BUDGET_QUERY_KEY({
 			budgetId,

@@ -1,3 +1,5 @@
+import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
+import { useDebouncedSearch } from "@common/extended-ui/form/components/search/use-debounced-search";
 import { DangerousActionConfirm } from "@common/verifications/dangerous-action/components/dangerous-action-confirm";
 import { useMyBudgetSegmentDeleteByIdMutation } from "@fts/finances/budgets/my-budget-segments/api/use-my-budget-segment-delete-by-id.mutation";
 import { useMyBudgetSegmentsByBudgetQuery } from "@fts/finances/budgets/my-budget-segments/api/use-my-budget-segments-by-budget.query";
@@ -10,8 +12,9 @@ import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
 import { ActionIcon, Button, Drawer } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { BUDGET_MAX_SEGMENTS_PER_BUDGET } from "@shared/constants";
 import type { BudgetModel, BudgetSegmentModel } from "@shared/models";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { IoAddOutline, IoReload } from "react-icons/io5";
 import { MdDeleteOutline } from "react-icons/md";
 
@@ -24,12 +27,13 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budgetId }) => {
 	const { t: commonT } = useTranslation("common");
 
 	const {
-		data: segmentsData,
+		data: segmentsData = [],
 		isLoading: isLoadingSegments,
 		refetch: refetchSegments,
 		isFetching: isFetchingSegments,
 	} = useMyBudgetSegmentsByBudgetQuery({ budgetId });
 	const { mutate: deleteSegment } = useMyBudgetSegmentDeleteByIdMutation();
+	const debouncedSearch = useDebouncedSearch();
 
 	const [isCreateOpen, { open: openCreate, close: closeCreate }] =
 		useDisclosure();
@@ -37,6 +41,16 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budgetId }) => {
 		useState<BudgetSegmentModel | null>(null);
 	const [segmentToDelete, setSegmentToDelete] =
 		useState<BudgetSegmentModel | null>(null);
+
+	const segments = useMemo(
+		() =>
+			segmentsData.filter((segment) =>
+				segment.name
+					.toLowerCase()
+					.includes(debouncedSearch.value.toLowerCase()),
+			),
+		[segmentsData, debouncedSearch.value],
+	);
 
 	return (
 		<>
@@ -49,13 +63,14 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budgetId }) => {
 					<TableLayout.Root>
 						<TableLayout.Actions>
 							<ActionsLayout.Row>
-								{/* TODO: search (even it is client side) */}
+								<DebouncedSearch size="xs" manager={debouncedSearch} />
 							</ActionsLayout.Row>
 							<ActionsLayout.Row>
 								<Button
 									size="xs"
 									onClick={openCreate}
 									leftSection={<IoAddOutline />}
+									disabled={segments.length >= BUDGET_MAX_SEGMENTS_PER_BUDGET}
 								>
 									{t()["my-budget-segments"].manager.Actions.Create}
 								</Button>
@@ -70,7 +85,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budgetId }) => {
 						</TableLayout.Actions>
 						<TableLayout.Table>
 							<BudgetSegmentsTable
-								data={segmentsData?.segments}
+								data={segments}
 								loading={isLoadingSegments}
 								onEditClick={setSegmentToUpdate}
 								onDeleteClick={setSegmentToDelete}
