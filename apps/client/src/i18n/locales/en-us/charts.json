@@ -11,7 +11,9 @@
         "segments-distribution": {
             "Title": "Budget segments distribution",
             "expressions": {
-                "Remaining": "Remaining"
+                "Remaining": "Remaining",
+                "In-use": "In use",
+                "Outbound": "Outbound"
             }
         }
     }

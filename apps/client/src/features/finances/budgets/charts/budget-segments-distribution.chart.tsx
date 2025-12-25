@@ -3,9 +3,12 @@ import { useChart } from "@common/extended-ui/chart/hooks/use-chart";
 import { useTranslation } from "@i18n/use-translation";
 import { Flex, Pill } from "@mantine/core";
 import { ResponsiveBar } from "@nivo/bar";
+import { BUDGET_MAX_SEGMENTS_PER_BUDGET } from "@shared/constants";
 import type { BudgetSegmentModel } from "@shared/models";
 import { useMemo } from "react";
 import { IoAlert } from "react-icons/io5";
+
+const REMAINING_ID = BUDGET_MAX_SEGMENTS_PER_BUDGET + 1;
 
 type Props = {
 	segments: BudgetSegmentModel[];
@@ -24,13 +27,13 @@ export const BudgetSegmentsDistributionChart: FC<Props> = ({ segments }) => {
 			};
 		});
 
-		map[0] = {
+		map[REMAINING_ID] = {
 			name: t().budget["segments-distribution"].expressions.Remaining,
 		};
 		return map;
 	}, [segments, t]);
 
-	const { data } = useMemo(() => {
+	const { data, remainingPercent } = useMemo(() => {
 		const remainingPercent = Math.max(
 			0,
 			100 -
@@ -48,13 +51,29 @@ export const BudgetSegmentsDistributionChart: FC<Props> = ({ segments }) => {
 		}, {});
 
 		if (remainingPercent > 0) {
-			data[0] = remainingPercent;
+			data[REMAINING_ID] = remainingPercent;
 		}
 
 		data["budget"] = "";
 
 		return { data, remainingPercent };
 	}, [segments]);
+
+	const markers = useMemo(() => {
+		if (remainingPercent === 0) return [];
+		return [
+			{
+				value: 100 - remainingPercent,
+				axis: "x",
+				lineStyle: {
+					stroke: "red",
+					strokeWidth: 2,
+					strokeDasharray: "4 4",
+				},
+				legend: t().budget["segments-distribution"].expressions["In-use"],
+			},
+		] as const;
+	}, [remainingPercent, t]);
 
 	return (
 		<ChartWrapper
@@ -74,17 +93,25 @@ export const BudgetSegmentsDistributionChart: FC<Props> = ({ segments }) => {
 					{
 						value: 100,
 						axis: "x",
+						legend: t().budget["segments-distribution"].expressions.Outbound,
 					},
+					...markers,
 				]}
 				tooltip={(op) => (
 					<Pill
 						styles={{
-							root: { backgroundColor: op.id === "0" ? "red" : undefined },
-							label: { color: op.id === "0" ? "white" : undefined },
+							root: {
+								backgroundColor:
+									op.id === REMAINING_ID.toString() ? "red" : undefined,
+							},
+							label: {
+								color: op.id === REMAINING_ID.toString() ? "white" : undefined,
+							},
 						}}
 					>
 						<Flex gap="xs" align="center" className="bg-content">
-							{op.id === "0" && <IoAlert />} {segmentsMap[op.id]?.name}
+							{op.id === REMAINING_ID.toString() && <IoAlert />}{" "}
+							{segmentsMap[op.id]?.name}
 						</Flex>
 					</Pill>
 				)}
