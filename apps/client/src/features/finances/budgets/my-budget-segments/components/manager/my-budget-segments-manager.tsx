@@ -53,6 +53,11 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 		[segments, debouncedSearch.value],
 	);
 
+	const percentInUse = useMemo(
+		() => segments.reduce((total, segment) => total + segment.percent, 0),
+		[segments],
+	);
+
 	return (
 		<>
 			{/* SUMMARY */}
@@ -113,6 +118,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 				<MyBudgetSegmentCreateManager
 					onSuccess={closeCreate}
 					budgetId={budget.id}
+					maxPercent={100 - percentInUse}
 				/>
 			</Drawer>
 
@@ -128,6 +134,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 					<MyBudgetSegmentUpdateManager
 						onSuccess={() => setSegmentToUpdate(null)}
 						segment={segmentToUpdate}
+						maxPercent={100 - (percentInUse - segmentToUpdate.percent)}
 					/>
 				)}
 			</Drawer>

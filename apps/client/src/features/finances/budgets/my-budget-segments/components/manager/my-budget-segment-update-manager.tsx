@@ -21,11 +21,15 @@ const SCHEMA = z
 type Props = {
 	onSuccess?: (segmentInfo: Omit<BudgetSegmentCreateModel, "budgetId">) => void;
 	segment: BudgetSegmentModel;
+
+	// Optional maximum percent to set on the percent field
+	maxPercent?: number;
 };
 
 export const MyBudgetSegmentUpdateManager: FC<Props> = ({
 	onSuccess,
 	segment,
+	maxPercent = 100,
 }) => {
 	const { t } = useTranslation("budget");
 	const { mutate: updateSegment, isPending: isUpdating } =
@@ -53,6 +57,7 @@ export const MyBudgetSegmentUpdateManager: FC<Props> = ({
 			onSuccess={onFormSuccess}
 			submitIcon={<IoPencilOutline />}
 			isMutating={isUpdating}
+			maxPercent={maxPercent}
 		/>
 	);
 };

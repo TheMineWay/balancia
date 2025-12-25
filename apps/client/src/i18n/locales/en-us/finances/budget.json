@@ -37,6 +37,11 @@
 			"Title": "My budget segments",
 			"Actions": {
 				"Create": "Create segment"
+			},
+			"fields": {
+				"percent": {
+					"Max-percent": "Maximum is {maxPercent}%"
+				}
 			}
 		}
 	},

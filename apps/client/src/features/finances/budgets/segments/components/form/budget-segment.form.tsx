@@ -15,6 +15,9 @@ type Props = {
 	submitText: string;
 	submitIcon?: React.ReactNode;
 	isMutating?: boolean;
+
+	// Optional maximum percent to set on the percent field
+	maxPercent?: number;
 };
 
 export const BudgetSegmentForm: FC<Props> = ({
@@ -23,8 +26,9 @@ export const BudgetSegmentForm: FC<Props> = ({
 	form,
 	isMutating,
 	onSuccess,
+	maxPercent = 100,
 }) => {
-	const { t } = useTranslation("budget");
+	const { t, interpolated } = useTranslation("budget");
 
 	const percentFieldId = useId();
 
@@ -69,11 +73,32 @@ export const BudgetSegmentForm: FC<Props> = ({
 				name="percent"
 				render={({ field, fieldState }) => (
 					<Input.Wrapper
-						label={t().models["budget-segment"].percent.Label}
+						label={
+							<span>
+								{t().models["budget-segment"].percent.Label}
+								{maxPercent !== 100 && (
+									<small className="ml-1">
+										(
+										{interpolated(
+											(t) =>
+												t["my-budget-segments"].manager.fields.percent[
+													"Max-percent"
+												],
+											{ maxPercent: maxPercent.toString() },
+										)}
+										)
+									</small>
+								)}
+							</span>
+						}
 						labelProps={{ htmlFor: percentFieldId }}
 						error={fieldState.error?.message}
 					>
-						<PercentInputField id={percentFieldId} {...field} />
+						<PercentInputField
+							id={percentFieldId}
+							max={maxPercent}
+							{...field}
+						/>
 					</Input.Wrapper>
 				)}
 			/>

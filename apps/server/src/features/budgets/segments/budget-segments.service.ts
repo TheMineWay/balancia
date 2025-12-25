@@ -31,13 +31,24 @@ export class BudgetSegmentsService {
 	): Promise<BudgetSegmentModel | null> {
 		return await (options?.transaction ?? this.databaseService.db).transaction(
 			async (transaction) => {
-				const created = await this.budgetSegmentsRepository.create(data, {
-					transaction,
-				});
+				// Check if budget has reached segments limit
 				if (
 					await this.hasBudgetReachedSegmentsLimit(data.budgetId, {
 						transaction,
 					})
+				) {
+					throw new BadRequestException();
+				}
+
+				const created = await this.budgetSegmentsRepository.create(data, {
+					transaction,
+				});
+
+				// Ensure total percent does not exceed 100%
+				if (
+					(await this.getTotalPercentByBudgetId(data.budgetId, {
+						transaction,
+					})) > 100
 				) {
 					throw new BadRequestException();
 				}
@@ -57,18 +68,32 @@ export class BudgetSegmentsService {
 		data: Partial<BudgetSegmentCreateModel>,
 		options?: QueryOptions,
 	): Promise<BudgetSegmentModel | null> {
-		const updated = await this.budgetSegmentsRepository.updateById(
-			segmentId,
-			data,
-			options,
+		return await (options?.transaction ?? this.databaseService.db).transaction(
+			async (transaction) => {
+				const updated = await this.budgetSegmentsRepository.updateById(
+					segmentId,
+					data,
+					{ transaction },
+				);
+				if (!updated) return null;
+
+				// Ensure total percent does not exceed 100%
+				if (
+					(await this.getTotalPercentByBudgetId(updated.budgetId, {
+						transaction,
+					})) > 100
+				) {
+					throw new BadRequestException();
+				}
+
+				if (updated)
+					this.eventService.emit(
+						new BudgetSegmentUpdatedEvent({ budgetSegment: updated }),
+					);
+
+				return updated;
+			},
 		);
-
-		if (updated)
-			this.eventService.emit(
-				new BudgetSegmentUpdatedEvent({ budgetSegment: updated }),
-			);
-
-		return updated;
 	}
 
 	async deleteById(
@@ -80,13 +105,27 @@ export class BudgetSegmentsService {
 		this.eventService.emit(new BudgetSegmentDeletedEvent({ segmentId }));
 	}
 
+	// # region Stats
+
+	async getTotalPercentByBudgetId(
+		budgetId: BudgetModel["id"],
+		options?: QueryOptions,
+	): Promise<number> {
+		return await this.budgetSegmentsRepository.getTotalPercentByBudgetId(
+			budgetId,
+			options,
+		);
+	}
+
+	// #endregion
+
 	// #region Checks
 
 	async hasBudgetReachedSegmentsLimit(
 		budgetId: BudgetModel["id"],
 		options?: QueryOptions,
 	) {
-		const segmentsCount = await this.budgetSegmentsRepository.countyBudgetId(
+		const segmentsCount = await this.budgetSegmentsRepository.countByBudgetId(
 			budgetId,
 			options,
 		);

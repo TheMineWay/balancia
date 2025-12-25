@@ -13,7 +13,7 @@ import type {
 	BudgetSegmentModel,
 	UserModelId,
 } from "@shared/models";
-import { and, count, desc, eq } from "drizzle-orm";
+import { and, count, desc, eq, sum } from "drizzle-orm";
 
 @Injectable()
 export class BudgetSegmentsRepository extends Repository {
@@ -95,10 +95,29 @@ export class BudgetSegmentsRepository extends Repository {
 		return result?.[0] || null;
 	}
 
+	// #region Stats
+
+	async getTotalPercentByBudgetId(
+		budgetId: BudgetModel["id"],
+		options?: QueryOptions,
+	): Promise<number> {
+		const result = await this.query(options)
+			.select({ totalPercent: sum(budgetSegmentTable.percent) })
+			.from(budgetSegmentTable)
+			.where(eq(budgetSegmentTable.budgetId, budgetId))
+			.limit(1);
+
+		const count = result?.[0]?.totalPercent;
+		if (typeof count === "string") return +count;
+		return 0;
+	}
+
+	// # endregion
+
 	/**
 	 * Counts the number of segments for a given budget ID.
 	 */
-	async countyBudgetId(
+	async countByBudgetId(
 		budgetId: BudgetModel["id"],
 		options?: QueryOptions,
 	): Promise<number> {

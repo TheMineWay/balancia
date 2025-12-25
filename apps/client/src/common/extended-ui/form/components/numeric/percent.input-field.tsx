@@ -25,7 +25,7 @@ export const PercentInputField: FC<PercentInputFieldProps> = ({
 			allowNegative={false}
 			min={min}
 			max={max}
-			value={value ?? 0}
+			value={value}
 			onChange={(v) => onChange?.(+v)}
 			{...props}
 		/>
