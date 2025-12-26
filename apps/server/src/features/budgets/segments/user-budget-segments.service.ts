@@ -23,7 +23,7 @@ export class UserBudgetSegmentsService {
 		private readonly userBudgetsService: UserBudgetsService,
 	) {}
 
-	private async checkOwnership(
+	async checkOwnership(
 		userId: UserModelId,
 		segmentId: BudgetSegmentModel["id"],
 		options?: QueryOptions,
