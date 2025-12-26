@@ -1,4 +1,3 @@
-import { ID_SCHEMA } from "@/common/__system/id.model";
 import { BUDGET_SEGMENT_IMPUTATION_SCHEMA } from "@/features/budgets/imputation/budget-segment-imputation.model";
 import { CATEGORY_SCHEMA } from "@/features/finances/category/category.model";
 import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
@@ -9,11 +8,8 @@ import z from "zod";
  * Represents the history of automatic imputations for budget segment by categories.
  */
 export const BUDGET_SEGMENT_CATEGORY_AUTO_IMPUTATION_HISTORY_SCHEMA = z.object({
-	id: ID_SCHEMA,
-
-	//References
+	historyImputationId: BUDGET_SEGMENT_IMPUTATION_SCHEMA.shape.id, // Identifier
 	categoryId: CATEGORY_SCHEMA.shape.id,
-	imputationId: BUDGET_SEGMENT_IMPUTATION_SCHEMA.shape.id,
 
 	// Timestamps
 	...TIMESTAMPS_SCHEMA.shape,

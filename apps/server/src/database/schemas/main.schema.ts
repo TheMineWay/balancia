@@ -1,7 +1,10 @@
 // Identity
 
 export { timePrecisionEnum } from "@database/schemas/main/enums/time-precision.db-enum";
+export { budgetSegmentAutoImputationHistoryTable } from "@database/schemas/main/tables/budget/budget-segment-auto-imputation-history.table";
+export { budgetSegmentCategoryAutoImputationHistoryTable } from "@database/schemas/main/tables/budget/budget-segment-category-auto-imputation-history.table";
 export { budgetSegmentCategoryTable } from "@database/schemas/main/tables/budget/budget-segment-category.table";
+export { budgetSegmentImputationTable } from "@database/schemas/main/tables/budget/budget-segment-imputation.table";
 export { budgetSegmentTable } from "@database/schemas/main/tables/budget/budget-segment.table";
 export { budgetSchema } from "@database/schemas/main/tables/budget/budget.schema";
 export { budgetTable } from "@database/schemas/main/tables/budget/budget.table";
