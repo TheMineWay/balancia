@@ -55,7 +55,7 @@ export const MyBudgetSegmentCreateManager: FC<Props> = ({
 	return (
 		<BudgetSegmentForm
 			form={createForm}
-			submitText={t().budget.managers.create.Submit}
+			submitText={t()["budget-segment"].managers.create.Submit}
 			onSuccess={onFormSuccess}
 			submitIcon={<IoAddOutline />}
 			isMutating={isCreating}

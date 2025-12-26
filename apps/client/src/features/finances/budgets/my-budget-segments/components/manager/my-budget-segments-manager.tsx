@@ -113,7 +113,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 				position="right"
 				opened={isCreateOpen}
 				onClose={closeCreate}
-				title={t().budget.managers.create.Title}
+				title={t()["budget-segment"].managers.create.Title}
 			>
 				<MyBudgetSegmentCreateManager
 					onSuccess={closeCreate}
@@ -126,7 +126,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 				position="right"
 				opened={Boolean(segmentToUpdate)}
 				onClose={() => setSegmentToUpdate(null)}
-				title={interpolated((t) => t.budget.managers.update.Title, {
+				title={interpolated((t) => t["budget-segment"].managers.update.Title, {
 					name: segmentToUpdate?.name ?? "",
 				})}
 			>
@@ -143,14 +143,18 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 				open={Boolean(segmentToDelete)}
 				onClose={() => setSegmentToDelete(null)}
 				texts={{
-					title: interpolated((t) => t.budget.managers.delete.confirm.Title, {
-						name: segmentToDelete?.name ?? "",
-					}),
-					description: t().budget.managers.delete.confirm.Message,
-					confirm: t().budget.managers.delete.confirm.Action,
+					title: interpolated(
+						(t) => t["budget-segment"].managers.delete.confirm.Title,
+						{
+							name: segmentToDelete?.name ?? "",
+						},
+					),
+					description: t()["budget-segment"].managers.delete.confirm.Message,
+					confirm: t()["budget-segment"].managers.delete.confirm.Action,
 				}}
 				writeToDelete={{
-					label: t().budget.managers.delete.confirm["Write-to-delete"],
+					label:
+						t()["budget-segment"].managers.delete.confirm["Write-to-delete"],
 					confirmValue: segmentToDelete?.name ?? null,
 				}}
 				confirmIcon={<MdDeleteOutline />}
