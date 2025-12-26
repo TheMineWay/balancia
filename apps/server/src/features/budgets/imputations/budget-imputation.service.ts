@@ -4,12 +4,19 @@ import type {
 	BudgetSegmentImputationCreateModel,
 	BudgetSegmentImputationModel,
 } from "@shared/models";
+import { EventService } from "src/events/event.service";
+import {
+	BudgetImputationCreatedEvent,
+	BudgetImputationDeletedEvent,
+	BudgetImputationUpdatedEvent,
+} from "src/features/budgets/imputations/budget-imputation.events";
 import { BudgetSegmentImputationRepository } from "src/features/budgets/imputations/repositories/budget-segment-imputation.repository";
 
 @Injectable()
 export class BudgetImputationService {
 	constructor(
 		private readonly budgetSegmentImputationRepository: BudgetSegmentImputationRepository,
+		private readonly eventService: EventService,
 	) {}
 
 	/**
@@ -34,7 +41,11 @@ export class BudgetImputationService {
 			options,
 		);
 
-		// TODO: Emit event for created imputation
+		if (created) {
+			this.eventService.emit(
+				new BudgetImputationCreatedEvent({ budgetImputation: created }),
+			);
+		}
 
 		return created;
 	}
@@ -53,7 +64,11 @@ export class BudgetImputationService {
 			options,
 		);
 
-		// TODO: Emit event for updated imputation
+		if (updated) {
+			this.eventService.emit(
+				new BudgetImputationUpdatedEvent({ budgetImputation: updated }),
+			);
+		}
 
 		return updated;
 	}
@@ -67,6 +82,8 @@ export class BudgetImputationService {
 	): Promise<void> {
 		await this.budgetSegmentImputationRepository.deleteById(id, options);
 
-		// TODO: Emit event for deleted imputation
+		this.eventService.emit(
+			new BudgetImputationDeletedEvent({ imputationId: id }),
+		);
 	}
 }
