@@ -7,6 +7,10 @@ import type {
 	BudgetModel,
 	BudgetSegmentCreateModel,
 	BudgetSegmentModel,
+	PaginatedResponse,
+	PaginatedSearchModel,
+	TransactionFiltersModel,
+	TransactionModel,
 	UserModelId,
 } from "@shared/models";
 import { UserBudgetsService } from "src/features/budgets/budgets/user-budgets.service";
@@ -56,6 +60,8 @@ export class UserBudgetSegmentsService {
 		});
 	}
 
+	// #region CRUD
+
 	async getById(
 		userId: UserModelId,
 		segmentId: BudgetSegmentModel["id"],
@@ -82,7 +88,7 @@ export class UserBudgetSegmentsService {
 		});
 	}
 
-	async update(
+	async updateById(
 		userId: UserModelId,
 		segmentId: BudgetSegmentModel["id"],
 		data: Partial<BudgetSegmentCreateModel>,
@@ -99,7 +105,7 @@ export class UserBudgetSegmentsService {
 		});
 	}
 
-	async delete(
+	async deleteById(
 		userId: UserModelId,
 		segmentId: BudgetSegmentModel["id"],
 	): Promise<void> {
@@ -114,6 +120,35 @@ export class UserBudgetSegmentsService {
 			});
 		});
 	}
+
+	// #endregion
+
+	// #region Transactions
+
+	async listTransactionsBySegmentId(
+		userId: UserModelId,
+		segmentId: BudgetSegmentModel["id"],
+		search: PaginatedSearchModel,
+		filters?: TransactionFiltersModel,
+	): Promise<PaginatedResponse<TransactionModel>> {
+		return await this.databaseService.db.transaction(async (tx) => {
+			const { isOwner } = await this.checkOwnership(userId, segmentId, {
+				transaction: tx,
+			});
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.budgetSegmentsService.listTransactionsBySegmentId(
+				segmentId,
+				search,
+				filters,
+				{
+					transaction: tx,
+				},
+			);
+		});
+	}
+
+	// #endregion
 }
 
 /* Internal */

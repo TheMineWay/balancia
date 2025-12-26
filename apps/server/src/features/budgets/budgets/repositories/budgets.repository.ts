@@ -27,7 +27,7 @@ import {
 
 @Injectable()
 export class BudgetsRepository extends Repository {
-	async findUserList(
+	async paginatedListByUserId(
 		userId: UserModelId,
 		{ search, pagination }: PaginatedSearchModel,
 		filters?: BudgetFiltersModel,

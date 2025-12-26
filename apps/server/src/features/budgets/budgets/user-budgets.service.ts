@@ -38,7 +38,11 @@ export class UserBudgetsService {
 		search: PaginatedSearchModel,
 		filters?: BudgetFiltersModel,
 	): Promise<PaginatedResponse<BudgetModel>> {
-		return await this.budgetsRepository.findUserList(userId, search, filters);
+		return await this.budgetsRepository.paginatedListByUserId(
+			userId,
+			search,
+			filters,
+		);
 	}
 
 	async getById(

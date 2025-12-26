@@ -23,6 +23,8 @@ export class UserBudgetImputationService {
 		private readonly databaseService: DatabaseService,
 	) {}
 
+	// #region CRUD
+
 	async getById(
 		userId: UserModelId,
 		imputationId: BudgetSegmentImputationModel["id"],
@@ -135,4 +137,6 @@ export class UserBudgetImputationService {
 			});
 		});
 	}
+
+	// #endregion
 }

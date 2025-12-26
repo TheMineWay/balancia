@@ -104,7 +104,7 @@ export class MyBudgetSegmentsController {
 	): Promise<
 		InferResponseDto<typeof MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "update">
 	> {
-		const updated = await this.userBudgetSegmentsService.update(
+		const updated = await this.userBudgetSegmentsService.updateById(
 			userId,
 			segmentId,
 			body,
@@ -128,6 +128,6 @@ export class MyBudgetSegmentsController {
 	): Promise<
 		InferResponseDto<typeof MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "delete">
 	> {
-		await this.userBudgetSegmentsService.delete(userId, segmentId);
+		await this.userBudgetSegmentsService.deleteById(userId, segmentId);
 	}
 }

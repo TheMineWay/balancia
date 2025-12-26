@@ -1,4 +1,4 @@
-import { type QueryOptions, Repository } from "@database/repository/repository";
+import { Repository, type QueryOptions } from "@database/repository/repository";
 import { accountTable, transactionsTable } from "@database/schemas/main.schema";
 import {
 	ACCOUNT_TABLE_COLUMNS,
@@ -24,7 +24,7 @@ import type {
 	TransactionModel,
 	UserModel,
 } from "@shared/models";
-import { and, desc, eq, gte, ilike, isNull, lte } from "drizzle-orm";
+import { and, desc, eq, gte, ilike, isNull, lte, SQL } from "drizzle-orm";
 
 @Injectable()
 export class TransactionsRepository extends Repository {
@@ -83,33 +83,10 @@ export class TransactionsRepository extends Repository {
 		>
 	> {
 		// Filters
-		const queryFilters = filters
-			? and(
-					// Account id
-					filters.accountId
-						? eq(transactionsTable.accountId, filters.accountId)
-						: undefined,
-					// Category id
-					filters.categoryId
-						? eq(transactionsTable.categoryId, filters.categoryId)
-						: filters.categoryId === null
-							? isNull(transactionsTable.categoryId)
-							: undefined,
-					// From date
-					filters.fromDate
-						? gte(transactionsTable.performedAt, filters.fromDate)
-						: undefined,
-					// To date
-					filters.toDate
-						? lte(transactionsTable.performedAt, filters.toDate)
-						: undefined,
-				)
-			: undefined;
-
-		// Search
-		const searchFilters = search?.search
-			? ilike(transactionsTable.subject, `%${search.search}%`)
-			: undefined;
+		const conditions = TransactionsRepository.buildTransactionFilters(
+			search,
+			filters,
+		);
 
 		// Query
 		const query = this.query(options)
@@ -124,7 +101,7 @@ export class TransactionsRepository extends Repository {
 				categoryTable,
 				eq(transactionsTable.categoryId, categoryTable.id),
 			)
-			.where(and(eq(accountTable.userId, userId), queryFilters, searchFilters))
+			.where(and(eq(accountTable.userId, userId), ...conditions))
 			.orderBy(desc(transactionsTable.performedAt), desc(transactionsTable.id))
 			.$dynamic();
 
@@ -177,4 +154,46 @@ export class TransactionsRepository extends Repository {
 			.delete(transactionsTable)
 			.where(and(eq(transactionsTable.id, transactionId)));
 	}
+
+	// #region Filters
+
+	public static buildTransactionFilters(
+		search?: SearchModel,
+		filters?: TransactionFiltersModel,
+	): SQL[] {
+		const conditions: SQL[] = [];
+
+		if (search?.search) {
+			conditions.push(ilike(transactionsTable.subject, `%${search.search}%`));
+		}
+
+		if (!filters) return conditions;
+
+		// Account id
+		if (filters.accountId) {
+			conditions.push(eq(transactionsTable.accountId, filters.accountId));
+		}
+
+		// Category id
+		if (filters.categoryId) {
+			conditions.push(eq(transactionsTable.categoryId, filters.categoryId));
+		} else if (filters.categoryId === null) {
+			conditions.push(isNull(transactionsTable.categoryId));
+		}
+
+		// Date range
+		// From date
+		if (filters.fromDate) {
+			conditions.push(gte(transactionsTable.performedAt, filters.fromDate));
+		}
+
+		// To date
+		if (filters.toDate) {
+			conditions.push(lte(transactionsTable.performedAt, filters.toDate));
+		}
+
+		return conditions;
+	}
+
+	// #endregion
 }

@@ -1,4 +1,5 @@
 import { type QueryOptions, Repository } from "@database/repository/repository";
+import { budgetSegmentImputationTable } from "@database/schemas/main.schema";
 import {
 	BUDGET_SEGMENT_TABLE_COLUMNS,
 	type BudgetSegmentInsert,
@@ -7,27 +8,26 @@ import {
 	budgetSegmentTable,
 } from "@database/schemas/main/tables/budget/budget-segment.table";
 import { budgetTable } from "@database/schemas/main/tables/budget/budget.table";
+import {
+	TRANSACTIONS_TABLE_COLUMNS,
+	type TransactionsSelect,
+	transactionsTable,
+} from "@database/schemas/main/tables/finances/transaction.table";
 import { Injectable } from "@nestjs/common";
 import type {
 	BudgetModel,
 	BudgetSegmentModel,
+	PaginatedResponse,
+	PaginatedSearchModel,
+	TransactionFiltersModel,
 	UserModelId,
 } from "@shared/models";
 import { and, count, desc, eq, sum } from "drizzle-orm";
+import { TransactionsRepository } from "src/features/finances/transactions/repositories/transactions.repository";
 
 @Injectable()
 export class BudgetSegmentsRepository extends Repository {
-	async findByBudgetId(
-		budgetId: BudgetModel["id"],
-		options?: QueryOptions,
-	): Promise<BudgetSegmentSelect[]> {
-		return await this.query(options)
-			.select(BUDGET_SEGMENT_TABLE_COLUMNS)
-			.from(budgetSegmentTable)
-			.where(eq(budgetSegmentTable.budgetId, budgetId))
-			.orderBy(desc(budgetSegmentTable.id));
-	}
-
+	// #region CRUD
 	async findById(
 		segmentId: BudgetSegmentModel["id"],
 		options?: QueryOptions,
@@ -75,6 +75,21 @@ export class BudgetSegmentsRepository extends Repository {
 			.where(eq(budgetSegmentTable.id, segmentId));
 	}
 
+	// #endregion
+
+	// #region Custom finds
+
+	async findByBudgetId(
+		budgetId: BudgetModel["id"],
+		options?: QueryOptions,
+	): Promise<BudgetSegmentSelect[]> {
+		return await this.query(options)
+			.select(BUDGET_SEGMENT_TABLE_COLUMNS)
+			.from(budgetSegmentTable)
+			.where(eq(budgetSegmentTable.budgetId, budgetId))
+			.orderBy(desc(budgetSegmentTable.id));
+	}
+
 	async findByIdAndUserId(
 		segmentId: BudgetSegmentModel["id"],
 		userId: UserModelId,
@@ -95,6 +110,47 @@ export class BudgetSegmentsRepository extends Repository {
 		return result?.[0] || null;
 	}
 
+	// #endregion
+
+	// #region Transactions
+
+	async paginatedTransactionsBySegmentId(
+		segmentId: BudgetSegmentModel["id"],
+		{ search, pagination }: PaginatedSearchModel,
+		filters?: TransactionFiltersModel,
+		options?: QueryOptions,
+	): Promise<PaginatedResponse<TransactionsSelect>> {
+		const transactionConditions =
+			TransactionsRepository.buildTransactionFilters(search, filters);
+
+		const query = this.query(options)
+			.select(TRANSACTIONS_TABLE_COLUMNS)
+			.from(transactionsTable)
+			.innerJoin(
+				budgetSegmentImputationTable,
+				eq(budgetSegmentImputationTable.transactionId, transactionsTable.id),
+			)
+			.where(
+				and(
+					eq(budgetSegmentImputationTable.segmentId, segmentId),
+					...transactionConditions,
+				),
+			)
+			.$dynamic();
+
+		const { rows: items, count: total } = await this.paginated(
+			pagination,
+			query,
+		);
+
+		return {
+			items,
+			total,
+		};
+	}
+
+	// #endregion
+
 	// #region Stats
 
 	async getTotalPercentByBudgetId(
@@ -112,8 +168,6 @@ export class BudgetSegmentsRepository extends Repository {
 		return 0;
 	}
 
-	// # endregion
-
 	/**
 	 * Counts the number of segments for a given budget ID.
 	 */
@@ -129,4 +183,6 @@ export class BudgetSegmentsRepository extends Repository {
 
 		return result?.[0]?.count || 0;
 	}
+
+	// #endregion
 }
