@@ -50,18 +50,18 @@ export class DatabaseKeeperService {
 		if (!isMasterServer()) return;
 
 		// Update account stats materialized view
-		await this.databaseService.db.refreshMaterializedView(
-			accountStatsMaterializedView,
-		);
+		await this.databaseService.db
+			.refreshMaterializedView(accountStatsMaterializedView)
+			.concurrently();
 		// Update monthly stats
-		await this.databaseService.db.refreshMaterializedView(
-			accountMonthlyStatsMaterializedView,
-		);
+		await this.databaseService.db
+			.refreshMaterializedView(accountMonthlyStatsMaterializedView)
+			.concurrently();
 
 		// Update category expenses stats
-		await this.databaseService.db.refreshMaterializedView(
-			accountCategoryExpensesStatsMaterializedView,
-		);
+		await this.databaseService.db
+			.refreshMaterializedView(accountCategoryExpensesStatsMaterializedView)
+			.concurrently();
 	}
 
 	// #endregion

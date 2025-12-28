@@ -16,6 +16,7 @@ import { FaRegFolder } from "react-icons/fa6";
 type Props = {
 	onChange?: (categoryId: CategoryModel["id"] | null) => void;
 	value: CategoryModel["id"] | null;
+	noCategoryOption?: boolean;
 } & Omit<
 	SelectSearchProps<CategoryModel["id"]>,
 	"data" | "search" | "value" | "setValue" | "getKey"
@@ -24,6 +25,7 @@ type Props = {
 export const MyCategoriesSelector: FC<Props> = ({
 	onChange,
 	value,
+	noCategoryOption = false,
 	...props
 }) => {
 	const { t } = useTranslation("finances");
@@ -31,22 +33,38 @@ export const MyCategoriesSelector: FC<Props> = ({
 	const search = useSearch<AccountModel>({});
 	const { request } = useAuthenticatedRequest();
 
+	const WITHOUT_CATEGORY_OPTION = useMemo(
+		() => ({
+			value: -1,
+			label: t().category.expressions["Without-category"],
+		}),
+		[t],
+	);
+
 	const { data: categories = { items: [], total: 0 } } = useMyCategoriesQuery({
 		pagination,
 		search,
 	});
 
-	const options = useMemo(
-		() =>
-			categories.items.map((item) => ({
-				label: item.name,
-				value: item.id,
-			})),
-		[categories],
-	);
+	const options = useMemo(() => {
+		const _cats = categories.items.map((item) => ({
+			label: item.name,
+			value: item.id,
+		}));
+
+		if (noCategoryOption) {
+			_cats.unshift(WITHOUT_CATEGORY_OPTION);
+		}
+
+		return _cats;
+	}, [categories, noCategoryOption, WITHOUT_CATEGORY_OPTION]);
 
 	const valueFetch = useCallback(
 		async (categoryId: CategoryModel["id"]) => {
+			if (noCategoryOption && categoryId === -1) {
+				return WITHOUT_CATEGORY_OPTION;
+			}
+
 			const selectedCategory = await endpointQuery(
 				MY_CATEGORY_CONTROLLER,
 				"getCategory",
@@ -60,7 +78,7 @@ export const MyCategoriesSelector: FC<Props> = ({
 				label: selectedCategory.name,
 			};
 		},
-		[request],
+		[request, noCategoryOption, WITHOUT_CATEGORY_OPTION],
 	);
 
 	return (

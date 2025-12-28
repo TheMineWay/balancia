@@ -10,6 +10,7 @@ import {
 import type {
 	PaginatedQuery,
 	SearchModel,
+	TransactionFiltersModel,
 	TransactionModel,
 } from "@shared/models";
 import { useQuery } from "@tanstack/react-query";
@@ -26,7 +27,7 @@ export const MY_TRANSACTIONS_QUERY_KEY: ParametrizedQueryKey<{
 
 type Options = {
 	pagination: UsePagination;
-	search: UseSearch<TransactionModel>;
+	search: UseSearch<TransactionFiltersModel>;
 };
 
 export const useMyTransactionsQuery = (options: Options) => {

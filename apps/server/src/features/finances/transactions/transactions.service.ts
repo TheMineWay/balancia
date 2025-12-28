@@ -7,6 +7,7 @@ import type {
 	PaginatedQuery,
 	SearchModel,
 	TransactionCreateModel,
+	TransactionFiltersModel,
 	TransactionModel,
 	UserModel,
 	UserModelId,
@@ -51,7 +52,7 @@ export class TransactionsService {
 		userId: UserModel["id"],
 		pagination: PaginatedQuery,
 		search?: SearchModel,
-		filters?: Partial<Pick<TransactionModel, "accountId">>,
+		filters?: TransactionFiltersModel,
 	) {
 		return await this.transactionsRepository.paginatedFindTransactionsListByUserId(
 			userId,

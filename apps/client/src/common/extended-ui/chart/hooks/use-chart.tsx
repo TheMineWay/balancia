@@ -68,6 +68,32 @@ const CHART_EXTENDED_PROPERTIES = {
 			},
 		},
 	}),
+
+	/**
+	 * BAR CHART
+	 */
+	bar: ({ colorScheme }) => ({
+		theme: {
+			axis: {
+				ticks: {
+					text: {
+						fill: getTextColorByScheme(colorScheme),
+					},
+				},
+				legend: {
+					text: {
+						fill: getTextColorByScheme(colorScheme),
+					},
+				},
+			},
+			grid: {
+				line: {
+					stroke: colorScheme === "dark" ? "#444" : "#ddd",
+					strokeWidth: 1,
+				},
+			},
+		},
+	}),
 } satisfies Record<string, ModeFactory>;
 
 /* Internal utils */

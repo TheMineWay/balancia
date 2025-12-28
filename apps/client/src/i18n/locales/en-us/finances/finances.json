@@ -1,0 +1,324 @@
+{
+	"nav": {
+		"Label": "Finances",
+		"children": {
+			"transactions": {
+				"Label": "Transactions"
+			},
+			"accounts": {
+				"Label": "Accounts"
+			},
+			"categories": {
+				"Label": "Categories"
+			},
+			"tags": {
+				"Label": "Tags"
+			},
+			"debts": {
+				"Label": "Debts"
+			},
+			"budgets": {
+				"Label": "Budgets"
+			}
+		}
+	},
+	"transaction": {
+		"my-transactions": {
+			"manager": {
+				"Title": "My transactions",
+				"Actions": {
+					"Register": "Register transaction"
+				}
+			}
+		},
+		"delete": {
+			"confirm": {
+				"Title": "Delete transaction \"{name}\"",
+				"Message": "Are you sure you want to delete this transaction? This action cannot be undone.",
+				"Action": "Delete transaction"
+			}
+		},
+		"create": {
+			"Title": "Create transaction",
+			"Submit": "Create transaction"
+		},
+		"update": {
+			"Title": "Update transaction {name}",
+			"Submit": "Update transaction"
+		},
+		"models": {
+			"transaction": {
+				"subject": {
+					"Label": "Subject"
+				},
+				"performedAt": {
+					"Label": "Transaction date"
+				},
+				"amount": {
+					"Label": "Amount"
+				}
+			}
+		},
+		"managers": {
+			"tags": {
+				"Trigger": "Manage tags",
+				"Title": "Manage tags for transaction \"{name}\"",
+				"form": {
+					"search": {
+						"Placeholder": "Search tags to add"
+					}
+				}
+			},
+			"import": {
+				"Title": "Import transactions",
+				"steps": {
+					"select-file": {
+						"Title": "Select file",
+						"form": {
+							"fields": {
+								"file": {
+									"Label": "Transactions file"
+								}
+							}
+						}
+					},
+					"review-transactions": {
+						"Title": "Review transactions"
+					},
+					"target": {
+						"Title": "Target",
+						"Message": "Select the target account for the imported transactions"
+					}
+				}
+			}
+		}
+	},
+	"category": {
+		"expressions": {
+			"Category": "Category",
+			"Without-category": "Without category"
+		},
+		"my-categories": {
+			"manager": {
+				"Title": "My categories",
+				"Actions": {
+					"Create": "Create category"
+				}
+			}
+		},
+		"create": {
+			"Title": "Create category",
+			"Submit": "Create category"
+		},
+		"update": {
+			"Title": "Update category {name}",
+			"Submit": "Update category"
+		},
+		"delete": {
+			"confirm": {
+				"Title": "Delete category \"{name}\"",
+				"Message": "Are you sure you want to delete this category? This action cannot be undone.",
+				"Action": "Delete category"
+			}
+		},
+		"models": {
+			"category": {
+				"name": {
+					"Label": "Name"
+				},
+				"description": {
+					"Label": "Description"
+				}
+			}
+		}
+	},
+	"account": {
+		"expressions": {
+			"Account": "Account"
+		},
+		"my-accounts": {
+			"manager": {
+				"Title": "My accounts",
+				"Actions": {
+					"Create": "Create account"
+				}
+			}
+		},
+		"create": {
+			"Title": "Create account",
+			"Submit": "Create account"
+		},
+		"update": {
+			"Title": "Update account {name}",
+			"Submit": "Update account"
+		},
+		"delete": {
+			"confirm": {
+				"Title": "Delete account \"{name}\"",
+				"Message": "Are you sure you want to delete this account? Account details will be lost. Also, transactions associated with this account will be deleted. This action cannot be undone.",
+				"Action": "Delete account",
+				"Write-to-delete": "Write account name to confirm"
+			}
+		},
+		"main-account": {
+			"Title": "Main account",
+			"Description": "Your main account is used as the default account across the application (e.g., for new transactions).",
+			"actions": {
+				"Trigger-change": "Change main account"
+			}
+		},
+		"models": {
+			"account": {
+				"name": {
+					"Label": "Name"
+				},
+				"description": {
+					"Label": "Description"
+				}
+			}
+		}
+	},
+	"tag": {
+		"expressions": {
+			"Tag": "Tag"
+		},
+		"my-tags": {
+			"manager": {
+				"Title": "My tags",
+				"actions": {
+					"Create": "Create tag"
+				}
+			}
+		},
+		"create": {
+			"Title": "Create tag",
+			"Submit": "Create tag"
+		},
+		"update": {
+			"Title": "Update tag {name}",
+			"Submit": "Update tag"
+		},
+		"delete": {
+			"confirm": {
+				"Title": "Delete tag \"{name}\"",
+				"Message": "Are you sure you want to delete this tag? This action cannot be undone.",
+				"Action": "Delete tag"
+			}
+		},
+		"models": {
+			"tag": {
+				"name": {
+					"Label": "Name"
+				},
+				"description": {
+					"Label": "Description"
+				}
+			}
+		},
+		"components": {
+			"tags-select-list": {
+				"actions": {
+					"Unassign-tag": "Unassign tag"
+				}
+			}
+		}
+	},
+	"debt": {
+		"my-debts": {
+			"manager": {
+				"Title": "My debts",
+				"Actions": {
+					"Create": "Create debt"
+				}
+			}
+		},
+		"models": {
+			"debt": {
+				"debtorId": {
+					"Label": "Debtor"
+				},
+				"amount": {
+					"Label": "Amount"
+				},
+				"reason": {
+					"Label": "Reason"
+				},
+				"notifiedAt": {
+					"Label": "Notified at"
+				},
+				"status": {
+					"Label": "Status"
+				}
+			},
+			"debt-payment": {
+				"paidAt": {
+					"Label": "Paid at"
+				}
+			},
+			"debt-status": {
+				"pending": {
+					"Label": "Pending"
+				},
+				"paid": {
+					"Label": "Paid"
+				},
+				"wont-pay": {
+					"Label": "Won't pay"
+				},
+				"pardoned": {
+					"Label": "Pardoned"
+				}
+			}
+		},
+		"create": {
+			"Title": "Create debt",
+			"Submit": "Create debt"
+		},
+		"update": {
+			"Title": "Edit {debtor}",
+			"Submit": "Update debt"
+		},
+		"delete": {
+			"confirm": {
+				"Title": "Delete debt {name}",
+				"Message": "Are you sure you want to delete this debt? This action cannot be undone.",
+				"Action": "Delete Debt"
+			}
+		},
+		"link": {
+			"Title": "Link transactions",
+			"linkers": {
+				"origin": {
+					"Title": "Origins",
+					"Description": "Select transactions that represents the debt being given.",
+					"Pick": "Manage origins"
+				},
+				"payment": {
+					"Title": "Payments",
+					"Description": "Select transactions that represents the payment of the debt.",
+					"Pick": "Manage payments"
+				}
+			},
+			"forms": {
+				"general": {
+					"Submit": "Link transactions",
+					"fields": {
+						"transaction": {
+							"Label": "Transaction to link"
+						},
+						"amount": {
+							"Label": "Amount"
+						},
+						"notes": {
+							"Label": "Notes"
+						}
+					}
+				}
+			}
+		},
+		"expressions": {
+			"Debt": "Debt",
+			"Debt-coverage": "Debt coverage"
+		}
+	}
+}

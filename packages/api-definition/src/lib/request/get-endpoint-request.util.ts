@@ -36,6 +36,11 @@ export const getEndpointRequest = <
 	const endpoint =
 		controller.endpoints[endpointKey as keyof typeof controller.endpoints];
 
+	if (!endpoint)
+		throw new Error(
+			`Endpoint ${String(endpointKey)} not found in controller ${controller?.getPath({}) ?? ""}`,
+		);
+
 	return {
 		request: {
 			url: [apiUrl, getPath(controller, params), getPath(endpoint, params)]

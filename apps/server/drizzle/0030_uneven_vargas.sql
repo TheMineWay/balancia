@@ -1,1 +1,0 @@
-ALTER TABLE "debt"."debt_origin_transactions" ALTER COLUMN "amount" SET DATA TYPE numeric(10, 2);

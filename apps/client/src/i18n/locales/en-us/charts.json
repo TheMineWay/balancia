@@ -6,5 +6,15 @@
         "monthly-cash-flow": {
             "Title": "Monthly cash flow"
         }
+    },
+    "budget": {
+        "segments-distribution": {
+            "Title": "Budget segments distribution",
+            "expressions": {
+                "Remaining": "Remaining",
+                "In-use": "In use",
+                "Outbound": "Outbound"
+            }
+        }
     }
 }

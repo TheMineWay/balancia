@@ -5,6 +5,8 @@ import {
 	PAGINATED_QUERY_SCHEMA,
 	SEARCH_SCHEMA,
 	TRANSACTION_CREATE_SCHEMA,
+	TRANSACTION_FILTERS_SCHEMA,
+	TRANSACTION_POPULATED_SCHEMA,
 	TRANSACTION_SCHEMA,
 } from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
@@ -18,21 +20,11 @@ const GET_TRANSACTIONS_LIST_ENDPOINT = {
 	queryDto: z.object({
 		...PAGINATED_QUERY_SCHEMA.shape,
 		search: SEARCH_SCHEMA.optional(),
-		filters: z
-			.object({
-				accountId: z.preprocess((val) => Number(val), z.number()).optional(),
-				categoryId: z
-					.preprocess((val) => Number(val), z.number())
-					.optional()
-					.nullable(),
-			})
-			.optional(),
+		filters: TRANSACTION_FILTERS_SCHEMA.optional(),
 	}),
 	responseDto: getPaginatedResponse(
 		z.object({
-			...TRANSACTION_SCHEMA.shape,
-			account: ACCOUNT_SCHEMA,
-			category: CATEGORY_SCHEMA.nullable(),
+			...TRANSACTION_POPULATED_SCHEMA.shape,
 		}),
 	),
 } satisfies EndpointDefinition;

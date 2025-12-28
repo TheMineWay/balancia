@@ -4,7 +4,8 @@ import admin from "./core/admin.json";
 import auth from "./core/auth.json";
 import role from "./core/role.json";
 import errors from "./errors.json";
-import finances from "./finances.json";
+import budget from "./finances/budget.json";
+import finances from "./finances/finances.json";
 import social from "./social.json";
 
 // End core
@@ -20,6 +21,7 @@ const EN_US = {
 	finances,
 	charts,
 	social,
+	budget,
 };
 
 export default EN_US;
