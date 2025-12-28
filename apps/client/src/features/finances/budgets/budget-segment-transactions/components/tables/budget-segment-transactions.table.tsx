@@ -10,7 +10,8 @@ import {
 	type BudgetSegmentImputationWithTransactionModel,
 	TimePrecision,
 } from "@shared/models";
-import { BiArrowToRight, BiCross } from "react-icons/bi";
+import { BiArrowToRight } from "react-icons/bi";
+import { IoCloseOutline } from "react-icons/io5";
 
 type Props<T extends BudgetSegmentImputationWithTransactionModel> = {
 	data?: T[];
@@ -93,7 +94,7 @@ export const BudgetSegmentTransactionsTable = <
 								onClick={() => onRemoveImputationClick(item)}
 								aria-label={commonT().expressions.Delete}
 							>
-								<BiCross />
+								<IoCloseOutline />
 							</ActionIcon>
 						)}
 					</Group>

@@ -16,8 +16,7 @@ import type {
 	TransactionFiltersModel,
 } from "@shared/models";
 import { useCallback } from "react";
-import { BiCross } from "react-icons/bi";
-import { IoReload } from "react-icons/io5";
+import { IoCloseOutline, IoReload } from "react-icons/io5";
 
 type Props = {
 	segment: BudgetSegmentModel;
@@ -62,7 +61,7 @@ export const MyBudgetSegmentTransactionsManager: FC<Props> = ({ segment }) => {
 					confirm:
 						t()["budget-segment-imputation"].managers.delete.confirm.Action,
 				},
-				confirmProps: { color: "red", leftSection: <BiCross /> },
+				confirmProps: { color: "red", leftSection: <IoCloseOutline /> },
 				onConfirm: () => deleteImputation(item.id),
 			});
 		},
