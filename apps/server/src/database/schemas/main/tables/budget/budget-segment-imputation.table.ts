@@ -28,6 +28,9 @@ export const budgetSegmentImputationTable = budgetSchema.table(
 			.references(() => transactionsTable.id),
 
 		// Metadata
+		percent: integer()
+			.default(BUDGET_SEGMENT_IMPUTATION_MODEL_VALUES.percent.default)
+			.notNull(),
 		description: varchar({
 			length: BUDGET_SEGMENT_IMPUTATION_MODEL_VALUES.description.maxLength,
 		}),
