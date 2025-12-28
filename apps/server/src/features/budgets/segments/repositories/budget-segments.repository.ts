@@ -1,5 +1,6 @@
 import { type QueryOptions, Repository } from "@database/repository/repository";
 import { budgetSegmentImputationTable } from "@database/schemas/main.schema";
+import { BUDGET_SEGMENT_IMPUTATION_TABLE_COLUMNS } from "@database/schemas/main/tables/budget/budget-segment-imputation.table";
 import {
 	BUDGET_SEGMENT_TABLE_COLUMNS,
 	type BudgetSegmentInsert,
@@ -23,11 +24,11 @@ import {
 import { Injectable } from "@nestjs/common";
 import type {
 	BudgetModel,
+	BudgetSegmentImputationWithTransactionModel,
 	BudgetSegmentModel,
 	PaginatedResponse,
 	PaginatedSearchModel,
 	TransactionFiltersModel,
-	TransactionPopulatedModel,
 	UserModelId,
 } from "@shared/models";
 import { and, count, desc, eq, sum } from "drizzle-orm";
@@ -122,20 +123,22 @@ export class BudgetSegmentsRepository extends Repository {
 
 	// #region Transactions
 
-	async paginatedPopulatedTransactionsBySegmentId(
+	async paginatedImputationsBySegmentId(
 		segmentId: BudgetSegmentModel["id"],
 		{ search, pagination }: PaginatedSearchModel,
 		filters?: TransactionFiltersModel,
 		options?: QueryOptions,
-	): Promise<PaginatedResponse<TransactionPopulatedModel>> {
+	): Promise<PaginatedResponse<BudgetSegmentImputationWithTransactionModel>> {
 		const transactionConditions =
 			TransactionsRepository.buildTransactionFilters(search, filters);
 
 		const query = this.query(options)
 			.select({
-				...TRANSACTIONS_TABLE_COLUMNS,
-				account: ACCOUNT_TABLE_COLUMNS,
+				...BUDGET_SEGMENT_IMPUTATION_TABLE_COLUMNS,
+				// Transaction oriented
+				transaction: TRANSACTIONS_TABLE_COLUMNS,
 				category: CATEGORY_TABLE_COLUMNS,
+				account: ACCOUNT_TABLE_COLUMNS,
 			})
 			.from(transactionsTable)
 			.innerJoin(

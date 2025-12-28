@@ -33,8 +33,10 @@
 		}
 	},
 	"budget-segment": {
+		"List-title": "Budget segments",
 		"managers": {
 			"create": {
+				"Trigger": "Create budget segment",
 				"Title": "Create budget segment",
 				"Submit": "Create segment"
 			},
@@ -54,17 +56,24 @@
 				"Title": "Transactions of segment {name}",
 				"Trigger": "View segment transactions"
 			}
+		},
+		"forms": {
+			"default": {
+				"fields": {
+					"percent": {
+						"Max-percent": "Maximum percent is {maxPercent}%"
+					}
+				}
+			}
 		} 
 	},
-	"my-budget-segments": {
-		"manager": {
-			"Title": "My budget segments",
-			"Actions": {
-				"Create": "Create segment"
-			},
-			"fields": {
-				"percent": {
-					"Max-percent": "Maximum is {maxPercent}%"
+	"budget-segment-imputation": {
+		"managers": {
+			"delete": {
+				"confirm": {
+					"Title": "Remove transaction from budget segment \"{name}\"",
+					"Message": "Are you sure you want to remove this transaction from the budget segment? This action cannot be undone.",
+					"Action": "Remove transaction"
 				}
 			}
 		}

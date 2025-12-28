@@ -81,7 +81,7 @@ export const BudgetSegmentForm: FC<Props> = ({
 										(
 										{interpolated(
 											(t) =>
-												t["my-budget-segments"].manager.fields.percent[
+												t["budget-segment"].forms.default.fields.percent[
 													"Max-percent"
 												],
 											{ maxPercent: maxPercent.toString() },

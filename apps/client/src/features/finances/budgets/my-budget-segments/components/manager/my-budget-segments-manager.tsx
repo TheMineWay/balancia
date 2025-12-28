@@ -74,7 +74,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 			{/* SEGMENTS */}
 			<ManagerLayout.Root>
 				<ManagerLayout.Title>
-					{t()["my-budget-segments"].manager.Title}
+					{t()["budget-segment"]["List-title"]}
 				</ManagerLayout.Title>
 				<ManagerLayout.Content>
 					{/* TABLE */}
@@ -92,7 +92,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 										filteredSegments.length >= BUDGET_MAX_SEGMENTS_PER_BUDGET
 									}
 								>
-									{t()["my-budget-segments"].manager.Actions.Create}
+									{t()["budget-segment"].managers.create.Trigger}
 								</Button>
 								<ActionIcon
 									loading={isFetchingSegments}

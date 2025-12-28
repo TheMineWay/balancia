@@ -166,7 +166,7 @@ export class MyBudgetSegmentsController {
 		>
 	> {
 		const transactions =
-			await this.userBudgetSegmentsService.listPopulatedTransactionsBySegmentId(
+			await this.userBudgetSegmentsService.listImputationsBySegmentId(
 				userId,
 				segmentId,
 				search,

@@ -1,10 +1,10 @@
 import {
 	BUDGET_SEGMENT_CREATE_SCHEMA,
+	BUDGET_SEGMENT_IMPUTATION_WITH_TRANSACTION_SCHEMA,
 	BUDGET_SEGMENT_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_SEARCH_SCHEMA,
 	TRANSACTION_FILTERS_SCHEMA,
-	TRANSACTION_POPULATED_SCHEMA,
 } from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
 import type { EndpointDefinition } from "@ts-types/endpoint-definition.type";
@@ -82,7 +82,8 @@ const LIST_TRANSACTIONS = {
 			.default(null),
 	}),
 	responseDto: z.object({
-		...getPaginatedResponse(TRANSACTION_POPULATED_SCHEMA).shape,
+		...getPaginatedResponse(BUDGET_SEGMENT_IMPUTATION_WITH_TRANSACTION_SCHEMA)
+			.shape,
 	}),
 } satisfies EndpointDefinition<{ segmentId: string }>;
 

@@ -1,6 +1,8 @@
 import { ID_SCHEMA } from "@/common/__system/id.model";
 import { PERCENT_SCHEMA } from "@/common/numeric/percent.model";
 import { BUDGET_SEGMENT_SCHEMA } from "@/features/budgets/budget-segment.model";
+import { ACCOUNT_SCHEMA } from "@/features/finances/accounts/account.model";
+import { CATEGORY_SCHEMA } from "@/features/finances/category/category.model";
 import { TRANSACTION_SCHEMA } from "@/features/finances/transactions/transaction.model";
 import { nullableStringTransform } from "@/utils/nullable-string.model";
 import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
@@ -56,4 +58,17 @@ export const BUDGET_SEGMENT_IMPUTATION_CREATE_SCHEMA =
 	});
 export type BudgetSegmentImputationCreateModel = z.infer<
 	typeof BUDGET_SEGMENT_IMPUTATION_CREATE_SCHEMA
+>;
+
+/* Variants */
+
+// With transaction
+export const BUDGET_SEGMENT_IMPUTATION_WITH_TRANSACTION_SCHEMA =
+	BUDGET_SEGMENT_IMPUTATION_SCHEMA.extend({
+		transaction: TRANSACTION_SCHEMA,
+		category: CATEGORY_SCHEMA.nullable(),
+		account: ACCOUNT_SCHEMA,
+	});
+export type BudgetSegmentImputationWithTransactionModel = z.infer<
+	typeof BUDGET_SEGMENT_IMPUTATION_WITH_TRANSACTION_SCHEMA
 >;

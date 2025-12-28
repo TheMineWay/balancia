@@ -6,11 +6,11 @@ import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import type {
 	BudgetModel,
 	BudgetSegmentCreateModel,
+	BudgetSegmentImputationWithTransactionModel,
 	BudgetSegmentModel,
 	PaginatedResponse,
 	PaginatedSearchModel,
 	TransactionFiltersModel,
-	TransactionPopulatedModel,
 	UserModelId,
 } from "@shared/models";
 import { UserBudgetsService } from "src/features/budgets/budgets/user-budgets.service";
@@ -125,19 +125,19 @@ export class UserBudgetSegmentsService {
 
 	// #region Transactions
 
-	async listPopulatedTransactionsBySegmentId(
+	async listImputationsBySegmentId(
 		userId: UserModelId,
 		segmentId: BudgetSegmentModel["id"],
 		search: PaginatedSearchModel,
 		filters?: TransactionFiltersModel,
-	): Promise<PaginatedResponse<TransactionPopulatedModel>> {
+	): Promise<PaginatedResponse<BudgetSegmentImputationWithTransactionModel>> {
 		return await this.databaseService.db.transaction(async (tx) => {
 			const { isOwner } = await this.checkOwnership(userId, segmentId, {
 				transaction: tx,
 			});
 			if (!isOwner) throw new UnauthorizedException();
 
-			return await this.budgetSegmentsService.listPopulatedTransactionsBySegmentId(
+			return await this.budgetSegmentsService.listImputationsBySegmentId(
 				segmentId,
 				search,
 				filters,

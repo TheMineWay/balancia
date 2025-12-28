@@ -6,11 +6,11 @@ import { BUDGET_MAX_SEGMENTS_PER_BUDGET } from "@shared/constants";
 import type {
 	BudgetModel,
 	BudgetSegmentCreateModel,
+	BudgetSegmentImputationWithTransactionModel,
 	BudgetSegmentModel,
 	PaginatedResponse,
 	PaginatedSearchModel,
 	TransactionFiltersModel,
-	TransactionPopulatedModel,
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
 import {
@@ -129,13 +129,13 @@ export class BudgetSegmentsService {
 
 	// #region Transactions
 
-	async listPopulatedTransactionsBySegmentId(
+	async listImputationsBySegmentId(
 		segmentId: BudgetSegmentModel["id"],
 		search: PaginatedSearchModel,
 		filters?: TransactionFiltersModel,
 		options?: QueryOptions,
-	): Promise<PaginatedResponse<TransactionPopulatedModel>> {
-		return await this.budgetSegmentsRepository.paginatedPopulatedTransactionsBySegmentId(
+	): Promise<PaginatedResponse<BudgetSegmentImputationWithTransactionModel>> {
+		return await this.budgetSegmentsRepository.paginatedImputationsBySegmentId(
 			segmentId,
 			search,
 			filters,
