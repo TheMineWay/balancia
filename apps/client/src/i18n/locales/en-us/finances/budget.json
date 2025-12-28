@@ -72,7 +72,7 @@
 			"delete": {
 				"confirm": {
 					"Title": "Remove transaction from budget segment \"{name}\"",
-					"Message": "Are you sure you want to remove this transaction from the budget segment? This action cannot be undone.",
+					"Message": "The transaction will not be removed from the system, only the imputation will be removed. Are you sure you want to remove this transaction from the budget segment? This action cannot be undone.",
 					"Action": "Remove transaction"
 				}
 			}
