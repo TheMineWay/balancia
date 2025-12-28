@@ -45,6 +45,7 @@ export const BUDGET_SEGMENT_IMPUTATION_TABLE_COLUMNS = {
 	id: budgetSegmentImputationTable.id,
 	segmentId: budgetSegmentImputationTable.segmentId,
 	transactionId: budgetSegmentImputationTable.transactionId,
+	percent: budgetSegmentImputationTable.percent,
 	description: budgetSegmentImputationTable.description,
 	createdAt: budgetSegmentImputationTable.createdAt,
 	updatedAt: budgetSegmentImputationTable.updatedAt,
