@@ -10,7 +10,7 @@ import type {
 	PaginatedResponse,
 	PaginatedSearchModel,
 	TransactionFiltersModel,
-	TransactionModel,
+	TransactionPopulatedModel,
 	UserModelId,
 } from "@shared/models";
 import { UserBudgetsService } from "src/features/budgets/budgets/user-budgets.service";
@@ -125,19 +125,19 @@ export class UserBudgetSegmentsService {
 
 	// #region Transactions
 
-	async listTransactionsBySegmentId(
+	async listPopulatedTransactionsBySegmentId(
 		userId: UserModelId,
 		segmentId: BudgetSegmentModel["id"],
 		search: PaginatedSearchModel,
 		filters?: TransactionFiltersModel,
-	): Promise<PaginatedResponse<TransactionModel>> {
+	): Promise<PaginatedResponse<TransactionPopulatedModel>> {
 		return await this.databaseService.db.transaction(async (tx) => {
 			const { isOwner } = await this.checkOwnership(userId, segmentId, {
 				transaction: tx,
 			});
 			if (!isOwner) throw new UnauthorizedException();
 
-			return await this.budgetSegmentsService.listTransactionsBySegmentId(
+			return await this.budgetSegmentsService.listPopulatedTransactionsBySegmentId(
 				segmentId,
 				search,
 				filters,

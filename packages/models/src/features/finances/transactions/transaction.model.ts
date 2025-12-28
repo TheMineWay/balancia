@@ -56,3 +56,12 @@ export const TRANSACTION_CREATE_SCHEMA = TRANSACTION_SCHEMA.omit({
 	updatedAt: true,
 });
 export type TransactionCreateModel = z.infer<typeof TRANSACTION_CREATE_SCHEMA>;
+
+/* Variants */
+export const TRANSACTION_POPULATED_SCHEMA = TRANSACTION_SCHEMA.extend({
+	account: ACCOUNT_SCHEMA,
+	category: CATEGORY_SCHEMA.nullable(),
+});
+export type TransactionPopulatedModel = z.infer<
+	typeof TRANSACTION_POPULATED_SCHEMA
+>;

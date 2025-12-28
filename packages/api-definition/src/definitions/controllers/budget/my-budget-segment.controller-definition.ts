@@ -1,6 +1,10 @@
 import {
 	BUDGET_SEGMENT_CREATE_SCHEMA,
 	BUDGET_SEGMENT_SCHEMA,
+	getPaginatedResponse,
+	PAGINATED_SEARCH_SCHEMA,
+	TRANSACTION_FILTERS_SCHEMA,
+	TRANSACTION_POPULATED_SCHEMA,
 } from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
 import type { EndpointDefinition } from "@ts-types/endpoint-definition.type";
@@ -64,6 +68,26 @@ const DELETE = {
 
 // #endregion
 
+// #region Transactions
+
+const LIST_TRANSACTIONS = {
+	getPath: (params) => ["segment", params.segmentId, "transactions"],
+	paramsMapping: { segmentId: "segmentId" },
+	method: EndpointMethod.GET,
+	queryDto: z.object({
+		...PAGINATED_SEARCH_SCHEMA.shape,
+		filters: z
+			.object({ ...TRANSACTION_FILTERS_SCHEMA.shape })
+			.nullable()
+			.default(null),
+	}),
+	responseDto: z.object({
+		...getPaginatedResponse(TRANSACTION_POPULATED_SCHEMA).shape,
+	}),
+} satisfies EndpointDefinition<{ segmentId: string }>;
+
+// #endregion
+
 /* Controller */
 
 export const MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION = {
@@ -77,5 +101,8 @@ export const MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION = {
 		create: CREATE,
 		update: UPDATE,
 		delete: DELETE,
+
+		// Transactions
+		listTransactions: LIST_TRANSACTIONS,
 	},
 } satisfies ControllerDefinition;

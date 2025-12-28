@@ -10,12 +10,14 @@ import {
 	getController,
 	getParamName,
 	type InferBodyDto,
+	InferQueryDto,
 	type InferResponseDto,
 	MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
 } from "@shared/api-definition";
 import type { UserModelId } from "@shared/models";
 import { Endpoint } from "src/decorators/endpoints/endpoint.decorator";
 import { ValidatedBody } from "src/decorators/validation/validated-body.decorator";
+import { ValidatedQuery } from "src/decorators/validation/validated-query.decorator";
 import { UserBudgetSegmentsService } from "src/features/budgets/segments/user-budget-segments.service";
 
 @Controller(getController(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, {}))
@@ -23,6 +25,8 @@ export class MyBudgetSegmentsController {
 	constructor(
 		private readonly userBudgetSegmentsService: UserBudgetSegmentsService,
 	) {}
+
+	// #region CRUD
 
 	@Endpoint(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "getByBudget")
 	async getByBudget(
@@ -130,4 +134,46 @@ export class MyBudgetSegmentsController {
 	> {
 		await this.userBudgetSegmentsService.deleteById(userId, segmentId);
 	}
+
+	// #endregion
+
+	// #region Transactions
+
+	@Endpoint(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "listTransactions")
+	async listTransactions(
+		@UserId() userId: UserModelId,
+		@Param(
+			getParamName(
+				MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
+				"listTransactions",
+				"segmentId",
+			),
+			ParseIntPipe,
+		)
+		segmentId: number,
+		@ValidatedQuery(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "listTransactions")
+		{
+			filters,
+			...search
+		}: InferQueryDto<
+			typeof MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
+			"listTransactions"
+		>,
+	): Promise<
+		InferResponseDto<
+			typeof MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
+			"listTransactions"
+		>
+	> {
+		const transactions =
+			await this.userBudgetSegmentsService.listPopulatedTransactionsBySegmentId(
+				userId,
+				segmentId,
+				search,
+				filters || undefined,
+			);
+		return transactions;
+	}
+
+	// #endregion
 }

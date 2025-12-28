@@ -10,7 +10,7 @@ import type {
 	PaginatedResponse,
 	PaginatedSearchModel,
 	TransactionFiltersModel,
-	TransactionModel,
+	TransactionPopulatedModel,
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
 import {
@@ -129,13 +129,13 @@ export class BudgetSegmentsService {
 
 	// #region Transactions
 
-	async listTransactionsBySegmentId(
+	async listPopulatedTransactionsBySegmentId(
 		segmentId: BudgetSegmentModel["id"],
 		search: PaginatedSearchModel,
 		filters?: TransactionFiltersModel,
 		options?: QueryOptions,
-	): Promise<PaginatedResponse<TransactionModel>> {
-		return await this.budgetSegmentsRepository.paginatedTransactionsBySegmentId(
+	): Promise<PaginatedResponse<TransactionPopulatedModel>> {
+		return await this.budgetSegmentsRepository.paginatedPopulatedTransactionsBySegmentId(
 			segmentId,
 			search,
 			filters,

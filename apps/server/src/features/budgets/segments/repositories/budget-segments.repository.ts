@@ -9,8 +9,15 @@ import {
 } from "@database/schemas/main/tables/budget/budget-segment.table";
 import { budgetTable } from "@database/schemas/main/tables/budget/budget.table";
 import {
+	ACCOUNT_TABLE_COLUMNS,
+	accountTable,
+} from "@database/schemas/main/tables/finances/account.table";
+import {
+	CATEGORY_TABLE_COLUMNS,
+	categoryTable,
+} from "@database/schemas/main/tables/finances/category.table";
+import {
 	TRANSACTIONS_TABLE_COLUMNS,
-	type TransactionsSelect,
 	transactionsTable,
 } from "@database/schemas/main/tables/finances/transaction.table";
 import { Injectable } from "@nestjs/common";
@@ -20,6 +27,7 @@ import type {
 	PaginatedResponse,
 	PaginatedSearchModel,
 	TransactionFiltersModel,
+	TransactionPopulatedModel,
 	UserModelId,
 } from "@shared/models";
 import { and, count, desc, eq, sum } from "drizzle-orm";
@@ -114,22 +122,35 @@ export class BudgetSegmentsRepository extends Repository {
 
 	// #region Transactions
 
-	async paginatedTransactionsBySegmentId(
+	async paginatedPopulatedTransactionsBySegmentId(
 		segmentId: BudgetSegmentModel["id"],
 		{ search, pagination }: PaginatedSearchModel,
 		filters?: TransactionFiltersModel,
 		options?: QueryOptions,
-	): Promise<PaginatedResponse<TransactionsSelect>> {
+	): Promise<PaginatedResponse<TransactionPopulatedModel>> {
 		const transactionConditions =
 			TransactionsRepository.buildTransactionFilters(search, filters);
 
 		const query = this.query(options)
-			.select(TRANSACTIONS_TABLE_COLUMNS)
+			.select({
+				...TRANSACTIONS_TABLE_COLUMNS,
+				account: ACCOUNT_TABLE_COLUMNS,
+				category: CATEGORY_TABLE_COLUMNS,
+			})
 			.from(transactionsTable)
 			.innerJoin(
 				budgetSegmentImputationTable,
 				eq(budgetSegmentImputationTable.transactionId, transactionsTable.id),
 			)
+
+			// Add joins for populated fields
+			.innerJoin(accountTable, eq(accountTable.id, transactionsTable.accountId))
+			.leftJoin(
+				categoryTable,
+				eq(categoryTable.id, transactionsTable.categoryId),
+			)
+
+			// Filters
 			.where(
 				and(
 					eq(budgetSegmentImputationTable.segmentId, segmentId),

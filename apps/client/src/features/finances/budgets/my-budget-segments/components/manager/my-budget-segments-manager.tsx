@@ -21,7 +21,7 @@ import { MdDeleteOutline } from "react-icons/md";
 
 const MyBudgetSegmentTransactionsManager = lazy(() =>
 	import(
-		"@fts/finances/budgets/budget-segment-transactions/components/my-budget-segment-transactions-manager"
+		"@fts/finances/budgets/my-budget-segment-transactions/components/my-budget-segment-transactions-manager"
 	).then((m) => ({ default: m.MyBudgetSegmentTransactionsManager })),
 );
 
