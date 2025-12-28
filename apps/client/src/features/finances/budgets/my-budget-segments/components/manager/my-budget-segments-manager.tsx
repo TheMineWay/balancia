@@ -11,13 +11,19 @@ import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer } from "@mantine/core";
+import { ActionIcon, Button, Drawer, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { BUDGET_MAX_SEGMENTS_PER_BUDGET } from "@shared/constants";
 import type { BudgetModel, BudgetSegmentModel } from "@shared/models";
-import { useMemo, useState } from "react";
+import { lazy, Suspense, useMemo, useState } from "react";
 import { IoAddOutline, IoReload } from "react-icons/io5";
 import { MdDeleteOutline } from "react-icons/md";
+
+const MyBudgetSegmentTransactionsManager = lazy(() =>
+	import(
+		"@fts/finances/budgets/budget-segment-transactions/components/my-budget-segment-transactions-manager"
+	).then((m) => ({ default: m.MyBudgetSegmentTransactionsManager })),
+);
 
 type Props = {
 	budget: BudgetModel;
@@ -41,6 +47,8 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 	const [segmentToUpdate, setSegmentToUpdate] =
 		useState<BudgetSegmentModel | null>(null);
 	const [segmentToDelete, setSegmentToDelete] =
+		useState<BudgetSegmentModel | null>(null);
+	const [segmentToViewTransactions, setSegmentToViewTransactions] =
 		useState<BudgetSegmentModel | null>(null);
 
 	const filteredSegments = useMemo(
@@ -102,6 +110,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 								budget={budget}
 								onEditClick={setSegmentToUpdate}
 								onDeleteClick={setSegmentToDelete}
+								onTransactionsViewClick={setSegmentToViewTransactions}
 							/>
 						</TableLayout.Table>
 					</TableLayout.Root>
@@ -109,6 +118,8 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 			</ManagerLayout.Root>
 
 			{/* Modals & Drawers */}
+
+			{/* Create */}
 			<Drawer
 				position="right"
 				opened={isCreateOpen}
@@ -122,6 +133,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 				/>
 			</Drawer>
 
+			{/* Update */}
 			<Drawer
 				position="right"
 				opened={Boolean(segmentToUpdate)}
@@ -139,6 +151,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 				)}
 			</Drawer>
 
+			{/* Delete */}
 			<DangerousActionConfirm
 				open={Boolean(segmentToDelete)}
 				onClose={() => setSegmentToDelete(null)}
@@ -163,6 +176,25 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 					setSegmentToDelete(null);
 				}}
 			/>
+
+			{/* Transactions */}
+			<Modal
+				opened={Boolean(segmentToViewTransactions)}
+				onClose={() => setSegmentToViewTransactions(null)}
+				size="80rem"
+				title={interpolated(
+					(t) => t["budget-segment"].managers.transactions.Title,
+					{ name: segmentToViewTransactions?.name ?? "" },
+				)}
+			>
+				{segmentToViewTransactions && (
+					<Suspense>
+						<MyBudgetSegmentTransactionsManager
+							segment={segmentToViewTransactions}
+						/>
+					</Suspense>
+				)}
+			</Modal>
 		</>
 	);
 };

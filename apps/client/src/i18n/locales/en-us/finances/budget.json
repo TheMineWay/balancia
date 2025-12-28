@@ -49,6 +49,10 @@
 					"Action": "Delete segment",
 					"Write-to-delete": "Write segment name to confirm"
 				}
+			},
+			"transactions": {
+				"Title": "Transactions of segment {name}",
+				"Trigger": "View segment transactions"
 			}
 		} 
 	},
