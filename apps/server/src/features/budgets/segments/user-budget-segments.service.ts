@@ -6,6 +6,8 @@ import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import type {
 	BudgetModel,
 	BudgetSegmentCreateModel,
+	BudgetSegmentImputationCreateModel,
+	BudgetSegmentImputationModel,
 	BudgetSegmentImputationWithTransactionModel,
 	BudgetSegmentModel,
 	PaginatedResponse,
@@ -15,7 +17,9 @@ import type {
 } from "@shared/models";
 import { UserBudgetsService } from "src/features/budgets/budgets/user-budgets.service";
 import { BudgetSegmentsService } from "src/features/budgets/segments/budget-segments.service";
+import { BudgetSegmentImputationsRepository } from "src/features/budgets/segments/repositories/budget-segment-imputations.repository";
 import { BudgetSegmentsRepository } from "src/features/budgets/segments/repositories/budget-segments.repository";
+import { TransactionsService } from "src/features/finances/transactions/transactions.service";
 
 @Injectable()
 export class UserBudgetSegmentsService {
@@ -23,8 +27,10 @@ export class UserBudgetSegmentsService {
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
 		private readonly budgetSegmentsRepository: BudgetSegmentsRepository,
+		private readonly budgetSegmentImputationsRepository: BudgetSegmentImputationsRepository,
 		private readonly budgetSegmentsService: BudgetSegmentsService,
 		private readonly userBudgetsService: UserBudgetsService,
+		private readonly transactionsService: TransactionsService,
 	) {}
 
 	async checkOwnership(
@@ -123,7 +129,7 @@ export class UserBudgetSegmentsService {
 
 	// #endregion
 
-	// #region Transactions
+	// #region Imputations
 
 	async listImputationsBySegmentId(
 		userId: UserModelId,
@@ -148,7 +154,141 @@ export class UserBudgetSegmentsService {
 		});
 	}
 
+	async impute(
+		userId: UserModelId,
+		impute: BudgetSegmentImputationCreateModel,
+	): Promise<BudgetSegmentImputationModel | null> {
+		return await this.databaseService.db.transaction(async (tx) => {
+			const { isOwner } = await this.checkOwnership(userId, impute.segmentId, {
+				transaction: tx,
+			});
+			if (!isOwner) throw new UnauthorizedException();
+
+			// Check ownership of the imputation info being set
+			const isInfoOwner = await this.checkImputationInfoOwnership(
+				userId,
+				impute,
+				{
+					transaction: tx,
+				},
+			);
+			if (!isInfoOwner) throw new UnauthorizedException();
+
+			return await this.budgetSegmentsService.impute(impute, {
+				transaction: tx,
+			});
+		});
+	}
+
+	async updateImputation(
+		userId: UserModelId,
+		imputationId: BudgetSegmentImputationModel["id"],
+		impute: Partial<BudgetSegmentImputationCreateModel>,
+	): Promise<BudgetSegmentImputationModel | null> {
+		return await this.databaseService.db.transaction(async (tx) => {
+			const existingImputation =
+				await this.budgetSegmentImputationsRepository.findById(imputationId, {
+					transaction: tx,
+				});
+			if (!existingImputation) throw new UnauthorizedException();
+
+			// #region Ownership Checks
+
+			// Check ownership of the segment associated with the imputation
+			const { isOwner } = await this.checkOwnership(
+				userId,
+				existingImputation.segmentId,
+				{
+					transaction: tx,
+				},
+			);
+			if (!isOwner) throw new UnauthorizedException();
+
+			// Check ownership of the new info being set (if any)
+			const isInfoOwner = await this.checkImputationInfoOwnership(
+				userId,
+				impute,
+				{
+					transaction: tx,
+				},
+			);
+			if (!isInfoOwner) throw new UnauthorizedException();
+
+			// #endregion
+
+			return await this.budgetSegmentsService.updateImputation(
+				imputationId,
+				impute,
+				{
+					transaction: tx,
+				},
+			);
+		});
+	}
+
+	async removeImputation(
+		userId: UserModelId,
+		imputationId: BudgetSegmentImputationModel["id"],
+	): Promise<void> {
+		await this.databaseService.db.transaction(async (tx) => {
+			const existingImputation =
+				await this.budgetSegmentImputationsRepository.findById(imputationId, {
+					transaction: tx,
+				});
+			if (!existingImputation) throw new UnauthorizedException();
+
+			// Check ownership of the segment associated with the imputation
+			const { isOwner } = await this.checkOwnership(
+				userId,
+				existingImputation.segmentId,
+				{
+					transaction: tx,
+				},
+			);
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.budgetSegmentsService.removeImputation(imputationId, {
+				transaction: tx,
+			});
+		});
+	}
+
 	// #endregion
+
+	async checkImputationInfoOwnership(
+		userId: UserModelId,
+		impute: Partial<BudgetSegmentImputationCreateModel>,
+		options?: QueryOptions,
+	): Promise<boolean> {
+		return await (options?.transaction ?? this.databaseService.db).transaction(
+			async (transaction) => {
+				// If segmentId is being updated, check ownership of the new segment as well
+				if (impute.segmentId) {
+					const { isOwner: isNewSegmentOwner } = await this.checkOwnership(
+						userId,
+						impute.segmentId,
+						{
+							transaction,
+						},
+					);
+					if (!isNewSegmentOwner) return false;
+				}
+
+				// [Transaction checks]
+				// If transactionId is being updated, check ownership of the new transaction as well
+				if (impute.transactionId) {
+					const { isOwner: isTransactionOwner } =
+						await this.transactionsService.checkTransactionOwnership(
+							userId,
+							impute.transactionId,
+							{ transaction },
+						);
+					if (!isTransactionOwner) return false;
+				}
+				return true;
+			},
+		);
+	}
 }
 
 /* Internal */

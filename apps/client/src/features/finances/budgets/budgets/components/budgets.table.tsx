@@ -52,12 +52,12 @@ export const BudgetsTable = <T extends BudgetModel = BudgetModel>({
 				render: (item) => <RenderCurrency amount={item.amount} />,
 			},
 			{
-				label: t().models.budget.fromDate.Label,
+				label: t().models.budget["from-date"].Label,
 				accessorKey: "fromDate",
 				render: (item) => <DateRender date={item.fromDate} />,
 			},
 			{
-				label: t().models.budget.toDate.Label,
+				label: t().models.budget["to-date"].Label,
 				accessorKey: "toDate",
 				render: (item) => <DateRender date={item.toDate} />,
 			},

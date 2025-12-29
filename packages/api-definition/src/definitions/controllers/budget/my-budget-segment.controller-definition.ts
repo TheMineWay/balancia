@@ -1,5 +1,7 @@
 import {
 	BUDGET_SEGMENT_CREATE_SCHEMA,
+	BUDGET_SEGMENT_IMPUTATION_CREATE_SCHEMA,
+	BUDGET_SEGMENT_IMPUTATION_SCHEMA,
 	BUDGET_SEGMENT_IMPUTATION_WITH_TRANSACTION_SCHEMA,
 	BUDGET_SEGMENT_SCHEMA,
 	getPaginatedResponse,
@@ -70,8 +72,8 @@ const DELETE = {
 
 // #region Transactions
 
-const LIST_TRANSACTIONS = {
-	getPath: (params) => ["segment", params.segmentId, "transactions"],
+const LIST_IMPUTATIONS = {
+	getPath: (params) => ["impute", "segment", params.segmentId, "transactions"],
 	paramsMapping: { segmentId: "segmentId" },
 	method: EndpointMethod.GET,
 	queryDto: z.object({
@@ -86,6 +88,39 @@ const LIST_TRANSACTIONS = {
 			.shape,
 	}),
 } satisfies EndpointDefinition<{ segmentId: string }>;
+
+const IMPUTE = {
+	getPath: () => ["impute"],
+	paramsMapping: {},
+	method: EndpointMethod.POST,
+	bodyDto: z.object({
+		...BUDGET_SEGMENT_IMPUTATION_CREATE_SCHEMA.shape,
+	}),
+	responseDto: z.object({
+		...BUDGET_SEGMENT_IMPUTATION_SCHEMA.shape,
+	}),
+} satisfies EndpointDefinition;
+
+const UPDATE_IMPUTATION = {
+	getPath: (params) => ["impute", params.id],
+	paramsMapping: { id: "imputeId" },
+	method: EndpointMethod.PUT,
+	bodyDto: z.object({
+		...BUDGET_SEGMENT_IMPUTATION_CREATE_SCHEMA.omit({
+			segmentId: true,
+			transactionId: true,
+		}).shape,
+	}),
+	responseDto: z.object({
+		...BUDGET_SEGMENT_IMPUTATION_SCHEMA.shape,
+	}),
+} satisfies EndpointDefinition<{ id: string }>;
+
+const REMOVE_IMPUTATION = {
+	getPath: (params) => ["impute", params.id],
+	paramsMapping: { id: "imputeId" },
+	method: EndpointMethod.DELETE,
+} satisfies EndpointDefinition<{ id: string }>;
 
 // #endregion
 
@@ -104,6 +139,9 @@ export const MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION = {
 		delete: DELETE,
 
 		// Transactions
-		listTransactions: LIST_TRANSACTIONS,
+		listImputations: LIST_IMPUTATIONS,
+		impute: IMPUTE,
+		updateImputation: UPDATE_IMPUTATION,
+		removeImputation: REMOVE_IMPUTATION,
 	},
 } satisfies ControllerDefinition;

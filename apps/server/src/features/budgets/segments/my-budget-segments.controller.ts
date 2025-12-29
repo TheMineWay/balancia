@@ -139,30 +139,30 @@ export class MyBudgetSegmentsController {
 
 	// #region Transactions
 
-	@Endpoint(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "listTransactions")
-	async listTransactions(
+	@Endpoint(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "listImputations")
+	async listImputations(
 		@UserId() userId: UserModelId,
 		@Param(
 			getParamName(
 				MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
-				"listTransactions",
+				"listImputations",
 				"segmentId",
 			),
 			ParseIntPipe,
 		)
 		segmentId: number,
-		@ValidatedQuery(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "listTransactions")
+		@ValidatedQuery(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "listImputations")
 		{
 			filters,
 			...search
 		}: InferQueryDto<
 			typeof MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
-			"listTransactions"
+			"listImputations"
 		>,
 	): Promise<
 		InferResponseDto<
 			typeof MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
-			"listTransactions"
+			"listImputations"
 		>
 	> {
 		const transactions =
@@ -173,6 +173,77 @@ export class MyBudgetSegmentsController {
 				filters || undefined,
 			);
 		return transactions;
+	}
+
+	@Endpoint(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "impute")
+	async impute(
+		@UserId() userId: UserModelId,
+		@ValidatedBody(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "impute")
+		body: InferBodyDto<
+			typeof MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
+			"impute"
+		>,
+	): Promise<
+		InferResponseDto<typeof MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "impute">
+	> {
+		const added = await this.userBudgetSegmentsService.impute(userId, body);
+
+		if (!added) throw new InternalServerErrorException();
+		return added;
+	}
+
+	@Endpoint(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "updateImputation")
+	async updateImputation(
+		@UserId() userId: UserModelId,
+		@Param(
+			getParamName(
+				MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
+				"updateImputation",
+				"id",
+			),
+			ParseIntPipe,
+		)
+		imputeId: number,
+		@ValidatedBody(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "updateImputation")
+		body: InferBodyDto<
+			typeof MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
+			"updateImputation"
+		>,
+	): Promise<
+		InferResponseDto<
+			typeof MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
+			"updateImputation"
+		>
+	> {
+		const updated = await this.userBudgetSegmentsService.updateImputation(
+			userId,
+			imputeId,
+			body,
+		);
+
+		if (!updated) throw new InternalServerErrorException();
+		return updated;
+	}
+
+	@Endpoint(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, "removeImputation")
+	async removeImputation(
+		@UserId() userId: UserModelId,
+		@Param(
+			getParamName(
+				MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
+				"removeImputation",
+				"id",
+			),
+			ParseIntPipe,
+		)
+		imputeId: number,
+	): Promise<
+		InferResponseDto<
+			typeof MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
+			"removeImputation"
+		>
+	> {
+		await this.userBudgetSegmentsService.removeImputation(userId, imputeId);
 	}
 
 	// #endregion

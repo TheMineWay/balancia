@@ -13,16 +13,16 @@ import type {
 } from "@shared/models";
 import { useQuery } from "@tanstack/react-query";
 
-export const GET_MY_BUDGET_SEGMENT_TRANSACTIONS_QUERY_KEY: ParametrizedQueryKey<{
+export const GET_MY_BUDGET_SEGMENT_IMPUTATIONS_QUERY_KEY: ParametrizedQueryKey<{
 	segmentId: BudgetSegmentModel["id"];
-	search: UseSearch<TransactionFiltersModel>;
-	pagination: UsePagination;
+	search?: UseSearch<TransactionFiltersModel>;
+	pagination?: UsePagination;
 }> = ({ segmentId, search, pagination }) => [
 	getController(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, {}),
 	"segment",
 	segmentId,
 	"transactions-list",
-	{ search: search.requestData, pagination: pagination.requestData },
+	{ search: search?.requestData, pagination: pagination?.requestData },
 ];
 
 type Options = {
@@ -31,7 +31,7 @@ type Options = {
 	search: UseSearch<TransactionFiltersModel>;
 };
 
-export const useMyBudgetSegmentTransactionsListQuery = ({
+export const useMyBudgetSegmentImputationsListQuery = ({
 	segmentId,
 	pagination,
 	search,
@@ -42,7 +42,7 @@ export const useMyBudgetSegmentTransactionsListQuery = ({
 		queryFn: async () => {
 			const response = await endpointQuery(
 				MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
-				"listTransactions",
+				"listImputations",
 				{ segmentId: segmentId.toString() },
 				request,
 				{
@@ -57,7 +57,7 @@ export const useMyBudgetSegmentTransactionsListQuery = ({
 
 			return response;
 		},
-		queryKey: GET_MY_BUDGET_SEGMENT_TRANSACTIONS_QUERY_KEY({
+		queryKey: GET_MY_BUDGET_SEGMENT_IMPUTATIONS_QUERY_KEY({
 			segmentId,
 			search,
 			pagination,
