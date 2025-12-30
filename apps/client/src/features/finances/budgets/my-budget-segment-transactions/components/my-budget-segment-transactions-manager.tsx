@@ -4,7 +4,6 @@ import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { BudgetSegmentTransactionsTable } from "@fts/finances/budgets/budget-segment-transactions/components/tables/budget-segment-transactions.table";
 import { useMyBudgetSegmentImputationDeleteMutation } from "@fts/finances/budgets/my-budget-segment-transactions/api/use-my-budget-segment-imputation-delete.mutation";
 import { useMyBudgetSegmentImputationsListQuery } from "@fts/finances/budgets/my-budget-segment-transactions/api/use-my-budget-segment-imputations-list.query";
-import { MyBudgetSegmentTransactionImputeAssistant } from "@fts/finances/budgets/my-budget-segment-transactions/components/my-budget-segment-transaction-impute.assistant";
 import { TransactionFilters } from "@fts/finances/transactions/transactions/components/filters/transaction-filters";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
@@ -18,8 +17,14 @@ import type {
 	BudgetSegmentModel,
 	TransactionFiltersModel,
 } from "@shared/models";
-import { useCallback } from "react";
+import { lazy, Suspense, useCallback } from "react";
 import { IoCloseOutline, IoReload } from "react-icons/io5";
+
+const MyBudgetSegmentTransactionImputeAssistant = lazy(() =>
+	import(
+		"@fts/finances/budgets/my-budget-segment-transactions/components/my-budget-segment-transaction-impute.assistant"
+	).then((m) => ({ default: m.MyBudgetSegmentTransactionImputeAssistant })),
+);
 
 type Props = {
 	segment: BudgetSegmentModel;
@@ -132,7 +137,9 @@ export const MyBudgetSegmentTransactionsManager: FC<Props> = ({ segment }) => {
 				onClose={closeCreate}
 				size="xl"
 			>
-				<MyBudgetSegmentTransactionImputeAssistant segment={segment} />
+				<Suspense>
+					<MyBudgetSegmentTransactionImputeAssistant forcedSegment={segment} />
+				</Suspense>
 			</Drawer>
 		</>
 	);

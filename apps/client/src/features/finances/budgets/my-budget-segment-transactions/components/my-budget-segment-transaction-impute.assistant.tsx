@@ -1,5 +1,7 @@
+import { MyAllBudgetSegmentSelector } from "@fts/finances/budgets/my-budget-segments/components/form/my-all-budget-segment.selector";
+import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactions/components/form/my-transactions.selector";
 import { useTranslation } from "@i18n/use-translation";
-import { Flex, Stepper } from "@mantine/core";
+import { Button, Divider, Flex, InputWrapper, Stepper } from "@mantine/core";
 import type {
 	BudgetSegmentImputationModel,
 	BudgetSegmentModel,
@@ -7,33 +9,34 @@ import type {
 } from "@shared/models";
 import { useCallback, useMemo, useState } from "react";
 
-type TransactionSelectionState = {
-	transaction: TransactionModel | null;
-	selected: boolean;
+type Essentials = {
+	transaction: TransactionModel;
+	segment: BudgetSegmentModel;
 };
 
 type Props = {
-	segment: BudgetSegmentModel;
+	forcedSegment?: BudgetSegmentModel;
 	onSuccess?: (imputation: BudgetSegmentImputationModel) => void;
 };
 
-export const MyBudgetSegmentTransactionImputeAssistant: FC<Props> = ({}) => {
+export const MyBudgetSegmentTransactionImputeAssistant: FC<Props> = ({
+	forcedSegment,
+}) => {
 	const { t } = useTranslation("budget");
 
 	// State of transaction and selection status
-	const [selectedTransaction, setSelectedTransaction] =
-		useState<TransactionSelectionState>({ transaction: null, selected: false });
+	const [essentials, setEssentials] = useState<Essentials | null>(null);
 
 	// Determine active step
 	const activeStep = useMemo(() => {
-		if (!selectedTransaction.selected || !selectedTransaction.transaction) {
-			return 1;
+		if (!essentials) {
+			return 0;
 		}
-		return 2;
-	}, [selectedTransaction]);
+		return 1;
+	}, [essentials]);
 
 	const clearTransaction = useCallback(() => {
-		setSelectedTransaction({ transaction: null, selected: false });
+		setEssentials(null);
 	}, []);
 
 	const onStepClick = useCallback(
@@ -55,9 +58,11 @@ export const MyBudgetSegmentTransactionImputeAssistant: FC<Props> = ({}) => {
 						].Title
 					}
 				>
-					<SelectTransactionStep
-						transactionSelectionState={selectedTransaction}
-						setTransactionSelectionState={setSelectedTransaction}
+					<SelectEssentialsStep
+						onSelect={(transaction, segment) =>
+							setEssentials({ transaction, segment })
+						}
+						forcedSegment={forcedSegment}
 					/>
 				</Stepper.Step>
 				<Stepper.Step
@@ -74,13 +79,71 @@ export const MyBudgetSegmentTransactionImputeAssistant: FC<Props> = ({}) => {
 
 /* Steps */
 
-type SelectTransactionStepProps = {
-	transactionSelectionState: TransactionSelectionState;
-	setTransactionSelectionState: React.Dispatch<
-		React.SetStateAction<TransactionSelectionState>
-	>;
+type SelectEssentialsStepProps = {
+	onSelect: (
+		transaction: TransactionModel,
+		segment: BudgetSegmentModel,
+	) => void;
+
+	// Optional
+	forcedSegment?: BudgetSegmentModel;
 };
 
-const SelectTransactionStep: FC<SelectTransactionStepProps> = ({}) => {
+const SelectEssentialsStep: FC<SelectEssentialsStepProps> = ({
+	onSelect,
+	forcedSegment,
+}) => {
+	const { t } = useTranslation("budget");
+	const { t: commonT } = useTranslation("common");
+
+	const [selectedSegment, setSelectedSegment] =
+		useState<BudgetSegmentModel | null>(forcedSegment ?? null);
+
+	const [selectedTransaction, setSelectedTransaction] =
+		useState<TransactionModel | null>(null);
+
+	const onContinueClick = useCallback(() => {
+		if (selectedSegment && selectedTransaction) {
+			onSelect(selectedTransaction, selectedSegment);
+		}
+	}, [onSelect, selectedSegment, selectedTransaction]);
+
+	return (
+		<Flex direction="column" gap="xs">
+			<InputWrapper label={t().expressions["Budget-segment"]}>
+				<MyAllBudgetSegmentSelector
+					disabled={Boolean(forcedSegment)}
+					budgetId={forcedSegment?.budgetId}
+					value={selectedSegment?.id || null}
+					onChange={setSelectedSegment}
+				/>
+			</InputWrapper>
+
+			<Divider className="my-2" />
+
+			<InputWrapper
+				label={t().models["budget-segment-imputation"]["transaction-id"].Label}
+			>
+				<MyTransactionsSelector
+					value={selectedTransaction?.id}
+					onChange={setSelectedTransaction}
+				/>
+			</InputWrapper>
+
+			<Divider className="my-2" />
+
+			<Button
+				disabled={!selectedSegment || !selectedTransaction}
+				onClick={onContinueClick}
+			>
+				{commonT().expressions.Continue}
+			</Button>
+		</Flex>
+	);
+};
+
+type DefineDetailsStepProps = {};
+
+const DefineDetailsStep: FC<DefineDetailsStepProps> = () => {
 	return <></>;
 };
