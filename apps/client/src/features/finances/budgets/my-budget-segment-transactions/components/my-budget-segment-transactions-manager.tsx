@@ -9,7 +9,13 @@ import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer, Text } from "@mantine/core";
+import {
+	ActionIcon,
+	Button,
+	Drawer,
+	LoadingOverlay,
+	Text,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type {
@@ -137,7 +143,7 @@ export const MyBudgetSegmentTransactionsManager: FC<Props> = ({ segment }) => {
 				onClose={closeCreate}
 				size="xl"
 			>
-				<Suspense>
+				<Suspense fallback={<LoadingOverlay visible />}>
 					<MyBudgetSegmentTransactionImputeAssistant forcedSegment={segment} />
 				</Suspense>
 			</Drawer>

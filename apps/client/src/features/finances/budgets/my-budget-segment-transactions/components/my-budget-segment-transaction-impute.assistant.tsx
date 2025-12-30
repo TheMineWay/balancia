@@ -1,7 +1,17 @@
 import { MyAllBudgetSegmentSelector } from "@fts/finances/budgets/my-budget-segments/components/form/my-all-budget-segment.selector";
+import { useMyBudgetByIdQuery } from "@fts/finances/budgets/my-budgets/api/use-my-budget-by-id.query";
 import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactions/components/form/my-transactions.selector";
 import { useTranslation } from "@i18n/use-translation";
-import { Button, Divider, Flex, InputWrapper, Stepper } from "@mantine/core";
+import {
+	Button,
+	Divider,
+	Flex,
+	InputWrapper,
+	LoadingOverlay,
+	Paper,
+	Stepper,
+	Text,
+} from "@mantine/core";
 import type {
 	BudgetSegmentImputationModel,
 	BudgetSegmentModel,
@@ -71,7 +81,14 @@ export const MyBudgetSegmentTransactionImputeAssistant: FC<Props> = ({
 							"set-metadata"
 						].Title
 					}
-				></Stepper.Step>
+				>
+					{essentials && (
+						<DefineDetailsStep
+							transaction={essentials.transaction}
+							segment={essentials.segment}
+						/>
+					)}
+				</Stepper.Step>
 			</Stepper>
 		</Flex>
 	);
@@ -142,8 +159,25 @@ const SelectEssentialsStep: FC<SelectEssentialsStepProps> = ({
 	);
 };
 
-type DefineDetailsStepProps = {};
+type DefineDetailsStepProps = {
+	transaction: TransactionModel;
+	segment: BudgetSegmentModel;
+};
 
-const DefineDetailsStep: FC<DefineDetailsStepProps> = () => {
-	return <></>;
+const DefineDetailsStep: FC<DefineDetailsStepProps> = ({ segment }) => {
+	const { t } = useTranslation("budget");
+
+	const { data: budget } = useMyBudgetByIdQuery(segment.budgetId);
+
+	if (!budget) return <LoadingOverlay visible={true} />;
+
+	return (
+		<Flex direction="column">
+			<Paper>
+				<Text>
+					{t().expressions.Budget}: {budget?.name}
+				</Text>
+			</Paper>
+		</Flex>
+	);
 };
