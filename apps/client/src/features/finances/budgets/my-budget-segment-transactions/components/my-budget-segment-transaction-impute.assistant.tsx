@@ -1,3 +1,4 @@
+import { MyBudgetSegmentCard } from "@fts/finances/budgets/my-budget-segments/components/card/my-budget-segment-card";
 import { MyAllBudgetSegmentSelector } from "@fts/finances/budgets/my-budget-segments/components/form/my-all-budget-segment.selector";
 import { useMyBudgetByIdQuery } from "@fts/finances/budgets/my-budgets/api/use-my-budget-by-id.query";
 import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactions/components/form/my-transactions.selector";
@@ -8,9 +9,7 @@ import {
 	Flex,
 	InputWrapper,
 	LoadingOverlay,
-	Paper,
 	Stepper,
-	Text,
 } from "@mantine/core";
 import type {
 	BudgetSegmentImputationModel,
@@ -173,11 +172,7 @@ const DefineDetailsStep: FC<DefineDetailsStepProps> = ({ segment }) => {
 
 	return (
 		<Flex direction="column">
-			<Paper>
-				<Text>
-					{t().expressions.Budget}: {budget?.name}
-				</Text>
-			</Paper>
+			<MyBudgetSegmentCard segment={segment} />
 		</Flex>
 	);
 };
