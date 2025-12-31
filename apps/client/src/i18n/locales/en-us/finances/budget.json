@@ -85,7 +85,7 @@
 					},
 					"set-metadata": {
 						"Title": "Define details",
-						"Create": "Impute transaction"
+						"Set": "Set imputation details"
 					}
 				}
 			}

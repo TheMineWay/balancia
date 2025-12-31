@@ -190,7 +190,7 @@ const DefineDetailsStep: FC<DefineDetailsStepProps> = ({ segment }) => {
 				submitText={
 					t()["budget-segment-imputation"].managers["impute-assistant"].steps[
 						"set-metadata"
-					].Create
+					].Set
 				}
 			/>
 		</Flex>
