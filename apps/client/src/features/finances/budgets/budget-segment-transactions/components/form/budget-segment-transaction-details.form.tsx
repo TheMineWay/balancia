@@ -13,13 +13,13 @@ export const BUDGET_SEGMENT_TRANSACTION_DETAILS_FORM_VALUES_SCHEMA =
 		description: true,
 	});
 
-type FormValues = z.infer<
+export type BudgetSegmentTransactionDetailsFormValues = z.infer<
 	typeof BUDGET_SEGMENT_TRANSACTION_DETAILS_FORM_VALUES_SCHEMA
 >;
 
 type Props = {
-	form: UseFormReturn<FormValues>;
-	onSuccess?: (values: FormValues) => void;
+	form: UseFormReturn<BudgetSegmentTransactionDetailsFormValues>;
+	onSuccess?: (values: BudgetSegmentTransactionDetailsFormValues) => void;
 
 	// Form customization
 	submitText: string;

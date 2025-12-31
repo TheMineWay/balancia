@@ -13,15 +13,21 @@ import type {
 } from "@shared/models";
 import { useQuery } from "@tanstack/react-query";
 
+export const GET_MY_BUDGET_SEGMENT_IMPUTATIONS_BASE_QUERY_KEY: ParametrizedQueryKey<{
+	segmentId: BudgetSegmentModel["id"];
+}> = ({ segmentId }) => [
+	getController(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, {}),
+	"segment",
+	segmentId,
+	"transactions-list",
+];
+
 export const GET_MY_BUDGET_SEGMENT_IMPUTATIONS_QUERY_KEY: ParametrizedQueryKey<{
 	segmentId: BudgetSegmentModel["id"];
 	search?: UseSearch<TransactionFiltersModel>;
 	pagination?: UsePagination;
 }> = ({ segmentId, search, pagination }) => [
-	getController(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, {}),
-	"segment",
-	segmentId,
-	"transactions-list",
+	...GET_MY_BUDGET_SEGMENT_IMPUTATIONS_BASE_QUERY_KEY({ segmentId }),
 	{ search: search?.requestData, pagination: pagination?.requestData },
 ];
 

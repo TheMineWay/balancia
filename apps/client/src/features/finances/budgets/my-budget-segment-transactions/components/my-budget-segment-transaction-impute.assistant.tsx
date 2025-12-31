@@ -1,7 +1,9 @@
 import {
 	BUDGET_SEGMENT_TRANSACTION_DETAILS_FORM_VALUES_SCHEMA,
 	BudgetSegmentTransactionDetailsForm,
+	type BudgetSegmentTransactionDetailsFormValues,
 } from "@fts/finances/budgets/budget-segment-transactions/components/form/budget-segment-transaction-details.form";
+import { useMyBudgetSegmentImputationCreateMutation } from "@fts/finances/budgets/my-budget-segment-transactions/api/use-my-budget-segment-imputation-create.mutation";
 import { MyBudgetSegmentCard } from "@fts/finances/budgets/my-budget-segments/components/card/my-budget-segment-card";
 import { MyAllBudgetSegmentSelector } from "@fts/finances/budgets/my-budget-segments/components/form/my-all-budget-segment.selector";
 import { useMyBudgetByIdQuery } from "@fts/finances/budgets/my-budgets/api/use-my-budget-by-id.query";
@@ -17,6 +19,7 @@ import {
 	Stepper,
 } from "@mantine/core";
 import type {
+	BudgetSegmentImputationCreateModel,
 	BudgetSegmentImputationModel,
 	BudgetSegmentModel,
 	TransactionModel,
@@ -36,19 +39,25 @@ type Props = {
 
 export const MyBudgetSegmentTransactionImputeAssistant: FC<Props> = ({
 	forcedSegment,
+	onSuccess,
 }) => {
 	const { t } = useTranslation("budget");
 
 	// State of transaction and selection status
 	const [essentials, setEssentials] = useState<Essentials | null>(null);
+	const [imputationDetails, setImputationDetails] =
+		useState<BudgetSegmentImputationCreateModel | null>(null);
 
 	// Determine active step
 	const activeStep = useMemo(() => {
 		if (!essentials) {
 			return 0;
 		}
-		return 1;
-	}, [essentials]);
+		if (!imputationDetails) {
+			return 1;
+		}
+		return 2;
+	}, [essentials, imputationDetails]);
 
 	const clearTransaction = useCallback(() => {
 		setEssentials(null);
@@ -58,6 +67,7 @@ export const MyBudgetSegmentTransactionImputeAssistant: FC<Props> = ({
 		(step: number) => {
 			if (step === activeStep) return;
 
+			if (step <= 1) setImputationDetails(null);
 			if (step === 0) clearTransaction();
 		},
 		[clearTransaction, activeStep],
@@ -91,6 +101,22 @@ export const MyBudgetSegmentTransactionImputeAssistant: FC<Props> = ({
 						<DefineDetailsStep
 							transaction={essentials.transaction}
 							segment={essentials.segment}
+							onNext={setImputationDetails}
+						/>
+					)}
+				</Stepper.Step>
+				<Stepper.Step
+					label={
+						t()["budget-segment-imputation"].managers["impute-assistant"].steps
+							.review.Title
+					}
+				>
+					{essentials && imputationDetails && (
+						<ReviewDetailsStep
+							imputationInfo={imputationDetails}
+							transaction={essentials.transaction}
+							segment={essentials.segment}
+							onNext={onSuccess}
 						/>
 					)}
 				</Stepper.Step>
@@ -167,9 +193,14 @@ const SelectEssentialsStep: FC<SelectEssentialsStepProps> = ({
 type DefineDetailsStepProps = {
 	transaction: TransactionModel;
 	segment: BudgetSegmentModel;
+	onNext?: (imputationInfo: BudgetSegmentImputationCreateModel) => void;
 };
 
-const DefineDetailsStep: FC<DefineDetailsStepProps> = ({ segment }) => {
+const DefineDetailsStep: FC<DefineDetailsStepProps> = ({
+	segment,
+	transaction,
+	onNext,
+}) => {
 	const { t } = useTranslation("budget");
 
 	const { data: budget } = useMyBudgetByIdQuery(segment.budgetId);
@@ -178,6 +209,17 @@ const DefineDetailsStep: FC<DefineDetailsStepProps> = ({ segment }) => {
 			BUDGET_SEGMENT_TRANSACTION_DETAILS_FORM_VALUES_SCHEMA.required(),
 		),
 	});
+
+	const onSuccess = useCallback(
+		(details: BudgetSegmentTransactionDetailsFormValues) => {
+			onNext?.({
+				...details,
+				segmentId: segment.id,
+				transactionId: transaction.id,
+			});
+		},
+		[onNext, segment, transaction],
+	);
 
 	if (!budget) return <LoadingOverlay visible={true} />;
 
@@ -192,7 +234,46 @@ const DefineDetailsStep: FC<DefineDetailsStepProps> = ({ segment }) => {
 						"set-metadata"
 					].Set
 				}
+				onSuccess={onSuccess}
 			/>
+		</Flex>
+	);
+};
+
+type ReviewDetailsStepProps = {
+	transaction: TransactionModel;
+	segment: BudgetSegmentModel;
+	imputationInfo: BudgetSegmentImputationCreateModel;
+	onNext?: (created: BudgetSegmentImputationModel) => void;
+};
+
+const ReviewDetailsStep: FC<ReviewDetailsStepProps> = ({
+	transaction,
+	segment,
+	imputationInfo,
+	onNext,
+}) => {
+	const { t } = useTranslation("budget");
+
+	const { mutate: impute, isPending: isImputating } =
+		useMyBudgetSegmentImputationCreateMutation();
+
+	const onImputeClick = useCallback(() => {
+		impute(imputationInfo, {
+			onSuccess: (created) => {
+				onNext?.(created);
+			},
+		});
+	}, [impute, imputationInfo, onNext]);
+
+	return (
+		<Flex direction="column">
+			<Button loading={isImputating} onClick={onImputeClick}>
+				{
+					t()["budget-segment-imputation"].managers["impute-assistant"].steps
+						.review.Impute
+				}
+			</Button>
 		</Flex>
 	);
 };

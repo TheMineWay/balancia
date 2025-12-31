@@ -144,7 +144,10 @@ export const MyBudgetSegmentTransactionsManager: FC<Props> = ({ segment }) => {
 				size="xl"
 			>
 				<Suspense fallback={<LoadingOverlay visible />}>
-					<MyBudgetSegmentTransactionImputeAssistant forcedSegment={segment} />
+					<MyBudgetSegmentTransactionImputeAssistant
+						forcedSegment={segment}
+						onSuccess={closeCreate}
+					/>
 				</Suspense>
 			</Drawer>
 		</>

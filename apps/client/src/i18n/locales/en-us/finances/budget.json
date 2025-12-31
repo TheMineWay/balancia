@@ -86,6 +86,10 @@
 					"set-metadata": {
 						"Title": "Define details",
 						"Set": "Set imputation details"
+					},
+					"review": {
+						"Title": "Review details",
+						"Impute": "Impute transaction"
 					}
 				}
 			}
