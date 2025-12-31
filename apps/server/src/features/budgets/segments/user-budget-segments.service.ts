@@ -13,6 +13,7 @@ import type {
 	PaginatedResponse,
 	PaginatedSearchModel,
 	TransactionFiltersModel,
+	TransactionModel,
 	UserModelId,
 } from "@shared/models";
 import { UserBudgetsService } from "src/features/budgets/budgets/user-budgets.service";
@@ -289,6 +290,41 @@ export class UserBudgetSegmentsService {
 			},
 		);
 	}
+
+	// #region Stats
+
+	async getAvailabilityStatsBySegmentAndTransaction(
+		userId: UserModelId,
+		segmentId: BudgetSegmentModel["id"],
+		transactionId: TransactionModel["id"],
+	) {
+		return await this.databaseService.db.transaction(async (tx) => {
+			const { isOwner: isSegmentOwner } = await this.checkOwnership(
+				userId,
+				segmentId,
+				{
+					transaction: tx,
+				},
+			);
+			if (!isSegmentOwner) throw new UnauthorizedException();
+
+			const { isOwner: isTransactionOwner } =
+				await this.transactionsService.checkTransactionOwnership(
+					userId,
+					transactionId,
+					{ transaction: tx },
+				);
+			if (!isTransactionOwner) throw new UnauthorizedException();
+
+			return await this.budgetSegmentsService.getAvailabilityStatsBySegmentAndTransaction(
+				segmentId,
+				transactionId,
+				{ transaction: tx },
+			);
+		});
+	}
+
+	// #endregion
 }
 
 /* Internal */

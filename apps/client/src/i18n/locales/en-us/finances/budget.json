@@ -84,13 +84,11 @@
 						"Title": "Select essentials"
 					},
 					"set-metadata": {
-						"Title": "Define details",
-						"Set": "Set imputation details"
-					},
-					"review": {
-						"Title": "Review details",
-						"Impute": "Impute transaction"
+						"Title": "Define details"
 					}
+				},
+				"actions": {
+					"Imputate": "Imputate"
 				}
 			}
 		}

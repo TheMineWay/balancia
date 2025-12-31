@@ -1,7 +1,12 @@
 import { DATABASE_PROVIDERS } from "@database/database.provider";
 import type { QueryOptions } from "@database/repository/repository";
 import { DatabaseService } from "@database/services/database.service";
-import { BadRequestException, Inject, Injectable } from "@nestjs/common";
+import {
+	BadRequestException,
+	Inject,
+	Injectable,
+	NotFoundException,
+} from "@nestjs/common";
 import { BUDGET_MAX_SEGMENTS_PER_BUDGET } from "@shared/constants";
 import type {
 	BudgetModel,
@@ -13,6 +18,7 @@ import type {
 	PaginatedResponse,
 	PaginatedSearchModel,
 	TransactionFiltersModel,
+	TransactionModel,
 } from "@shared/models";
 import { EventService } from "src/events/event.service";
 import {
@@ -198,6 +204,44 @@ export class BudgetSegmentsService {
 		this.eventService.emit(
 			new BudgetSegmentImputationDeletedEvent({ imputationId }),
 		);
+	}
+
+	// #endregion
+
+	// #region Stats
+
+	async getAvailabilityStatsBySegmentAndTransaction(
+		segmentId: BudgetSegmentModel["id"],
+		transactionId: TransactionModel["id"],
+		options?: QueryOptions,
+	) {
+		const segment = await this.budgetSegmentsRepository.findById(
+			segmentId,
+			options,
+		);
+		if (!segment) throw new NotFoundException();
+
+		// Get total imputation percent for the transaction
+		const { totalPercent: totalImputationPercent } =
+			await this.budgetSegmentImputationsRepository.getImputationPercentByBudgetAndTransaction(
+				segment.budgetId,
+				transactionId,
+				options,
+			);
+
+		// Check if there is already an imputation for this segment and transaction
+		const segmentImputation =
+			await this.budgetSegmentImputationsRepository.findByTransactionIdAndSegmentId(
+				transactionId,
+				segmentId,
+				options,
+			);
+		const alreadyImputed = Boolean(segmentImputation);
+
+		return {
+			totalImputationPercent,
+			alreadyImputed,
+		};
 	}
 
 	// #endregion

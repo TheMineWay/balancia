@@ -25,6 +25,10 @@ type Props = {
 	submitText: string;
 	submitIcon?: React.ReactNode;
 	loading?: boolean;
+	disableSubmit?: boolean;
+
+	// Limits
+	maxPercent?: number;
 };
 
 export const BudgetSegmentTransactionDetailsForm: FC<Props> = ({
@@ -35,6 +39,10 @@ export const BudgetSegmentTransactionDetailsForm: FC<Props> = ({
 	submitText,
 	submitIcon = <TbMoneybag />,
 	loading,
+	disableSubmit = false,
+
+	// Limits
+	maxPercent = 100,
 }) => {
 	const { t } = useTranslation("budget");
 
@@ -51,6 +59,7 @@ export const BudgetSegmentTransactionDetailsForm: FC<Props> = ({
 					render={({ field }) => (
 						<PercentInputField
 							{...field}
+							max={maxPercent}
 							error={Boolean(form.formState.errors.percent)}
 						/>
 					)}
@@ -74,7 +83,7 @@ export const BudgetSegmentTransactionDetailsForm: FC<Props> = ({
 			</InputWrapper>
 
 			<Button
-				disabled={!formState.isValid}
+				disabled={!formState.isValid || disableSubmit}
 				loading={loading}
 				leftSection={submitIcon}
 				type="submit"

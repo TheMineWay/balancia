@@ -6,6 +6,7 @@ import {
 	BUDGET_SEGMENT_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_SEARCH_SCHEMA,
+	PERCENT_SCHEMA,
 	TRANSACTION_FILTERS_SCHEMA,
 } from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
@@ -124,6 +125,32 @@ const REMOVE_IMPUTATION = {
 
 // #endregion
 
+// #region Stats
+
+const AVAILABILITY_STATS_BY_SEGMENT_AND_TRANSACTION = {
+	getPath: (params) => [
+		"stats",
+		"segment",
+		params.segmentId,
+		"transaction",
+		params.transactionId,
+		"availability",
+	],
+	paramsMapping: {
+		segmentId: "segmentId",
+		transactionId: "transactionId",
+	},
+	method: EndpointMethod.GET,
+	responseDto: z.object({
+		// Percentage of the transaction that can be imputed to the budget
+		availableTransactionPercent: PERCENT_SCHEMA,
+		// Indicates if the transaction has been fully imputed already
+		alreadyImputed: z.boolean(),
+	}),
+} satisfies EndpointDefinition<{ segmentId: string; transactionId: string }>;
+
+// #endregion
+
 /* Controller */
 
 export const MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION = {
@@ -143,5 +170,9 @@ export const MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION = {
 		impute: IMPUTE,
 		updateImputation: UPDATE_IMPUTATION,
 		removeImputation: REMOVE_IMPUTATION,
+
+		// Stats
+		getAvailabilityStatsByBudgetAndTransaction:
+			AVAILABILITY_STATS_BY_SEGMENT_AND_TRANSACTION,
 	},
 } satisfies ControllerDefinition;

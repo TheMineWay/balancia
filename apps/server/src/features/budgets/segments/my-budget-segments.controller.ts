@@ -247,4 +247,50 @@ export class MyBudgetSegmentsController {
 	}
 
 	// #endregion
+
+	// #region Stats
+
+	@Endpoint(
+		MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
+		"getAvailabilityStatsByBudgetAndTransaction",
+	)
+	async getAvailabilityStatsByBudgetAndTransaction(
+		@UserId() userId: UserModelId,
+		@Param(
+			getParamName(
+				MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
+				"getAvailabilityStatsByBudgetAndTransaction",
+				"segmentId",
+			),
+			ParseIntPipe,
+		)
+		segmentId: number,
+		@Param(
+			getParamName(
+				MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
+				"getAvailabilityStatsByBudgetAndTransaction",
+				"transactionId",
+			),
+			ParseIntPipe,
+		)
+		transactionId: number,
+	): Promise<
+		InferResponseDto<
+			typeof MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
+			"getAvailabilityStatsByBudgetAndTransaction"
+		>
+	> {
+		const stats =
+			await this.userBudgetSegmentsService.getAvailabilityStatsBySegmentAndTransaction(
+				userId,
+				segmentId,
+				transactionId,
+			);
+		return {
+			availableTransactionPercent: 100 - stats.totalImputationPercent,
+			alreadyImputed: stats.alreadyImputed,
+		};
+	}
+
+	// #endregion
 }
