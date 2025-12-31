@@ -1,3 +1,4 @@
+import { percentColumnCheck } from "@database/common/percent";
 import { timestamps } from "@database/common/timestamps";
 import type { DbModeledColumnsDefinition } from "@database/schemas/db-modeled-columns-definition.type";
 import {
@@ -10,7 +11,7 @@ import {
 	BUDGET_SEGMENT_IMPUTATION_MODEL_VALUES,
 	type BudgetSegmentImputationModel,
 } from "@shared/models";
-import { integer, serial, unique, varchar } from "drizzle-orm/pg-core";
+import { check, integer, serial, unique, varchar } from "drizzle-orm/pg-core";
 
 type ColumnsModel = DbModeledColumnsDefinition<BudgetSegmentImputationModel>;
 
@@ -38,7 +39,13 @@ export const budgetSegmentImputationTable = budgetSchema.table(
 		// Timestamps
 		...timestamps,
 	} satisfies ColumnsModel,
-	(table) => [unique().on(table.segmentId, table.transactionId)],
+	(table) => [
+		check(
+			"budget_segment_imputation_percent_chk",
+			percentColumnCheck(table.percent),
+		),
+		unique().on(table.segmentId, table.transactionId),
+	],
 );
 
 export const BUDGET_SEGMENT_IMPUTATION_TABLE_COLUMNS = {

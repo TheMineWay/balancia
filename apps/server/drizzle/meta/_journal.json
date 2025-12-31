@@ -1,34 +1,13 @@
 {
-	"version": "7",
-	"dialect": "postgresql",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "7",
-			"when": 1766431590158,
-			"tag": "0000_dazzling_deathbird",
-			"breakpoints": true
-		},
-		{
-			"idx": 1,
-			"version": "7",
-			"when": 1766533515633,
-			"tag": "0001_legal_corsair",
-			"breakpoints": true
-		},
-		{
-			"idx": 2,
-			"version": "7",
-			"when": 1766750102464,
-			"tag": "0002_gifted_cobalt_man",
-			"breakpoints": true
-		},
-		{
-			"idx": 3,
-			"version": "7",
-			"when": 1766918909497,
-			"tag": "0003_conscious_domino",
-			"breakpoints": true
-		}
-	]
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1767224171217,
+      "tag": "0000_complete_mentor",
+      "breakpoints": true
+    }
+  ]
 }

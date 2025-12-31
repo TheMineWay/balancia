@@ -1,1 +1,0 @@
-ALTER TABLE "budget"."budget_segment_imputation" ADD COLUMN "percent" integer DEFAULT 100 NOT NULL;
