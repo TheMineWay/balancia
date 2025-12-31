@@ -185,7 +185,14 @@ const DefineDetailsStep: FC<DefineDetailsStepProps> = ({ segment }) => {
 		<Flex direction="column">
 			<MyBudgetSegmentCard segment={segment} />
 			<Divider className="my-4" />
-			<BudgetSegmentTransactionDetailsForm form={form} />
+			<BudgetSegmentTransactionDetailsForm
+				form={form}
+				submitText={
+					t()["budget-segment-imputation"].managers["impute-assistant"].steps[
+						"set-metadata"
+					].Create
+				}
+			/>
 		</Flex>
 	);
 };

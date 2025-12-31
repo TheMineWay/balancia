@@ -84,7 +84,8 @@
 						"Title": "Select essentials"
 					},
 					"set-metadata": {
-						"Title": "Define details"
+						"Title": "Define details",
+						"Create": "Impute transaction"
 					}
 				}
 			}

@@ -1,9 +1,10 @@
 import { Form } from "@common/extended-ui/form/components/form";
 import { PercentInputField } from "@common/extended-ui/form/components/numeric/percent.input-field";
 import { useTranslation } from "@i18n/use-translation";
-import { InputWrapper, Textarea } from "@mantine/core";
+import { Button, InputWrapper, Textarea } from "@mantine/core";
 import { BUDGET_SEGMENT_IMPUTATION_SCHEMA } from "@shared/models";
 import { Controller, type UseFormReturn } from "react-hook-form";
+import { TbMoneybag } from "react-icons/tb";
 import type z from "zod";
 
 export const BUDGET_SEGMENT_TRANSACTION_DETAILS_FORM_VALUES_SCHEMA =
@@ -18,19 +19,29 @@ type FormValues = z.infer<
 
 type Props = {
 	form: UseFormReturn<FormValues>;
-	onSubmit?: (values: FormValues) => void;
+	onSuccess?: (values: FormValues) => void;
+
+	// Form customization
+	submitText: string;
+	submitIcon?: React.ReactNode;
+	loading?: boolean;
 };
 
 export const BudgetSegmentTransactionDetailsForm: FC<Props> = ({
 	form,
-	onSubmit,
+	onSuccess,
+
+	// Form customization
+	submitText,
+	submitIcon = <TbMoneybag />,
+	loading,
 }) => {
 	const { t } = useTranslation("budget");
 
-	const { handleSubmit, control } = form;
+	const { handleSubmit, control, formState } = form;
 
 	return (
-		<Form onSubmit={handleSubmit((v) => onSubmit?.(v))}>
+		<Form onSubmit={handleSubmit((v) => onSuccess?.(v))}>
 			<InputWrapper
 				label={t().models["budget-segment-imputation"].percent.Label}
 			>
@@ -61,6 +72,15 @@ export const BudgetSegmentTransactionDetailsForm: FC<Props> = ({
 					)}
 				/>
 			</InputWrapper>
+
+			<Button
+				disabled={!formState.isValid}
+				loading={loading}
+				leftSection={submitIcon}
+				type="submit"
+			>
+				{submitText}
+			</Button>
 		</Form>
 	);
 };
