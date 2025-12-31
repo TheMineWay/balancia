@@ -2,7 +2,15 @@ import { ENV } from "@constants/env/env.constant";
 import { useLogout } from "@core/auth/session/hooks/use-logout";
 import { UserAvatar } from "@core/auth/user/components/avatar/user-avatar";
 import { useTranslation } from "@i18n/use-translation";
-import { ActionIcon, Drawer, Group, Loader, Menu, Text } from "@mantine/core";
+import {
+	ActionIcon,
+	Drawer,
+	Group,
+	Loader,
+	LoadingOverlay,
+	Menu,
+	Text,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import type { UserModel } from "@shared/models";
 import { lazy, Suspense } from "react";
@@ -87,13 +95,7 @@ export const UserActionsAvatar: FC<Props> = ({ user }) => {
 				opened={isLocalConfigOpened}
 				onClose={closeLocalConfig}
 			>
-				<Suspense
-					fallback={
-						<div className="flex h-15 w-full justify-center items-center">
-							<Loader />
-						</div>
-					}
-				>
+				<Suspense fallback={<LoadingOverlay visible />}>
 					<LocalConfigManager />
 				</Suspense>
 			</Drawer>

@@ -81,7 +81,7 @@ export const BudgetForm: FC<Props> = ({
 
 			{/* From Date */}
 			<DateInput
-				label={t().models.budget.fromDate.Label}
+				label={t().models.budget["from-date"].Label}
 				{...form.register("fromDate")}
 				value={form.watch("fromDate") ? form.watch("fromDate") : null}
 				onChange={(date) => {
@@ -93,7 +93,7 @@ export const BudgetForm: FC<Props> = ({
 
 			{/* To Date */}
 			<DateInput
-				label={t().models.budget.toDate.Label}
+				label={t().models.budget["to-date"].Label}
 				{...form.register("toDate")}
 				value={form.watch("toDate") ? form.watch("toDate") : null}
 				onChange={(date) => {

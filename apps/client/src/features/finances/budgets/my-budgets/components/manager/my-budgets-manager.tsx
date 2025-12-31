@@ -166,7 +166,7 @@ const Filters: FC<FilterProps> = ({ search }) => {
 
 			<DatePickerInput
 				size="xs"
-				placeholder={t().models.budget.fromDate.Label}
+				placeholder={t().models.budget["from-date"].Label}
 				value={search.filters.fromDate || null}
 				onChange={(v) => search.setFilter("fromDate", v ? new Date(v) : null)}
 				className="min-w-24"
@@ -177,7 +177,7 @@ const Filters: FC<FilterProps> = ({ search }) => {
 			/>
 			<DatePickerInput
 				size="xs"
-				placeholder={t().models.budget.toDate.Label}
+				placeholder={t().models.budget["to-date"].Label}
 				value={search.filters.toDate || null}
 				onChange={(v) => search.setFilter("toDate", v ? new Date(v) : null)}
 				className="min-w-24"

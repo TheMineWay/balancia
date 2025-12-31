@@ -11,7 +11,14 @@ import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer, Loader, Modal, Text } from "@mantine/core";
+import {
+	ActionIcon,
+	Button,
+	Drawer,
+	LoadingOverlay,
+	Modal,
+	Text,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import type { TagModel } from "@shared/models";
@@ -155,13 +162,7 @@ export const MyTagsManager: FC = () => {
 				size="xl"
 			>
 				{tagToAutomatchEdit && (
-					<Suspense
-						fallback={
-							<div className="w-full h-24 flex justify-center items-center">
-								<Loader />
-							</div>
-						}
-					>
+					<Suspense fallback={<LoadingOverlay visible />}>
 						<MyTagAutoMatchManager tag={tagToAutomatchEdit} />
 					</Suspense>
 				)}

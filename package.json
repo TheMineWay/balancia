@@ -1,6 +1,6 @@
 {
 	"name": "balancia",
-	"version": "1.0.0-alpha.1",
+	"version": "1.0.0-rc.1",
 	"description": "Scaffold app for ReactJS + NestJS projects (fully written in TS)",
 	"private": true,
 	"repository": {

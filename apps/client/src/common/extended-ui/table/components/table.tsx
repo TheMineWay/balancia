@@ -169,8 +169,14 @@ const RowsComponent = <TData extends TableValue>({
 }: RowsProps<TData>): ReactNode => {
 	const { data: items } = table;
 
-	return items.map((item) => (
-		<Row item={item} table={table} key={`${item[table.rowKey]}`} />
+	const rowKeyFn = table.rowKey
+		? typeof table.rowKey === "function"
+			? table.rowKey
+			: (row: TData) => row[table.rowKey as keyof TData]
+		: null;
+
+	return items.map((item, idx) => (
+		<Row item={item} table={table} key={`${rowKeyFn?.(item) ?? idx}`} />
 	));
 };
 

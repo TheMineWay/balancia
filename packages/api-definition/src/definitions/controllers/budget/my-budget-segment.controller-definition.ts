@@ -1,9 +1,12 @@
 import {
 	BUDGET_SEGMENT_CREATE_SCHEMA,
+	BUDGET_SEGMENT_IMPUTATION_CREATE_SCHEMA,
+	BUDGET_SEGMENT_IMPUTATION_SCHEMA,
 	BUDGET_SEGMENT_IMPUTATION_WITH_TRANSACTION_SCHEMA,
 	BUDGET_SEGMENT_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_SEARCH_SCHEMA,
+	PERCENT_SCHEMA,
 	TRANSACTION_FILTERS_SCHEMA,
 } from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
@@ -70,8 +73,8 @@ const DELETE = {
 
 // #region Transactions
 
-const LIST_TRANSACTIONS = {
-	getPath: (params) => ["segment", params.segmentId, "transactions"],
+const LIST_IMPUTATIONS = {
+	getPath: (params) => ["impute", "segment", params.segmentId, "transactions"],
 	paramsMapping: { segmentId: "segmentId" },
 	method: EndpointMethod.GET,
 	queryDto: z.object({
@@ -86,6 +89,65 @@ const LIST_TRANSACTIONS = {
 			.shape,
 	}),
 } satisfies EndpointDefinition<{ segmentId: string }>;
+
+const IMPUTE = {
+	getPath: () => ["impute"],
+	paramsMapping: {},
+	method: EndpointMethod.POST,
+	bodyDto: z.object({
+		...BUDGET_SEGMENT_IMPUTATION_CREATE_SCHEMA.shape,
+	}),
+	responseDto: z.object({
+		...BUDGET_SEGMENT_IMPUTATION_SCHEMA.shape,
+	}),
+} satisfies EndpointDefinition;
+
+const UPDATE_IMPUTATION = {
+	getPath: (params) => ["impute", params.id],
+	paramsMapping: { id: "imputeId" },
+	method: EndpointMethod.PUT,
+	bodyDto: z.object({
+		...BUDGET_SEGMENT_IMPUTATION_CREATE_SCHEMA.omit({
+			segmentId: true,
+			transactionId: true,
+		}).shape,
+	}),
+	responseDto: z.object({
+		...BUDGET_SEGMENT_IMPUTATION_SCHEMA.shape,
+	}),
+} satisfies EndpointDefinition<{ id: string }>;
+
+const REMOVE_IMPUTATION = {
+	getPath: (params) => ["impute", params.id],
+	paramsMapping: { id: "imputeId" },
+	method: EndpointMethod.DELETE,
+} satisfies EndpointDefinition<{ id: string }>;
+
+// #endregion
+
+// #region Stats
+
+const AVAILABILITY_STATS_BY_SEGMENT_AND_TRANSACTION = {
+	getPath: (params) => [
+		"stats",
+		"segment",
+		params.segmentId,
+		"transaction",
+		params.transactionId,
+		"availability",
+	],
+	paramsMapping: {
+		segmentId: "segmentId",
+		transactionId: "transactionId",
+	},
+	method: EndpointMethod.GET,
+	responseDto: z.object({
+		// Percentage of the transaction that can be imputed to the budget
+		availableTransactionPercent: PERCENT_SCHEMA,
+		// Indicates if the transaction has been fully imputed already
+		alreadyImputed: z.boolean(),
+	}),
+} satisfies EndpointDefinition<{ segmentId: string; transactionId: string }>;
 
 // #endregion
 
@@ -104,6 +166,13 @@ export const MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION = {
 		delete: DELETE,
 
 		// Transactions
-		listTransactions: LIST_TRANSACTIONS,
+		listImputations: LIST_IMPUTATIONS,
+		impute: IMPUTE,
+		updateImputation: UPDATE_IMPUTATION,
+		removeImputation: REMOVE_IMPUTATION,
+
+		// Stats
+		getAvailabilityStatsByBudgetAndTransaction:
+			AVAILABILITY_STATS_BY_SEGMENT_AND_TRANSACTION,
 	},
 } satisfies ControllerDefinition;

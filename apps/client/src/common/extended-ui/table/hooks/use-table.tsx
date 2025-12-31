@@ -5,7 +5,7 @@ import { useMemo } from "react";
 export type UseTableOptions<TData extends TableValue> = {
 	data?: TData[];
 	columns?: TableColumn<TData>[];
-	rowKey: keyof TData;
+	rowKey?: keyof TData | ((row: TData) => string | number);
 	onRowClick?: (
 		row: TData,
 		e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,

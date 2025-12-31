@@ -75,6 +75,35 @@
 					"Message": "The transaction will not be removed from the system, only the imputation will be removed. Are you sure you want to remove this transaction from the budget segment? This action cannot be undone.",
 					"Action": "Remove transaction"
 				}
+			},
+			"impute-assistant": {
+				"Trigger": "Impute transaction",
+				"Title": "Impute to budget segment \"{name}\"",
+				"steps": {
+					"select-essentials": {
+						"Title": "Select essentials"
+					},
+					"set-metadata": {
+						"Title": "Define details"
+					}
+				},
+				"actions": {
+					"Imputate": "Imputate"
+				},
+				"status": {
+					"already-imputed": {
+						"Message": "This transaction has already been imputed to this budget segment. If you want to increase the imputation percent, please edit the existing imputation."
+					}
+				}
+			}
+		},
+		"forms": {
+			"segment-transaction-details": {
+				"fields": {
+					"percent": {
+						"Max-percent": "Maximum percent is {maxPercent}%. The rest of the transaction has already been imputed."
+					}
+				}
 			}
 		}
 	},
@@ -89,10 +118,10 @@
 			"amount": {
 				"Label": "Amount"
 			},
-			"fromDate": {
+			"from-date": {
 				"Label": "From date"
 			},
-			"toDate": {
+			"to-date": {
 				"Label": "To date"
 			}
 		},
@@ -105,6 +134,20 @@
 			},
 			"percent": {
 				"Label": "Percent"
+			}
+		},
+		"budget-segment-imputation": {
+			"percent": {
+				"Label": "Percent"
+			},
+			"transaction-id": {
+				"Label": "Transaction"
+			},
+			"segment-id": {
+				"Label": "Budget segment"
+			},
+			"description": {
+				"Label": "Description"
 			}
 		}
 	},

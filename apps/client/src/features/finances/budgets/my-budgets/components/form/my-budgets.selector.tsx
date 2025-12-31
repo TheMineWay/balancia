@@ -14,11 +14,11 @@ import { useCallback, useMemo } from "react";
 import { LuWallet } from "react-icons/lu";
 
 type Props = {
-	onChange?: (budgetId: BudgetModel["id"] | null) => void;
+	onChange?: (budgetId: BudgetModel | null) => void;
 	value: BudgetModel["id"] | null;
 	allowClear?: boolean;
 } & Omit<
-	SelectSearchProps<BudgetModel["id"]>,
+	SelectSearchProps<BudgetModel["id"], BudgetModel>,
 	"data" | "search" | "value" | "setValue" | "getKey"
 >;
 
@@ -37,7 +37,7 @@ export const MyBudgetsSelector: FC<Props> = ({ onChange, value, ...props }) => {
 		() =>
 			budgets.items.map((item) => ({
 				label: item.name,
-				value: item.id,
+				value: item,
 			})),
 		[budgets],
 	);
@@ -54,7 +54,7 @@ export const MyBudgetsSelector: FC<Props> = ({ onChange, value, ...props }) => {
 			)();
 
 			return {
-				value: selectedBudget.id,
+				value: selectedBudget as BudgetModel,
 				label: selectedBudget.name,
 			};
 		},
@@ -62,9 +62,9 @@ export const MyBudgetsSelector: FC<Props> = ({ onChange, value, ...props }) => {
 	);
 
 	return (
-		<SelectSearch<BudgetModel["id"]>
+		<SelectSearch<BudgetModel["id"], BudgetModel>
 			data={options}
-			getKey={(v) => v}
+			getKey={(v) => v.id}
 			search={search.debouncedSearchManager}
 			setValue={(v) => onChange?.(v)}
 			value={value}

@@ -223,7 +223,6 @@ const ReviewTransactions: FC<ReviewTransactionsProps> = ({
 	);
 
 	const table = useTable<ImportRow>({
-		rowKey: "subject",
 		data: transactions,
 		columns,
 	});

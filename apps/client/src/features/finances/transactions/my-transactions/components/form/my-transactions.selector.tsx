@@ -21,7 +21,7 @@ type Option = {
 };
 
 type Props = {
-	onChange?: (transactionId: TransactionModel | null) => void;
+	onChange?: (transaction: TransactionModel | null) => void;
 	value?: TransactionModel["id"] | null;
 	allowClear?: boolean;
 	mapOption?: (option: Option) => Option;

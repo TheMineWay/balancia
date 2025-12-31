@@ -1,5 +1,10 @@
-import type { BudgetSegmentModel } from "@shared/models";
+import type {
+	BudgetSegmentImputationModel,
+	BudgetSegmentModel,
+} from "@shared/models";
 import { Event } from "src/events/event.abstract";
+
+// #region Segments
 
 type BudgetSegmentUpdatedEventPayload = {
 	budgetSegment: BudgetSegmentModel;
@@ -45,3 +50,54 @@ export class BudgetSegmentDeletedEvent extends Event<BudgetSegmentDeletedEventPa
 		super(BudgetSegmentDeletedEvent.NAME, payload);
 	}
 }
+
+// #endregion
+
+// #region Imputations
+
+type BudgetSegmentImputationCreatedEventPayload = {
+	imputation: BudgetSegmentImputationModel;
+};
+
+/**
+ * Event emitted when a budget segment imputation is created
+ */
+export class BudgetSegmentImputationCreatedEvent extends Event<BudgetSegmentImputationCreatedEventPayload> {
+	public static readonly NAME = "budgetSegmentImputation.created";
+
+	constructor(payload: BudgetSegmentImputationCreatedEventPayload) {
+		super(BudgetSegmentImputationCreatedEvent.NAME, payload);
+	}
+}
+
+type BudgetSegmentImputationUpdatedEventPayload = {
+	imputation: BudgetSegmentImputationModel;
+};
+
+/**
+ * Event emitted when a budget segment imputation is updated
+ */
+export class BudgetSegmentImputationUpdatedEvent extends Event<BudgetSegmentImputationUpdatedEventPayload> {
+	public static readonly NAME = "budgetSegmentImputation.updated";
+
+	constructor(payload: BudgetSegmentImputationUpdatedEventPayload) {
+		super(BudgetSegmentImputationUpdatedEvent.NAME, payload);
+	}
+}
+
+type BudgetSegmentImputationDeletedEventPayload = {
+	imputationId: BudgetSegmentImputationModel["id"];
+};
+
+/**
+ * Event emitted when a budget segment imputation is deleted
+ */
+export class BudgetSegmentImputationDeletedEvent extends Event<BudgetSegmentImputationDeletedEventPayload> {
+	public static readonly NAME = "budgetSegmentImputation.deleted";
+
+	constructor(payload: BudgetSegmentImputationDeletedEventPayload) {
+		super(BudgetSegmentImputationDeletedEvent.NAME, payload);
+	}
+}
+
+// #endregion

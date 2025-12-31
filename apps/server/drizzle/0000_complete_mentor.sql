@@ -1,3 +1,5 @@
+CREATE SCHEMA "budget";
+--> statement-breakpoint
 CREATE SCHEMA "debt";
 --> statement-breakpoint
 CREATE SCHEMA "finances";
@@ -13,6 +15,63 @@ CREATE TABLE "finances"."accounts" (
 	"name" varchar(64) NOT NULL,
 	"description" varchar(512),
 	"userId" integer NOT NULL,
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"updatedAt" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "budget"."budget_segment_auto_imputation_history" (
+	"imputationId" integer PRIMARY KEY NOT NULL,
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"updatedAt" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "budget_segment_auto_imputation_history_imputationId_unique" UNIQUE("imputationId")
+);
+--> statement-breakpoint
+CREATE TABLE "budget"."budget_segment_category_auto_imputation_history" (
+	"historyImputationId" integer PRIMARY KEY NOT NULL,
+	"categoryId" integer NOT NULL,
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"updatedAt" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "budget"."budget_segment_category" (
+	"categoryId" integer NOT NULL,
+	"segmentId" integer NOT NULL,
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"updatedAt" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "budget_segment_category_categoryId_segmentId_pk" PRIMARY KEY("categoryId","segmentId")
+);
+--> statement-breakpoint
+CREATE TABLE "budget"."budget_segment_imputation" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"segmentId" integer NOT NULL,
+	"transactionId" integer NOT NULL,
+	"percent" integer DEFAULT 100 NOT NULL,
+	"description" varchar(1024),
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"updatedAt" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "budget_segment_imputation_segmentId_transactionId_unique" UNIQUE("segmentId","transactionId"),
+	CONSTRAINT "budget_segment_imputation_percent_chk" CHECK ("budget"."budget_segment_imputation"."percent" >= 0 AND "budget"."budget_segment_imputation"."percent" <= 100)
+);
+--> statement-breakpoint
+CREATE TABLE "budget"."budget_segment" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"budgetId" integer NOT NULL,
+	"name" varchar(256) NOT NULL,
+	"description" varchar(2048),
+	"percent" smallint NOT NULL,
+	"createdAt" timestamp DEFAULT now() NOT NULL,
+	"updatedAt" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "budget_segment_percent_chk" CHECK ("budget"."budget_segment"."percent" >= 0 AND "budget"."budget_segment"."percent" <= 100)
+);
+--> statement-breakpoint
+CREATE TABLE "budget"."budget" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"userId" integer NOT NULL,
+	"fromDate" date NOT NULL,
+	"toDate" date NOT NULL,
+	"name" varchar(256) NOT NULL,
+	"description" varchar(4096),
+	"amount" numeric(10, 2) NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL,
 	"updatedAt" timestamp DEFAULT now() NOT NULL
 );
@@ -164,6 +223,15 @@ CREATE TABLE "identity"."users" (
 );
 --> statement-breakpoint
 ALTER TABLE "finances"."accounts" ADD CONSTRAINT "accounts_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "identity"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "budget"."budget_segment_auto_imputation_history" ADD CONSTRAINT "budget_segment_auto_imputation_history_imputationId_budget_segment_imputation_id_fk" FOREIGN KEY ("imputationId") REFERENCES "budget"."budget_segment_imputation"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "budget"."budget_segment_category_auto_imputation_history" ADD CONSTRAINT "budget_segment_category_auto_imputation_history_historyImputationId_budget_segment_auto_imputation_history_imputationId_fk" FOREIGN KEY ("historyImputationId") REFERENCES "budget"."budget_segment_auto_imputation_history"("imputationId") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "budget"."budget_segment_category_auto_imputation_history" ADD CONSTRAINT "budget_segment_category_auto_imputation_history_categoryId_categories_id_fk" FOREIGN KEY ("categoryId") REFERENCES "finances"."categories"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "budget"."budget_segment_category" ADD CONSTRAINT "budget_segment_category_categoryId_categories_id_fk" FOREIGN KEY ("categoryId") REFERENCES "finances"."categories"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "budget"."budget_segment_category" ADD CONSTRAINT "budget_segment_category_segmentId_budget_segment_id_fk" FOREIGN KEY ("segmentId") REFERENCES "budget"."budget_segment"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "budget"."budget_segment_imputation" ADD CONSTRAINT "budget_segment_imputation_segmentId_budget_segment_id_fk" FOREIGN KEY ("segmentId") REFERENCES "budget"."budget_segment"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "budget"."budget_segment_imputation" ADD CONSTRAINT "budget_segment_imputation_transactionId_transactions_id_fk" FOREIGN KEY ("transactionId") REFERENCES "finances"."transactions"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "budget"."budget_segment" ADD CONSTRAINT "budget_segment_budgetId_budget_id_fk" FOREIGN KEY ("budgetId") REFERENCES "budget"."budget"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "budget"."budget" ADD CONSTRAINT "budget_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "identity"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "finances"."categories" ADD CONSTRAINT "categories_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "identity"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "social"."contacts" ADD CONSTRAINT "contacts_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "identity"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "debt"."debt_origin_transactions" ADD CONSTRAINT "debt_origin_transactions_debtId_debts_id_fk" FOREIGN KEY ("debtId") REFERENCES "debt"."debts"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
@@ -184,6 +252,9 @@ ALTER TABLE "identity"."user_preferences" ADD CONSTRAINT "user_preferences_mainA
 ALTER TABLE "identity"."user_roles" ADD CONSTRAINT "user_roles_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "identity"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "identity"."user_roles" ADD CONSTRAINT "user_roles_roleId_roles_id_fk" FOREIGN KEY ("roleId") REFERENCES "identity"."roles"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "social"."user_social_configs" ADD CONSTRAINT "user_social_configs_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "identity"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+CREATE INDEX "budget_segment_category_auto_imputation_history_categoryId_index" ON "budget"."budget_segment_category_auto_imputation_history" USING btree ("categoryId");--> statement-breakpoint
+CREATE INDEX "budget_segment_budgetId_index" ON "budget"."budget_segment" USING btree ("budgetId");--> statement-breakpoint
+CREATE INDEX "budget_userId_index" ON "budget"."budget" USING btree ("userId");--> statement-breakpoint
 CREATE INDEX "categories_userId_index" ON "finances"."categories" USING btree ("userId");--> statement-breakpoint
 CREATE INDEX "debt_payments_debtId_index" ON "debt"."debt_payments" USING btree ("debtId");--> statement-breakpoint
 CREATE INDEX "debts_debtorId_index" ON "debt"."debts" USING btree ("debtorId");--> statement-breakpoint
@@ -196,8 +267,8 @@ CREATE INDEX "tags_userId_index" ON "finances"."tags" USING btree ("userId");-->
 CREATE INDEX "account_id_and_performed_at_and_id_IDX" ON "finances"."transactions" USING btree ("accountId","performedAt" DESC,"id" DESC);--> statement-breakpoint
 CREATE INDEX "category_id_IDX" ON "finances"."transactions" USING btree ("categoryId");--> statement-breakpoint
 CREATE MATERIALIZED VIEW "finances"."account_category_expenses_stats" WITH (autovacuum_enabled = true) AS (select "accountId", "categoryId", date_trunc('month', "performedAt")::date as "date", SUM(CASE WHEN "amount" > 0 THEN "amount" ELSE 0 END)::numeric as "income", SUM(CASE WHEN "amount" < 0 THEN abs("amount") ELSE 0 END)::numeric as "outcome" from "finances"."transactions" group by "finances"."transactions"."accountId", "finances"."transactions"."categoryId", "date");--> statement-breakpoint
-CREATE UNIQUE INDEX account_category_expenses_stats_accountId_categoryId_date_idx ON finances.account_category_expenses_stats ("accountId","categoryId","date");--> statement-breakpoint
 CREATE MATERIALIZED VIEW "finances"."account_monthly_stats" WITH (autovacuum_enabled = true) AS (select "finances"."accounts"."id" as "accountId", "finances"."accounts"."userId", date_trunc('month', "finances"."transactions"."performedAt")::date as "date", sum("finances"."transactions"."amount")::numeric as "monthlyBalance", SUM(CASE WHEN "finances"."transactions"."amount" > 0 THEN "finances"."transactions"."amount" ELSE 0 END)::numeric as "income", SUM(CASE WHEN "finances"."transactions"."amount" < 0 THEN abs("finances"."transactions"."amount") ELSE 0 END)::numeric as "outcome" from "finances"."accounts" left join "finances"."transactions" on "finances"."transactions"."accountId" = "finances"."accounts"."id" group by "finances"."accounts"."id", "finances"."accounts"."userId", "date");--> statement-breakpoint
+CREATE MATERIALIZED VIEW "finances"."account_stats" WITH (autovacuum_enabled = true) AS (select "finances"."accounts"."userId", "finances"."accounts"."id" as "accountId", "balance" from "finances"."accounts" inner join (select sum("amount") as "balance", "accountId" from "finances"."transactions" group by "finances"."transactions"."accountId") "agg_balance" on "agg_balance"."accountId" = "finances"."accounts"."id");--> statement-breakpoint
+CREATE UNIQUE INDEX account_category_expenses_stats_accountId_categoryId_date_idx ON finances.account_category_expenses_stats ("accountId","categoryId","date");--> statement-breakpoint
 CREATE UNIQUE INDEX account_monthly_stats_accountId_date_idx ON finances.account_monthly_stats ("accountId","date");--> statement-breakpoint
-CREATE MATERIALIZED VIEW "finances"."account_stats" WITH (autovacuum_enabled = true) AS (select "finances"."accounts"."userId", "finances"."accounts"."id" as "accountId", "balance" from "finances"."accounts" inner join (select sum("amount") as "balance", "accountId" from "finances"."transactions" group by "finances"."transactions"."accountId") "agg_balance" on "agg_balance"."accountId" = "finances"."accounts"."id");
 CREATE UNIQUE INDEX account_stats_accountId_idx ON "finances"."account_stats" ("accountId");

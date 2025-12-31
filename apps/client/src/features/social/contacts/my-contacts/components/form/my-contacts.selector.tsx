@@ -8,7 +8,7 @@ import { usePagination } from "@core/pagination/hooks/use-pagination";
 import { endpointQuery } from "@core/requests/lib/endpoint-query.util";
 import { useMyContactsQuery } from "@fts/social/contacts/my-contacts/api/use-my-contacts.query";
 import { useTranslation } from "@i18n/use-translation";
-import { ActionIcon, Group, Modal } from "@mantine/core";
+import { ActionIcon, Group, LoadingOverlay, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { MY_CONTACTS_CONTROLLER } from "@shared/api-definition";
 import type { ContactModel } from "@shared/models";
@@ -113,7 +113,7 @@ export const MyContactsSelector: FC<Props> = ({
 				opened={createContactOpened}
 				onClose={closeCreateContact}
 			>
-				<Suspense>
+				<Suspense fallback={<LoadingOverlay visible />}>
 					<MyContactCreateManager
 						onSuccess={(contact) => {
 							onChange?.(contact.id);

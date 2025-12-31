@@ -4,7 +4,12 @@ import type {
 	generateDeviceContactPicker,
 } from "@fts/social/contacts/contacts/lib/device-contact-picker";
 import { useTranslation } from "@i18n/use-translation";
-import { ActionIcon, type ActionIconProps, Modal } from "@mantine/core";
+import {
+	ActionIcon,
+	type ActionIconProps,
+	LoadingOverlay,
+	Modal,
+} from "@mantine/core";
 import type { ContactCreateModel } from "@shared/models";
 import { lazy, Suspense, useCallback, useState } from "react";
 import { IoPhonePortraitOutline } from "react-icons/io5";
@@ -69,7 +74,7 @@ const Component: FC<ComponentProps> = ({
 				onClose={() => setSelectedDeviceContacts([])}
 				title={t()["device-contact-refiner"].Title}
 			>
-				<Suspense>
+				<Suspense fallback={<LoadingOverlay visible />}>
 					<Refiner
 						contacts={selectedDeviceContacts}
 						onSuccess={(contacts) => {

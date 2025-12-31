@@ -11,7 +11,13 @@ import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer, Modal } from "@mantine/core";
+import {
+	ActionIcon,
+	Button,
+	Drawer,
+	LoadingOverlay,
+	Modal,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { BUDGET_MAX_SEGMENTS_PER_BUDGET } from "@shared/constants";
 import type { BudgetModel, BudgetSegmentModel } from "@shared/models";
@@ -188,7 +194,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 				)}
 			>
 				{segmentToViewTransactions && (
-					<Suspense>
+					<Suspense fallback={<LoadingOverlay visible />}>
 						<MyBudgetSegmentTransactionsManager
 							segment={segmentToViewTransactions}
 						/>
