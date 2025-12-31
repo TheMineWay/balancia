@@ -1,7 +1,12 @@
+import {
+	BUDGET_SEGMENT_TRANSACTION_DETAILS_FORM_VALUES_SCHEMA,
+	BudgetSegmentTransactionDetailsForm,
+} from "@fts/finances/budgets/budget-segment-transactions/components/form/budget-segment-transaction-details.form";
 import { MyBudgetSegmentCard } from "@fts/finances/budgets/my-budget-segments/components/card/my-budget-segment-card";
 import { MyAllBudgetSegmentSelector } from "@fts/finances/budgets/my-budget-segments/components/form/my-all-budget-segment.selector";
 import { useMyBudgetByIdQuery } from "@fts/finances/budgets/my-budgets/api/use-my-budget-by-id.query";
 import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactions/components/form/my-transactions.selector";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "@i18n/use-translation";
 import {
 	Button,
@@ -17,6 +22,7 @@ import type {
 	TransactionModel,
 } from "@shared/models";
 import { useCallback, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 
 type Essentials = {
 	transaction: TransactionModel;
@@ -167,12 +173,19 @@ const DefineDetailsStep: FC<DefineDetailsStepProps> = ({ segment }) => {
 	const { t } = useTranslation("budget");
 
 	const { data: budget } = useMyBudgetByIdQuery(segment.budgetId);
+	const form = useForm({
+		resolver: zodResolver(
+			BUDGET_SEGMENT_TRANSACTION_DETAILS_FORM_VALUES_SCHEMA.required(),
+		),
+	});
 
 	if (!budget) return <LoadingOverlay visible={true} />;
 
 	return (
 		<Flex direction="column">
 			<MyBudgetSegmentCard segment={segment} />
+			<Divider className="my-4" />
+			<BudgetSegmentTransactionDetailsForm form={form} />
 		</Flex>
 	);
 };
