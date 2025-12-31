@@ -4,6 +4,7 @@ import {
 	type ActionIconProps,
 	Affix,
 	Drawer,
+	LoadingOverlay,
 	Transition,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -66,7 +67,7 @@ export const GlobalFastActions: FC = () => {
 				opened={registerTransactionOpened}
 				onClose={closeRegisterTransaction}
 			>
-				<Suspense>
+				<Suspense fallback={<LoadingOverlay visible />}>
 					<MyTransactionCreateManager onSuccess={closeRegisterTransaction} />
 				</Suspense>
 			</Drawer>

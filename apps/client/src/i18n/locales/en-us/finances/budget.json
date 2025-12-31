@@ -1,0 +1,159 @@
+{
+	"expressions": {
+		"Budget": "Budget",
+		"Budget-segment": "Budget segment"
+	},
+	"budget": {
+		"managers": {
+			"create": {
+				"Title": "Create budget",
+				"Submit": "Create budget"
+			},
+			"update": {
+				"Title": "Update budget {name}",
+				"Submit": "Update budget"
+			},
+			"delete": {
+				"confirm": {
+					"Title": "Delete budget \"{name}\"",
+					"Message": "Are you sure you want to delete this budget? This action cannot be undone.",
+					"Action": "Delete budget",
+					"Write-to-delete": "Write budget name to confirm"
+				}
+			}
+		}
+	},
+	"my-budgets": {
+		"manager": {
+			"Title": "My budgets",
+			"Actions": {
+				"Create": "Create budget",
+				"Manage-segments": "Manage segments"
+			}
+		}
+	},
+	"budget-segment": {
+		"List-title": "Budget segments",
+		"managers": {
+			"create": {
+				"Trigger": "Create budget segment",
+				"Title": "Create budget segment",
+				"Submit": "Create segment"
+			},
+			"update": {
+				"Title": "Update budget segment {name}",
+				"Submit": "Update segment"
+			},
+			"delete": {
+				"confirm": {
+					"Title": "Delete budget segment \"{name}\"",
+					"Message": "Are you sure you want to delete this budget segment? This action cannot be undone.",
+					"Action": "Delete segment",
+					"Write-to-delete": "Write segment name to confirm"
+				}
+			},
+			"transactions": {
+				"Title": "Transactions of segment {name}",
+				"Trigger": "View segment transactions"
+			}
+		},
+		"forms": {
+			"default": {
+				"fields": {
+					"percent": {
+						"Max-percent": "Maximum percent is {maxPercent}%"
+					}
+				}
+			}
+		} 
+	},
+	"budget-segment-imputation": {
+		"managers": {
+			"delete": {
+				"confirm": {
+					"Title": "Remove transaction from budget segment \"{name}\"",
+					"Message": "The transaction will not be removed from the system, only the imputation will be removed. Are you sure you want to remove this transaction from the budget segment? This action cannot be undone.",
+					"Action": "Remove transaction"
+				}
+			},
+			"impute-assistant": {
+				"Trigger": "Impute transaction",
+				"Title": "Impute to budget segment \"{name}\"",
+				"steps": {
+					"select-essentials": {
+						"Title": "Select essentials"
+					},
+					"set-metadata": {
+						"Title": "Define details"
+					}
+				},
+				"actions": {
+					"Imputate": "Imputate"
+				},
+				"status": {
+					"already-imputed": {
+						"Message": "This transaction has already been imputed to this budget segment. If you want to increase the imputation percent, please edit the existing imputation."
+					}
+				}
+			}
+		},
+		"forms": {
+			"segment-transaction-details": {
+				"fields": {
+					"percent": {
+						"Max-percent": "Maximum percent is {maxPercent}%. The rest of the transaction has already been imputed."
+					}
+				}
+			}
+		}
+	},
+	"models": {
+		"budget": {
+			"name": {
+				"Label": "Name"
+			},
+			"description": {
+				"Label": "Description"
+			},
+			"amount": {
+				"Label": "Amount"
+			},
+			"from-date": {
+				"Label": "From date"
+			},
+			"to-date": {
+				"Label": "To date"
+			}
+		},
+		"budget-segment": {
+			"name": {
+				"Label": "Name"
+			},
+			"description": {
+				"Label": "Description"
+			},
+			"percent": {
+				"Label": "Percent"
+			}
+		},
+		"budget-segment-imputation": {
+			"percent": {
+				"Label": "Percent"
+			},
+			"transaction-id": {
+				"Label": "Transaction"
+			},
+			"segment-id": {
+				"Label": "Budget segment"
+			},
+			"description": {
+				"Label": "Description"
+			}
+		}
+	},
+	"filters": {
+		"past-budgets": {
+			"Label": "Past budgets"
+		}
+	}
+}

@@ -15,4 +15,3 @@ It is recommended that you make a 1:1 relation between your real financial sourc
 Accounts are not meant for grouping transactions by type or purpose. For example, if you want to see how much you spend on groceries or entertainment, use categories. If you want to label transactions for custom analysis, use categories or tags.
 
 > **Note:** Accounts are for organizing transactions by financial source, not by spending type. Categories and tags exist for grouping and classifying transactions.
-

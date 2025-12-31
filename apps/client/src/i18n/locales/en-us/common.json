@@ -7,6 +7,7 @@
         "Unassign-sth": "Unassign {name}",
         "Save": "Save",
         "Reload": "Reload",
+        "Continue": "Continue",
         "Profile": "Profile",
         "Created-at": "Created at",
         "Clear": "Clear",
@@ -23,6 +24,7 @@
         "Code": "Code",
         "Copy": "Copy",
         "Extra-actions": "Extra actions",
+        "Fast-filters": "Fast filters",
         "dates": {
             "Month": "Month",
             "Year": "Year"

@@ -71,7 +71,6 @@ export const MyDebtsManager: FC = () => {
 	const pagination = usePagination();
 	const search = useSearch<DebtModel>({});
 
-	// TODO: Implement query to fetch debts
 	const {
 		data: debts,
 		isFetching: isFetchingDebts,

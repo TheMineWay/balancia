@@ -26,8 +26,13 @@ const FinancesDebtsIndexLazyRouteImport = createFileRoute('/finances/debts/')()
 const FinancesCategoriesIndexLazyRouteImport = createFileRoute(
   '/finances/categories/',
 )()
+const FinancesBudgetsIndexLazyRouteImport =
+  createFileRoute('/finances/budgets/')()
 const FinancesAccountsIndexLazyRouteImport = createFileRoute(
   '/finances/accounts/',
+)()
+const FinancesBudgetsSegmentsSegmentIdIndexLazyRouteImport = createFileRoute(
+  '/finances/budgets/segments/$segment-id/',
 )()
 
 const SysLazyRoute = SysLazyRouteImport.update({
@@ -89,6 +94,14 @@ const FinancesCategoriesIndexLazyRoute =
   } as any).lazy(() =>
     import('./routes/finances/categories/index.lazy').then((d) => d.Route),
   )
+const FinancesBudgetsIndexLazyRoute =
+  FinancesBudgetsIndexLazyRouteImport.update({
+    id: '/finances/budgets/',
+    path: '/finances/budgets/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/finances/budgets/index.lazy').then((d) => d.Route),
+  )
 const FinancesAccountsIndexLazyRoute =
   FinancesAccountsIndexLazyRouteImport.update({
     id: '/finances/accounts/',
@@ -97,29 +110,43 @@ const FinancesAccountsIndexLazyRoute =
   } as any).lazy(() =>
     import('./routes/finances/accounts/index.lazy').then((d) => d.Route),
   )
+const FinancesBudgetsSegmentsSegmentIdIndexLazyRoute =
+  FinancesBudgetsSegmentsSegmentIdIndexLazyRouteImport.update({
+    id: '/finances/budgets/segments/$segment-id/',
+    path: '/finances/budgets/segments/$segment-id/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/finances/budgets/segments/$segment-id/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/sys': typeof SysLazyRouteWithChildren
   '/sys/': typeof SysIndexLazyRoute
   '/finances/accounts': typeof FinancesAccountsIndexLazyRoute
+  '/finances/budgets': typeof FinancesBudgetsIndexLazyRoute
   '/finances/categories': typeof FinancesCategoriesIndexLazyRoute
   '/finances/debts': typeof FinancesDebtsIndexLazyRoute
   '/finances/tags': typeof FinancesTagsIndexLazyRoute
   '/finances/transactions': typeof FinancesTransactionsIndexLazyRoute
   '/social/contacts': typeof SocialContactsIndexLazyRoute
   '/sys/role': typeof SysRoleIndexLazyRoute
+  '/finances/budgets/segments/$segment-id': typeof FinancesBudgetsSegmentsSegmentIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/sys': typeof SysIndexLazyRoute
   '/finances/accounts': typeof FinancesAccountsIndexLazyRoute
+  '/finances/budgets': typeof FinancesBudgetsIndexLazyRoute
   '/finances/categories': typeof FinancesCategoriesIndexLazyRoute
   '/finances/debts': typeof FinancesDebtsIndexLazyRoute
   '/finances/tags': typeof FinancesTagsIndexLazyRoute
   '/finances/transactions': typeof FinancesTransactionsIndexLazyRoute
   '/social/contacts': typeof SocialContactsIndexLazyRoute
   '/sys/role': typeof SysRoleIndexLazyRoute
+  '/finances/budgets/segments/$segment-id': typeof FinancesBudgetsSegmentsSegmentIdIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -127,12 +154,14 @@ export interface FileRoutesById {
   '/sys': typeof SysLazyRouteWithChildren
   '/sys/': typeof SysIndexLazyRoute
   '/finances/accounts/': typeof FinancesAccountsIndexLazyRoute
+  '/finances/budgets/': typeof FinancesBudgetsIndexLazyRoute
   '/finances/categories/': typeof FinancesCategoriesIndexLazyRoute
   '/finances/debts/': typeof FinancesDebtsIndexLazyRoute
   '/finances/tags/': typeof FinancesTagsIndexLazyRoute
   '/finances/transactions/': typeof FinancesTransactionsIndexLazyRoute
   '/social/contacts/': typeof SocialContactsIndexLazyRoute
   '/sys/role/': typeof SysRoleIndexLazyRoute
+  '/finances/budgets/segments/$segment-id/': typeof FinancesBudgetsSegmentsSegmentIdIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -141,46 +170,54 @@ export interface FileRouteTypes {
     | '/sys'
     | '/sys/'
     | '/finances/accounts'
+    | '/finances/budgets'
     | '/finances/categories'
     | '/finances/debts'
     | '/finances/tags'
     | '/finances/transactions'
     | '/social/contacts'
     | '/sys/role'
+    | '/finances/budgets/segments/$segment-id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/sys'
     | '/finances/accounts'
+    | '/finances/budgets'
     | '/finances/categories'
     | '/finances/debts'
     | '/finances/tags'
     | '/finances/transactions'
     | '/social/contacts'
     | '/sys/role'
+    | '/finances/budgets/segments/$segment-id'
   id:
     | '__root__'
     | '/'
     | '/sys'
     | '/sys/'
     | '/finances/accounts/'
+    | '/finances/budgets/'
     | '/finances/categories/'
     | '/finances/debts/'
     | '/finances/tags/'
     | '/finances/transactions/'
     | '/social/contacts/'
     | '/sys/role/'
+    | '/finances/budgets/segments/$segment-id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   SysLazyRoute: typeof SysLazyRouteWithChildren
   FinancesAccountsIndexLazyRoute: typeof FinancesAccountsIndexLazyRoute
+  FinancesBudgetsIndexLazyRoute: typeof FinancesBudgetsIndexLazyRoute
   FinancesCategoriesIndexLazyRoute: typeof FinancesCategoriesIndexLazyRoute
   FinancesDebtsIndexLazyRoute: typeof FinancesDebtsIndexLazyRoute
   FinancesTagsIndexLazyRoute: typeof FinancesTagsIndexLazyRoute
   FinancesTransactionsIndexLazyRoute: typeof FinancesTransactionsIndexLazyRoute
   SocialContactsIndexLazyRoute: typeof SocialContactsIndexLazyRoute
+  FinancesBudgetsSegmentsSegmentIdIndexLazyRoute: typeof FinancesBudgetsSegmentsSegmentIdIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -248,11 +285,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinancesCategoriesIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finances/budgets/': {
+      id: '/finances/budgets/'
+      path: '/finances/budgets'
+      fullPath: '/finances/budgets'
+      preLoaderRoute: typeof FinancesBudgetsIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/finances/accounts/': {
       id: '/finances/accounts/'
       path: '/finances/accounts'
       fullPath: '/finances/accounts'
       preLoaderRoute: typeof FinancesAccountsIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finances/budgets/segments/$segment-id/': {
+      id: '/finances/budgets/segments/$segment-id/'
+      path: '/finances/budgets/segments/$segment-id'
+      fullPath: '/finances/budgets/segments/$segment-id'
+      preLoaderRoute: typeof FinancesBudgetsSegmentsSegmentIdIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -275,11 +326,14 @@ const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   SysLazyRoute: SysLazyRouteWithChildren,
   FinancesAccountsIndexLazyRoute: FinancesAccountsIndexLazyRoute,
+  FinancesBudgetsIndexLazyRoute: FinancesBudgetsIndexLazyRoute,
   FinancesCategoriesIndexLazyRoute: FinancesCategoriesIndexLazyRoute,
   FinancesDebtsIndexLazyRoute: FinancesDebtsIndexLazyRoute,
   FinancesTagsIndexLazyRoute: FinancesTagsIndexLazyRoute,
   FinancesTransactionsIndexLazyRoute: FinancesTransactionsIndexLazyRoute,
   SocialContactsIndexLazyRoute: SocialContactsIndexLazyRoute,
+  FinancesBudgetsSegmentsSegmentIdIndexLazyRoute:
+    FinancesBudgetsSegmentsSegmentIdIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

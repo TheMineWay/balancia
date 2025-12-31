@@ -29,6 +29,11 @@ export const DEPENDENCIES = [
 		url: "https://www.npmjs.com/package/@nivo/pie",
 	},
 	{
+		code: "@nivo/bar",
+		name: "@nivo/bar",
+		url: "https://www.npmjs.com/package/@nivo/bar",
+	},
+	{
 		code: "nodemon",
 		name: "Nodemon",
 		url: "https://www.npmjs.com/package/nodemon",

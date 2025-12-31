@@ -1,18 +1,13 @@
-import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
-import {
-	type UseSearch,
-	useSearch,
-} from "@common/extended-ui/form/hooks/use-search";
+import { useSearch } from "@common/extended-ui/form/hooks/use-search";
 import { Pagination } from "@core/pagination/components/pagination";
 import { usePagination } from "@core/pagination/hooks/use-pagination";
-import { MyAccountsSelector } from "@fts/finances/accounts/my-accounts/components/form/my-accounts.selector";
-import { MyCategoriesSelector } from "@fts/finances/categories/my-categories/components/form/my-categories.selector";
 import { useMyTransactionDeleteByIdMutation } from "@fts/finances/transactions/my-transactions/api/use-my-transaction-delete-by-id.mutation";
 import { useMyTransactionsQuery } from "@fts/finances/transactions/my-transactions/api/use-my-transactions.query";
 import { MyTransactionsImportManager } from "@fts/finances/transactions/my-transactions/components/manager/import/my-transactions-import-manager";
 import { MyTransactionCreateManager } from "@fts/finances/transactions/my-transactions/components/manager/my-transaction-create-manager";
 import { MyTransactionUpdateManager } from "@fts/finances/transactions/my-transactions/components/manager/my-transaction-update-manager";
 import { MyTransactionTagsManager } from "@fts/finances/transactions/my-transactions/components/manager/tags/my-transaction-tags-manager";
+import { TransactionFilters } from "@fts/finances/transactions/transactions/components/filters/transaction-filters";
 import { TransactionsTable } from "@fts/finances/transactions/transactions/components/transactions-table";
 import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
@@ -80,7 +75,7 @@ export const MyTransactionsManager: FC = () => {
 						{/* Actions */}
 						<TableLayout.Actions>
 							<ActionsLayout.Row>
-								<Filters search={search} />
+								<TransactionFilters search={search} />
 							</ActionsLayout.Row>
 							<ActionsLayout.Row>
 								<Button
@@ -182,51 +177,6 @@ export const MyTransactionsManager: FC = () => {
 			>
 				<MyTransactionsImportManager onSuccess={closeImport} />
 			</Modal>
-		</>
-	);
-};
-
-type FilterOptions = {
-	search: UseSearch<TransactionFiltersModel>;
-};
-
-const Filters: FC<FilterOptions> = ({ search }) => {
-	const { t } = useTranslation("finances");
-	const { t: commonT } = useTranslation("common");
-
-	const { filters, setFilter, debouncedSearchManager } = search;
-
-	return (
-		<>
-			<DebouncedSearch
-				manager={debouncedSearchManager}
-				size="xs"
-				placeholder={commonT().expressions.Search}
-			/>
-			<MyAccountsSelector
-				value={filters.accountId ?? null}
-				placeholder={t().account.expressions.Account}
-				onChange={(value) => setFilter("accountId", value)}
-				allowClear
-				size="xs"
-				autoFill={false}
-			/>
-			<MyCategoriesSelector
-				noCategoryOption
-				value={filters.categoryId ?? null}
-				placeholder={t().category.expressions.Category}
-				onChange={(value) => setFilter("categoryId", value)}
-				allowClear
-				size="xs"
-			/>
-			{/* <DayRangePicker
-				onChange={(range) => {
-					if (range) {
-						setFilter("fromDate", range.from);
-						setFilter("toDate", range.to);
-					}
-				}}
-			/> */}
 		</>
 	);
 };

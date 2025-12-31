@@ -2,27 +2,28 @@
 
 version: "3.9"
 services:
-  client:
-    image: node:24-alpine
-    working_dir: /app
-    command: sh -c "npm install -g pnpm && pnpm build:packages && pnpm build:client && pnpm start:client"
-    ports:
-      - "3000:3000"
+  balancia-client:
+    build:
+      context: .
+      dockerfile: apps/client/Dockerfile
+      target: builder
     volumes:
-      - .:/app
-    depends_on:
-      - server
-    expose:
-      - 3000
-    tty: true
+      - ./apps/client/dist:/output
+    command: sh -c "echo 'Checking dist folder...' && ls -la /app/apps/client/dist && echo 'Copying files...' && cp -r /app/apps/client/dist/. /output/ && echo 'Copy complete!' && ls -la /output && sleep infinity"
+    networks:
+      - "balancia_network"
 
-  server:
-    image: node:24-alpine
-    working_dir: /app
-    command: sh -c "npm install -g pnpm && pnpm build:packages && pnpm build:server && pnpm start:server"
-    ports:
-      - "3001:3001"
-    volumes:
-      - .:/app
-    expose:
-      - 3001
+  balancia-server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    env_file:
+      - apps/server/.env
+    networks:
+      - "balancia_network"
+    environment:
+      CI: true
+
+networks:
+  balancia_network:
+    external: true

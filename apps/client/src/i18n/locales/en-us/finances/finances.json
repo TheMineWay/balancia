@@ -16,6 +16,9 @@
 			},
 			"debts": {
 				"Label": "Debts"
+			},
+			"budgets": {
+				"Label": "Budgets"
 			}
 		}
 	},

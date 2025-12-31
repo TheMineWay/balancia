@@ -13,5 +13,10 @@ export const getParamName = <
 	endpoint: E,
 	param: P,
 ) => {
-	return controller.endpoints[endpoint as string].paramsMapping[param];
+	const e = controller.endpoints[endpoint as string];
+
+	if (!e)
+		throw new Error(`Endpoint '${String(endpoint)}' not found in controller.`);
+
+	return e.paramsMapping[param];
 };

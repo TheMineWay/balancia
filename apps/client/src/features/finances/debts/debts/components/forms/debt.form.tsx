@@ -5,7 +5,7 @@ import { MyContactsSelector } from "@fts/social/contacts/my-contacts/components/
 import { useTranslation } from "@i18n/use-translation";
 import { Button, Input, Textarea } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
-import type { DebtCreateModel } from "@shared/models";
+import { DEBT_MODEL_VALUES, type DebtCreateModel } from "@shared/models";
 import { useId } from "react";
 import { Controller, type UseFormReturn } from "react-hook-form";
 
@@ -73,7 +73,7 @@ export const DebtForm: FC<Props> = ({
 					render={({ field: { value, ...field } }) => (
 						<Textarea
 							{...field}
-							maxLength={255}
+							maxLength={DEBT_MODEL_VALUES.reason.maxLength}
 							minRows={3}
 							style={{ width: "100%" }}
 							value={value ?? ""}

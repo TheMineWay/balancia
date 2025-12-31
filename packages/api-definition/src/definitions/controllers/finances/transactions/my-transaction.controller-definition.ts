@@ -6,6 +6,7 @@ import {
 	SEARCH_SCHEMA,
 	TRANSACTION_CREATE_SCHEMA,
 	TRANSACTION_FILTERS_SCHEMA,
+	TRANSACTION_POPULATED_SCHEMA,
 	TRANSACTION_SCHEMA,
 } from "@shared/models";
 import type { ControllerDefinition } from "@ts-types/controller-definition.type";
@@ -23,9 +24,7 @@ const GET_TRANSACTIONS_LIST_ENDPOINT = {
 	}),
 	responseDto: getPaginatedResponse(
 		z.object({
-			...TRANSACTION_SCHEMA.shape,
-			account: ACCOUNT_SCHEMA,
-			category: CATEGORY_SCHEMA.nullable(),
+			...TRANSACTION_POPULATED_SCHEMA.shape,
 		}),
 	),
 } satisfies EndpointDefinition;
