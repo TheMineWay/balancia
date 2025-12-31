@@ -2,7 +2,10 @@ import { Form } from "@common/extended-ui/form/components/form";
 import { PercentInputField } from "@common/extended-ui/form/components/numeric/percent.input-field";
 import { useTranslation } from "@i18n/use-translation";
 import { Button, InputWrapper, Textarea } from "@mantine/core";
-import { BUDGET_SEGMENT_IMPUTATION_SCHEMA } from "@shared/models";
+import {
+	BUDGET_SEGMENT_IMPUTATION_MODEL_VALUES,
+	BUDGET_SEGMENT_IMPUTATION_SCHEMA,
+} from "@shared/models";
 import { Controller, type UseFormReturn } from "react-hook-form";
 import { TbMoneybag } from "react-icons/tb";
 import type z from "zod";
@@ -74,6 +77,9 @@ export const BudgetSegmentTransactionDetailsForm: FC<Props> = ({
 					render={({ field }) => (
 						<Textarea
 							{...field}
+							maxLength={
+								BUDGET_SEGMENT_IMPUTATION_MODEL_VALUES.description.maxLength
+							}
 							value={field.value ?? ""}
 							minRows={3}
 							error={Boolean(form.formState.errors.description)}

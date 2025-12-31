@@ -10,7 +10,14 @@ import { MyAllBudgetSegmentSelector } from "@fts/finances/budgets/my-budget-segm
 import { MyTransactionsSelector } from "@fts/finances/transactions/my-transactions/components/form/my-transactions.selector";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "@i18n/use-translation";
-import { Button, Divider, Flex, InputWrapper, Stepper } from "@mantine/core";
+import {
+	Alert,
+	Button,
+	Divider,
+	Flex,
+	InputWrapper,
+	Stepper,
+} from "@mantine/core";
 import type {
 	BudgetSegmentImputationModel,
 	BudgetSegmentModel,
@@ -18,6 +25,7 @@ import type {
 } from "@shared/models";
 import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { TbAlertCircle } from "react-icons/tb";
 
 type Essentials = {
 	transaction: TransactionModel;
@@ -212,6 +220,17 @@ const DefineDetailsStep: FC<DefineDetailsStepProps> = ({
 		<Flex direction="column">
 			<MyBudgetSegmentCard segment={segment} />
 			<Divider className="my-4" />
+
+			{/* Alerts */}
+			{imputationStatus?.alreadyImputed && (
+				<Alert color="red" mb="md" icon={<TbAlertCircle />}>
+					{
+						t()["budget-segment-imputation"].managers["impute-assistant"]
+							.status["already-imputed"].Message
+					}
+				</Alert>
+			)}
+
 			<BudgetSegmentTransactionDetailsForm
 				form={form}
 				submitText={

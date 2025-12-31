@@ -89,6 +89,11 @@
 				},
 				"actions": {
 					"Imputate": "Imputate"
+				},
+				"status": {
+					"already-imputed": {
+						"Message": "This transaction has already been imputed to this budget segment. If you want to increase the imputation percent, please edit the existing imputation."
+					}
 				}
 			}
 		}
