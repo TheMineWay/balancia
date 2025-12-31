@@ -23,7 +23,7 @@ export const useMyBudgetSegmentImputationDeleteMutation = () => {
 				{ id: imputationId.toString() },
 				request,
 			)({}),
-		onSuccess: (_, { imputationId }) => {
+		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: [getController(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, {})],
 			});
