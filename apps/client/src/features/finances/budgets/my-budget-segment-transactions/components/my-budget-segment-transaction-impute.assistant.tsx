@@ -4,6 +4,7 @@ import {
 	type BudgetSegmentTransactionDetailsFormValues,
 } from "@fts/finances/budgets/budget-segment-transactions/components/form/budget-segment-transaction-details.form";
 import { useMyBudgetSegmentImputationCreateMutation } from "@fts/finances/budgets/my-budget-segment-transactions/api/use-my-budget-segment-imputation-create.mutation";
+import { useMyBudgetSegmentImputationStatusByTransactionAndSegmentQuery } from "@fts/finances/budgets/my-budget-segment-transactions/api/use-my-budget-segment-imputation-status-by-transaction-and-segment.query";
 import { MyBudgetSegmentCard } from "@fts/finances/budgets/my-budget-segments/components/card/my-budget-segment-card";
 import { MyAllBudgetSegmentSelector } from "@fts/finances/budgets/my-budget-segments/components/form/my-all-budget-segment.selector";
 import { useMyBudgetByIdQuery } from "@fts/finances/budgets/my-budgets/api/use-my-budget-by-id.query";
@@ -255,6 +256,12 @@ const ReviewDetailsStep: FC<ReviewDetailsStepProps> = ({
 }) => {
 	const { t } = useTranslation("budget");
 
+	const { data: imputationStatus, isLoading: isLoadingImputationStatus } =
+		useMyBudgetSegmentImputationStatusByTransactionAndSegmentQuery({
+			segmentId: segment.id,
+			transactionId: transaction.id,
+		});
+
 	const { mutate: impute, isPending: isImputating } =
 		useMyBudgetSegmentImputationCreateMutation();
 
@@ -268,7 +275,11 @@ const ReviewDetailsStep: FC<ReviewDetailsStepProps> = ({
 
 	return (
 		<Flex direction="column">
-			<Button loading={isImputating} onClick={onImputeClick}>
+			<Button
+				disabled={isLoadingImputationStatus}
+				loading={isImputating}
+				onClick={onImputeClick}
+			>
 				{
 					t()["budget-segment-imputation"].managers["impute-assistant"].steps
 						.review.Impute

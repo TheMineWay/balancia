@@ -7,19 +7,23 @@ import {
 import type { BudgetSegmentImputationModel } from "@shared/models";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+type Options = {
+	imputationId: BudgetSegmentImputationModel["id"];
+};
+
 export const useMyBudgetSegmentImputationDeleteMutation = () => {
 	const { request } = useAuthenticatedRequest();
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: async (imputationId: BudgetSegmentImputationModel["id"]) =>
+		mutationFn: async ({ imputationId }: Options) =>
 			await endpointMutation(
 				MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION,
 				"removeImputation",
 				{ id: imputationId.toString() },
 				request,
 			)({}),
-		onSuccess: () => {
+		onSuccess: (_, { imputationId }) => {
 			queryClient.invalidateQueries({
 				queryKey: [getController(MY_BUDGET_SEGMENT_CONTROLLER_DEFINITION, {})],
 			});

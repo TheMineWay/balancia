@@ -79,7 +79,10 @@ export const MyBudgetSegmentTransactionsManager: FC<Props> = ({ segment }) => {
 						t()["budget-segment-imputation"].managers.delete.confirm.Action,
 				},
 				confirmProps: { color: "red", leftSection: <IoCloseOutline /> },
-				onConfirm: () => deleteImputation(item.id),
+				onConfirm: () =>
+					deleteImputation({
+						imputationId: item.id,
+					}),
 			});
 		},
 		[t, commonT, interpolated, deleteImputation],
