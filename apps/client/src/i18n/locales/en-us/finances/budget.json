@@ -96,6 +96,15 @@
 					}
 				}
 			}
+		},
+		"forms": {
+			"segment-transaction-details": {
+				"fields": {
+					"percent": {
+						"Max-percent": "Maximum percent is {maxPercent}%. The rest of the transaction has already been imputed."
+					}
+				}
+			}
 		}
 	},
 	"models": {

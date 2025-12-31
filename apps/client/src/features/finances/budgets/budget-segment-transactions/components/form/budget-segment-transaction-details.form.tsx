@@ -47,7 +47,7 @@ export const BudgetSegmentTransactionDetailsForm: FC<Props> = ({
 	// Limits
 	maxPercent = 100,
 }) => {
-	const { t } = useTranslation("budget");
+	const { t, interpolated } = useTranslation("budget");
 
 	const { handleSubmit, control, formState } = form;
 
@@ -55,6 +55,12 @@ export const BudgetSegmentTransactionDetailsForm: FC<Props> = ({
 		<Form onSubmit={handleSubmit((v) => onSuccess?.(v))}>
 			<InputWrapper
 				label={t().models["budget-segment-imputation"].percent.Label}
+				description={interpolated(
+					(t) =>
+						t["budget-segment-imputation"].forms["segment-transaction-details"]
+							.fields.percent["Max-percent"],
+					{ maxPercent: maxPercent.toString() },
+				)}
 			>
 				<Controller
 					control={control}
