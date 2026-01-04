@@ -11,6 +11,7 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { UserPreferencesModule } from "src/common/user/preferences/user-preferences.module";
 import { EventModule } from "src/events/event.module";
+import { BudgetAutomationsModule } from "src/features/budgets/automations/budget-automations.module";
 import { BudgetsModule } from "src/features/budgets/budgets/budgets.module";
 import { BudgetImputationModule } from "src/features/budgets/imputations/budget-imputation.module";
 import { BudgetSegmentsModule } from "src/features/budgets/segments/budget-segments.module";
@@ -50,6 +51,7 @@ import { IntegrationModule } from "src/integrations/integration.module";
 		BudgetsModule,
 		BudgetSegmentsModule,
 		BudgetImputationModule,
+		BudgetAutomationsModule,
 	],
 	providers: [
 		{

@@ -3,7 +3,7 @@ import { CATEGORY_SCHEMA } from "@/features/finances/category/category.model";
 import { TIMESTAMPS_SCHEMA } from "@/utils/timestamps.model";
 import z from "zod";
 
-export const BUDGET_SEGMENT_CATEGORY_SCHEMA = z.object({
+export const BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_SCHEMA = z.object({
 	// Identifiers
 	categoryId: CATEGORY_SCHEMA.shape.id,
 	segmentId: BUDGET_SEGMENT_SCHEMA.shape.id,
@@ -12,18 +12,18 @@ export const BUDGET_SEGMENT_CATEGORY_SCHEMA = z.object({
 	...TIMESTAMPS_SCHEMA.shape,
 });
 
-export type BudgetSegmentCategoryModel = z.infer<
-	typeof BUDGET_SEGMENT_CATEGORY_SCHEMA
+export type BudgetSegmentCategoryAutoMatcherModel = z.infer<
+	typeof BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_SCHEMA
 >;
 
 /* Create */
 
-export const BUDGET_SEGMENT_CATEGORY_CREATE_SCHEMA =
-	BUDGET_SEGMENT_CATEGORY_SCHEMA.omit({
+export const BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_CREATE_SCHEMA =
+	BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_SCHEMA.omit({
 		createdAt: true,
 		updatedAt: true,
 	});
 
-export type BudgetSegmentCategoryCreateModel = z.infer<
-	typeof BUDGET_SEGMENT_CATEGORY_CREATE_SCHEMA
+export type BudgetSegmentCategoryAutoMatcherCreateModel = z.infer<
+	typeof BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_CREATE_SCHEMA
 >;
