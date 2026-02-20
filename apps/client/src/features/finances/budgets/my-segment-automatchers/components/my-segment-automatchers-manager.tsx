@@ -11,7 +11,6 @@ import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
 import { ActionIcon, Button, Drawer, Menu } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
 import type {
 	BudgetSegmentCategoryAutoMatcherModel,
 	CategoryModel,
@@ -49,18 +48,7 @@ export const MySegmentAutomatchersManager: FC<{ segmentId: number }> = ({
 		useState<BudgetSegmentCategoryAutoMatcherModel | null>(null);
 
 	const handleRunAutoMatchers = () => {
-		runAutoMatchers(
-			{ segmentId },
-			{
-				onError: () => {
-					notifications.show({
-						title: "Error",
-						message: "Failed to run auto matchers",
-						color: "red",
-					});
-				},
-			},
-		);
+		runAutoMatchers({ segmentId });
 	};
 
 	return (
