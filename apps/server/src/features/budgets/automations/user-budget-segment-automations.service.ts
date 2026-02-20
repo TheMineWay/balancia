@@ -16,9 +16,9 @@ import { CategoriesService } from "src/features/finances/categories/categories.s
 @Injectable()
 export class UserBudgetSegmentAutomationsService {
 	constructor(
-		private readonly budgetSegmentAutomationsService: BudgetSegmentAutomationsService,
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
+		private readonly budgetSegmentAutomationsService: BudgetSegmentAutomationsService,
 		private readonly userBudgetSegmentService: UserBudgetSegmentsService,
 		private readonly categoriesService: CategoriesService,
 		private readonly budgetSegmentCategoryAutoMatcherRepository: BudgetSegmentCategoryAutoMatcherRepository,
@@ -29,7 +29,7 @@ export class UserBudgetSegmentAutomationsService {
 		matcher: BudgetSegmentCategoryAutoMatcherCreateModel,
 	): Promise<BudgetSegmentCategoryAutoMatcherModel | null> {
 		return await this.databaseService.db.transaction(async (transaction) => {
-			const isCreationPayloadOwner = await this.isOwnerOfCreationPayload(
+			const isCreationPayloadOwner = await this.isOwnerOfAutomatcher(
 				userId,
 				matcher,
 				{ transaction },
@@ -69,12 +69,30 @@ export class UserBudgetSegmentAutomationsService {
 		segmentId: number,
 		categoryId: number,
 	): Promise<BudgetSegmentCategoryAutoMatcherModel | null> {
-		const { isOwner } = await this.userBudgetSegmentService.checkOwnership(
-			userId,
+		const isOwner = await this.isOwnerOfAutomatcher(userId, {
 			segmentId,
-		);
+			categoryId,
+		});
 		if (!isOwner) throw new UnauthorizedException();
+
 		return this.budgetSegmentCategoryAutoMatcherRepository.findBySegmentAndCategory(
+			segmentId,
+			categoryId,
+		);
+	}
+
+	async checkSegmentCategoryCanBeAssigned(
+		userId: UserModelId,
+		segmentId: number,
+		categoryId: number,
+	): Promise<boolean> {
+		const isOwner = await this.isOwnerOfAutomatcher(userId, {
+			segmentId,
+			categoryId,
+		});
+		if (!isOwner) throw new UnauthorizedException();
+
+		return this.budgetSegmentAutomationsService.checkSegmentCategoryCanBeAssigned(
 			segmentId,
 			categoryId,
 		);
@@ -104,7 +122,7 @@ export class UserBudgetSegmentAutomationsService {
 	/**
 	 * Checks if the user is the owner of the creation payload
 	 */
-	async isOwnerOfCreationPayload(
+	async isOwnerOfAutomatcher(
 		userId: UserModelId,
 		data: BudgetSegmentCategoryAutoMatcherCreateModel,
 		options?: QueryOptions,

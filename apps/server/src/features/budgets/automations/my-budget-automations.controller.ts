@@ -126,6 +126,45 @@ export class MyBudgetAutomationsController {
 		return { matcher };
 	}
 
+	@Endpoint(
+		MY_BUDGET_AUTOMATIONS_CONTROLLER,
+		"checkSegmentCategoryCanBeAssigned",
+	)
+	async checkSegmentCategoryCanBeAssigned(
+		@UserId() userId: UserModelId,
+		@Param(
+			getParamName(
+				MY_BUDGET_AUTOMATIONS_CONTROLLER,
+				"checkSegmentCategoryCanBeAssigned",
+				"segmentId",
+			),
+			ParseIntPipe,
+		)
+		segmentId: number,
+		@Param(
+			getParamName(
+				MY_BUDGET_AUTOMATIONS_CONTROLLER,
+				"checkSegmentCategoryCanBeAssigned",
+				"categoryId",
+			),
+			ParseIntPipe,
+		)
+		categoryId: number,
+	): Promise<
+		InferResponseDto<
+			typeof MY_BUDGET_AUTOMATIONS_CONTROLLER,
+			"checkSegmentCategoryCanBeAssigned"
+		>
+	> {
+		const canAssign =
+			await this.userBudgetSegmentAutomationsService.checkSegmentCategoryCanBeAssigned(
+				userId,
+				segmentId,
+				categoryId,
+			);
+		return { canAssign };
+	}
+
 	@Endpoint(MY_BUDGET_AUTOMATIONS_CONTROLLER, "deleteSegmentCategoryMatcher")
 	async deleteSegmentCategoryMatcher(
 		@UserId() userId: UserModelId,

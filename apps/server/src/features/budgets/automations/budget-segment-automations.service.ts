@@ -1,5 +1,9 @@
 import type { QueryOptions } from "@database/repository/repository";
-import { Injectable } from "@nestjs/common";
+import {
+	BadRequestException,
+	Injectable,
+	NotFoundException,
+} from "@nestjs/common";
 import type {
 	BudgetSegmentCategoryAutoMatcherCreateModel,
 	BudgetSegmentCategoryAutoMatcherModel,
@@ -22,6 +26,19 @@ export class BudgetSegmentAutomationsService {
 		matcher: BudgetSegmentCategoryAutoMatcherCreateModel,
 		options?: QueryOptions,
 	): Promise<BudgetSegmentCategoryAutoMatcherModel | null> {
+		// Check if the segment category can be assigned
+		const canAssign = await this.checkSegmentCategoryCanBeAssigned(
+			matcher.segmentId,
+			matcher.categoryId,
+			options,
+		);
+
+		if (!canAssign) {
+			throw new BadRequestException(
+				"This category cannot be assigned to this segment",
+			);
+		}
+
 		const created =
 			await this.budgetSegmentCategoryAutoMatcherRepository.create(
 				matcher,
@@ -34,6 +51,27 @@ export class BudgetSegmentAutomationsService {
 			);
 
 		return created;
+	}
+
+	async checkSegmentCategoryCanBeAssigned(
+		segmentId: BudgetSegmentCategoryAutoMatcherModel["segmentId"],
+		categoryId: BudgetSegmentCategoryAutoMatcherModel["categoryId"],
+		options?: QueryOptions,
+	): Promise<boolean> {
+		const budget =
+			await this.budgetSegmentCategoryAutoMatcherRepository.findBudgetBySegmentId(
+				segmentId,
+				options,
+			);
+		if (!budget) throw new NotFoundException();
+
+		const count =
+			await this.budgetSegmentCategoryAutoMatcherRepository.countBudgetsAutomatcherCategoriesByBudgetAndCategory(
+				budget.id,
+				categoryId,
+				options,
+			);
+		return count === 0;
 	}
 
 	async deleteSegmentCategoryMatcher(

@@ -49,6 +49,26 @@ const GET_SEGMENT_CATEGORY_MATCHER_BY_SEGMENT_AND_CATEGORY_ENDPOINT = {
 	categoryId: string;
 }>;
 
+const CHECK_SEGMENT_CATEGORY_CAN_BE_ASSIGNED_ENDPOINT = {
+	getPath: (params) => [
+		"segment",
+		params.segmentId,
+		"category",
+		params.categoryId,
+		"can-assign",
+	],
+	paramsMapping: {
+		segmentId: "segmentId",
+		categoryId: "categoryId",
+	},
+	responseDto: z.object({
+		canAssign: z.boolean(),
+	}),
+} satisfies EndpointDefinition<{
+	segmentId: string;
+	categoryId: string;
+}>;
+
 const CREATE_SEGMENT_CATEGORY_ENDPOINT = {
 	getPath: () => ["segment-category-matcher"],
 	paramsMapping: {},
@@ -87,6 +107,8 @@ export const MY_BUDGET_AUTOMATIONS_CONTROLLER = {
 		getSegmentCategoryMatchersList: GET_SEGMENT_CATEGORY_MATCHERS_LIST_ENDPOINT,
 		getSegmentCategoryMatcherBySegmentAndCategory:
 			GET_SEGMENT_CATEGORY_MATCHER_BY_SEGMENT_AND_CATEGORY_ENDPOINT,
+		checkSegmentCategoryCanBeAssigned:
+			CHECK_SEGMENT_CATEGORY_CAN_BE_ASSIGNED_ENDPOINT,
 		createSegmentCategoryMatcher: CREATE_SEGMENT_CATEGORY_ENDPOINT,
 		deleteSegmentCategoryMatcher: DELETE_SEGMENT_CATEGORY_ENDPOINT,
 	},

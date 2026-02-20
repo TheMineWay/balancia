@@ -1,4 +1,4 @@
-import { useMySegmentCategoryMatcherBySegmentAndCategoryQuery } from "@fts/finances/budgets/my-segment-automatchers/api/use-my-segment-category-matcher-by-segment-and-category.query";
+import { useMySegmentCategoryCanBeAssignedQuery } from "@fts/finances/budgets/my-segment-automatchers/api/use-my-segment-category-can-be-assigned.query";
 import { useTranslation } from "@i18n/use-translation";
 import { Alert } from "@mantine/core";
 import type { BudgetSegmentModel, CategoryModel } from "@shared/models";
@@ -30,17 +30,18 @@ export const MySegmentAutomatcherCategoryUsedWarning: FC<Partial<Props>> = ({
 const Component: FC<Props> = ({ categoryId, segmentId, onStatus }) => {
 	const { t } = useTranslation("budget");
 
-	const { data: existingMatcher } =
-		useMySegmentCategoryMatcherBySegmentAndCategoryQuery({
+	const { data: canBeAssignedData, isLoading } =
+		useMySegmentCategoryCanBeAssignedQuery({
 			categoryId,
 			segmentId,
 		});
 
 	useEffect(() => {
-		onStatus?.(Boolean(existingMatcher?.matcher));
-	}, [existingMatcher, onStatus]);
+		if (isLoading) return;
+		onStatus?.(!canBeAssignedData?.canAssign);
+	}, [canBeAssignedData, onStatus, isLoading]);
 
-	if (!existingMatcher?.matcher) return null;
+	if (canBeAssignedData?.canAssign || isLoading) return null;
 
 	return (
 		<Alert
