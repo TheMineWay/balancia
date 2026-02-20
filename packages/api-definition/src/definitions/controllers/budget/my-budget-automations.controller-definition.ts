@@ -95,6 +95,19 @@ const DELETE_SEGMENT_CATEGORY_ENDPOINT = {
 	categoryId: string;
 }>;
 
+const RUN_SEGMENT_AUTO_MATCHERS_ENDPOINT = {
+	getPath: (params) => ["segment", params.segmentId, "run-auto-matchers"],
+	paramsMapping: {
+		segmentId: "segmentId",
+	},
+	method: EndpointMethod.POST,
+	responseDto: z.object({
+		success: z.boolean(),
+	}),
+} satisfies EndpointDefinition<{
+	segmentId: string;
+}>;
+
 // #endregion
 
 // Controller
@@ -111,5 +124,6 @@ export const MY_BUDGET_AUTOMATIONS_CONTROLLER = {
 			CHECK_SEGMENT_CATEGORY_CAN_BE_ASSIGNED_ENDPOINT,
 		createSegmentCategoryMatcher: CREATE_SEGMENT_CATEGORY_ENDPOINT,
 		deleteSegmentCategoryMatcher: DELETE_SEGMENT_CATEGORY_ENDPOINT,
+		runSegmentAutoMatchers: RUN_SEGMENT_AUTO_MATCHERS_ENDPOINT,
 	},
 } satisfies ControllerDefinition;

@@ -128,6 +128,17 @@
 				"Title": "Impossible to create automatcher",
 				"Message": "This category has already been assigned to an automatcher for this segment."
 			}
+		},
+		"actions": {
+			"run-auto-matchers":{
+				"Trigger": "Run auto matchers",
+				"status": {
+					"success": {
+						"Title": "Auto matcher run successfully",
+						"Message": "Auto matchers have been triggered successfully. Depending on the number of transactions to process, it may take some time for all transactions to be imputed."
+					}
+				}
+			}
 		}
 	},
 	"models": {

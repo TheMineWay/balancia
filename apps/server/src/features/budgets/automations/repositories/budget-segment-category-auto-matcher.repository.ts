@@ -148,6 +148,20 @@ export class BudgetSegmentCategoryAutoMatcherRepository extends Repository {
 			);
 	}
 
+	// #region Finders
+
+	async findBySegmentId(
+		segmentId: BudgetSegmentCategoryAutoMatcherModel["segmentId"],
+		options?: QueryOptions,
+	): Promise<BudgetSegmentCategoryAutoMatcherSelect[]> {
+		return this.query(options)
+			.select(BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_TABLE_COLUMNS)
+			.from(budgetSegmentCategoryAutoMatcherTable)
+			.where(eq(budgetSegmentCategoryAutoMatcherTable.segmentId, segmentId));
+	}
+
+	// #endregion
+
 	// #region Associations
 
 	async findBudgetBySegmentId(

@@ -1,3 +1,4 @@
+import { ExtraActions } from "@common/extended-ui/button/actions/components/extra-actions/extra-actions";
 import { DebouncedSearch } from "@common/extended-ui/form/components/search/debounced-search";
 import { useSearch } from "@common/extended-ui/form/hooks/use-search";
 import { DangerousActionConfirm } from "@common/verifications/dangerous-action/components/dangerous-action-confirm";
@@ -8,8 +9,9 @@ import { useTranslation } from "@i18n/use-translation";
 import { ManagerLayout } from "@layouts/manager/manager.layout";
 import { ActionsLayout } from "@layouts/shared/actions/actions.layout";
 import { TableLayout } from "@layouts/table/table.layout";
-import { ActionIcon, Button, Drawer } from "@mantine/core";
+import { ActionIcon, Button, Drawer, Menu } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 import type {
 	BudgetSegmentCategoryAutoMatcherModel,
 	CategoryModel,
@@ -17,7 +19,8 @@ import type {
 import type { FC } from "react";
 import { useState } from "react";
 import { IoAddOutline, IoReload } from "react-icons/io5";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdDeleteOutline, MdPlayArrow } from "react-icons/md";
+import { useMySegmentAutomatchersRunMutation } from "../api/use-my-segment-automatchers-run.mutation";
 import { useMySegmentCategoryMatcherDeleteMutation } from "../api/use-my-segment-category-matcher-delete.mutation";
 import { useMySegmentCategoryMatchersQueryList } from "../api/use-my-segment-category-matchers-list.query";
 import { MySegmentAutomatcherCreateManager } from "./manager/my-segment-automatcher-create-manager";
@@ -37,11 +40,28 @@ export const MySegmentAutomatchersManager: FC<{ segmentId: number }> = ({
 			search,
 		});
 	const { mutate: deleteMatcher } = useMySegmentCategoryMatcherDeleteMutation();
+	const { mutate: runAutoMatchers, isPending: isRunningAutoMatchers } =
+		useMySegmentAutomatchersRunMutation();
 
 	const [isCreateOpen, { open: openCreate, close: closeCreate }] =
 		useDisclosure();
 	const [matcherToDelete, setMatcherToDelete] =
 		useState<BudgetSegmentCategoryAutoMatcherModel | null>(null);
+
+	const handleRunAutoMatchers = () => {
+		runAutoMatchers(
+			{ segmentId },
+			{
+				onError: () => {
+					notifications.show({
+						title: "Error",
+						message: "Failed to run auto matchers",
+						color: "red",
+					});
+				},
+			},
+		);
+	};
 
 	return (
 		<>
@@ -74,6 +94,19 @@ export const MySegmentAutomatchersManager: FC<{ segmentId: number }> = ({
 								>
 									<IoReload />
 								</ActionIcon>
+								<ExtraActions>
+									<Menu.Item
+										leftSection={<MdPlayArrow />}
+										onClick={handleRunAutoMatchers}
+										disabled={isRunningAutoMatchers}
+									>
+										{
+											t()["budget-segment-auto-matchers"].actions[
+												"run-auto-matchers"
+											].Trigger
+										}
+									</Menu.Item>
+								</ExtraActions>
 							</ActionsLayout.Row>
 						</TableLayout.Actions>
 						<TableLayout.Table>

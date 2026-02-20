@@ -119,6 +119,27 @@ export class UserBudgetSegmentAutomationsService {
 		});
 	}
 
+	async runSegmentAutoMatchers(
+		userId: UserModelId,
+		segmentId: number,
+	): Promise<void> {
+		await this.databaseService.db.transaction(async (transaction) => {
+			// Check segment ownership
+			const { isOwner } = await this.userBudgetSegmentService.checkOwnership(
+				userId,
+				segmentId,
+				{ transaction },
+			);
+			if (!isOwner) throw new UnauthorizedException();
+
+			// Call the service to run auto matchers
+			await this.budgetSegmentAutomationsService.runSegmentAutoMatchers(
+				segmentId,
+				{ transaction },
+			);
+		});
+	}
+
 	/**
 	 * Checks if the user is the owner of the creation payload
 	 */

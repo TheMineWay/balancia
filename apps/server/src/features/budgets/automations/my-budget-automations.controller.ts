@@ -194,5 +194,30 @@ export class MyBudgetAutomationsController {
 		);
 	}
 
+	@Endpoint(MY_BUDGET_AUTOMATIONS_CONTROLLER, "runSegmentAutoMatchers")
+	async runSegmentAutoMatchers(
+		@UserId() userId: UserModelId,
+		@Param(
+			getParamName(
+				MY_BUDGET_AUTOMATIONS_CONTROLLER,
+				"runSegmentAutoMatchers",
+				"segmentId",
+			),
+			ParseIntPipe,
+		)
+		segmentId: number,
+	): Promise<
+		InferResponseDto<
+			typeof MY_BUDGET_AUTOMATIONS_CONTROLLER,
+			"runSegmentAutoMatchers"
+		>
+	> {
+		await this.userBudgetSegmentAutomationsService.runSegmentAutoMatchers(
+			userId,
+			segmentId,
+		);
+		return { success: true };
+	}
+
 	// #endregion
 }

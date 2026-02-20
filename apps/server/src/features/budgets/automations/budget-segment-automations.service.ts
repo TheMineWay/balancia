@@ -92,4 +92,18 @@ export class BudgetSegmentAutomationsService {
 			}),
 		);
 	}
+
+	async runSegmentAutoMatchers(
+		segmentId: BudgetSegmentCategoryAutoMatcherModel["segmentId"],
+		options?: QueryOptions,
+	): Promise<void> {
+		const automatchers =
+			await this.budgetSegmentCategoryAutoMatcherRepository.findBySegmentId(
+				segmentId,
+				options,
+			);
+		for (const automatcher of automatchers) {
+			console.log({ automatcher });
+		}
+	}
 }
