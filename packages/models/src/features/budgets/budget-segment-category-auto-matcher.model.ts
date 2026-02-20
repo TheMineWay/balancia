@@ -27,3 +27,14 @@ export const BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_CREATE_SCHEMA =
 export type BudgetSegmentCategoryAutoMatcherCreateModel = z.infer<
 	typeof BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_CREATE_SCHEMA
 >;
+
+/* List */
+export const BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_LIST_ITEM_SCHEMA =
+	BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_SCHEMA.extend({
+		segmentName: BUDGET_SEGMENT_SCHEMA.shape.name,
+		categoryName: CATEGORY_SCHEMA.shape.name,
+	});
+
+export type BudgetSegmentCategoryAutoMatcherListItemModel = z.infer<
+	typeof BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_LIST_ITEM_SCHEMA
+>;

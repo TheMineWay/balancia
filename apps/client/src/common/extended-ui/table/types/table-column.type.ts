@@ -7,4 +7,5 @@ export type TableColumn<
 	label: string;
 	accessorKey?: K;
 	render?: (item: TData) => React.ReactNode;
+	hidden?: boolean;
 } & Stylings<"cell" | "cellContent">;

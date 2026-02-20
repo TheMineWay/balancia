@@ -65,7 +65,7 @@
 					}
 				}
 			}
-		} 
+		}
 	},
 	"budget-segment-imputation": {
 		"managers": {
@@ -104,6 +104,29 @@
 						"Max-percent": "Maximum percent is {maxPercent}%. The rest of the transaction has already been imputed."
 					}
 				}
+			}
+		}
+	},
+	"budget-segment-auto-matchers": {
+		"Title": "Segment auto matchers",
+		"managers": {
+			"create": {
+				"Title": "Create automatcher",
+				"Action": "Create automatcher",
+				"Submit": "Create"
+			},
+			"delete": {
+				"confirm": {
+					"Title": "Delete automatcher",
+					"Message": "Are you sure you want to delete this category automatcher? This action cannot be undone.",
+					"Action": "Delete automatcher"
+				}
+			}
+		},
+		"status": {
+			"duplicated": {
+				"Title": "Impossible to create automatcher",
+				"Message": "This category has already been assigned to an automatcher for this segment."
 			}
 		}
 	},

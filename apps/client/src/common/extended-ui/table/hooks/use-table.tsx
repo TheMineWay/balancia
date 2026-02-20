@@ -28,7 +28,7 @@ export const useTable = <TData extends TableValue>({
 		[onRowClick],
 	);
 
-	return { data, columns, rowKey, events };
+	return { data, columns: columns.filter((c) => !c.hidden), rowKey, events };
 };
 
 export type UseTable<TData extends TableValue> = ReturnType<

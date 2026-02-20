@@ -48,8 +48,7 @@ export const DangerousActionConfirm: FC<Props> = ({
 		if (!open) setWriteToDeleteValue("");
 	}, [open]);
 
-	const canDelete =
-		!writeToDelete || writeToDeleteValue !== writeToDelete.confirmValue;
+	const canDelete = writeToDeleteValue !== writeToDelete?.confirmValue;
 
 	return (
 		<Modal
@@ -74,7 +73,7 @@ export const DangerousActionConfirm: FC<Props> = ({
 						/>
 					)}
 					<Button
-						disabled={canDelete}
+						disabled={writeToDelete ? canDelete : false}
 						color="red"
 						leftSection={confirmIcon}
 						onClick={() => onConfirm?.()}

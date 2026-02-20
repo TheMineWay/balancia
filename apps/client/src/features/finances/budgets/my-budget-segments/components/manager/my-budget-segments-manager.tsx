@@ -31,6 +31,12 @@ const MyBudgetSegmentTransactionsManager = lazy(() =>
 	).then((m) => ({ default: m.MyBudgetSegmentTransactionsManager })),
 );
 
+const MySegmentAutomatchersManager = lazy(() =>
+	import(
+		"@fts/finances/budgets/my-segment-automatchers/components/my-segment-automatchers-manager"
+	).then((m) => ({ default: m.MySegmentAutomatchersManager })),
+);
+
 type Props = {
 	budget: BudgetModel;
 };
@@ -55,6 +61,8 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 	const [segmentToDelete, setSegmentToDelete] =
 		useState<BudgetSegmentModel | null>(null);
 	const [segmentToViewTransactions, setSegmentToViewTransactions] =
+		useState<BudgetSegmentModel | null>(null);
+	const [segmentToViewAutoMatchers, setSegmentToViewAutoMatchers] =
 		useState<BudgetSegmentModel | null>(null);
 
 	const filteredSegments = useMemo(
@@ -117,6 +125,7 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 								onEditClick={setSegmentToUpdate}
 								onDeleteClick={setSegmentToDelete}
 								onTransactionsViewClick={setSegmentToViewTransactions}
+								onAutoMatchersViewClick={setSegmentToViewAutoMatchers}
 							/>
 						</TableLayout.Table>
 					</TableLayout.Root>
@@ -197,6 +206,24 @@ export const MyBudgetSegmentsManager: FC<Props> = ({ budget }) => {
 					<Suspense fallback={<LoadingOverlay visible />}>
 						<MyBudgetSegmentTransactionsManager
 							segment={segmentToViewTransactions}
+						/>
+					</Suspense>
+				)}
+			</Modal>
+
+			{/* AutoMatchers */}
+			<Modal
+				opened={Boolean(segmentToViewAutoMatchers)}
+				onClose={() => setSegmentToViewAutoMatchers(null)}
+				size="60rem"
+				title={interpolated((t) => t["budget-segment-auto-matchers"].Title, {
+					name: segmentToViewAutoMatchers?.name ?? "",
+				})}
+			>
+				{segmentToViewAutoMatchers && (
+					<Suspense fallback={<LoadingOverlay visible />}>
+						<MySegmentAutomatchersManager
+							segmentId={segmentToViewAutoMatchers.id}
 						/>
 					</Suspense>
 				)}

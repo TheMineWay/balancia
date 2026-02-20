@@ -5,9 +5,11 @@ import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import type {
 	BudgetSegmentCategoryAutoMatcherCreateModel,
 	BudgetSegmentCategoryAutoMatcherModel,
+	PaginatedSearchModel,
 	UserModelId,
 } from "@shared/models";
 import { BudgetSegmentAutomationsService } from "src/features/budgets/automations/budget-segment-automations.service";
+import { BudgetSegmentCategoryAutoMatcherRepository } from "src/features/budgets/automations/repositories/budget-segment-category-auto-matcher.repository";
 import { UserBudgetSegmentsService } from "src/features/budgets/segments/user-budget-segments.service";
 import { CategoriesService } from "src/features/finances/categories/categories.service";
 
@@ -19,6 +21,7 @@ export class UserBudgetSegmentAutomationsService {
 		private readonly databaseService: DatabaseService,
 		private readonly userBudgetSegmentService: UserBudgetSegmentsService,
 		private readonly categoriesService: CategoriesService,
+		private readonly budgetSegmentCategoryAutoMatcherRepository: BudgetSegmentCategoryAutoMatcherRepository,
 	) {}
 
 	async createSegmentCategoryMatcher(
@@ -42,6 +45,61 @@ export class UserBudgetSegmentAutomationsService {
 	}
 
 	// #region Ownership
+
+	async getSegmentCategoryMatchersList(
+		userId: UserModelId,
+		segmentId: number,
+		query: PaginatedSearchModel,
+	) {
+		// Ownership check for segment
+		const { isOwner } = await this.userBudgetSegmentService.checkOwnership(
+			userId,
+			segmentId,
+		);
+		if (!isOwner) throw new UnauthorizedException();
+
+		return this.budgetSegmentCategoryAutoMatcherRepository.findListBySegmentId(
+			segmentId,
+			query,
+		);
+	}
+
+	async getSegmentCategoryMatcherBySegmentAndCategory(
+		userId: UserModelId,
+		segmentId: number,
+		categoryId: number,
+	): Promise<BudgetSegmentCategoryAutoMatcherModel | null> {
+		const { isOwner } = await this.userBudgetSegmentService.checkOwnership(
+			userId,
+			segmentId,
+		);
+		if (!isOwner) throw new UnauthorizedException();
+		return this.budgetSegmentCategoryAutoMatcherRepository.findBySegmentAndCategory(
+			segmentId,
+			categoryId,
+		);
+	}
+
+	async deleteSegmentCategoryMatcher(
+		userId: UserModelId,
+		segmentId: number,
+		categoryId: number,
+	): Promise<void> {
+		await this.databaseService.db.transaction(async (transaction) => {
+			const { isOwner } = await this.userBudgetSegmentService.checkOwnership(
+				userId,
+				segmentId,
+				{ transaction },
+			);
+			if (!isOwner) throw new UnauthorizedException();
+
+			return await this.budgetSegmentAutomationsService.deleteSegmentCategoryMatcher(
+				segmentId,
+				categoryId,
+				{ transaction },
+			);
+		});
+	}
 
 	/**
 	 * Checks if the user is the owner of the creation payload

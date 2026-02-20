@@ -1,5 +1,6 @@
 import {
 	BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_CREATE_SCHEMA,
+	BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_LIST_ITEM_SCHEMA,
 	BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_SCHEMA,
 	getPaginatedResponse,
 	PAGINATED_SEARCH_SCHEMA,
@@ -13,7 +14,7 @@ import z from "zod";
 
 // #region Category matchers
 
-const GET_SEGMENT_CATEGORY_MATCHERS_ENDPOINT = {
+const GET_SEGMENT_CATEGORY_MATCHERS_LIST_ENDPOINT = {
 	getPath: (params) => ["segment", params.segmentId, "category-matchers"],
 	paramsMapping: {
 		segmentId: "segmentId",
@@ -22,7 +23,7 @@ const GET_SEGMENT_CATEGORY_MATCHERS_ENDPOINT = {
 		...PAGINATED_SEARCH_SCHEMA.shape,
 	}),
 	responseDto: getPaginatedResponse(
-		BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_SCHEMA,
+		BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_LIST_ITEM_SCHEMA,
 	),
 } satisfies EndpointDefinition<{
 	segmentId: string;
@@ -83,7 +84,7 @@ export const MY_BUDGET_AUTOMATIONS_CONTROLLER = {
 	paramsMapping: {},
 	endpoints: {
 		// Category matchers
-		getSegmentCategoryMatchers: GET_SEGMENT_CATEGORY_MATCHERS_ENDPOINT,
+		getSegmentCategoryMatchersList: GET_SEGMENT_CATEGORY_MATCHERS_LIST_ENDPOINT,
 		getSegmentCategoryMatcherBySegmentAndCategory:
 			GET_SEGMENT_CATEGORY_MATCHER_BY_SEGMENT_AND_CATEGORY_ENDPOINT,
 		createSegmentCategoryMatcher: CREATE_SEGMENT_CATEGORY_ENDPOINT,

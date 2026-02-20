@@ -6,6 +6,7 @@ import { useTranslation } from "@i18n/use-translation";
 import { ActionIcon, Badge, Group, Text } from "@mantine/core";
 import type { BudgetModel, BudgetSegmentModel } from "@shared/models";
 import { BiEdit, BiListMinus, BiTrash } from "react-icons/bi";
+import { RiRobot3Line } from "react-icons/ri";
 
 type Props<T extends BudgetSegmentModel> = {
 	data?: T[];
@@ -18,6 +19,7 @@ type Props<T extends BudgetSegmentModel> = {
 	onEditClick?: (item: T) => void;
 	onDeleteClick?: (item: T) => void;
 	onTransactionsViewClick?: (item: T) => void;
+	onAutoMatchersViewClick?: (item: T) => void;
 };
 
 export const BudgetSegmentsTable = <
@@ -33,6 +35,7 @@ export const BudgetSegmentsTable = <
 	onEditClick,
 	onDeleteClick,
 	onTransactionsViewClick,
+	onAutoMatchersViewClick,
 }: Readonly<Props<T>>) => {
 	const { t } = useTranslation("budget");
 	const { t: commonT } = useTranslation("common");
@@ -77,6 +80,15 @@ export const BudgetSegmentsTable = <
 								aria-label={t()["budget-segment"].managers.transactions.Trigger}
 							>
 								<BiListMinus />
+							</ActionIcon>
+						)}
+						{onAutoMatchersViewClick && (
+							<ActionIcon
+								{...TABLE_ACTION_PROPS.default}
+								onClick={() => onAutoMatchersViewClick(item)}
+								aria-label={t()["budget-segment-auto-matchers"].Title}
+							>
+								<RiRobot3Line />
 							</ActionIcon>
 						)}
 						{onEditClick && (
