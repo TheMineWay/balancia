@@ -58,4 +58,18 @@ export class BudgetSegmentImputationRepository extends Repository {
 			.delete(budgetSegmentImputationTable)
 			.where(eq(budgetSegmentImputationTable.id, id));
 	}
+
+	// #region Bulk
+
+	async bulkCreate(
+		data: BudgetSegmentImputationInsert[],
+		options?: QueryOptions,
+	) {
+		return await this.query(options)
+			.insert(budgetSegmentImputationTable)
+			.values(data)
+			.returning({ id: budgetSegmentImputationTable.id });
+	}
+
+	// #endregion
 }

@@ -206,6 +206,11 @@ export class MyBudgetAutomationsController {
 			ParseIntPipe,
 		)
 		segmentId: number,
+		@ValidatedQuery(MY_BUDGET_AUTOMATIONS_CONTROLLER, "runSegmentAutoMatchers")
+		query: InferQueryDto<
+			typeof MY_BUDGET_AUTOMATIONS_CONTROLLER,
+			"runSegmentAutoMatchers"
+		>,
 	): Promise<
 		InferResponseDto<
 			typeof MY_BUDGET_AUTOMATIONS_CONTROLLER,
@@ -215,6 +220,7 @@ export class MyBudgetAutomationsController {
 		await this.userBudgetSegmentAutomationsService.runSegmentAutoMatchers(
 			userId,
 			segmentId,
+			query,
 		);
 		return { success: true };
 	}

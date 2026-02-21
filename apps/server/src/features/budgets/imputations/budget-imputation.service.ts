@@ -1,4 +1,5 @@
 import type { QueryOptions } from "@database/repository/repository";
+import { BudgetSegmentImputationInsert } from "@database/schemas/main/tables/budget/budget-segment-imputation.table";
 import { Injectable } from "@nestjs/common";
 import type {
 	BudgetSegmentImputationCreateModel,
@@ -86,4 +87,18 @@ export class BudgetImputationService {
 			new BudgetImputationDeletedEvent({ imputationId: id }),
 		);
 	}
+
+	// #region Bulk imputation
+
+	async bulkImpute(
+		imputations: BudgetSegmentImputationInsert[],
+		options?: QueryOptions,
+	) {
+		return await this.budgetSegmentImputationRepository.bulkCreate(
+			imputations,
+			options,
+		);
+	}
+
+	// #endregion
 }

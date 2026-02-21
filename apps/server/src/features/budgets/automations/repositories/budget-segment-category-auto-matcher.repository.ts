@@ -1,17 +1,22 @@
 import { type QueryOptions, Repository } from "@database/repository/repository";
-import { budgetSegmentTable } from "@database/schemas/main.schema";
+import {
+	budgetSegmentImputationTable,
+	budgetSegmentTable,
+} from "@database/schemas/main.schema";
 import {
 	BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_TABLE_COLUMNS,
 	BudgetSegmentCategoryAutoMatcherInsert,
 	type BudgetSegmentCategoryAutoMatcherSelect,
 	budgetSegmentCategoryAutoMatcherTable,
 } from "@database/schemas/main/tables/budget/budget-segment-category-auto-matcher.table";
+import { BudgetSegmentSelect } from "@database/schemas/main/tables/budget/budget-segment.table";
 import {
 	BUDGET_TABLE_COLUMNS,
 	BudgetSelect,
 	budgetTable,
 } from "@database/schemas/main/tables/budget/budget.table";
 import { categoryTable } from "@database/schemas/main/tables/finances/category.table";
+import { transactionsTable } from "@database/schemas/main/tables/finances/transaction.table";
 import { Injectable } from "@nestjs/common";
 import type {
 	BudgetSegmentCategoryAutoMatcherListItemModel,
@@ -19,8 +24,22 @@ import type {
 	BudgetSegmentModel,
 	PaginatedResponse,
 	PaginatedSearchModel,
+	TransactionModel,
 } from "@shared/models";
-import { and, count, eq, ilike, or, SQLWrapper } from "drizzle-orm";
+import {
+	and,
+	count,
+	eq,
+	gte,
+	ilike,
+	inArray,
+	isNull,
+	lte,
+	or,
+	SQLWrapper,
+} from "drizzle-orm";
+
+const PENDING_AUTO_IMPUTATIONS_BATCH_SIZE = 250;
 
 @Injectable()
 export class BudgetSegmentCategoryAutoMatcherRepository extends Repository {
@@ -42,6 +61,8 @@ export class BudgetSegmentCategoryAutoMatcherRepository extends Repository {
 
 		return result[0] ?? null;
 	}
+
+	// #region CRUD
 
 	async create(
 		data: BudgetSegmentCategoryAutoMatcherInsert,
@@ -148,6 +169,8 @@ export class BudgetSegmentCategoryAutoMatcherRepository extends Repository {
 			);
 	}
 
+	// #endregion
+
 	// #region Finders
 
 	async findBySegmentId(
@@ -160,9 +183,19 @@ export class BudgetSegmentCategoryAutoMatcherRepository extends Repository {
 			.where(eq(budgetSegmentCategoryAutoMatcherTable.segmentId, segmentId));
 	}
 
+	async findAutoImputationDetailsByCategoryId(
+		categoryId: TransactionModel["id"],
+		options?: QueryOptions,
+	) {
+		return await this.query(options)
+			.select(BUDGET_SEGMENT_CATEGORY_AUTO_MATCHER_TABLE_COLUMNS)
+			.from(budgetSegmentCategoryAutoMatcherTable)
+			.where(eq(budgetSegmentCategoryAutoMatcherTable.categoryId, categoryId));
+	}
+
 	// #endregion
 
-	// #region Associations
+	// #region Budget
 
 	async findBudgetBySegmentId(
 		segmentId: BudgetSegmentModel["id"],
@@ -179,6 +212,74 @@ export class BudgetSegmentCategoryAutoMatcherRepository extends Repository {
 			.limit(1);
 
 		return result[0] ?? null;
+	}
+
+	// #endregion
+
+	// #region Transactions
+
+	async findPendingAutoImputableTransactionsBySegmentIds(
+		segmentIds: BudgetSegmentSelect["id"][],
+		filters?: {
+			fromDate?: Date;
+			toDate?: Date;
+			transactionIds?: TransactionModel["id"][];
+		},
+		options?: QueryOptions,
+	) {
+		const filterConditions: (SQLWrapper | undefined)[] = [];
+
+		if (filters?.fromDate) {
+			filterConditions.push(
+				gte(transactionsTable.performedAt, filters.fromDate),
+			);
+		}
+
+		if (filters?.toDate) {
+			filterConditions.push(lte(transactionsTable.performedAt, filters.toDate));
+		}
+
+		if (filters?.transactionIds) {
+			filterConditions.push(
+				inArray(transactionsTable.id, filters.transactionIds),
+			);
+		}
+
+		// Build query
+
+		const query = this.query(options)
+			.select({
+				transactionId: transactionsTable.id,
+				segmentId: budgetSegmentCategoryAutoMatcherTable.segmentId,
+				targetCategoryId: budgetSegmentCategoryAutoMatcherTable.categoryId,
+			})
+			.from(transactionsTable)
+			// Joins
+			.innerJoin(
+				budgetSegmentCategoryAutoMatcherTable,
+				eq(
+					budgetSegmentCategoryAutoMatcherTable.categoryId,
+					transactionsTable.categoryId,
+				),
+			)
+			.leftJoin(
+				budgetSegmentImputationTable,
+				eq(budgetSegmentImputationTable.transactionId, transactionsTable.id),
+			)
+			// Conditions
+			.where(
+				and(
+					// Filter by segments
+					inArray(budgetSegmentCategoryAutoMatcherTable.segmentId, segmentIds),
+					// Filter by non-imputed transactions
+					isNull(budgetSegmentImputationTable.id),
+					// CustomFilters
+					and(...filterConditions),
+				),
+			)
+			.limit(PENDING_AUTO_IMPUTATIONS_BATCH_SIZE);
+
+		return await query;
 	}
 
 	// #endregion

@@ -5,6 +5,7 @@ import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import type {
 	BudgetSegmentCategoryAutoMatcherCreateModel,
 	BudgetSegmentCategoryAutoMatcherModel,
+	BudgetSegmentCategoryAutoMatcherRunMatchersFiltersModel,
 	PaginatedSearchModel,
 	UserModelId,
 } from "@shared/models";
@@ -122,6 +123,7 @@ export class UserBudgetSegmentAutomationsService {
 	async runSegmentAutoMatchers(
 		userId: UserModelId,
 		segmentId: number,
+		filters?: BudgetSegmentCategoryAutoMatcherRunMatchersFiltersModel,
 	): Promise<void> {
 		await this.databaseService.db.transaction(async (transaction) => {
 			// Check segment ownership
@@ -133,8 +135,9 @@ export class UserBudgetSegmentAutomationsService {
 			if (!isOwner) throw new UnauthorizedException();
 
 			// Call the service to run auto matchers
-			await this.budgetSegmentAutomationsService.runSegmentAutoMatchers(
-				segmentId,
+			await this.budgetSegmentAutomationsService.runAutoMatchersBySegments(
+				[segmentId],
+				filters,
 				{ transaction },
 			);
 		});

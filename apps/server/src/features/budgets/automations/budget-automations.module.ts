@@ -3,11 +3,12 @@ import { BudgetSegmentAutomationsService } from "src/features/budgets/automation
 import { MyBudgetAutomationsController } from "src/features/budgets/automations/my-budget-automations.controller";
 import { BudgetSegmentCategoryAutoMatcherRepository } from "src/features/budgets/automations/repositories/budget-segment-category-auto-matcher.repository";
 import { UserBudgetSegmentAutomationsService } from "src/features/budgets/automations/user-budget-segment-automations.service";
+import { BudgetImputationModule } from "src/features/budgets/imputations/budget-imputation.module";
 import { BudgetSegmentsModule } from "src/features/budgets/segments/budget-segments.module";
 import { CategoriesModule } from "src/features/finances/categories/categories.module";
 
 @Module({
-	imports: [CategoriesModule, BudgetSegmentsModule],
+	imports: [CategoriesModule, BudgetSegmentsModule, BudgetImputationModule],
 	providers: [
 		// Services
 		BudgetSegmentAutomationsService,
