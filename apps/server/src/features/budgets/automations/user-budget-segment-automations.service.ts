@@ -135,7 +135,7 @@ export class UserBudgetSegmentAutomationsService {
 			if (!isOwner) throw new UnauthorizedException();
 
 			// Call the service to run auto matchers
-			await this.budgetSegmentAutomationsService.runAutoMatchersBySegments(
+			await this.budgetSegmentAutomationsService.runCategoryAutoMatchersBySegments(
 				[segmentId],
 				filters,
 				{ transaction },

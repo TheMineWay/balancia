@@ -13,7 +13,9 @@ export const budgetSegmentAutoImputationHistoryTable = budgetSchema.table(
 	{
 		imputationId: integer()
 			.notNull()
-			.references(() => budgetSegmentImputationTable.id)
+			.references(() => budgetSegmentImputationTable.id, {
+				onDelete: "cascade",
+			})
 			.primaryKey(),
 
 		// Timestamps

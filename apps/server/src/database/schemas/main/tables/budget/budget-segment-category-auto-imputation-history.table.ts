@@ -15,7 +15,10 @@ export const budgetSegmentCategoryAutoImputationHistoryTable =
 		{
 			historyImputationId: integer()
 				.notNull()
-				.references(() => budgetSegmentAutoImputationHistoryTable.imputationId)
+				.references(
+					() => budgetSegmentAutoImputationHistoryTable.imputationId,
+					{ onDelete: "cascade" },
+				)
 				.primaryKey(),
 			categoryId: integer()
 				.notNull()

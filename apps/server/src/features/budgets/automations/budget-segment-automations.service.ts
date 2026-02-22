@@ -13,6 +13,7 @@ import type {
 	BudgetSegmentCategoryAutoMatcherCreateModel,
 	BudgetSegmentCategoryAutoMatcherModel,
 	BudgetSegmentCategoryAutoMatcherRunMatchersFiltersModel,
+	BudgetSegmentImputationModel,
 	TransactionModel,
 } from "@shared/models";
 import { groupBy } from "lodash";
@@ -21,6 +22,8 @@ import {
 	BudgetSegmentCategoryAutoMatcherCreatedEvent,
 	BudgetSegmentCategoryAutoMatcherDeletedEvent,
 } from "src/features/budgets/automations/budget-segment-automations.events";
+import { BudgetSegmentAutoImputationHistoryRepository } from "src/features/budgets/automations/repositories/budget-segment-auto-imputation-history.repository";
+import { BudgetSegmentCategoryAutoImputationHistoryRepository } from "src/features/budgets/automations/repositories/budget-segment-category-auto-imputation-history.repository";
 import { BudgetSegmentCategoryAutoMatcherRepository } from "src/features/budgets/automations/repositories/budget-segment-category-auto-matcher.repository";
 import { BudgetImputationService } from "src/features/budgets/imputations/budget-imputation.service";
 import {
@@ -33,6 +36,8 @@ export class BudgetSegmentAutomationsService {
 	constructor(
 		private readonly budgetSegmentCategoryAutoMatcherRepository: BudgetSegmentCategoryAutoMatcherRepository,
 		private readonly budgetImputationService: BudgetImputationService,
+		private readonly budgetSegmentAutoImputationHistoryRepository: BudgetSegmentAutoImputationHistoryRepository,
+		private readonly budgetSegmentCategoryAutoImputationHistoryRepository: BudgetSegmentCategoryAutoImputationHistoryRepository,
 		private readonly eventService: EventService,
 		@Inject(DATABASE_PROVIDERS.main)
 		private readonly databaseService: DatabaseService,
@@ -117,9 +122,9 @@ export class BudgetSegmentAutomationsService {
 
 	// #endregion
 
-	// #region Auto matchers
+	// #region Category auto matchers
 
-	async runAutoMatchersBySegments(
+	async runCategoryAutoMatchersBySegments(
 		segmentIds: BudgetSegmentCategoryAutoMatcherModel["segmentId"][],
 		filters?: BudgetSegmentCategoryAutoMatcherRunMatchersFiltersModel & {
 			transactionIds?: TransactionModel["id"][];
@@ -148,16 +153,52 @@ export class BudgetSegmentAutomationsService {
 			)) {
 				const segmentId = +rawSegmentId;
 
-				// Impute transactions to the segment
-				const imputations: BudgetSegmentImputationInsert[] = transactions.map(
-					(t) => ({
-						segmentId,
-						transactionId: t.transactionId,
-					}),
-				);
-				await this.budgetImputationService.bulkImpute(imputations, options);
+				const categoryGroups = groupBy(transactions, (t) => t.targetCategoryId);
+				for (const [rawCategoryId, transactions] of Object.entries(
+					categoryGroups,
+				)) {
+					// Impute transactions to the segment
+					const imputations: BudgetSegmentImputationInsert[] = transactions.map(
+						(t) => ({
+							segmentId,
+							transactionId: t.transactionId,
+						}),
+					);
+					const imputationIds = (
+						await this.budgetImputationService.bulkImpute(imputations, options)
+					).map((i) => i.id);
+
+					// Mark transactions as auto imputed
+					const categoryId = +rawCategoryId;
+					await this.writeCategoryAutoImputationHistory(
+						imputationIds,
+						categoryId,
+						options,
+					);
+				}
 			}
 		} while (hasMore);
+	}
+
+	private async writeCategoryAutoImputationHistory(
+		imputationIds: BudgetSegmentImputationModel["id"][],
+		categoryId: BudgetSegmentCategoryAutoMatcherModel["categoryId"],
+		options?: QueryOptions,
+	) {
+		await this.budgetSegmentAutoImputationHistoryRepository.bulkCreate(
+			imputationIds.map((imputationId) => ({
+				imputationId,
+				categoryId,
+			})),
+			options,
+		);
+		await this.budgetSegmentCategoryAutoImputationHistoryRepository.bulkCreate(
+			imputationIds.map((imputationId) => ({
+				historyImputationId: imputationId,
+				categoryId,
+			})),
+			options,
+		);
 	}
 
 	private async triggerTransactionAutoMatching(transaction: TransactionModel) {
@@ -171,7 +212,7 @@ export class BudgetSegmentAutomationsService {
 					categoryId,
 					{ transaction: tx },
 				);
-			await this.runAutoMatchersBySegments(
+			await this.runCategoryAutoMatchersBySegments(
 				details.map((d) => d.segmentId),
 				{
 					transactionIds: [transaction.id],
