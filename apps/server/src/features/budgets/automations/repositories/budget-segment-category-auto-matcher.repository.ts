@@ -264,7 +264,13 @@ export class BudgetSegmentCategoryAutoMatcherRepository extends Repository {
 			)
 			.leftJoin(
 				budgetSegmentImputationTable,
-				eq(budgetSegmentImputationTable.transactionId, transactionsTable.id),
+				and(
+					eq(budgetSegmentImputationTable.transactionId, transactionsTable.id),
+					eq(
+						budgetSegmentImputationTable.segmentId,
+						budgetSegmentCategoryAutoMatcherTable.segmentId,
+					),
+				),
 			)
 			// Conditions
 			.where(
