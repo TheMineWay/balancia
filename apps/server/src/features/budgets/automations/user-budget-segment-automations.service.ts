@@ -105,9 +105,9 @@ export class UserBudgetSegmentAutomationsService {
 		categoryId: number,
 	): Promise<void> {
 		await this.databaseService.db.transaction(async (transaction) => {
-			const { isOwner } = await this.userBudgetSegmentService.checkOwnership(
+			const isOwner = await this.isOwnerOfAutomatcher(
 				userId,
-				segmentId,
+				{ segmentId, categoryId },
 				{ transaction },
 			);
 			if (!isOwner) throw new UnauthorizedException();
