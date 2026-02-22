@@ -273,7 +273,7 @@ export class BudgetSegmentCategoryAutoMatcherRepository extends Repository {
 					inArray(budgetSegmentCategoryAutoMatcherTable.segmentId, segmentIds),
 					// Filter by non-imputed transactions
 					isNull(budgetSegmentImputationTable.id),
-					// CustomFilters
+					// Custom filters
 					and(...filterConditions),
 				),
 			)
