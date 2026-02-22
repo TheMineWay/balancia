@@ -19,10 +19,10 @@ import type { FC } from "react";
 import { useState } from "react";
 import { IoAddOutline, IoReload } from "react-icons/io5";
 import { MdDeleteOutline, MdPlayArrow } from "react-icons/md";
-import { useMySegmentAutomatchersRunMutation } from "../api/use-my-segment-automatchers-run.mutation";
 import { useMySegmentCategoryMatcherDeleteMutation } from "../api/use-my-segment-category-matcher-delete.mutation";
 import { useMySegmentCategoryMatchersQueryList } from "../api/use-my-segment-category-matchers-list.query";
 import { MySegmentAutomatcherCreateManager } from "./manager/my-segment-automatcher-create-manager";
+import { MySegmentAutomatcherRunManager } from "./manager/my-segment-automatcher-run-manager";
 export const MySegmentAutomatchersManager: FC<{ segmentId: number }> = ({
 	segmentId,
 }) => {
@@ -39,16 +39,15 @@ export const MySegmentAutomatchersManager: FC<{ segmentId: number }> = ({
 			search,
 		});
 	const { mutate: deleteMatcher } = useMySegmentCategoryMatcherDeleteMutation();
-	const { mutate: runAutoMatchers, isPending: isRunningAutoMatchers } =
-		useMySegmentAutomatchersRunMutation();
 
 	const [isCreateOpen, { open: openCreate, close: closeCreate }] =
 		useDisclosure();
+	const [isRunOpen, { open: openRun, close: closeRun }] = useDisclosure();
 	const [matcherToDelete, setMatcherToDelete] =
 		useState<BudgetSegmentCategoryAutoMatcherModel | null>(null);
 
 	const handleRunAutoMatchers = () => {
-		runAutoMatchers({ segmentId });
+		openRun();
 	};
 
 	return (
@@ -86,7 +85,6 @@ export const MySegmentAutomatchersManager: FC<{ segmentId: number }> = ({
 									<Menu.Item
 										leftSection={<MdPlayArrow />}
 										onClick={handleRunAutoMatchers}
-										disabled={isRunningAutoMatchers}
 									>
 										{
 											t()["budget-segment-auto-matchers"].actions[
@@ -122,6 +120,21 @@ export const MySegmentAutomatchersManager: FC<{ segmentId: number }> = ({
 				<MySegmentAutomatcherCreateManager
 					segmentId={segmentId}
 					onSuccess={closeCreate}
+				/>
+			</Drawer>
+
+			<Drawer
+				position="right"
+				opened={isRunOpen}
+				onClose={closeRun}
+				title={
+					t()["budget-segment-auto-matchers"].actions["run-auto-matchers"]
+						.Trigger
+				}
+			>
+				<MySegmentAutomatcherRunManager
+					segmentId={segmentId}
+					onSuccess={closeRun}
 				/>
 			</Drawer>
 

@@ -6,6 +6,7 @@ import {
 	getController,
 	MY_BUDGET_AUTOMATIONS_CONTROLLER,
 } from "@shared/api-definition";
+import type { BudgetSegmentCategoryAutoMatcherRunMatchersFiltersModel } from "@shared/models";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useMySegmentAutomatchersRunMutation = () => {
@@ -14,13 +15,19 @@ export const useMySegmentAutomatchersRunMutation = () => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: ({ segmentId }: { segmentId: number }) =>
+		mutationFn: ({
+			segmentId,
+			filters,
+		}: {
+			segmentId: number;
+			filters?: BudgetSegmentCategoryAutoMatcherRunMatchersFiltersModel;
+		}) =>
 			endpointMutation(
 				MY_BUDGET_AUTOMATIONS_CONTROLLER,
 				"runSegmentAutoMatchers",
 				{ segmentId: segmentId.toString() },
 				request,
-			)({}),
+			)({ query: filters ?? {} }),
 		onSuccess: () => {
 			notifications.show({
 				title:

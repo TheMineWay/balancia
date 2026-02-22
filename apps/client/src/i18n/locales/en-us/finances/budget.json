@@ -123,6 +123,18 @@
 				}
 			}
 		},
+		"forms": {
+			"run-matchers": {
+				"from-date": {
+					"Label": "Start Date (Optional)",
+					"Placeholder": "Select start date"
+				},
+				"to-date": {
+					"Label": "End Date (Optional)",
+					"Placeholder": "Select end date"
+				}
+			}
+		},
 		"status": {
 			"duplicated": {
 				"Title": "Impossible to create automatcher",
