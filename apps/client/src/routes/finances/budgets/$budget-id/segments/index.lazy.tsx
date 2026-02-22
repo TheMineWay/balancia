@@ -3,18 +3,18 @@ import { useMyBudgetByIdQuery } from "@fts/finances/budgets/my-budgets/api/use-m
 import { createLazyFileRoute, notFound } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute(
-	"/finances/budgets/segments/$segment-id/",
+	"/finances/budgets/$budget-id/segments/",
 )({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-	const { "segment-id": rawSegmentId } = Route.useParams();
-	const segmentId = Number(rawSegmentId);
+	const { "budget-id": rawBudgetId } = Route.useParams();
+	const budgetId = Number(rawBudgetId);
 
-	if (Number.isNaN(segmentId)) throw new Error("Invalid segment ID");
+	if (Number.isNaN(budgetId)) throw new Error("Invalid budget ID");
 
-	const { data: budget, isLoading } = useMyBudgetByIdQuery(segmentId);
+	const { data: budget, isLoading } = useMyBudgetByIdQuery(budgetId);
 
 	if (isLoading) return null;
 	if (!budget) throw notFound();

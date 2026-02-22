@@ -67,8 +67,8 @@ export const BudgetsTable = <T extends BudgetModel = BudgetModel>({
 					<Group>
 						{segmentPlannerEnabled && (
 							<Link
-								to="/finances/budgets/segments/$segment-id"
-								params={{ "segment-id": item.id.toString() }}
+								to="/finances/budgets/$budget-id/segments"
+								params={{ "budget-id": item.id.toString() }}
 							>
 								<ActionIcon
 									{...TABLE_ACTION_PROPS.default}

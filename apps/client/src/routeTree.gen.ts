@@ -31,8 +31,8 @@ const FinancesBudgetsIndexLazyRouteImport =
 const FinancesAccountsIndexLazyRouteImport = createFileRoute(
   '/finances/accounts/',
 )()
-const FinancesBudgetsSegmentsSegmentIdIndexLazyRouteImport = createFileRoute(
-  '/finances/budgets/segments/$segment-id/',
+const FinancesBudgetsBudgetIdSegmentsIndexLazyRouteImport = createFileRoute(
+  '/finances/budgets/$budget-id/segments/',
 )()
 
 const SysLazyRoute = SysLazyRouteImport.update({
@@ -110,13 +110,13 @@ const FinancesAccountsIndexLazyRoute =
   } as any).lazy(() =>
     import('./routes/finances/accounts/index.lazy').then((d) => d.Route),
   )
-const FinancesBudgetsSegmentsSegmentIdIndexLazyRoute =
-  FinancesBudgetsSegmentsSegmentIdIndexLazyRouteImport.update({
-    id: '/finances/budgets/segments/$segment-id/',
-    path: '/finances/budgets/segments/$segment-id/',
+const FinancesBudgetsBudgetIdSegmentsIndexLazyRoute =
+  FinancesBudgetsBudgetIdSegmentsIndexLazyRouteImport.update({
+    id: '/finances/budgets/$budget-id/segments/',
+    path: '/finances/budgets/$budget-id/segments/',
     getParentRoute: () => rootRouteImport,
   } as any).lazy(() =>
-    import('./routes/finances/budgets/segments/$segment-id/index.lazy').then(
+    import('./routes/finances/budgets/$budget-id/segments/index.lazy').then(
       (d) => d.Route,
     ),
   )
@@ -133,7 +133,7 @@ export interface FileRoutesByFullPath {
   '/finances/transactions': typeof FinancesTransactionsIndexLazyRoute
   '/social/contacts': typeof SocialContactsIndexLazyRoute
   '/sys/role': typeof SysRoleIndexLazyRoute
-  '/finances/budgets/segments/$segment-id': typeof FinancesBudgetsSegmentsSegmentIdIndexLazyRoute
+  '/finances/budgets/$budget-id/segments': typeof FinancesBudgetsBudgetIdSegmentsIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
@@ -146,7 +146,7 @@ export interface FileRoutesByTo {
   '/finances/transactions': typeof FinancesTransactionsIndexLazyRoute
   '/social/contacts': typeof SocialContactsIndexLazyRoute
   '/sys/role': typeof SysRoleIndexLazyRoute
-  '/finances/budgets/segments/$segment-id': typeof FinancesBudgetsSegmentsSegmentIdIndexLazyRoute
+  '/finances/budgets/$budget-id/segments': typeof FinancesBudgetsBudgetIdSegmentsIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -161,7 +161,7 @@ export interface FileRoutesById {
   '/finances/transactions/': typeof FinancesTransactionsIndexLazyRoute
   '/social/contacts/': typeof SocialContactsIndexLazyRoute
   '/sys/role/': typeof SysRoleIndexLazyRoute
-  '/finances/budgets/segments/$segment-id/': typeof FinancesBudgetsSegmentsSegmentIdIndexLazyRoute
+  '/finances/budgets/$budget-id/segments/': typeof FinancesBudgetsBudgetIdSegmentsIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -177,7 +177,7 @@ export interface FileRouteTypes {
     | '/finances/transactions'
     | '/social/contacts'
     | '/sys/role'
-    | '/finances/budgets/segments/$segment-id'
+    | '/finances/budgets/$budget-id/segments'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -190,7 +190,7 @@ export interface FileRouteTypes {
     | '/finances/transactions'
     | '/social/contacts'
     | '/sys/role'
-    | '/finances/budgets/segments/$segment-id'
+    | '/finances/budgets/$budget-id/segments'
   id:
     | '__root__'
     | '/'
@@ -204,7 +204,7 @@ export interface FileRouteTypes {
     | '/finances/transactions/'
     | '/social/contacts/'
     | '/sys/role/'
-    | '/finances/budgets/segments/$segment-id/'
+    | '/finances/budgets/$budget-id/segments/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -217,7 +217,7 @@ export interface RootRouteChildren {
   FinancesTagsIndexLazyRoute: typeof FinancesTagsIndexLazyRoute
   FinancesTransactionsIndexLazyRoute: typeof FinancesTransactionsIndexLazyRoute
   SocialContactsIndexLazyRoute: typeof SocialContactsIndexLazyRoute
-  FinancesBudgetsSegmentsSegmentIdIndexLazyRoute: typeof FinancesBudgetsSegmentsSegmentIdIndexLazyRoute
+  FinancesBudgetsBudgetIdSegmentsIndexLazyRoute: typeof FinancesBudgetsBudgetIdSegmentsIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -299,11 +299,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinancesAccountsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/finances/budgets/segments/$segment-id/': {
-      id: '/finances/budgets/segments/$segment-id/'
-      path: '/finances/budgets/segments/$segment-id'
-      fullPath: '/finances/budgets/segments/$segment-id'
-      preLoaderRoute: typeof FinancesBudgetsSegmentsSegmentIdIndexLazyRouteImport
+    '/finances/budgets/$budget-id/segments/': {
+      id: '/finances/budgets/$budget-id/segments/'
+      path: '/finances/budgets/$budget-id/segments'
+      fullPath: '/finances/budgets/$budget-id/segments'
+      preLoaderRoute: typeof FinancesBudgetsBudgetIdSegmentsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -332,8 +332,8 @@ const rootRouteChildren: RootRouteChildren = {
   FinancesTagsIndexLazyRoute: FinancesTagsIndexLazyRoute,
   FinancesTransactionsIndexLazyRoute: FinancesTransactionsIndexLazyRoute,
   SocialContactsIndexLazyRoute: SocialContactsIndexLazyRoute,
-  FinancesBudgetsSegmentsSegmentIdIndexLazyRoute:
-    FinancesBudgetsSegmentsSegmentIdIndexLazyRoute,
+  FinancesBudgetsBudgetIdSegmentsIndexLazyRoute:
+    FinancesBudgetsBudgetIdSegmentsIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
