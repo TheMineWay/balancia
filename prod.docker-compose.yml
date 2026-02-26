@@ -3,6 +3,7 @@
 version: "3.9"
 services:
   balancia-client:
+    container_name: balancia-client
     build:
       context: .
       dockerfile: apps/client/Dockerfile
@@ -14,6 +15,7 @@ services:
       - "balancia_network"
 
   balancia-server:
+    container_name: balancia-server
     build:
       context: .
       dockerfile: apps/server/Dockerfile
