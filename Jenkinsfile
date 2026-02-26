@@ -10,8 +10,12 @@ pipeline {
 
         stage('Configure environment') {
             steps {
-                withCredentials([file(credentialsId: 'balancia-server-env', variable: 'SERVER_ENV_FILE')]) {
+                withCredentials([
+                    file(credentialsId: 'balancia-server-env', variable: 'SERVER_ENV_FILE'),
+                    file(credentialsId: 'balancia-client-env', variable: 'CLIENT_ENV_FILE')
+                ]) {
                     sh 'cp "$SERVER_ENV_FILE" apps/server/.env'
+                    sh 'cp "$CLIENT_ENV_FILE" apps/client/.env'
                 }
             }
         }
