@@ -7,6 +7,14 @@ pipeline {
                 checkout scm
             }
         }
+
+        stage('Configure environment') {
+            steps {
+                withCredentials([file(credentialsId: 'balancia-server-env', variable: 'SERVER_ENV_FILE')]) {
+                    sh 'cp "$SERVER_ENV_FILE" apps/server/.env'
+                }
+            }
+        }
         
         stage('Start Production') {
             steps {
