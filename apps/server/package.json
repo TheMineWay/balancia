@@ -30,7 +30,7 @@
 	"dependencies": {
 		"@nestjs/cache-manager": "^3.0.1",
 		"@nestjs/common": "^11.1.9",
-		"@nestjs/core": "^11.1.9",
+		"@nestjs/core": "^11.1.18",
 		"@nestjs/event-emitter": "^3.0.1",
 		"@nestjs/jwt": "^11.0.2",
 		"@nestjs/passport": "^11.0.5",
@@ -43,19 +43,19 @@
 		"@shared/constants": "workspace:*",
 		"@shared/models": "workspace:*",
 		"@shared/utils": "workspace:*",
-		"axios": "^1.13.2",
+		"axios": "^1.16.0",
 		"cacheable": "^2.3.0",
 		"date-fns": "^4.1.0",
-		"drizzle-orm": "^0.45.1",
+		"drizzle-orm": "^0.45.2",
 		"helmet": "^8.1.0",
 		"jsonwebtoken": "^9.0.3",
 		"jwks-rsa": "^3.2.0",
-		"lodash": "^4.17.21",
+		"lodash": "^4.18.1",
 		"openid-client": "^6.8.1",
 		"otpauth": "^9.4.1",
 		"passport-jwt": "^4.0.1",
 		"pg": "^8.16.3",
-		"qs": "^6.14.0",
+		"qs": "^6.15.2",
 		"reflect-metadata": "~0.2.2",
 		"zod": "^4.2.0"
 	},
@@ -78,6 +78,6 @@
 		"globals": "^16.5.0",
 		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
-		"vitest": "^4.0.15"
+		"vitest": "^4.1.0"
 	}
 }
